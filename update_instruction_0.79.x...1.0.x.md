@@ -1,10 +1,17 @@
-## Update Instruction for Version 0.79.x ... 0.80.x
+## Update Instruction for Version 0.79.x ... 1.0.x
+
+Now with Livekit Integration:
+[Livekit](https://livekit.io/) is a next-generation WebRTC server, offering performance that's out of this world. The quality is on a completely different level compared to Jitsi.
+
+We've started developing an entirely new frontend specifically designed for Livekit. This streamlined interface focuses on the features that truly enhance productivity, while removing those that are merely gimmicks.
+
+To test the Livekit integration, simply start a Livekit installation with a single line of code and set up a new server through the Jitsi admin dashboard.
 
 
 ## New Features:
 - **Toggle Filmstripe**: A new button has been introduced in the conference interface, allowing users to toggle the Filmstripe view on or off easily.
 - **Prefix Room Name**: Rooms now support a server hash prefix feature, enabling the loading of different Jitsi configurations during runtime.
-
+- ** Livekit**: Livekit is now supported
 ## Improvements:
 - **Autoupload to Dockerhub**: Jitsi admin now includes an automatic upload functionality to Docker Hub, streamlining the deployment process.
 - **Addressbook in Dark Mode**: The Addressbook feature now comes with a transparent background when in dark mode, enhancing visibility and aesthetics.
@@ -14,7 +21,7 @@
 - **Improved Multiframe Closing**: Users can now close a multiframe even if its internal content has not loaded, improving the overall user experience.
 
 ## Bugs:
-nothing here
+a lot of bugfixes
 
 # Update
 __Drop PHP8.0 support. Use PHP8.1 or better php8.2__
