@@ -33,11 +33,26 @@ class JitsiComponentSelectorService
     {
         $this->baseUrl = null;
         $dir = $this->kernel->getProjectDir();
+
         $this->kid = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_JWT_KID');
-        $privateKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH') . hash('sha256', $this->kid) . '.key';
-        $this->privateKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $privateKey));
-        $publicKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH') . hash('sha256', $this->kid) . '.pem';
-        $this->publicKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $publicKey));
+        $privateKeyPath = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH') . hash('sha256', $this->kid) . '.key';
+        $publicKeyPath = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH') . hash('sha256', $this->kid) . '.pem';
+
+// Replace directory separators for cross-platform compatibility
+        $privateKeyPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $privateKeyPath);
+        $publicKeyPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $publicKeyPath);
+
+// Check if the private key file exists
+        if (file_exists($privateKeyPath)) {
+            $this->privateKey = file_get_contents($privateKeyPath);
+        }
+
+// Check if the public key file exists
+        if (file_exists($publicKeyPath)) {
+            $this->publicKey = file_get_contents($publicKeyPath);
+        }
+
+
 
     }
 
