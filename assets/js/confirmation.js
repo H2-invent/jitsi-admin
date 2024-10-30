@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2'
 import {initSearchUser} from './searchUser'
+import {Popover, Tooltip, Collapse, Dropdown, Input, initMDB} from "mdb-ui-kit";
 
 var title = "Bestätigung";
 var cancel = "Abbrechen";
@@ -12,20 +13,58 @@ function initDirectSend() {
             var url = e.target.href;
             var targetUrl = e.target.dataset.url;
             var target = e.target.dataset.target;
-
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    document.querySelector(target).closest('div').innerHTML = data;
-                    hideTooltip();
-                    document.querySelectorAll('[data-mdb-toggle="popover"]').forEach(el => new mdb.Popover(el));
-                    document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => new mdb.Tooltip(el));
+                    reloadPartial(targetUrl,target);
                     if (data.snack) {
                         document.getElementById('snackbar').textContent = data.text;
                         document.getElementById('snackbar').classList.add('show');
                     }
                 });
+
+
         }
+    });
+}
+
+export function initPopover() {
+    initMDB({Popover});
+    const items = document.querySelectorAll('[data-mdb-popover-init]');
+    items.forEach(item => {
+        Popover.getOrCreateInstance(item);
+    });
+}
+
+export function initDropdown() {
+    initMDB({Dropdown});
+    const items = document.querySelectorAll('[data-mdb-dropdown-init]');
+    items.forEach(item => {
+        Dropdown.getOrCreateInstance(item);
+    });
+}
+
+export function initCollapse() {
+    initMDB({Collapse});
+    const items = document.querySelectorAll('[data-mdb-collapse-init]');
+    items.forEach(item => {
+        Collapse.getOrCreateInstance(item);
+    });
+}
+export function initInput() {
+    initMDB({Input});
+    const items = document.querySelectorAll('[data-mdb-input-init]');
+    items.forEach(item => {
+        Input.getOrCreateInstance(item);
+    });
+}
+
+
+export function initTooltip() {
+    initMDB({Tooltip});
+    const items = document.querySelectorAll('[data-mdb-tooltip-init]');
+    items.forEach(item => {
+        Tooltip.getOrCreateInstance(item);
     });
 }
 
@@ -40,12 +79,12 @@ function initconfirmHref() {
                 title: title,
                 text: text,
                 icon: 'question',
-                backdrop:false,
+                backdrop: false,
                 showCancelButton: true,
                 cancelButtonText: cancel,
                 customClass: {
                     confirmButton: 'btn-danger btn',
-                    cancelButton:  'btn-outline-primary btn'
+                    cancelButton: 'btn-outline-primary btn'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -67,12 +106,12 @@ function initconfirmLoadOpenPopUp() {
                 title: title,
                 text: text,
                 icon: 'question',
-                backdrop:false,
+                backdrop: false,
                 showCancelButton: true,
                 cancelButtonText: cancel,
                 customClass: {
                     confirmButton: 'btn-danger btn',
-                    cancelButton:  'btn-outline-primary btn'
+                    cancelButton: 'btn-outline-primary btn'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -101,31 +140,28 @@ function initConfirmDirectSendHref() {
             const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
 
             Swal.fire({
-                title: 'Sind Sie sicher?',
+                title: title,
                 text: text,
                 icon: 'question',
-                backdrop:false,
+                backdrop: false,
                 showCancelButton: true,
                 cancelButtonText: cancel,
                 customClass: {
                     confirmButton: 'btn-danger btn',
-                    cancelButton:  'btn-outline-primary btn'
+                    cancelButton: 'btn-outline-primary btn'
                 }
-            }).then((resul) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                     fetch(url)
                         .then(response => response.text())
                         .then(data => {
-                            document.querySelector(target).closest('div').innerHTML = data;
-                            initSearchUser();
-                            hideTooltip();
-                            document.querySelectorAll('[data-mdb-toggle="popover"]').forEach(el => new mdb.Popover(el));
-                            document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => new mdb.Tooltip(el));
+                            reloadPartial(targetUrl,target);
                             if (data.snack) {
-                                document.getElementById('snackbar').textContent = data.snack;
+                                document.getElementById('snackbar').textContent = data.text;
                                 document.getElementById('snackbar').classList.add('show');
                             }
                         });
+
                 }
             });
         }
@@ -142,6 +178,37 @@ function initAjaxSend(titleL, cancelL, okL) {
     initconfirmLoadOpenPopUp();
 }
 
+export function reloadPartial(url,target){
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            // Erstelle ein temporäres DOM-Element, um die HTML-Antwort zu parsen
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = data;
+
+            // Extrahiere den Inhalt des atendeeList-Elements aus der Antwort
+            const newContent = tempDiv.querySelector(target);
+            if (newContent) {
+                // Aktualisiere den Inhalt von atendeeList im aktuellen DOM
+                const oldContent = document.querySelector(target);
+                oldContent.innerHTML = newContent.innerHTML; // Setze nur den neuen Inhalt
+                initMDB({Collapse, Dropdown, Popover, Tooltip});
+                hideTooltip();
+                initDropdown();
+                initCollapse();
+                initPopover();
+                initTooltip();
+            } else {
+                console.error('Das atendeeList-Element wurde in der Antwort nicht gefunden.');
+            }
+
+
+            if (data.snack) {
+                document.getElementById('snackbar').textContent = data.text;
+                document.getElementById('snackbar').classList.add('show');
+            }
+        });
+}
 function hideTooltip() {
     document.querySelectorAll('.tooltip').forEach(el => el.remove());
 }

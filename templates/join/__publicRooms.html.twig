@@ -10,7 +10,7 @@
                         {% for r in server|roomsinFuture %}
                             <li class="list-group-item d-flex align-items-center justify-content-between">
                                 <b>{{ r.start|date('d.m.Y, H:i') }}</b>
-                                <h5>{{ r.name }} <a tabindex="0" data-mdb-toggle="popover" data-mdb-html="true"
+                                <h5>{{ r.name }} <a tabindex="0"  data-mdb-popover-init data-mdb-html="true"
                                                     data-mdb-trigger="focus"
                                                     title="{{ 'Agenda'|trans }}"
                                                     data-mdb-content="{% if r.agenda is not null %}{{ r.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i

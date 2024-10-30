@@ -18,7 +18,7 @@
                     {% endif %}
                     {% if form.server is defined and form.server is not null %}
                         {{ form_row(form.server) }}
-                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                        <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                            data-mdb-content="{{ 'room.new.help.server'|trans }}"><i
                                     class="fa fa-question-circle"></i></a>
                     {% endif %}
@@ -28,7 +28,7 @@
                     {% if form.tag is defined %}
                         <div class="col-12 d-flex align-items-start with-help">
                             {{ form_row(form.tag) }}
-                            <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                            <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
                                         class="fa fa-question-circle"></i></a>
                         </div>
@@ -38,20 +38,20 @@
                 {% if form.moderator is defined %}
                     <div class="col-12 d-flex align-items-start with-help">
                         {{ form_row(form.moderator) }}
-                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                        <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                            data-mdb-content="{{ 'room.new.help.manager'|trans }}"><i
                                     class="fa fa-question-circle"></i></a>
                     </div>
                 {% endif %}
                 <div class="col-12 d-flex align-items-start with-help">
                     {{ form_row(form.name) }}
-                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                    <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                        data-mdb-content="{{ 'room.new.help.name'|trans }}"><i
                                 class="fa fa-question-circle"></i></a>
                 </div>
                 <div class="col-12 d-flex align-items-start with-help">
                     {{ form_row(form.agenda) }}
-                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                    <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                        data-mdb-content="{{ 'room.new.help.agenda'|trans }}"><i
                                 class="fa fa-question-circle"></i></a>
                 </div>
@@ -59,14 +59,14 @@
                 {% if form.persistantRoom is defined %}
                     <div class="col-12 d-flex align-items-start with-help">
                         {{ form_row(form.persistantRoom) }}
-                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                        <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                            data-mdb-content="{{ 'room.new.help.persistant'|trans }}"><i
                                     class="fa fa-question-circle"></i></a>
                     </div>
                 {% endif %}
 
                 <div class="col-lg-12">
-                    <div id="roomStartForm" class="collapse show">
+                    <div id="roomStartForm"">
                         {% if extra is defined and extra is not null %}
                             <p class="text-danger">{{ extra }}</p>
                         {% endif %}
@@ -74,14 +74,14 @@
                             {% if form.start is defined %}
                                 <div class="col-12  d-flex align-items-start with-help">
                                     {{ form_row(form.start) }}
-                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                    <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                        data-mdb-content="{{ 'room.new.help.start'|trans }}"><i
                                                 class="fa fa-question-circle"></i></a>
                                 </div>
                             {% endif %}
                             <div class="col-12  d-flex align-items-start with-help">
                                 {{ form_row(form.duration) }}
-                                <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                    data-mdb-content="{{ 'room.new.help.duration'|trans }}"><i
                                             class="fa fa-question-circle"></i></a>
                             </div>
@@ -91,7 +91,7 @@
                                 <div class="col-12 d-flex align-items-start with-help">
                                     {{ form_row(form.timeZone) }}
 
-                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                    <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                        data-mdb-content="{{ 'Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.'|trans }}"><i
                                                 class="fa fa-question-circle"></i></a>
                                 </div>
@@ -104,7 +104,7 @@
                             <div id="lobby" class="row">
                                 <div class="col-12 d-flex align-items-start with-help">
                                     {{ form_row(form.lobby) }}
-                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                    <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                        data-mdb-content="{{ 'room.new.help.lobby'|trans }}"><i
                                                 class="fa fa-question-circle"></i></a>
                                 </div>
@@ -114,7 +114,7 @@
                 </div>
                 <div class="mb-2">
                     {% if laf_roomsMoreOptionsCollapsed == 1 %}
-                    <a data-mdb-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"
+                    <a  data-mdb-collapse-init class=" caretdown" href="#collapseExample" aria-expanded="false"
                        aria-controls="collapseExample">
                         {{ 'Erweiterte Optionen'|trans }}
                     </a>
@@ -129,7 +129,7 @@
                                     <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.scheduleMeeting) }}
 
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                        <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Es wird eine Terminumfrage erstellt, keine Konferenz.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
                                     </div>
@@ -139,7 +139,7 @@
                                     <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.onlyRegisteredUsers) }}
 
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                        <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
                                     </div>
@@ -148,19 +148,19 @@
                                     <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.public) }}
 
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                        <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
                                     </div>
                                 {% endif %}
                                 {% if form.maxParticipants is defined %}
                                     <div class="col-lg-12">
-                                        <div id="maxParticipants" class=" collapse ">
+                                        <div id="maxParticipants" class=" ">
                                             <div class="row">
                                                 <div class="col-12 d-flex align-items-start with-help">
                                                     {{ form_row(form.maxParticipants) }}
 
-                                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                                    <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                                        data-mdb-content="{{ 'Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können'|trans }}"><i
                                                                 class="fa fa-question-circle"></i></a>
                                                 </div>
@@ -168,7 +168,7 @@
                                                     <div class="col-12 d-flex align-items-start with-help">
                                                         {{ form_row(form.waitinglist) }}
 
-                                                        <a tabindex="0" data-mdb-toggle="popover"
+                                                        <a tabindex="0"  data-mdb-popover-init
                                                            data-mdb-trigger="focus"
                                                            data-mdb-content="{{ 'Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren'|trans }}"><i
                                                                     class="fa fa-question-circle"></i></a>
@@ -184,7 +184,7 @@
                                     <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.showRoomOnJoinpage) }}
 
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                        <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
                                     </div>
@@ -197,7 +197,7 @@
                                             <div class="col-12 d-flex align-items-start with-help">
                                                 {{ form_row(form.dissallowScreenshareGlobal) }}
 
-                                                <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                                <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                                    data-mdb-content="{{ 'Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden'|trans }}"><i
                                                             class="fa fa-question-circle"></i></a>
                                             </div>
@@ -208,7 +208,7 @@
                                     <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.totalOpenRooms) }}
 
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                        <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.'|trans }}">
                                             <i class="fa fa-question-circle"></i>
                                         </a>
@@ -218,7 +218,7 @@
                                 <div class="col-12 d-flex align-items-start with-help">
                                     {{ form_row(form.allowMaybeOption) }}
 
-                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                    <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                        data-mdb-content="{{ 'Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.'|trans }}">
                                         <i class="fa fa-question-circle"></i>
                                     </a>
@@ -228,7 +228,7 @@
                                     <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.maxUser) }}
 
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                        <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'rooms.help.setmaxparticipantsHardLimit'|trans }}">
                                             <i class="fa fa-question-circle"></i>
                                         </a>

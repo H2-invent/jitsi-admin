@@ -33,7 +33,9 @@
                         <a class="caretdown btn btn-block btn-primary dropdown-toggle overflow-hidden w-100"
                            type="button"
                            id="selectWebcamDropdown"
-                           data-mdb-toggle="dropdown" aria-haspopup="true"
+                          data-mdb-dropdown-init
+                           data-mdb-dropdown-init
+                           aria-haspopup="true"
                            aria-expanded="false"><i class="fa fa-video me-2"></i><span
                                     class=" w-100 text-ellipsis text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
                         </a>
@@ -44,9 +46,11 @@
                         <div class="btn-group">
 
                             <a type="button" class="btn btn-primary dropdown-toggle caretdown"
-                               data-mdb-toggle="dropdown"
+                              data-mdb-dropdown-init
                                data-mdb-reference="parent"
-                               aria-haspopup="true" aria-expanded="false">
+                               aria-haspopup="true"
+                               data-mdb-dropdown-init
+                               aria-expanded="false">
                                 <i class="fas fa-microphone"></i>
                             </a>
                             <div class="dropdown-menu">
@@ -64,7 +68,7 @@
                     <div class="dropdown mb-2">
                         <a class="btn btn-lg btn-outline-success btn-rounded" data-mdb-ripple-color="dark"
                            id="dropdownMenu2"
-                           data-mdb-toggle="dropdown" aria-expanded="false">
+                          data-mdb-dropdown-init aria-expanded="false">
                             <i class="fas fa-solid fa-paper-plane"></i> {{ 'lobby.btn.message.to.all'|trans }}
                         </a>
                         {% include('lobby/__lobbyMessageDropdown.html.twig') with {'url':path('lobby_send_message_to_waitinguser_all'),'uid':room.uidReal } %}
@@ -120,7 +124,7 @@
                             <div class="dropdown flex-grow-1" id="selectAtendeeArea" tabindex="-1">
                                 <div class="input-group  w-100">
 
-                                    <div class="form-outline bg-white flex-grow-1">
+                                    <div class="form-outline bg-white flex-grow-1" data-mdb-input-init>
 
                                         <input href="{{ path('search_participant') }}"
                                                type="text"
@@ -143,7 +147,7 @@
                                         <i class="fa fa-user-plus"></i>
                                     </button>
                                 </div>
-                                <div data-mdb-toggle="dropdown"
+                                <divdata-mdb-dropdown-init
                                      data-mdb-auto-close="false"
                                      id="searchCallOutParticipantsDropdownTrigger">
 

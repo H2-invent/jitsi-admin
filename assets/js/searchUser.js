@@ -1,31 +1,46 @@
 import $ from "jquery";
 import autosize from "autosize";
-import {Dropdown} from 'mdb-ui-kit'; // lib
+import {Collapse, initMDB ,Dropdown,Input, Tooltip} from 'mdb-ui-kit';
+import {initDropdown, initTooltip, reloadPartial} from "./confirmation"; // lib
+
+
 
 let timer;              // Timer identifier
 const waitTime = 500;   // Wait time in milliseconds
 
 function initSearchUser() {
-    var $searchUserField = document.getElementById('searchUser');
-    if ($searchUserField !== null) {
+    initMDB({ Collapse,Input, Dropdown });
 
-        let trigger = document.getElementById('searchUserDropdownTrigger')
-        document.getElementById('searchUser').addEventListener("focus", (e) => {
-            Dropdown.getOrCreateInstance(trigger).show()
+
+
+    const $searchUserField = document.getElementById('searchUser');
+    const trigger = document.getElementById('searchUserDropdownTrigger');
+
+    if ($searchUserField !== null && trigger !== null) {
+        // Öffne das Dropdown beim Fokus auf das Suchfeld
+        $searchUserField.addEventListener("focus", () => {
+            Dropdown.getOrCreateInstance(trigger).show();
+        });
+
+        // Schließe das Dropdown beim Verlassen des Suchfeldes
+        $searchUserField.addEventListener("blur", () => {
+            // Verzögerung hinzufügen, damit Klick auf Dropdown-Element verarbeitet wird
+            setTimeout(() => {
+                Dropdown.getOrCreateInstance(trigger).hide();
+            }, 150); // Ein kleines Timeout von 150 ms hilft, Klicks zu erfassen
         })
-        document.getElementById('searchUser').addEventListener("blur", (e) => {
-            Dropdown.getOrCreateInstance(trigger).hide()
-        })
+
         autosize($('#new_member_member'));
-        autosize($('#new_member_moderator'));
+
         $('.defaultSearch').mousedown(function (e) {
             e.preventDefault();
             e.stopPropagation();
         })
+
         $('#searchUser').keyup(function (e) {
             var $ele = $(this);
             const $search = $ele.val();
-            const $url = $ele.attr('href') + '?search=' + $search;
+            const $url = $ele.attr('data-search-url') + '?search=' + $search;
             clearTimeout(timer);
             timer = setTimeout(() => {
                 searchUSer($url,$search);
@@ -34,76 +49,108 @@ function initSearchUser() {
         })
     }
 }
+const searchUSer = ($url, $search) => {
+    const apiUrl = document.getElementById('searchUser').dataset.targetUrl;
 
-const searchUSer = ($url,$search) => {
     if ($search.length > 0) {
-        $.getJSON($url, function (data) {
-            var $target = $('#participantUser');
-            $target.empty();
-            var $user = data.user;
-            if ($user.length > 0) {
-                $target.append('<i class="fa-solid fa-user fa-2x text-center"></i>');
-            }
-            for (var i = 0; i < $user.length; i++) {
-                var $newUserLine = '<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $user[i].id + '" href="#">' +
-                    ($user[i].roles.includes('participant')?'<i class=" text-success fas fa-plus"></i>':'') +
-                    ($user[i].roles.includes('moderator')?'<i class="chooseModerator text-success fas fa-crown"  data-mdb-toggle="tooltip" title="Moderator"></i>':'') +
-                    '<span>' + $user[i].name + '</span> ' +
-                    '</a>'
-                $target.append($newUserLine);
-            }
-            var $group = data.group;
-            if ($group.length > 0) {
-                $target.append('<i class="fas fa-users fa-2x text-center"></i>');
-            }
-            for (var i = 0; i < $group.length; i++) {
-                $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $group[i].user + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-mdb-toggle="tooltip" title="Moderator"></i> <span><i class="fas fa-users"></i> ' + $group[i].name + '</span></a>');
-            }
-            $('[data-mdb-toggle="tooltip"]').tooltip('hide');
-            $('.tooltip').remove();
-            $('[data-mdb-toggle="tooltip"]').tooltip();
+        // Hole die Daten mit einem GET-Request
+        fetch($url)
+            .then(response => response.json())
+            .then(data => {
+                const $target = document.getElementById('participantUser');
+                $target.innerHTML = ''; // Leere den Zielbereich
 
-            $('.chooseParticipant').mousedown(function (e) {
-                e.preventDefault();
-                if (!$(this).hasClass('line-indicator')) {
-                    var $textarea = $('#new_member_member');
-                    var data = $textarea.val();
-                    $textarea.val('').val($(this).data('val') + "\n" + data);
-                    $('#searchUser').val('');
-                    $('#participantsListAdd')
-                        .append('<li class="list-group-item">' + $(this).find('span').html() + '</li>')
-                        .find('.helpItem').remove();
-                    autosize.update($textarea);
-                    $(this).removeClass('line-indicator').addClass('line-indicator');
-                    let element = $(this);
-                    removeElement(this);
-                    setTimeout(function (e) {
-                        element.removeClass('line-indicator');
-                    }, 2000);
+                const $user = data.user;
+                if ($user.length > 0) {
+                    $target.insertAdjacentHTML('beforeend', '<b>Kontakte</b>');
                 }
-            })
-            $('.chooseModerator').mousedown(function (e) {
-                if (!$(this).hasClass('line-indicator')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    $('#moderatorCollapse').collapse('show');
-                    var $textarea = $('#new_member_moderator');
-                    var data = $textarea.val();
-                    $textarea.val('').val($(this).closest('.chooseParticipant').data('val') + "\n" + data);
-                    $('#searchUser').val('');
-                    $('#moderatorListAdd')
-                        .append('<li class="list-group-item">' + $(this).closest('.chooseParticipant').find('span').html() + '</li>')
-                        .find('.helpItem').remove();
-                    autosize.update($textarea);
-                    $(this).removeClass('line-indicator').addClass('line-indicator');
-                    let element = $(this);
-                    removeElement(this);
-                    setTimeout(function (e) {
-                        element.removeClass('line-indicator');
-                    }, 2000);
+
+                // Füge Benutzer hinzu
+                for (let i = 0; i < $user.length; i++) {
+                    // Erstelle das <a>-Element für Benutzer
+                    const userElement = document.createElement('a');
+                    userElement.className = "dropdown-item chooseParticipant addParticipants";
+                    userElement.setAttribute('data-val', JSON.stringify([$user[i].id]));
+                    userElement.href = "#";
+                    userElement.innerHTML = `${$user[i].name}`; // Benutzername
+
+                    $target.appendChild(userElement);
+
+                    // Event-Listener für Klicks auf Benutzer
+                    userElement.addEventListener('click', function(event) {
+                        event.preventDefault(); // Verhindert das Standardverhalten des Links
+                        const dataVal = JSON.parse(userElement.getAttribute('data-val'));
+                        sendData(apiUrl, dataVal); // Sendet die Daten für Benutzer
+                    });
                 }
+                const $group = data.group;
+                if ($group.length > 0) {
+                    $target.insertAdjacentHTML('beforeend', '<b>Gruppen</b>');
+                }
+
+                // Füge Gruppen hinzu
+                for (let i = 0; i < $group.length; i++) {
+                    // Erstelle das <a>-Element als HTML-Objekt
+                    const linkElement = document.createElement('a');
+                    linkElement.className = "dropdown-item chooseParticipant addParticipants";
+                    linkElement.setAttribute('data-val', JSON.stringify($group[i].user));
+                    linkElement.href = "#";
+                    linkElement.innerHTML = `<span><i class="fas fa-users"></i>${$group[i].name}</span>`;
+
+                    $target.appendChild(linkElement);
+
+                    // Event-Listener für Klicks auf das Element (Gruppen)
+                    linkElement.addEventListener('click', function(event) {
+                        event.preventDefault(); // Verhindert das Standardverhalten des Links
+                        const dataVal = JSON.parse(linkElement.getAttribute('data-val'));
+                        sendData(apiUrl, dataVal); // Sendet die Daten für Gruppen
+                    });
+                }
+
+                // Füge Event-Listener für Kontakte hinzu
+
+
+                // Entferne alle Tooltips, die möglicherweise vorher angezeigt wurden
+                const tooltips = document.querySelectorAll('.tooltip');
+                tooltips.forEach(tooltip => tooltip.remove());
+                initMDB({ Tooltip });
             })
+            .catch(error => {
+                console.error('Fehler beim Abrufen der Daten:', error);
+            });
+    }
+};
+
+// Funktion zum Senden von Daten an die API
+const sendData = (url, data) => {
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ participant: data }) // Sende die `data-val`-Daten im Body
+    })
+        .then(response => response.json())
+        .then(result => {
+            const $searchUserField = document.getElementById('searchUser');
+            console.log('Erfolgreiche Antwort von der API:', result);
+
+            // Hole die reload-URL aus dem data-reload-url-Attribut
+            const reloadUrl = $searchUserField.getAttribute('data-reload-url');
+
+            reloadPartList(reloadUrl);
         })
+        .catch(error => {
+            console.error('Fehler beim Senden der Daten:', error);
+        });
+};
+
+const reloadPartList = (url)=>{
+    if (url) {
+        // Lade die aktualisierte Teilnehmerliste
+        reloadPartial(url,'#atendeeList');
+    } else {
+        console.error('Keine reload-URL gefunden');
     }
 }
 const removeElement = ($ele) => {

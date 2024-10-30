@@ -22,7 +22,6 @@ class NewMemberType extends AbstractType
 
         $builder
             ->add('member', TextareaType::class, ['required' => false, 'label' => 'label.teilnehmerEmailhinzufuegen', 'help' => 'help.emailTextfeld', 'translation_domain' => 'form'])
-            ->add('moderator', TextareaType::class, ['required' => false, 'label' => 'label.teilnehmerEmailhinzufuegenModerator', 'help' => 'help.teilnehmerEmailhinzufuegenModerator', 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.teilnehmerSpeichern', 'translation_domain' => 'form']);
     }
 

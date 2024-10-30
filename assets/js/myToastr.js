@@ -19,7 +19,7 @@ Toastr.options = {
 }
 
 
-function setSnackbar(text, color, closeWithHover = false, id = '0x00',timeout=0) {
+function setSnackbar(text,title, color, closeWithHover = false, id = '0x00',timeout=0) {
     if (color === 'danger') {
         color = 'error';
     }
@@ -31,7 +31,12 @@ function setSnackbar(text, color, closeWithHover = false, id = '0x00',timeout=0)
         Toastr.options.extendedTimeOut = 200;
     }
     text = '<span id="jitsi_toastr_' + id + '"></span>' + text;
-    Toastr[color](text)
+    if (title!==''){
+        Toastr[color](text,title);
+    }else {
+        Toastr[color](text);
+    }
+
 
 }
 

@@ -13,12 +13,39 @@
                 </a>
             {% endif %}
             </p>
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="dropdown " id="selectAtendeeArea" tabindex="-1">
+                        <div class="form-outline" data-mdb-input-init>
+                            <input
+                                    placeholder="{{ 'input.placeholder.search'|trans }}"
+                                    autocomplete=off
+                                    type="text"
+                                    id="searchUser"
+                                    class="form-control"
+                                    data-search-url="{{ path('search_participant') }}"
+                                    data-target-url="{{ path('room_add_user_single',{'room': room.id}) }}"
+                                    data-reload-url="{{ path('room_add_user',{'room': room.id}) }}"
+                            >
+                            <label class="form-label" for="searchUser">{{ 'Teilnehmer suchen'|trans }}</label>
+                        </div>
+                        <div
+                                data-mdb-dropdown-init
+                                data-mdb-auto-close="false"
+                                id="searchUserDropdownTrigger">
+
+                    </div>
+                    <div class="dropdown-menu" id="participantUser" style="overflow-x:hidden;">
+                        <a class="dropdown-item defaultSearch" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
+                    </div>
+                </div>
+            </div>
             <div class="attendeeScroll">
                 <ul id="atendeeList" class="material-list">
                     <li class="d-flex flex-row align-items-center">
                         {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and room.scheduleMeeting != true %}
                             <a class=" dropdown-toggle" type="button"
-                               data-mdb-toggle="dropdown"
+                               data-mdb-dropdown-init
                                data-mdb-auto-close="outside"
                                aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i>
                             </a>
@@ -26,7 +53,7 @@
                             <div class="dropdown-menu">
                                 {% if  sipPinFromRoomAndUser(room,room.moderator) is not null %}
                                     <a class=" dropdown-item"
-                                       href="#sipCaller{{ room.moderator.id }}" type="button" data-mdb-toggle="collapse"
+                                       href="#sipCaller{{ room.moderator.id }}" type="button" data-mdb-collapse-init
                                        aria-expanded="false" aria-controls="sipCaller{{ room.moderator.id }}">
                                         <i class="fas fa-phone"></i> {{ 'sip.caller.data'|trans }}</a>
 

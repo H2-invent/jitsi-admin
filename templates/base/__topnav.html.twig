@@ -25,7 +25,7 @@
     {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
         {% if theme == false or theme.disableAddServer != true %}
             <a class=" me-2 me-sm-4 d-flex align-items-center"
-               data-mdb-toggle="modal"
+              data-mdb-modal-init
                data-mdb-target="#settings">
                 <i class="fa-solid fa-server me-2"></i><span class="d-none d-lg-block"> {{ 'Server'|trans }}</span>
 
@@ -33,7 +33,7 @@
         {% endif %}
     {% endif %}
     <a class=" me-2 me-sm-4"
-       data-mdb-toggle="modal" data-mdb-target="#helpModal">
+      data-mdb-modal-init data-mdb-target="#helpModal">
         <i class="fa-solid fa-circle-question"></i>
 
     </a>

@@ -1,5 +1,6 @@
 import $ from 'jquery';
-import * as mdb from 'mdb-ui-kit'; // lib
+import {Dropdown, Popover, Modal, Tooltip, Input, initMDB} from "mdb-ui-kit";
+
 global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
@@ -27,6 +28,7 @@ import ClipboardJS from "clipboard";
 import {initStartIframe} from "./createConference";
 import {checkFirefox} from "./checkFirefox";
 import {showAppIdSettings, showLiveKitServerSettings} from "./serverSettings";
+import {initCollapse, initDropdown, initInput, initPopover, initTooltip} from "./confirmation";
 
 function initGenerell() {
     checkFirefox();
@@ -56,7 +58,7 @@ function initGenerell() {
     hotkeys('a', function (event, handler) {
         const myModalEl = document.getElementById('modalAdressbook');
         if (!myModalEl.classList.contains('show')) {
-            const modal = new mdb.Modal(myModalEl)
+            const modal = new Modal(myModalEl)
             modal.show();
         }
         $('#home-tab').trigger('click');
@@ -65,7 +67,7 @@ function initGenerell() {
 
         const myModalEl = document.getElementById('modalAdressbook');
         if (!myModalEl.classList.contains('show')) {
-            const modal = new mdb.Modal(myModalEl)
+            const modal = new Modal(myModalEl)
             modal.show();
         }
         $('#profile-tab').trigger('click');
@@ -77,19 +79,21 @@ function initGenerell() {
     initLoadContent();
 }
 
-export function wrapOneSelect(ele){
-    if (ele && !ele.closest('.selectWrapper')){
+export function wrapOneSelect(ele) {
+    if (ele && !ele.closest('.selectWrapper')) {
         var eleWrap = document.createElement('div');
         eleWrap.classList.add('selectWrapper');
-        wrap(ele,eleWrap);
+        wrap(ele, eleWrap);
     }
 }
+
 function wrapSelect() {
     var select = document.querySelectorAll('select');
     select.forEach(function (ele) {
-       wrapOneSelect(ele);
+        wrapOneSelect(ele);
     })
 }
+
 function wrap(el, wrapper) {
     el.parentNode.insertBefore(wrapper, el);
     wrapper.appendChild(el);
@@ -128,11 +132,17 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
 function initNewModal(e) {
 
     initScheduling();
-
-    $('[data-mdb-toggle="popover"]').popover({html: true});
-    $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+    initMDB({Popover});
     $('.tooltip').remove();
-    $('[data-mdb-toggle="tooltip"]').tooltip()
+    initDropdown();
+    initTooltip();
+    initPopover();
+    initCollapse();
+    initInput();
+    // $('[data-mdb-toggle="popover"]').popover({html: true});
+    // $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+    //
+    // $('[data-mdb-toggle="tooltip"]').tooltip()
 
     initdateTimePicker('.flatpickr');
     initNewRoomModal();
@@ -160,9 +170,8 @@ function initNewModal(e) {
     initChart();
     initPrettyJson();
     wrapSelect();
-    document.querySelectorAll('.form-outline').forEach((formOutline) => {
-        new mdb.Input(formOutline).init();
-    });
+    initMDB({Input});
+
     if (document.getElementById("lineChart") !== null) {
         var ctx = document.getElementById("lineChart").getContext('2d');
         var myChart = new Chart(ctx, {
@@ -210,11 +219,12 @@ function initRepeater() {
         $('#repeater_' + $(this).val()).removeClass('d-none');
     })
 }
+
 function initProtip() {
     var proTip = document.getElementById('proTip')
 
-    if (proTip){
-        proTip.style.transform = 'translateY(-'+(proTip.querySelector('.first-line').clientHeight+8+8)+'px)';
+    if (proTip) {
+        proTip.style.transform = 'translateY(-' + (proTip.querySelector('.first-line').clientHeight + 8 + 8) + 'px)';
     }
 }
 

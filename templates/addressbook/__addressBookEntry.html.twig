@@ -26,7 +26,7 @@
                                    href="{{ path('app_adressbook_favorite',{'userId':u.uid}) }}"><i
                                        class="{% if u in app.user.adressbookFavorites %}fa isAddressbookFavorite{% else %}far{% endif %} fa-star"></i> </a></small>  {% if u in app.user.deputy %}
                        <i
-                               class="ms-2 fa-solid fa-file-contract" data-mdb-toggle="tooltip"
+                               class="ms-2 fa-solid fa-file-contract" data-mdb-tooltip-init
                                title="{{ 'deputy.text.isDeputy'|trans }}"></i>{% endif %}</p>
         <p class="mb-0"><small>{{ u.username }}</small></p>
         </div>
@@ -41,7 +41,7 @@
                        <i class="fa-solid fa-phone-volume"></i>
                              </a>
                 {% else %}
-                    <a class="caretdown dropdown-toggle text-success" data-mdb-toggle="dropdown"
+                    <a class="caretdown dropdown-toggle text-success" data-mdb-dropdown-initdata-mdb-dropdown-init
                        aria-haspopup="true" aria-expanded="false">
                                         <i class="fa-solid fa-phone-volume"></i>
                              </a>
@@ -54,7 +54,8 @@
 
         </div>
                 {% endif %}
-                <a class="dropdown-toggle ms-3" type="button" data-mdb-toggle="dropdown"
+                <a class="dropdown-toggle ms-3" type="button"data-mdb-dropdown-init
+                   data-mdb-dropdown-init
                    aria-haspopup="true" aria-expanded="false"
                    data-mdb-auto-close="outside"
                 ><i class="fas fa-ellipsis-v"></i></a>
@@ -66,14 +67,14 @@
                                 <a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %} "
                                    href="{{ path('app_deputy_add',{'deputyUid':u.uid}) }}">
                      <i class="fa-solid fa-file-contract"></i>{% if u in app.user.deputy %}{{ 'deputy.remove'|trans }}{% else %}{{ 'deputy.add'|trans }}{% endif %}</a>
-                                <a class="ms-2" tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                <a class="ms-2" tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                    data-mdb-content="{{ 'deputy.help'|trans }}"><i
                                             class="fa fa-question-circle"></i></a>
                                 {% else %}
                                 <a class="disabled">
                                      <i class="fa-solid fa-file-contract"></i>{{ 'deputy.fromLdap.disabled'|trans }}
                                 </a>
-                                <a class="ms-2" tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                <a class="ms-2" tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                    data-mdb-content="{{ 'deputy.help.ldap'|trans }}"><i
                                             class="fa fa-question-circle"></i></a>
                             {% endif %}

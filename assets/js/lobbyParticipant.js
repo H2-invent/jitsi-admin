@@ -109,7 +109,7 @@ document.getElementById('renewParticipant').addEventListener('click', function (
                         clearInterval(intervalRenew);
                     }
                 }, 1000);
-                setSnackbar(data.message, data.color);
+                setSnackbar(data.message,'', data.color);
             });
     }
 });
