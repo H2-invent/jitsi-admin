@@ -80,10 +80,6 @@ class ParticipantController extends JitsiAdminController
     public function roomAddUserSingle(Request $request, RoomAddService $roomAddService, Rooms $room): JsonResponse
     {
         $invalidMember = [];
-        dump($room);
-        if (!$room){
-            return new JsonResponse(['error' => true]);
-        }
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return new JsonResponse(['error' => true]);
@@ -97,13 +93,13 @@ class ParticipantController extends JitsiAdminController
             $this->logger->error('No participant entry in request for adding user', $newParticipant);
             return new JsonResponse(['error' => true]);
         }
-        dump($newParticipant);
+
         foreach ($newParticipant as $data) {
-//            try {
+            try {
                 $roomAddService->createSingleParticipantAndAddtoRoom($data, $this->getUser(), $room);
-//            } catch (\Exception) {
-//                $invalidMember[] = $data;
-//            }
+            } catch (\Exception) {
+                $invalidMember[] = $data;
+            }
 
         }
         dump($invalidMember);

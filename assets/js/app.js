@@ -10,7 +10,7 @@ import $ from 'jquery';
 
 global.$ = global.jQuery = $;
 
-import { Dropdown,Popover,Modal,Tooltip, initMDB } from "mdb-ui-kit";
+import { Dropdown,Popover,Modal,Tooltip,Collapse, initMDB } from "mdb-ui-kit";
 
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
@@ -124,6 +124,7 @@ $(window).on('load', function () {
     initMDB({ Dropdown });
     initMDB({ Modal });
     initMDB({ Tooltip });
+    initMDB({ Collapse });
     // $('[data-mdb-toggle="popover"]').popover({html: true});
     // $('[data-mdb-toggle="tooltip"]').tooltip('hide');
     // $('.tooltip').remove();
