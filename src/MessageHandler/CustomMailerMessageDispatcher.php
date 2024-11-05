@@ -9,11 +9,12 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
-class CustomMailerMessageDispatcher implements MessageHandlerInterface
+#[AsMessageHandler]
+class CustomMailerMessageDispatcher
 {
     public function __construct(
         private MailerInterface        $mailer,
