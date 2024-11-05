@@ -7,9 +7,10 @@ use App\Message\LobbyLeaverMessage;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class LobbyLeaverMessageDispatcher implements MessageHandlerInterface
+#[AsMessageHandler]
+class LobbyLeaverMessageDispatcher
 {
     private LoggerInterface $logger;
     private $toModerator;
