@@ -119,7 +119,7 @@
       </trans-unit>
       <trans-unit id="pcwAMiR" resname="Fehler">
         <source>Fehler</source>
-        <target state="needs-translation">Fehler</target>
+        <target state="translated">Błąd</target>
       </trans-unit>
       <trans-unit id="nqX0Rgb" resname="Fehler, Bitte klicken Sie den link erneut an.">
         <source>Fehler, Bitte klicken Sie den link erneut an.</source>
@@ -191,7 +191,7 @@
       </trans-unit>
       <trans-unit id="UUNN.xf" resname="Server gelöscht">
         <source>Server gelöscht</source>
-        <target state="needs-translation">Server gelöscht</target>
+        <target state="translated">Serwer usunięty</target>
       </trans-unit>
       <trans-unit id="11h1OVO" resname="SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten">
         <source>SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten</source>
@@ -199,7 +199,7 @@
       </trans-unit>
       <trans-unit id="CvLQYUn" resname="Fehler, der Server ist nicht registriert">
         <source>Fehler, der Server ist nicht registriert</source>
-        <target state="needs-translation">Fehler, der Server ist nicht registriert.</target>
+        <target state="translated">Błąd, serwer nie jest zarejestrowany.</target>
       </trans-unit>
       <trans-unit id="db4Tc5g" resname="Testmail vom Jitsi-Admin">
         <source>Testmail vom Jitsi-Admin</source>
@@ -247,7 +247,7 @@
       </trans-unit>
       <trans-unit id="0r4e3w5" resname="Adressbuch">
         <source>Adressbuch</source>
-        <target state="needs-translation">Adressbuch</target>
+        <target state="translated">Książka adresowa</target>
       </trans-unit>
       <trans-unit id="C.ql1Nf" resname="Wollen Sie mit diesem Teilnehmer eine Konferenz starten">
         <source>Wollen Sie mit diesem Teilnehmer eine Konferenz starten</source>
@@ -271,11 +271,11 @@
       </trans-unit>
       <trans-unit id="TK1f07G" resname="Profil">
         <source>Profil</source>
-        <target state="needs-translation">Profil</target>
+        <target state="translated">Profil</target>
       </trans-unit>
       <trans-unit id="wbMeKOh" resname="Name">
         <source>Name</source>
-        <target state="needs-translation">Name</target>
+        <target state="translated">Nazwa</target>
       </trans-unit>
       <trans-unit id="lAMzoDN" resname="Profil bearbeiten">
         <source>Profil bearbeiten</source>
@@ -287,11 +287,11 @@
       </trans-unit>
       <trans-unit id="JKl2Twv" resname="Logout">
         <source>Logout</source>
-        <target state="needs-translation">Log-out</target>
+        <target state="translated">Wyloguj</target>
       </trans-unit>
       <trans-unit id="Qh4fmxf" resname="Hilfe">
         <source>Hilfe</source>
-        <target state="needs-translation">Hilfe</target>
+        <target state="translated">Pomoc</target>
       </trans-unit>
       <trans-unit id="it3eMmL" resname="Jitsi-Meet-Servereinstellungen">
         <source>Jitsi-Meet-Servereinstellungen</source>
@@ -311,11 +311,11 @@
       </trans-unit>
       <trans-unit id="l_i7mDh" resname="Heute">
         <source>Heute</source>
-        <target state="needs-translation">Heute</target>
+        <target state="translated">Dziś</target>
       </trans-unit>
       <trans-unit id="GKxRloL" resname="Heute steht keine Jitsi Meet Konferenz an.">
         <source>Heute steht keine Jitsi Meet Konferenz an.</source>
-        <target state="needs-translation">Heute ist keine Konferenz geplant.</target>
+        <target state="translated">Dziś nie ma zaplanowanych żadnych konferencji.</target>
       </trans-unit>
       <trans-unit id="PhOrhyi" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
         <source>Aktuell sind keine vergangenen Konferenzen vorhanden.</source>
@@ -335,7 +335,7 @@
       </trans-unit>
       <trans-unit id="m7uFjwQ" resname="In der App">
         <source>In der App</source>
-        <target state="needs-translation">In der App</target>
+        <target state="translated">W aplikacji</target>
       </trans-unit>
       <trans-unit id="8glFZyM" resname="Läuft gerade">
         <source>Läuft gerade</source>
@@ -343,7 +343,7 @@
       </trans-unit>
       <trans-unit id="5FjfAhL" resname="Moderator">
         <source>Moderator</source>
-        <target state="needs-translation">Moderator</target>
+        <target state="translated">Moderator</target>
       </trans-unit>
       <trans-unit id="h3iGSDx" resname="Intern">
         <source>Intern</source>
@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="iHRAo8z" resname="Agenda">
         <source>Agenda</source>
-        <target state="needs-translation">Agenda</target>
+        <target state="translated">Plan</target>
       </trans-unit>
       <trans-unit id="MYiPBqT" resname="Keine Angabe">
         <source>Keine Angabe</source>
@@ -363,27 +363,27 @@
       </trans-unit>
       <trans-unit id="NeHXYoQ" resname="Server">
         <source>Server</source>
-        <target state="needs-translation">Server</target>
+        <target state="translated">Serwer</target>
       </trans-unit>
       <trans-unit id="6Pc0wx7" resname="Optionen">
         <source>Optionen</source>
-        <target state="needs-translation">Optionen</target>
+        <target state="translated">Ustawienia</target>
       </trans-unit>
       <trans-unit id=".5KWHQT" resname="Einladungslinks">
         <source>Einladungslinks</source>
-        <target state="needs-translation">Einladungslinks</target>
+        <target state="translated">Linki z zaproszeniami</target>
       </trans-unit>
       <trans-unit id="7B84zKM" resname="Löschen">
         <source>Löschen</source>
-        <target state="needs-translation">Löschen</target>
+        <target state="translated">Usuń</target>
       </trans-unit>
       <trans-unit id="Y4fuS2L" resname="Bearbeiten">
         <source>Bearbeiten</source>
-        <target state="needs-translation">Bearbeiten</target>
+        <target state="translated">Edytuj</target>
       </trans-unit>
       <trans-unit id="GSTOB.p" resname="Duplizieren">
         <source>Duplizieren</source>
-        <target state="needs-translation">Duplizieren</target>
+        <target state="translated">Duplikuj</target>
       </trans-unit>
       <trans-unit id="rTb2J0V" resname="Einladung zur Videokonferenz">
         <source>Einladung zur Videokonferenz</source>
@@ -391,7 +391,7 @@
       </trans-unit>
       <trans-unit id="ggCfACW" resname="Hallo!">
         <source>Hallo!</source>
-        <target state="needs-translation">Hallo!</target>
+        <target state="translated">Witaj!</target>
       </trans-unit>
       <trans-unit id="4cipQ9E" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
@@ -525,7 +525,7 @@
       </trans-unit>
       <trans-unit id="xHsbIh6" resname="Dashboard">
         <source>Dashboard</source>
-        <target state="needs-translation">Dashboard</target>
+        <target state="translated">Panel użytkownika</target>
       </trans-unit>
       <trans-unit id="zsOFi4H" resname="Registrieren">
         <source>Registrieren</source>
@@ -1313,7 +1313,7 @@
       </trans-unit>
       <trans-unit id="IHwICJh" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
-        <target state="needs-translation">In der App</target>
+        <target state="translated">W aplikacji</target>
       </trans-unit>
       <trans-unit id="IDaPDel" resname="lobby.participant.title">
         <source>lobby.participant.title</source>
@@ -2308,7 +2308,7 @@
       </trans-unit>
       <trans-unit id="tp1bCrr" resname="confirm.schedule.delete">
         <source>confirm.schedule.delete</source>
-        <target state="needs-translation">Löschen</target>
+        <target state="translated">Usuń</target>
       </trans-unit>
       <trans-unit id="maoG0wF" resname="">
         <source/>
