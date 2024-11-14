@@ -67,7 +67,7 @@ option:
   decembre: Grudzień
   user: W trybie użytkownika
   root: W trybie roota
-lable.serverUrl: Konferenz Server URL
+lable.serverUrl: Adres URL serwera konferencyjnego
 label.appId: ID aplikacji
 label.appSecret: App-Secret
 label.scheduleMeeting: Zaproponuj termin
@@ -81,14 +81,14 @@ help:
   jigasiApiUrl: Wprowadź tutaj API Jigasi, którego można użyć do odzyskania numeru PIN konferencji. Zwykle kończy się na "ConferenceMapper”.
   jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
   jigasiProsodyDomain: Wpisz tutaj domenę Prosody. Zwykle jest to zgodne ze wzorcem "conference.domain.topdomain".
-  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
-  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
-  allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
-  jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
+  disallowFirefox: Przeglądarka Firefox jest wyłączona. Wszyscy uczestnicy, którzy chcą dołączyć za pomocą przeglądarki Firefox, zostaną przekierowani do przeglądarki opartej na Chromium.
+  enforceE2e: W każdej konferencji na tym serwerze Jitsi wymagane jest kompleksowe szyfrowanie.
+  allowIp: Do konferencji można dołączyć tylko z określonego adresu IP lub zakresu adresów IP. Zakresy IP należy podać w zapisie x.x.x.x/24. Można wprowadzić wiele adresów IP lub zakresów, oddzielając je przecinkami.
+  jitsiEventSyncUrl: Tutaj możesz określić innego administratora Jitsi, który zapisał odpowiednie synchronizacje zdarzeń Jitsi dla żądań SIP. Należy określić tylko podstawowy adres URL. Ta funkcja wymaga wersji Jitsi-admin > 0.77.x
   disableFilmstripe: Filmstripe in Jitsi deaktivieren
-  disableChat: Chat in Jitsi deaktivieren und ausblenden
-  disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
-  disableEtherpad: Etherpad während einer Konferenz deaktivieren
+  disableChat: Dezaktywuj i ukryj czat w Jitsi
+  disableWhiteboard: Wyłącz tablicę podczas konferencji
+  disableEtherpad: Dezaktywuj Etherpad podczas konferencji
   prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
   liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
   livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
@@ -159,9 +159,9 @@ label:
   maxUser: Maximal Anzahl an Teilnehmenden
   jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
   disableFilmstripe: Filmstrip deaktivieren
-  disableChat: Chat deaktivieren
-  disableWhiteboard: Whiteboard deaktivieren
-  disableEtherpad: Etherpad deaktivieren
+  disableChat: Wyłącz czat
+  disableWhiteboard: Wyłącz tablicę
+  disableEtherpad: Wyłącz Etherpad
   prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
   myName: Mein Name
   liveKitServer: Ich möchte einen Livekit-Server einrichten
