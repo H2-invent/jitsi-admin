@@ -107,23 +107,34 @@ function openBlankTarget(targets) {
 }
 
 function initLoadContent() {
-    $(document).on('click', '.loadContent', function (e) {
-        e.preventDefault();
-        var url = $(this).attr('href');
-        $('#loadContentModal').load(url, function (data, status) {
-            if (status === "error") {
-                window.location.reload();
-            } else {
-                if (!$('#loadContentModal ').hasClass('show')) {
-                    $('#loadContentModal').modal('show');
-                } else {
-                    initNewModal(this);
-                }
-            }
-        });
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('loadContent')) {
+            e.preventDefault();
+            const url = e.target.getAttribute('href');
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(data => {
+                    const modalElement = document.getElementById('loadContentModal');
+                    modalElement.innerHTML = data;
+
+                    // Überprüfe, ob das Modal geöffnet ist
+                    if (!modalElement.classList.contains('show')) {
+                        const modal = Modal.getOrCreateInstance(modalElement);
+                        modal.show();
+                    } else {
+                        initNewModal(modalElement);
+                    }
+                })
+                .catch(() => {
+                    window.location.reload();
+                });
+        }
     });
 }
-
 
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initNewModal(e)

@@ -81,6 +81,7 @@ const searchUSer = ($url, $search) => {
                         event.preventDefault(); // Verhindert das Standardverhalten des Links
                         const dataVal = JSON.parse(userElement.getAttribute('data-val'));
                         sendData(apiUrl, dataVal); // Sendet die Daten für Benutzer
+                        event.currentTarget.remove();
                     });
                 }
                 const $group = data.group;
@@ -104,6 +105,7 @@ const searchUSer = ($url, $search) => {
                         event.preventDefault(); // Verhindert das Standardverhalten des Links
                         const dataVal = JSON.parse(linkElement.getAttribute('data-val'));
                         sendData(apiUrl, dataVal); // Sendet die Daten für Gruppen
+                        event.currentTarget.remove();
                     });
                 }
 

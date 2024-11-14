@@ -1,6 +1,8 @@
 import $ from "jquery";
 import {initLazyElemt} from './lazyLoading'
 import {initStartIframe} from './createConference'
+import {initAllComponents, initCollapse, initDropdown, initPopover, initTooltip} from "./confirmation";
+
 var refreshUrl
 
 function initRefreshDashboard(time, url) {
@@ -36,7 +38,7 @@ function refreshDashboard() {
                 $($id2).html($(data).find($id2).contents());
                 initLazyElemt(document.querySelector($id2).querySelector('.lazyLoad'));
             }
-            if ($($id3 ).contents().text() !== $(data).find($id3 ).contents().text()) {
+            if ($($id3).contents().text() !== $(data).find($id3).contents().text()) {
                 console.log('1.9');
                 $($id3).html($(data).find($id3).contents());
                 initStartIframe();
@@ -45,10 +47,12 @@ function refreshDashboard() {
                 console.log('1.10');
                 $($id4).html($(data).find($id4).contents());
             }
-            $('[data-mdb-toggle="popover"]').popover({html: true});
+
+            initAllComponents();
+
         }
         $('#actualTime').html($(data).find('#actualTime').contents());
     });
 }
 
-export {initRefreshDashboard,refreshDashboard};
+export {initRefreshDashboard, refreshDashboard};

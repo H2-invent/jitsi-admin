@@ -28,6 +28,13 @@ function initDirectSend() {
     });
 }
 
+export function initAllComponents(){
+    initInput();
+    initCollapse();
+    initDropdown();
+    initTooltip();
+    initPopover();
+}
 export function initPopover() {
     initMDB({Popover});
     const items = document.querySelectorAll('[data-mdb-popover-init]');
