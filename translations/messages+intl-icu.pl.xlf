@@ -680,8 +680,8 @@
       <trans-unit id="OXsp1X2" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
-        <target state="needs-translation"><![CDATA[Ihre Jitsi-Admin-Enterprise-Lizenz endet bald. <br>
-            Bitte verlängern Sie Ihre Lizenz jetzt, um weiterhin alle Features wie gewohnt nutzen zu können.]]></target>
+        <target state="translated"><![CDATA[Twoja licencja Jitsi Admin Enterprise wkrótce wygaśnie. <br>
+            Przedłuż teraz swoją licencję, aby móc normalnie korzystać ze wszystkich funkcji.]]></target>
       </trans-unit>
       <trans-unit id="xbghgv7" resname="Hier verlängern">
         <source>Hier verlängern</source>
@@ -709,19 +709,19 @@
       </trans-unit>
       <trans-unit id="jJwkoAg" resname="Einladung zu einer Terminplanung">
         <source>Einladung zu einer Terminplanung</source>
-        <target state="needs-translation">Einladung zu einer Terminplanung</target>
+        <target state="translated">Zaproszenie do umówienia się na spotkanie</target>
       </trans-unit>
       <trans-unit id="Eb8Nq57" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
         <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="needs-translation">Sie wurden soeben zu einer Terminplanung eingeladen. Bitte suchen Sie über den beigefügten Link ganz einfach Ihren Wunschtermin aus.</target>
+        <target state="translated">Właśnie zostałeś zaproszony na zaplanowane spotkanie. Proszę po prostu wybrać żądaną datę, korzystając z załączonego linku.</target>
       </trans-unit>
       <trans-unit id="vjMI4Tr" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
-        <target state="needs-translation">Bitte klicken Sie hier, um über den optimalen Termin abzustimmen.</target>
+        <target state="translated">Kliknij tutaj, aby zagłosować na optymalny termin.</target>
       </trans-unit>
       <trans-unit id="Cw3SIVV" resname="Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.">
         <source>Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</source>
-        <target state="needs-translation">Bitte fügen Sie hier die Termine zur Auswahl hinzu. Die Teilnehmenden können dann ihren Favoriten auswählen und Sie können diesen Termin komfortabel übernehmen.</target>
+        <target state="translated">Proszę dodać tutaj wybrane daty. Uczestnicy mogą następnie wybrać preferowaną, a Ty możesz łatwo przejąć to spotkanie.</target>
       </trans-unit>
       <trans-unit id="2S4PPPa" resname="Zeit wählen">
         <source>Zeit wählen</source>
@@ -777,19 +777,19 @@
       </trans-unit>
       <trans-unit id="tb.wch6" resname="Die Terminplanung {name} wurde abgesagt.">
         <source>Die Terminplanung {name} wurde abgesagt.</source>
-        <target state="needs-translation">Die Terminplanung wurde von {name} abgesagt.</target>
+        <target state="translated">Termin została odwołany przez {name}.</target>
       </trans-unit>
       <trans-unit id="SVfDgyD" resname="Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.">
         <source>Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</source>
-        <target state="needs-translation">Wer eine datenschutzfreundliche Videokonferenz-Plattform sucht, die auf dem eigenen Server betrieben wird, ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht eine verschlüsselte Anwendung.</target>
+        <target state="translated">Każdy, kto szuka platformy do wideokonferencji przyjaznej dla ochrony danych, działającej na własnym serwerze, będzie dobrze obsługiwany dzięki narzędziu open source Jitsi. Jitsi jest alternatywą dla Zooma. Nie przechowuje żadnych danych użytkownika i umożliwia szyfrowaną aplikację.</target>
       </trans-unit>
       <trans-unit id="alOvEgh" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot; auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus dem Formular an den Jitsi-Meet-Server weiter.">
         <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten" auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus dem Formular an den Jitsi-Meet-Server weiter.</source>
-        <target state="needs-translation">Wir weisen darauf hin, dass Sie durch das Klicken auf „Beitreten“ auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den Namen aus dem Formular an den Jitsi Meet Server weiter.</target>
+        <target state="translated">Pragniemy zaznaczyć, że kliknięcie "Dołącz" spowoduje przekierowanie na serwer Jitsi Meet. Administrator Jitsi przekazuje nazwę z formularza do serwera Jitsi Meet.</target>
       </trans-unit>
       <trans-unit id="5fvzZqV" resname="Mail an die Teilnehmer">
         <source>Mail an die Teilnehmer</source>
-        <target state="needs-translation">E-Mail an die Teilnehmenden</target>
+        <target state="translated">Wyślij e-mail do uczestników</target>
       </trans-unit>
       <trans-unit id="kf1GGtv" resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            und die &lt;a href=&quot;{privacyUrl}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
@@ -797,11 +797,11 @@
             und die &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="needs-translation"><![CDATA[Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
-            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
-            gelesen und nehme diese zur Kenntnis.]]></target>
+        <target state="translated"><![CDATA[Mamy <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Informacje o ochronie danych od administratora Jitsi</u> <i class="fa fa-external-link-alt"></i></a>
+            i <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Informacje o ochronie danych z {url}</u><i class="fa fa-external-link-alt"></i></a>
+            przeczytaj je i zanotuj.]]></target>
       </trans-unit>
       <trans-unit id="Zxzbi9h" resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
@@ -825,25 +825,25 @@
       </trans-unit>
       <trans-unit id="0RNV0ke" resname="dashboard.noconference">
         <source>dashboard.noconference</source>
-        <target state="needs-translation"><![CDATA[Aktuell sind keine Konferenzen vorhanden. Bitte erstellen Sie
-                            <u><a href="{url}" class="loadContent">hier</a></u>
-                            eine neue Konferenz.]]></target>
+        <target state="translated"><![CDATA[Obecnie nie ma dostępnych konferencji. Proszę utworzyć
+                            <u><a href="{url}" class="loadContent">tutaj</a></u>
+                            nową konferencję.]]></target>
       </trans-unit>
       <trans-unit id="OZ5F22." resname="Hinzugefügt zur Warteliste">
         <source>Hinzugefügt zur Warteliste</source>
-        <target state="needs-translation">Hinzugefügt zur Warteliste</target>
+        <target state="translated">Dodano do listy oczekujących</target>
       </trans-unit>
       <trans-unit id="Vi0WvdN" resname="Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.">
         <source>Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.</source>
-        <target state="needs-translation">Leider ist die maximale Teilnehmerzahl erreicht. Sie stehen bereits in der Warteliste.</target>
+        <target state="translated">Niestety maksymalna liczba uczestników została osiągnięta. Jesteś już na liście oczekujących.</target>
       </trans-unit>
       <trans-unit id="nBsbshI" resname="Sie sind auf der Warteliste">
         <source>Sie sind auf der Warteliste</source>
-        <target state="needs-translation">Ihr Name steht auf der Warteliste.</target>
+        <target state="translated">Twoje nazwisko jest na liście oczekujących.</target>
       </trans-unit>
       <trans-unit id="Bqv90MY" resname="Sie sind auf der Warteliste für die Konferenz {name} eingetragen.">
         <source>Sie sind auf der Warteliste für die Konferenz {name} eingetragen.</source>
-        <target state="needs-translation">Ihr Name ist in der Warteliste für die Konferenz {name} eingetragen.</target>
+        <target state="translated">Twoje nazwisko znajduje się na liście oczekujących na konferencję {name}.</target>
       </trans-unit>
       <trans-unit id="5rrruMD" resname="Warteliste">
         <source>Warteliste</source>
@@ -851,7 +851,7 @@
       </trans-unit>
       <trans-unit id="EOF2kTG" resname="Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen">
         <source>Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden wirklich zur Konferenz hinzufügen?</target>
+        <target state="translated">Czy na pewno chcesz dodać uczestnika do konferencji?</target>
       </trans-unit>
       <trans-unit id="bHzTRq2" resname="Noch {spaces} Plätze frei">
         <source>Noch {spaces} Plätze frei</source>
@@ -867,15 +867,15 @@
       </trans-unit>
       <trans-unit id="eye7DCs" resname="Unbegrenzte Teilnehmerzahl">
         <source>Unbegrenzte Teilnehmerzahl</source>
-        <target state="needs-translation">Die Teilnehmendenzahl ist unbegrenzt.</target>
+        <target state="translated">Liczba uczestników jest nieograniczona.</target>
       </trans-unit>
       <trans-unit id="SHVIhjN" resname="Dieser Teilnehmer darf seinen Bildschirm teilen">
         <source>Dieser Teilnehmer darf seinen Bildschirm teilen</source>
-        <target state="needs-translation">Dieser Teilnehmende darf die Ansicht auf dem Bildschirm zu teilen.</target>
+        <target state="translated">Ten uczestnik ten może udostępniać ekran.</target>
       </trans-unit>
       <trans-unit id="HS6VuSy" resname="Dieser Teilnehmer darf private Nachrichten versenden">
         <source>Dieser Teilnehmer darf private Nachrichten versenden</source>
-        <target state="needs-translation">Dieser Teilnehmende darf private Nachrichten versenden.</target>
+        <target state="translated">Uczestnik ten może wysyłać prywatne wiadomości.</target>
       </trans-unit>
       <trans-unit id="DWzXO1L" resname="Darkmode">
         <source>Darkmode</source>
@@ -895,15 +895,15 @@
       </trans-unit>
       <trans-unit id="2VnBhfW" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
-        <target state="needs-translation">Die Serienvideokonferenz {name} wurde gelöscht.</target>
+        <target state="translated">Seria wideokonferencji {name} została usunięta.</target>
       </trans-unit>
       <trans-unit id="nZp0s.9" resname="Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.">
         <source>Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.</source>
-        <target state="needs-translation">Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.</target>
+        <target state="translated">Zostałeś zaproszony na wideokonferencję {name} przez {organizer}.</target>
       </trans-unit>
       <trans-unit id="_F9lnwi" resname="Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.">
         <source>Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.</source>
-        <target state="needs-translation">Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.</target>
+        <target state="translated">Zostałeś zaproszony do spotkania cyklicznego {name} przez {organizer}.</target>
       </trans-unit>
       <trans-unit id="Hgl4z9y" resname="Sie wurden auf die Warteliste für:  {name} hinzugefügt ">
         <source>Sie wurden auf die Warteliste für:  {name} hinzugefügt </source>
