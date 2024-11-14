@@ -89,10 +89,10 @@ help:
   disableChat: Dezaktywuj i ukryj czat w Jitsi
   disableWhiteboard: Wyłącz tablicę podczas konferencji
   disableEtherpad: Dezaktywuj Etherpad podczas konferencji
-  prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
-  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
-  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
-  livekitMiddlewareUrl: Hier kann eine Url (https://middlewareUrl.com) angegeben werden. Es wird bisher nur die Meetling Middleware unterstützt. Sollten Sie nicht wissen was Sie hier eintragen sollen, einfach leer lassen damit die voreingestellte Middleware verwendet wird. Wenn Sie eine eigene Middleware verwenden wollen wenden Sie sich an info@h2-invent.com
+  prefixRoomUidWithHash: Identyfikator użytkownika konferencji jest poprzedzony numerem serwera i identyfikatorem serwera w postaci skrótu. Można to wykorzystać do rozróżnienia różnych serwerów wirtualnych na serwerze WWW Nginx.
+  liveKitServer: Ten serwer jest serwerem Livekit i jest przeznaczony do korzystania z funkcjonalności Livekit API
+  livekitBackgroundImages: Tablica JSON z obrazami tła, które uczestnicy konferencji mogą wybrać podczas konferencji.
+  livekitMiddlewareUrl: Tutaj można określić adres URL (https://middlewareUrl.com). Jak dotąd obsługiwane jest tylko oprogramowanie pośrednie Meetling. Jeśli nie wiesz, co tu wpisać, po prostu pozostaw to pole puste, aby zostało użyte domyślne oprogramowanie pośredniczące. Jeżeli chcesz skorzystać z własnego oprogramowania pośredniczącego, napisz na adres info@h2-invent.com
 label:
   beitretenApp: Dołącz za pomocą aplikacji Elektron
   beitretenBrowser: Dołącz w przeglądarce
@@ -152,21 +152,21 @@ label:
   jigasiNumberUrl: Numery telefoniczne Jigasi w formacie JSON
   jigasiProsodyDomain: Domena Jigasi Prosody
   go: Zaczynajmy!
-  moderator: Organisator auswählen
-  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
-  enforceE2e: Ende zu Ende erzwingen
-  allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
-  maxUser: Maximal Anzahl an Teilnehmenden
-  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
+  moderator: Wybierz organizatora
+  disallowFirefox: Przeglądarka Firefox jest wyłączona na serwerze Jitsi-Meet
+  enforceE2e: Wymuś End to End
+  allowIp: Adresy IP lub zakres adresów IP, które mogą dołączyć do konferencji
+  maxUser: Maksymalna liczba uczestników
+  jitsiEventSyncUrl: Adres URL przekaźnika synchronizacji zdarzeń Jitsi
   disableFilmstripe: Filmstrip deaktivieren
   disableChat: Wyłącz czat
   disableWhiteboard: Wyłącz tablicę
   disableEtherpad: Wyłącz Etherpad
-  prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
-  myName: Mein Name
-  liveKitServer: Ich möchte einen Livekit-Server einrichten
-  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
-  livekitMiddlewareUrl: Livekitmiddleware-Url
+  prefixRoomUidWithHash: Przedrostek identyfikatora pokoju za pomocą skrótu serwera
+  myName: Moja nazwa
+  liveKitServer: Chcę skonfigurować serwer Livekit
+  livekitBackgroundImages: Obrazy tła dla konferencji w formacie JSON
+  livekitMiddlewareUrl: Adres URL oprogramowania Livekitmiddleware
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
