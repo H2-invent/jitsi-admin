@@ -1400,11 +1400,11 @@
       </trans-unit>
       <trans-unit id="UEon3ZG" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator hinzufügen?</target>
+        <target state="translated">Do you want to add the participant as a lobby moderator?</target>
       </trans-unit>
       <trans-unit id="x9dbNmw" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator entfernen?</target>
+        <target state="translated">Do you want to remove the participant as a lobby moderator?</target>
       </trans-unit>
       <trans-unit id="LElUXKX" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
@@ -2263,7 +2263,7 @@
       </trans-unit>
       <trans-unit id="mHxk7jy" resname="options.chat">
         <source>options.chat</source>
-        <target state="needs-translation">Chat anzeigen</target>
+        <target state="translated">View chat</target>
       </trans-unit>
       <trans-unit id="0GtfBck" resname="options.toggleFilmstripe">
         <source>options.toggleFilmstripe</source>
