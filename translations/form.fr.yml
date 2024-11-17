@@ -77,10 +77,10 @@ help:
   teilnehmerEmailhinzufuegenModerator: Plusieurs adresses E-Mail peuvent être rajouté. Chaque adresse E-Mail doit être écrite sur une nouvelle ligne.
   serverName: Veuillez entrer le nom du serveur ici. Celui-ci est affiché aux participants.
   secondEmail: Tous les e-mails doivent être envoyés à ces adresses e-mail en plus de mon adresse e-mail standard (séparée par des virgules).
-  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
-  jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
+  corsHeader: Si un frame-ancestor ou CORS Header est défini et ne fait pas référence à cette URL, il n'est pas possible d'utiliser l'API Jitsi-iFrame. Cela entraîne la perte de certaines fonctions.
+  jigasiApiUrl: Saisissez ici l'API Jigasi qui permet de récupérer le PIN de conférence. Celle-ci se termine généralement par « ConferenceMapper ».
   jigasiNumberUrl: 'Indiquez ici le numéro d''accès au format JSON. Pour cela, il faut les saisir comme ils sont saisis dans le fichier « numbers.json » de Jigasi (par ex : {« message »:« Einwahlnummern »,« numbers »:{« DE »:[« 04122/012345 »]},« numbersEnabled »:true}).'
-  jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
+  jigasiProsodyDomain: Indiquez ici le domaine du serveur Prosody. Celui-ci suit généralement le modèle « conference.domain.topdomain ».
   disallowFirefox: Le navigateur Firefox n'est pas autorisé. Tous les participants qui souhaitent se connecter avec un navigateur Firefox seront redirigés vers un navigateur basé sur Chromium.
   enforceE2e: Active la fonction de sécurité « Encryption de bout en bout » dans chaque conférence sur ce serveur Jitsi.
   allowIp: Seules l'adresse IP ou les plages d'adresses IP spécifiées peuvent rejoindre la conférence. Les plages d'IP doivent être indiquées au format 10.10.10.10/24. Plusieurs IP ou plages peuvent être saisies séparées par des virgules.
@@ -147,11 +147,11 @@ label:
   profilImage: Photo de profil (sera affichée lors de la réunion Jitsi-Meet)
   corsHeader: Header Cors ou Header Frame-ancestor
   tag: Catégorie
-  serverBackgroundImage: Statitisches Hintergrund für die Joinseite
+  serverBackgroundImage: Arrière-plan statistique pour la page de jointure
   jigasiApiUrl: Jigasi ConferenceMapper-URL
-  jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
-  jigasiProsodyDomain: Jigasi Prosody Domain
-  go: Los gehts!
+  jigasiNumberUrl: Numéros d'accès Jigasi au format JSON
+  jigasiProsodyDomain: Domaine Jigasi Prosody
+  go: Allons-y!
   moderator: Sélectionner un organisateur
   disallowFirefox: Firefox est désactivé sur le serveur Jitsi-Meet
   enforceE2e: Activer la fonction de sécurité « Encryption de bout en bout » 
