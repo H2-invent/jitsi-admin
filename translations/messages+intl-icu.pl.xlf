@@ -769,7 +769,7 @@
       </trans-unit>
       <trans-unit id="EiLjBAz" resname="Einen Termin finden">
         <source>Einen Termin finden</source>
-        <target state="needs-translation">Terminumfrage</target>
+        <target state="translated">Ankieta dotycząca spotkań</target>
       </trans-unit>
       <trans-unit id="luKF8cb" resname="Terminplanung abgesagt">
         <source>Terminplanung abgesagt</source>
@@ -1147,19 +1147,19 @@
       </trans-unit>
       <trans-unit id="cJ6qE9p" resname="Fehler, das Startdatum darf nicht leer sein">
         <source>Fehler, das Startdatum darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte das Startdatum eingeben.</target>
+        <target state="translated">Błąd. Proszę podać datę rozpoczęcia.</target>
       </trans-unit>
       <trans-unit id="FBOC1YD" resname="Fehler, der Name darf nicht leer sein">
         <source>Fehler, der Name darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte den Namen angeben.</target>
+        <target state="translated">Błąd. Podaj nazwę.</target>
       </trans-unit>
       <trans-unit id="pZTj_Lm" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="needs-translation">Bitte leiten Sie diesen Link an die Teilnehmenden weiter.</target>
+        <target state="translated">Prosimy o przesłanie tego linku uczestnikom.</target>
       </trans-unit>
       <trans-unit id="tSRnGXc" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
-        <target state="needs-translation">Wollen Sie den Namen des Teilnehmenden wirklich löschen?</target>
+        <target state="translated">Czy na pewno chcesz usunąć nazwę uczestnika?</target>
       </trans-unit>
       <trans-unit id="_OvJ5EE" resname="Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</source>
@@ -1167,19 +1167,19 @@
       </trans-unit>
       <trans-unit id="DzGyndX" resname="Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit">
         <source>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</source>
-        <target state="needs-translation">Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.</target>
+        <target state="translated">Błąd, data początkowa i data końcowa leżą w przeszłości.</target>
       </trans-unit>
       <trans-unit id="HLloXCq" resname="Schließen">
         <source>Schließen</source>
-        <target state="needs-translation">Schließen</target>
+        <target state="translated">Zamknij</target>
       </trans-unit>
       <trans-unit id="nqfUNu2" resname="Zeitzone einstellen">
         <source>Zeitzone einstellen</source>
-        <target state="needs-translation">Zeitzone einstellen</target>
+        <target state="translated">Ustaw strefę czasową</target>
       </trans-unit>
       <trans-unit id="5uj7uog" resname="Zeitzone erfolgreich geändert auf: {timeZone}">
         <source>Zeitzone erfolgreich geändert auf: {timeZone}</source>
-        <target state="needs-translation">Zeitzone erfolgreich geändert auf: {timeZone}</target>
+        <target state="translated">Strefa czasowa została pomyślnie zmieniona na: {timeZone}</target>
       </trans-unit>
       <trans-unit id="boEqtE1" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
@@ -1187,7 +1187,7 @@
       </trans-unit>
       <trans-unit id="L5CLtca" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
-        <target state="needs-translation">Zeitzone ändern</target>
+        <target state="translated">Zmień strefę czasową</target>
       </trans-unit>
       <trans-unit id="3HMs7nB" resname="Erstellt in Zeitzone">
         <source>Erstellt in Zeitzone</source>
@@ -1415,28 +1415,28 @@
       </trans-unit>
       <trans-unit id="LElUXKX" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
-        <target state="needs-translation">Fügen Sie Teilnehmende hinzu und und geben Sie diesen Teilnehmenden Berechtigungen als Lobbymoderator oder Konferenzmoderator.</target>
+        <target state="translated">Dodaj uczestników i nadaj im uprawnienia moderatora lobby lub moderatora konferencji.</target>
       </trans-unit>
       <trans-unit id="rfUqSvg" resname="newRoom.error.noServer.addServer">
         <source>newRoom.error.noServer.addServer</source>
-        <target state="needs-translation">Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.</target>
+        <target state="translated">Nie utworzyłeś serwera lub żaden serwer nie został jeszcze do Ciebie przypisany. Utwórz serwer klikając na symbol koła zębatego.</target>
       </trans-unit>
       <trans-unit id="ISvideZ" resname="newRoom.error.noServer.askAdmin">
         <source>newRoom.error.noServer.askAdmin</source>
-        <target state="needs-translation"><![CDATA[Ihnen wurde noch kein Konferenzserver zugewiesen. Bitte kontaktieren Sie Ihren Administrator unter der E-Mail
+        <target state="translated"><![CDATA[Nie przydzielono Ci jeszcze serwera konferencyjnego. Skontaktuj się z administratorem pod adresem e-mail
         <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></target>
       </trans-unit>
       <trans-unit id="Q_3vwSn" resname="confirm.delete.adressbookUser">
         <source>confirm.delete.adressbookUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich entfernen?</target>
+        <target state="translated">Czy na pewno chcesz usunąć ten wpis?</target>
       </trans-unit>
       <trans-unit id=".McqmXI" resname="confirm.delete.adressbookGroupUser">
         <source>confirm.delete.adressbookGroupUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen?</target>
+        <target state="translated">Czy na pewno chcesz usunąć ten wpis z grupy?</target>
       </trans-unit>
       <trans-unit id="V7MLPoR" resname="confirm.title">
         <source>confirm.title</source>
-        <target state="needs-translation">Bestätigung</target>
+        <target state="translated">Potwierdź</target>
       </trans-unit>
       <trans-unit id="QC45MUM" resname="confirm.cancel">
         <source>confirm.cancel</source>
@@ -1444,11 +1444,11 @@
       </trans-unit>
       <trans-unit id="C8omiG2" resname="confirm.ok">
         <source>confirm.ok</source>
-        <target state="needs-translation">OK</target>
+        <target state="translated">OK</target>
       </trans-unit>
       <trans-unit id="kmIDJa_" resname="confirm.delete.room">
         <source>confirm.delete.room</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich löschen?</target>
+        <target state="translated">Czy na pewno chcesz usunąć tę konferencję?</target>
       </trans-unit>
       <trans-unit id="HvUa.rT" resname="confirm.delete.series">
         <source>confirm.delete.series</source>
