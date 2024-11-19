@@ -1524,15 +1524,15 @@
       </trans-unit>
       <trans-unit id="8VQZpT5" resname="lobby.dashboard.newUser.message">
         <source>lobby.dashboard.newUser.message</source>
-        <target state="needs-translation"><![CDATA[Der Teilnehmende {name} ist der Lobby der Konferenz {room} beigetreten<br><a href="{url}" target="_new" class="btn btn-sm btn-primary">Zur Lobby</a>]]></target>
+        <target state="translated"><![CDATA[Uczestnik {name} dołączył do lobby konferencji {room} <br><a href="{url}" target="_new" class="btn btn-sm btn-primary">Do lobby</a>]]></target>
       </trans-unit>
       <trans-unit id="tDI01PY" resname="Diese Aktion ist nicht erlaubt.">
         <source>Diese Aktion ist nicht erlaubt.</source>
-        <target state="needs-translation">Diese Aktion ist nicht erlaubt.</target>
+        <target state="translated">Ta czynność jest niedozwolona.</target>
       </trans-unit>
       <trans-unit id="WtSDrvg" resname="repeater.edit.warning">
         <source>repeater.edit.warning</source>
-        <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
+        <target state="translated">Data ta wskazuje pierwszą datę serii. Jeśli edytowałeś poszczególne spotkania z cyklu, zostaną one zresetowane.</target>
       </trans-unit>
       <trans-unit id="EiZtTcH" resname="common.save">
         <source>common.save</source>
@@ -1540,67 +1540,67 @@
       </trans-unit>
       <trans-unit id="55bDbNX" resname="common.success.save">
         <source>common.success.save</source>
-        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+        <target state="translated">Twój wpis został pomyślnie zapisany.</target>
       </trans-unit>
       <trans-unit id="a.2tLTu" resname="status.inconference">
         <source>status.inconference</source>
-        <target state="needs-translation">In der Konferenz</target>
+        <target state="translated">Na konferencji</target>
       </trans-unit>
       <trans-unit id="m37Ytbg" resname="status.finished">
         <source>status.finished</source>
-        <target state="needs-translation">Beendet</target>
+        <target state="translated">Zakończono</target>
       </trans-unit>
       <trans-unit id="QtmENFh" resname="server.checkHeader">
         <source>server.checkHeader</source>
-        <target state="needs-translation">Meinen Server überprüfen</target>
+        <target state="translated">Sprawdź mój serwer</target>
       </trans-unit>
       <trans-unit id="V7a0SQs" resname="Private Nachrichten">
         <source>Private Nachrichten</source>
-        <target state="needs-translation">Private Nachrichten</target>
+        <target state="translated">Wiadomości prywatne</target>
       </trans-unit>
       <trans-unit id="rt0FNAt" resname="Lobbymoderator">
         <source>Lobbymoderator</source>
-        <target state="needs-translation">Lobbymoderator</target>
+        <target state="translated">Moderator lobby</target>
       </trans-unit>
       <trans-unit id="rFPXX8b" resname="sip.caller.data">
         <source>sip.caller.data</source>
-        <target state="needs-translation">Einwahl-Informationen</target>
+        <target state="translated">Informacje o połączeniu telefonicznym</target>
       </trans-unit>
       <trans-unit id="wnJgOxL" resname="addhock.notification.title">
         <source>addhock.notification.title</source>
-        <target state="needs-translation">Ad Hoc Meeting</target>
+        <target state="translated">Spotkanie ad hoc</target>
       </trans-unit>
       <trans-unit id="B4oKv9g" resname="addhock.notification.message">
         <source>addhock.notification.message</source>
-        <target state="needs-translation"><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
+        <target state="translated"><![CDATA[{name} chce utworzyć z Tobą wideokonferencję ad hoc.<br><a href="{url}" target="_new" class="btn btn-sm btn-success"><i class=" fas fa-phone"></i>Dołącz tutaj</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
       </trans-unit>
       <trans-unit id="928J8pd" resname="addhock.notification.pushMessage">
         <source>addhock.notification.pushMessage</source>
-        <target state="needs-translation">{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
+        <target state="translated">{name} chciałby utworzyć z Tobą wideokonferencję ad hoc</target>
       </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
-        <target state="needs-translation">Ladezeit</target>
+        <target state="translated">Czas wczytywania</target>
       </trans-unit>
       <trans-unit id="wlQV3xE" resname="lobby.verified">
         <source>lobby.verified</source>
-        <target state="needs-translation">Verifizierter Anrufer</target>
+        <target state="translated">Zweryfikowany rozmówca</target>
       </trans-unit>
       <trans-unit id="KttXf09" resname="lobby.participant.enterNow">
         <source>lobby.participant.enterNow</source>
-        <target state="needs-translation">Jetzt beitreten</target>
+        <target state="translated">Dołącz teraz</target>
       </trans-unit>
       <trans-unit id="whOl8uQ" resname="lobby.participant.pauseEnter">
         <source>lobby.participant.pauseEnter</source>
-        <target state="needs-translation">Noch nicht beitreten</target>
+        <target state="translated">Jeszcze nie dołączaj</target>
       </trans-unit>
       <trans-unit id="rr1.wJS" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
         <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
-        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+        <target state="translated">Twój wpis został pomyślnie zapisany.</target>
       </trans-unit>
       <trans-unit id="ujUQxGm" resname="room.new.help.tag">
         <source>room.new.help.tag</source>
-        <target state="needs-translation">Wählen Sie hier eine Kategorie für diese Konferenz aus.</target>
+        <target state="translated">Wybierz tutaj kategorię tej konferencji.</target>
       </trans-unit>
       <trans-unit id="S9Hi6Sx" resname="Geplant von">
         <source>Geplant von</source>
