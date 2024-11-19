@@ -1339,27 +1339,27 @@
       </trans-unit>
       <trans-unit id="ea6fWCb" resname="lobby.moderator.decline.success">
         <source>lobby.moderator.decline.success</source>
-        <target state="needs-translation">Dieser Teilnehmer hat keinen Zutritt zu der Konferenz</target>
+        <target state="translated">Ten uczestnik nie ma dostępu do konferencji</target>
       </trans-unit>
       <trans-unit id="IuK4_k_" resname="lobby.participant.accept">
         <source>lobby.participant.accept</source>
-        <target state="needs-translation">Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.</target>
+        <target state="translated">Zostałeś przyjęty na konferencję i za kilka sekund nastąpi przekierowanie.</target>
       </trans-unit>
       <trans-unit id="oMQZpjR" resname="lobby.participant.decline">
         <source>lobby.participant.decline</source>
-        <target state="needs-translation">Sie wurden von dem Moderator nicht zur Konferenz zugelassen. Bitte entschuldigen Sie die Unannehmhlichkeit.</target>
+        <target state="translated">Moderator nie wpuścił Cię na konferencję. Proszę wybaczyć za niedogodności.</target>
       </trans-unit>
       <trans-unit id="Wx8HZKZ" resname="lobby.participant.modal.accept.title">
         <source>lobby.participant.modal.accept.title</source>
-        <target state="needs-translation">Der Moderator hat Sie zur Konferenz hinzugefügt</target>
+        <target state="translated">Moderator dodał Cię do konferencji</target>
       </trans-unit>
       <trans-unit id="VGAmw4M" resname="lobby.participant.modal.accept.message">
         <source>lobby.participant.modal.accept.message</source>
-        <target state="needs-translation">Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, wählen Sie "Im Browser".</target>
+        <target state="translated">Możesz wybrać, czy chcesz dołączyć do spotkania za pomocą przeglądarki, czy aplikacji Jitsi-Meet. Jeżeli nie jesteś pewien, wybierz opcję "W przeglądarce".</target>
       </trans-unit>
       <trans-unit id="dN9NvvV" resname="lobby.participant.pleaseWait">
         <source>lobby.participant.pleaseWait</source>
-        <target state="needs-translation">Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.</target>
+        <target state="translated">Proszę czekać. Moderator został poinformowany i pozwoli Ci wejść.</target>
       </trans-unit>
       <trans-unit id="1akOrlW" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
@@ -1371,39 +1371,39 @@
       </trans-unit>
       <trans-unit id="JwocwOM" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
-        <target state="needs-translation">Echotest starten</target>
+        <target state="translated">Rozpocznij test echa</target>
       </trans-unit>
       <trans-unit id="0jkcgbV" resname="lobby.echo.input">
         <source>lobby.echo.input</source>
-        <target state="needs-translation">Eingangsgerät</target>
+        <target state="translated">Urządzenie wejściowe</target>
       </trans-unit>
       <trans-unit id="Zt8Jy1O" resname="lobby.echo.output">
         <source>lobby.echo.output</source>
-        <target state="needs-translation">Ausgabegerät</target>
+        <target state="translated">Urządzenie odtwarzania</target>
       </trans-unit>
       <trans-unit id="rZvJkGB" resname="error.noPermission">
         <source>error.noPermission</source>
-        <target state="needs-translation">Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.</target>
+        <target state="translated">Błąd. Nie masz uprawnień do wykonania tej czynności.</target>
       </trans-unit>
       <trans-unit id="N4Pu6re" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target state="needs-translation"><![CDATA[Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
-        Ihre E-Mail-Adresse: {email}<br>
-        Konferenz ID: {uid}]]></target>
+        <target state="translated"><![CDATA[Aby dołączyć do konferencji potrzebne są następujące dane:<br>
+        Twój adres e-mail: {email}<br>
+         Identyfikator konferencji: {uid}]]></target>
       </trans-unit>
       <trans-unit id="3ZzIBKG" resname="lobby.stop.echo">
         <source>lobby.stop.echo</source>
-        <target state="needs-translation">Echotest beenden</target>
+        <target state="translated">Zakończ test echa</target>
       </trans-unit>
       <trans-unit id="6wuR0Uk" resname="lobby.endMeeting">
         <source>lobby.endMeeting</source>
-        <target state="needs-translation">Konferenz beenden</target>
+        <target state="translated">Zakończ konferencję</target>
       </trans-unit>
       <trans-unit id="XVW8mf_" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
-        <target state="needs-translation">Den Teilnehmenden zum Lobbymoderator ernennen</target>
+        <target state="translated">Wyznacz uczestnika jako moderatora lobby</target>
       </trans-unit>
       <trans-unit id="UEon3ZG" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
@@ -1452,75 +1452,75 @@
       </trans-unit>
       <trans-unit id="HvUa.rT" resname="confirm.delete.series">
         <source>confirm.delete.series</source>
-        <target state="needs-translation">Wollen Sie diese Serie wirklich löschen?</target>
+        <target state="translated">Czy na pewno chcesz usunąć tę serię?</target>
       </trans-unit>
       <trans-unit id="3WhNd8k" resname="confirm.delete.lobbyUser">
         <source>confirm.delete.lobbyUser</source>
-        <target state="needs-translation">Wollen Sie diesen Teilnehmenden wirklich aus der Lobby entfernen?</target>
+        <target state="translated">Czy na pewno chcesz usunąć tego uczestnika z lobby?</target>
       </trans-unit>
       <trans-unit id="m46aLQw" resname="confirm.delete.server">
         <source>confirm.delete.server</source>
-        <target state="needs-translation">Wollen Sie diesen Server wirklich löschen?</target>
+        <target state="translated">Czy na pewno chcesz usunąć ten serwer?</target>
       </trans-unit>
       <trans-unit id="iVnGnu8" resname="email.ical.link">
         <source>email.ical.link</source>
-        <target state="needs-translation">Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
+        <target state="translated">Jeśli chcesz wygodnie zarządzać wszystkimi konferencjami w swoim kalendarzu, możesz zasubskrybować ten link iCal jako kalendarz internetowy.</target>
       </trans-unit>
       <trans-unit id="buxRb.g" resname="lobby.change.moderator.permissions">
         <source>lobby.change.moderator.permissions</source>
-        <target state="needs-translation">Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
+        <target state="translated">Twoje uprawnienia w lobby zostały zmienione. Ta strona załaduje się ponownie za kilka sekund.</target>
       </trans-unit>
       <trans-unit id="wlDal_u" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
-        <target state="needs-translation">Die Konferenz wurde beendet.</target>
+        <target state="translated">Konferencja dobiegła końca.</target>
       </trans-unit>
       <trans-unit id="cS.Ceaz" resname="lobby.participant.modal.end.text">
         <source>lobby.participant.modal.end.text</source>
-        <target state="needs-translation">Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</target>
+        <target state="translated">Moderator zakończył konferencję dla wszystkich uczestników. Dziękujemy za udział.</target>
       </trans-unit>
       <trans-unit id="rd_hz1i" resname="text.continue">
         <source>text.continue</source>
-        <target state="needs-translation">Weiter</target>
+        <target state="translated">Dalej</target>
       </trans-unit>
       <trans-unit id="PKHMElu" resname="fixed.Room.name">
         <source>fixed.Room.name</source>
-        <target state="needs-translation">Dauerhaft</target>
+        <target state="translated">Na stałe</target>
       </trans-unit>
       <trans-unit id="fE.ziDM" resname="favorite.sidebar.title">
         <source>favorite.sidebar.title</source>
-        <target state="needs-translation">Favoriten</target>
+        <target state="translated">Ulubione</target>
       </trans-unit>
       <trans-unit id=".FFQcQG" resname="favorite.sidebar.help">
         <source>favorite.sidebar.help</source>
-        <target state="needs-translation"><![CDATA[Drücken Sie <i class="far fa-star"></i> um Konferenzen als Favoriten zu markieren.]]></target>
+        <target state="translated"><![CDATA[Naciśnij <i class="far fa-star"></i>, aby oznaczyć konferencję jako ulubioną.]]></target>
       </trans-unit>
       <trans-unit id="3kYuGZY" resname="participant.resend.invitation">
         <source>participant.resend.invitation</source>
-        <target state="needs-translation">Einladung nochmals an den Teilnehmenden senden.</target>
+        <target state="translated">Ponownie wyślij zaproszenie do uczestnika.</target>
       </trans-unit>
       <trans-unit id="NrftFQI" resname="participant.resend.invitation.sucess">
         <source>participant.resend.invitation.sucess</source>
-        <target state="needs-translation">Die Einladung wurde erfolgreich versandt.</target>
+        <target state="translated">Zaproszenie zostało pomyślnie wysłane.</target>
       </trans-unit>
       <trans-unit id="mIUK2UT" resname="secondEmail.help">
         <source>secondEmail.help</source>
-        <target state="needs-translation">Alle E-Mails werden auch noch an diese E-Mail-Adresse geschickt.</target>
+        <target state="translated">Wszystkie e-maile będą również wysyłane na ten adres.</target>
       </trans-unit>
       <trans-unit id="2j6rDCw" resname="second.email.title">
         <source>second.email.title</source>
-        <target state="needs-translation">Persönliche Einstellungen</target>
+        <target state="translated">Preferencje użytkownika</target>
       </trans-unit>
       <trans-unit id="l1oeLff" resname="CC-E-Mails erfolgreich geändert auf: {secondEmails}">
         <source>CC-E-Mails erfolgreich geändert auf: {secondEmails}</source>
-        <target state="needs-translation">Persönliche Einstellungen erfolgreich geändert.</target>
+        <target state="translated">Ustawienia użytkownika zostały pomyślnie zmienione.</target>
       </trans-unit>
       <trans-unit id="i95TMyb" resname="Weitere E-Mailadressen">
         <source>Weitere E-Mailadressen</source>
-        <target state="needs-translation">Weitere E-Mailadressen</target>
+        <target state="translated">Więcej adresów e-mail</target>
       </trans-unit>
       <trans-unit id="iMlLPDz" resname="Download">
         <source>Download</source>
-        <target state="needs-translation">Download</target>
+        <target state="translated">Pobierz</target>
       </trans-unit>
       <trans-unit id="8VQZpT5" resname="lobby.dashboard.newUser.message">
         <source>lobby.dashboard.newUser.message</source>
