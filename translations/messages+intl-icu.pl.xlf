@@ -1604,31 +1604,31 @@
       </trans-unit>
       <trans-unit id="S9Hi6Sx" resname="Geplant von">
         <source>Geplant von</source>
-        <target state="needs-translation">Geplant von</target>
+        <target state="translated">Zaplanowane przez</target>
       </trans-unit>
       <trans-unit id="T__AVUF" resname="new.room.blockSave.text">
         <source>new.room.blockSave.text</source>
-        <target state="needs-translation">Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</target>
+        <target state="translated">Jeśli zapiszesz tę konferencję, kategorii tej konferencji nie będzie już można edytować.</target>
       </trans-unit>
       <trans-unit id="DYkcvy9" resname="status.inconference.number">
         <source>status.inconference.number</source>
-        <target state="needs-translation">{number}</target>
+        <target state="translated">{number}</target>
       </trans-unit>
       <trans-unit id="NrTT.en" resname="report.title">
         <source>report.title</source>
-        <target state="needs-translation">Protokoll</target>
+        <target state="translated">Protokół</target>
       </trans-unit>
       <trans-unit id="R0Dg0dV" resname="report.dropdown.item">
         <source>report.dropdown.item</source>
-        <target state="needs-translation">Protokoll</target>
+        <target state="translated">Protokół</target>
       </trans-unit>
       <trans-unit id="Fy0CpQD" resname="report.error.noStatus">
         <source>report.error.noStatus</source>
-        <target state="needs-translation">Diese Konferenz hat bisher keine Reports zum Anzeigen.</target>
+        <target state="translated">Z tej konferencji nie ma jeszcze żadnych raportów do wyświetlenia.</target>
       </trans-unit>
       <trans-unit id="WD_LPNr" resname="report.info.timezone">
         <source>report.info.timezone</source>
-        <target state="needs-translation">Alle Zeitangaben sind in der Zeitzone {timezone}</target>
+        <target state="translated">Wszystkie czasy podane są w strefie czasowej {timezone}</target>
       </trans-unit>
       <trans-unit id="3vkvqhB" resname="tag.name">
         <source>tag.name</source>
@@ -1640,117 +1640,117 @@
       </trans-unit>
       <trans-unit id="WGnBgNJ" resname="report.speakerTime">
         <source>report.speakerTime</source>
-        <target state="needs-translation">Aktive Sprechzeit</target>
+        <target state="translated">Aktywny czas rozmów</target>
       </trans-unit>
       <trans-unit id="jxHrgQx" resname="Anzahl Teilnehmer">
         <source>Anzahl Teilnehmer</source>
-        <target state="needs-translation">Anzahl Teilnehmende</target>
+        <target state="translated">Liczba uczestników</target>
       </trans-unit>
       <trans-unit id="t6i10wK" resname="statistic.actualRooms">
         <source>statistic.actualRooms</source>
-        <target state="needs-translation">Aktuell laufende Konferenzen</target>
+        <target state="translated">Aktualne konferencje</target>
       </trans-unit>
       <trans-unit id="3eXa4It" resname="statistic.actualParticipant">
         <source>statistic.actualParticipant</source>
-        <target state="needs-translation">Teilnehmende in aktuell laufenden Konferenzen</target>
+        <target state="translated">Uczestnicy bieżących konferencji</target>
       </trans-unit>
       <trans-unit id="piCuyUk" resname="lobby.endMeeting.ask">
         <source>lobby.endMeeting.ask</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz für alle Teilnehmer beenden?</target>
+        <target state="translated">Czy chcesz zamknąć tę konferencję dla wszystkich uczestników?</target>
       </trans-unit>
       <trans-unit id="BGExflq" resname="Swipen zum zulassen">
         <source>Swipen zum zulassen</source>
-        <target state="needs-translation">Swipen zum zulassen</target>
+        <target state="translated">Przesuń, aby zezwolić</target>
       </trans-unit>
       <trans-unit id="jcZ7joa" resname="ask.tab.close">
         <source>ask.tab.close</source>
-        <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
+        <target state="translated">Czy na pewno chcesz opuścić konferencję?</target>
       </trans-unit>
       <trans-unit id="lQIdqaW" resname="lobby.hangup">
         <source>lobby.hangup</source>
-        <target state="needs-translation">Nur ich verlasse</target>
+        <target state="translated">Tylko ja wychodzę</target>
       </trans-unit>
       <trans-unit id="vwv7Bvl" resname="Bewertung">
         <source>Bewertung</source>
-        <target state="needs-translation">Bewertung</target>
+        <target state="translated">Ocena</target>
       </trans-unit>
       <trans-unit id="9zzwAfD" resname="join.privacy.theme">
         <source>join.privacy.theme</source>
-        <target state="needs-translation"><![CDATA[Ich habe die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
-            gelesen und nehme diese zur Kenntnis.]]></target>
+        <target state="translated"><![CDATA[Mam <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Informacje o ochronie danych z {url}</u><i class="fa fa-external-link-alt"></i></a>
+            przeczytaj je i zanotuj.]]></target>
       </trans-unit>
       <trans-unit id="8VukY2U" resname="join.privacy.ownServer">
         <source>join.privacy.ownServer</source>
-        <target state="needs-translation"><![CDATA[ Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
-            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
-            gelesen und nehme diese zur Kenntnis.]]></target>
+        <target state="translated"><![CDATA[Mam <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Informacje o ochronie danych od administratora Jitsi</u> <i class="fa fa-external-link-alt"></i></a>
+             i <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Informacje o ochronie danych z {url}</u><i class="fa fa-external-link-alt"></i></a>
+            przeczytaj je i zanotuj.]]></target>
       </trans-unit>
       <trans-unit id="L8P5j9Z" resname="lobby.participants.noch">
         <source>lobby.participants.noch</source>
-        <target state="needs-translation">noch</target>
+        <target state="translated">pozostało</target>
       </trans-unit>
       <trans-unit id="QHGxcIp" resname="lobby.participants.seconds">
         <source>lobby.participants.seconds</source>
-        <target state="needs-translation">Sekunden</target>
+        <target state="translated">Sekundy</target>
       </trans-unit>
       <trans-unit id="I9W18.N" resname="email.sip.text">
         <source>email.sip.text</source>
-        <target state="needs-translation">Sie können sich auch einfach per Telefon in die Konferenz einwählen.</target>
+        <target state="translated">Można także po prostu dołączyć do konferencji przez telefon.</target>
       </trans-unit>
       <trans-unit id="MosCvF7" resname="email.sip.number">
         <source>email.sip.number</source>
-        <target state="needs-translation">Einwahlnummern</target>
+        <target state="translated">Numery telefoniczne</target>
       </trans-unit>
       <trans-unit id="BaifIQ." resname="email.sip.pin">
         <source>email.sip.pin</source>
-        <target state="needs-translation">PIN</target>
+        <target state="translated">PIN</target>
       </trans-unit>
       <trans-unit id="MI..OPw" resname="enterprise.settings.header.sip">
         <source>enterprise.settings.header.sip</source>
-        <target state="needs-translation">Jigasi SIP-Einwahldaten</target>
+        <target state="translated">Dane telefoniczne Jigasi SIP</target>
       </trans-unit>
       <trans-unit id="GQ0QgwA" resname="statistic.real.participants">
         <source>statistic.real.participants</source>
-        <target state="needs-translation">Anzahl reale Teilnehmende</target>
+        <target state="translated">Rzeczywista liczba uczestników</target>
       </trans-unit>
       <trans-unit id="AohzXJm" resname="email.sip.roomnumber">
         <source>email.sip.roomnumber</source>
-        <target state="needs-translation">Raumnummer</target>
+        <target state="translated">Numer pokoju</target>
       </trans-unit>
       <trans-unit id="sIWTG7_" resname="status.offline">
         <source>status.offline</source>
-        <target state="needs-translation">Offline</target>
+        <target state="translated">Offline</target>
       </trans-unit>
       <trans-unit id="cb3viG6" resname="status.online">
         <source>status.online</source>
-        <target state="needs-translation">Online</target>
+        <target state="translated">Online</target>
       </trans-unit>
       <trans-unit id="7mSrGiR" resname="status.away">
         <source>status.away</source>
-        <target state="needs-translation">Abwesend</target>
+        <target state="translated">Nieobecny</target>
       </trans-unit>
       <trans-unit id="zNaAAEv" resname="status.inMeeting">
         <source>status.inMeeting</source>
-        <target state="needs-translation">In einem Meeting</target>
+        <target state="translated">Na spotkaniu</target>
       </trans-unit>
       <trans-unit id="_csFZ.g" resname="lobby.participant.online">
         <source>lobby.participant.online</source>
-        <target state="needs-translation">Diese*r Teilnehmende ist bereits in der Konferenz</target>
+        <target state="translated">Ten uczestnik jest już na konferencji</target>
       </trans-unit>
       <trans-unit id="PwYZl9Z" resname="lobby.participant.notInLobby">
         <source>lobby.participant.notInLobby</source>
-        <target state="needs-translation">Diese*r Teilnehmende ist nicht mehr in der Lobby.</target>
+        <target state="translated">Tego uczestnika nie ma już w lobby.</target>
       </trans-unit>
       <trans-unit id="FEXNV9v" resname="Wie war die Gesprächsqualität?">
         <source>Wie war die Gesprächsqualität?</source>
-        <target state="needs-translation">Wie war die Gesprächsqualität?</target>
+        <target state="translated">Jaka była jakość rozmów?</target>
       </trans-unit>
       <trans-unit id="K4v8gk6" resname="Schreibe uns einen Kommentar">
         <source>Schreibe uns einen Kommentar</source>
-        <target state="needs-translation">Schreibe uns einen Kommentar</target>
+        <target state="translated">Napisz nam komentarz</target>
       </trans-unit>
       <trans-unit id="BdWaIJA" resname="lobby.notVerified">
         <source>lobby.notVerified</source>
