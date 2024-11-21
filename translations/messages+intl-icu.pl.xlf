@@ -1754,19 +1754,19 @@
       </trans-unit>
       <trans-unit id="BdWaIJA" resname="lobby.notVerified">
         <source>lobby.notVerified</source>
-        <target state="needs-translation">Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</target>
+        <target state="translated">Numer telefonu, z którego dzwoni uczestnik, różni się od numeru telefonu, którym został zaproszony na listę uczestników.</target>
       </trans-unit>
       <trans-unit id="NaOBRo8" resname="options.whiteboard">
         <source>options.whiteboard</source>
-        <target state="needs-translation">Whiteboard öffnen</target>
+        <target state="translated">Otwórz tablicę</target>
       </trans-unit>
       <trans-unit id="r3Pll64" resname="lobby.notification.newUser.toLobby">
         <source>lobby.notification.newUser.toLobby</source>
-        <target state="needs-translation">Zur Lobby</target>
+        <target state="translated">Powrót do lobby</target>
       </trans-unit>
       <trans-unit id="iaVU7xq" resname="lobby.endMeeting.ask.participant">
         <source>lobby.endMeeting.ask.participant</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich beenden.</target>
+        <target state="translated">Czy naprawdę chcesz zakończyć tę konferencję?</target>
       </trans-unit>
       <trans-unit id="R5gnTbc" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
@@ -1774,15 +1774,15 @@
       </trans-unit>
       <trans-unit id="yqzy2pq" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
-        <target state="needs-translation">Zeit in Minuten</target>
+        <target state="translated">Czas w minutach</target>
       </trans-unit>
       <trans-unit id="FxwJ60T" resname="stars.lastTen">
         <source>stars.lastTen</source>
-        <target state="needs-translation">Letzte Bewertungen</target>
+        <target state="translated">Najnowsze recenzje</target>
       </trans-unit>
       <trans-unit id="CxMG0Jy" resname="Sie wurden von {name} eingeladen">
         <source>Sie wurden von {name} eingeladen</source>
-        <target state="needs-translation">Sie wurden von {name} eingeladen</target>
+        <target state="translated">Zostałeś zaproszony przez {name}</target>
       </trans-unit>
       <trans-unit id="atGRmKn" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
@@ -1802,87 +1802,87 @@
       </trans-unit>
       <trans-unit id="4Ifc3ZM" resname="callout.message.error">
         <source>callout.message.error</source>
-        <target state="needs-translation">Fehler. Melden Sie sich bei Ihrem Support.</target>
+        <target state="translated">Błąd. Skontaktuj się ze swoim wsparciem.</target>
       </trans-unit>
       <trans-unit id="gp8p9RE" resname="callout.status.occupied">
         <source>callout.status.occupied</source>
-        <target state="needs-translation">Besetzt</target>
+        <target state="translated">Zajęte</target>
       </trans-unit>
       <trans-unit id="l9si2Nu" resname="callout.status.later">
         <source>callout.status.later</source>
-        <target state="needs-translation">Später</target>
+        <target state="translated">Później</target>
       </trans-unit>
       <trans-unit id="ynnNCPU" resname="callout.status.timeout">
         <source>callout.status.timeout</source>
-        <target state="needs-translation">Nicht abgenommen</target>
+        <target state="translated">Nie odebrane</target>
       </trans-unit>
       <trans-unit id="TLVQQe_" resname="callout.info.noMoreRetries">
         <source>callout.info.noMoreRetries</source>
-        <target state="needs-translation">Keine weiteren Anrufversuche möglich</target>
+        <target state="translated">Dalsze próby połączeń nie są możliwe</target>
       </trans-unit>
       <trans-unit id="Nu4i7GR" resname="public.invite.more">
         <source>public.invite.more</source>
-        <target state="needs-translation">Mehr Leute einladen</target>
+        <target state="translated">Zaproś więcej osób</target>
       </trans-unit>
       <trans-unit id="DQis93A" resname="public.invite.text">
         <source>public.invite.text</source>
-        <target state="needs-translation">Teilen Sie den Konferenzlink, um andere einzuladen</target>
+        <target state="translated">Udostępnij link do konferencji, aby zaprosić innych</target>
       </trans-unit>
       <trans-unit id="mSSJ9ZF" resname="public.invite.moreApps">
         <source>public.invite.moreApps</source>
-        <target state="needs-translation">Einladung zur Versammlung teilen</target>
+        <target state="translated">Udostępnij zaproszenie na spotkanie</target>
       </trans-unit>
       <trans-unit id="wll_aF8" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
         <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
-        <target state="needs-translation">Sie wurden zur Teilnahme an einem Meeting eingeladen.</target>
+        <target state="translated">Zostałeś zaproszony na spotkanie.</target>
       </trans-unit>
       <trans-unit id="NPsLMHK" resname="Am Meeting teilnehmen">
         <source>Am Meeting teilnehmen</source>
-        <target state="needs-translation">Am Meeting teilnehmen</target>
+        <target state="translated">Weź udział w spotkaniu</target>
       </trans-unit>
       <trans-unit id="oLWISat" resname="Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie">
         <source>Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</source>
-        <target state="needs-translation">Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</target>
+        <target state="translated">Jeśli zamiast tego chcesz dołączyć przez telefon, wybierz</target>
       </trans-unit>
       <trans-unit id="Q4vKETI" resname="Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden">
         <source>Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</source>
-        <target state="needs-translation">Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</target>
+        <target state="translated">Jeśli połączysz się również za pomocą telefonu stacjonarnego, dołączysz bez podłączania się do systemu audio</target>
       </trans-unit>
       <trans-unit id="yyvvXtv" resname="lobby.message.placeholder">
         <source>lobby.message.placeholder</source>
-        <target state="needs-translation">Hier tippen...</target>
+        <target state="translated">Kliknij tutaj...</target>
       </trans-unit>
       <trans-unit id="k0GIDFb" resname="lobby.message.label">
         <source>lobby.message.label</source>
-        <target state="needs-translation">Nachricht senden</target>
+        <target state="translated">Wyślij wiadomość</target>
       </trans-unit>
       <trans-unit id="0lYBDA." resname="Meeting fertig">
         <source>Meeting fertig</source>
-        <target state="needs-translation">Konferenz beendet</target>
+        <target state="translated">Konferencja dobiegła końca</target>
       </trans-unit>
       <trans-unit id="8IUBkZC" resname="PDF Download">
         <source>PDF Download</source>
-        <target state="needs-translation">PDF Download</target>
+        <target state="translated">Pobierz plik PDF</target>
       </trans-unit>
       <trans-unit id="4aqKuo6" resname="Keine Agenda">
         <source>Keine Agenda</source>
-        <target state="needs-translation">Keine Agenda</target>
+        <target state="translated">Brak agendy</target>
       </trans-unit>
       <trans-unit id="QSfh6jd" resname="Geplant">
         <source>Geplant</source>
-        <target state="needs-translation">Geplant</target>
+        <target state="translated">Zaplanowane</target>
       </trans-unit>
       <trans-unit id="6jMDffo" resname="Durchgeführt">
         <source>Durchgeführt</source>
-        <target state="needs-translation">Durchgeführt</target>
+        <target state="translated">Zrealizowane</target>
       </trans-unit>
       <trans-unit id=".UZxbr_" resname="Jetzt">
         <source>Jetzt</source>
-        <target state="needs-translation">Jetzt</target>
+        <target state="translated">Teraz</target>
       </trans-unit>
       <trans-unit id="sH1AKtV" resname="Meeting Abgeschlossen">
         <source>Meeting Abgeschlossen</source>
-        <target state="needs-translation">Konferenz Abgeschlossen</target>
+        <target state="translated">Konferencja zakończona</target>
       </trans-unit>
       <trans-unit id="HWA6_Cq" resname="Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.">
         <source>Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</source>
@@ -1922,7 +1922,7 @@
       </trans-unit>
       <trans-unit id="YZdPXj7" resname="lobby.participant.tooltip.message">
         <source>lobby.participant.tooltip.message</source>
-        <target state="needs-translation">Nachricht senden</target>
+        <target state="translated">Wyślij wiadomość</target>
       </trans-unit>
       <trans-unit id="LSqMdN4" resname="Hmmmm. Hier lief ziemlich was schief.">
         <source>Hmmmm. Hier lief ziemlich was schief.</source>
