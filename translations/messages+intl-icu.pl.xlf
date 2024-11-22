@@ -1363,11 +1363,11 @@
       </trans-unit>
       <trans-unit id="1akOrlW" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="needs-translation">Alle Wartenden zulassen</target>
+        <target state="translated">Pozwól wszystkim czekać</target>
       </trans-unit>
       <trans-unit id="KpxABb6" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target state="needs-translation">Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.</target>
+        <target state="translated">Wszyscy oczekujący zostali pomyślnie dopuszczeni na konferencję.</target>
       </trans-unit>
       <trans-unit id="JwocwOM" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
@@ -1770,7 +1770,7 @@
       </trans-unit>
       <trans-unit id="R5gnTbc" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
-        <target state="needs-translation">Abwesend anzeigen nach</target>
+        <target state="translated">Pokaż się później</target>
       </trans-unit>
       <trans-unit id="yqzy2pq" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
@@ -1786,19 +1786,19 @@
       </trans-unit>
       <trans-unit id="atGRmKn" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
-        <target state="needs-translation">{name} hat nicht abgenommen</target>
+        <target state="translated">{name} nie odebrał</target>
       </trans-unit>
       <trans-unit id="pRMPsMB" resname="callout.message.occupied">
         <source>callout.message.occupied</source>
-        <target state="needs-translation">Der Anschluss von {name} ist besetzt.</target>
+        <target state="translated">Połączenie {name} jest zajęte.</target>
       </trans-unit>
       <trans-unit id="GXTkaQa" resname="callout.message.later">
         <source>callout.message.later</source>
-        <target state="needs-translation">{name} wird später der Konferenz beitreten.</target>
+        <target state="translated">{name} dołączy do konferencji później.</target>
       </trans-unit>
       <trans-unit id="cRo7nH0" resname="callout.message.refuse">
         <source>callout.message.refuse</source>
-        <target state="needs-translation">{name} hat abgelehnt.</target>
+        <target state="translated">{name} odmówił.</target>
       </trans-unit>
       <trans-unit id="4Ifc3ZM" resname="callout.message.error">
         <source>callout.message.error</source>
@@ -1886,39 +1886,37 @@
       </trans-unit>
       <trans-unit id="HWA6_Cq" resname="Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.">
         <source>Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</source>
-        <target state="needs-translation">Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</target>
+        <target state="translated">W tym e-mailu otrzymasz dokumenty na konferencję: {name} przesłane do Ciebie w formacie PDF.</target>
       </trans-unit>
       <trans-unit id="ut8fFU4" resname="Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:&lt;a&#10;            href=&quot;http://www.adobe.com/products/acrobat/readstep2.html&quot;&gt;http://www.adobe.com/products/acrobat/readstep2.html&lt;/a&gt;&#10;        herunterladen und installieren können.">
         <source>Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:&lt;a
             href="http://www.adobe.com/products/acrobat/readstep2.html"&gt;http://www.adobe.com/products/acrobat/readstep2.html&lt;/a&gt;
         herunterladen und installieren können.</source>
-        <target state="needs-translation"><![CDATA[Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:<a
-            href="http://www.adobe.com/products/acrobat/readstep2.html">http://www.adobe.com/products/acrobat/readstep2.html</a>
-        herunterladen und installieren können.]]></target>
+        <target state="translated"><![CDATA[Do obejrzenia załącznika potrzebny jest program Adobe Reader, który można pobrać pod adresem URL:<a href="http://www.adobe.com/products/acrobat/readstep2.html">http://www.adobe.com/products/acrobat/readstep2.html</a> i zainstalować.]]></target>
       </trans-unit>
       <trans-unit id="h0zTgRw" resname="options.meetingNotes">
         <source>options.meetingNotes</source>
-        <target state="needs-translation">Konferennotizen</target>
+        <target state="translated">Notatki z konferencji</target>
       </trans-unit>
       <trans-unit id="oTGrMe1" resname="lobby.btn.message.to.all">
         <source>lobby.btn.message.to.all</source>
-        <target state="needs-translation">An alle Wartenden</target>
+        <target state="translated">Wszyscy oczekujący</target>
       </trans-unit>
       <trans-unit id="yBfb3pN" resname="lobby.message.failed">
         <source>lobby.message.failed</source>
-        <target state="needs-translation">Bei der Übermittlung der Nachricht gab es einen Fehler.</target>
+        <target state="translated">Wystąpił błąd podczas wysyłania wiadomości.</target>
       </trans-unit>
       <trans-unit id="vBKxsJo" resname="lobby.message.success">
         <source>lobby.message.success</source>
-        <target state="needs-translation">Die Nachricht wurde erfolgreich übermittelt.</target>
+        <target state="translated">Wiadomość została pomyślnie wysłana.</target>
       </trans-unit>
       <trans-unit id="YqcfW5o" resname="lobby.participant.tooltip.acccept">
         <source>lobby.participant.tooltip.acccept</source>
-        <target state="needs-translation">Wartenden zulassen</target>
+        <target state="translated">Pozwól poczekać</target>
       </trans-unit>
       <trans-unit id=".c19CeT" resname="lobby.participant.tooltip.decline">
         <source>lobby.participant.tooltip.decline</source>
-        <target state="needs-translation">Wartenden ablehnen</target>
+        <target state="translated">Odrzuć tych, którzy czekają</target>
       </trans-unit>
       <trans-unit id="YZdPXj7" resname="lobby.participant.tooltip.message">
         <source>lobby.participant.tooltip.message</source>
@@ -1926,23 +1924,23 @@
       </trans-unit>
       <trans-unit id="LSqMdN4" resname="Hmmmm. Hier lief ziemlich was schief.">
         <source>Hmmmm. Hier lief ziemlich was schief.</source>
-        <target state="needs-translation">Hmmmm. Hier lief ziemlich was schief.</target>
+        <target state="translated">Hmmmmm. Coś tutaj poszło bardzo nie tak.</target>
       </trans-unit>
       <trans-unit id="rYXkkzU" resname="Sie haben ein Verhalten gefunden, das uns unbekannt ist.">
         <source>Sie haben ein Verhalten gefunden, das uns unbekannt ist.</source>
-        <target state="needs-translation">Sie haben ein Verhalten gefunden, das uns unbekannt ist.</target>
+        <target state="translated">Znalazłeś nieznane nam zachowanie.</target>
       </trans-unit>
       <trans-unit id="azNCHaZ" resname="Hier gehts zurück">
         <source>Hier gehts zurück</source>
-        <target state="needs-translation">Hier gehts zurück</target>
+        <target state="translated">Wróć tutaj</target>
       </trans-unit>
       <trans-unit id="HoIkyRt" resname="Hier sollten Sie nicht sein.">
         <source>Hier sollten Sie nicht sein.</source>
-        <target state="needs-translation">Hier sollten Sie nicht sein.</target>
+        <target state="translated">Nie powinieneś tu być.</target>
       </trans-unit>
       <trans-unit id="gh_rvF8" resname="Beinahe hätten Sie hinter die Kullissen schauen können.">
         <source>Beinahe hätten Sie hinter die Kullissen schauen können.</source>
-        <target state="needs-translation">Beinahe hätten Sie hinter die Kullissen schauen können.</target>
+        <target state="translated">Prawie można było zajrzeć za kulisy.</target>
       </trans-unit>
       <trans-unit id="4PaSJ9f" resname="Wie hätte nicht gedacht, das jemand so tief gräbt.">
         <source>Wie hätte nicht gedacht, das jemand so tief gräbt.</source>
@@ -1950,19 +1948,19 @@
       </trans-unit>
       <trans-unit id="urBLedD" resname="Hier geht es wieder zurück an die Oberfläche">
         <source>Hier geht es wieder zurück an die Oberfläche</source>
-        <target state="needs-translation">Hier geht es wieder zurück an die Oberfläche</target>
+        <target state="translated">Tutaj wracamy na powierzchnię</target>
       </trans-unit>
       <trans-unit id="9X6J9KD" resname="Sie haben eine Entdeckung gemacht">
         <source>Sie haben eine Entdeckung gemacht</source>
-        <target state="needs-translation">Sie haben eine Entdeckung gemacht</target>
+        <target state="translated">Dokonałeś odkrycia</target>
       </trans-unit>
       <trans-unit id="E3990GY" resname="Sie haben etwas gefunden, das selbst wir noch nicht kannten...">
         <source>Sie haben etwas gefunden, das selbst wir noch nicht kannten...</source>
-        <target state="needs-translation">Sie haben etwas gefunden, das selbst wir noch nicht kannten...</target>
+        <target state="translated">Znaleźli coś, o czym nawet my nie wiedzieliśmy...</target>
       </trans-unit>
       <trans-unit id="3Ccl83k" resname="Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.">
         <source>Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.</source>
-        <target state="needs-translation">Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.</target>
+        <target state="translated">Będziemy śledzić, jak trafiłeś na tę stronę, abyśmy mogli poznać także ten nowy obszar.</target>
       </trans-unit>
       <trans-unit id="qqr4YP9" resname="deputy.message.added">
         <source>deputy.message.added</source>
@@ -2042,23 +2040,23 @@
       </trans-unit>
       <trans-unit id="dHLCFve" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
         <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
-        <target state="needs-translation"><![CDATA[__Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
+        <target state="translated"><![CDATA[__Tworzone z <i class="fa fa-heart"></i> w Lörrach przez H2-Invent]]></target>
       </trans-unit>
       <trans-unit id="z5PYLSd" resname="terms.haeder">
         <source>terms.haeder</source>
-        <target state="needs-translation">Allgemeinen Geschäftsbedingungen</target>
+        <target state="translated">Zasady użytkowania</target>
       </trans-unit>
       <trans-unit id="d.ugRAJ" resname="terms.accept">
         <source>terms.accept</source>
-        <target state="needs-translation">Ich akzeptiere die allgemeinen Geschäftsbedingungen</target>
+        <target state="translated">Akceptuję ogólne warunki handlowe</target>
       </trans-unit>
       <trans-unit id="Ag9J..r" resname="Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.">
         <source>Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.</source>
-        <target state="needs-translation">Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.</target>
+        <target state="translated">Błąd: Twojego adresu e-mail nie ma na liście uczestników! Prosimy o kontakt z moderatorem w celu zaproszenia na konferencję.</target>
       </trans-unit>
       <trans-unit id="yzse.07" resname="Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.">
         <source>Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.</source>
-        <target state="needs-translation">Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.</target>
+        <target state="translated">Ważne: nie przesyłaj dalej tego e-maila. Wszystkie linki w tym e-mailu są spersonalizowane i ważne tylko dla Ciebie. Jeśli chcesz zaprosić inne osoby na tę konferencję, odpowiedz na tę wiadomość, podając adres e-mail tej osoby.</target>
       </trans-unit>
       <trans-unit id="zFEiJq4" resname="deputy.fromLdap.disabled">
         <source>deputy.fromLdap.disabled</source>
