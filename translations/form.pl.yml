@@ -85,7 +85,7 @@ help:
   enforceE2e: W każdej konferencji na tym serwerze Jitsi wymagane jest kompleksowe szyfrowanie.
   allowIp: Do konferencji można dołączyć tylko z określonego adresu IP lub zakresu adresów IP. Zakresy IP należy podać w zapisie x.x.x.x/24. Można wprowadzić wiele adresów IP lub zakresów, oddzielając je przecinkami.
   jitsiEventSyncUrl: Tutaj możesz określić innego administratora Jitsi, który zapisał odpowiednie synchronizacje zdarzeń Jitsi dla żądań SIP. Należy określić tylko podstawowy adres URL. Ta funkcja wymaga wersji Jitsi-admin > 0.77.x
-  disableFilmstripe: Filmstripe in Jitsi deaktivieren
+  disableFilmstripe: Wyłącz pasek z filmami w Jitsi
   disableChat: Dezaktywuj i ukryj czat w Jitsi
   disableWhiteboard: Wyłącz tablicę podczas konferencji
   disableEtherpad: Dezaktywuj Etherpad podczas konferencji
@@ -158,7 +158,7 @@ label:
   allowIp: Adresy IP lub zakres adresów IP, które mogą dołączyć do konferencji
   maxUser: Maksymalna liczba uczestników
   jitsiEventSyncUrl: Adres URL przekaźnika synchronizacji zdarzeń Jitsi
-  disableFilmstripe: Filmstrip deaktivieren
+  disableFilmstripe: Pasek wyłączony
   disableChat: Wyłącz czat
   disableWhiteboard: Wyłącz tablicę
   disableEtherpad: Wyłącz Etherpad
