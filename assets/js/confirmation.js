@@ -10,7 +10,6 @@ function initDirectSend() {
         if (e.target.matches('.directSend')) {
             e.preventDefault();
             var url = e.target.href;
-            var targetUrl = e.target.dataset.url;
             var target = e.target.dataset.target;
 
             fetch(url)
@@ -96,7 +95,6 @@ function initConfirmDirectSendHref() {
         if (e.target.matches('.directSendWithConfirm')) {
             e.preventDefault();
             const url = e.target.href;
-            const targetUrl = e.target.dataset.url;
             const target = e.target.dataset.target;
             const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
 
@@ -111,7 +109,7 @@ function initConfirmDirectSendHref() {
                     confirmButton: 'btn-danger btn',
                     cancelButton:  'btn-outline-primary btn'
                 }
-            }).then((resul) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                     fetch(url)
                         .then(response => response.text())
