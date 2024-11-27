@@ -102,7 +102,6 @@ class ParticipantController extends JitsiAdminController
             }
 
         }
-        dump($invalidMember);
         return new JsonResponse(['invalidMember' => $invalidMember]);
     }
 
