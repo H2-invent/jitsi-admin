@@ -12,10 +12,11 @@ function initDirectSend() {
             e.preventDefault();
             var url = e.target.href;
             var target = e.target.dataset.target;
+            const targetUrl = e.target.dataset.url;
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    reloadPartial(targetUrl,target);
+                    reloadPartial(target,target);
                     if (data.snack) {
                         document.getElementById('snackbar').textContent = data.text;
                         document.getElementById('snackbar').classList.add('show');
@@ -142,6 +143,7 @@ function initConfirmDirectSendHref() {
             e.preventDefault();
             const url = e.target.href;
             const target = e.target.dataset.target;
+            const targetUrl = e.target.dataset.url;
             const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
 
             Swal.fire({
