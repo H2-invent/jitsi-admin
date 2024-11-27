@@ -2156,23 +2156,23 @@
       </trans-unit>
       <trans-unit id="o7tHpZ5" resname="Filter">
         <source>Filter</source>
-        <target state="needs-translation">Filter</target>
+        <target state="translated">Filtr</target>
       </trans-unit>
       <trans-unit id="WJQ_sl9" resname="deputy.mydebutys">
         <source>deputy.mydebutys</source>
-        <target state="needs-translation">Meine Vertreter</target>
+        <target state="translated">Moi przedstawiciele</target>
       </trans-unit>
       <trans-unit id="mKsLYV1" resname="callout.dropdown.empty">
         <source>callout.dropdown.empty</source>
-        <target state="needs-translation">Hier werden die Ergebnisse der Suche angezeigt</target>
+        <target state="translated">Tutaj wyświetlane są wyniki wyszukiwania</target>
       </trans-unit>
       <trans-unit id="qUF4xEe" resname="scheduling.new.schedulingTime.subject">
         <source>scheduling.new.schedulingTime.subject</source>
-        <target state="needs-translation">[Terminplanung] Neuer Terminvorschlag zu einer Terminumfrage hinzugefügt</target>
+        <target state="translated">[Harmonogram spotkań] Dodano nową sugestię spotkania do ankiety dotyczącej spotkań</target>
       </trans-unit>
       <trans-unit id="6ukpo4B" resname="Teilnehmer können bei der Abstimmung mit &quot;Vielleicht&quot; abstimmen.">
         <source>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</source>
-        <target state="needs-translation">Teilnehmer können bei der Abstimmung mit "Unter Vorbehalt" abstimmen.</target>
+        <target state="translated">Podczas głosowania uczestnicy mogą głosować "Warunkowo".</target>
       </trans-unit>
       <trans-unit id="_paPcDq" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
@@ -2180,19 +2180,19 @@
       </trans-unit>
       <trans-unit id=".PiK4px" resname="scheduling.new.schedulingTime.header">
         <source>scheduling.new.schedulingTime.header</source>
-        <target state="needs-translation">Es wurde ein neuer Terminvorschlag hinzugefügt.</target>
+        <target state="translated">Dodano nowy sugerowany termin.</target>
       </trans-unit>
       <trans-unit id="_HqEnl5" resname="Als CSV Downloaden">
         <source>Als CSV Downloaden</source>
-        <target state="needs-translation">Ergebnisse herunterladen (CSV)</target>
+        <target state="translated">Pobierz wyniki (CSV)</target>
       </trans-unit>
       <trans-unit id="8vk8dHY" resname="scheduler.new.schedule">
         <source>scheduler.new.schedule</source>
-        <target state="needs-translation">Weiteren Termin zur Auswahl hinzufügen</target>
+        <target state="translated">Dodaj kolejne spotkanie do wyboru</target>
       </trans-unit>
       <trans-unit id="NvlF9cE" resname="scheduling.new.schedulingTime.text">
         <source>scheduling.new.schedulingTime.text</source>
-        <target state="needs-translation">Es wurde ein neuer Termin in die Liste der Terminvorschläge hinzugefügt. Dieser kann entweder durch den Moderator oder durch einen anderen Eingeladenen hinzugefügt worden sein.</target>
+        <target state="translated">Nowe spotkanie zostało dodane do listy sugerowanych spotkań. Może to zostać dodane przez moderatora lub inną zaproszoną osobę.</target>
       </trans-unit>
       <trans-unit id="bADiBI8" resname="scheduling.completeVoting.subject">
         <source>scheduling.completeVoting.subject</source>
