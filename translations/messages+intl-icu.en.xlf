@@ -2283,7 +2283,7 @@
       </trans-unit>
       <trans-unit id="OvciGc." resname="transfer.room.error">
         <source>transfer.room.error</source>
-        <target state="translated">Error. The conference could not be transferred.</target>
+        <target state="needs-translation">Fehler. Die Konferenz konnte nicht übertragen werden.</target>
       </trans-unit>
       <trans-unit id="vOi9OLP" resname="scheduler.transform">
         <source>scheduler.transform</source>
