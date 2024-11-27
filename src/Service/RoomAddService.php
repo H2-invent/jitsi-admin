@@ -65,7 +65,7 @@ class RoomAddService
             if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
                 $this->createUserParticipant($room, $user);
             } else {
-                throw new \Exception('User can not be c reated');
+                throw new \Exception('User can not be created');
             }
         }
         return  true;

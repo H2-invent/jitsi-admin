@@ -16,7 +16,7 @@ function initDirectSend() {
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    reloadPartial(target,target);
+                    reloadPartial(targetUrl,target);
                     if (data.snack) {
                         document.getElementById('snackbar').textContent = data.text;
                         document.getElementById('snackbar').classList.add('show');
