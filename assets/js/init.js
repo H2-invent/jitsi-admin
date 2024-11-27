@@ -1,20 +1,14 @@
 import $ from 'jquery';
-import {Dropdown, Popover, Modal, Tooltip, Input, initMDB} from "mdb-ui-kit";
+import {Popover, Modal, Input, initMDB} from "mdb-ui-kit";
 
 global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
-import notificationSound from '../sound/notification.mp3'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
 import {initPrettyJson} from './jsonBeautifier';
-
-var audio = new Audio(notificationSound);
-import {TabUtils} from './tabBroadcast';
-import {getCookie} from './cookie';
 import {initLayzLoading} from './lazyLoading'
 import hotkeys from 'hotkeys-js';
-import {initStatus} from "./onlineStatus";
 import {inIframe} from "./moderatorIframe";
 import {initScheduling} from "./scheduling";
 import {initdateTimePicker} from "@holema/h2datetimepicker";
@@ -46,16 +40,16 @@ function initGenerell() {
     }
     openBlankTarget(blankTarget);
     initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
-    hotkeys('1', function (event, handler) {
+    hotkeys('1', function () {
         $('#ex1-tab-1-tab').trigger('click');
     });
-    hotkeys('2', function (event, handler) {
+    hotkeys('2', function () {
         $('#ex1-tab-3-tab').trigger('click');
     });
-    hotkeys('3', function (event, handler) {
+    hotkeys('3', function () {
         $('#ex1-tab-2-tab').trigger('click');
     });
-    hotkeys('a', function (event, handler) {
+    hotkeys('a', function () {
         const myModalEl = document.getElementById('modalAdressbook');
         if (!myModalEl.classList.contains('show')) {
             const modal = new Modal(myModalEl)
@@ -63,7 +57,7 @@ function initGenerell() {
         }
         $('#home-tab').trigger('click');
     });
-    hotkeys('g', function (event, handler) {
+    hotkeys('g', function () {
 
         const myModalEl = document.getElementById('modalAdressbook');
         if (!myModalEl.classList.contains('show')) {
@@ -72,7 +66,7 @@ function initGenerell() {
         }
         $('#profile-tab').trigger('click');
     });
-    hotkeys('n', function (event, handler) {
+    hotkeys('n', function () {
         $('#createNewConference').trigger('click');
     });
     initWebsocket(websocketTopics);
@@ -81,14 +75,14 @@ function initGenerell() {
 
 export function wrapOneSelect(ele) {
     if (ele && !ele.closest('.selectWrapper')) {
-        var eleWrap = document.createElement('div');
+        const eleWrap = document.createElement('div');
         eleWrap.classList.add('selectWrapper');
         wrap(ele, eleWrap);
     }
 }
 
 function wrapSelect() {
-    var select = document.querySelectorAll('select');
+    const select = document.querySelectorAll('select');
     select.forEach(function (ele) {
         wrapOneSelect(ele);
     })
@@ -101,16 +95,25 @@ function wrap(el, wrapper) {
 
 
 function openBlankTarget(targets) {
-    targets.forEach(function (value, i) {
+    targets.forEach(function (value) {
         window.open(value);
     })
 }
 
 function initLoadContent() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('loadContent')) {
-            e.preventDefault();
-            const url = e.target.getAttribute('href');
+        // Suche das nächste übergeordnete <a>-Element (einschließlich des Targets selbst)
+        let target = e.target;
+        while (target && target !== document) {
+            if (target.tagName === 'A') break; // Wenn es ein <a>-Element ist, abbrechen
+            target = target.parentElement; // Gehe im DOM nach oben
+        }
+
+        // Prüfe, ob ein <a>-Element gefunden wurde und ob es die Klasse 'loadContent' hat
+        if (target && target.tagName === 'A' && target.classList.contains('loadContent')) {
+            e.preventDefault(); // Verhindere die Standardaktion des Links
+
+            const url = target.getAttribute('href');
 
             fetch(url)
                 .then(response => {
@@ -140,7 +143,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     initNewModal(e)
 });
 
-function initNewModal(e) {
+function initNewModal() {
 
     initScheduling();
     initMDB({Popover});
@@ -157,8 +160,8 @@ function initNewModal(e) {
 
     initdateTimePicker('.flatpickr');
     initNewRoomModal();
-    $('form').submit(function (event) {
-        var btn = $(this).find('button[type=submit]');
+    $('form').submit(function () {
+        const btn = $(this).find('button[type=submit]');
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled", true)
     });
@@ -184,8 +187,8 @@ function initNewModal(e) {
     initMDB({Input});
 
     if (document.getElementById("lineChart") !== null) {
-        var ctx = document.getElementById("lineChart").getContext('2d');
-        var myChart = new Chart(ctx, {
+        const ctx = document.getElementById("lineChart").getContext('2d');
+         new Chart(ctx, {
             type: 'line',
             data: data,
             options: options
@@ -195,7 +198,7 @@ function initNewModal(e) {
 
 function initCopytoClipboard() {
 
-    var clipboard = new ClipboardJS('.copyLink');
+    new ClipboardJS('.copyLink');
 }
 
 function initServerFeatures() {
@@ -208,8 +211,8 @@ function initServerFeatures() {
 function getMoreFeature(id) {
     if (typeof id !== 'undefined') {
         $.getJSON(moreFeatureUrl, 'id=' + id, function (data) {
-            var feature = data.feature;
-            for (var prop in feature) {
+            const feature = data.feature;
+            for (const prop in feature) {
                 if (feature[prop] == true) {
                     $('#' + prop).removeClass('d-none')
                 } else {
@@ -232,7 +235,7 @@ function initRepeater() {
 }
 
 function initProtip() {
-    var proTip = document.getElementById('proTip')
+    const proTip = document.getElementById('proTip')
 
     if (proTip) {
         proTip.style.transform = 'translateY(-' + (proTip.querySelector('.first-line').clientHeight + 8 + 8) + 'px)';
