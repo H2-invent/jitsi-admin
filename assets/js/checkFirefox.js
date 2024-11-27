@@ -1,4 +1,4 @@
-import * as mdb from "mdb-ui-kit";
+import { Modal, initMDB } from "mdb-ui-kit";
 import ClipboardJS from 'clipboard'
 export function checkFirefox() {
     var clipboard = new ClipboardJS('.copyLink');
@@ -21,7 +21,8 @@ export function checkFirefox() {
             btnSafari.href = 'safari:' + url;
         }
 
-        var modal = new mdb.Modal(noFirefoxModal);
+        const modal = new Modal(noFirefoxModal, options)
+
         modal.show();
     }
 }

@@ -38,7 +38,7 @@ function initStartIframe() {
             e.preventDefault();
             var target = e.target.closest('.startIframe')
             if ("iframetoast" in target.dataset) {
-                setSnackbar(target.dataset.iframetoast, 'danger');
+                setSnackbar(target.dataset.iframetoast, '','danger');
             } else {
                 const isMaximized= getCookie('startMaximized')?getCookie('startMaximized'):1;
                 createIframe(target.href, target.dataset.roomname, isMaximized == 1, true, target.dataset.bordercolor);
@@ -92,8 +92,9 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
     counter += 40;
 
     if (isFullscreen()) {
-        document.exitFullscreen();
-
+        if (document){
+            document.exitFullscreen();
+        }
     }
 }
 function multiframeCheck(random) {

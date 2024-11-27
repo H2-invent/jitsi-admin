@@ -57,6 +57,19 @@ class RoomAddService
         return $falseEmail;
     }
 
+    public function createSingleParticipantAndAddtoRoom($userId, ?User $inviter, Rooms $room)
+    {
+        $invalidEmail = [];
+        $user = $this->createUserFromUserUid($userId,$invalidEmail);
+        if ($user) {
+            if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
+                $this->createUserParticipant($room, $user);
+            } else {
+                throw new \Exception('User can not be created');
+            }
+        }
+        return  true;
+    }
 
     /**
      * Creates a moderator participant from a string.

@@ -10,7 +10,7 @@ import $ from 'jquery';
 
 global.$ = global.jQuery = $;
 
-import * as mdb from 'mdb-ui-kit/'; // lib
+import { Dropdown,Popover,Modal,Tooltip,Collapse, initMDB } from "mdb-ui-kit";
 
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
@@ -120,10 +120,15 @@ $(document).ready(function () {
     window.history.pushState({}, document.title, location);
 });
 $(window).on('load', function () {
-    $('[data-mdb-toggle="popover"]').popover({html: true});
-    $('[data-mdb-toggle="tooltip"]').tooltip('hide');
-    $('.tooltip').remove();
-    $('[data-mdb-toggle="tooltip"]').tooltip();
+    initMDB({ Popover });
+    initMDB({ Dropdown });
+    initMDB({ Modal });
+    initMDB({ Tooltip });
+    initMDB({ Collapse });
+    // $('[data-mdb-toggle="popover"]').popover({html: true});
+    // $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+    // $('.tooltip').remove();
+    // $('[data-mdb-toggle="tooltip"]').tooltip();
 });
 
 $(document).on('click', '.stopCloseDropdown', function (e) {

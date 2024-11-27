@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { Collapse, Ripple, Popover, initMDB } from 'mdb-ui-kit';
 
 import ('jquery-confirm');
 import {setCookie} from './cookie'
@@ -10,6 +11,9 @@ var cancel = "Abbrechen";
 var ok = "OK";
 
 function initNewRoomModal() {
+
+
+
     $('#saveRoom').click(function (e) {
         e.preventDefault();
         var btn = $(this);
@@ -98,47 +102,42 @@ function removeDisableBtn(form) {
 }
 
 function initMoreSettings() {
-    let persistantRoom =  $('#room_persistantRoom');
-    if (typeof persistantRoom!== 'undefined') {
-        if (persistantRoom.prop('checked')) {
-            $('#roomStartForm').collapse('hide')
-            if ($('#room_totalOpenRooms').prop('checked')) {
-                $('#totalOpenRoomsOpenTime').collapse('show');
-            } else {
-                $('#totalOpenRoomsOpenTime').collapse('hide');
-            }
+    initMDB({ Popover,Collapse, Ripple });
+    const persistantRoom =  document.getElementById('room_persistantRoom');
+    const roomStartForm = document.getElementById('roomStartForm');
+
+    if (persistantRoom) {
+        if (persistantRoom.checked) {
+            roomStartForm.classList.add('d-none');
         } else {
-            $('#roomStartForm').collapse('show')
-            $('#totalOpenRoomsOpenTime').collapse('hide');
+            roomStartForm.classList.remove('d-none');
+
         }
-        persistantRoom.change(function () {
-            if ($('#room_persistantRoom').prop('checked')) {
-                $('#roomStartForm').collapse('hide')
-                if ($('#room_totalOpenRooms').prop('checked')) {
-                    $('#totalOpenRoomsOpenTime').collapse('show');
+        persistantRoom.addEventListener('change',(e)=>{
+                if (persistantRoom.checked) {
+                    roomStartForm.classList.add('d-none');
                 } else {
-                    $('#totalOpenRoomsOpenTime').collapse('hide');
+                    roomStartForm.classList.remove('d-none');
                 }
-            } else {
-                $('#roomStartForm').collapse('show')
-                $('#totalOpenRoomsOpenTime').collapse('hide');
-            }
         })
+
     }
-    let publicRoom =  $('.public_checkbox');
-    if (typeof publicRoom !== 'undefined') {
-        if (publicRoom.prop('checked')) {
-            $('#maxParticipants').collapse('show')
+    const publicRoom =  document.getElementById('room_public');
+    const maxParticipantsForm = document.getElementById('maxParticipants');
+    if ( publicRoom) {
+        if (publicRoom.checked) {
+            maxParticipantsForm.classList.remove('d-none');
         } else {
-            $('#maxParticipants').collapse('hide')
+            maxParticipantsForm.classList.add('d-none');
         }
-        publicRoom.change(function () {
-            if (publicRoom.prop('checked')) {
-                $('#maxParticipants').collapse('show')
+        publicRoom.addEventListener('change',(e)=>{
+            if (publicRoom.checked) {
+                maxParticipantsForm.classList.remove('d-none');
             } else {
-                $('#maxParticipants').collapse('hide')
+                maxParticipantsForm.classList.add('d-none');
             }
         })
+
     }
 }
 

@@ -65,6 +65,13 @@ class SubcriptionService
         $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(['room' => $rooms, 'user' => $user]);
 
         if ($subscriber) {
+            $this->notifier->sendNotification(
+                $this->twig->render('email/subscriptionToRoom.html.twig', ['room' => $rooms, 'subsription' => $subscriber]),
+                $this->translator->trans('[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}', ['{name}' => $rooms->getName()]),
+                $user,
+                $rooms->getServer(),
+                $rooms
+            );
             $res['text'] = $this->translator->trans('Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.');
             $res['color'] = 'danger';
         } elseif (in_array($rooms, $user->getRooms()->toArray())) {

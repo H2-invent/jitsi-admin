@@ -593,7 +593,7 @@ strong {
 
   .dropdown-item {
     i {
-      margin-right: 20px;
+      margin-right: 8px;
     }
   }
 }
@@ -683,15 +683,17 @@ strong {
 
 .btn-group {
   border-radius: 5000px;
+
   * {
     border-radius: 0;
   }
 
-  *:first-child{
+  *:first-child {
     border-bottom-left-radius: 5000px !important;
     border-top-left-radius: 5000px !important;
   }
-  *:last-child{
+
+  *:last-child {
     border-bottom-right-radius: 5000px !important;
     border-top-right-radius: 5000px !important;
   }
@@ -717,7 +719,7 @@ strong {
   margin-bottom: 1rem;
 }
 
-[data-mdb-toggle="popover"] {
+[data-mdb-popover-init] {
   cursor: pointer;
 }
 
@@ -752,11 +754,11 @@ strong {
 }
 
 
-
 .floating-tag {
-  &.transparent-bg{
-    background-color: transparent!important;
+  &.transparent-bg {
+    background-color: transparent !important;
   }
+
   display: flex;
   align-content: center;
   justify-content: left;
@@ -767,11 +769,14 @@ strong {
   border-radius: 0 0 15px 0;
   top: 0;
   left: 0;
-  &:not(.forceShow){
+
+  &:not(.forceShow) {
     transform: translateY(-110%);
   }
+
   transition: transform 0.2s ease-in;
-  &.show{
+
+  &.show {
     transform: translateY(0);
   }
 
@@ -859,8 +864,9 @@ strong {
   .navigation {
     display: none;
   }
-  .removeInIframe{
-    display: none!important;
+
+  .removeInIframe {
+    display: none !important;
   }
 }
 
@@ -1047,7 +1053,8 @@ a:hover {
     display: flex;
     justify-content: flex-end;
 
-    [data-mdb-toggle="dropdown"] {
+    #onlineSelector{
+
       white-space: nowrap;
 
       &[aria-expanded="true"] {
@@ -1057,7 +1064,6 @@ a:hover {
       }
 
       &:after {
-
         font-family: "Font Awesome 5 Free";
         margin-left: 0.5em;
         font-weight: 900;
@@ -1444,13 +1450,15 @@ a:hover {
 .overflow-x-auto {
   overflow-x: auto;
 }
-.social_icon_box{
+
+.social_icon_box {
   position: absolute;
   z-index: 5;
   display: flex;
   top: 16px;
   left: 8px;
-  .social_icon{
+
+  .social_icon {
     color: white;
     background-color: rgb(0 0 0 / 62%);
     padding: 4px;
@@ -1502,32 +1510,96 @@ a:hover {
   //border: 2px solid #a8a8a8;
   box-shadow: $card-box-shadow;
   background-color: $cardBackground_bright;
-  &.awayBorder{
+
+  &.awayBorder {
     background-color: scale-color($warning-color, $lightness: 90%);
-    border-width: 2px!important;
+    border-width: 2px !important;
   }
-  &.olineBorder{
+
+  &.olineBorder {
     background-color: scale-color($success-color, $lightness: 90%);
-    border-width: 2px!important;
+    border-width: 2px !important;
   }
 }
-.shadow-3{
+
+.shadow-3 {
   box-shadow: $card-box-shadow-3dp;
 }
 
-.tab-content{
-  .tab-content-watch{
-    &.mat-active{
+.tab-content {
+  .tab-content-watch {
+    &.mat-active {
       min-height: 50vh;
     }
   }
 }
 
-.moderator-sharelink{
+.moderator-sharelink {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.list-group-item{
+
+.list-group-item {
   background-color: unset;
+}
+
+#toast-container {
+  .toast {
+    background-image: none !important;
+    color: black;
+    opacity: 1;
+    border-radius: 8px;
+    padding: 0;
+
+    .toast-close-button {
+      color: black;
+    }
+
+    .toast-title {
+      font-weight: bolder;
+      padding: 10px 16px 10px 16px;
+      font-size: 14px;
+    }
+
+    .toast-message {
+      padding: 16px;
+    }
+  }
+
+  .toast {
+    background-color: #030303;
+  }
+
+  .toast-success {
+    background-color: rgb(220, 241, 228);
+    color: rgb(29, 147, 29);
+    .toast-title{
+      border-bottom: solid rgb(161, 219, 184)  2px;
+    };
+  }
+
+  .toast-error {
+    background-color: rgb(250, 228, 232);
+    color: #950700;
+    .toast-title{
+      border-bottom: solid rgb(241, 183, 193)  2px;
+    };
+  }
+
+  .toast-info {
+    background-color: rgb(229, 244, 248);
+    color: rgb(41, 83, 98);
+    .toast-title{
+      border-bottom: solid rgb(187, 225, 237)  2px;
+    };
+  }
+
+  .toast-warning {
+    background-color: rgb(251, 241, 221);
+    color: rgb(119, 89, 49);
+    .toast-title{
+      border-bottom: solid rgb(244, 217, 164) 2px;
+    };
+  }
 }

@@ -26,7 +26,7 @@
 
                                             >
                                                 <div class="symbol"
-                                                     data-mdb-toggle="tooltip"
+                                                     data-mdb-tooltip-init
                                                      title="{{ 'Ja'|trans }}">
                                                     <i class="fa fa-check"></i>
                                                 </div>
@@ -34,7 +34,7 @@
                                                     {{ scheduleNumber(s,0) }}
                                                     <a
                                                             tabindex="0"
-                                                            data-mdb-toggle="popover"
+                                                             data-mdb-popover-init
                                                             data-mdb-trigger="focus"
                                                             data-mdb-html="true"
                                                             title="{{ 'Abstimmung'|trans }}"
@@ -48,13 +48,13 @@
 
                                             >
                                                 <div class="symbol"
-                                                     data-mdb-toggle="tooltip"
+                                                     data-mdb-tooltip-init
                                                      title="{{ 'Nein'|trans }}">
                                                     <i class="fa fa-times"></i>
                                                 </div>
                                                 <div class="content">
                                                     {{ scheduleNumber(s,1) }}
-                                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                                    <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                                        data-mdb-html="true"
                                                        title="{{ 'Abstimmung'|trans }}"
                                                        data-mdb-content="{% if scheduleUser(s,1)|length >0 %}{% for s in scheduleUser(s,1) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
@@ -68,7 +68,7 @@
 
                                                 >
                                                     <div class="symbol"
-                                                         data-mdb-toggle="tooltip"
+                                                         data-mdb-tooltip-init
                                                          title="{{ 'Vielleicht'|trans }}">
                                                         <i class="fa fa-question"></i>
                                                     </div>
@@ -76,7 +76,7 @@
                                                         {{ scheduleNumber(s,2) }}&nbsp;
                                                         <a
                                                                 tabindex="0"
-                                                                data-mdb-toggle="popover"
+                                                                 data-mdb-popover-init
                                                                 data-mdb-trigger="focus"
                                                                 data-mdb-html="true"
                                                                 title="{{ 'Abstimmung'|trans }}"

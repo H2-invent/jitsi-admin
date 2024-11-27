@@ -37,7 +37,7 @@
                         <span class="callerVerified badge badge-success">{{ 'lobby.verified'|trans }}</span>
                     {% else %}
                         <a class="callerNotVerified badge badge-danger w-100"
-                           data-mdb-toggle="popover"
+                            data-mdb-popover-init
                            data-mdb-trigger="focus"
                            tabindex="0"
                            data-mdb-content="{{ 'lobby.notVerified'|trans }}">
@@ -48,14 +48,14 @@
             </div>
             <div class="buttonHolder buttons mt-lg-2 d-flex align-items-center justify-content-between">
                 <a
-                        data-mdb-toggle="tooltip"
+                        data-mdb-tooltip-init
                         title="{{ 'lobby.participant.tooltip.acccept'|trans }}"
                     class="btn btn-lg btn-floating senddirect btn-success "
                    href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
                     <i class="fas fa-user-check"></i>
                 </a>
                 <a
-                        data-mdb-toggle="tooltip"
+                        data-mdb-tooltip-init
                         title="{{ 'lobby.participant.tooltip.decline'|trans }}"
                         class="btn btn-lg btn-floating directSendWithConfirm btn-danger "
                    data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
@@ -65,14 +65,16 @@
 
 
                     <div class="dropdown dropstart"
-                         data-mdb-toggle="tooltip"
+                         data-mdb-tooltip-init
                          title="{{ 'lobby.participant.tooltip.message'|trans }}"
                     >
                         <a class="btn btn-lg btn-outline-success btn-floating"
 
                            data-mdb-ripple-color="dark"
                            id="dropdownMenu2"
-                           data-mdb-toggle="dropdown" aria-expanded="false">
+                          data-mdb-dropdown-init
+                           data-mdb-dropdown-init
+                           aria-expanded="false">
                             <i class="fas fa-solid fa-paper-plane"></i>
                         </a>
                         {% include('lobby/__lobbyMessageDropdown.html.twig') with {'url':path('lobby_send_message_to_waitinguser'),'uid':wU.uid } %}

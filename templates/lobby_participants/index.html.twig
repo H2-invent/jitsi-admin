@@ -48,7 +48,7 @@
                                 {% set inRoom = inRoom|merge([u.participantName]) %}
                                 <li class="list-group-item lobbyPart d-flex justify-content-between pe-2"
                                     data-status="online"><p class="part-text">{{ u.participantName }}</p>
-                                    <div class="dot with-icon onlineDotJoin" data-mdb-toggle="tooltip"
+                                    <div class="dot with-icon onlineDotJoin" data-mdb-tooltip-init
                                          title="{{ 'lobby.participant.online'|trans }}"></div>
                                 </li>
                             {% endfor %}
@@ -74,7 +74,9 @@
                         <a class="caretdown btn btn-primary  overflow-hidden dropdown-toggle d-flex align-items-md-center w-100"
                            type="button"
                            id="selectWebcamDropdown"
-                           data-mdb-toggle="dropdown" aria-haspopup="true"
+                          data-mdb-dropdown-init
+                           data-mdb-dropdown-init
+                           aria-haspopup="true"
                            aria-expanded="false"><i class="me-2 fa fa-video"></i><span
                                     class="  w-100 text-ellipsis  text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
                         </a>
@@ -85,7 +87,8 @@
                         <div class="btn-group w-100">
                             <a type="button"
                                class="btn btn-primary dropdown-toggle caretdown px-3 d-flex align-items-center"
-                               data-mdb-toggle="dropdown"
+                               data-mdb-dropdown-init
+                              data-mdb-dropdown-init
                                data-mdb-reference="parent"
                                aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-microphone"></i>

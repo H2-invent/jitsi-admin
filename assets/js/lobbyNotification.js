@@ -13,6 +13,7 @@ import {refreshDashboard} from './refreshDashboard';
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
 import {close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
+import { Tooltip, initMDB } from "mdb-ui-kit";
 
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
@@ -39,7 +40,7 @@ function masterNotify(data) {
     } else if (data.type === 'redirect') {
         redirect(data);
     } else if (data.type === 'snackbar') {
-        setSnackbar(data.message, data.color, false,'0x00',data.closeAfter)
+        setSnackbar(data.message,'', data.color, false,'0x00',data.closeAfter)
     } else if (data.type === 'newJitsi') {
         //do nothing. Is handeled somewhere localy
     } else if (data.type === 'refreshDashboard') {
@@ -91,7 +92,7 @@ function addmessage(data) {
 
 function notifymoderator(data) {
     showPush(data);
-    setSnackbar(data.message, data.color, false, data.messageId,data.closeAfter);
+    setSnackbar(data.message,'Lobby', data.color, false, data.messageId,data.closeAfter);
     $('.dragger').addClass('active');
 
     $('#sliderTop')
@@ -124,9 +125,11 @@ function refresh(data) {
         initCircle();
         countParts();
 
-        $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+
         $('.tooltip').remove();
-        $('[data-mdb-toggle="tooltip"]').tooltip();
+
+
+        initMDB({ Tooltip });
         document.querySelectorAll('.form-outline').forEach((formOutline) => {
             new mdb.Input(formOutline).init();
         });
@@ -199,7 +202,7 @@ function callAddhock(data) {
 
         }, 5000)
     }, Math.floor(Math.random() * 50) + 50);
-    setSnackbar(data.message, data.color, true);
+    setSnackbar(data.message,'Lobby', data.color, true);
 }
 
 function stopCallerPlay() {

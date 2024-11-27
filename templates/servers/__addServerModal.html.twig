@@ -28,7 +28,7 @@
             </div>
 
             <div class="mb-2">
-                <a data-mdb-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"
+                <a data-mdb-collapse-init class=" caretdown" href="#collapseExample" aria-expanded="false"
                    aria-controls="collapseExample">
                     {{ 'Erweiterte Optionen'|trans }}
                 </a>
@@ -88,7 +88,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <label for="add_item_link"> {{ 'KeyCloak Gruppen oder E-Maildomains'|trans }}</label>
-                                <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
                                    data-mdb-content="{{ 'Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\\" vorangestellt haben (z.B. \\all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.'|trans }}"><i
                                             class="fa fa-question-circle"></i></a><br>
                                 <ul class="keycloakGroups list-group"
