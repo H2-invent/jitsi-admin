@@ -2264,15 +2264,15 @@
       </trans-unit>
       <trans-unit id="GXDLmKT" resname="room.error.noAccessAllowedToManyParticipants">
         <source>room.error.noAccessAllowedToManyParticipants</source>
-        <target state="needs-translation">Zu viele Teilnehmenden</target>
+        <target state="translated">Zbyt wielu uczestników</target>
       </trans-unit>
       <trans-unit id="ENCDenQ" resname="room.error.noAccessAllowedToManyParticipantsText">
         <source>room.error.noAccessAllowedToManyParticipantsText</source>
-        <target state="needs-translation">Das maximale Limit der Teilnehmenden in dieser Konferenz ist erreicht. Bitte versuchen Sie es zu einem späteren Zeitpukt erneut oder kontaktieren Sie Ihren Helpdesk</target>
+        <target state="translated">Osiągnięto maksymalny limit uczestników tej konferencji. Spróbuj ponownie później lub skontaktuj się z działem pomocy</target>
       </trans-unit>
       <trans-unit id="X1FjSvj" resname="enterprise.settings.header.tags">
         <source>enterprise.settings.header.tags</source>
-        <target state="needs-translation">Auswählbare Kategorien</target>
+        <target state="translated">Kategorie do wyboru</target>
       </trans-unit>
       <trans-unit id="mHxk7jy" resname="options.chat">
         <source>options.chat</source>
@@ -2280,27 +2280,27 @@
       </trans-unit>
       <trans-unit id="0GtfBck" resname="options.toggleFilmstripe">
         <source>options.toggleFilmstripe</source>
-        <target state="needs-translation">Filmstripe ein/ausblenden</target>
+        <target state="translated">Pokaż/ukryj pasek filmowy</target>
       </trans-unit>
       <trans-unit id="frFt3Yz" resname="transfer.room.success">
         <source>transfer.room.success</source>
-        <target state="needs-translation">Konferenz erfolgreich übertragen</target>
+        <target state="translated">Konferencja została pomyślnie przesłana</target>
       </trans-unit>
       <trans-unit id="lq.WUgz" resname="transfer.room.confirm">
         <source>transfer.room.confirm</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich auf diesem Nutzer übertragen? Sie haben anschließend keinen Zugriff mehr auf diese Konferenz, sondern sind nur noch als Teilnehmender in dieser Konferenz.</target>
+        <target state="translated">Czy na pewno chcesz przekazać tę konferencję temu użytkownikowi? Nie będziesz już mieć dostępu do tej konferencji, ale będziesz w niej uczestniczyć jedynie jako uczestnik.</target>
       </trans-unit>
       <trans-unit id="k3gVjyc" resname="transfer.room.start">
         <source>transfer.room.start</source>
-        <target state="needs-translation">Konferenz auf diesem Nutzer übertragen</target>
+        <target state="translated">Przenieś konferencję do tego użytkownika</target>
       </trans-unit>
       <trans-unit id="OvciGc." resname="transfer.room.error">
         <source>transfer.room.error</source>
-        <target state="needs-translation">Fehler. Die Konferenz konnte nicht übertragen werden.</target>
+        <target state="translated">Błąd. Konferencja nie mogła być transmitowana.</target>
       </trans-unit>
       <trans-unit id="vOi9OLP" resname="scheduler.transform">
         <source>scheduler.transform</source>
-        <target state="needs-translation">Umwandeln</target>
+        <target state="translated">Konwertuj</target>
       </trans-unit>
       <trans-unit id="tp1bCrr" resname="confirm.schedule.delete">
         <source>confirm.schedule.delete</source>
@@ -2312,15 +2312,15 @@
       </trans-unit>
       <trans-unit id="tZZ.9zn" resname="scheduler.transform.long">
         <source>scheduler.transform.long</source>
-        <target state="needs-translation">Terminplanung umwandeln</target>
+        <target state="translated">Konwertuj harmonogram</target>
       </trans-unit>
       <trans-unit id="1v88VLX" resname="enterprise.settings.livekit">
         <source>enterprise.settings.livekit</source>
-        <target state="needs-translation">Enterprise Livekit Einstellungen</target>
+        <target state="translated">Ustawienia Enterprise Livekit</target>
       </trans-unit>
       <trans-unit id="EBZKW.9" resname="server.livekit.settings.header">
         <source>Livekit-Servereinstellungen</source>
-        <target state="needs-translation">Livekit-Servereinstellungen</target>
+        <target state="translated">Ustawienia serwera Livekit</target>
       </trans-unit>
     </body>
   </file>
