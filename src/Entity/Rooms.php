@@ -146,6 +146,9 @@ class Rooms
     #[ORM\Column(nullable: true)]
     private ?int $maxUser = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $disableSelfSubscriptionDoubleOptIn = null;
+
 
     public function __construct()
     {
@@ -1053,6 +1056,18 @@ class Rooms
     public function setMaxUser(?int $maxUser): static
     {
         $this->maxUser = $maxUser;
+
+        return $this;
+    }
+
+    public function isDisableSelfSubscriptionDoubleOptIn(): ?bool
+    {
+        return $this->disableSelfSubscriptionDoubleOptIn;
+    }
+
+    public function setDisableSelfSubscriptionDoubleOptIn(?bool $disableSelfSubscriptionDoubleOptIn): static
+    {
+        $this->disableSelfSubscriptionDoubleOptIn = $disableSelfSubscriptionDoubleOptIn;
 
         return $this;
     }

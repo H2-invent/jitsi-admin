@@ -7,27 +7,23 @@ use App\Entity\RoomsUser;
 use App\Entity\Subscriber;
 use App\Entity\User;
 use App\Entity\Waitinglist;
-use App\Repository\RoomsUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class SubcriptionService
 {
-    private $em;
-    private $twig;
-    private $translator;
-    private $notifier;
-    private $userService;
-    private $userCreationService;
-    public function __construct(UserService $userService, NotificationService $notificationService, EntityManagerInterface $entityManager, Environment $environment, TranslatorInterface $translator, UserCreatorService $userCreationService)
+
+    public function __construct(
+        private UserService            $userService,
+        private NotificationService    $notifier,
+        private EntityManagerInterface $em,
+        private Environment            $twig,
+        private TranslatorInterface    $translator,
+        private UserCreatorService     $userCreationService,
+        private ThemeService           $themeService
+    )
     {
-        $this->em = $entityManager;
-        $this->twig = $environment;
-        $this->translator = $translator;
-        $this->notifier = $notificationService;
-        $this->userService = $userService;
-        $this->userCreationService = $userCreationService;
     }
 
     /**
@@ -45,7 +41,7 @@ class SubcriptionService
     public function subscripe($userData, Rooms $rooms, $moderator = false)
     {
         $res = ['error' => true];
-        if ($rooms->getMaxParticipants() && (sizeof($rooms->getUser()->toArray()) >= $rooms->getMaxParticipants()) && $rooms->getWaitinglist() != true) {
+        if ($rooms->getMaxParticipants() && (sizeof($rooms->getUser()->toArray()) >= $rooms->getMaxParticipants()) && !$rooms->getWaitinglist()) {
             $res['text'] = $this->translator->trans('Die maximale Teilnehmeranzahl ist bereits erreicht.');
             $res['color'] = 'danger';
             return $res;
@@ -65,6 +61,15 @@ class SubcriptionService
         $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(['room' => $rooms, 'user' => $user]);
 
         if ($subscriber) {
+            if ($this->themeService->getApplicationProperties('LAF_RESEND_SUBSCRIPTION_DOUBLE_OPTIN_EMAIL') === 1) {
+                $this->notifier->sendNotification(
+                    $this->twig->render('email/subscriptionToRoom.html.twig', ['room' => $rooms, 'subsription' => $subscriber]),
+                    $this->translator->trans('[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}', ['{name}' => $rooms->getName()]),
+                    $user,
+                    $rooms->getServer(),
+                    $rooms
+                );
+            }
             $res['text'] = $this->translator->trans('Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.');
             $res['color'] = 'danger';
         } elseif (in_array($rooms, $user->getRooms()->toArray())) {
@@ -83,13 +88,18 @@ class SubcriptionService
                 $this->em->persist($usersRoom);
                 $this->em->flush();
             }
-            $this->notifier->sendNotification(
-                $this->twig->render('email/subscriptionToRoom.html.twig', ['room' => $rooms, 'subsription' => $subscriber]),
-                $this->translator->trans('[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}', ['{name}' => $rooms->getName()]),
-                $user,
-                $rooms->getServer(),
-                $rooms
-            );
+            if ($rooms->isDisableSelfSubscriptionDoubleOptIn()) {
+                $this->acceptSub($subscriber);
+            } else {
+                $this->notifier->sendNotification(
+                    $this->twig->render('email/subscriptionToRoom.html.twig', ['room' => $rooms, 'subsription' => $subscriber]),
+                    $this->translator->trans('[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}', ['{name}' => $rooms->getName()]),
+                    $user,
+                    $rooms->getServer(),
+                    $rooms
+                );
+            }
+
         }
 
         return $res;
