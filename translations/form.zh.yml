@@ -167,6 +167,7 @@ label:
   liveKitServer: Ich möchte einen Livekit-Server einrichten
   livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
   livekitMiddlewareUrl: Livekitmiddleware-Url
+  disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
