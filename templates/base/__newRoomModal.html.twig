@@ -152,11 +152,12 @@
                                            data-mdb-content="{{ 'Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
                                     </div>
-                                {% endif %}
-                                {% if form.maxParticipants is defined %}
-                                    <div class="col-lg-12">
-                                        <div id="maxParticipants" class=" collapse ">
-                                            <div class="row">
+
+
+                                <div class="col-lg-12">
+                                    <div id="maxParticipants" class=" collapse ">
+                                        <div class="row">
+                                            {% if form.maxParticipants is defined %}
                                                 <div class="col-12 d-flex align-items-start with-help">
                                                     {{ form_row(form.maxParticipants) }}
 
@@ -174,47 +175,61 @@
                                                                     class="fa fa-question-circle"></i></a>
                                                     </div>
                                                 {% endif %}
-                                            </div>
+                                            {% endif %}
+                                            {% if form.disableSelfSubscriptionDoubleOptIn is defined %}
 
-
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                {% if form.showRoomOnJoinpage is defined %}
-                                    <div class="col-12 d-flex align-items-start with-help">
-                                        {{ form_row(form.showRoomOnJoinpage) }}
-
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                                           data-mdb-content="{{ 'Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.'|trans }}"><i
-                                                    class="fa fa-question-circle"></i></a>
-                                    </div>
-                                {% endif %}
-
-                                {% if form.dissallowScreenshareGlobal is defined %}
-                                    <div class="col-lg-12">
-                                        <div id="enableFeateureJwt"
-                                             class="{% if serverchoose is null or not serverchoose.featureEnableByJWT %}d-none{% endif %} row">
                                             <div class="col-12 d-flex align-items-start with-help">
-                                                {{ form_row(form.dissallowScreenshareGlobal) }}
+                                                {{ form_row(form.disableSelfSubscriptionDoubleOptIn) }}
 
                                                 <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                                                   data-mdb-content="{{ 'Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden'|trans }}"><i
+                                                   data-mdb-content="{{ 'Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.'|trans }}"><i
                                                             class="fa fa-question-circle"></i></a>
                                             </div>
+                                        {% endif %}
                                         </div>
                                     </div>
-                                {% endif %}
-                                {% if form.totalOpenRooms is defined %}
-                                    <div class="col-12 d-flex align-items-start with-help">
-                                        {{ form_row(form.totalOpenRooms) }}
 
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                                           data-mdb-content="{{ 'Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.'|trans }}">
-                                            <i class="fa fa-question-circle"></i>
-                                        </a>
-                                    </div>
+
+                                </div>
                                 {% endif %}
-                                {% if form.allowMaybeOption is defined %}
+
+
+
+                            {% if form.showRoomOnJoinpage is defined %}
+                                <div class="col-12 d-flex align-items-start with-help">
+                                    {{ form_row(form.showRoomOnJoinpage) }}
+
+                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                       data-mdb-content="{{ 'Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.'|trans }}"><i
+                                                class="fa fa-question-circle"></i></a>
+                                </div>
+                            {% endif %}
+
+                            {% if form.dissallowScreenshareGlobal is defined %}
+                                <div class="col-lg-12">
+                                    <div id="enableFeateureJwt"
+                                         class="{% if serverchoose is null or not serverchoose.featureEnableByJWT %}d-none{% endif %} row">
+                                        <div class="col-12 d-flex align-items-start with-help">
+                                            {{ form_row(form.dissallowScreenshareGlobal) }}
+
+                                            <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                               data-mdb-content="{{ 'Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden'|trans }}"><i
+                                                        class="fa fa-question-circle"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.totalOpenRooms is defined %}
+                                <div class="col-12 d-flex align-items-start with-help">
+                                    {{ form_row(form.totalOpenRooms) }}
+
+                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                       data-mdb-content="{{ 'Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.'|trans }}">
+                                        <i class="fa fa-question-circle"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if form.allowMaybeOption is defined %}
                                 <div class="col-12 d-flex align-items-start with-help">
                                     {{ form_row(form.allowMaybeOption) }}
 
@@ -223,43 +238,43 @@
                                         <i class="fa fa-question-circle"></i>
                                     </a>
                                 </div>
-                                {% endif %}
-                                {% if form.maxUser is defined %}
-                                    <div class="col-12 d-flex align-items-start with-help">
-                                        {{ form_row(form.maxUser) }}
+                            {% endif %}
+                            {% if form.maxUser is defined %}
+                                <div class="col-12 d-flex align-items-start with-help">
+                                    {{ form_row(form.maxUser) }}
 
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                                           data-mdb-content="{{ 'rooms.help.setmaxparticipantsHardLimit'|trans }}">
-                                            <i class="fa fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                {% endif %}
-                            </div>
+                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                       data-mdb-content="{{ 'rooms.help.setmaxparticipantsHardLimit'|trans }}">
+                                        <i class="fa fa-question-circle"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
                         </div>
-                        {% if laf_roomsMoreOptionsCollapsed == 1 %}
                     </div>
-                    {% endif %}
+                    {% if laf_roomsMoreOptionsCollapsed == 1 %}
                 </div>
-                {{ form_rest(form) }}
-                {{ form_end(form) }}
-            </div>
-                {% else %}
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="alert alert-danger" role="alert">
-                                {% if laf_CreateServerOpenToEveryone == 1 %}
-                                    {{ 'newRoom.error.noServer.addServer'|trans }}
-                                {% else %}
-                                    {{ ''|trans }}
-                                    {% trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
                 {% endif %}
+            </div>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
         </div>
-        <div class="modal-footer">
-            <button href="#" id="saveRoom" class="btn btn-primary">{{ 'Speichern'|trans }}</button>
-        </div>
+        {% else %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-danger" role="alert">
+                        {% if laf_CreateServerOpenToEveryone == 1 %}
+                            {{ 'newRoom.error.noServer.addServer'|trans }}
+                        {% else %}
+                            {{ ''|trans }}
+                            {% trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
+    <div class="modal-footer">
+        <button href="#" id="saveRoom" class="btn btn-primary">{{ 'Speichern'|trans }}</button>
+    </div>
+</div>
 </div>

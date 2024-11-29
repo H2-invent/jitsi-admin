@@ -143,6 +143,11 @@ class RoomType extends AbstractType
             $this->logger->debug('Add A maximal allowed number of participants to the Form');
             $builder->add('maxParticipants', NumberType::class, ['required' => false, 'label' => 'label.maxParticipants', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']]);
         };
+        if ($this->theme->getApplicationProperties(InputSettings::DISABLE_DOUBLE_OPT_IN) == 1) {
+            $this->logger->debug('Add a checkbox to disable double opt in on self subscrition');
+            $builder->add('disableSelfSubscriptionDoubleOptIn', CheckboxType::class, ['required' => false, 'label' => 'label.disableSelfSubscriptionDoubleOptIn', 'translation_domain' => 'form',]);
+        };
+
         if ($this->theme->getApplicationProperties(InputSettings::WAITING_LIST) == 1) {
             $this->logger->debug('Add a waitinglist to the Form');
             $builder->add('waitinglist', CheckboxType::class, ['required' => false, 'label' => 'label.waitinglist', 'translation_domain' => 'form']);
