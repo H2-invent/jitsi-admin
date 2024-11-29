@@ -122,5 +122,7 @@ export function leaveMeeting() {
 }
 
 export function sendViaWebsocket(event, message) {
-    socket.emit(event, message);
+    if (socket){
+        socket.emit(event, message);
+    }
 }
