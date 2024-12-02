@@ -1,46 +1,57 @@
 import $ from "jquery";
 import {close, inIframe} from "./moderatorIframe";
+import formbricks from "@formbricks/js";
 
 export var starShowed = false;
 export var initilized = false;
 
-export function initStarSend() {
+export async function initStarSend() {
     if (starShowed) {
         closeWindow();
     }
     $('#endMeetingModal').removeClass('d-none');
     $('#mainContent').remove();
     $('#frame').remove();
-    if ($('.starSend').length > 0 && initilized == false) {
-        $('.starSend').click(
-            function (e) {
-                e.preventDefault();
-                $('.starSend').remove();
-                var _navigator = {};
-                for (var i in window.navigator) _navigator[i] = navigator[i];
-                const params = {
-                    server: $(this).data('serverid'),
-                    comment: document.querySelector('#comment').value,
-                    star: $(this).data('star'),
-                    browser: JSON.stringify(_navigator)
-                }
-
-                fetch($(this).data('server') + '?' + new URLSearchParams(params), {
-                    method: 'get',
-                    mode: 'no-cors',
-                    headers: {'Content-Type': 'application/json'},
-                }).then(res => {
-                    closeWindow();
-                });
-            }
-        )
-        initilized = true;
+    if (typeof formbricks !== "undefined") {
+        if (typeof window !== "undefined") {
+            await formbricks.init({
+                environmentId: formbricksEnvId,
+                apiHost: formbricksUrl,
+            });
+            formbricks.track('start survey')
+        }
     } else {
-        setTimeout(function () {
-            closeWindow();
-        }, popupWatingTime);
-    }
 
+        if ($('.starSend').length > 0 && initilized == false) {
+            $('.starSend').click(
+                function (e) {
+                    e.preventDefault();
+                    $('.starSend').remove();
+                    var _navigator = {};
+                    for (var i in window.navigator) _navigator[i] = navigator[i];
+                    const params = {
+                        server: $(this).data('serverid'),
+                        comment: document.querySelector('#comment').value,
+                        star: $(this).data('star'),
+                        browser: JSON.stringify(_navigator)
+                    }
+
+                    fetch($(this).data('server') + '?' + new URLSearchParams(params), {
+                        method: 'get',
+                        mode: 'no-cors',
+                        headers: {'Content-Type': 'application/json'},
+                    }).then(res => {
+                        closeWindow();
+                    });
+                }
+            )
+            initilized = true;
+        } else {
+            setTimeout(function () {
+                closeWindow();
+            }, popupWatingTime);
+        }
+    }
     $('#closeWindow').click(function () {
         closeWindow();
     })

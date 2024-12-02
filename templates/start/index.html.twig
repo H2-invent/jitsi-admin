@@ -80,12 +80,11 @@
 </body>
 {% if name is defined and name is not null %}
 
-
+{% if room.server.corsHeader  %}
     <script>
-        if ({{ room.server.corsHeader }}) {
             window.top.location.href = "{{ urlFromRoom(user,room, name,'b') }}";
-        }
     </script>
+{% endif %}
     {% if moderator is not defined %}
         {% set moderator = false %}
     {% endif %}

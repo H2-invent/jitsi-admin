@@ -79,13 +79,11 @@
 </body>
 {% if name is defined and name is not null %}
 
-
+{% if room.server.corsHeader %}
     <script>
-        if ({{ room.server.corsHeader }}) {
-            window.top.location.href = "{{ urlFromRoom(user,room, name,'b') }}";
-        }
+        window.top.location.href = "{{ urlFromRoom(user,room, name,'b') }}";
     </script>
-
+{% endif %}
     <script>
 
         var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name,moderator) }}&secret={{ generateEncryptedSecret(room) }}';
