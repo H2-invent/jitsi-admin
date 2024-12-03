@@ -108,4 +108,5 @@ docReady(function () {
     var clipboard = new ClipboardJS('.copyLink');
     initModeratorIframe(checkClose);
     initWebsocket(websocketTopics);
+    initStartIframe();
 });
