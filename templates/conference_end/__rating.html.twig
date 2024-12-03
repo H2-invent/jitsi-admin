@@ -1,66 +1,66 @@
 <div class="fullscreen d-none" id="endMeetingModal">
-    <div class="card">
+    <div class="card w-50">
 
         <div class="card-header">
             <h5>{{ 'lobby.participant.modal.end.title'|trans }}</h5>
         </div>
         <div class="card-body">
             {% if SURVEY_URL != '' %}
+                <div style="position: relative; height:50dvh; overflow:auto;">
+                    <iframe
+                            src="{{ SURVEY_URL }}?embed=true{% if user is defined and user is not null %}&user_id={{ user.id }}{% endif %}&server_id={{ room.server.id }}&server_url={{ room.server.url|url_encode }}&room_name={{ room.name|url_encode }}"
+                            frameborder="0"
+                            style="position: absolute; left:0; top:0; width:100%; height:100%; border:0;">
+                    </iframe>
+                </div>
                 <script>
-                    const formbricks = true;
-                    const formbricksUrl = '{{ SURVEY_URL }}';
-                    const formbricksEnvId = 'cm441yx5a000811ialekm1298';
+                    const surveyUrl = ' {{ SURVEY_URL }}';
                 </script>
-{#                <div style="position: relative; height:auto; overflow:auto;">#}
-{#                    <iframe#}
-{#                            src="{{ SURVEY_URL }}?embed=true&server_url={{ server.url }}&server_id={{ server.id }}&user_id={{ app.user.id }}&conf_id={{ room.id }}&ja_url={{ app.request.uri }}"#}
-{#                            frameborder="0" style="position: absolute; left:0; top:0; width:100%; height:100%; border:0;">#}
-{#                    </iframe>#}
-{#                </div>#}
-
             {% else %}
-                {% if room.server.starServerId is not same as 0 %}
-                    <div id="remove" class="main">
-                        <h1 class="remove">
-                            {{ 'Wie war die Gesprächsqualität?'|trans }}
-                        </h1>
-                        <textarea class="remove w-100" id="comment" name="comment" rows="2" cols="50"
-                                  placeholder="{{ ' Schreibe uns einen Kommentar'|trans }}"></textarea>
-                        <div class="star-wrapper remove">
-                            <a href="#" class="s1 starSend"
-                               data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
-                               data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
-                               data-star=5>☆</a>
-                            <a href="#" class="s2 starSend"
-                               data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
-                               data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
-                               data-star=4>☆</a>
-                            <a href="#" class="s3 starSend"
-                               data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
-                               data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
-                               data-star=3>☆</a>
-                            <a href="#" class="s4 starSend"
-                               data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
-                               data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
-                               data-star=2>☆</a>
-                            <a href="#" class="s5 starSend"
-                               data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
-                               data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
-                               data-star=1>☆</a>
-                        </div>
+            {% if room.server.starServerId is not same as 0 %}
+                <div id="remove" class="main">
+                    <h1 class="remove">
+                        {{ 'Wie war die Gesprächsqualität?'|trans }}
+                    </h1>
+                    <textarea class="remove w-100" id="comment" name="comment" rows="2" cols="50"
+                              placeholder="{{ ' Schreibe uns einen Kommentar'|trans }}"></textarea>
+                    <div class="star-wrapper remove">
+                        <a href="#" class="s1 starSend"
+                           data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
+                           data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
+                           data-star=5>☆</a>
+                        <a href="#" class="s2 starSend"
+                           data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
+                           data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
+                           data-star=4>☆</a>
+                        <a href="#" class="s3 starSend"
+                           data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
+                           data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
+                           data-star=3>☆</a>
+                        <a href="#" class="s4 starSend"
+                           data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
+                           data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
+                           data-star=2>☆</a>
+                        <a href="#" class="s5 starSend"
+                           data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
+                           data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
+                           data-star=1>☆</a>
                     </div>
-                {% else %}
-                    <p>
-                        {{ 'lobby.participant.modal.end.text'|trans }}
-                    </p>
+                </div>
+            {% else %}
+                <p>
+                    {{ 'lobby.participant.modal.end.text'|trans }}
+                </p>
 
-                {% endif %}
+            {% endif %}
             {% endif %}
         </div>
-        <div class="card-footer">
+        {% if SURVEY_URL == '' %}
+            <div class="card-footer">
 
-            <a id="closeWindow" class="btn btn-block btn-outline-primary">{{ 'text.continue'|trans }}</a>
-        </div>
+                <a id="closeWindow" class="btn btn-block btn-outline-primary">{{ 'text.continue'|trans }}</a>
+            </div>
+        {% endif %}
     </div>
 </div>
 <script>

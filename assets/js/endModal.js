@@ -12,14 +12,17 @@ export async function initStarSend() {
     $('#endMeetingModal').removeClass('d-none');
     $('#mainContent').remove();
     $('#frame').remove();
-    if (typeof formbricks !== "undefined") {
-        if (typeof window !== "undefined") {
-            await formbricks.init({
-                environmentId: formbricksEnvId,
-                apiHost: formbricksUrl,
-            });
-            formbricks.track('start survey')
-        }
+    if (typeof surveyUrl !== "undefined") {
+        window.addEventListener("message", (event) => {
+            // Replace 'https://app.formbricks.com' with the actual web app url
+            if (event.data === "formbricksSurveyCompleted") {
+                setTimeout(()=>{
+                    closeWindow();
+                },3000)
+
+            }
+        });
+
     } else {
 
         if ($('.starSend').length > 0 && initilized == false) {
