@@ -62,3 +62,4 @@ twig:
         laf_lobby_popUpDuration: '%env(laf_lobby_popUpDuration)%'
         WHITEBOARD_URL: '%env(WHITEBOARD_URL)%'
         LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
+        SURVEY_URL: '%env(SURVEY_URL)%'

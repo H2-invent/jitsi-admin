@@ -593,7 +593,7 @@ strong {
 
   .dropdown-item {
     i {
-      margin-right: 8px;
+      margin-right: 20px;
     }
   }
 }
@@ -1542,6 +1542,16 @@ a:hover {
 
 .list-group-item {
   background-color: unset;
+}
+.w-md-75{
+  @media only screen and (min-width: 768px) {
+   width: 75%!important;
+  }
+}
+.w-lg-50{
+  @media only screen and (min-width: 992px) {
+    width: 50%!important;
+  }
 }
 
 #toast-container {
