@@ -22,7 +22,14 @@ import ClipboardJS from "clipboard";
 import {initStartIframe} from "./createConference";
 import {checkFirefox} from "./checkFirefox";
 import {showAppIdSettings, showLiveKitServerSettings} from "./serverSettings";
-import {initCollapse, initDropdown, initInput, initPopover, initTooltip} from "./confirmation";
+import {
+    initCollapse,
+    initDropdown,
+    initInput,
+    initOpenInMultiframe,
+    initPopover,
+    initTooltip
+} from "./confirmation";
 
 function initGenerell() {
     checkFirefox();
@@ -153,6 +160,7 @@ function initNewModal() {
     initPopover();
     initCollapse();
     initInput();
+
     // $('[data-mdb-toggle="popover"]').popover({html: true});
     // $('[data-mdb-toggle="tooltip"]').tooltip('hide');
     //
