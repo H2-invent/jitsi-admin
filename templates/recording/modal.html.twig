@@ -1,0 +1,24 @@
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl " id="atendeeModalScroll">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ 'recordings.modal.title'|trans }}</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="recordingModal">
+            <ul class="list-group" id="recordingModalContent">
+                {% for r in room.uploadedRecordings %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <a target="_blank"
+                           href="{{ path('recording_download',{'filename': r.filename}) }}"><i class="fa fa-download me-2"></i> {{ r.filename }}</a>
+                        <a class="directSendWithConfirm"
+                           href="{{ path('recording_remove',{'filename':r.filename}) }}"
+                        data-target="#recordingModal"
+                        data-url="{{ path('recording_modal',{'room':room.id}) }}#recordingModalContent">{{'Löschen'|trans}} </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+</div>

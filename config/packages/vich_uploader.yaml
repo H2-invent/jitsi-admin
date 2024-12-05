@@ -12,11 +12,18 @@ knp_gaufrette:
         local_adapter:
             local:
                 directory: '%kernel.project_dir%/public/uploads/images'
+        recording_storage:
+            local:
+                directory: '%kernel.project_dir%/var/uploads/recording' # Nicht öffentlich zugänglich
+
 
     filesystems:
         document_fs:
             #adapter: document_adapter
             adapter: local_adapter
+        recording_fs:
+            adapter: recording_storage
+
 
 vich_uploader:
     db_driver: orm

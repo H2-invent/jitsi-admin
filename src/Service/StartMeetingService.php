@@ -75,6 +75,7 @@ class StartMeetingService
         private RoomStatusFrontendService $roomStatusFrontendService,
         private CheckIPService            $checkIPService,
         private CheckMaxUserService       $checkMaxUserService,
+
     )
     {
         $this->roomService = $roomService;
@@ -116,17 +117,20 @@ class StartMeetingService
         $this->type = $t;
         $this->name = $name;
         $this->jigasiService->pingJigasi($room);
-        if ($room && in_array($user, $room->getUser()->toarray())) {
+        if ($room && (in_array($user, $room->getUser()->toarray())|| $this->room->getModerator() === $user)) {
             $this->url = $this->roomService->join($room, $user, $t, $name);
             if (!self::checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
+                $this->logger->debug('This room is closed by time restrictions');
                 return $this->RoomClosed();
             }
 
             if ($room->getLobby()) {
                 return $this->generateLobby();
             }
+            $this->logger->debug('THis room is default and we open the room with no lobby');
             return $this->roomDefault();
         }
+        $this->logger->debug('Room not found or iuser is not in the userList');
         return $this->roomNotFound();
     }
 
