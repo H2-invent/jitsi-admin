@@ -2323,8 +2323,36 @@
         <target state="needs-translation">Enterprise Livekit Einstellungen</target>
       </trans-unit>
       <trans-unit id="EBZKW.9" resname="server.livekit.settings.header">
-        <source>Livekit-Servereinstellungen</source>
+        <source>server.livekit.settings.header</source>
         <target state="needs-translation">Livekit-Servereinstellungen</target>
+      </trans-unit>
+      <trans-unit id="JzXOpBe" resname="Sofort Konferenz">
+        <source>Sofort Konferenz</source>
+        <target state="needs-translation">Sofort Konferenz</target>
+      </trans-unit>
+      <trans-unit id="wbKYh_R" resname="Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.">
+        <source>Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</source>
+        <target state="needs-translation">Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</target>
+      </trans-unit>
+      <trans-unit id="x91IzR8" resname="Aufnahmen">
+        <source>Aufnahmen</source>
+        <target state="needs-translation">Aufnahmen</target>
+      </trans-unit>
+      <trans-unit id="CCvu_YE" resname="recordings.modal.title">
+        <source>recordings.modal.title</source>
+        <target state="needs-translation">Aufnahmen von Videokonferenzen</target>
+      </trans-unit>
+      <trans-unit id="KIFeNTw" resname="recording.email.subject">
+        <source>Es wurde eine neue Aufnahme der Videokonferenz hochgeladen</source>
+        <target state="needs-translation">Es wurde eine neue Aufnahme der Videokonferenz hochgeladen</target>
+      </trans-unit>
+      <trans-unit id="nYMq8lL" resname="recording.email.title">
+        <source>Es wurde eine Aufnahme für die Videokonferenz hochgladen</source>
+        <target state="needs-translation">Es wurde eine Aufnahme für die Videokonferenz hochgladen</target>
+      </trans-unit>
+      <trans-unit id="cG2pjfJ" resname="recording.email.body">
+        <source>Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</source>
+        <target state="needs-translation">Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
       </trans-unit>
     </body>
   </file>
