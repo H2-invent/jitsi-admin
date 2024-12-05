@@ -158,14 +158,16 @@
     }
   }
 
-  &:hover > .iframeFrame {
-    height: 33vh !important;
-    -webkit-transition-delay: 0.25s;
-    -moz-transition-delay: 0.25s;
-    -ms-transition-delay: 0.25s;
-    -o-transition-delay: 0.25s;
-    transition-delay: 0.25s;
+  &:hover{
+    .iframeFrame {
+      height: 33vh !important;
+      -webkit-transition-delay: 0.25s;
+      -moz-transition-delay: 0.25s;
+      -ms-transition-delay: 0.25s;
+      -o-transition-delay: 0.25s;
+      transition-delay: 0.25s;
 
+    }
   }
 
   .iframeFrame {
