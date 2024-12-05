@@ -167,6 +167,7 @@ label:
   liveKitServer: Chcę skonfigurować serwer Livekit
   livekitBackgroundImages: Obrazy tła dla konferencji w formacie JSON
   livekitMiddlewareUrl: Adres URL oprogramowania Livekitmiddleware
+  disableSelfSubscriptionDoubleOptIn: Jeśli rejestrujesz się sam, nie wysyłaj podwójnego e-maila ze zgodą
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
