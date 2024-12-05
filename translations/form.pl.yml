@@ -65,9 +65,9 @@ option:
   octobre: Październik
   novembre: Listopad
   decembre: Grudzień
-  user: Im User Claim
-  root: Im Root Claim
-lable.serverUrl: Konferenz Server URL
+  user: W trybie użytkownika
+  root: W trybie roota
+lable.serverUrl: Adres URL serwera konferencyjnego
 label.appId: ID aplikacji
 label.appSecret: App-Secret
 label.scheduleMeeting: Zaproponuj termin
@@ -77,22 +77,22 @@ help:
   teilnehmerEmailhinzufuegenModerator: Można dodać wiele adresów e-mail jednocześnie. Proszę wpisać każdy adres e-mail w osobnym wierszu.
   serverName: Wpisz nazwę serwera. Jest ona wyświetlana uczestnikom.
   secondEmail: Wszystkie e-maile wysyłane na mój standardowy adres powinny być także wysyłane na te adresy e-mail (oddziel je przecinkami).
-  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
-  jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
+  corsHeader: Jeśli ustawiony jest nagłówek CORS lub frame-ancestor, który nie odwołuje się do tego adresu URL, nie można używać interfejsu API Jitsi-iFrame. Niektóre funkcje mog być niedostępne.
+  jigasiApiUrl: Wprowadź tutaj API Jigasi, którego można użyć do odzyskania numeru PIN konferencji. Zwykle kończy się na "ConferenceMapper”.
   jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
-  jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
-  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
-  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
-  allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
-  jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
-  disableFilmstripe: Filmstripe in Jitsi deaktivieren
-  disableChat: Chat in Jitsi deaktivieren und ausblenden
-  disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
-  disableEtherpad: Etherpad während einer Konferenz deaktivieren
-  prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
-  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
-  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
-  livekitMiddlewareUrl: Hier kann eine Url (https://middlewareUrl.com) angegeben werden. Es wird bisher nur die Meetling Middleware unterstützt. Sollten Sie nicht wissen was Sie hier eintragen sollen, einfach leer lassen damit die voreingestellte Middleware verwendet wird. Wenn Sie eine eigene Middleware verwenden wollen wenden Sie sich an info@h2-invent.com
+  jigasiProsodyDomain: Wpisz tutaj domenę Prosody. Zwykle jest to zgodne ze wzorcem "conference.domain.topdomain".
+  disallowFirefox: Przeglądarka Firefox jest wyłączona. Wszyscy uczestnicy, którzy chcą dołączyć za pomocą przeglądarki Firefox, zostaną przekierowani do przeglądarki opartej na Chromium.
+  enforceE2e: W każdej konferencji na tym serwerze Jitsi wymagane jest kompleksowe szyfrowanie.
+  allowIp: Do konferencji można dołączyć tylko z określonego adresu IP lub zakresu adresów IP. Zakresy IP należy podać w zapisie x.x.x.x/24. Można wprowadzić wiele adresów IP lub zakresów, oddzielając je przecinkami.
+  jitsiEventSyncUrl: Tutaj możesz określić innego administratora Jitsi, który zapisał odpowiednie synchronizacje zdarzeń Jitsi dla żądań SIP. Należy określić tylko podstawowy adres URL. Ta funkcja wymaga wersji Jitsi-admin > 0.77.x
+  disableFilmstripe: Wyłącz pasek z filmami w Jitsi
+  disableChat: Dezaktywuj i ukryj czat w Jitsi
+  disableWhiteboard: Wyłącz tablicę podczas konferencji
+  disableEtherpad: Dezaktywuj Etherpad podczas konferencji
+  prefixRoomUidWithHash: Identyfikator użytkownika konferencji jest poprzedzony numerem serwera i identyfikatorem serwera w postaci skrótu. Można to wykorzystać do rozróżnienia różnych serwerów wirtualnych na serwerze WWW Nginx.
+  liveKitServer: Ten serwer jest serwerem Livekit i jest przeznaczony do korzystania z funkcjonalności Livekit API
+  livekitBackgroundImages: Tablica JSON z obrazami tła, które uczestnicy konferencji mogą wybrać podczas konferencji.
+  livekitMiddlewareUrl: Tutaj można określić adres URL (https://middlewareUrl.com). Jak dotąd obsługiwane jest tylko oprogramowanie pośrednie Meetling. Jeśli nie wiesz, co tu wpisać, po prostu pozostaw to pole puste, aby zostało użyte domyślne oprogramowanie pośredniczące. Jeżeli chcesz skorzystać z własnego oprogramowania pośredniczącego, napisz na adres info@h2-invent.com
 label:
   beitretenApp: Dołącz za pomocą aplikacji Elektron
   beitretenBrowser: Dołącz w przeglądarce
@@ -117,7 +117,7 @@ label:
   dissallowPrivateMessage: Tylko moderator może wysyłać prywatne wiadomości do uczestników.
   puplicRoom: Link zur Einladung freischalten
   showRoomOnJoinpage: Pokaż konferencję na stronie dołączania
-  subscribe: Anmelden
+  subscribe: Logowanie
   vorname: Imię
   nachname: Nazwisko
   maxParticipants: Zezwól na maksymalną liczbę uczestników
@@ -147,26 +147,27 @@ label:
   profilImage: Zdjęcie profilowe (będzie wyświetlane na spotkaniu Jitsi-Meet)
   corsHeader: Nagłówek CORS lub nagłówek ancestor-frame
   tag: Kategoria
-  serverBackgroundImage: Statitisches Hintergrund für die Joinseite
-  jigasiApiUrl: Jigasi ConferenceMapper-URL
-  jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
-  jigasiProsodyDomain: Jigasi Prosody Domain
-  go: Los gehts!
-  moderator: Organisator auswählen
-  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
-  enforceE2e: Ende zu Ende erzwingen
-  allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
-  maxUser: Maximal Anzahl an Teilnehmenden
-  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
-  disableFilmstripe: Filmstrip deaktivieren
-  disableChat: Chat deaktivieren
-  disableWhiteboard: Whiteboard deaktivieren
-  disableEtherpad: Etherpad deaktivieren
-  prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
-  myName: Mein Name
-  liveKitServer: Ich möchte einen Livekit-Server einrichten
-  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
-  livekitMiddlewareUrl: Livekitmiddleware-Url
+  serverBackgroundImage: Tło dla strony dołączania
+  jigasiApiUrl: Adres URL narzędzia ConferenceMapper Jigasi
+  jigasiNumberUrl: Numery telefoniczne Jigasi w formacie JSON
+  jigasiProsodyDomain: Domena Jigasi Prosody
+  go: Zaczynajmy!
+  moderator: Wybierz organizatora
+  disallowFirefox: Przeglądarka Firefox jest wyłączona na serwerze Jitsi-Meet
+  enforceE2e: Wymuś End to End
+  allowIp: Adresy IP lub zakres adresów IP, które mogą dołączyć do konferencji
+  maxUser: Maksymalna liczba uczestników
+  jitsiEventSyncUrl: Adres URL przekaźnika synchronizacji zdarzeń Jitsi
+  disableFilmstripe: Pasek wyłączony
+  disableChat: Wyłącz czat
+  disableWhiteboard: Wyłącz tablicę
+  disableEtherpad: Wyłącz Etherpad
+  prefixRoomUidWithHash: Przedrostek identyfikatora pokoju za pomocą skrótu serwera
+  myName: Moja nazwa
+  liveKitServer: Chcę skonfigurować serwer Livekit
+  livekitBackgroundImages: Obrazy tła dla konferencji w formacie JSON
+  livekitMiddlewareUrl: Adres URL oprogramowania Livekitmiddleware
+  disableSelfSubscriptionDoubleOptIn: Jeśli rejestrujesz się sam, nie wysyłaj podwójnego e-maila ze zgodą
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
