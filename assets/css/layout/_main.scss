@@ -1543,14 +1543,16 @@ a:hover {
 .list-group-item {
   background-color: unset;
 }
-.w-md-75{
+
+.w-md-75 {
   @media only screen and (min-width: 768px) {
-   width: 75%!important;
+    width: 75% !important;
   }
 }
-.w-lg-50{
+
+.w-lg-50 {
   @media only screen and (min-width: 992px) {
-    width: 50%!important;
+    width: 50% !important;
   }
 }
 
@@ -1630,28 +1632,43 @@ a:hover {
     flex-grow: 1;
     width: 100%;
   }
-  .btn{
-    margin-top: 4px!important;
+
+  .btn {
+    margin-top: 4px !important;
+    border-radius: 0;
     // Border rechts für alle außer das letzte Element
     &:not(:last-child) {
       border-right: 1px solid #ccc; // Beispiel: graue Linie
     }
+
+    // Rundung, wenn es nur einen Button gibt
+    &:only-child {
+      border-radius: 5000px;
+    }
   }
+
   // Rundung für das erste a-Tag in der Gruppe
   *:first-child {
     .btn, &.btn {
       width: 100%;
-      border-radius: 5000px 0 0 5000px;
-    }
+      border-bottom-left-radius: 5000px;
+      border-top-left-radius: 5000px;
 
+      &:only-child {
+        border-bottom-right-radius: 5000px;
+        border-top-right-radius: 5000px;
+      }
+    }
   }
+
 
   // Rundung für das letzte a-Tag in der Gruppe
   *:last-child {
     .btn, &.btn {
       width: 100%;
-      border-radius: 0 5000px 5000px 0;
+
+      border-bottom-right-radius: 5000px;
+      border-top-right-radius: 5000px;
     }
   }
-
 }
