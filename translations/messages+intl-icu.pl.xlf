@@ -2324,7 +2324,7 @@
       </trans-unit>
       <trans-unit id="NDvG2yU" resname="Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.">
         <source>Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</source>
-        <target state="needs-translation">Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</target>
+        <target state="translated">Uczestnicy, którzy rejestrują się poprzez samorejestrację, nie muszą najpierw klikać linku w wiadomości e-mail zawierającej podwójną zgodę, aby przejść do listy uczestników.</target>
       </trans-unit>
     </body>
   </file>
