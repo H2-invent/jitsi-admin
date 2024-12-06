@@ -137,6 +137,7 @@ fi
 
 cat <<EOL > .env.local
 MAILER_DSN='smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort'
+DEFAULT_EMAIL=$smtpFrom
 DATABASE_URL='mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin'
 laF_baseUrl='$HTTP_METHOD://$PUBLIC_URL'
 VICH_BASE='$HTTP_METHOD://$PUBLIC_URL'
