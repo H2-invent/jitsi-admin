@@ -36,4 +36,6 @@ RUN chown -R docker:docker var/
 RUN chown -R docker:docker public/uploads/
 RUN chown -R docker:docker public/theme/
 RUN chown -R docker:docker theme/
+RUN mkdir  -p var/uploads/recording/
+RUN chown www-data:www-data var/uploads/recording/
 USER docker
