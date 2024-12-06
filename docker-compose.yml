@@ -145,7 +145,7 @@ services:
       - theme_data:/var/www/html/theme
       - image_upload:/var/www/html/public/uploads/images
       - theme_assests_data:/var/www/html/public/theme
-      - recording_uploads:/var/www/html/var/uploads/recording
+      - recording_uploads:/var/www/html/data/recording
     networks:
       - external
       - internal

@@ -14,7 +14,7 @@ knp_gaufrette:
                 directory: '%kernel.project_dir%/public/uploads/images'
         recording_storage:
             local:
-                directory: '%kernel.project_dir%/var/uploads/recording' # Nicht öffentlich zugänglich
+                directory: '%kernel.project_dir%/data/recording' # Nicht öffentlich zugänglich
 
 
     filesystems:
