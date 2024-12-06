@@ -77,11 +77,20 @@
     <div class="d-flex flex-wrap w-100 m-0">
         {% if input_settings_allow_sheduling == 1 %}
             <div class="col-12 col-md-6 flex-fill mb-3 p-0 pe-md-1 ps-md-1">
-                <a href="{{ path('room_new') }}"
-                   class="loadContent dashboardBtn btn-block btn-primary btn btn-dashboard"
-                   id="createNewConference">
-                    {{ 'Eine Konferenz planen'|trans }}
-                </a>
+                <div class="btnGroup">
+                    <a href="{{ path('room_new') }}"
+                       class="loadContent dashboardBtn btn-block btn-primary btn btn-dashboard"
+                       id="createNewConference">
+                        {{ 'Eine Konferenz planen'|trans }}
+                    </a>
+                    {% if publicServer is defined and publicServer is not null %}
+                        <a href="{{ path('app_create_fast_confernce') }}"
+                           class=" loadInMultiframe dashboardBtn btn-block btn-primary btn btn-dashboard"
+                           id="createNewFastConference">
+                            {{ 'Sofort Konferenz'|trans }}
+                        </a>
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
 
@@ -133,10 +142,10 @@
                         {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
                             {{ 'Morgen'|trans }}
                         {% else %}
-{#                            {{ dump(date[0].startwithTimeZone(app.user)) }}#}
-{#                            {{ dump(date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null)) }}#}
-                                                            {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null) }},
-                                                            {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=null) }}
+                            {#                            {{ dump(date[0].startwithTimeZone(app.user)) }} #}
+                            {#                            {{ dump(date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null)) }} #}
+                            {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null) }},
+                            {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=null) }}
                         {% endif %}
                     </h4>
                     {% for room in date %}

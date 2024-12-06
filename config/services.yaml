@@ -48,6 +48,7 @@ parameters:
     LAF_HIDE_PROFILEPICTURE: '%env(LAF_HIDE_PROFILEPICTURE)%'
     LAF_DEFAULT_ONLINE_STATUS: '%env(LAF_DEFAULT_ONLINE_STATUS)%'
     LAF_FLOATING_TAG_FORCE_SHOW: '%env(LAF_FLOATING_TAG_FORCE_SHOW)%'
+    LAF_RESEND_SUBSCRIPTION_DOUBLE_OPTIN_EMAIL: '%env(LAF_RESEND_SUBSCRIPTION_DOUBLE_OPTIN_EMAIL)%'
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'
@@ -100,6 +101,7 @@ parameters:
     input_settings_allow_timezone_default: '%env(input_settings_allow_timezone_default)%'
     input_settings_allow_tag: '%env(input_settings_allow_tag)%'
     input_settings_allow_edit_tag: '%env(input_settings_allow_edit_tag)%'
+    INPUT_DISABLE_DOUBLE_OPT_IN: '%env(INPUT_DISABLE_DOUBLE_OPT_IN)%'
     DISALLOW_ALL_EMAILS: '%env(DISALLOW_ALL_EMAILS)%'
     start_dropdown_allow_browser: '%env(start_dropdown_allow_browser)%'
     start_dropdown_allow_app: '%env(start_dropdown_allow_app)%'
@@ -144,6 +146,9 @@ parameters:
     LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
 
 services:
+    Gaufrette\FilesystemInterface $recordingFilesystem:
+        alias: gaufrette.recording_fs_filesystem
+
     Twig\Extension\StringLoaderExtension:
 
     # default configuration for services in *this* file

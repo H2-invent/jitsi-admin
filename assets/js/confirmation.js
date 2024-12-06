@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2'
 import {initSearchUser} from './searchUser'
 import {Popover, Tooltip, Collapse, Dropdown, Input, initMDB} from "mdb-ui-kit";
+import {createIframe} from "./createConference";
 
 var title = "Bestätigung";
 var cancel = "Abbrechen";
@@ -16,7 +17,7 @@ function initDirectSend() {
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    reloadPartial(targetUrl,target);
+                    reloadPartial(targetUrl, target);
                     if (data.snack) {
                         document.getElementById('snackbar').textContent = data.text;
                         document.getElementById('snackbar').classList.add('show');
@@ -28,13 +29,14 @@ function initDirectSend() {
     });
 }
 
-export function initAllComponents(){
+export function initAllComponents() {
     initInput();
     initCollapse();
     initDropdown();
     initTooltip();
     initPopover();
 }
+
 export function initPopover() {
     initMDB({Popover});
     const items = document.querySelectorAll('[data-mdb-popover-init]');
@@ -58,6 +60,7 @@ export function initCollapse() {
         Collapse.getOrCreateInstance(item);
     });
 }
+
 export function initInput() {
     initMDB({Input});
     const items = document.querySelectorAll('[data-mdb-input-init]');
@@ -162,7 +165,7 @@ function initConfirmDirectSendHref() {
                     fetch(url)
                         .then(response => response.text())
                         .then(data => {
-                            reloadPartial(targetUrl,target);
+                            reloadPartial(targetUrl, target);
                             if (data.snack) {
                                 document.getElementById('snackbar').textContent = data.text;
                                 document.getElementById('snackbar').classList.add('show');
@@ -183,9 +186,10 @@ function initAjaxSend(titleL, cancelL, okL) {
     initDirectSend();
     initconfirmHref();
     initconfirmLoadOpenPopUp();
+    initOpenInMultiframe();
 }
 
-export function reloadPartial(url,target){
+export function reloadPartial(url, target) {
     fetch(url)
         .then(response => response.text())
         .then(data => {
@@ -216,6 +220,33 @@ export function reloadPartial(url,target){
             }
         });
 }
+
+
+export function initOpenInMultiframe() {
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('loadInMultiframe')) {
+            e.preventDefault();
+
+            var url = e.target.href;
+            return fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.popups) {
+                        data.popups.forEach(function (value) {
+                            createIframe(value.url, value.title);
+                        });
+                    }
+                })
+                .catch(() => {
+                    Swal.showValidationMessage('Request failed');
+                });
+        }
+    });
+
+
+};
+
+
 function hideTooltip() {
     document.querySelectorAll('.tooltip').forEach(el => el.remove());
 }

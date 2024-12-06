@@ -10,8 +10,10 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
+use App\Repository\ServerRepository;
 use App\Service\analytics\AnalyticsService;
 use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
@@ -36,7 +38,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class DashboardController extends JitsiAdminController
 {
-    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private ThemeService $themeService)
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        ParameterBagInterface $parameterBag,
+        private ThemeService $themeService,
+        private ServerRepository $serverRepository,
+    )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
@@ -123,6 +132,8 @@ class DashboardController extends JitsiAdminController
                 'action' => $this->generateUrl('second_email_save'),
             ],
         );
+        $publicServer =  $this->serverRepository->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
+
         $form->remove('profilePicture');
         $res = $this->render(
             'dashboard/index.html.twig',
@@ -139,6 +150,7 @@ class DashboardController extends JitsiAdminController
                 'favorite' => $favorites,
                 'timestamp' => $timestamp,
                 'time' => $timer->getDuration(),
+                'publicServer' => $publicServer
             ],
         );
         $analyticsService->sendAnalytics();

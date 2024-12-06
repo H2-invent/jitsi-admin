@@ -364,18 +364,20 @@ function addInteractions(ele) {
 
 
 function makeBlury(frame) {
-    var frames = document.querySelectorAll('.iframeFrame, #frame');
-    for (var f of frames) {
-        f.insertAdjacentHTML('afterbegin', '<div class="blurryOverlay" style="position: absolute; z-index: 2; height: 100%; width: 100%; opacity: 0.0; background-color: inherit"></div>');
-    }
-    frame.querySelector('.blurryOverlay').style.opacity = 0.5;
+    var content = document.querySelector('.multiframeContent');
+    content.style.visibility='hidden';
+    frame.style.opacity = 0.5;
+    // for (var f of frames) {
+    //     f.insertAdjacentHTML('afterbegin', '<div class="blurryOverlay" style="position: absolute; z-index: 2; height: 100%; width: 100%; opacity: 0.0; background-color: inherit"></div>');
+    // }
+    // frame.querySelector('.blurryOverlay').style.opacity = 0.5;
 }
 
 function removeBlury(frame) {
-    var frames = document.querySelectorAll('.blurryOverlay');
-    for (var f of frames) {
-        f.remove();
-    }
+    var content = document.querySelector('.multiframeContent');
+    content.style.removeProperty('visibility');
+    frame.style.removeProperty('opacity');
+
 }
 
 function checkIfIsMutable(frame) {

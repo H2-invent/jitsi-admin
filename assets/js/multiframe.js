@@ -50,7 +50,8 @@ export class multiframe {
         this.random = md5(urlPath);
         var html =
             `<div id="jitsiadminiframe${this.random}" class="jitsiadminiframe" data-x="${this.xValue}" data-y="${this.yValue}" data-maximal="0" style="border-color: ${this.borderColor}">
-            <div class="headerBar">
+<div class="multiframeContent d-flex h-100 w-100 flex-column">
+        <div class="headerBar">
             <div class="dragger"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>${this.title}</div>
             <div class="actionIconLeft">
             <div class="pauseConference d-none  actionIcon" data-pause="0"><i class="fa-solid fa-pause" data-mdb-tooltip-init  title="Pause"></i></div> 
@@ -64,6 +65,8 @@ export class multiframe {
             <div class="iframeFrame">
             <iframe  class="multiframeIframe"></iframe>
             </div>
+</div>
+    
             </div>`;
         if (document.getElementById('window')) {
             document.getElementById('window').insertAdjacentHTML('beforeend', html);

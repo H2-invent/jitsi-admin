@@ -146,6 +146,15 @@ class Rooms
     #[ORM\Column(nullable: true)]
     private ?int $maxUser = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $disableSelfSubscriptionDoubleOptIn = null;
+
+    /**
+     * @var Collection<int, UploadedRecording>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: UploadedRecording::class, orphanRemoval: true)]
+    private Collection $uploadedRecordings;
+
 
     public function __construct()
     {
@@ -161,6 +170,7 @@ class Rooms
         $this->callerIds = new ArrayCollection();
         $this->calloutSessions = new ArrayCollection();
         $this->logs = new ArrayCollection();
+        $this->uploadedRecordings = new ArrayCollection();
     }
 
     public function normalize(string $propertyName): string
@@ -1053,6 +1063,48 @@ class Rooms
     public function setMaxUser(?int $maxUser): static
     {
         $this->maxUser = $maxUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UploadedRecording>
+     */
+    public function getUploadedRecordings(): Collection
+    {
+        return $this->uploadedRecordings;
+    }
+
+    public function addUploadedRecording(UploadedRecording $uploadedRecording): static
+    {
+        if (!$this->uploadedRecordings->contains($uploadedRecording)) {
+            $this->uploadedRecordings->add($uploadedRecording);
+            $uploadedRecording->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUploadedRecording(UploadedRecording $uploadedRecording): static
+    {
+        if ($this->uploadedRecordings->removeElement($uploadedRecording)) {
+            // set the owning side to null (unless already changed)
+            if ($uploadedRecording->getRoom() === $this) {
+                $uploadedRecording->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isDisableSelfSubscriptionDoubleOptIn(): ?bool
+    {
+        return $this->disableSelfSubscriptionDoubleOptIn;
+    }
+
+    public function setDisableSelfSubscriptionDoubleOptIn(?bool $disableSelfSubscriptionDoubleOptIn): static
+    {
+        $this->disableSelfSubscriptionDoubleOptIn = $disableSelfSubscriptionDoubleOptIn;
 
         return $this;
     }
