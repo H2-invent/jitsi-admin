@@ -144,6 +144,7 @@ parameters:
     JITSI_COMPONENT_SELECTOR_PUBLIC_PATH: '%env(JITSI_COMPONENT_SELECTOR_PUBLIC_PATH)%'
     JITSI_COMPONENT_SELECTOR_JWT_KID: '%env(JITSI_COMPONENT_SELECTOR_JWT_KID)%'
     LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
+    app.scheme: '%env(APP_SCHEME)%'
 
 services:
     Twig\Extension\StringLoaderExtension:
