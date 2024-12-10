@@ -31,6 +31,7 @@ import {
     initTooltip
 } from "./confirmation";
 
+
 function initGenerell() {
     checkFirefox();
     Push.Permission.request();
@@ -78,6 +79,7 @@ function initGenerell() {
     });
     initWebsocket(websocketTopics);
     initLoadContent();
+
 }
 
 export function wrapOneSelect(ele) {

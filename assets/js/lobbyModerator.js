@@ -14,7 +14,7 @@ import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam, toggle, choosenLabelFull} from './cameraUtils'
 import {initAUdio, micId, audioId, echoOff, micLabelFull} from './audioUtils'
 import {JitsiUtils} from './jitsiUtils'
-import {initAjaxSend} from './confirmation'
+import {initAjaxSend, initAllComponents} from './confirmation'
 import {initGenerell} from './init';
 import { leaveMeeting, socket} from "./websocket";
 import {initModeratorIframe, close} from './moderatorIframe'
@@ -265,5 +265,5 @@ initCircle();
 $(document).ready(function () {
     initGenerell();
     initMercure();
-
+    initAllComponents();
 })

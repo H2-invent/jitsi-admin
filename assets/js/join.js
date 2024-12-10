@@ -12,6 +12,7 @@ import * as mdb from 'mdb-ui-kit'; // lib
 import {initSchedulePublic} from './scheduling'
 
 import {initGenerell} from './init';
+import {initAllComponents} from "./confirmation";
 
 
 $(document).ready(function () {
@@ -25,6 +26,7 @@ $(document).ready(function () {
         }, 500);
     checkRoom();
     initSchedulePublic();
+    initAllComponents();
 
 });
 $(window).on('load', function () {

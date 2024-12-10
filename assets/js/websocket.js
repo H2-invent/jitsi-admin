@@ -1,7 +1,7 @@
 import {io} from "socket.io-client";
 import {initStatus, setMyStatus, setStatus, showOnlineUsers} from "./onlineStatus";
 import {masterNotify} from "./lobbyNotification";
-import {inIframe} from "./moderatorIframe";
+import {inIframe, removeListnerFromMEssage} from "./moderatorIframe";
 import {createIframe} from "./createConference";
 import {initAwayTime, setAwayTimeField} from "./enterAwayTime";
 import {setSnackbar, deleteToast} from './myToastr'
@@ -119,6 +119,7 @@ export function enterMeeting() {
 
 export function leaveMeeting() {
     sendViaWebsocket('leaveMeeting',);
+    removeListnerFromMEssage();
 }
 
 export function sendViaWebsocket(event, message) {
