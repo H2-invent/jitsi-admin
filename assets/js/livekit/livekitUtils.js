@@ -106,19 +106,11 @@ export class LivekitUtils {
                 switch (decoded.type) {
                     case 'pauseIframe':
                         this.conferencePaused = true;
-                        this.toggleMic(false);
-                        this.toggleCamera(false);
-                        this.setNameWithPrefix('(Away) ' + displayName);
-                        this.setAvatarUrl('https://www3.h2-invent.com/user_away.webp');
-                        this.setRemoteParticipantsVolume(0);
+                        this.pauseConference('https://www3.h2-invent.com/user_away.webp');
                         break;
                     case 'playIframe':
                         this.conferencePaused = false;
-                        this.toggleMic(this.micLastStateOn);
-                        this.toggleCamera(this.cameraLastStateON);
-                        this.setNameWithPrefix(displayName);
-                        this.setAvatarUrl(avatarUrl)
-                        this.setRemoteParticipantsVolume(100);
+                        this.playConference(avatarUrl);
                         break;
                     // Weitere Fälle können hier hinzugefügt werden
                     default:
@@ -169,6 +161,36 @@ export class LivekitUtils {
             'setAvatarUrl',
             {
                 url: url
+            }
+        )
+    }
+
+    pauseConference(
+        avatarUrl,
+        displayName
+    ) {
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setParticipantStatus',
+            {
+                status: 'away',
+                avatarUrl: avatarUrl,
+                displayName: displayName,
+            }
+        )
+    }
+
+    playConference(
+        avatarUrl,
+        displayName
+    ) {
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setParticipantStatus',
+            {
+                status: 'online',
+                avatarUrl: avatarUrl,
+                displayName: displayName,
             }
         )
     }
@@ -231,6 +253,7 @@ export class LivekitUtils {
         )
         return true;
     }
+
     initChatToggle() {
         this.chatBtn = document.getElementById('externalChat');
         if (!this.chatBtn) {
@@ -239,8 +262,8 @@ export class LivekitUtils {
         this.filterDot = this.chatBtn.querySelector('.filter-dot');
 
         if (this.chatBtn) {
-            this.chatBtn.addEventListener('click', ()=> {
-               this.api.sendMessageToIframe('LocalParticipant','toggleChat');
+            this.chatBtn.addEventListener('click', () => {
+                this.api.sendMessageToIframe('LocalParticipant', 'toggleChat');
                 this.filterDot.classList.add('d-none');
                 this.chatBtn.style.removeProperty('background-color');
                 this.chatBtn.style.removeProperty('color');
