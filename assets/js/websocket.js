@@ -111,7 +111,7 @@ function handleVisibilityChange() {
     } else {
         sendViaWebsocket('stillOnline');
     }
-}+
+}
 
 export function enterMeeting() {
     sendViaWebsocket('enterMeeting');
