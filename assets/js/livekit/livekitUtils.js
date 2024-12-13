@@ -106,11 +106,11 @@ export class LivekitUtils {
                 switch (decoded.type) {
                     case 'pauseIframe':
                         this.conferencePaused = true;
-                        this.pauseConference('https://www3.h2-invent.com/user_away.webp');
+                        this.pauseConference();
                         break;
                     case 'playIframe':
                         this.conferencePaused = false;
-                        this.playConference(avatarUrl);
+                        this.playConference();
                         break;
                     // Weitere Fälle können hier hinzugefügt werden
                     default:
@@ -166,31 +166,23 @@ export class LivekitUtils {
     }
 
     pauseConference(
-        avatarUrl,
-        displayName
     ) {
         this.api.sendMessageToIframe(
             'LocalParticipant',
             'setParticipantStatus',
             {
-                status: 'away',
-                avatarUrl: avatarUrl,
-                displayName: displayName,
+                status: 'away'
             }
         )
     }
 
     playConference(
-        avatarUrl,
-        displayName
     ) {
         this.api.sendMessageToIframe(
             'LocalParticipant',
             'setParticipantStatus',
             {
-                status: 'online',
-                avatarUrl: avatarUrl,
-                displayName: displayName,
+                status: 'online'
             }
         )
     }

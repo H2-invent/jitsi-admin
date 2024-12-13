@@ -210,6 +210,9 @@ class RoomService
         }
         if ($avatar) {
             $payload['context']['user']['avatar'] = $avatar;
+            if ($room->getServer()->isLiveKitServer()){
+                $payload['context']['user']['avatarAway']='https://www3.h2-invent.com/user_away.webp';
+            }
         }
         if ($room->getServer()->getJwtModeratorPosition() == 0) {
             $this->logger->debug('We add moderator rights to the root claim');
