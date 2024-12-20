@@ -106,19 +106,11 @@ export class LivekitUtils {
                 switch (decoded.type) {
                     case 'pauseIframe':
                         this.conferencePaused = true;
-                        this.toggleMic(false);
-                        this.toggleCamera(false);
-                        this.setNameWithPrefix('(Away) ' + displayName);
-                        this.setAvatarUrl('https://www3.h2-invent.com/user_away.webp');
-                        this.setRemoteParticipantsVolume(0);
+                        this.pauseConference();
                         break;
                     case 'playIframe':
                         this.conferencePaused = false;
-                        this.toggleMic(this.micLastStateOn);
-                        this.toggleCamera(this.cameraLastStateON);
-                        this.setNameWithPrefix(displayName);
-                        this.setAvatarUrl(avatarUrl)
-                        this.setRemoteParticipantsVolume(100);
+                        this.playConference();
                         break;
                     // Weitere Fälle können hier hinzugefügt werden
                     default:
@@ -129,7 +121,27 @@ export class LivekitUtils {
         });
     }
 
+    pauseConference(
+    ) {
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setParticipantStatus',
+            {
+                status: 'away'
+            }
+        )
+    }
 
+    playConference(
+    ) {
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setParticipantStatus',
+            {
+                status: 'online'
+            }
+        )
+    }
     changeCamera(cameraLabel) {
         console.log(cameraLabel);
         this.setCameraByLabel(cameraLabel);
