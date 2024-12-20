@@ -1,17 +1,23 @@
 {% extends 'email/base.html.twig' %}
 {% block header %}
-    {{'Einladung zur Videokonferenz'|trans}}
+    {{ 'Einladung zur Videokonferenz'|trans }}
 {% endblock %}
 
 {% block content %}
-    <h4 class="text-center">
-        {{ room.name }}
-    </h4>
-    <b>
-        {{'Hallo!'|trans}}
-    </b>
-    <p>
-        {% trans with {'{url}': room.server.serverName} %}Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.{% endtrans %}
-    </p>
-   {% include 'email/__roomInfo.html.twig' %}
+    {% set theme =  getThemeProperties(room is defined?room:null) %}
+    {% if theme and theme.INVITING_EMAIL_TEMPLATE is defined %}
+        {{ include(template_from_string(theme.INVITING_EMAIL_TEMPLATE)) }}
+    {% else %}
+        <h4 class="text-center">
+            {{ room.name }}
+        </h4>
+        <b>
+            {{ 'Hallo!'|trans }}
+        </b>
+        <p>
+            {% trans with {'{url}': room.server.serverName} %}Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.{% endtrans %}
+        </p>
+
+        {% include 'email/__roomInfo.html.twig' %}
+    {% endif %}
 {% endblock %}

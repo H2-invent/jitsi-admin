@@ -4,6 +4,7 @@ namespace App\Service\caller;
 
 use App\Entity\CallerId;
 use App\Entity\CallerRoom;
+use App\Entity\Repeat;
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
 use Prophecy\Call\Call;
@@ -154,6 +155,33 @@ class CallerPrepareService
     }
 
     /**
+     * Generates callerId for a given Room
+     * @param Rooms $rooms
+     */
+    public function createUserCallerIDforRepeater(Repeat $repeat)
+    {
+        $prototype = $repeat->getPrototyp();
+        foreach ($prototype->getPrototypeUsers() as $pUser) {
+            $callerID = new CallerId();
+            $callerID
+                ->setRoom($prototype)
+                ->setUser($pUser)
+                ->setCreatedAt(new \DateTime())
+                ->setCallerId($this->generateCallerUserId($prototype, 999999));
+            foreach ($repeat->getRooms() as $room){
+                $callerIDClone = clone $callerID;
+                $callerIDClone->setRoom($room)
+                    ->setUser($pUser);
+                $this->em->persist($callerIDClone);
+                $room->addCallerId($callerIDClone);
+            }
+        }
+      $this->em->flush();
+
+    }
+
+
+    /**
      * Creates the unique Caller PIN for this it needs the room to search if no other user has the same caller Id
      * @param Rooms $rooms
      * @param $max
@@ -179,7 +207,11 @@ class CallerPrepareService
      */
     public function checkRandomCallerUserId($random, Rooms $rooms): bool
     {
-        $finding = $this->em->getRepository(CallerId::class)->findOneBy(['callerId' => $random, 'room' => $rooms]);
-        return $finding ? true : false;
+        foreach ($rooms->getCallerIds() as $data) {
+            if ($random === $data->getCallerId()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

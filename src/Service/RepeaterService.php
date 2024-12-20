@@ -105,6 +105,9 @@ class RepeaterService
         foreach ($userAttribute as $data) {
             $repeat->getPrototyp()->addUserAttribute($data);
         }
+        foreach ($repeat->getPrototyp()->getUser() as $data){
+            $repeat->getPrototyp()->addPrototypeUser($data);
+        }
 
         return $repeat;
     }
@@ -602,6 +605,7 @@ class RepeaterService
         foreach ($repeater->getRooms() as $data) {
             $this->em->remove($data);
         }
+
         $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence()) + 1);
         $this->em->persist($repeater);
         $this->em->flush();
@@ -624,7 +628,8 @@ class RepeaterService
     {
         foreach ($repeat->getRooms() as $data) {
             $this->callerUserService->addCallerIdToRoom($data);
-            $this->callerUserService->createUserCallerIDforRoom($data);
+
         }
+        $this->callerUserService->createUserCallerIDforRepeater($repeat);
     }
 }

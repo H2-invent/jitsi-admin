@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2'
 import {initSearchUser} from './searchUser'
-
+import * as mdb from 'mdb-ui-kit'; // lib
 var title = "Bestätigung";
 var cancel = "Abbrechen";
 var ok = "OK";
@@ -11,18 +11,11 @@ function initDirectSend() {
             e.preventDefault();
             var url = e.target.href;
             var target = e.target.dataset.target;
-
+            var targetUrl = e.target.dataset.url;
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    document.querySelector(target).closest('div').innerHTML = data;
-                    hideTooltip();
-                    document.querySelectorAll('[data-mdb-toggle="popover"]').forEach(el => new mdb.Popover(el));
-                    document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => new mdb.Tooltip(el));
-                    if (data.snack) {
-                        document.getElementById('snackbar').textContent = data.text;
-                        document.getElementById('snackbar').classList.add('show');
-                    }
+                    replaceContent(target,targetUrl)
                 });
         }
     });
@@ -97,6 +90,7 @@ function initConfirmDirectSendHref() {
             const url = e.target.href;
             const target = e.target.dataset.target;
             const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
+            const targetUrl = e.target.dataset.url;
 
             Swal.fire({
                 title: 'Sind Sie sicher?',
@@ -112,17 +106,35 @@ function initConfirmDirectSendHref() {
             }).then((result) => {
                 if (result.isConfirmed) {
                     fetch(url)
-                        .then(response => response.text())
-                        .then(data => {
-                            document.querySelector(target).closest('div').innerHTML = data;
-                            initSearchUser();
-                            hideTooltip();
-                            document.querySelectorAll('[data-mdb-toggle="popover"]').forEach(el => new mdb.Popover(el));
-                            document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => new mdb.Tooltip(el));
-                            if (data.snack) {
-                                document.getElementById('snackbar').textContent = data.snack;
-                                document.getElementById('snackbar').classList.add('show');
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
                             }
+                        })
+                        .then(data => {
+                         replaceContent(target,targetUrl)
+                            if (data.snack !== undefined) {
+                                const snackbar = document.getElementById('snackbar');
+                                if (snackbar) {
+                                    snackbar.textContent = data.snack;
+                                    snackbar.classList.add('show');
+                                }
+                            }
+
+                            document.querySelectorAll('[data-mdb-toggle="popover"]').forEach(el => {
+                                new mdb.Popover(el, { html: true });
+                            });
+                            document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => {
+                                const tooltipInstance = mdb.Tooltip.getInstance(el);
+                                if (tooltipInstance) tooltipInstance.hide();
+                            });
+                            document.querySelectorAll('.tooltip').forEach(el => el.remove());
+                            document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => {
+                                new mdb.Tooltip(el);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
                         });
                 }
             });
@@ -144,4 +156,38 @@ function hideTooltip() {
     document.querySelectorAll('.tooltip').forEach(el => el.remove());
 }
 
+function replaceContent(target,targetUrl) {
+    const parentDiv = document.querySelector(target).closest('div');
+    fetch(targetUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const targetContent = doc.querySelector(target);
+
+            if (targetContent) {
+                parentDiv.innerHTML = targetContent.outerHTML;
+            }
+            initSearchUser();
+            hideTooltip();
+            document.querySelectorAll('[data-mdb-toggle="popover"]').forEach(el => {
+                new mdb.Popover(el, { html: true });
+            });
+            document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => {
+                const tooltipInstance = mdb.Tooltip.getInstance(el);
+                if (tooltipInstance) tooltipInstance.hide();
+            });
+            document.querySelectorAll('.tooltip').forEach(el => el.remove());
+            document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => {
+                new mdb.Tooltip(el);
+            });
+        });
+
+
+}
 export {initAjaxSend, initDirectSend, initConfirmDirectSendHref, initconfirmHref};
