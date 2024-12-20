@@ -33,7 +33,14 @@ class MailerService
     private $mailer;
     private $bus;
 
-    public function __construct(MessageBusInterface $bus, LicenseService $licenseService, LoggerInterface $logger, ParameterBagInterface $parameterBag, KernelInterface $kernel, MailerInterface $mailer)
+    public function __construct(
+        MessageBusInterface   $bus,
+        LicenseService        $licenseService,
+        LoggerInterface       $logger,
+        ParameterBagInterface $parameterBag,
+        KernelInterface       $kernel,
+        MailerInterface       $mailer,
+        private ThemeService          $themeService)
     {
 
         $this->parameter = $parameterBag;
@@ -96,12 +103,12 @@ class MailerService
         return $res;
     }
 
-    public function sendPlainMail($to, $suject, $message):void
+    public function sendPlainMail($to, $suject, $message): void
     {
         $server = new Server();
-        $reciever = explode(',',$to);
-        foreach ($reciever as $data){
-            $this->sendViaMailer(to: $data,betreff: $suject, content: $message, server: $server);
+        $reciever = explode(',', $to);
+        foreach ($reciever as $data) {
+            $this->sendViaMailer(to: $data, betreff: $suject, content: $message, server: $server);
         }
 
     }
@@ -143,6 +150,20 @@ class MailerService
         if ($this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') == 1) {
             if ($rooms && $rooms->getModerator()->getEmail() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true) {
                 $message->returnPath($rooms->getModerator()->getEmail());
+            }
+        }
+        if ($rooms){
+            if ($this->themeService->getTheme($rooms)){
+                $emailAddress = '';
+                if ($this->themeService->getTheme($rooms)['EMAIL_SENDER_NAME']){
+                   $emailAddress =$this->themeService->getTheme($rooms)['EMAIL_SENDER_NAME'];
+                }
+                if ($this->themeService->getTheme($rooms)['EMAIL_SENDER_ADDRESS']){
+                    $emailAddress =$emailAddress. '<'.$this->themeService->getTheme($rooms)['EMAIL_SENDER_ADDRESS'].'>';
+                }
+                if ($emailAddress!==''){
+                    $message->from(Address::create($emailAddress));
+                }
             }
         }
 

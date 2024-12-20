@@ -116,7 +116,7 @@ class Rooms
     private $startTimestamp;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $endTimestamp;
-    #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist','remove'])]
     #[Ignore]
     private $callerIds;
     #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'rooms')]
@@ -178,8 +178,9 @@ class Rooms
         return 'org_' . $propertyName;
     }
 
-    #[ORM\PreFlush]
-    public function preUpdate()
+
+
+    public function setUTCTime()
     {
         $timezone = $this->timeZone ? new \DateTimeZone($this->timeZone) : null;
         if ($this->start) {
@@ -220,6 +221,7 @@ class Rooms
     public function setStart(?\DateTimeInterface $start): self
     {
         $this->start = $start;
+        $this->setUTCTime();
         return $this;
     }
 
@@ -231,7 +233,7 @@ class Rooms
     public function setEnddate(?\DateTimeInterface $enddate): self
     {
         $this->enddate = $enddate;
-
+        $this->setUTCTime();
         return $this;
     }
 
@@ -704,7 +706,7 @@ class Rooms
     public function setTimeZone(?string $timeZone): self
     {
         $this->timeZone = $timeZone;
-
+        $this->setUTCTime();
         return $this;
     }
 

@@ -1672,3 +1672,126 @@ a:hover {
     }
   }
 }
+
+#toast-container {
+  .toast {
+    background-image: none !important;
+    color: black;
+    opacity: 1;
+    border-radius: 8px;
+    padding: 0;
+
+    .toast-close-button {
+      color: black;
+    }
+
+    .toast-title {
+      font-weight: bolder;
+      padding: 10px 16px 10px 16px;
+      font-size: 14px;
+    }
+
+    .toast-message {
+      padding: 16px;
+    }
+  }
+
+  .toast {
+    background-color: #030303;
+  }
+
+  .toast-success {
+    background-color: rgb(220, 241, 228);
+    color: rgb(29, 147, 29);
+
+    .toast-title {
+      border-bottom: solid rgb(161, 219, 184) 2px;
+    }
+  ;
+  }
+
+  .toast-error {
+    background-color: rgb(250, 228, 232);
+    color: #950700;
+
+    .toast-title {
+      border-bottom: solid rgb(241, 183, 193) 2px;
+    }
+  ;
+  }
+
+  .toast-info {
+    background-color: rgb(229, 244, 248);
+    color: rgb(41, 83, 98);
+
+    .toast-title {
+      border-bottom: solid rgb(187, 225, 237) 2px;
+    }
+  ;
+  }
+
+  .toast-warning {
+    background-color: rgb(251, 241, 221);
+    color: rgb(119, 89, 49);
+
+    .toast-title {
+      border-bottom: solid rgb(244, 217, 164) 2px;
+    }
+  ;
+  }
+}
+
+.btnGroup {
+  display: flex;
+  width: 100%;
+
+  * {
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  .btn {
+    margin-top: 4px !important;
+    border-radius: 0;
+    // Border rechts für alle außer das letzte Element
+    &:not(:last-child) {
+      border-right: 1px solid #ccc; // Beispiel: graue Linie
+    }
+
+    // Rundung, wenn es nur einen Button gibt
+    &:only-child {
+      border-radius: 5000px;
+    }
+  }
+
+  // Rundung für das erste a-Tag in der Gruppe
+  *:first-child {
+    .btn, &.btn {
+      width: 100%;
+      border-bottom-left-radius: 5000px;
+      border-top-left-radius: 5000px;
+
+      &:only-child {
+        border-bottom-right-radius: 5000px;
+        border-top-right-radius: 5000px;
+      }
+    }
+  }
+
+
+  // Rundung für das letzte a-Tag in der Gruppe
+  *:last-child {
+    .btn, &.btn {
+      width: 100%;
+
+      border-bottom-right-radius: 5000px;
+      border-top-right-radius: 5000px;
+    }
+  }
+}
+.badge{
+  color: black;
+  i{
+    color: black;
+  }
+}

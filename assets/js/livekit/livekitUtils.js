@@ -121,7 +121,27 @@ export class LivekitUtils {
         });
     }
 
+    pauseConference(
+    ) {
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setParticipantStatus',
+            {
+                status: 'away'
+            }
+        )
+    }
 
+    playConference(
+    ) {
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setParticipantStatus',
+            {
+                status: 'online'
+            }
+        )
+    }
     changeCamera(cameraLabel) {
         console.log(cameraLabel);
         this.setCameraByLabel(cameraLabel);

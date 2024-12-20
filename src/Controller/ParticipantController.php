@@ -135,6 +135,8 @@ class ParticipantController extends JitsiAdminController
         return $this->render('room/attendeeModal.twig', ['title' => 'einladen', 'room' => $room]);
     }
 
+
+
     #[Route(path: '/room/participant/resend', name: 'room_user_resend')]
     public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
