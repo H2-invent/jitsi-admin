@@ -41,18 +41,37 @@ class ThemeService
     {
         if ($room) {
             if ($room->getHostUrl()) {
+                // Hole die Host-URL aus dem Raumobjekt und entferne das Protokoll (https:// oder http://)
                 $url = str_replace('https://', '', $room->getHostUrl());
                 $url = str_replace('http://', '', $url);
+
+                // Teile die URL anhand des Doppelpunkts (:), um den Port zu entfernen, falls vorhanden
+                $urlParts = explode(':', $url);
+                if (count($urlParts) > 1) {
+                    // Falls ein Port vorhanden ist, nutze nur den Hostnamen (den Teil vor dem Doppelpunkt)
+                    $url = $urlParts[0];
+                }
             } else {
+                // Falls keine Host-URL vorhanden ist, gib false zurück
                 return false;
             }
         } else {
             if ($this->request && $this->request->getCurrentRequest()) {
+                // Hole die Host-URL aus der aktuellen Anfrage
                 $url = $this->request->getCurrentRequest()->getHost();
+
+                // Teile die URL anhand des Doppelpunkts (:), um den Port zu entfernen, falls vorhanden
+                $urlParts = explode(':', $url);
+                if (count($urlParts) > 1) {
+                    // Falls ein Port vorhanden ist, nutze nur den Hostnamen (den Teil vor dem Doppelpunkt)
+                    $url = $urlParts[0];
+                }
             } else {
+                // Falls keine Anfrage vorhanden ist, gib false zurück
                 return false;
             }
         }
+
 
 
         try {

@@ -103,6 +103,8 @@ class ParticipantController extends JitsiAdminController
         }
         return $this->redirectToRoute('dashboard');
     }
+
+
     #[Route(path: '/room/participant/resend', name: 'room_user_resend')]
     public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
