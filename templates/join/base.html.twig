@@ -74,20 +74,7 @@
                         {% endif %}"
                          alt="Logo"
                          style="height: 50px; width: auto">
-                    <img class="d-block d-sm-none" src="
-                        {% if server is defined and  server is not null and server.logoUrl is not null %}
-                                {{ server.logoUrl }}
-                        {% else %}
-                            {% if theme == false %}
-                                {{ asset('logo_small.png') }}
-                            {% else %}
-                                {{ theme.logo }}
-                            {% endif %}
 
-                        {% endif %}
-                    "
-                         alt="Logo"
-                         style="height: 50px; width: auto">
 
                 </div>
                 {% if theme != false %}
