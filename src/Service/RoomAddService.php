@@ -9,9 +9,14 @@ use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class RoomAddService
 {
@@ -22,7 +27,8 @@ class RoomAddService
         private EntityManagerInterface  $em,
         private UserService             $userService,
         private TranslatorInterface     $translator,
-        private PermissionChangeService $permissionChangeService
+        private PermissionChangeService $permissionChangeService,
+        private LoggerInterface         $logger
     )
     {
     }
@@ -37,22 +43,37 @@ class RoomAddService
      */
     public function createParticipants($input, Rooms $room, ?User $inviter = null)
     {
+        $validUsers = new ArrayCollection();
         $lines = explode("\n", $input);
         $falseEmail = [];
+
         if (!empty($lines)) {
+            $this->logger->debug('Crete new Participants from',$lines);
             foreach ($lines as $line) {
                 $user = $this->createUserFromUserUid($line, $falseEmail);
                 if ($user) {
+                    $validUsers->add($user);
                     if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
                         $this->createUserParticipant($room, $user);
+                        $this->logger->debug('Create new User from email:',[$line]);
                     } else {
                         $falseEmail[] = $line;
                     }
                 }
             }
         }
+        $this->logger->debug('invalid emails:', $falseEmail);
+
         if ($room->getRepeater()) {
+            $this->logger->debug('We add users to a series');
+            //here the users are added to the series. before the users are only added to the prototype room
             $this->repeaterService->addUserRepeat($room->getRepeater());
+            try {
+                $this->repeaterService->sendEMail($room->getRepeater(), 'email/repeaterNew.html.twig', $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt'), ['room' => $room->getRepeater()->getPrototyp()], 'REQUEST', $validUsers->toArray());
+            } catch (\Exception $e) {
+                $this->logger->error($e->getMessage());
+            }
+
         }
         return $falseEmail;
     }
