@@ -489,28 +489,28 @@ class RepeaterService
     public function addUserRepeat(Repeat $repeat)
     {
         $prototype = $repeat->getPrototyp();
-        foreach ($repeat->getRooms() as $data) {
-            foreach ($data->getUser() as $data2) {
+        foreach ($repeat->getRooms() as $data) {//iterate over all rooms in the series
+            foreach ($data->getUser() as $data2) {//remove all participants from al rooms
                 $data->removeUser($data2);
             }
             $this->em->persist($data);
         }
-        foreach ($repeat->getRooms() as $data) {
-            foreach ($prototype->getPrototypeUsers() as $data2) {
+        foreach ($repeat->getRooms() as $data) {// iterate over all rooms
+            foreach ($prototype->getPrototypeUsers() as $data2) {//add all participants from the prototype to all rooms in the series
                 $data->addUser($data2);
             }
             $this->em->persist($data);
         }
-        foreach ($repeat->getRooms() as $data) {
-            foreach ($data->getUserAttributes() as $data2) {
+        foreach ($repeat->getRooms() as $data) {//iterate ovre all rooms in the series
+            foreach ($data->getUserAttributes() as $data2) {//remove all user ttributes like moderatators to all rooms in the series
                 $data->removeUserAttribute($data2);
                 $this->em->remove($data2);
             }
             $this->em->persist($data);
         }
 
-        foreach ($repeat->getRooms() as $data) {
-            foreach ($prototype->getUserAttributes() as $data2) {
+        foreach ($repeat->getRooms() as $data) {//iterate over all rooms in the series
+            foreach ($prototype->getUserAttributes() as $data2) {//add all attributes to the rooms
                 $tmp = clone $data2;
                 $tmp->setRoom($data);
                 $this->em->persist($tmp);
