@@ -690,11 +690,11 @@
       </trans-unit>
       <trans-unit id="LuAIxfq" resname="Neue Einladung zu einer Terminplanung">
         <source>Neue Einladung zu einer Terminplanung</source>
-        <target state="translated">スケジュール投票への新しい招待状</target>
+        <target state="translated">スケジュール調整への新しい招待状</target>
       </trans-unit>
       <trans-unit id="Un0K3kn" resname="Sie haben den Terminplan erfolgreich umgewandelt">
         <source>Sie haben den Terminplan erfolgreich umgewandelt</source>
-        <target state="translated">スケジュールが正常に変換されました。</target>
+        <target state="translated">スケジュール調整が正常に登録されました。</target>
       </trans-unit>
       <trans-unit id="HSegMSH" resname="Fehler, Bitte Laden Sie die Seite neu">
         <source>Fehler, Bitte Laden Sie die Seite neu</source>
@@ -706,27 +706,27 @@
       </trans-unit>
       <trans-unit id="oB0r.dK" resname="Terminplaner">
         <source>Terminplaner</source>
-        <target state="needs-translation">Terminplaner</target>
+        <target state="translated">スケジューラ</target>
       </trans-unit>
       <trans-unit id="jJwkoAg" resname="Einladung zu einer Terminplanung">
         <source>Einladung zu einer Terminplanung</source>
-        <target state="needs-translation">Einladung zu einer Terminplanung</target>
+        <target state="translated">スケジュール調整への招待</target>
       </trans-unit>
       <trans-unit id="Eb8Nq57" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
         <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="needs-translation">Sie wurden soeben zu einer Terminplanung eingeladen. Bitte suchen Sie über den beigefügten Link ganz einfach Ihren Wunschtermin aus.</target>
+        <target state="translated">あなたは今、スケジュール調整に招待されました。添付のリンクからご希望の日付を選択してください。</target>
       </trans-unit>
       <trans-unit id="vjMI4Tr" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
-        <target state="needs-translation">Bitte klicken Sie hier, um über den optimalen Termin abzustimmen.</target>
+        <target state="translated">ここをクリックして最適な日付に投票してください。</target>
       </trans-unit>
       <trans-unit id="Cw3SIVV" resname="Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.">
         <source>Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</source>
-        <target state="needs-translation">Bitte fügen Sie hier die Termine zur Auswahl hinzu. Die Teilnehmenden können dann ihren Favoriten auswählen und Sie können diesen Termin komfortabel übernehmen.</target>
+        <target state="translated">ここに選択する日付を追加してください。参加者はお気に入りを選択できるので、あなたはこの予定を簡単に引き継ぐことができます。</target>
       </trans-unit>
       <trans-unit id="2S4PPPa" resname="Zeit wählen">
         <source>Zeit wählen</source>
-        <target state="needs-translation">Uhrzeit wählen</target>
+        <target state="translated">時刻を選択</target>
       </trans-unit>
       <trans-unit id="HQnrEtK" resname="Hier zur Abstimmung">
         <source>Hier zur Abstimmung</source>
@@ -734,11 +734,11 @@
       </trans-unit>
       <trans-unit id="zolK4Sa" resname="Ja">
         <source>Ja</source>
-        <target state="needs-translation">Ja</target>
+        <target state="translated">はい</target>
       </trans-unit>
       <trans-unit id="dlK6Yc7" resname="Nein">
         <source>Nein</source>
-        <target state="needs-translation">Nein</target>
+        <target state="translated">いいえ</target>
       </trans-unit>
       <trans-unit id="I8wtD50" resname="Vielleicht">
         <source>Vielleicht</source>
@@ -746,23 +746,23 @@
       </trans-unit>
       <trans-unit id="UN_yfpB" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
-        <target state="needs-translation">Welcher Termin passt Ihnen am besten?</target>
+        <target state="translated">どの日付が最適ですか?</target>
       </trans-unit>
       <trans-unit id="ktYua4g" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln?">
         <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</source>
-        <target state="needs-translation">Möchten Sie diese Terminplanung in eine Konferenz umwandeln?</target>
+        <target state="translated">このスケジュールを会議に反映しますか？</target>
       </trans-unit>
       <trans-unit id="CMvtX4i" resname="Terminplanung erfolgreich bearbeitet">
         <source>Terminplanung erfolgreich bearbeitet</source>
-        <target state="needs-translation">Terminplanung erfolgreich bearbeitet</target>
+        <target state="translated">スケジュール調整が正常に処理されました</target>
       </trans-unit>
       <trans-unit id="im4bQNt" resname="Terminplanung bearbeiten">
         <source>Terminplanung bearbeiten</source>
-        <target state="needs-translation">Terminplanung bearbeiten</target>
+        <target state="translated">スケジュールの編集</target>
       </trans-unit>
       <trans-unit id="0b9aj18" resname="Terminplanung erfolgreich erstellt">
         <source>Terminplanung erfolgreich erstellt</source>
-        <target state="needs-translation">Terminplanung erfolgreich erstellt</target>
+        <target state="translated">スケジュール調整が正常に作成されました</target>
       </trans-unit>
       <trans-unit id="OjlXuY3" resname="Neue Terminplanung erstellen">
         <source>Neue Terminplanung erstellen</source>
