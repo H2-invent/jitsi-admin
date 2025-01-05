@@ -600,7 +600,7 @@
       </trans-unit>
       <trans-unit id="7X.Gs6V" resname="Enterprise bis">
         <source>Enterprise bis</source>
-        <target state="needs-translation">Enterprise bis</target>
+        <target state="translated">エンタープライズ</target>
       </trans-unit>
       <trans-unit id="8oJeBOq" resname="Logo">
         <source>Logo</source>
