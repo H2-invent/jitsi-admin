@@ -116,42 +116,42 @@ label:
   dissallowScreenshareGlobal: 主催者のみが画面共有できます。
   dissallowPrivateMessage: 主催者のみがプライベートメッセージの送信を許可できます。
   puplicRoom: Link zur Einladung freischalten
-  showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
-  subscribe: Anmelden
-  vorname: Vorname
-  nachname: Nachname
+  showRoomOnJoinpage: 参加ページに会議を表示する
+  subscribe: ログイン
+  vorname: 名
+  nachname: 姓
   maxParticipants: 自己登録の最大登録数
   waitinglist: 待機リストを有効にする
   teilnehmerEmailhinzufuegenModerator: 新しいモデレーターの電子メールアドレスを入力してください
   weekday: 平日
   repetation: 日後に終了
   repeatType: 繰り返しの種類
-  repeaterDays: Nach x Tagen wiederholen
-  repeaterWeeks: Nach x Wochen wiederholen
-  repeatMontly: Nach x Monaten wiederholen
-  repeatYearly: Nach x Jahren wiederholen
-  montlyRelativeNumber: Wie vielter Wochentag im Monat
+  repeaterDays: 日後に繰り返す
+  repeaterWeeks: 週後に繰り返す
+  repeatMontly: ヶ月後に繰り返す
+  repeatYearly: 年後に繰り返す
+  montlyRelativeNumber: 月の何曜日か
   montlyRelativeWeekday: 平日
-  montlyRelativeMonth: Monat
-  repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
-  persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
-  totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
-  totalOpenRoomsOpenTime: Raumöffnungszeit
-  addressgroupName: Gruppenname
-  addressgroupMember: Gruppenmitglieder auswählen
-  jwtModeratorPosition: Moderatorposition im JWT Token
-  timezone: Zeitzone
-  serverName: Servername
-  lobby: Lobby aktivieren
-  secondEmail: CC-E-Mail
-  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
-  corsHeader: CORS-Header oder frame-ancestor Header
-  tag: Kategorie
-  serverBackgroundImage: Statitisches Hintergrund für die Joinseite
+  montlyRelativeMonth: 月
+  repeaterRemoved: このアイテムのみを編集します
+  persistantRoom: このカンファレンスには日付はありませんが、いつでも参加できます。
+  totalOpenRooms: 参加者リストを非アクティブ化し、リンク経由で参加します。
+  totalOpenRoomsOpenTime: ルームのオープン時間
+  addressgroupName: グループ名
+  addressgroupMember: メンバー
+  jwtModeratorPosition: JWTトークンのモデレータ
+  timezone: タイムゾーン
+  serverName: サーバ名
+  lobby: ロビーを有効化
+  secondEmail: メールのCC
+  profilImage: プロフィール写真(会議で表示する)
+  corsHeader: CORSもしくは親フレームヘッダー
+  tag: カテゴリ
+  serverBackgroundImage: サーバ背景
   jigasiApiUrl: Jigasi ConferenceMapper-URL
-  jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
-  jigasiProsodyDomain: Jigasi Prosody Domain
-  go: Los gehts!
+  jigasiNumberUrl: Jigasi ダイヤルイン番号（JSONフォーマット）
+  jigasiProsodyDomain: Jigasi prosody のドメイン
+  go: さあ、始めましょう！
   moderator: オーガナイザーを選択
   disallowFirefox: Jitsi-MeetサーバーでFirefoxが無効化されています。
   enforceE2e: End to End を強制する。
@@ -171,7 +171,7 @@ label:
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
-  none: Keine
+  none: なし
 placeholder:
-  maxParticipants: Keine Begrenzung
-  chooseTime: Zeit und Datum auswählen
+  maxParticipants: 制限なし
+  chooseTime: 日付と時間を選択
