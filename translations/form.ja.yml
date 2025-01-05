@@ -112,26 +112,26 @@ label:
   agenda: この会議の要約 (マークダウン)
   staticBackgroundColor: 参加ページに画像の代わりに静的な色を表示します。
   schowStaticBackgroundColor: 参加ページに画像の代わりに静的な色を表示します。
-  featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
-  dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
+  featureEnalbeByJwt: JWT プラグインによる機能の有効化がサーバーで有効になっています。
+  dissallowScreenshareGlobal: 主催者のみが画面共有できます。
+  dissallowPrivateMessage: 主催者のみがプライベートメッセージの送信を許可できます。
   puplicRoom: Link zur Einladung freischalten
   showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
   subscribe: Anmelden
   vorname: Vorname
   nachname: Nachname
   maxParticipants: 自己登録の最大登録数
-  waitinglist: Warteliste aktivieren
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
-  weekday: Wochentag
-  repetation: Endet nach x Terminen
-  repeatType: Serienmuster
+  waitinglist: 待機リストを有効にする
+  teilnehmerEmailhinzufuegenModerator: 新しいモデレーターの電子メールアドレスを入力してください
+  weekday: 平日
+  repetation: 日後に終了
+  repeatType: 繰り返しの種類
   repeaterDays: Nach x Tagen wiederholen
   repeaterWeeks: Nach x Wochen wiederholen
   repeatMontly: Nach x Monaten wiederholen
   repeatYearly: Nach x Jahren wiederholen
   montlyRelativeNumber: Wie vielter Wochentag im Monat
-  montlyRelativeWeekday: Wochentag
+  montlyRelativeWeekday: 平日
   montlyRelativeMonth: Monat
   repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
   persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
