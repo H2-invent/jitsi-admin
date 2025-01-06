@@ -92,7 +92,7 @@ help:
   prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
   liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
   livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
-  livekitMiddlewareUrl: Hier kann eine Url (https://middlewareUrl.com) angegeben werden. Es wird bisher nur die Meetling Middleware unterstützt. Sollten Sie nicht wissen was Sie hier eintragen sollen, einfach leer lassen damit die voreingestellte Middleware verwendet wird. Wenn Sie eine eigene Middleware verwenden wollen wenden Sie sich an info@h2-invent.com
+  livekitMiddlewareUrl: ここで Url (https://middlewareUrl.com) を指定できます。これまでのところ、Meetling ミドルウェアのみがサポートされています。ここに何を入力すればよいかわからない場合は、デフォルトのミドルウェアが使用されるように、空白のままにしておきます。独自のミドルウェアを使用したい場合は、info@h2-invent.com までお問い合わせください。
 label:
   beitretenApp: Elektron アプリで参加する
   beitretenBrowser: 参加する。
@@ -115,7 +115,7 @@ label:
   featureEnalbeByJwt: JWT プラグインによる機能の有効化がサーバーで有効になっています。
   dissallowScreenshareGlobal: 主催者のみが画面共有できます。
   dissallowPrivateMessage: 主催者のみがプライベートメッセージの送信を許可できます。
-  puplicRoom: Link zur Einladung freischalten
+  puplicRoom: 自己登録を有効にする
   showRoomOnJoinpage: 参加ページに会議を表示する
   subscribe: ログイン
   vorname: 名
@@ -163,10 +163,10 @@ label:
   disableWhiteboard: ホワイトボードを無効にする。
   disableEtherpad: イーサパッドを無効にする。
   prefixRoomUidWithHash: ルームUidとサーバーハッシュプレフィックス
-  myName: Mein Name
-  liveKitServer: Ich möchte einen Livekit-Server einrichten
-  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
-  livekitMiddlewareUrl: Livekitmiddleware-Url
+  myName: 名前
+  liveKitServer: Livekit serverをセットアップする
+  livekitBackgroundImages: JSON形式の会議用背景画像
+  livekitMiddlewareUrl: LivekitミドルウェアのURL
   disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
 choice:
   tls: STARTTLS/TLS
