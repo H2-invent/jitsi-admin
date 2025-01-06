@@ -140,6 +140,12 @@ class User extends BaseUser
     #[ORM\Column(nullable: true)]
     private ?bool $isSipVideoUser = null;
 
+    /**
+     * @var Collection<int, Recording>
+     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Recording::class)]
+    private Collection $livekitRecordings;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -168,6 +174,7 @@ class User extends BaseUser
         $this->AdressbookFavorites = new ArrayCollection();
         $this->isAdressbookFavoriteFrom = new ArrayCollection();
         $this->schedulingTimesCreated = new ArrayCollection();
+        $this->livekitRecordings = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -1275,6 +1282,36 @@ class User extends BaseUser
     public function getIsSipVideoUser(): ?bool
     {
         return $this->isSipVideoUser;
+    }
+
+    /**
+     * @return Collection<int, Recording>
+     */
+    public function getLivekitRecordings(): Collection
+    {
+        return $this->livekitRecordings;
+    }
+
+    public function addLivekitRecording(Recording $livekitRecording): static
+    {
+        if (!$this->livekitRecordings->contains($livekitRecording)) {
+            $this->livekitRecordings->add($livekitRecording);
+            $livekitRecording->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivekitRecording(Recording $livekitRecording): static
+    {
+        if ($this->livekitRecordings->removeElement($livekitRecording)) {
+            // set the owning side to null (unless already changed)
+            if ($livekitRecording->getUser() === $this) {
+                $livekitRecording->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 

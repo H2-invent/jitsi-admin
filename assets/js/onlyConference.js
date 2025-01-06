@@ -12,6 +12,7 @@ import {ConferenceUtils} from "./ConferenceUtils";
 import {JitsiUtils} from "./jitsiUtils";
 import {choosenLabelFull, toggle} from "./cameraUtils";
 import {micLabelFull} from "./audioUtils";
+import {initAjaxSend, initAllComponents} from "./confirmation";
 
 let api = new JitsiUtils(options, domain, null, null, null, null)
 
@@ -55,4 +56,6 @@ docReady(function () {
     initModeratorIframe();
     initWebsocket(websocketTopics);
     checkFirefox();
+    initAllComponents();
+    initAjaxSend();
 });
