@@ -2356,23 +2356,23 @@
       </trans-unit>
       <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
         <source>recording.startSpeakerOnly</source>
-        <target>__recording.startSpeakerOnly</target>
+        <target>Nur Sprecher </target>
       </trans-unit>
       <trans-unit id="SH.E5Cd" resname="recording.startSpeaker">
         <source>recording.startSpeaker</source>
-        <target>__recording.startSpeaker</target>
+        <target>Sprecher Zentral </target>
       </trans-unit>
       <trans-unit id="yhh1FGG" resname="recording.startGrid">
         <source>recording.startGrid</source>
-        <target>__recording.startGrid</target>
+        <target>Alle Teilnehmer in Kacheln</target>
       </trans-unit>
       <trans-unit id="yDlEa9I" resname="options.startRecording">
         <source>options.startRecording</source>
-        <target>__options.startRecording</target>
+        <target>Aufnahme starten</target>
       </trans-unit>
       <trans-unit id="JJHW_6u" resname="options.stopRecording">
         <source>options.stopRecording</source>
-        <target>__options.stopRecording</target>
+        <target>Aufnahme beenden</target>
       </trans-unit>
     </body>
   </file>
