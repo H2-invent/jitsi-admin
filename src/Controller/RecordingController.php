@@ -130,7 +130,7 @@ class RecordingController extends AbstractController
             }
             // Überprüfen, ob die Datei existiert
             if (!$this->filesystem->has( $uploadedFile->getFilename())) {
-                dump($uploadedFile);
+
                 return new JsonResponse(['error' => 'File not found in path'], Response::HTTP_NOT_FOUND);
             }
 

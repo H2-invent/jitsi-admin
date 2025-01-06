@@ -57,7 +57,7 @@ class StartEgressController extends AbstractController
                         ->setFilepath( '/out/'.$recording->getUid().'.mp4')
                         ->setFileType(EncodedFileType::MP4)
                 );
-                dump($res);
+
                 $recording->setRecordingId($res->getEgressId());
                 $this->entityManager->persist($recording);
                 $this->entityManager->flush();
