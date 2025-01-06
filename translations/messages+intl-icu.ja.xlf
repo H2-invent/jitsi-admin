@@ -430,7 +430,7 @@
       </trans-unit>
       <trans-unit id="FYtMWHT" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
-        <target state="needs-translation">Powered by Jitsi Admin, die Open-Source-Jitsi-Planer-Software</target>
+        <target state="translated">Powered by Jitsi Admin, the Open Source Jitsi Planner Software</target>
       </trans-unit>
       <trans-unit id="d92lGhM" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
@@ -438,7 +438,7 @@
       </trans-unit>
       <trans-unit id="OuxWv7Q" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde soeben geändert. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
+        <target state="translated">イベント「 {name} 」は変更されました。添付のリンクよりウェブ会議に参加できます。</target>
       </trans-unit>
       <trans-unit id="h4Y9XrI" resname="Erinnerung zur Videokonferenz">
         <source>Erinnerung zur Videokonferenz</source>
@@ -446,11 +446,11 @@
       </trans-unit>
       <trans-unit id="Yhq8Qwv" resname="Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Die Videokonferenz auf dem Server {url} beginnt gleich. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
+        <target state="translated">サーバー {url} でビデオ会議が開始されます。添付のリンクを使用してビデオ会議に簡単に参加できます。</target>
       </trans-unit>
       <trans-unit id="rWDJRwr" resname="Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.">
         <source>Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</target>
+        <target state="translated">イベント {name} はキャンセルされたため、カレンダーから削除できます。</target>
       </trans-unit>
       <trans-unit id="CrfIDQx" resname="Datum">
         <source>Datum</source>
@@ -462,7 +462,7 @@
       </trans-unit>
       <trans-unit id="igPBE0L" resname="Geplante Dauer">
         <source>Geplante Dauer</source>
-        <target state="needs-translation">Geplante Dauer</target>
+        <target state="translated">予定されている期間</target>
       </trans-unit>
       <trans-unit id="np50Sa5" resname="Minuten">
         <source>Minuten</source>
@@ -470,49 +470,48 @@
       </trans-unit>
       <trans-unit id="0YNVynf" resname="Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen">
         <source>Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen</source>
-        <target state="needs-translation">Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen.</target>
+        <target state="translated">Jitsi Server {url} の会議を管理できます。</target>
       </trans-unit>
       <trans-unit id="ItIVAzb" resname="Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie&#10;        sich einen Benutzer.">
         <source>Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
         sich einen Benutzer.</source>
-        <target state="needs-translation">Sie können nun Jitsi-Meet-Konferenzen über Jitsi Admin verwalten. Loggen Sie sich bitte ein oder erstellen Sie
-        sich einen Benutzer.</target>
+        <target state="translated">Jitsi Meetの会議をJitsi-Adminで管理できます。ここからログインするか登録してください。</target>
       </trans-unit>
       <trans-unit id="4f3WEva" resname="Login">
         <source>Login</source>
-        <target state="needs-translation">Log-in</target>
+        <target state="translated">ログイン</target>
       </trans-unit>
       <trans-unit id="2KpWL9Z" resname="Server Administrator">
         <source>Server Administrator</source>
-        <target state="needs-translation">Server Administrator</target>
+        <target state="translated">サーバ管理者</target>
       </trans-unit>
       <trans-unit id="f4aqU0d" resname="Bestätigung Ihrer Anmeldung">
         <source>Bestätigung Ihrer Anmeldung</source>
-        <target state="needs-translation">Bestätigung Ihrer Anmeldung</target>
+        <target state="translated">登録の確認</target>
       </trans-unit>
       <trans-unit id="TbOhCzT" resname="Sie haben sich zur Konferenz {name} angemeldet.">
         <source>Sie haben sich zur Konferenz {name} angemeldet.</source>
-        <target state="needs-translation">Sie haben sich zur Konferenz {name} angemeldet.</target>
+        <target state="translated">会議 {name} に登録しました。</target>
       </trans-unit>
       <trans-unit id="k3D2lZ." resname="Klicken Sie hier um die Anmeldung abzuschließen">
         <source>Klicken Sie hier um die Anmeldung abzuschließen</source>
-        <target state="needs-translation">Bitte klicken Sie hier, um die Anmeldung abzuschließen.</target>
+        <target state="translated">ここをクリックして登録を完了してください。</target>
       </trans-unit>
       <trans-unit id="wMCAtIO" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz-ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz-ID: {uid}</source>
-        <target state="needs-translation"><![CDATA[Folgende Daten benötigen Sie, um der Konferenz beizutreten:<br>
-        Ihre E-Mail-Adresse: {email}<br>
-        Konferenz-ID: {uid}]]></target>
+        <target state="translated"><![CDATA[会議に参加するために下記を入力してください:<br>
+        あなたのメールアドレス: {email}<br>
+        会議ID: {uid}]]></target>
       </trans-unit>
       <trans-unit id="a_1cDCX" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
         <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
-        <target state="needs-translation">Klicken Sie hier, um direkt zu der Videokonferenz zu gelangen.</target>
+        <target state="translated">ここをクリックするとウェブ会議に直接アクセスできます。</target>
       </trans-unit>
       <trans-unit id="7B3V0of" resname="Konferenz beitreten">
         <source>Konferenz beitreten</source>
-        <target state="needs-translation">Zur Konferenz beitreten</target>
+        <target state="translated">会議に参加</target>
       </trans-unit>
       <trans-unit id="mp7za9I" resname="Füllen Sie das Formular aus um der Konferenz beizutreten">
         <source>Füllen Sie das Formular aus um der Konferenz beizutreten</source>
