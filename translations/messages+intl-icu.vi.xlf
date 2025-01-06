@@ -2343,16 +2343,36 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
         <target state="needs-translation">Aufnahmen von Videokonferenzen</target>
       </trans-unit>
       <trans-unit id="KIFeNTw" resname="recording.email.subject">
-        <source>Es wurde eine neue Aufnahme der Videokonferenz hochgeladen</source>
+        <source>recording.email.subject</source>
         <target state="needs-translation">Es wurde eine neue Aufnahme der Videokonferenz hochgeladen</target>
       </trans-unit>
       <trans-unit id="nYMq8lL" resname="recording.email.title">
-        <source>Es wurde eine Aufnahme für die Videokonferenz hochgladen</source>
+        <source>recording.email.title</source>
         <target state="needs-translation">Es wurde eine Aufnahme für die Videokonferenz hochgladen</target>
       </trans-unit>
       <trans-unit id="cG2pjfJ" resname="recording.email.body">
-        <source>Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</source>
+        <source>recording.email.body</source>
         <target state="needs-translation">Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
+      </trans-unit>
+      <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
+        <source>recording.startSpeakerOnly</source>
+        <target state="needs-translation">__recording.startSpeakerOnly</target>
+      </trans-unit>
+      <trans-unit id="SH.E5Cd" resname="recording.startSpeaker">
+        <source>recording.startSpeaker</source>
+        <target state="needs-translation">__recording.startSpeaker</target>
+      </trans-unit>
+      <trans-unit id="yhh1FGG" resname="recording.startGrid">
+        <source>recording.startGrid</source>
+        <target state="needs-translation">__recording.startGrid</target>
+      </trans-unit>
+      <trans-unit id="yDlEa9I" resname="options.startRecording">
+        <source>options.startRecording</source>
+        <target state="needs-translation">__options.startRecording</target>
+      </trans-unit>
+      <trans-unit id="JJHW_6u" resname="options.stopRecording">
+        <source>options.stopRecording</source>
+        <target state="needs-translation">__options.stopRecording</target>
       </trans-unit>
     </body>
   </file>
