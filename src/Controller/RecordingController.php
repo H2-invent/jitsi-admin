@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Entity\UploadedRecording;
 use App\Entity\User;
+use App\Repository\RecordingRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UploadedRecordingRepository;
 use App\Service\MailerService;
@@ -31,9 +32,9 @@ class RecordingController extends AbstractController
     public function __construct(
         FilesystemInterface     $recordingFilesystem,
         EntityManagerInterface  $entityManager,
-        private RoomsRepository $roomsRepository,
+        private RecordingRepository $recordingRepository,
         private LoggerInterface $logger,
-        private UploadedRecordingRepository $recordingRepository,
+        private UploadedRecordingRepository $uploadedRecordingRepository,
         private readonly MailerService $mailer,
         private readonly TranslatorInterface $translator,
         private readonly Environment $environment
@@ -55,16 +56,21 @@ class RecordingController extends AbstractController
         }
 
         // Hole die Konferenz-ID und die Datei
-        $conferenceId = $request->request->get('room_id');
+        $recordingId = $request->request->get('recording_id');
         $uploadedFile = $request->files->get('file');
 
-        if (!$conferenceId || !$uploadedFile) {
-            $this->logger->debug('No conference ID or uploaded File provided');
+        if (!$recordingId || !$uploadedFile) {
+            $this->logger->debug('No recording ID or uploaded File provided');
             return new JsonResponse(['error' => 'Invalid input'], Response::HTTP_BAD_REQUEST);
         }
-        $room = $this->roomsRepository->findOneBy(['uid' => $conferenceId]);
+        $recording = $this->recordingRepository->findOneBy(['uid' => $recordingId]);
+        if (!$recording){
+            $this->logger->debug('No recording  provided');
+            return new JsonResponse(['error' => 'Invalid input'], Response::HTTP_BAD_REQUEST);
+        }
+        $room = $recording->getRoom();
         if (!$room) {
-            $this->logger->debug('Room whth this uid not found',['uid' => $conferenceId]);
+            $this->logger->debug('Room whth this uid not found',['uid' => $recordingId]);
             return new JsonResponse(['error' => 'Invalid Room UID'], Response::HTTP_BAD_REQUEST);
         }
         // Datei speichern
@@ -114,7 +120,7 @@ class RecordingController extends AbstractController
     public function download(string $filename): Response
     {
         try {
-            $uploadedFile = $this->recordingRepository->findOneBy(['filename' => $filename]);
+            $uploadedFile = $this->uploadedRecordingRepository->findOneBy(['filename' => $filename]);
 
             if (!$uploadedFile){
                 return new JsonResponse(['error' => 'File not found in database'], Response::HTTP_NOT_FOUND);
@@ -148,7 +154,7 @@ class RecordingController extends AbstractController
     public function remove(string $filename): Response
     {
         try {
-            $uploadedFile = $this->recordingRepository->findOneBy(['filename' => $filename]);
+            $uploadedFile = $this->uploadedRecordingRepository->findOneBy(['filename' => $filename]);
 
             if (!$uploadedFile){
                 return new JsonResponse(['error' => 'File not found in database'], Response::HTTP_NOT_FOUND);
@@ -184,7 +190,6 @@ class RecordingController extends AbstractController
     }
     private function getFileExtensionFromMimeType(string $mimeType): string
     {
-        // Mapping von MIME-Typen zu Dateiendungen
         $mimeTypeMap = [
             'image/jpg' => 'jpg',
             'image/jpeg' => 'jpg',
@@ -193,10 +198,8 @@ class RecordingController extends AbstractController
             'audio/mp3' => 'mp3',
             'video/mp4' => 'mp4',
             'text/plain' => 'txt',
-            // Füge hier bei Bedarf weitere MIME-Typen und deren Erweiterungen hinzu
         ];
 
-        // Überprüfe, ob der MIME-Typ im Mapping existiert
         return $mimeTypeMap[$mimeType] ?? 'bin';  // Standard auf 'bin', falls der MIME-Typ nicht gefunden wird
     }
     private function sendEmailAfterUploading(User $user, Rooms $room, UploadedRecording $uploadedRecording)

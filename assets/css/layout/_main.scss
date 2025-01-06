@@ -1795,3 +1795,16 @@ a:hover {
     color: black;
   }
 }
+.blinking-red {
+  color: white;
+  animation: blink 1s infinite; // Wiederholt die Animation unendlich
+}
+
+@keyframes blink {
+  0%, 100% {
+    color: white;
+  }
+  50% {
+    color: red;
+  }
+}

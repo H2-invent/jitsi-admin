@@ -155,6 +155,12 @@ class Rooms
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: UploadedRecording::class, orphanRemoval: true)]
     private Collection $uploadedRecordings;
 
+    /**
+     * @var Collection<int, Recording>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Recording::class, orphanRemoval: true)]
+    private Collection $liveKitRecordings;
+
 
     public function __construct()
     {
@@ -171,6 +177,7 @@ class Rooms
         $this->calloutSessions = new ArrayCollection();
         $this->logs = new ArrayCollection();
         $this->uploadedRecordings = new ArrayCollection();
+        $this->liveKitRecordings = new ArrayCollection();
     }
 
     public function normalize(string $propertyName): string
@@ -1107,6 +1114,36 @@ class Rooms
     public function setDisableSelfSubscriptionDoubleOptIn(?bool $disableSelfSubscriptionDoubleOptIn): static
     {
         $this->disableSelfSubscriptionDoubleOptIn = $disableSelfSubscriptionDoubleOptIn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Recording>
+     */
+    public function getLiveKitRecordings(): Collection
+    {
+        return $this->liveKitRecordings;
+    }
+
+    public function addLiveKitRecording(Recording $liveKitRecording): static
+    {
+        if (!$this->liveKitRecordings->contains($liveKitRecording)) {
+            $this->liveKitRecordings->add($liveKitRecording);
+            $liveKitRecording->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLiveKitRecording(Recording $liveKitRecording): static
+    {
+        if ($this->liveKitRecordings->removeElement($liveKitRecording)) {
+            // set the owning side to null (unless already changed)
+            if ($liveKitRecording->getRoom() === $this) {
+                $liveKitRecording->setRoom(null);
+            }
+        }
 
         return $this;
     }

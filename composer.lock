@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68d25e97ecd52042f98b51ecd75d8489",
+    "content-hash": "9ba7f411b20ea061341c0595d5560caa",
     "packages": [
         {
             "name": "agence104/livekit-server-sdk",
-            "version": "1.2.3",
+            "version": "1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/agence104/livekit-server-sdk-php.git",
-                "reference": "26d0d0e87ddfc5805ebb420f22e693b696749fa8"
+                "reference": "d55f4ff52152699a939fec85a42f1907019718f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/agence104/livekit-server-sdk-php/zipball/26d0d0e87ddfc5805ebb420f22e693b696749fa8",
-                "reference": "26d0d0e87ddfc5805ebb420f22e693b696749fa8",
+                "url": "https://api.github.com/repos/agence104/livekit-server-sdk-php/zipball/d55f4ff52152699a939fec85a42f1907019718f8",
+                "reference": "d55f4ff52152699a939fec85a42f1907019718f8",
                 "shasum": ""
             },
             "require": {
@@ -52,9 +52,9 @@
             "description": "Server-side SDK for LiveKit.",
             "support": {
                 "issues": "https://github.com/agence104/livekit-server-sdk-php/issues",
-                "source": "https://github.com/agence104/livekit-server-sdk-php/tree/1.2.3"
+                "source": "https://github.com/agence104/livekit-server-sdk-php/tree/1.2.5"
             },
-            "time": "2024-03-09T19:50:15+00:00"
+            "time": "2024-10-31T02:04:20+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -15213,7 +15213,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": " ^8.1",
+        "php": " ^8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-openssl": "*",

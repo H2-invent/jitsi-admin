@@ -1,0 +1,46 @@
+<div id="startEgress" class="wrapper {% if getRecordingForRoomAndUser(app.user,room) %}d-none{% endif %}">
+    <div class="dropdown">
+        <div
+                class=" conference-icon"
+                type="button"
+                href="#"
+                id="startRecording"
+                data-mdb-dropdown-init
+                data-mdb-ripple-init
+                aria-expanded="false"
+        >
+            <i class="fa-solid fa-record-vinyl"></i>
+        </div>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item startEgress"
+                   href="{{ path('app_start_egress',{'template':'single-speaker','uidReal':room.uidReal}) }}">{{ 'recording.startSpeakerOnly'|trans }}</a>
+            </li>
+            <li><a class="dropdown-item startEgress"
+                   href="{{ path('app_start_egress',{'template':'speaker','uidReal':room.uidReal}) }}">{{ 'recording.startSpeaker'|trans }}</a>
+            </li>
+            <li><a class="dropdown-item startEgress"
+                   href="{{ path('app_start_egress',{'template':'grid','uidReal':room.uidReal}) }}">{{ 'recording.startGrid'|trans }}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="wrapper-helper">
+        {{ 'options.startRecording'|trans }}
+    </div>
+
+</div>
+
+<div class="wrapper {% if not getRecordingForRoomAndUser(app.user,room) %}d-none{% endif %}">
+    <div class=" conference-icon"
+         data-url="{{ path('app_stop_egress',{'recordingId':'egressId'}) }}"
+         data-egeressId="{% if getRecordingForRoomAndUser(app.user,room) %}{{ getRecordingForRoomAndUser(app.user,room).recordingId }}{% endif %}"
+         id="stopEgress"
+    >
+        <i class="fa-solid fa-record-vinyl blinking-red"></i>
+    </div>
+
+    <div class="wrapper-helper">
+        {{ 'options.stopRecording'|trans }}
+    </div>
+</div>
+
+
