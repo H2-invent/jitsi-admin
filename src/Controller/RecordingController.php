@@ -82,7 +82,7 @@ class RecordingController extends AbstractController
         $uploadedChunks = glob($tempDir . 'chunk_*');
         if (count($uploadedChunks) == $totalChunks) {
             // Finalen Dateipfad bestimmen
-            $finalPath = $tempDir.'final_file.bin';
+            $finalPath = $tempDir.'final.bin';
             $this->localFilesystem->remove($finalPath);
 
             // Datei zusammensetzen
@@ -96,7 +96,8 @@ class RecordingController extends AbstractController
 
             // Datei in Gaufrette speichern
             $fileStream = fopen($finalPath, 'r');
-            $fileName = $this->generateUniqueFileName(basename($finalPath));
+            $fileName = $this->generateUniqueFileName(basename($uploadedFile->getClientOriginalName()));
+            $fileType = $uploadedFile->getClientMimeType();
             $this->filesystem->write($fileName, $fileStream);
             fclose($fileStream);
             $this->localFilesystem->remove($tempDir);
@@ -106,7 +107,7 @@ class RecordingController extends AbstractController
             $uploadedFileEntity->setFilename($fileName);
             $uploadedFileEntity->setRoom($room);
             $uploadedFileEntity->setCreatedAt(new \DateTimeImmutable());
-            $uploadedFileEntity->setType('application/octet-stream'); // Beispieltyp
+            $uploadedFileEntity->setType($fileType); // Beispieltyp
 
             $this->entityManager->persist($uploadedFileEntity);
             $this->entityManager->flush();
