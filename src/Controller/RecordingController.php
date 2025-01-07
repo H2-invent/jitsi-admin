@@ -93,21 +93,21 @@ class RecordingController extends AbstractController
 
             // Temporäre Chunks entfernen
 
-
+            $room = $this->recordingRepository->findOneBy(['uid' => $recordingId])->getRoom();
             // Datei in Gaufrette speichern
             $fileStream = fopen($finalPath, 'r');
-            $fileName = $this->generateUniqueFileName(basename($uploadedFile->getClientOriginalName()));
+            $fileName = $this->generateUniqueFileName(basename($room->getName())).'.mp4';
             $fileType = $uploadedFile->getClientMimeType();
             $this->filesystem->write($fileName, $fileStream);
             fclose($fileStream);
             $this->localFilesystem->remove($tempDir);
             // Datenbankeintrag erstellen
-            $room = $this->recordingRepository->findOneBy(['uid' => $recordingId])->getRoom();
+
             $uploadedFileEntity = new UploadedRecording();
             $uploadedFileEntity->setFilename($fileName);
             $uploadedFileEntity->setRoom($room);
             $uploadedFileEntity->setCreatedAt(new \DateTimeImmutable());
-            $uploadedFileEntity->setType($fileType); // Beispieltyp
+            $uploadedFileEntity->setType('video/mp4'); // Beispieltyp
 
             $this->entityManager->persist($uploadedFileEntity);
             $this->entityManager->flush();
