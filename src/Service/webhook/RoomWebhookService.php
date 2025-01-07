@@ -199,9 +199,10 @@ class RoomWebhookService
                     ->setInRoom(false);
                 $this->em->persist($data2);
             }
-
-            foreach ($roomStatus->getRoom()->getLiveKitRecordings() as $recording) {
-              $this->egressService->stopEgress($recording);
+            if ($roomStatus->getRoom()){
+                foreach ($roomStatus->getRoom()->getLiveKitRecordings() as $recording) {
+                    $this->egressService->stopEgress($recording);
+                }
             }
             $this->em->flush();
             $this->clenRoomStatus($roomStatus);
