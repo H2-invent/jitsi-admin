@@ -96,7 +96,7 @@ class RecordingController extends AbstractController
             $room = $this->recordingRepository->findOneBy(['uid' => $recordingId])->getRoom();
             // Datei in Gaufrette speichern
             $fileStream = fopen($finalPath, 'r');
-            $fileName = $this->generateUniqueFileName(basename($room->getName())).'.mp4';
+            $fileName = (new \DateTime())->format('d.m.Y H:i').'.mp4';
             $fileType = $uploadedFile->getClientMimeType();
             $this->filesystem->write($fileName, $fileStream);
             fclose($fileStream);
