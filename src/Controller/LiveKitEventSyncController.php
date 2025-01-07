@@ -20,12 +20,12 @@ class LiveKitEventSyncController extends AbstractController
     private WebhookReceiver $webhookReceiver;
 
     public function __construct(
-        private RoomWebhookService    $webhookService,
-        private LoggerInterface       $logger,
-        private RoomsRepository       $roomsRepository,
+        private RoomWebhookService $webhookService,
+        private LoggerInterface    $logger,
+        private RoomsRepository    $roomsRepository,
     )
     {
-              $this->webhookReceiver = new WebhookReceiver('test','test');
+        $this->webhookReceiver = new WebhookReceiver('test', 'test');
     }
 
     #[Route('/livekit/event', name: 'app_live_kit_event_sync')]
@@ -52,7 +52,7 @@ class LiveKitEventSyncController extends AbstractController
         $this->logger->debug('livekit event token valid');
         $eventType = $event->getEvent();
         $roomName = $event->getRoom()->getName();
-        $room =$this->roomsRepository->findOneBy(['name'=>$roomName]);
+        $room = $this->roomsRepository->findOneBy(['name' => $roomName]);
         $res = ['error' => false];
         $this->logger->debug('livekit Event found', ['event' => $eventType]);
         switch ($eventType) {

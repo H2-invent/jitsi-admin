@@ -7,6 +7,7 @@ use App\Entity\Recording;
 use App\Entity\Rooms;
 use App\Repository\RecordingRepository;
 
+use App\Service\livekit\EgressService;
 use Doctrine\ORM\EntityManagerInterface;
 use Livekit\DirectFileOutput;
 use Livekit\EncodedFileOutput;
@@ -25,6 +26,7 @@ class StartEgressController extends AbstractController
         private RecordingRepository    $recordingRepository,
         private EntityManagerInterface $entityManager,
         private LoggerInterface        $logger,
+        private EgressService $egressService,
     )
     {
     }
@@ -37,43 +39,7 @@ class StartEgressController extends AbstractController
             return new JsonResponse(['error' => true]);
 
         }
-        $egressClient = new EgressServiceClient(
-           'https://'. $rooms->getServer()->getUrl(),
-            $rooms->getServer()->getAppId(),
-            $rooms->getServer()->getAppSecret()
-        );
-        $recording = $this->recordingRepository->findOneBy(['room' => $rooms, 'user' => $this->getUser()]);
-        if (!$recording) {
-            $recording = new Recording();
-            $recording->setRoom($rooms)
-                ->setUser($this->getUser())
-                ->setUid(md5(uniqid(rand(), true)))
-                ->setCreatedAt(new \DateTimeImmutable());
-            try {
-                $res = $egressClient->startRoomCompositeEgress(
-                    $recording->getRoom()->getUid(),
-                    $template,
-                    (new EncodedFileOutput())
-                        ->setFilepath( '/out/'.$recording->getUid().'.mp4')
-                        ->setFileType(EncodedFileType::MP4)
-                );
-
-                $recording->setRecordingId($res->getEgressId());
-                $this->entityManager->persist($recording);
-                $this->entityManager->flush();
-            } catch (\Exception $exception) {
-                $this->logger->error($exception->getMessage());
-
-                return new JsonResponse(['error' => true, 'message'=>$exception->getMessage()]);
-            }
-            $this->logger->debug('Recording started ',[$recording]);
-            return new JsonResponse(['error' => false, 'recordingId' => $recording->getRecordingId()]);
-        } else {
-            $this->logger->debug('Recording already exists',[$rooms]);
-            return new JsonResponse(['error' => true,'message'=>'Recording already exists']);
-
-        }
-
+        return new JsonResponse($this->egressService->startEgress($rooms,$this->getUser(),$template));
     }
 
     #[Route('/room/stop/egress/{recordingId}', name: 'app_stop_egress')]
@@ -83,26 +49,6 @@ class StartEgressController extends AbstractController
         if (!$recording || $recording->getUser() !== $this->getUser()) {
             throw new NotFoundHttpException('Recording not found');
         }
-
-        try {
-            $egressClient = new EgressServiceClient(
-                'https://'.$recording->getRoom()->getServer()->getUrl(),
-                $recording->getRoom()->getServer()->getAppId(),
-                $recording->getRoom()->getServer()->getAppSecret()
-            );
-
-
-            $egressClient->stopEgress(
-                $recording->getRecordingId()
-            );
-            $recording->setUser(null);
-            $this->entityManager->persist($recording);
-            $this->entityManager->flush();
-        } catch (\Exception $exception) {
-            return new JsonResponse(['error' => true,'message'=>$exception->getMessage()]);
-        }
-
-
-        return new JsonResponse(['error' => false]);
+        return new JsonResponse($this->egressService->stopEgress($recording));
     }
 }

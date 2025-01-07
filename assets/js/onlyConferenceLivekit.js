@@ -113,6 +113,5 @@ docReady(function () {
     initStartIframe();
     initAllComponents();
     initAjaxSend();
-    setupStartEgress();
-    setupStopEgress();
+
 });
