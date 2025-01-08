@@ -67,7 +67,7 @@ option:
   decembre: 12月
   user: ユーザステートメントでは
   root: ルートステートメントでは
-lable.serverUrl: Konferenz Server URL
+lable.serverUrl: サーバURL
 label.appId: AppID
 label.appSecret: Appシークレット
 label.scheduleMeeting: 予定のアンケートを作成する
@@ -89,9 +89,9 @@ help:
   disableChat: Jitsiのチャットを停止して非表示にする
   disableWhiteboard: 会議中にホワイトボードを無効にする
   disableEtherpad: 会議中にイーサパッドを無効にする
-  prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
-  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
-  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
+  prefixRoomUidWithHash: 会議 UID には、サーバー スラッグとハッシュとしてのサーバー ID が接頭辞として付けられます。これは、nginx Web サーバー内のさまざまな仮想サーバーを区別するために使用できます。
+  liveKitServer: このサーバーは Livekit サーバーであり、Livekit API 機能を使用することを目的としています。
+  livekitBackgroundImages: 会議参加者が会議中に背景画像として選択できる背景画像を含む JSON 配列。
   livekitMiddlewareUrl: ここで Url (https://middlewareUrl.com) を指定できます。これまでのところ、Meetling ミドルウェアのみがサポートされています。ここに何を入力すればよいかわからない場合は、デフォルトのミドルウェアが使用されるように、空白のままにしておきます。独自のミドルウェアを使用したい場合は、info@h2-invent.com までお問い合わせください。
 label:
   beitretenApp: Elektron アプリで参加する
@@ -167,7 +167,7 @@ label:
   liveKitServer: Livekit serverをセットアップする
   livekitBackgroundImages: JSON形式の会議用背景画像
   livekitMiddlewareUrl: LivekitミドルウェアのURL
-  disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
+  disableSelfSubscriptionDoubleOptIn: 自分で登録する場合は、確認メールを送信しないでください
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
