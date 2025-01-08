@@ -10,7 +10,7 @@
                 {% for r in room.uploadedRecordings %}
                     <li class="list-group-item d-flex justify-content-between">
                         <a target="_blank"
-                           href="{{ path('recording_download',{'filename': r.filename}) }}"><i class="fa fa-download me-2"></i> {{ r.filename }}</a>
+                           href="{{ path('recording_download',{'filename': r.filename}) }}"><i class="fa fa-download me-2"></i> {{ r.displayName }}</a>
                         <a class="directSendWithConfirm"
                            href="{{ path('recording_remove',{'filename':r.filename}) }}"
                         data-target="#recordingModal"

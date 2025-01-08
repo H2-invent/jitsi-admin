@@ -66,13 +66,27 @@ class RecordingController extends AbstractController
         $recordingId = $request->request->get('recording_id');
         $uploadedFile = $request->files->get('file');
 
-        if ($chunkIndex===null || !$totalChunks===null || !$uploadedFile || !$recordingId) {
-            $this->logger->debug('No recording ID or uploaded File provided');
-            return new JsonResponse(['error' => 'Invalid input'], Response::HTTP_BAD_REQUEST);
+        if ($chunkIndex === null) {
+            $this->logger->debug('Chunk index is null');
+            return new JsonResponse(['error' => 'Chunk index is missing'], Response::HTTP_BAD_REQUEST);
         }
 
+        if ($totalChunks === null) {
+            $this->logger->debug('Total chunks is null');
+            return new JsonResponse(['error' => 'Total chunks are missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!$uploadedFile) {
+            $this->logger->debug('Uploaded file is missing');
+            return new JsonResponse(['error' => 'No uploaded file provided'], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!$recordingId) {
+            $this->logger->debug('Recording ID is missing');
+            return new JsonResponse(['error' => 'Recording ID is missing'], Response::HTTP_BAD_REQUEST);
+        }
         // Temporäres Verzeichnis für Chunks
-        $tempDir = $this->parameterBag->get('kernel.project_dir')."/upload_chunks/{$recordingId}/";
+        $tempDir = $this->parameterBag->get('kernel.project_dir') . "/upload_chunks/{$recordingId}/";
         $this->localFilesystem->mkdir($tempDir);
 
         // Speichern des aktuellen Chunks
@@ -82,7 +96,7 @@ class RecordingController extends AbstractController
         $uploadedChunks = glob($tempDir . 'chunk_*');
         if (count($uploadedChunks) == $totalChunks) {
             // Finalen Dateipfad bestimmen
-            $finalPath = $tempDir.'final.bin';
+            $finalPath = $tempDir . 'final.bin';
             $this->localFilesystem->remove($finalPath);
 
             // Datei zusammensetzen
@@ -96,7 +110,7 @@ class RecordingController extends AbstractController
             $room = $this->recordingRepository->findOneBy(['uid' => $recordingId])->getRoom();
             // Datei in Gaufrette speichern
             $fileStream = fopen($finalPath, 'r');
-            $fileName = (new \DateTime())->format('d.m.Y H:i').'.mp4';
+            $fileName = md5(uniqid()) . '.mp4';
             $fileType = $uploadedFile->getClientMimeType();
             $this->filesystem->write($fileName, $fileStream);
             fclose($fileStream);
@@ -104,10 +118,11 @@ class RecordingController extends AbstractController
             // Datenbankeintrag erstellen
 
             $uploadedFileEntity = new UploadedRecording();
-            $uploadedFileEntity->setFilename($fileName);
-            $uploadedFileEntity->setRoom($room);
-            $uploadedFileEntity->setCreatedAt(new \DateTimeImmutable());
-            $uploadedFileEntity->setType('video/mp4'); // Beispieltyp
+            $uploadedFileEntity->setFilename($fileName)
+                ->setDisplayName((new \DateTime())->format('d.m.Y H:i') . '.mp4')
+                ->setRoom($room)
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setType('video/mp4'); // Beispieltyp
 
             $this->entityManager->persist($uploadedFileEntity);
             $this->entityManager->flush();

@@ -27,6 +27,9 @@ class UploadedRecording
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $displayName = null;
+
 
 
     public function getId(): ?int
@@ -78,6 +81,18 @@ class UploadedRecording
     public function setType(string $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getDisplayName(): ?string
+    {
+        return $this->displayName;
+    }
+
+    public function setDisplayName(string $displayName): static
+    {
+        $this->displayName = $displayName;
 
         return $this;
     }
