@@ -21,9 +21,9 @@ class CleanUpRecordingCommand extends Command
 
 
     public function __construct(
-        private FilesystemInterface         $recordingFilesystem,
-        private EntityManagerInterface      $entityManager,
-        private UploadedRecordingRepository $uploadedRecordingRepository
+        private readonly FilesystemInterface         $recordingFilesystem,
+        private readonly EntityManagerInterface      $entityManager,
+        private readonly UploadedRecordingRepository $uploadedRecordingRepository
     )
     {
         parent::__construct();
