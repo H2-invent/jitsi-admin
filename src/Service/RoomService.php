@@ -130,7 +130,7 @@ class RoomService
     }
 
     public
-    function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null)
+    function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null, $noModerator=false)
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -148,11 +148,11 @@ class RoomService
         if ($avatarUrl) {
             $avatar = $avatarUrl;
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar), $room->getServer()->getAppSecret(), 'HS256');
+        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator), $room->getServer()->getAppSecret(), 'HS256');
     }
 
     public
-    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null)
+    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null, $noModerator=false)
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
@@ -214,12 +214,15 @@ class RoomService
                 $payload['context']['user']['avatarAway']='https://www3.h2-invent.com/user_away.webp';
             }
         }
-        if ($room->getServer()->getJwtModeratorPosition() == 0) {
-            $this->logger->debug('We add moderator rights to the root claim');
-            $payload['moderator'] = $moderator;
-        } elseif ($room->getServer()->getJwtModeratorPosition() == 1) {
-            $payload['context']['user']['moderator'] = $moderator;
+        if (!$noModerator){
+            if ($room->getServer()->getJwtModeratorPosition() == 0) {
+                $this->logger->debug('We add moderator rights to the root claim');
+                $payload['moderator'] = $moderator;
+            } elseif ($room->getServer()->getJwtModeratorPosition() == 1) {
+                $payload['context']['user']['moderator'] = $moderator;
+            }
         }
+
         $screen = [
             'screen-sharing' => true,
             'private-message' => true,
