@@ -67,7 +67,7 @@ option:
   decembre: Декабрь
   user: In user claim
   root: In root claim
-lable.serverUrl: Konferenz Server URL
+lable.serverUrl: URL Конференц Сервера
 label.appId: ID приложения
 label.appSecret: App secret
 label.scheduleMeeting: Создайте опрос о встрече
@@ -82,7 +82,7 @@ help:
   jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
   jigasiProsodyDomain: Введите здесь домен Prosody. Обычно это соответствует шаблону "conference.domain.topdomain".
   disallowFirefox: Браузер Firefox отключен. Все участники, желающие присоединиться с помощью браузера Firefox, будут перенаправлены на браузер на основе Chromium.
-  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
+  enforceE2e: Безопасность сквозного шифрования обеспечивается в каждой конференции на этом сервере Jitsi.
   allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
   jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
   disableFilmstripe: Filmstripe in Jitsi deaktivieren
