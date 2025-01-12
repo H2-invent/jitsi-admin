@@ -12,7 +12,7 @@ label.start: Начать
 label.dauerKonferenz: Продолжительность конференции
 label.nurRegistriertenutzer: Только зарегистрированные пользователи могут подключиться
 label.speichern: Сохранить
-label.allowMaybeOption: '"Vielleicht"-Option anbieten'
+label.allowMaybeOption: 'Предлагать настройку “при соблюдении условий”'
 option.15min: 15 минут
 option.30min: 30 минут
 option.45min: 45 минут
@@ -79,19 +79,19 @@ help:
   secondEmail: Все электронные письма должны быть отправлены на эти адреса электронной почты в дополнение к моему стандартному адресу электронной почты (через запятую).
   corsHeader: Если установлен заголовок CORS или frame-ancestor, который не указывает на этот URL-адрес, то невозможно использовать Jitsi-iFrame API. Это приводит к потере некоторых функций.
   jigasiApiUrl: Введите здесь jitsi API, который можно использовать для получения PIN-кода конференции. Обычно это заканчивается «ConferenceMapper».
-  jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
+  jigasiNumberUrl: 'Введите здесь номер для дозвона в формате JSON. Для этого они должны быть введены как они введены в Jigasi в "numbers.json" (например.: {"message":"Dial-in numbers","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: Введите здесь домен Prosody. Обычно это соответствует шаблону "conference.domain.topdomain".
   disallowFirefox: Браузер Firefox отключен. Все участники, желающие присоединиться с помощью браузера Firefox, будут перенаправлены на браузер на основе Chromium.
   enforceE2e: Безопасность сквозного шифрования обеспечивается в каждой конференции на этом сервере Jitsi.
-  allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
+  allowIp: Только указанные IP-адреса или диапазоны IP адресов могут подключиться к конференции. IP диапазоны должны быть заданы в нотации 10.10.10.10/24. Несколько IP адресов или диапазонов могут быть заданы с разделением запятыми.
   jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
   disableFilmstripe: Filmstripe in Jitsi deaktivieren
   disableChat: Chat in Jitsi deaktivieren und ausblenden
   disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
   prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
-  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
-  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
+  liveKitServer: Этот сервер является Livekit сервером и должен использовать функции Livekit API
+  livekitBackgroundImages: Массив JSON с фоновыми изображениями, которые могут выбраны в качестве фоновых изображений участниками конференции.
   livekitMiddlewareUrl: Hier kann eine Url (https://middlewareUrl.com) angegeben werden. Es wird bisher nur die Meetling Middleware unterstützt. Sollten Sie nicht wissen was Sie hier eintragen sollen, einfach leer lassen damit die voreingestellte Middleware verwendet wird. Wenn Sie eine eigene Middleware verwenden wollen wenden Sie sich an info@h2-invent.com
 label:
   beitretenApp: Присоединяйтесь с приложением Elektron
@@ -152,20 +152,20 @@ label:
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
   go: Поехали!
-  moderator: Organisator auswählen
-  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
-  enforceE2e: Ende zu Ende erzwingen
-  allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
-  maxUser: Maximal Anzahl an Teilnehmenden
+  moderator: Выберите организатора
+  disallowFirefox: Firefox выключен на этом jitsi meet сервере
+  enforceE2e: Принудительно шифрование E2E
+  allowIp: IP-адреса или диапазон IP-адресов, которым разрешено присоединяться к конференции
+  maxUser: Максимальное количество участников
   jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
   disableFilmstripe: Filmstrip deaktivieren
   disableChat: Chat deaktivieren
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
-  prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
-  myName: Mein Name
-  liveKitServer: Ich möchte einen Livekit-Server einrichten
-  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
+  prefixRoomUidWithHash: Uid комнаты с префиксом хеша сервера
+  myName: Мое Имя
+  liveKitServer: Я хочу настроить Livekit сервер
+  livekitBackgroundImages: Фоновые изображения в формате JSON
   livekitMiddlewareUrl: Livekitmiddleware-Url
   disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
 choice:
