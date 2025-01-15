@@ -1,0 +1,29 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ title }}</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            {{ form_start(form) }}
+            <div class="row">
+                {% if form.calendly_token is defined %}
+                    <div class="col-12 mb-3">
+                        {{ form_widget(form.calendly_token) }}
+                        <a href="https://meetling.de/tutorials/calendly">{{ 'calendly.tutorial.help'|trans }}</a>
+                    </div>
+                {% endif %}
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-end">
+                    {{ form_widget(form.submit) }}
+                </div>
+            </div>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+</div>

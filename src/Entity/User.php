@@ -146,6 +146,24 @@ class User extends BaseUser
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Recording::class)]
     private Collection $livekitRecordings;
 
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendly_token = null;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendly_org_uri = null;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendly_user_uri = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $calendly_sucessfully_added = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $calendlySecret = null;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendlyWebhookId = null;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -1310,6 +1328,78 @@ class User extends BaseUser
                 $livekitRecording->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCalendlyToken(): ?string
+    {
+        return $this->calendly_token;
+    }
+
+    public function setCalendlyToken(?string $calendly_token): static
+    {
+        $this->calendly_token = $calendly_token;
+
+        return $this;
+    }
+
+    public function getCalendlyOrgUri(): ?string
+    {
+        return $this->calendly_org_uri;
+    }
+
+    public function setCalendlyOrgUri(?string $calendly_org_uri): static
+    {
+        $this->calendly_org_uri = $calendly_org_uri;
+
+        return $this;
+    }
+
+    public function getCalendlyUserUri(): ?string
+    {
+        return $this->calendly_user_uri;
+    }
+
+    public function setCalendlyUserUri(?string $calendly_user_uri): static
+    {
+        $this->calendly_user_uri = $calendly_user_uri;
+
+        return $this;
+    }
+
+    public function isCalendlySucessfullyAdded(): ?bool
+    {
+        return $this->calendly_sucessfully_added;
+    }
+
+    public function setCalendlySucessfullyAdded(?bool $calendly_sucessfully_added): static
+    {
+        $this->calendly_sucessfully_added = $calendly_sucessfully_added;
+
+        return $this;
+    }
+
+    public function getCalendlySecret(): ?string
+    {
+        return $this->calendlySecret;
+    }
+
+    public function setCalendlySecret(?string $calendlySecret): static
+    {
+        $this->calendlySecret = $calendlySecret;
+
+        return $this;
+    }
+
+    public function getCalendlyWebhookId(): ?string
+    {
+        return $this->calendlyWebhookId;
+    }
+
+    public function setCalendlyWebhookId(?string $calendlyWebhookId): static
+    {
+        $this->calendlyWebhookId = $calendlyWebhookId;
 
         return $this;
     }
