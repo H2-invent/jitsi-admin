@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Service\InviteService;
+use App\Service\RoomGeneratorService;
 use App\Service\UserCreatorService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +20,14 @@ class RoomService
     private $inviteService;
     private $urlGenerator;
     private $userCreatorService;
-    public function __construct(UserCreatorService $userCreatorService, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager, UserService $userService, InviteService $inviteService)
+
+    public function __construct(
+        UserCreatorService           $userCreatorService,
+        UrlGeneratorInterface        $urlGenerator,
+        EntityManagerInterface       $entityManager,
+        UserService                  $userService,
+        InviteService                $inviteService,
+        private RoomGeneratorService $roomGeneratorService)
     {
         $this->em = $entityManager;
         $this->userService = $userService;
@@ -43,9 +51,10 @@ class RoomService
         $room->setStart($start);
         $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
         $room->setServer($server);
-
+        $room = $this->roomGeneratorService->createCallerId($room);
         $this->em->persist($room);
         $this->em->flush();
+
         $this->userService->addUser($room->getModerator(), $room);
         return $room;
     }

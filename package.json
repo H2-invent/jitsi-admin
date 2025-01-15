@@ -17,7 +17,7 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress",
-        "start-app": "node --env-file=.env.local nodejs"
+        "start-ws": "node --env-file=.env.local nodejs"
     },
     "dependencies": {
         "@dmuy/datepicker": "^2.0.1",

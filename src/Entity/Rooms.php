@@ -161,6 +161,9 @@ class Rooms
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: Recording::class, orphanRemoval: true)]
     private Collection $liveKitRecordings;
 
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendly_uri = null;
+
 
     public function __construct()
     {
@@ -1144,6 +1147,18 @@ class Rooms
                 $liveKitRecording->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCalendlyUri(): ?string
+    {
+        return $this->calendly_uri;
+    }
+
+    public function setCalendlyUri(?string $calendly_uri): static
+    {
+        $this->calendly_uri = $calendly_uri;
 
         return $this;
     }
