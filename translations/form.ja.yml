@@ -168,6 +168,7 @@ label:
   livekitBackgroundImages: JSON形式の会議用背景画像
   livekitMiddlewareUrl: LivekitミドルウェアのURL
   disableSelfSubscriptionDoubleOptIn: 自分で登録する場合は、確認メールを送信しないでください
+  calendlyToken: Calendly Oauth Token
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
