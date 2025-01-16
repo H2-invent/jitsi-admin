@@ -364,7 +364,7 @@ function addInteractions(ele) {
 
 
 function makeBlury(frame) {
-    var content = document.querySelector('.iframeFrame');
+    var content = frame.querySelector('.iframeFrame');
     content.style.visibility='hidden';
     frame.style.opacity = 0.5;
     // for (var f of frames) {
@@ -374,7 +374,7 @@ function makeBlury(frame) {
 }
 
 function removeBlury(frame) {
-    var content = document.querySelector('.iframeFrame');
+    var content = frame.querySelector('.iframeFrame');
     content.style.removeProperty('visibility');
     frame.style.removeProperty('opacity');
 

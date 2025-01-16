@@ -122,17 +122,19 @@ class RoomWebhookService
             }
 
             if ($roomStatus) {
+                $roomStatus->setJitsiRoomId($roomJid);
+                $roomStatus->setUpdatedAt(new \DateTime());
+                $this->em->persist($roomStatus);
+                $this->em->flush();
                 $text = 'Room already created';
                 $this->logger->error($text, ['roomJidID' => $roomJid]);
                 return $text;
             }
 
-            if (!$roomStatus) {
                 $roomStatus = new RoomStatus();
                 $roomStatus->setCreatedAt(new \DateTime())
                     ->setJitsiRoomId($roomJid)
                     ->setRoom($room);
-            }
 
             $roomStatus->setRoomCreatedAt(\DateTime::createFromFormat('U', $createdAt))
                 ->setUpdatedAt(new \DateTime())
