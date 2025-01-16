@@ -62,6 +62,19 @@ class EgressService
 
         }
     }
+    public function stopAllEgress(Rooms $rooms):void
+    {
+        try {
+            foreach ($rooms->getLiveKitRecordings() as $liveKitRecording) {
+                if ($liveKitRecording->getUser()){
+                    $this->stopEgress($liveKitRecording);
+                }
+            }
+        }catch (\Exception $exception){
+
+        }
+
+    }
     public function stopEgress(Recording $recording) {
         try {
             $egressClient = new EgressServiceClient(
@@ -70,15 +83,15 @@ class EgressService
                 $recording->getRoom()->getServer()->getAppSecret()
             );
 
-
             $egressClient->stopEgress(
                 $recording->getRecordingId()
             );
+        } catch (\Exception $exception) {
+            return ['error' => true,'message'=>$exception->getMessage()];
+        } finally {
             $recording->setUser(null);
             $this->entityManager->persist($recording);
             $this->entityManager->flush();
-        } catch (\Exception $exception) {
-            return ['error' => true,'message'=>$exception->getMessage()];
         }
 
 

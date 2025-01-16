@@ -5,6 +5,7 @@ namespace App\Controller;
 use Agence104\LiveKit\WebhookReceiver;
 use App\Repository\RoomsRepository;
 use App\Service\api\CheckAuthorizationService;
+use App\Service\livekit\EgressService;
 use App\Service\webhook\RoomWebhookService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +24,7 @@ class LiveKitEventSyncController extends AbstractController
         private RoomWebhookService $webhookService,
         private LoggerInterface    $logger,
         private RoomsRepository    $roomsRepository,
+        private EgressService      $egressService,
     )
     {
         $this->webhookReceiver = new WebhookReceiver('test', 'test');
@@ -62,6 +64,7 @@ class LiveKitEventSyncController extends AbstractController
                     $event->getRoom()->getSid(),
                     $event->getCreatedAt()
                 );
+                $this->egressService->stopAllEgress($room);
                 break;
             case 'room_started':
                 $res = $this->webhookService->roomCreated(

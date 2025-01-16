@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-class StartEgressController extends AbstractController
+class EgressController extends AbstractController
 {
     public function __construct(
         private RecordingRepository    $recordingRepository,
