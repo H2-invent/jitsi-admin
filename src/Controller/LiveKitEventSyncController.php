@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use Agence104\LiveKit\WebhookReceiver;
+use App\Entity\RoomStatus;
 use App\Repository\RoomsRepository;
+use App\Repository\RoomStatusRepository;
 use App\Service\api\CheckAuthorizationService;
 use App\Service\livekit\EgressService;
 use App\Service\webhook\RoomWebhookService;
@@ -21,10 +23,11 @@ class LiveKitEventSyncController extends AbstractController
     private WebhookReceiver $webhookReceiver;
 
     public function __construct(
-        private RoomWebhookService $webhookService,
-        private LoggerInterface    $logger,
-        private RoomsRepository    $roomsRepository,
-        private EgressService      $egressService,
+        private RoomWebhookService   $webhookService,
+        private LoggerInterface      $logger,
+        private RoomsRepository      $roomsRepository,
+        private EgressService        $egressService,
+        private RoomStatusRepository $roomStatusRepository,
     )
     {
         $this->webhookReceiver = new WebhookReceiver('test', 'test');
@@ -64,7 +67,8 @@ class LiveKitEventSyncController extends AbstractController
                     $event->getRoom()->getSid(),
                     $event->getCreatedAt()
                 );
-                $this->egressService->stopAllEgress($room);
+                $roomStatus = $this->roomStatusRepository->findCreatedRoomsbyJitsiId($event->getRoom()->getSid());
+                $this->egressService->stopAllEgress($roomStatus->getRoom());
                 break;
             case 'room_started':
                 $res = $this->webhookService->roomCreated(

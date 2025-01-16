@@ -62,17 +62,20 @@ class EgressService
 
         }
     }
-    public function stopAllEgress(Rooms $rooms):void
+    public function stopAllEgress(?Rooms $rooms):void
     {
-        try {
-            foreach ($rooms->getLiveKitRecordings() as $liveKitRecording) {
-                if ($liveKitRecording->getUser()){
-                    $this->stopEgress($liveKitRecording);
+        if ($rooms){
+            try {
+                foreach ($rooms->getLiveKitRecordings() as $liveKitRecording) {
+                    if ($liveKitRecording->getUser()){
+                        $this->stopEgress($liveKitRecording);
+                    }
                 }
-            }
-        }catch (\Exception $exception){
+            }catch (\Exception $exception){
 
+            }
         }
+
 
     }
     public function stopEgress(Recording $recording) {
