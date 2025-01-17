@@ -68,7 +68,9 @@ class LiveKitEventSyncController extends AbstractController
                     $event->getCreatedAt()
                 );
                 $roomStatus = $this->roomStatusRepository->findCreatedRoomsbyJitsiId($event->getRoom()->getSid());
-                $this->egressService->stopAllEgress($roomStatus->getRoom());
+                if ($roomStatus){
+                    $this->egressService->stopAllEgress($roomStatus->getRoom());
+                }
                 break;
             case 'room_started':
                 $res = $this->webhookService->roomCreated(
