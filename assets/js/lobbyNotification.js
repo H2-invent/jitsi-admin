@@ -14,6 +14,7 @@ import {initDragParticipants} from './lobby_moderator_acceptDragger'
 import {close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
 import { Tooltip, initMDB } from "mdb-ui-kit";
+import {initAllComponents} from "./confirmation";
 
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
@@ -124,15 +125,11 @@ function refresh(data) {
         }
         initCircle();
         countParts();
-
-
-        $('.tooltip').remove();
-
-
-        initMDB({ Tooltip });
-        document.querySelectorAll('.form-outline').forEach((formOutline) => {
-            new mdb.Input(formOutline).init();
-        });
+        initAllComponents();
+        //
+        // document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        //     new mdb.Input(formOutline).init();
+        // });
     })
 }
 

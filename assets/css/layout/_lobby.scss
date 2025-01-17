@@ -1,5 +1,4 @@
-
-@mixin hovertransitionDown{
+@mixin hovertransitionDown {
   transition: transform 0.2s;
   -webkit-transition-delay: 1.2s;
   -moz-transition-delay: 1.2s;
@@ -7,7 +6,8 @@
   -o-transition-delay: 1.2s;
   transition-delay: 1.2s;
 }
-@mixin hovertransitionUp{
+
+@mixin hovertransitionUp {
   transition: transform 0.2s;
   -webkit-transition-delay: 0.1s;
   -moz-transition-delay: 0.1s;
@@ -25,6 +25,7 @@
 
     .dragger {
       cursor: pointer;
+
       &:before {
         transform: rotateX(180deg);
         @include hovertransitionUp;
@@ -93,16 +94,16 @@ body {
 
 .initialCircle {
   background-color: black;
-  display: flex!important;
+  display: flex !important;
   font-weight: bold;
   justify-content: center;
-  width: 75px;
-  min-width: 75px;
-  max-width: 75px;
+  width: $lobbyButtonsize;
+  min-width: $lobbyButtonsize;
+  max-width: $lobbyButtonsize;
   border-radius: 50%;
-  height: 75px;
+  height: $lobbyButtonsize;
   align-items: center;
-  font-size: 40px;
+  font-size: $lobbybuttonFontSize;
   color: white;
 }
 
@@ -214,11 +215,11 @@ body {
   left: 0;
   z-index: 15;
 
-    @media (min-width: 992px) {
-      @include hoverDragger();
-      &.openSlider {
-        transform: translateY(0) !important;
-      }
+  @media (min-width: 992px) {
+    @include hoverDragger();
+    &.openSlider {
+      transform: translateY(0) !important;
+    }
   }
 
 }
@@ -369,7 +370,11 @@ body {
     }
   }
 }
-
+.waitingUserCard {
+  .card-body {
+    padding: 8px;
+  }
+}
 
 .accessAllowed {
   position: absolute;
@@ -441,12 +446,12 @@ body {
     margin-right: 8px;
     margin-left: 8px;
   }
+
 }
 
 .searchCallOutParticipantsDropdown {
   @include statusDot();
 }
-
 
 
 .ringingsymbol {
@@ -576,8 +581,8 @@ body {
   flex: 0 0 auto;
 }
 
-.dropdown-menu{
-  a{
+.dropdown-menu {
+  a {
     cursor: pointer;
   }
 }

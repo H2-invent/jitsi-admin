@@ -1,78 +1,80 @@
 {% if wU.websocketReady %}
-<div class="col-lg-4 col-12 col-xl-3 waitingUserCard mb-3 position-relative">
-    <div class="card ">
-        <div class="card-body text-center d-flex justify-content-between flex-row flex-lg-column align-items-center">
-            {% if wU.user is not null and  wU.user.profilePicture is not null %}
-                <style>
-                    #circle_{{ wU.id }} {
-                        background-image: url("{{ vich_uploader_asset(wU.user.profilePicture,'documentFile') }}");
-                        background-position: center;
-                        background-size: cover;
-                        background-color: white !important;
-                    }
-                </style>
+    <div class="col-lg-6 col-12 col-xl-6 waitingUserCard mb-3 position-relative">
+        <div class="card ">
+            <div class="card-body text-center d-flex justify-content-between  align-items-center">
+              <div class="d-flex align-items-center">
+                  {% if wU.user is not null and  wU.user.profilePicture is not null %}
+                      <style>
+                          #circle_{{ wU.id }} {
+                              background-image: url("{{ vich_uploader_asset(wU.user.profilePicture,'documentFile') }}");
+                              background-position: center;
+                              background-size: cover;
+                              background-color: white !important;
+                          }
+                      </style>
 
-            {% endif %}
-            <div class="initialCircle d-none d-lg-block" id="circle_{{ wU.id }}">
-                {% if wU.user is null or wU.user.profilePicture is  null %}
-                    {% if wU.user is not null %}
-                        {% if wU.user.firstName != '' %}
-                            {{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}
-                        {% else %}
-                            {{ wU.user.username[:1] }}
-                        {% endif %}
-                    {% else %}
-                        {{ wU.showName[:2] }}
-                    {% endif %}
-                {% endif %}
-            </div>
-            <div class="nameHolder">
-                <div class="participantsName">{{ wU.showName }}
+                  {% endif %}
+                  <div class="initialCircle d-none d-lg-block me-2" id="circle_{{ wU.id }}">
+                      {% if wU.user is null or wU.user.profilePicture is  null %}
+                          {% if wU.user is not null %}
+                              {% if wU.user.firstName != '' %}
+                                  {{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}
+                              {% else %}
+                                  {{ wU.user.username[:1] }}
+                              {% endif %}
+                          {% else %}
+                              {{ wU.showName[:2] }}
+                          {% endif %}
+                      {% endif %}
+                  </div>
+                  <div class="nameHolder">
+                      <div class="participantsName">{{ wU.showName }}
 
-                </div>
-                {% if wU.callerSession is not null %}
-                    <div class="participantsName callerId"><i
-                                class="fa fa-phone text-success"></i> {{ wU.callerSession.callerId }}</div>
-                    {% if wU.callerSession.callerIdVerified %}
-                        <span class="callerVerified badge badge-success">{{ 'lobby.verified'|trans }}</span>
-                    {% else %}
-                        <a class="callerNotVerified badge badge-danger w-100"
-                            data-mdb-popover-init
-                           data-mdb-trigger="focus"
-                           tabindex="0"
-                           data-mdb-content="{{ 'lobby.notVerified'|trans }}">
-                            <i class="fa-2x fa-solid fa-bolt text-warning"></i>
-                        </a>
-                    {% endif %}
-                {% endif %}
-            </div>
-            <div class="buttonHolder buttons mt-lg-2 d-flex align-items-center justify-content-between">
-                <a
-                        data-mdb-tooltip-init
-                        title="{{ 'lobby.participant.tooltip.acccept'|trans }}"
-                    class="btn btn-lg btn-floating senddirect btn-success "
-                   href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
-                    <i class="fas fa-user-check"></i>
-                </a>
-                <a
-                        data-mdb-tooltip-init
-                        title="{{ 'lobby.participant.tooltip.decline'|trans }}"
-                        class="btn btn-lg btn-floating directSendWithConfirm btn-danger "
-                   data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
-                   href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
-                    <i class="fas fa-user-times"></i>
-                </a>
+                      </div>
+                      {% if wU.callerSession is not null %}
+                          <div class="participantsName callerId"><i
+                                      class="fa fa-phone text-success"></i> {{ wU.callerSession.callerId }}</div>
+                          {% if wU.callerSession.callerIdVerified %}
+                              <span class="callerVerified badge badge-success">{{ 'lobby.verified'|trans }}</span>
+                          {% else %}
+                              <a class="callerNotVerified badge badge-danger w-100"
+                                 data-mdb-popover-init
+                                 data-mdb-trigger="focus"
+                                 tabindex="0"
+                                 data-mdb-content="{{ 'lobby.notVerified'|trans }}">
+                                  <i class="fa-2x fa-solid fa-bolt text-warning"></i>
+                              </a>
+                          {% endif %}
+                      {% endif %}
+                  </div>
+              </div>
+
+                <div class="buttonHolder buttons mt-lg-2 d-flex align-items-center justify-content-between">
+                    <a
+                            data-mdb-tooltip-init
+                            title="{{ 'lobby.participant.tooltip.acccept'|trans }}"
+                            class="btn  btn-floating senddirect btn-success "
+                            href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
+                        <i class="fas fa-user-check"></i>
+                    </a>
+                    <a
+                            data-mdb-tooltip-init
+                            title="{{ 'lobby.participant.tooltip.decline'|trans }}"
+                            class="btn  btn-floating directSendWithConfirm btn-danger "
+                            data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
+                            href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
+                        <i class="fas fa-user-times"></i>
+                    </a>
 
 
                     <div class="dropdown dropstart"
                          data-mdb-tooltip-init
                          title="{{ 'lobby.participant.tooltip.message'|trans }}"
                     >
-                        <a class="btn btn-lg btn-outline-success btn-floating"
+                        <a class="btn  btn-outline-success btn-floating"
 
                            data-mdb-ripple-color="dark"
                            id="dropdownMenu2"
-                          data-mdb-dropdown-init
                            data-mdb-dropdown-init
                            aria-expanded="false">
                             <i class="fas fa-solid fa-paper-plane"></i>
@@ -83,10 +85,8 @@
 
                 </div>
             </div>
-
         </div>
     </div>
-</div>
 {% endif %}
 
 

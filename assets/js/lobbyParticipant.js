@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initAUdio();
     initWebcam();
     initMercure();
-
+    initAllComponents();
     const webcamRow = document.getElementById('webcamRow');
     const webcamArea = document.querySelector('.webcamArea');
     webcamRow.style.height = `${webcamArea.clientHeight}px`;
@@ -301,10 +301,6 @@ function askHangup() {
 //     }
 // }
 
-$(document).ready(function () {
-    initGenerell();
-    initMercure();
-    initAllComponents();
-})
+
 
 

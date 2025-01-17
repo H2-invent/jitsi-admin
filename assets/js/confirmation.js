@@ -9,7 +9,9 @@ var ok = "OK";
 
 function initDirectSend() {
     document.addEventListener('click', function (e) {
-        if (e.target.matches('.directSend')) {
+        const triggerElement = e.target.closest('.directSend');
+
+        if (triggerElement) {
             e.preventDefault();
             var url = e.target.href;
             var target = e.target.dataset.target;
@@ -80,7 +82,9 @@ export function initTooltip() {
 
 function initconfirmHref() {
     document.addEventListener('click', function (e) {
-        if (e.target.matches('.confirmHref')) {
+        const triggerElement = e.target.closest('.confirmHref');
+
+        if (triggerElement) {
             e.preventDefault();
             const url = e.target.href;
             const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
@@ -107,7 +111,10 @@ function initconfirmHref() {
 
 function initconfirmLoadOpenPopUp() {
     document.addEventListener('click', function (e) {
-        if (e.target.matches('.confirmloadOpenPopUp')) {
+        const triggerElement = e.target.closest('.confirmloadOpenPopUp');
+
+        if (triggerElement) {
+
             e.preventDefault();
             const url = e.target.href;
             const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
@@ -142,20 +149,24 @@ function initconfirmLoadOpenPopUp() {
 
 function initConfirmDirectSendHref() {
     document.addEventListener('click', function (e) {
-        if (e.target.matches('.directSendWithConfirm')) {
+        // Prüft die DOM-Hierarchie auf ein Element mit der Klasse `.directSendWithConfirm`
+        const triggerElement = e.target.closest('.directSendWithConfirm');
+
+        if (triggerElement) {
             e.preventDefault();
-            const url = e.target.href;
-            const target = e.target.dataset.target;
-            const targetUrl = e.target.dataset.url;
-            const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
+
+            const url = triggerElement.href;
+            const target = triggerElement.dataset.target;
+            const targetUrl = triggerElement.dataset.url;
+            const text = triggerElement.dataset.text || 'Wollen Sie die Aktion durchführen?';
 
             Swal.fire({
-                title: title,
+                title: 'Bestätigung', // Hier ggf. den Titel anpassen
                 text: text,
                 icon: 'question',
                 backdrop: false,
                 showCancelButton: true,
-                cancelButtonText: cancel,
+                cancelButtonText: 'Abbrechen', // Übersetzung anpassen
                 customClass: {
                     confirmButton: 'btn-danger btn',
                     cancelButton: 'btn-outline-primary btn'
@@ -163,20 +174,22 @@ function initConfirmDirectSendHref() {
             }).then((result) => {
                 if (result.isConfirmed) {
                     fetch(url)
-                        .then(response => response.text())
+                        .then(response => response.json()) // Erwartet eine JSON-Antwort
                         .then(data => {
                             reloadPartial(targetUrl, target);
                             if (data.snack) {
-                                document.getElementById('snackbar').textContent = data.text;
-                                document.getElementById('snackbar').classList.add('show');
+                                const snackbar = document.getElementById('snackbar');
+                                snackbar.textContent = data.text;
+                                snackbar.classList.add('show');
+                                setTimeout(() => snackbar.classList.remove('show'), 3000); // Snackbar nach 3 Sekunden entfernen
                             }
                         });
-
                 }
             });
         }
     });
 }
+
 
 function initAjaxSend(titleL, cancelL, okL) {
     title = titleL;
@@ -224,7 +237,10 @@ export function reloadPartial(url, target) {
 
 export function initOpenInMultiframe() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('loadInMultiframe')) {
+        const triggerElement = e.target.closest('.loadInMultiframe');
+
+        if (triggerElement) {
+
             e.preventDefault();
 
             var url = e.target.href;
