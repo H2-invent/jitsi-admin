@@ -13,11 +13,7 @@ class CatchAllController extends AbstractController
      */
     public function redirectToDefault(string $catchall): RedirectResponse
     {
-        dump($catchall);
         $firstPart = explode('/',$catchall)[0];
-        dump($firstPart);
         return $this->redirectToRoute('app_public_conference', ['confId' => $firstPart]);
     }
-
-
 }
