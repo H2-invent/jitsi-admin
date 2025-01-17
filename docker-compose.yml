@@ -192,7 +192,7 @@ services:
       - internal
 
   keycloak-ja:
-    image: quay.io/keycloak/keycloak:22.0.3
+    image: quay.io/keycloak/keycloak:26.1.0
     depends_on:
       app-ja:
         condition: service_healthy
