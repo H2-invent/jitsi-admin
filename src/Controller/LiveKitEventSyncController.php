@@ -101,7 +101,7 @@ class LiveKitEventSyncController extends AbstractController
                 );
                 break;
             default:
-                $this->logger->error('unregistered Event found', ['event' => $eventType]);
+                $this->logger->debug('unregistered Event found', ['event' => $eventType]);
                 break;
         }
         if (!$res) {

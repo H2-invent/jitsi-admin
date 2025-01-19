@@ -20,6 +20,7 @@
 */data/*
 */data/
 *data/*
+!*data/README.md
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/

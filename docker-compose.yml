@@ -208,7 +208,7 @@ services:
       KC_PROXY: passthrough
     restart: unless-stopped
     command:
-      - start-dev
+      - start
       - --import-realm
     labels:
       - "traefik.enable=true"
