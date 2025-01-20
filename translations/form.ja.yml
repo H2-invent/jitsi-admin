@@ -12,7 +12,7 @@ label.start: 開始
 label.dauerKonferenz: 会議の時間
 label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
 label.speichern: 保存
-label.allowMaybeOption: '"Vielleicht"-Option anbieten'
+label.allowMaybeOption: '「変更される可能性があります」オプションを提供する'
 option.15min: 15 分
 option.30min: 30 分
 option.45min: 45 分
@@ -168,6 +168,7 @@ label:
   livekitBackgroundImages: JSON形式の会議用背景画像
   livekitMiddlewareUrl: LivekitミドルウェアのURL
   disableSelfSubscriptionDoubleOptIn: 自分で登録する場合は、確認メールを送信しないでください
+  calendlyToken: Calendly 認証トークン
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
