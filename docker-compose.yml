@@ -205,10 +205,11 @@ services:
       KC_DB: mariadb
       KC_DB_USERNAME: keycloak
       KC_HTTP_RELATIVE_PATH: /keycloak
-      KC_PROXY: passthrough
+      KC_PROXY: edge
+      KC_HOSTNAME: ${APP_SCHEME}://${PUBLIC_URL}/keycloak
     restart: unless-stopped
     command:
-      - start
+      - start-dev
       - --import-realm
     labels:
       - "traefik.enable=true"
