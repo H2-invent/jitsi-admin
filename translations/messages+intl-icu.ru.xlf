@@ -1829,7 +1829,7 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="mSSJ9ZF" resname="public.invite.moreApps">
         <source>public.invite.moreApps</source>
-        <target state="needs-translation">Einladung zur Versammlung teilen</target>
+        <target state="needs-translation">Einladung zur Konferenz teilen</target>
       </trans-unit>
       <trans-unit id="wll_aF8" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
         <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
