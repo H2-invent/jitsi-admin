@@ -1,0 +1,1 @@
+This directory stores the recordings uploaded from the livekit system

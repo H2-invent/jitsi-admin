@@ -147,6 +147,17 @@ parameters:
     app.scheme: '%env(APP_SCHEME)%'
 
 services:
+    gaufrette.recording_fs_filesystem:
+        class: Gaufrette\Filesystem
+        arguments:
+            - '@gaufrette.adapter.recording_storage'
+
+    gaufrette.adapter.recording_storage:
+        class: Gaufrette\Adapter\Local
+        arguments:
+            - '%kernel.project_dir%/data/recording'
+        public: true
+
     Gaufrette\FilesystemInterface $recordingFilesystem:
         alias: gaufrette.recording_fs_filesystem
 
