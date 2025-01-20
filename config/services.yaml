@@ -151,7 +151,8 @@ services:
         class: Gaufrette\Filesystem
         arguments:
             - '@gaufrette.adapter.recording_storage'
-
+    Gaufrette\FilesystemInterface $recordingFilesystem:
+        alias: gaufrette.recording_fs_filesystem
     Twig\Extension\StringLoaderExtension:
 
     # default configuration for services in *this* file
