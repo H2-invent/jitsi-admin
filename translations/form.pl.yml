@@ -168,6 +168,7 @@ label:
   livekitBackgroundImages: Obrazy tła dla konferencji w formacie JSON
   livekitMiddlewareUrl: Adres URL oprogramowania Livekitmiddleware
   disableSelfSubscriptionDoubleOptIn: Jeśli rejestrujesz się sam, nie wysyłaj podwójnego e-maila ze zgodą
+  calendlyToken: Calendly Oauth Token
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
