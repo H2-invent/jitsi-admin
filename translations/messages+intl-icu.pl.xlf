@@ -1830,7 +1830,7 @@
       </trans-unit>
       <trans-unit id="mSSJ9ZF" resname="public.invite.moreApps">
         <source>public.invite.moreApps</source>
-        <target state="translated">Udostępnij zaproszenie na spotkanie</target>
+        <target state="needs-translation">Einladung zur Konferenz teilen</target>
       </trans-unit>
       <trans-unit id="wll_aF8" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
         <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
@@ -2322,9 +2322,101 @@
         <source>server.livekit.settings.header</source>
         <target state="translated">Ustawienia serwera Livekit</target>
       </trans-unit>
-      <trans-unit id="NDvG2yU" resname="Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.">
+      <trans-unit id="JzXOpBe" resname="Sofort Konferenz">
+        <source>Sofort Konferenz</source>
+        <target state="needs-translation">Sofort Konferenz</target>
+      </trans-unit>
+      <trans-unit id="wbKYh_R" resname="Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.">
         <source>Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</source>
-        <target state="translated">Uczestnicy, którzy rejestrują się poprzez samorejestrację, nie muszą najpierw klikać linku w wiadomości e-mail zawierającej podwójną zgodę, aby przejść do listy uczestników.</target>
+        <target state="needs-translation">Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</target>
+      </trans-unit>
+      <trans-unit id="x91IzR8" resname="Aufnahmen">
+        <source>Aufnahmen</source>
+        <target state="needs-translation">Aufnahmen</target>
+      </trans-unit>
+      <trans-unit id="CCvu_YE" resname="recordings.modal.title">
+        <source>recordings.modal.title</source>
+        <target state="needs-translation">Aufnahmen von Videokonferenzen</target>
+      </trans-unit>
+      <trans-unit id="KIFeNTw" resname="recording.email.subject">
+        <source>recording.email.subject</source>
+        <target state="needs-translation">Es wurde eine neue Aufnahme der Videokonferenz hochgeladen</target>
+      </trans-unit>
+      <trans-unit id="nYMq8lL" resname="recording.email.title">
+        <source>recording.email.title</source>
+        <target state="needs-translation">Es wurde eine Aufnahme für die Videokonferenz hochgladen</target>
+      </trans-unit>
+      <trans-unit id="cG2pjfJ" resname="recording.email.body">
+        <source>recording.email.body</source>
+        <target state="needs-translation">Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
+      </trans-unit>
+      <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
+        <source>recording.startSpeakerOnly</source>
+        <target state="needs-translation">Nur Sprecher </target>
+      </trans-unit>
+      <trans-unit id="SH.E5Cd" resname="recording.startSpeaker">
+        <source>recording.startSpeaker</source>
+        <target state="needs-translation">Sprecher Zentral </target>
+      </trans-unit>
+      <trans-unit id="yhh1FGG" resname="recording.startGrid">
+        <source>recording.startGrid</source>
+        <target state="needs-translation">Alle Teilnehmer in Kacheln</target>
+      </trans-unit>
+      <trans-unit id="yDlEa9I" resname="options.startRecording">
+        <source>options.startRecording</source>
+        <target state="needs-translation">Aufnahme starten</target>
+      </trans-unit>
+      <trans-unit id="JJHW_6u" resname="options.stopRecording">
+        <source>options.stopRecording</source>
+        <target state="needs-translation">Aufnahme beenden</target>
+      </trans-unit>
+      <trans-unit id="qEvCOWP" resname="calendly.connect.alreadyConnected">
+        <source>calendly.connect.alreadyConnected</source>
+        <target state="needs-translation">Calendly ist bereits mit ihrem Account verknüpft</target>
+      </trans-unit>
+      <trans-unit id="O88dTcc" resname="calendly.connect.success">
+        <source>calendly.connect.success</source>
+        <target state="needs-translation">Calendly erfolgreich verbunden</target>
+      </trans-unit>
+      <trans-unit id="Anobqg3" resname="calendly.header">
+        <source>calendly.header</source>
+        <target state="needs-translation">Calendly Verknüpfung</target>
+      </trans-unit>
+      <trans-unit id="EmLG0x7" resname="calendly.remove.success">
+        <source>calendly.remove.success</source>
+        <target state="needs-translation">Calendly erfolgreich getrennt</target>
+      </trans-unit>
+      <trans-unit id="mAx5a8B" resname="calendly.connect.wrongToken">
+        <source>calendly.connect.wrongToken</source>
+        <target state="needs-translation">Ungültiger Calendly Token</target>
+      </trans-unit>
+      <trans-unit id="99weUMj" resname="calendly.connect.netWorkError">
+        <source>calendly.connect.netWorkError</source>
+        <target state="needs-translation">Netzwerkfehler mit Calendly</target>
+      </trans-unit>
+      <trans-unit id="Hbzs3rh" resname="calendly.connect.redirectError">
+        <source>calendly.connect.redirectError</source>
+        <target state="needs-translation">Weiterleitungsfehler zu Calendly</target>
+      </trans-unit>
+      <trans-unit id="Pg0GhO4" resname="calendly.link.text">
+        <source>calendly.link.text</source>
+        <target state="needs-translation">Hier gehts zu Calendly</target>
+      </trans-unit>
+      <trans-unit id="l1FnXYh" resname="calendly.connection.isNotConnected">
+        <source>calendly.connection.isNotConnected</source>
+        <target state="needs-translation">Klicken um Calendly zu Verknüpfen</target>
+      </trans-unit>
+      <trans-unit id="HQT.6nh" resname="calendly.connection.connected">
+        <source>calendly.connection.connected</source>
+        <target state="needs-translation">Calendly ist bereits verknüpft</target>
+      </trans-unit>
+      <trans-unit id="KZOVa06" resname="callendly.disconnect">
+        <source>callendly.disconnect</source>
+        <target state="needs-translation">Calendly trennen</target>
+      </trans-unit>
+      <trans-unit id="KhffR.T" resname="calendly.tutorial.help">
+        <source>calendly.tutorial.help</source>
+        <target state="needs-translation">Wie binde ich Calendly ein?</target>
       </trans-unit>
     </body>
   </file>
