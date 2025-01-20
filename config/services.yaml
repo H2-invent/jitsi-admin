@@ -147,8 +147,10 @@ parameters:
     app.scheme: '%env(APP_SCHEME)%'
 
 services:
-    Gaufrette\FilesystemInterface $recordingFilesystem:
-        alias: gaufrette.recording_fs_filesystem
+    gaufrette.recording_fs_filesystem:
+        class: Gaufrette\Filesystem
+        arguments:
+            - '@gaufrette.adapter.recording_storage'
 
     Twig\Extension\StringLoaderExtension:
 
