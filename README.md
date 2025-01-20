@@ -31,7 +31,7 @@ Whether you're using **JWT tokens** for secure authentication or setting up with
 - **Outlook Integration**: Synchronize your meetings with Outlook via iCal links.
 - **Webinars and Open Conferences**: Host larger webinars and open meetings effortlessly.
 - **Meeting Reminders**: Keep participants informed with automated email reminders.
-
+- **Calendly integration**: Integrate you calendly meetings directly in you jitsi admin
 ---
 
 ## Testing Livekit Integration

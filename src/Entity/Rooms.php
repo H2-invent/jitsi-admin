@@ -149,6 +149,21 @@ class Rooms
     #[ORM\Column(nullable: true)]
     private ?bool $disableSelfSubscriptionDoubleOptIn = null;
 
+    /**
+     * @var Collection<int, UploadedRecording>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: UploadedRecording::class, orphanRemoval: true)]
+    private Collection $uploadedRecordings;
+
+    /**
+     * @var Collection<int, Recording>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Recording::class, orphanRemoval: true)]
+    private Collection $liveKitRecordings;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendly_uri = null;
+
 
     public function __construct()
     {
@@ -164,6 +179,8 @@ class Rooms
         $this->callerIds = new ArrayCollection();
         $this->calloutSessions = new ArrayCollection();
         $this->logs = new ArrayCollection();
+        $this->uploadedRecordings = new ArrayCollection();
+        $this->liveKitRecordings = new ArrayCollection();
     }
 
     public function normalize(string $propertyName): string
@@ -1062,6 +1079,36 @@ class Rooms
         return $this;
     }
 
+    /**
+     * @return Collection<int, UploadedRecording>
+     */
+    public function getUploadedRecordings(): Collection
+    {
+        return $this->uploadedRecordings;
+    }
+
+    public function addUploadedRecording(UploadedRecording $uploadedRecording): static
+    {
+        if (!$this->uploadedRecordings->contains($uploadedRecording)) {
+            $this->uploadedRecordings->add($uploadedRecording);
+            $uploadedRecording->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUploadedRecording(UploadedRecording $uploadedRecording): static
+    {
+        if ($this->uploadedRecordings->removeElement($uploadedRecording)) {
+            // set the owning side to null (unless already changed)
+            if ($uploadedRecording->getRoom() === $this) {
+                $uploadedRecording->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function isDisableSelfSubscriptionDoubleOptIn(): ?bool
     {
         return $this->disableSelfSubscriptionDoubleOptIn;
@@ -1070,6 +1117,48 @@ class Rooms
     public function setDisableSelfSubscriptionDoubleOptIn(?bool $disableSelfSubscriptionDoubleOptIn): static
     {
         $this->disableSelfSubscriptionDoubleOptIn = $disableSelfSubscriptionDoubleOptIn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Recording>
+     */
+    public function getLiveKitRecordings(): Collection
+    {
+        return $this->liveKitRecordings;
+    }
+
+    public function addLiveKitRecording(Recording $liveKitRecording): static
+    {
+        if (!$this->liveKitRecordings->contains($liveKitRecording)) {
+            $this->liveKitRecordings->add($liveKitRecording);
+            $liveKitRecording->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLiveKitRecording(Recording $liveKitRecording): static
+    {
+        if ($this->liveKitRecordings->removeElement($liveKitRecording)) {
+            // set the owning side to null (unless already changed)
+            if ($liveKitRecording->getRoom() === $this) {
+                $liveKitRecording->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCalendlyUri(): ?string
+    {
+        return $this->calendly_uri;
+    }
+
+    public function setCalendlyUri(?string $calendly_uri): static
+    {
+        $this->calendly_uri = $calendly_uri;
 
         return $this;
     }

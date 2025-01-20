@@ -40,11 +40,13 @@ class ParticipantController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route(path: '/room/participant/add', name: 'room_add_user')]
-    public function roomAddUser(Request $request, RoomAddService $roomAddService)
+    #[Route(path: '/room/participant/add/{room}', name: 'room_add_user')]
+    public function roomAddUser(Request $request, RoomAddService $roomAddService, Rooms $room)
     {
         $newMember = [];
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        if (!$room){
+            return $this->redirectToRoute('dashboard');
+        }
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
@@ -57,7 +59,6 @@ class ParticipantController extends JitsiAdminController
             $falseEmail = [];
             $falseEmail = array_merge(
                 $roomAddService->createParticipants($newMembers['member'], $room, $this->getUser()),
-                $roomAddService->createModerators($newMembers['moderator'], $room)
             );
 
             if (sizeof($falseEmail) > 0) {
@@ -73,6 +74,35 @@ class ParticipantController extends JitsiAdminController
         $title = $this->translator->trans('Teilnehmer verwalten');
 
         return $this->render('room/attendeeModal.twig', ['form' => $form->createView(), 'title' => $title, 'room' => $room]);
+    }
+
+    #[Route(path: '/room/participant/add_single/{room}', name: 'room_add_user_single', methods: "POST")]
+    public function roomAddUserSingle(Request $request, RoomAddService $roomAddService, Rooms $room): JsonResponse
+    {
+        $invalidMember = [];
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
+            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
+            return new JsonResponse(['error' => true]);
+        }
+
+        $newParticipant = json_decode($request->getContent(),true);
+        if (isset($newParticipant['participant'])){
+            $newParticipant = $newParticipant['participant'];
+            $this->logger->debug('Participants found in cont send to add new participants',$newParticipant);
+        }else{
+            $this->logger->error('No participant entry in request for adding user', $newParticipant);
+            return new JsonResponse(['error' => true]);
+        }
+
+        foreach ($newParticipant as $data) {
+            try {
+                $roomAddService->createSingleParticipantAndAddtoRoom($data, $this->getUser(), $room);
+            } catch (\Exception) {
+                $invalidMember[] = $data;
+            }
+
+        }
+        return new JsonResponse(['invalidMember' => $invalidMember]);
     }
 
     #[Route(path: '/room/participant/past', name: 'room_past_user')]
@@ -100,9 +130,11 @@ class ParticipantController extends JitsiAdminController
             $snack = $roomAddService->removeUserFromRoom($user, $room);
         } else {
             $this->addFlash('danger', $snack);
+            return  $this->redirectToRoute('dashboard');
         }
-        return $this->redirectToRoute('dashboard');
+        return $this->render('room/attendeeModal.twig', ['title' => 'einladen', 'room' => $room]);
     }
+
 
 
     #[Route(path: '/room/participant/resend', name: 'room_user_resend')]

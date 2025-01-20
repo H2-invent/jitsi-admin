@@ -67,7 +67,7 @@
       </trans-unit>
       <trans-unit id="sTmCUdb" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
         <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
-        <target state="needs-translation">Sie wurden zu einer Videokonferenz hinzugefügt.</target>
+        <target state="translated">あなたはウェブ会議に追加されました。</target>
       </trans-unit>
       <trans-unit id="5yUgKMK" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
@@ -195,215 +195,215 @@
       </trans-unit>
       <trans-unit id="11h1OVO" resname="SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten">
         <source>SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten</source>
-        <target state="needs-translation">Die SMTP-Einstellungen sind korrekt. Sie sollten in Kürze eine E-Mail erhalten.</target>
+        <target state="translated">SMTPの設定が完了しました。すぐにメールが届きます。</target>
       </trans-unit>
       <trans-unit id="CvLQYUn" resname="Fehler, der Server ist nicht registriert">
         <source>Fehler, der Server ist nicht registriert</source>
-        <target state="needs-translation">Fehler, der Server ist nicht registriert.</target>
+        <target state="translated">エラー。サーバが登録されていません。</target>
       </trans-unit>
       <trans-unit id="db4Tc5g" resname="Testmail vom Jitsi-Admin">
         <source>Testmail vom Jitsi-Admin</source>
-        <target state="needs-translation">Test-E-Mail von Jitsi Admin</target>
+        <target state="translated">Jitsi Adminからのテストメール</target>
       </trans-unit>
       <trans-unit id="tEn5ESM" resname="Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet">
         <source>Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet</source>
-        <target state="needs-translation">Sie haben einen SMTP Server für Ihren Jitsi Server erfolgreich eingerichtet.</target>
+        <target state="translated">Jitsi サーバー用の SMTP サーバーが正常に構成されました。</target>
       </trans-unit>
       <trans-unit id="6CdI0x2" resname="Fehler, Ihre SMTP-Parameter sind fehlerhaft">
         <source>Fehler, Ihre SMTP-Parameter sind fehlerhaft</source>
-        <target state="needs-translation">Fehler, Ihre SMTP-Parameter sind fehlerhaft.</target>
+        <target state="translated">エラー。SMTPのパラメータが間違っています。</target>
       </trans-unit>
       <trans-unit id="CqaZ.1f" resname="Bitte geben Sie ihre Daten ein">
         <source>Bitte geben Sie ihre Daten ein</source>
-        <target state="needs-translation">Bitte geben Sie Ihre Daten ein.</target>
+        <target state="translated">詳細を入力してください。</target>
       </trans-unit>
       <trans-unit id="wxmdl47" resname="Konferenzen">
         <source>Konferenzen</source>
-        <target state="needs-translation">Konferenzen</target>
+        <target state="translated">会議</target>
       </trans-unit>
       <trans-unit id="1e8jFXq" resname="Teilnehmer">
         <source>Teilnehmer</source>
-        <target state="needs-translation">Teilnehmende</target>
+        <target state="translated">参加者</target>
       </trans-unit>
       <trans-unit id="STLNIRk" resname="Organisatoren">
         <source>Organisatoren</source>
-        <target state="needs-translation">Organisatoren</target>
+        <target state="translated">主催者</target>
       </trans-unit>
       <trans-unit id="K59Wy84" resname="Neue Version von Jitsi Admin verfügbar">
         <source>Neue Version von Jitsi Admin verfügbar</source>
-        <target state="needs-translation">Eine neue Version von Jitsi Admin ist verfügbar.</target>
+        <target state="translated">Jitsi Admin の新しいバージョンが利用可能です。</target>
       </trans-unit>
       <trans-unit id="r9DA9sF" resname="Aktuellste Jitsi Admin Version installiert">
         <source>Aktuellste Jitsi Admin Version installiert</source>
-        <target state="needs-translation">Die aktuelle Jitsi-Admin-Version wurde installiert.</target>
+        <target state="translated">最新の Jitsi Admin バージョンがインストールされています。</target>
       </trans-unit>
       <trans-unit id="xe1M_dI" resname="Anzahl Konferenzen">
         <source>Anzahl Konferenzen</source>
-        <target state="needs-translation">Anzahl der Konferenzen</target>
+        <target state="translated">会議の数</target>
       </trans-unit>
       <trans-unit id="P6awl_5" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="needs-translation">Anzahl der Eingeladenen</target>
+        <target state="translated">招待者の数</target>
       </trans-unit>
       <trans-unit id="0r4e3w5" resname="Adressbuch">
         <source>Adressbuch</source>
-        <target state="needs-translation">Adressbuch</target>
+        <target state="translated">アドレス帳</target>
       </trans-unit>
       <trans-unit id="C.ql1Nf" resname="Wollen Sie mit diesem Teilnehmer eine Konferenz starten">
         <source>Wollen Sie mit diesem Teilnehmer eine Konferenz starten</source>
-        <target state="needs-translation">Wollen Sie mit diesem Teilnehmenden eine Konferenz starten?</target>
+        <target state="translated">この参加者と会議を開始しますか？</target>
       </trans-unit>
       <trans-unit id="to4aq.K" resname="Impressum">
         <source>Impressum</source>
-        <target state="needs-translation">Impressum</target>
+        <target state="translated">免責事項</target>
       </trans-unit>
       <trans-unit id="pmDFwPM" resname="Datenschutzhinweis">
         <source>Datenschutzhinweis</source>
-        <target state="needs-translation">Datenschutzhinweis</target>
+        <target state="translated">利用規約</target>
       </trans-unit>
       <trans-unit id="HE_WOCg" resname="Fehler oder neue Idee melden">
         <source>Fehler oder neue Idee melden</source>
-        <target state="needs-translation">Fehler oder neue Idee melden</target>
+        <target state="translated">バグや新しいアイデアを報告する</target>
       </trans-unit>
       <trans-unit id="BASHIvx" resname="Erweiterte Optionen">
         <source>Erweiterte Optionen</source>
-        <target state="needs-translation">Erweiterte Optionen</target>
+        <target state="translated">詳細設定</target>
       </trans-unit>
       <trans-unit id="TK1f07G" resname="Profil">
         <source>Profil</source>
-        <target state="needs-translation">Profil</target>
+        <target state="translated">プロフィール</target>
       </trans-unit>
       <trans-unit id="wbMeKOh" resname="Name">
         <source>Name</source>
-        <target state="needs-translation">Name</target>
+        <target state="translated">名前</target>
       </trans-unit>
       <trans-unit id="lAMzoDN" resname="Profil bearbeiten">
         <source>Profil bearbeiten</source>
-        <target state="needs-translation">Profil bearbeiten</target>
+        <target state="translated">プロフィールを編集する</target>
       </trans-unit>
       <trans-unit id="IdvPnG8" resname="Passwort ändern">
         <source>Passwort ändern</source>
-        <target state="needs-translation">Passwort ändern</target>
+        <target state="translated">パスワードを変更する</target>
       </trans-unit>
       <trans-unit id="JKl2Twv" resname="Logout">
         <source>Logout</source>
-        <target state="needs-translation">Log-out</target>
+        <target state="translated">ログアウト</target>
       </trans-unit>
       <trans-unit id="Qh4fmxf" resname="Hilfe">
         <source>Hilfe</source>
-        <target state="needs-translation">Hilfe</target>
+        <target state="translated">ヘルプ</target>
       </trans-unit>
       <trans-unit id="it3eMmL" resname="Jitsi-Meet-Servereinstellungen">
         <source>Jitsi-Meet-Servereinstellungen</source>
-        <target state="needs-translation">Jitsi-Meet-Servereinstellungen</target>
+        <target state="translated">Jitsi Meetサーバの設定</target>
       </trans-unit>
       <trans-unit id="tJYxc_c" resname="Zukünftige Konferenzen">
         <source>Zukünftige Konferenzen</source>
-        <target state="needs-translation">Zukünftige Konferenzen</target>
+        <target state="translated">今後の会議</target>
       </trans-unit>
       <trans-unit id="9sYAgzQ" resname="Vergangene Konferenzen">
         <source>Vergangene Konferenzen</source>
-        <target state="needs-translation">Vergangene Konferenzen</target>
+        <target state="translated">過去の会議</target>
       </trans-unit>
       <trans-unit id="Z1Y.QeG" resname="Eine Konferenz planen">
         <source>Eine Konferenz planen</source>
-        <target state="needs-translation">Konferenz planen</target>
+        <target state="translated">会議の予定</target>
       </trans-unit>
       <trans-unit id="l_i7mDh" resname="Heute">
         <source>Heute</source>
-        <target state="needs-translation">Heute</target>
+        <target state="translated">今日</target>
       </trans-unit>
       <trans-unit id="GKxRloL" resname="Heute steht keine Jitsi Meet Konferenz an.">
         <source>Heute steht keine Jitsi Meet Konferenz an.</source>
-        <target state="needs-translation">Heute ist keine Konferenz geplant.</target>
+        <target state="translated">今日に予定されている会議はありません。</target>
       </trans-unit>
       <trans-unit id="PhOrhyi" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
         <source>Aktuell sind keine vergangenen Konferenzen vorhanden.</source>
-        <target state="needs-translation">Aktuell sind keine vergangenen Konferenzen vorhanden.</target>
+        <target state="translated">過去の会議はありません。</target>
       </trans-unit>
       <trans-unit id="sluqm16" resname="Entfernen">
         <source>Entfernen</source>
-        <target state="needs-translation">Entfernen</target>
+        <target state="translated">削除</target>
       </trans-unit>
       <trans-unit id="B91I1F5" resname="Starten">
         <source>Starten</source>
-        <target state="needs-translation">Starten</target>
+        <target state="translated">開始</target>
       </trans-unit>
       <trans-unit id="vkP0gPj" resname="Im Browser">
         <source>Im Browser</source>
-        <target state="needs-translation">Starten</target>
+        <target state="translated">開始</target>
       </trans-unit>
       <trans-unit id="m7uFjwQ" resname="In der App">
         <source>In der App</source>
-        <target state="needs-translation">In der App</target>
+        <target state="translated">アプリで開く</target>
       </trans-unit>
       <trans-unit id="8glFZyM" resname="Läuft gerade">
         <source>Läuft gerade</source>
-        <target state="needs-translation">Läuft zurzeit</target>
+        <target state="translated">実行中</target>
       </trans-unit>
       <trans-unit id="5FjfAhL" resname="Moderator">
         <source>Moderator</source>
-        <target state="needs-translation">Moderator</target>
+        <target state="translated">モデレータ</target>
       </trans-unit>
       <trans-unit id="h3iGSDx" resname="Intern">
         <source>Intern</source>
-        <target state="needs-translation">Intern</target>
+        <target state="translated">内部向け</target>
       </trans-unit>
       <trans-unit id="qt0WF.b" resname="Öffentlich">
         <source>Öffentlich</source>
-        <target state="needs-translation">Öffentlich</target>
+        <target state="translated">公開</target>
       </trans-unit>
       <trans-unit id="iHRAo8z" resname="Agenda">
         <source>Agenda</source>
-        <target state="needs-translation">Agenda</target>
+        <target state="translated">議題</target>
       </trans-unit>
       <trans-unit id="MYiPBqT" resname="Keine Angabe">
         <source>Keine Angabe</source>
-        <target state="needs-translation">Keine Angabe</target>
+        <target state="translated">指定なし</target>
       </trans-unit>
       <trans-unit id="NeHXYoQ" resname="Server">
         <source>Server</source>
-        <target state="needs-translation">Server</target>
+        <target state="translated">サーバ</target>
       </trans-unit>
       <trans-unit id="6Pc0wx7" resname="Optionen">
         <source>Optionen</source>
-        <target state="needs-translation">Optionen</target>
+        <target state="translated">オプション</target>
       </trans-unit>
       <trans-unit id=".5KWHQT" resname="Einladungslinks">
         <source>Einladungslinks</source>
-        <target state="needs-translation">Einladungslinks</target>
+        <target state="translated">招待リンク</target>
       </trans-unit>
       <trans-unit id="7B84zKM" resname="Löschen">
         <source>Löschen</source>
-        <target state="needs-translation">Löschen</target>
+        <target state="translated">削除</target>
       </trans-unit>
       <trans-unit id="Y4fuS2L" resname="Bearbeiten">
         <source>Bearbeiten</source>
-        <target state="needs-translation">Bearbeiten</target>
+        <target state="translated">編集</target>
       </trans-unit>
       <trans-unit id="GSTOB.p" resname="Duplizieren">
         <source>Duplizieren</source>
-        <target state="needs-translation">Duplizieren</target>
+        <target state="translated">コピー</target>
       </trans-unit>
       <trans-unit id="rTb2J0V" resname="Einladung zur Videokonferenz">
         <source>Einladung zur Videokonferenz</source>
-        <target state="needs-translation">Einladung zur Videokonferenz</target>
+        <target state="translated">新しい会議への招待</target>
       </trans-unit>
       <trans-unit id="ggCfACW" resname="Hallo!">
         <source>Hallo!</source>
-        <target state="needs-translation">Hallo!</target>
+        <target state="translated">ようこそ</target>
       </trans-unit>
       <trans-unit id="4cipQ9E" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Sie wurden soeben zu einer Videokonferenz eingeladen. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
+        <target state="translated">あなたはウェブ会議に招待されました。添付のリンクを使用して会議に簡単に参加できます。</target>
       </trans-unit>
       <trans-unit id="7_GgDT2" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
                                     &lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
-        <target state="needs-translation"><![CDATA[Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten? 
+        <target state="translated"><![CDATA[この快適な会議をダッシュボードで管理したいとお考えですか？
                                     <br>
-                                    Dann melden Sie sich bitte <a href="{url}">hier</a>&nbsp;an.]]></target>
+                                    <a href="{url}">登録する</a>.]]></target>
       </trans-unit>
       <trans-unit id="New7gXl" resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an.">
         <source>Sie wollen selber eine Videokonferenz
@@ -411,27 +411,26 @@
                                                      in einer Übersicht verwalten?&lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
                                     an.</source>
-        <target state="needs-translation"><![CDATA[Sie wollen selbst eine Videokonferenz
-                                    <b>kostenlos</b> planen oder diese Konferenz komfortabel
-                                                     in einer Übersicht verwalten?<br>
-                                    Dann melden Sie sich bitte <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
-                                    an.]]></target>
+        <target state="translated"><![CDATA[ウェブ会議を快適かつ
+                                   <b>無料で</b> 管理したいですか
+                                                     <br>
+                                     <a href="{url}">登録する</a>&nbsp;<b>（無料）</b>.]]></target>
       </trans-unit>
       <trans-unit id="WVu3PfU" resname="Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.">
         <source>Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</source>
-        <target state="needs-translation">Sie erhalten diese E-Mail, da Ihr Name auf der Teilnehmendenliste dieser Konferenz steht.</target>
+        <target state="translated">この会議の参加者リストにあなたの名前が載っているため、このメールをお送りしています。</target>
       </trans-unit>
       <trans-unit id="0NZc7Fw" resname="Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.">
         <source>Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.</source>
-        <target state="needs-translation">Sie erhalten diese E-Mail, da Ihr Name zu einem Jitsi Server hinzugefügt wurde.</target>
+        <target state="translated">あなたの名前が Jitsi サーバーに追加されたため、このメールを受信して​​います。</target>
       </trans-unit>
       <trans-unit id="DUx137y" resname="Diese Mail wurde Ihnen gesendet im Auftrag von:">
         <source>Diese Mail wurde Ihnen gesendet im Auftrag von:</source>
-        <target state="needs-translation">Diese E-Mail haben Sie erhalten im Auftrag von:</target>
+        <target state="translated">このメールはこのユーザによって送信されました:</target>
       </trans-unit>
       <trans-unit id="FYtMWHT" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
-        <target state="needs-translation">Powered by Jitsi Admin, die Open-Source-Jitsi-Planer-Software</target>
+        <target state="translated">Powered by Jitsi Admin, the Open Source Jitsi Planner Software</target>
       </trans-unit>
       <trans-unit id="d92lGhM" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
@@ -439,307 +438,306 @@
       </trans-unit>
       <trans-unit id="OuxWv7Q" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde soeben geändert. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
+        <target state="translated">イベント「 {name} 」は変更されました。添付のリンクよりウェブ会議に参加できます。</target>
       </trans-unit>
       <trans-unit id="h4Y9XrI" resname="Erinnerung zur Videokonferenz">
         <source>Erinnerung zur Videokonferenz</source>
-        <target state="needs-translation">Erinnerung: Die Videokonferenz beginnt in 10 Minuten.</target>
+        <target state="translated">リマインダー: ビデオ会議は 10 分後に始まります。</target>
       </trans-unit>
       <trans-unit id="Yhq8Qwv" resname="Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Die Videokonferenz auf dem Server {url} beginnt gleich. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
+        <target state="translated">サーバー {url} でビデオ会議が開始されます。添付のリンクを使用してビデオ会議に簡単に参加できます。</target>
       </trans-unit>
       <trans-unit id="rWDJRwr" resname="Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.">
         <source>Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</target>
+        <target state="translated">イベント {name} はキャンセルされたため、カレンダーから削除できます。</target>
       </trans-unit>
       <trans-unit id="CrfIDQx" resname="Datum">
         <source>Datum</source>
-        <target state="needs-translation">Datum</target>
+        <target state="translated">日付</target>
       </trans-unit>
       <trans-unit id="7M52Qzd" resname="Startzeit">
         <source>Startzeit</source>
-        <target state="needs-translation">Startzeit</target>
+        <target state="translated">開始時間</target>
       </trans-unit>
       <trans-unit id="igPBE0L" resname="Geplante Dauer">
         <source>Geplante Dauer</source>
-        <target state="needs-translation">Geplante Dauer</target>
+        <target state="translated">予定されている期間</target>
       </trans-unit>
       <trans-unit id="np50Sa5" resname="Minuten">
         <source>Minuten</source>
-        <target state="needs-translation">Minuten</target>
+        <target state="translated">分</target>
       </trans-unit>
       <trans-unit id="0YNVynf" resname="Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen">
         <source>Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen</source>
-        <target state="needs-translation">Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen.</target>
+        <target state="translated">Jitsi Server {url} の会議を管理できます。</target>
       </trans-unit>
       <trans-unit id="ItIVAzb" resname="Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie&#10;        sich einen Benutzer.">
         <source>Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
         sich einen Benutzer.</source>
-        <target state="needs-translation">Sie können nun Jitsi-Meet-Konferenzen über Jitsi Admin verwalten. Loggen Sie sich bitte ein oder erstellen Sie
-        sich einen Benutzer.</target>
+        <target state="translated">Jitsi Meetの会議をJitsi-Adminで管理できます。ここからログインするか登録してください。</target>
       </trans-unit>
       <trans-unit id="4f3WEva" resname="Login">
         <source>Login</source>
-        <target state="needs-translation">Log-in</target>
+        <target state="translated">ログイン</target>
       </trans-unit>
       <trans-unit id="2KpWL9Z" resname="Server Administrator">
         <source>Server Administrator</source>
-        <target state="needs-translation">Server Administrator</target>
+        <target state="translated">サーバ管理者</target>
       </trans-unit>
       <trans-unit id="f4aqU0d" resname="Bestätigung Ihrer Anmeldung">
         <source>Bestätigung Ihrer Anmeldung</source>
-        <target state="needs-translation">Bestätigung Ihrer Anmeldung</target>
+        <target state="translated">登録の確認</target>
       </trans-unit>
       <trans-unit id="TbOhCzT" resname="Sie haben sich zur Konferenz {name} angemeldet.">
         <source>Sie haben sich zur Konferenz {name} angemeldet.</source>
-        <target state="needs-translation">Sie haben sich zur Konferenz {name} angemeldet.</target>
+        <target state="translated">会議 {name} に登録しました。</target>
       </trans-unit>
       <trans-unit id="k3D2lZ." resname="Klicken Sie hier um die Anmeldung abzuschließen">
         <source>Klicken Sie hier um die Anmeldung abzuschließen</source>
-        <target state="needs-translation">Bitte klicken Sie hier, um die Anmeldung abzuschließen.</target>
+        <target state="translated">ここをクリックして登録を完了してください。</target>
       </trans-unit>
       <trans-unit id="wMCAtIO" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz-ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz-ID: {uid}</source>
-        <target state="needs-translation"><![CDATA[Folgende Daten benötigen Sie, um der Konferenz beizutreten:<br>
-        Ihre E-Mail-Adresse: {email}<br>
-        Konferenz-ID: {uid}]]></target>
+        <target state="translated"><![CDATA[会議に参加するために下記を入力してください:<br>
+        あなたのメールアドレス: {email}<br>
+        会議ID: {uid}]]></target>
       </trans-unit>
       <trans-unit id="a_1cDCX" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
         <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
-        <target state="needs-translation">Klicken Sie hier, um direkt zu der Videokonferenz zu gelangen.</target>
+        <target state="translated">ここをクリックするとウェブ会議に直接アクセスできます。</target>
       </trans-unit>
       <trans-unit id="7B3V0of" resname="Konferenz beitreten">
         <source>Konferenz beitreten</source>
-        <target state="needs-translation">Zur Konferenz beitreten</target>
+        <target state="translated">会議に参加</target>
       </trans-unit>
       <trans-unit id="mp7za9I" resname="Füllen Sie das Formular aus um der Konferenz beizutreten">
         <source>Füllen Sie das Formular aus um der Konferenz beizutreten</source>
-        <target state="needs-translation">Bitte füllen Sie das Formular aus, um der Konferenz beizutreten.</target>
+        <target state="translated">この会議に参加するために下記のフォームを入力してください。</target>
       </trans-unit>
       <trans-unit id="D1jmB18" resname="Startseite">
         <source>Startseite</source>
-        <target state="needs-translation">Startseite</target>
+        <target state="translated">ホーム</target>
       </trans-unit>
       <trans-unit id="xHsbIh6" resname="Dashboard">
         <source>Dashboard</source>
-        <target state="needs-translation">Dashboard</target>
+        <target state="translated">ダッシュボード</target>
       </trans-unit>
       <trans-unit id="zsOFi4H" resname="Registrieren">
         <source>Registrieren</source>
-        <target state="needs-translation">Registrieren</target>
+        <target state="translated">登録</target>
       </trans-unit>
       <trans-unit id="7b88WxI" resname="Öffentliche Konferenzen">
         <source>Öffentliche Konferenzen</source>
-        <target state="needs-translation">Öffentliche Konferenzen</target>
+        <target state="translated">公開会議</target>
       </trans-unit>
       <trans-unit id="pJger6D" resname="Anmelden">
         <source>Anmelden</source>
-        <target state="needs-translation">Anmelden</target>
+        <target state="translated">ログイン</target>
       </trans-unit>
       <trans-unit id="ySFyIYP" resname="Teilnehmerliste">
         <source>Teilnehmerliste</source>
-        <target state="needs-translation">Teilnehmendenliste</target>
+        <target state="translated">参加者一覧</target>
       </trans-unit>
       <trans-unit id="Q26TzN7" resname="Zum Moderator ernennen">
         <source>Zum Moderator ernennen</source>
-        <target state="needs-translation">Moderator ernennen</target>
+        <target state="translated">主催者を任命する</target>
       </trans-unit>
       <trans-unit id="ZlARj2z" resname="Erlauben seinen Desktop zu teilen">
         <source>Erlauben seinen Desktop zu teilen</source>
-        <target state="needs-translation">Dem Teilnehmenden erlauben, die Ansicht auf seinem Bildschirm zu teilen</target>
+        <target state="translated">画面共有権限を付与する</target>
       </trans-unit>
       <trans-unit id="V2Z1FsY" resname="Organisator">
         <source>Organisator</source>
-        <target state="needs-translation">Organisator</target>
+        <target state="translated">主催者</target>
       </trans-unit>
       <trans-unit id="ymAqBXk" resname="Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?">
         <source>Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden wirklich zum Moderator ernennen?</target>
+        <target state="translated">本当に参加者をモデレータとして任命しますか?</target>
       </trans-unit>
       <trans-unit id="_HbRcm3" resname="Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?">
         <source>Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden wirklich als Moderator entfernen?</target>
+        <target state="translated">本当に参加者をモデレータから削除してもよろしいですか?</target>
       </trans-unit>
       <trans-unit id=".Ar6YZg" resname="Diesem Nutzer erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer erlauben seinen Bildschirm zu teilen</source>
-        <target state="needs-translation">Diesem Nutzer erlauben, die Ansicht auf dem Bildschirm zu teilen</target>
+        <target state="translated">このユーザーに画面の共有を許可します</target>
       </trans-unit>
       <trans-unit id="w86IY9b" resname="Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen</source>
-        <target state="needs-translation">Diesem Nutzer nicht mehr erlauben, die Ansicht auf dem Bildschirm zu teilen</target>
+        <target state="translated">このユーザーは画面の共有ができなくなります</target>
       </trans-unit>
       <trans-unit id="odImhmg" resname="Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden">
         <source>Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Diesem Nutzer erlauben, private Nachrichten an andere Teilnehmende zu senden</target>
+        <target state="translated">このユーザーが他の参加者にプライベート メッセージを送信できるようにする</target>
       </trans-unit>
       <trans-unit id="ujpzVuV" resname="Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden">
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Diesem Nutzer nicht mehr erlauben, private Nachrichten an andere Teilnehmende zu senden</target>
+        <target state="translated">このユーザーは他の参加者にプライベート メッセージを送信できなくなります</target>
       </trans-unit>
       <trans-unit id="0JGAgSU" resname="Teilnehmer suchen">
         <source>Teilnehmer suchen</source>
-        <target state="needs-translation">Teilnehmende suchen</target>
+        <target state="translated">参加者を検索する</target>
       </trans-unit>
       <trans-unit id="aVl9O9C" resname="Tippen zum Suchen">
         <source>Tippen zum Suchen</source>
-        <target state="needs-translation">Tippen zum Suchen</target>
+        <target state="translated">タップして検索</target>
       </trans-unit>
       <trans-unit id="zBJw8QA" resname="Abbrechen">
         <source>Abbrechen</source>
-        <target state="needs-translation">Abbrechen</target>
+        <target state="translated">キャンセル</target>
       </trans-unit>
       <trans-unit id="xh.U15f" resname="Server ID und Secret anzeigen">
         <source>Server ID und Secret anzeigen</source>
-        <target state="needs-translation">Server-ID und Secret anzeigen</target>
+        <target state="translated">サーバIDと秘密キーを表示する</target>
       </trans-unit>
       <trans-unit id="lWzOFMU" resname="Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.">
         <source>Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.</source>
-        <target state="needs-translation">Bitte geben Sie hier Ihren Pro-Lizenz-Key ein, wenn Sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi Admin Enterprise.</target>
+        <target state="translated">Pro ライセンス キーを購入した場合は、ここに Pro ライセンス キーを入力してください。 Jitsi Admin Enterprise の詳細については、こちらをご覧ください。</target>
       </trans-unit>
       <trans-unit id="7X.Gs6V" resname="Enterprise bis">
         <source>Enterprise bis</source>
-        <target state="needs-translation">Enterprise bis</target>
+        <target state="translated">エンタープライズ</target>
       </trans-unit>
       <trans-unit id="8oJeBOq" resname="Logo">
         <source>Logo</source>
-        <target state="needs-translation">Logo</target>
+        <target state="translated">ロゴ</target>
       </trans-unit>
       <trans-unit id="alI4yq2" resname="Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.">
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
-        <target state="needs-translation">Hier können Sie eine URL-Adresse zu Ihrem Logo einfügen, damit die Teilnehmenden auf der Join-Seite Ihr Logo sehen.</target>
+        <target state="translated">ここにロゴの URL アドレスを挿入すると、参加者が参加ページでロゴを確認できるようになります。</target>
       </trans-unit>
       <trans-unit id="76rUyBo" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.">
         <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
-        <target state="needs-translation">Bitte geben Sie hier einen Link zu den Datenschutzhinweisen für den Jitsi Meet Server an, damit die Teilnehmenden auf sie hingewiesen werden.</target>
+        <target state="translated">参加者に通知できるように、Jitsi Meet サーバーのデータ保護情報へのリンクをここに提供してください。</target>
       </trans-unit>
       <trans-unit id="cKI6E.k" resname="SMTP-Einstellungen">
         <source>SMTP-Einstellungen</source>
-        <target state="needs-translation">SMTP-Einstellungen</target>
+        <target state="translated">SMTP設定</target>
       </trans-unit>
       <trans-unit id="c8vmUeF" resname="Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.">
         <source>Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</source>
-        <target state="needs-translation">Hier können Sie einen eigenen SMTP Server zum Versenden von E-Mails angeben. Ist kein SMTP Server angegeben, wird der Standard-Server von Jitsi Admin verwendet.</target>
+        <target state="translated">ここでは、電子メールを送信するための独自の SMTP サーバーを指定できます。 SMTP サーバーが指定されていない場合は、デフォルトの Jitsi Admin サーバーが使用されます。</target>
       </trans-unit>
       <trans-unit id="VilEgK." resname="Hintergrundbild">
         <source>Hintergrundbild</source>
-        <target state="needs-translation">Hintergrundbild</target>
+        <target state="translated">背景画像</target>
       </trans-unit>
       <trans-unit id="bZ7DwfJ" resname="API-Key neu genereieren">
         <source>API-Key neu genereieren</source>
-        <target state="needs-translation">API-Key neu generieren</target>
+        <target state="translated">APIキーを再度生成する</target>
       </trans-unit>
       <trans-unit id="UlrfAHK" resname="Server hinzufügen">
         <source>Server hinzufügen</source>
-        <target state="needs-translation">Server hinzufügen</target>
+        <target state="translated">サーバを追加</target>
       </trans-unit>
       <trans-unit id="L4TOVMr" resname="Bei Fragen wenden Sie sich an ihren Administrator">
         <source>Bei Fragen wenden Sie sich an ihren Administrator</source>
-        <target state="needs-translation">Bei Fragen wenden Sie sich bitte an Ihren Administrator.</target>
+        <target state="translated">ご質問がある場合は、管理者にお問い合わせください。</target>
       </trans-unit>
       <trans-unit id="o2C8hNm" resname="Enterprise Einstellungen">
         <source>Enterprise Einstellungen</source>
-        <target state="needs-translation">Enterprise-Einstellungen</target>
+        <target state="translated">エンタープライズ設定</target>
       </trans-unit>
       <trans-unit id="5.XgwDN" resname="Teste SMTP">
         <source>Teste SMTP</source>
-        <target state="needs-translation">Testen Sie bitte SMTP.</target>
+        <target state="translated">SMTP接続をテスト</target>
       </trans-unit>
       <trans-unit id="J.7j3Re" resname="Meine Join-Seite">
         <source>Meine Join-Seite</source>
-        <target state="needs-translation">Meine Join-Seite</target>
+        <target state="translated">My join page</target>
       </trans-unit>
       <trans-unit id="YyZrxY5" resname="Statistiken">
         <source>Statistiken</source>
-        <target state="needs-translation">Statistiken</target>
+        <target state="translated">統計</target>
       </trans-unit>
       <trans-unit id="cnPWIEK" resname="Server löschen">
         <source>Server löschen</source>
-        <target state="needs-translation">Server löschen</target>
+        <target state="translated">サーバーを削除</target>
       </trans-unit>
       <trans-unit id="pRvoyAU" resname="Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein">
         <source>Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein</source>
-        <target state="needs-translation">Bitte melden Sie sich an und tragen Sie sich in die Teilnehmendenliste ein.</target>
+        <target state="translated">ここからログインして、参加者リストにサインアップしてください。</target>
       </trans-unit>
       <trans-unit id="UGE8UYS" resname="Einladungslink für Teilnehmer">
         <source>Einladungslink für Teilnehmer</source>
-        <target state="needs-translation">Link zur Einladung für Teilnehmende</target>
+        <target state="translated">参加者への招待リンク</target>
       </trans-unit>
       <trans-unit id="pjOCOU2" resname="Einladungslink für Moderatoren">
         <source>Einladungslink für Moderatoren</source>
-        <target state="needs-translation">Link zur Einladung für Moderatoren</target>
+        <target state="translated">主催者への招待リンク</target>
       </trans-unit>
       <trans-unit id="4qCbeMB" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus</source>
-        <target state="needs-translation">Ihre Jitsi-Admin-Enterprise-Lizenz endet bald.</target>
+        <target state="translated">Jitsi Admin エンタープライズ ライセンスはまもなく期限切れになります。</target>
       </trans-unit>
       <trans-unit id="REKub__" resname="Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus">
         <source>Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</source>
-        <target state="needs-translation">Ihre Lizenz für den Jitsi Meet Server mit der Url: {url} endet am {date}.</target>
+        <target state="translated">{url} のJitsi-Meet サーバのライセンスは {date} に失効します。</target>
       </trans-unit>
       <trans-unit id="OXsp1X2" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
-        <target state="needs-translation"><![CDATA[Ihre Jitsi-Admin-Enterprise-Lizenz endet bald. <br>
-            Bitte verlängern Sie Ihre Lizenz jetzt, um weiterhin alle Features wie gewohnt nutzen zu können.]]></target>
+        <target state="translated"><![CDATA[Jitsi Admin Enterprise ライセンスの有効期限が近づいています。 <br>
+             すべての機能を通常どおり使用し続けるには、今すぐライセンスを延長してください。]]></target>
       </trans-unit>
       <trans-unit id="xbghgv7" resname="Hier verlängern">
         <source>Hier verlängern</source>
-        <target state="needs-translation">Hier verlängern</target>
+        <target state="translated">更新する</target>
       </trans-unit>
       <trans-unit id="LuAIxfq" resname="Neue Einladung zu einer Terminplanung">
         <source>Neue Einladung zu einer Terminplanung</source>
-        <target state="needs-translation">Neue Einladung zu einer Terminplanung</target>
+        <target state="translated">スケジュール調整への新しい招待状</target>
       </trans-unit>
       <trans-unit id="Un0K3kn" resname="Sie haben den Terminplan erfolgreich umgewandelt">
         <source>Sie haben den Terminplan erfolgreich umgewandelt</source>
-        <target state="needs-translation">Sie haben den Terminplan erfolgreich umgewandelt.</target>
+        <target state="translated">スケジュール調整が正常に登録されました。</target>
       </trans-unit>
       <trans-unit id="HSegMSH" resname="Fehler, Bitte Laden Sie die Seite neu">
         <source>Fehler, Bitte Laden Sie die Seite neu</source>
-        <target state="needs-translation">Fehler, bitte laden Sie die Seite neu.</target>
+        <target state="translated">エラーが発生しました、更新してください。</target>
       </trans-unit>
       <trans-unit id="5ZZjyN3" resname="Terminplanung">
         <source>Terminplanung</source>
-        <target state="needs-translation">Hier abstimmen</target>
+        <target state="translated">ここをクリックして投票する</target>
       </trans-unit>
       <trans-unit id="oB0r.dK" resname="Terminplaner">
         <source>Terminplaner</source>
-        <target state="needs-translation">Terminplaner</target>
+        <target state="translated">スケジューラ</target>
       </trans-unit>
       <trans-unit id="jJwkoAg" resname="Einladung zu einer Terminplanung">
         <source>Einladung zu einer Terminplanung</source>
-        <target state="needs-translation">Einladung zu einer Terminplanung</target>
+        <target state="translated">スケジュール調整への招待</target>
       </trans-unit>
       <trans-unit id="Eb8Nq57" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
         <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="needs-translation">Sie wurden soeben zu einer Terminplanung eingeladen. Bitte suchen Sie über den beigefügten Link ganz einfach Ihren Wunschtermin aus.</target>
+        <target state="translated">あなたは今、スケジュール調整に招待されました。添付のリンクからご希望の日付を選択してください。</target>
       </trans-unit>
       <trans-unit id="vjMI4Tr" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
-        <target state="needs-translation">Bitte klicken Sie hier, um über den optimalen Termin abzustimmen.</target>
+        <target state="translated">ここをクリックして最適な日付に投票してください。</target>
       </trans-unit>
       <trans-unit id="Cw3SIVV" resname="Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.">
         <source>Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</source>
-        <target state="needs-translation">Bitte fügen Sie hier die Termine zur Auswahl hinzu. Die Teilnehmenden können dann ihren Favoriten auswählen und Sie können diesen Termin komfortabel übernehmen.</target>
+        <target state="translated">ここに選択する日付を追加してください。参加者はお気に入りを選択できるので、あなたはこの予定を簡単に引き継ぐことができます。</target>
       </trans-unit>
       <trans-unit id="2S4PPPa" resname="Zeit wählen">
         <source>Zeit wählen</source>
-        <target state="needs-translation">Uhrzeit wählen</target>
+        <target state="translated">時刻を選択</target>
       </trans-unit>
       <trans-unit id="HQnrEtK" resname="Hier zur Abstimmung">
         <source>Hier zur Abstimmung</source>
-        <target state="needs-translation">Hier abstimmen</target>
+        <target state="translated">ここをクリックして投票する</target>
       </trans-unit>
       <trans-unit id="zolK4Sa" resname="Ja">
         <source>Ja</source>
-        <target state="needs-translation">Ja</target>
+        <target state="translated">はい</target>
       </trans-unit>
       <trans-unit id="dlK6Yc7" resname="Nein">
         <source>Nein</source>
-        <target state="needs-translation">Nein</target>
+        <target state="translated">いいえ</target>
       </trans-unit>
       <trans-unit id="I8wtD50" resname="Vielleicht">
         <source>Vielleicht</source>
@@ -747,51 +745,51 @@
       </trans-unit>
       <trans-unit id="UN_yfpB" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
-        <target state="needs-translation">Welcher Termin passt Ihnen am besten?</target>
+        <target state="translated">どの日付が最適ですか?</target>
       </trans-unit>
       <trans-unit id="ktYua4g" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln?">
         <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</source>
-        <target state="needs-translation">Möchten Sie diese Terminplanung in eine Konferenz umwandeln?</target>
+        <target state="translated">このスケジュールを会議に反映しますか？</target>
       </trans-unit>
       <trans-unit id="CMvtX4i" resname="Terminplanung erfolgreich bearbeitet">
         <source>Terminplanung erfolgreich bearbeitet</source>
-        <target state="needs-translation">Terminplanung erfolgreich bearbeitet</target>
+        <target state="translated">スケジュール調整が正常に処理されました</target>
       </trans-unit>
       <trans-unit id="im4bQNt" resname="Terminplanung bearbeiten">
         <source>Terminplanung bearbeiten</source>
-        <target state="needs-translation">Terminplanung bearbeiten</target>
+        <target state="translated">スケジュールの編集</target>
       </trans-unit>
       <trans-unit id="0b9aj18" resname="Terminplanung erfolgreich erstellt">
         <source>Terminplanung erfolgreich erstellt</source>
-        <target state="needs-translation">Terminplanung erfolgreich erstellt</target>
+        <target state="translated">スケジュール調整が正常に作成されました</target>
       </trans-unit>
       <trans-unit id="OjlXuY3" resname="Neue Terminplanung erstellen">
         <source>Neue Terminplanung erstellen</source>
-        <target state="needs-translation">Neue Terminplanung erstellen</target>
+        <target state="translated">スケジュール調整を新規作成</target>
       </trans-unit>
       <trans-unit id="EiLjBAz" resname="Einen Termin finden">
         <source>Einen Termin finden</source>
-        <target state="needs-translation">Terminumfrage</target>
+        <target state="translated">予約アンケートを作成</target>
       </trans-unit>
       <trans-unit id="luKF8cb" resname="Terminplanung abgesagt">
         <source>Terminplanung abgesagt</source>
-        <target state="needs-translation">Terminplanung abgesagt</target>
+        <target state="translated">予約アンケートをキャンセル</target>
       </trans-unit>
       <trans-unit id="tb.wch6" resname="Die Terminplanung {name} wurde abgesagt.">
         <source>Die Terminplanung {name} wurde abgesagt.</source>
-        <target state="needs-translation">Die Terminplanung wurde von {name} abgesagt.</target>
+        <target state="translated">予定アンケート {name} はキャンセルされました。</target>
       </trans-unit>
       <trans-unit id="SVfDgyD" resname="Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.">
         <source>Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</source>
-        <target state="needs-translation">Wer eine datenschutzfreundliche Videokonferenz-Plattform sucht, die auf dem eigenen Server betrieben wird, ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht eine verschlüsselte Anwendung.</target>
+        <target state="translated">独自のサーバー上で実行できる、データ保護に配慮したビデオ会議プラットフォームを探している人には、オープンソース ツール Jitsi が最適です。 Jitsi は Zoom の代替手段です。ユーザーデータは一切保存されず、暗号化されたアプリケーションが有効になります。</target>
       </trans-unit>
       <trans-unit id="alOvEgh" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot; auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus dem Formular an den Jitsi-Meet-Server weiter.">
         <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten" auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus dem Formular an den Jitsi-Meet-Server weiter.</source>
-        <target state="needs-translation">Wir weisen darauf hin, dass Sie durch das Klicken auf „Beitreten“ auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den Namen aus dem Formular an den Jitsi Meet Server weiter.</target>
+        <target state="translated">「参加」をクリックすると、Jitsi Meet サーバーにリダイレクトされることに注意してください。 Jitsi 管理者は、フォームからの名前を Jitsi Meet サーバーに渡します。</target>
       </trans-unit>
       <trans-unit id="5fvzZqV" resname="Mail an die Teilnehmer">
         <source>Mail an die Teilnehmer</source>
-        <target state="needs-translation">E-Mail an die Teilnehmenden</target>
+        <target state="translated">参加者へのメール</target>
       </trans-unit>
       <trans-unit id="kf1GGtv" resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            und die &lt;a href=&quot;{privacyUrl}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
@@ -819,11 +817,11 @@
       </trans-unit>
       <trans-unit id="Zjtk4ZK" resname="Abstimmung">
         <source>Abstimmung</source>
-        <target state="needs-translation">Abstimmung</target>
+        <target state="translated">投票</target>
       </trans-unit>
       <trans-unit id="gRK6sWd" resname="Keine Abstimmungen">
         <source>Keine Abstimmungen</source>
-        <target state="needs-translation">Keine Abstimmungen</target>
+        <target state="translated">投票なし</target>
       </trans-unit>
       <trans-unit id="0RNV0ke" resname="dashboard.noconference">
         <source>dashboard.noconference</source>
@@ -893,7 +891,7 @@
       </trans-unit>
       <trans-unit id="rdg4qib" resname="Hier beitreten">
         <source>Hier beitreten</source>
-        <target state="needs-translation">Hier beitreten</target>
+        <target state="translated">参加する</target>
       </trans-unit>
       <trans-unit id="2VnBhfW" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
@@ -949,31 +947,31 @@
       </trans-unit>
       <trans-unit id="Q7w74bC" resname="Serie">
         <source>Serie</source>
-        <target state="needs-translation">Serie</target>
+        <target state="translated">繰り返し</target>
       </trans-unit>
       <trans-unit id="yCVSgV3" resname="Serienart bearbeiten">
         <source>Serienart bearbeiten</source>
-        <target state="needs-translation">Serienart bearbeiten</target>
+        <target state="translated">繰り返しの編集</target>
       </trans-unit>
       <trans-unit id="F16pPP4" resname="Serie löschen">
         <source>Serie löschen</source>
-        <target state="needs-translation">Serie löschen</target>
+        <target state="translated">繰り返しを削除</target>
       </trans-unit>
       <trans-unit id="rjl2cL9" resname="Neue Serien Termin">
         <source>Neue Serien Termin</source>
-        <target state="needs-translation">Serientermin einrichten</target>
+        <target state="translated">定期的な予定を設定する</target>
       </trans-unit>
       <trans-unit id="7rN1LEi" resname="Sie wurden zu einer Serienvideokonferenz hinzugefügt">
         <source>Sie wurden zu einer Serienvideokonferenz hinzugefügt</source>
-        <target state="needs-translation">Sie wurden zu einer Serienvideokonferenz hinzugefügt.</target>
+        <target state="translated">あなたは定期的なウェブ会議に追加されました。</target>
       </trans-unit>
       <trans-unit id="9x3VPCh" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
         <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+        <target state="translated">あなたは定期的な予定 {name} に追加されました。各予定の前に、リンクが記載された電子メールが届きます。</target>
       </trans-unit>
       <trans-unit id="pO9guCd" resname="Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.">
         <source>Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</source>
-        <target state="needs-translation">Es ist empfehlenswert, die iCal-Funktion von Jitsi Admin zu nutzen.</target>
+        <target state="translated">Jitsi Admin の iCal 機能を使用することをお勧めします。</target>
       </trans-unit>
       <trans-unit id="eH2oOGr" resname="Serienvideokonferenz geändert">
         <source>Serienvideokonferenz geändert</source>
@@ -1005,7 +1003,7 @@
       </trans-unit>
       <trans-unit id="Or6Kw.p" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
         <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+        <target state="translated">あなたは定期的な予定 {name} に追加されました。各予定の前に、リンクが記載された電子メールが届きます。</target>
       </trans-unit>
       <trans-unit id="fT2mO73" resname="Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.">
         <source>Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.</source>
@@ -1021,167 +1019,167 @@
       </trans-unit>
       <trans-unit id="EeMTbCj" resname="Die Serienvideokonferenz {name} wurde abgesagt.">
         <source>Die Serienvideokonferenz {name} wurde abgesagt.</source>
-        <target state="needs-translation">Die Serienvideokonferenz {name} wurde abgesagt.</target>
+        <target state="translated">定期的な会議 {name} をキャンセルしました。</target>
       </trans-unit>
       <trans-unit id="kMS4.OC" resname="Alle Serienelement der Serie bearbeiten">
         <source>Alle Serienelement der Serie bearbeiten</source>
-        <target state="needs-translation">Bitte bearbeiten Sie alle Serienelemente der Serie.</target>
+        <target state="translated">繰り返しの全ての内容を編集する</target>
       </trans-unit>
       <trans-unit id="CyrT0si" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
-        <target state="needs-translation">Das Datum wird nicht berücksichtigt, da es bereits durch die Serie festgelegt ist.</target>
+        <target state="translated">日付は繰り返しの設定によってすでに設定されているため考慮されません。</target>
       </trans-unit>
       <trans-unit id="TU5f7zD" resname="Alle Serienelemente bearbeiten">
         <source>Alle Serienelemente bearbeiten</source>
-        <target state="needs-translation">Alle Serienelemente bearbeiten</target>
+        <target state="translated">全ての繰り返しを編集する</target>
       </trans-unit>
       <trans-unit id="aZkNgmx" resname="Einzelnes Serienelement bearbeiten">
         <source>Einzelnes Serienelement bearbeiten</source>
-        <target state="needs-translation">Einzelnes Serienelement bearbeiten</target>
+        <target state="translated">単一の繰り返しを編集する</target>
       </trans-unit>
       <trans-unit id="rjc5VwO" resname="Oder kopieren Sie den Link in Ihren Browser">
         <source>Oder kopieren Sie den Link in Ihren Browser</source>
-        <target state="needs-translation">Wahlweise können Sie den Link in Ihren Browser kopieren.</target>
+        <target state="translated">リンクをブラウザにコピーすることもできます。</target>
       </trans-unit>
       <trans-unit id="1ef15ZC" resname="Neue Kontaktgruppe erstellen">
         <source>Neue Kontaktgruppe erstellen</source>
-        <target state="needs-translation">Neue Kontaktgruppe erstellen</target>
+        <target state="translated">新しい連絡先グループを作成</target>
       </trans-unit>
       <trans-unit id="njHSAI." resname="Kontaktgruppe bearbeiten">
         <source>Kontaktgruppe bearbeiten</source>
-        <target state="needs-translation">Kontaktgruppe bearbeiten</target>
+        <target state="translated">連絡先グループの編集</target>
       </trans-unit>
       <trans-unit id="_T4RLr7" resname="Kontaktgruppe erfolgreich angelegt">
         <source>Kontaktgruppe erfolgreich angelegt</source>
-        <target state="needs-translation">Die Kontaktgruppe wurde erfolgreich angelegt.</target>
+        <target state="translated">連絡先グループの作成が完了しました</target>
       </trans-unit>
       <trans-unit id="thccSM8" resname="Kontaktgruppe gelöscht">
         <source>Kontaktgruppe gelöscht</source>
-        <target state="needs-translation">Kontaktgruppe gelöscht</target>
+        <target state="translated">連絡先グループが削除されました</target>
       </trans-unit>
       <trans-unit id="bOKw7s1" resname="Der Beitritt ist nur von {from} bis {to} möglich">
         <source>Der Beitritt ist nur von {from} bis {to} möglich</source>
-        <target state="needs-translation">Der Beitritt ist nur von {from} bis {to} möglich.</target>
+        <target state="translated">参加は {from} から {to} までのみ可能です。</target>
       </trans-unit>
       <trans-unit id="vxl58e7" resname="Neue Gruppe">
         <source>Neue Gruppe</source>
-        <target state="needs-translation">Neue Gruppe</target>
+        <target state="translated">新規グループ</target>
       </trans-unit>
       <trans-unit id="le4OVlX" resname="Mitglieder">
         <source>Mitglieder</source>
-        <target state="needs-translation">Mitglieder</target>
+        <target state="translated">メンバー</target>
       </trans-unit>
       <trans-unit id="SkmTu3T" resname="Kontakte">
         <source>Kontakte</source>
-        <target state="needs-translation">Kontakte</target>
+        <target state="translated">連絡先</target>
       </trans-unit>
       <trans-unit id="I9GqCLd" resname="Gruppen">
         <source>Gruppen</source>
-        <target state="needs-translation">Gruppen</target>
+        <target state="translated">グループ</target>
       </trans-unit>
       <trans-unit id="28ahzcg" resname="Es wird eine Terminumfrage erstellt, keine Konferenz.">
         <source>Es wird eine Terminumfrage erstellt, keine Konferenz.</source>
-        <target state="needs-translation">Es wird eine Terminumfrage erstellt, keine Konferenz.</target>
+        <target state="translated">投票が作成されました（会議ではありません）</target>
       </trans-unit>
       <trans-unit id="QK6Ev.b" resname="Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.">
         <source>Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</source>
-        <target state="needs-translation">Nur Nutzer, die einen Account auf der Plattform haben, können diesem Meeting beitreten. Dafür ist die Eingabe von Benutzername und Passwort erforderlich. Das bedeutet einen zusätzlichen Schutz.</target>
+        <target state="translated">プラットフォームにアカウントを持つユーザーのみがこのミーティングに参加できます。これには、ユーザー名とパスワードを入力する必要があります。これは追加の保護を意味します。</target>
       </trans-unit>
       <trans-unit id="oxDSmtl" resname="Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.">
         <source>Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</source>
-        <target state="needs-translation">Es wird ein Link erstellt, den Sie weitergeben können. Über diesen Link können sich Teilnehmende selbst in die Teilnehmendenliste eintragen. Sie können diese Liste bearbeiten und unangebrachte Teilnehmer entfernen.</target>
+        <target state="translated">共有できるリンクが作成されます。参加者は、このリンクを使用して自分自身を参加者リストに追加できます。このリストを編集して、不適切な参加者を削除できます。</target>
       </trans-unit>
       <trans-unit id="Z6D.bCU" resname="Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können">
         <source>Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können</source>
-        <target state="needs-translation">Maximale Anzahl der Teilnehmenden, die sich per Selbsteinschreibung bei der Konferenz anmelden können</target>
+        <target state="translated">自己登録で会議に登録できる最大参加者数</target>
       </trans-unit>
       <trans-unit id="xrUdux3" resname="Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren">
         <source>Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren</source>
-        <target state="needs-translation">Bei einer begrenzten Anzahl von Teilnehmenden können sich Interessenten in eine Warteliste eintragen. Der Moderator kann einen Eintrag manuell akzeptieren.</target>
+        <target state="translated">参加者数が限られている場合は、参加希望者は待機リストに登録できます。モデレータはエントリを手動で受け入れることができます。</target>
       </trans-unit>
       <trans-unit id="eltN2rk" resname="Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.">
         <source>Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.</source>
-        <target state="needs-translation">Auf der Seite „Beitreten“ eines Servers wird diese Konferenz angezeigt.</target>
+        <target state="translated">この会議はサーバーの参加ページに表示されます。</target>
       </trans-unit>
       <trans-unit id="8LwZV9L" resname="Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden">
         <source>Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden</source>
-        <target state="needs-translation">Nur der Organisator darf die Ansicht auf seinem Bildschirm teilen, jedoch nicht die Teilnehmenden. Der Organisator kann in der Teilnehmendenübersicht einzelne Personen wieder zulassen.</target>
+        <target state="translated">主催者のみが画面上のビューを共有できますが、参加者は共有できません。主催者は参加者リストで個々の参加者を承認できます。</target>
       </trans-unit>
       <trans-unit id="Hrri.4L" resname="Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.">
         <source>Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</source>
-        <target state="needs-translation">Sie erhalten einen Link, welchen Sie an die Teilnehmenden weiterleiten können. Die Teilnehmenden können der Konferenz über den generierten Link beitreten.</target>
+        <target state="translated">参加者に転送できるリンクを受け取ります。参加者は、生成されたリンクを介して会議に参加できます。</target>
       </trans-unit>
       <trans-unit id="4MPsomi" resname="Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.">
         <source>Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</source>
-        <target state="needs-translation">Der Organisator schließt für den angegebenen Zeitrahmen den Konferenzraum auf, wenn er diesen mit einem Klick auf „Start“ betritt.</target>
+        <target state="translated">主催者は、「開始」をクリックして会議室に入室すると、指定された時間枠のロックを解除します。</target>
       </trans-unit>
       <trans-unit id="wX2Roaw" resname="Feste Konferenzen">
         <source>Feste Konferenzen</source>
-        <target state="needs-translation">Dauerhafte Konferenzen</target>
+        <target state="translated">定例会議</target>
       </trans-unit>
       <trans-unit id="zfLvYU6" resname="Beitretenlink">
         <source>Beitretenlink</source>
-        <target state="needs-translation">Link zum Beitreten</target>
+        <target state="translated">参加リンク</target>
       </trans-unit>
       <trans-unit id="kYwSrR5" resname="Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.">
         <source>Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.</source>
-        <target state="needs-translation">Diese Konferenz ist nicht auf einen festgesetzten Zeitpunkt datiert. Der Moderator wird Sie auf einem anderen Weg darüber informieren, wann die Konferenz beginnt.</target>
+        <target state="translated">このカンファレンスには決まった日付はありません。会議の開始時には、モデレーターが別の方法でお知らせします。</target>
       </trans-unit>
       <trans-unit id="WhJlG_f" resname="Bitte warten. Die Konferenz ist noch nicht geöffnet">
         <source>Bitte warten. Die Konferenz ist noch nicht geöffnet</source>
-        <target state="needs-translation">Bitte warten. Die Konferenz ist noch nicht eröffnet.</target>
+        <target state="translated">お待ちください。会議はまだ開かれていません。</target>
       </trans-unit>
       <trans-unit id="vv10X5y" resname="Beitretenlink für Teilnehmer">
         <source>Beitretenlink für Teilnehmer</source>
-        <target state="needs-translation">Link für Teilnehmende zum Beitreten</target>
+        <target state="translated">参加者が参加するためのリンク</target>
       </trans-unit>
       <trans-unit id="wYQTCQX" resname="KeyCloak Gruppen oder E-Maildomains">
         <source>KeyCloak Gruppen oder E-Maildomains</source>
-        <target state="needs-translation">KeyCloak-Gruppen oder E-Mail-Domains</target>
+        <target state="translated">KeyCloakグループまたは電子メールドメイン</target>
       </trans-unit>
       <trans-unit id="gTXg1sq" resname="Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein &quot;\&quot; vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.">
         <source>Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</source>
-        <target state="needs-translation">Hier können Sie als Administrator KeyCloak-Gruppen oder E-Mail-Domains angeben. KeyCloak-Gruppen muss ein Slash vorangestellt sein (z.B. \all). User in der KeyCloak-Gruppe oder mit der E-Mail-Domain können über diesen Server Meetings erstellen. User müssen explizit als Organisatoren benannt werden.</target>
+        <target state="translated">ここで管理者は KeyCloak グループまたは電子メール ドメインを指定できます。 KeyCloak グループの前にスラッシュを付ける必要があります (例: \all)。 KeyCloak グループ内のユーザーまたは電子メール ドメインを持つユーザーは、このサーバー経由で会議を作成できます。ユーザーは主催者として明示的に指名される必要があります。</target>
       </trans-unit>
       <trans-unit id="2n2ZPKI" resname="Nur dieses Serienelement bearbeiten">
         <source>Nur dieses Serienelement bearbeiten</source>
-        <target state="needs-translation">Nur dieses Serienelement bearbeiten</target>
+        <target state="translated">この繰り返しのみを編集する</target>
       </trans-unit>
       <trans-unit id="cJ6qE9p" resname="Fehler, das Startdatum darf nicht leer sein">
         <source>Fehler, das Startdatum darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte das Startdatum eingeben.</target>
+        <target state="translated">エラー。開始日時を入力してください。</target>
       </trans-unit>
       <trans-unit id="FBOC1YD" resname="Fehler, der Name darf nicht leer sein">
         <source>Fehler, der Name darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte den Namen angeben.</target>
+        <target state="translated">エラー。名前を入力してください。</target>
       </trans-unit>
       <trans-unit id="pZTj_Lm" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="needs-translation">Bitte leiten Sie diesen Link an die Teilnehmenden weiter.</target>
+        <target state="translated">このリンクを参加者に転送してください。</target>
       </trans-unit>
       <trans-unit id="tSRnGXc" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
-        <target state="needs-translation">Wollen Sie den Namen des Teilnehmenden wirklich löschen?</target>
+        <target state="translated">本当に参加者の名前を削除しますか?</target>
       </trans-unit>
       <trans-unit id="_OvJ5EE" resname="Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</source>
-        <target state="needs-translation">Das Datum wird nicht berücksichtigt, da es bereits durch die Serie festgelegt ist.</target>
+        <target state="translated">日付は繰り返しの設定によってすでに設定されているため考慮されません。</target>
       </trans-unit>
       <trans-unit id="DzGyndX" resname="Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit">
         <source>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</source>
-        <target state="needs-translation">Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.</target>
+        <target state="translated">エラー。開始日と終了日が過去の日付です。</target>
       </trans-unit>
       <trans-unit id="HLloXCq" resname="Schließen">
         <source>Schließen</source>
-        <target state="needs-translation">Schließen</target>
+        <target state="translated">閉じる</target>
       </trans-unit>
       <trans-unit id="nqfUNu2" resname="Zeitzone einstellen">
         <source>Zeitzone einstellen</source>
-        <target state="needs-translation">Zeitzone einstellen</target>
+        <target state="translated">タイムゾーンの設定</target>
       </trans-unit>
       <trans-unit id="5uj7uog" resname="Zeitzone erfolgreich geändert auf: {timeZone}">
         <source>Zeitzone erfolgreich geändert auf: {timeZone}</source>
-        <target state="needs-translation">Zeitzone erfolgreich geändert auf: {timeZone}</target>
+        <target state="translated">タイムゾーンが {timeZone} に変更されました。</target>
       </trans-unit>
       <trans-unit id="boEqtE1" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
@@ -1189,15 +1187,15 @@
       </trans-unit>
       <trans-unit id="L5CLtca" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
-        <target state="needs-translation">Zeitzone ändern</target>
+        <target state="translated">タイムゾーンを変更する</target>
       </trans-unit>
       <trans-unit id="3HMs7nB" resname="Erstellt in Zeitzone">
         <source>Erstellt in Zeitzone</source>
-        <target state="needs-translation">Erstellt in Zeitzone</target>
+        <target state="translated">タイムゾーンで作成されました</target>
       </trans-unit>
       <trans-unit id="gRvJ4He" resname="Zeitzone">
         <source>Zeitzone</source>
-        <target state="needs-translation">Zeitzone</target>
+        <target state="translated">タイムゾーン</target>
       </trans-unit>
       <trans-unit id="s8U2evG" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                                &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                                eine neue Konferenz.">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
@@ -1209,15 +1207,15 @@
       </trans-unit>
       <trans-unit id="YSq5Lqa" resname="Zeitangaben in Zeitzone">
         <source>Zeitangaben in Zeitzone</source>
-        <target state="needs-translation">Zeitangaben in Zeitzone</target>
+        <target state="translated">タイムゾーンの時間</target>
       </trans-unit>
       <trans-unit id="Hu9k6Rz" resname="[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
         <source>[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
-        <target state="needs-translation">[Serverorganisation] Ihr Name wurde zu einem Jitsi Meet Server hinzugefügt.</target>
+        <target state="translated">[サーバ管理者] Jitsi Meet サーバーにあなたの名前が追加されました。</target>
       </trans-unit>
       <trans-unit id="Hu6nh5s" resname="[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}">
         <source>[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
-        <target state="needs-translation">[Videokonferenz] Bitte bestätigen Sie Ihre Anmeldung zur Konferenz: {name}</target>
+        <target state="translated">[ウェブ会議] 会議への登録を確認してください: {name}</target>
       </trans-unit>
       <trans-unit id="LqF3GWo" resname="[Videokonferenz] Videokonferenz {name} abgesagt">
         <source>[Videokonferenz] Videokonferenz {name} abgesagt</source>
@@ -1225,11 +1223,11 @@
       </trans-unit>
       <trans-unit id="fpmsg98" resname="[Videokonferenz] Videokonferenz abgesagt">
         <source>[Videokonferenz] Videokonferenz abgesagt</source>
-        <target state="needs-translation">[Videokonferenz] Die Videokonferenz wurde abgesagt.</target>
+        <target state="translated">[ウェブ会議] 会議がキャンセルされました</target>
       </trans-unit>
       <trans-unit id="Q0h0xRj" resname="[Terminplanung] Terminplanung abgesagt">
         <source>[Terminplanung] Terminplanung abgesagt</source>
-        <target state="needs-translation">[Terminplanung] Die Terminplanung wurde abgesagt.</target>
+        <target state="translated">[日程調整] 日程調整がキャンセルされました</target>
       </trans-unit>
       <trans-unit id="alIT3hv" resname="[Videokonferenz] Videokonferenz {name} wurde bearbeitet">
         <source>[Videokonferenz] Videokonferenz {name} wurde bearbeitet</source>
@@ -1273,75 +1271,75 @@
       </trans-unit>
       <trans-unit id="YX.0lCk" resname="Morgen">
         <source>Morgen</source>
-        <target state="needs-translation">Morgen</target>
+        <target state="translated">翌日</target>
       </trans-unit>
       <trans-unit id="4vA077v" resname="Meine Videokonferenzen">
         <source>Meine Videokonferenzen</source>
-        <target state="needs-translation">Meine Videokonferenzen</target>
+        <target state="translated">マイ会議</target>
       </trans-unit>
       <trans-unit id="zVDrSPT" resname="lobby.participant.ask.sucess">
         <source>lobby.participant.ask.sucess</source>
-        <target state="needs-translation">Sie haben Ihren Beitritt erfolgreich angefordert.</target>
+        <target state="translated">参加リクエストが完了しました</target>
       </trans-unit>
       <trans-unit id="8o5FB0f" resname="lobby.notification.newUser.title">
         <source>lobby.notification.newUser.title</source>
-        <target state="needs-translation">{name} ist in der Lobby</target>
+        <target state="translated">{name} はロビーにいます</target>
       </trans-unit>
       <trans-unit id="h8Ve..4" resname="lobby.notification.newUser.message">
         <source>lobby.notification.newUser.message</source>
-        <target state="needs-translation">Der Teilnehmer {name} ist der Lobby der Konferenz {room} beigetreten</target>
+        <target state="translated">参加者 {name} が会議 {room} のロビーに参加しました</target>
       </trans-unit>
       <trans-unit id="5FL2Xdx" resname="room.new.help.lobby">
         <source>room.new.help.lobby</source>
-        <target state="needs-translation">Bitte für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
+        <target state="translated">この会議のロビーを有効にしてください。各参加者を個別に会議に許可できます。</target>
       </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
-        <target state="needs-translation">{name}</target>
+        <target state="translated">{name}</target>
       </trans-unit>
       <trans-unit id="UEEqYAE" resname="lobby.noWebCamFound">
         <source>lobby.noWebCamFound</source>
-        <target state="needs-translation">Keine Webcam gefunden</target>
+        <target state="translated">ウェブカメラが見つかりませんでした</target>
       </trans-unit>
       <trans-unit id="8GjW7Wj" resname="jitsi.start">
         <source>jitsi.start</source>
-        <target state="needs-translation">Starten</target>
+        <target state="translated">開始</target>
       </trans-unit>
       <trans-unit id="lDzJzUt" resname="jitsi.start.browser">
         <source>jitsi.start.browser</source>
-        <target state="needs-translation">Starten</target>
+        <target state="translated">開始</target>
       </trans-unit>
       <trans-unit id="IHwICJh" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
-        <target state="needs-translation">In der App</target>
+        <target state="translated">アプリで開く</target>
       </trans-unit>
       <trans-unit id="IDaPDel" resname="lobby.participant.title">
         <source>lobby.participant.title</source>
-        <target state="needs-translation">Lobby für die Konferenz: {name}</target>
+        <target state="translated">会議のロビー: {name}</target>
       </trans-unit>
       <trans-unit id="yjP6WYu" resname="lobby.renew">
         <source>lobby.renew</source>
-        <target state="needs-translation">Erneut anklopfen</target>
+        <target state="translated">再ノック</target>
       </trans-unit>
       <trans-unit id="hq6gW6J" resname="lobby.exit">
         <source>lobby.exit</source>
-        <target state="needs-translation">Lobby verlassen</target>
+        <target state="translated">ロビーから退室</target>
       </trans-unit>
       <trans-unit id="aVRSgOp" resname="input.placeholder.search">
         <source>input.placeholder.search</source>
-        <target state="needs-translation">Hier suchen</target>
+        <target state="translated">検索はこちら</target>
       </trans-unit>
       <trans-unit id="9PvhpRA" resname="lobby.moderator.accept.error">
         <source>lobby.moderator.accept.error</source>
-        <target state="needs-translation">Fehler, bitte laden Sie die Seite neu</target>
+        <target state="translated">エラー。再読み込みしてください。</target>
       </trans-unit>
       <trans-unit id="CsAD3dg" resname="lobby.moderator.accept.success">
         <source>lobby.moderator.accept.success</source>
-        <target state="needs-translation">Sie haben den Teilnehmer erfolgreich der Konferenz hinzugefügt</target>
+        <target state="translated">会議への参加者の追加が完了しました。</target>
       </trans-unit>
       <trans-unit id="ea6fWCb" resname="lobby.moderator.decline.success">
         <source>lobby.moderator.decline.success</source>
-        <target state="needs-translation">Dieser Teilnehmer hat keinen Zutritt zu der Konferenz</target>
+        <target state="translated">この参加者は会議にアクセスできません。</target>
       </trans-unit>
       <trans-unit id="IuK4_k_" resname="lobby.participant.accept">
         <source>lobby.participant.accept</source>
@@ -1373,19 +1371,19 @@
       </trans-unit>
       <trans-unit id="JwocwOM" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
-        <target state="needs-translation">Echotest starten</target>
+        <target state="translated">エコーテストを開始する</target>
       </trans-unit>
       <trans-unit id="0jkcgbV" resname="lobby.echo.input">
         <source>lobby.echo.input</source>
-        <target state="needs-translation">Eingangsgerät</target>
+        <target state="translated">入力デバイス</target>
       </trans-unit>
       <trans-unit id="Zt8Jy1O" resname="lobby.echo.output">
         <source>lobby.echo.output</source>
-        <target state="needs-translation">Ausgabegerät</target>
+        <target state="translated">出力デバイス</target>
       </trans-unit>
       <trans-unit id="rZvJkGB" resname="error.noPermission">
         <source>error.noPermission</source>
-        <target state="needs-translation">Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.</target>
+        <target state="translated">エラー。この操作の権限がありません。</target>
       </trans-unit>
       <trans-unit id="N4Pu6re" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
@@ -1397,11 +1395,11 @@
       </trans-unit>
       <trans-unit id="3ZzIBKG" resname="lobby.stop.echo">
         <source>lobby.stop.echo</source>
-        <target state="needs-translation">Echotest beenden</target>
+        <target state="translated">エコーテストを停止する。</target>
       </trans-unit>
       <trans-unit id="6wuR0Uk" resname="lobby.endMeeting">
         <source>lobby.endMeeting</source>
-        <target state="needs-translation">Konferenz beenden</target>
+        <target state="translated">会議を停止する</target>
       </trans-unit>
       <trans-unit id="XVW8mf_" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
@@ -1409,11 +1407,11 @@
       </trans-unit>
       <trans-unit id="UEon3ZG" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="translated">参加者をロビーの司会者として追加しますか？</target>
+        <target state="translated">ロビーモデレータとして参加者を追加しますか？</target>
       </trans-unit>
       <trans-unit id="x9dbNmw" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="translated">ロビー司会者として参加者を削除しますか？</target>
+        <target state="translated">ロビーモデレータとして参加者を削除しますか？</target>
       </trans-unit>
       <trans-unit id="LElUXKX" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
@@ -1442,87 +1440,87 @@
       </trans-unit>
       <trans-unit id="QC45MUM" resname="confirm.cancel">
         <source>confirm.cancel</source>
-        <target state="needs-translation">Abbrechen</target>
+        <target state="translated">キャンセル</target>
       </trans-unit>
       <trans-unit id="C8omiG2" resname="confirm.ok">
         <source>confirm.ok</source>
-        <target state="needs-translation">OK</target>
+        <target state="translated">OK</target>
       </trans-unit>
       <trans-unit id="kmIDJa_" resname="confirm.delete.room">
         <source>confirm.delete.room</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich löschen?</target>
+        <target state="translated">本当にこの会議を消去しますか？</target>
       </trans-unit>
       <trans-unit id="HvUa.rT" resname="confirm.delete.series">
         <source>confirm.delete.series</source>
-        <target state="needs-translation">Wollen Sie diese Serie wirklich löschen?</target>
+        <target state="translated">この繰り返しを本当に削除しますか?</target>
       </trans-unit>
       <trans-unit id="3WhNd8k" resname="confirm.delete.lobbyUser">
         <source>confirm.delete.lobbyUser</source>
-        <target state="needs-translation">Wollen Sie diesen Teilnehmenden wirklich aus der Lobby entfernen?</target>
+        <target state="translated">本当にこの参加者をロビーから削除しますか?</target>
       </trans-unit>
       <trans-unit id="m46aLQw" resname="confirm.delete.server">
         <source>confirm.delete.server</source>
-        <target state="needs-translation">Wollen Sie diesen Server wirklich löschen?</target>
+        <target state="translated">このサーバーを削除してもよろしいですか?</target>
       </trans-unit>
       <trans-unit id="iVnGnu8" resname="email.ical.link">
         <source>email.ical.link</source>
-        <target state="needs-translation">Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
+        <target state="translated">カレンダー内のすべての会議を簡単に管理したい場合は、カレンダー内のこの iCal リンクをインターネット カレンダーとして管理できます。</target>
       </trans-unit>
       <trans-unit id="buxRb.g" resname="lobby.change.moderator.permissions">
         <source>lobby.change.moderator.permissions</source>
-        <target state="needs-translation">Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
+        <target state="translated">ロビーでの許可が変更されました。このページは数秒後に再読み込みされます。</target>
       </trans-unit>
       <trans-unit id="wlDal_u" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
-        <target state="needs-translation">Die Konferenz wurde beendet.</target>
+        <target state="translated">この会議は終了しました。</target>
       </trans-unit>
       <trans-unit id="cS.Ceaz" resname="lobby.participant.modal.end.text">
         <source>lobby.participant.modal.end.text</source>
-        <target state="needs-translation">Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</target>
+        <target state="translated">主催者が参加者全員の会議を終了しました。ご参加いただきありがとうございました。</target>
       </trans-unit>
       <trans-unit id="rd_hz1i" resname="text.continue">
         <source>text.continue</source>
-        <target state="needs-translation">Weiter</target>
+        <target state="translated">続ける</target>
       </trans-unit>
       <trans-unit id="PKHMElu" resname="fixed.Room.name">
         <source>fixed.Room.name</source>
-        <target state="needs-translation">Dauerhaft</target>
+        <target state="translated">永続的</target>
       </trans-unit>
       <trans-unit id="fE.ziDM" resname="favorite.sidebar.title">
         <source>favorite.sidebar.title</source>
-        <target state="needs-translation">Favoriten</target>
+        <target state="translated">お気に入り</target>
       </trans-unit>
       <trans-unit id=".FFQcQG" resname="favorite.sidebar.help">
         <source>favorite.sidebar.help</source>
-        <target state="needs-translation"><![CDATA[Drücken Sie <i class="far fa-star"></i> um Konferenzen als Favoriten zu markieren.]]></target>
+        <target state="translated"><![CDATA[<i class="far fa-star"></i>を押してカンファレンスをお気に入りとしてマークします。]]></target>
       </trans-unit>
       <trans-unit id="3kYuGZY" resname="participant.resend.invitation">
         <source>participant.resend.invitation</source>
-        <target state="needs-translation">Einladung nochmals an den Teilnehmenden senden.</target>
+        <target state="translated">参加者に招待状を再度送信します。</target>
       </trans-unit>
       <trans-unit id="NrftFQI" resname="participant.resend.invitation.sucess">
         <source>participant.resend.invitation.sucess</source>
-        <target state="needs-translation">Die Einladung wurde erfolgreich versandt.</target>
+        <target state="translated">招待状は正常に送信されました。</target>
       </trans-unit>
       <trans-unit id="mIUK2UT" resname="secondEmail.help">
         <source>secondEmail.help</source>
-        <target state="needs-translation">Alle E-Mails werden auch noch an diese E-Mail-Adresse geschickt.</target>
+        <target state="translated">すべての電子メールもこの電子メール アドレスに送信されます。</target>
       </trans-unit>
       <trans-unit id="2j6rDCw" resname="second.email.title">
         <source>second.email.title</source>
-        <target state="needs-translation">Persönliche Einstellungen</target>
+        <target state="translated">個人設定</target>
       </trans-unit>
       <trans-unit id="l1oeLff" resname="CC-E-Mails erfolgreich geändert auf: {secondEmails}">
         <source>CC-E-Mails erfolgreich geändert auf: {secondEmails}</source>
-        <target state="needs-translation">Persönliche Einstellungen erfolgreich geändert.</target>
+        <target state="translated">個人設定の更新が完了しました。</target>
       </trans-unit>
       <trans-unit id="i95TMyb" resname="Weitere E-Mailadressen">
         <source>Weitere E-Mailadressen</source>
-        <target state="needs-translation">Weitere E-Mailadressen</target>
+        <target state="translated">追加の電子メールアドレス</target>
       </trans-unit>
       <trans-unit id="iMlLPDz" resname="Download">
         <source>Download</source>
-        <target state="needs-translation">Download</target>
+        <target state="translated">ダウンロード</target>
       </trans-unit>
       <trans-unit id="8VQZpT5" resname="lobby.dashboard.newUser.message">
         <source>lobby.dashboard.newUser.message</source>
@@ -1530,47 +1528,47 @@
       </trans-unit>
       <trans-unit id="tDI01PY" resname="Diese Aktion ist nicht erlaubt.">
         <source>Diese Aktion ist nicht erlaubt.</source>
-        <target state="needs-translation">Diese Aktion ist nicht erlaubt.</target>
+        <target state="translated">この行為は許可されていません。</target>
       </trans-unit>
       <trans-unit id="WtSDrvg" resname="repeater.edit.warning">
         <source>repeater.edit.warning</source>
-        <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
+        <target state="translated">この日付は繰り返しの最初の日付を示します。繰り返しの個々の予定を編集した場合、それらはリセットされます。</target>
       </trans-unit>
       <trans-unit id="EiZtTcH" resname="common.save">
         <source>common.save</source>
-        <target state="needs-translation">Speichern</target>
+        <target state="translated">保存</target>
       </trans-unit>
       <trans-unit id="55bDbNX" resname="common.success.save">
         <source>common.success.save</source>
-        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+        <target state="translated">エントリは正常に保存されました。</target>
       </trans-unit>
       <trans-unit id="a.2tLTu" resname="status.inconference">
         <source>status.inconference</source>
-        <target state="needs-translation">In der Konferenz</target>
+        <target state="translated">会議では</target>
       </trans-unit>
       <trans-unit id="m37Ytbg" resname="status.finished">
         <source>status.finished</source>
-        <target state="needs-translation">Beendet</target>
+        <target state="translated">終了済み</target>
       </trans-unit>
       <trans-unit id="QtmENFh" resname="server.checkHeader">
         <source>server.checkHeader</source>
-        <target state="needs-translation">Meinen Server überprüfen</target>
+        <target state="translated">サーバチェック</target>
       </trans-unit>
       <trans-unit id="V7a0SQs" resname="Private Nachrichten">
         <source>Private Nachrichten</source>
-        <target state="needs-translation">Private Nachrichten</target>
+        <target state="translated">プライベートメッセージ</target>
       </trans-unit>
       <trans-unit id="rt0FNAt" resname="Lobbymoderator">
         <source>Lobbymoderator</source>
-        <target state="needs-translation">Lobbymoderator</target>
+        <target state="translated">ロビー主催者</target>
       </trans-unit>
       <trans-unit id="rFPXX8b" resname="sip.caller.data">
         <source>sip.caller.data</source>
-        <target state="needs-translation">Einwahl-Informationen</target>
+        <target state="translated">ダイヤルイン情報</target>
       </trans-unit>
       <trans-unit id="wnJgOxL" resname="addhock.notification.title">
         <source>addhock.notification.title</source>
-        <target state="needs-translation">Ad Hoc Meeting</target>
+        <target state="translated">アドホック会議</target>
       </trans-unit>
       <trans-unit id="B4oKv9g" resname="addhock.notification.message">
         <source>addhock.notification.message</source>
@@ -1578,103 +1576,103 @@
       </trans-unit>
       <trans-unit id="928J8pd" resname="addhock.notification.pushMessage">
         <source>addhock.notification.pushMessage</source>
-        <target state="needs-translation">{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
+        <target state="translated">{name} はあなたとのアドホック ウェブ会議を開催したいと考えています。</target>
       </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
-        <target state="needs-translation">Ladezeit</target>
+        <target state="translated">ロード時間：</target>
       </trans-unit>
       <trans-unit id="wlQV3xE" resname="lobby.verified">
         <source>lobby.verified</source>
-        <target state="needs-translation">Verifizierter Anrufer</target>
+        <target state="translated">確認された発信者</target>
       </trans-unit>
       <trans-unit id="KttXf09" resname="lobby.participant.enterNow">
         <source>lobby.participant.enterNow</source>
-        <target state="needs-translation">Jetzt beitreten</target>
+        <target state="translated">今すぐ参加</target>
       </trans-unit>
       <trans-unit id="whOl8uQ" resname="lobby.participant.pauseEnter">
         <source>lobby.participant.pauseEnter</source>
-        <target state="needs-translation">Noch nicht beitreten</target>
+        <target state="translated">まだ参加しないでください</target>
       </trans-unit>
       <trans-unit id="rr1.wJS" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
         <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
-        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+        <target state="translated">エントリは正常に保存されました。</target>
       </trans-unit>
       <trans-unit id="ujUQxGm" resname="room.new.help.tag">
         <source>room.new.help.tag</source>
-        <target state="needs-translation">Wählen Sie hier eine Kategorie für diese Konferenz aus.</target>
+        <target state="translated">この会議のカテゴリを選択してください。</target>
       </trans-unit>
       <trans-unit id="S9Hi6Sx" resname="Geplant von">
         <source>Geplant von</source>
-        <target state="needs-translation">Geplant von</target>
+        <target state="translated">スケジュール設定者</target>
       </trans-unit>
       <trans-unit id="T__AVUF" resname="new.room.blockSave.text">
         <source>new.room.blockSave.text</source>
-        <target state="needs-translation">Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</target>
+        <target state="translated">この会議を保存すると、この会議のカテゴリは編集できなくなります。</target>
       </trans-unit>
       <trans-unit id="DYkcvy9" resname="status.inconference.number">
         <source>status.inconference.number</source>
-        <target state="needs-translation">{number}</target>
+        <target state="translated">{number}</target>
       </trans-unit>
       <trans-unit id="NrTT.en" resname="report.title">
         <source>report.title</source>
-        <target state="needs-translation">Protokoll</target>
+        <target state="translated">プロトコル</target>
       </trans-unit>
       <trans-unit id="R0Dg0dV" resname="report.dropdown.item">
         <source>report.dropdown.item</source>
-        <target state="needs-translation">Protokoll</target>
+        <target state="translated">プロトコル</target>
       </trans-unit>
       <trans-unit id="Fy0CpQD" resname="report.error.noStatus">
         <source>report.error.noStatus</source>
-        <target state="needs-translation">Diese Konferenz hat bisher keine Reports zum Anzeigen.</target>
+        <target state="translated">このカンファレンスには、表示できるレポートがまだありません。</target>
       </trans-unit>
       <trans-unit id="WD_LPNr" resname="report.info.timezone">
         <source>report.info.timezone</source>
-        <target state="needs-translation">Alle Zeitangaben sind in der Zeitzone {timezone}</target>
+        <target state="translated">すべての時間はタイムゾーン {timezone} に属します。</target>
       </trans-unit>
       <trans-unit id="3vkvqhB" resname="tag.name">
         <source>tag.name</source>
-        <target state="needs-translation">Kategorie</target>
+        <target state="translated">カテゴリ</target>
       </trans-unit>
       <trans-unit id="39QvJC4" resname="Speichern">
         <source>Speichern</source>
-        <target state="needs-translation">Speichern</target>
+        <target state="translated">保存</target>
       </trans-unit>
       <trans-unit id="WGnBgNJ" resname="report.speakerTime">
         <source>report.speakerTime</source>
-        <target state="needs-translation">Aktive Sprechzeit</target>
+        <target state="translated">アクティブ発話時間</target>
       </trans-unit>
       <trans-unit id="jxHrgQx" resname="Anzahl Teilnehmer">
         <source>Anzahl Teilnehmer</source>
-        <target state="needs-translation">Anzahl Teilnehmende</target>
+        <target state="translated">参加者数</target>
       </trans-unit>
       <trans-unit id="t6i10wK" resname="statistic.actualRooms">
         <source>statistic.actualRooms</source>
-        <target state="needs-translation">Aktuell laufende Konferenzen</target>
+        <target state="translated">現在の会議</target>
       </trans-unit>
       <trans-unit id="3eXa4It" resname="statistic.actualParticipant">
         <source>statistic.actualParticipant</source>
-        <target state="needs-translation">Teilnehmende in aktuell laufenden Konferenzen</target>
+        <target state="translated">現在の会議の参加者</target>
       </trans-unit>
       <trans-unit id="piCuyUk" resname="lobby.endMeeting.ask">
         <source>lobby.endMeeting.ask</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz für alle Teilnehmer beenden?</target>
+        <target state="translated">すべての参加者に対してこの会議を終了しますか?</target>
       </trans-unit>
       <trans-unit id="BGExflq" resname="Swipen zum zulassen">
         <source>Swipen zum zulassen</source>
-        <target state="needs-translation">Swipen zum zulassen</target>
+        <target state="translated">スワイプして許可します</target>
       </trans-unit>
       <trans-unit id="jcZ7joa" resname="ask.tab.close">
         <source>ask.tab.close</source>
-        <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
+        <target state="translated">本当に会議から退出しますか?</target>
       </trans-unit>
       <trans-unit id="lQIdqaW" resname="lobby.hangup">
         <source>lobby.hangup</source>
-        <target state="needs-translation">Nur ich verlasse</target>
+        <target state="translated">私だけが退出する</target>
       </trans-unit>
       <trans-unit id="vwv7Bvl" resname="Bewertung">
         <source>Bewertung</source>
-        <target state="needs-translation">Bewertung</target>
+        <target state="translated">評価</target>
       </trans-unit>
       <trans-unit id="9zzwAfD" resname="join.privacy.theme">
         <source>join.privacy.theme</source>
@@ -1696,7 +1694,7 @@
       </trans-unit>
       <trans-unit id="QHGxcIp" resname="lobby.participants.seconds">
         <source>lobby.participants.seconds</source>
-        <target state="needs-translation">Sekunden</target>
+        <target state="translated">秒</target>
       </trans-unit>
       <trans-unit id="I9W18.N" resname="email.sip.text">
         <source>email.sip.text</source>
@@ -1704,11 +1702,11 @@
       </trans-unit>
       <trans-unit id="MosCvF7" resname="email.sip.number">
         <source>email.sip.number</source>
-        <target state="needs-translation">Einwahlnummern</target>
+        <target state="translated">ダイヤルイン番号</target>
       </trans-unit>
       <trans-unit id="BaifIQ." resname="email.sip.pin">
         <source>email.sip.pin</source>
-        <target state="needs-translation">PIN</target>
+        <target state="translated">PINコード</target>
       </trans-unit>
       <trans-unit id="MI..OPw" resname="enterprise.settings.header.sip">
         <source>enterprise.settings.header.sip</source>
@@ -1868,23 +1866,23 @@
       </trans-unit>
       <trans-unit id="4aqKuo6" resname="Keine Agenda">
         <source>Keine Agenda</source>
-        <target state="needs-translation">Keine Agenda</target>
+        <target state="translated">議題なし</target>
       </trans-unit>
       <trans-unit id="QSfh6jd" resname="Geplant">
         <source>Geplant</source>
-        <target state="needs-translation">Geplant</target>
+        <target state="translated">計画済み</target>
       </trans-unit>
       <trans-unit id="6jMDffo" resname="Durchgeführt">
         <source>Durchgeführt</source>
-        <target state="needs-translation">Durchgeführt</target>
+        <target state="translated">完了</target>
       </trans-unit>
       <trans-unit id=".UZxbr_" resname="Jetzt">
         <source>Jetzt</source>
-        <target state="needs-translation">Jetzt</target>
+        <target state="translated">現在</target>
       </trans-unit>
       <trans-unit id="sH1AKtV" resname="Meeting Abgeschlossen">
         <source>Meeting Abgeschlossen</source>
-        <target state="needs-translation">Konferenz Abgeschlossen</target>
+        <target state="translated">会議が完了しました</target>
       </trans-unit>
       <trans-unit id="HWA6_Cq" resname="Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.">
         <source>Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</source>
@@ -2000,35 +1998,35 @@
       </trans-unit>
       <trans-unit id="cIcZdHn" resname="Private Konferenz">
         <source>Private Konferenz</source>
-        <target state="needs-translation">Private Konferenz</target>
+        <target state="translated">プライベート会議</target>
       </trans-unit>
       <trans-unit id="q.hF5v3" resname="log.modal.header">
         <source>log.modal.header</source>
-        <target state="needs-translation">Änderungshistorie</target>
+        <target state="translated">変更履歴</target>
       </trans-unit>
       <trans-unit id="dCyRSCY" resname="log.new.object">
         <source>log.new.object</source>
-        <target state="needs-translation">Nach der Änderung</target>
+        <target state="translated">変更後</target>
       </trans-unit>
       <trans-unit id="uMFePQL" resname="log.old.object">
         <source>log.old.object</source>
-        <target state="needs-translation">Vor der Änderung</target>
+        <target state="translated">変更前</target>
       </trans-unit>
       <trans-unit id="Y3a7ITS" resname="room.creator.text">
         <source>room.creator.text</source>
-        <target state="needs-translation">Erstellt von</target>
+        <target state="translated">作成者</target>
       </trans-unit>
       <trans-unit id="H47wSvb" resname="custom.more">
         <source>custom.more</source>
-        <target state="needs-translation">Mehr</target>
+        <target state="translated">もっと見る</target>
       </trans-unit>
       <trans-unit id="6K54T3J" resname="room.new.help.name">
         <source>room.new.help.name</source>
-        <target state="needs-translation">Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</target>
+        <target state="translated">会議名を簡潔に入力してください。</target>
       </trans-unit>
       <trans-unit id="sMx2I1G" resname="room.new.help.agenda">
         <source>room.new.help.agenda</source>
-        <target state="needs-translation">Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</target>
+        <target state="translated">ここに要件を入力し、この会議の理由を参加者に知らせます。</target>
       </trans-unit>
       <trans-unit id="lgQwFzb" resname="room.new.help.persistant">
         <source>room.new.help.persistant</source>
@@ -2076,31 +2074,31 @@
       </trans-unit>
       <trans-unit id="mVwwqih" resname="Profileinstellungen">
         <source>Profileinstellungen</source>
-        <target state="needs-translation">Profileinstellungen</target>
+        <target state="translated">プロフィール設定</target>
       </trans-unit>
       <trans-unit id="TV1xqgp" resname="Einstellungen">
         <source>Einstellungen</source>
-        <target state="needs-translation">Einstellungen</target>
+        <target state="translated">設定</target>
       </trans-unit>
       <trans-unit id="ZwKeJyF" resname="Startet in {time} min">
         <source>Startet in {time} min</source>
-        <target state="needs-translation">Startet in {time} min</target>
+        <target state="translated">{time} 後に開始</target>
       </trans-unit>
       <trans-unit id="6cce70X" resname="addressbook.favorite.remove.success">
         <source>addressbook.favorite.remove.success</source>
-        <target state="needs-translation">Sie haben {name} als Favorit entfernt.</target>
+        <target state="translated">{name} をお気に入りから削除しました。</target>
       </trans-unit>
       <trans-unit id="T9VOm8D" resname="addressbook.favorite.remove.failure">
         <source>addressbook.favorite.remove.failure</source>
-        <target state="needs-translation">Der Kontakt konte nicht als Favorit entfernt werden.</target>
+        <target state="translated">そのコンタクトはお気に入りとして外すことができませんでした。</target>
       </trans-unit>
       <trans-unit id="bh25LYA" resname="addressbook.favorite.add.success">
         <source>addressbook.favorite.add.success</source>
-        <target state="needs-translation">Sie haben {name} erfolgreich als Favorit hinzugefügt.</target>
+        <target state="translated">{name} さんをお気に入りに追加しました。</target>
       </trans-unit>
       <trans-unit id="SfWjLss" resname="addressbook.favorite.add.failure">
         <source>addressbook.favorite.add.failure</source>
-        <target state="needs-translation">Der Kontakt konnte nicht als Favorit hinzugefügt werden.</target>
+        <target state="translated">そのコンタクトはお気に入りとして追加することができませんでした。</target>
       </trans-unit>
       <trans-unit id="4BBJtCu" resname="addressbook.favorite.help">
         <source>addressbook.favorite.help</source>
@@ -2108,15 +2106,15 @@
       </trans-unit>
       <trans-unit id=".ri8qck" resname="Meetling Pro Tip">
         <source>Meetling Pro Tip</source>
-        <target state="needs-translation">Meetling Pro Tip</target>
+        <target state="translated">ミーティングプロのコツ</target>
       </trans-unit>
       <trans-unit id="BOqQPrS" resname="Hotkeys">
         <source>Hotkeys</source>
-        <target state="needs-translation">Hotkeys</target>
+        <target state="translated">ホットキー</target>
       </trans-unit>
       <trans-unit id="PKTiQmk" resname="Allgemeiner Fehler">
         <source>Allgemeiner Fehler</source>
-        <target state="needs-translation">Allgemeiner Fehler</target>
+        <target state="translated">一般的なエラー</target>
       </trans-unit>
       <trans-unit id="hM6PRqW" resname="Hier ist was schief gelaufen. Tut uns Leid">
         <source>Hier ist was schief gelaufen. Tut uns Leid</source>
@@ -2148,23 +2146,23 @@
       </trans-unit>
       <trans-unit id="qHaNrGf" resname="Changelog">
         <source>Changelog</source>
-        <target state="needs-translation">Changelog</target>
+        <target state="translated">更新履歴</target>
       </trans-unit>
       <trans-unit id="PkicOGI" resname="Jetzt einladen">
         <source>Jetzt einladen</source>
-        <target state="needs-translation">Jetzt einladen</target>
+        <target state="translated">今すぐ招待する</target>
       </trans-unit>
       <trans-unit id="ooTUcOW" resname="callout.message.unreachable">
         <source>callout.message.unreachable</source>
-        <target state="needs-translation">{name} ist nicht erreichbar.</target>
+        <target state="translated">{name} は利用できません。</target>
       </trans-unit>
       <trans-unit id="o7tHpZ5" resname="Filter">
         <source>Filter</source>
-        <target state="needs-translation">Filter</target>
+        <target state="translated">フィルター</target>
       </trans-unit>
       <trans-unit id="WJQ_sl9" resname="deputy.mydebutys">
         <source>deputy.mydebutys</source>
-        <target state="needs-translation">Meine Vertreter</target>
+        <target state="translated">私の代理人</target>
       </trans-unit>
       <trans-unit id="mKsLYV1" resname="callout.dropdown.empty">
         <source>callout.dropdown.empty</source>
@@ -2184,7 +2182,7 @@
       </trans-unit>
       <trans-unit id=".PiK4px" resname="scheduling.new.schedulingTime.header">
         <source>scheduling.new.schedulingTime.header</source>
-        <target state="needs-translation">Es wurde ein neuer Terminvorschlag hinzugefügt.</target>
+        <target state="translated">新しい日程の提案が追加されました。</target>
       </trans-unit>
       <trans-unit id="_HqEnl5" resname="Als CSV Downloaden">
         <source>Als CSV Downloaden</source>
@@ -2288,27 +2286,27 @@
       </trans-unit>
       <trans-unit id="frFt3Yz" resname="transfer.room.success">
         <source>transfer.room.success</source>
-        <target state="needs-translation">Konferenz erfolgreich übertragen</target>
+        <target state="translated">会議の編集が完了しました</target>
       </trans-unit>
       <trans-unit id="lq.WUgz" resname="transfer.room.confirm">
         <source>transfer.room.confirm</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich auf diesem Nutzer übertragen? Sie haben anschließend keinen Zugriff mehr auf diese Konferenz, sondern sind nur noch als Teilnehmender in dieser Konferenz.</target>
+        <target state="translated">本当にこの会議をこのユーザーに転送しますか？　この会議にはアクセスできなくなりますが、参加者としてのみこの会議に参加することになります。</target>
       </trans-unit>
       <trans-unit id="k3gVjyc" resname="transfer.room.start">
         <source>transfer.room.start</source>
-        <target state="needs-translation">Konferenz auf diesem Nutzer übertragen</target>
+        <target state="translated">このユーザに会議を転送する</target>
       </trans-unit>
       <trans-unit id="OvciGc." resname="transfer.room.error">
         <source>transfer.room.error</source>
-        <target state="needs-translation">Fehler. Die Konfernz konnte nicht übertragen werden.</target>
+        <target state="needs-translation">Fehler. Die Konferenz konnte nicht übertragen werden.</target>
       </trans-unit>
       <trans-unit id="vOi9OLP" resname="scheduler.transform">
         <source>scheduler.transform</source>
-        <target state="needs-translation">Umwandeln</target>
+        <target state="translated">変換</target>
       </trans-unit>
       <trans-unit id="tp1bCrr" resname="confirm.schedule.delete">
         <source>confirm.schedule.delete</source>
-        <target state="needs-translation">Löschen</target>
+        <target state="translated">削除</target>
       </trans-unit>
       <trans-unit id="maoG0wF" resname="">
         <source/>
@@ -2323,8 +2321,56 @@
         <target state="needs-translation">Enterprise Livekit Einstellungen</target>
       </trans-unit>
       <trans-unit id="EBZKW.9" resname="server.livekit.settings.header">
-        <source>Livekit-Servereinstellungen</source>
+        <source>server.livekit.settings.header</source>
         <target state="needs-translation">Livekit-Servereinstellungen</target>
+      </trans-unit>
+      <trans-unit id="JzXOpBe" resname="Sofort Konferenz">
+        <source>Sofort Konferenz</source>
+        <target state="needs-translation">Sofort Konferenz</target>
+      </trans-unit>
+      <trans-unit id="wbKYh_R" resname="Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.">
+        <source>Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</source>
+        <target state="translated">自己登録によって登録する参加者は、最初にメール内のリンクをクリックして参加者リストにアクセスする必要はありません。</target>
+      </trans-unit>
+      <trans-unit id="x91IzR8" resname="Aufnahmen">
+        <source>Aufnahmen</source>
+        <target state="needs-translation">Aufnahmen</target>
+      </trans-unit>
+      <trans-unit id="CCvu_YE" resname="recordings.modal.title">
+        <source>recordings.modal.title</source>
+        <target state="needs-translation">Aufnahmen von Videokonferenzen</target>
+      </trans-unit>
+      <trans-unit id="KIFeNTw" resname="recording.email.subject">
+        <source>recording.email.subject</source>
+        <target state="needs-translation">Es wurde eine neue Aufnahme der Videokonferenz hochgeladen</target>
+      </trans-unit>
+      <trans-unit id="nYMq8lL" resname="recording.email.title">
+        <source>recording.email.title</source>
+        <target state="needs-translation">Es wurde eine Aufnahme für die Videokonferenz hochgladen</target>
+      </trans-unit>
+      <trans-unit id="cG2pjfJ" resname="recording.email.body">
+        <source>recording.email.body</source>
+        <target state="needs-translation">Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
+      </trans-unit>
+      <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
+        <source>recording.startSpeakerOnly</source>
+        <target state="needs-translation">Nur Sprecher </target>
+      </trans-unit>
+      <trans-unit id="SH.E5Cd" resname="recording.startSpeaker">
+        <source>recording.startSpeaker</source>
+        <target state="needs-translation">Sprecher Zentral </target>
+      </trans-unit>
+      <trans-unit id="yhh1FGG" resname="recording.startGrid">
+        <source>recording.startGrid</source>
+        <target state="needs-translation">Alle Teilnehmer in Kacheln</target>
+      </trans-unit>
+      <trans-unit id="yDlEa9I" resname="options.startRecording">
+        <source>options.startRecording</source>
+        <target state="needs-translation">Aufnahme starten</target>
+      </trans-unit>
+      <trans-unit id="JJHW_6u" resname="options.stopRecording">
+        <source>options.stopRecording</source>
+        <target state="needs-translation">Aufnahme beenden</target>
       </trans-unit>
     </body>
   </file>

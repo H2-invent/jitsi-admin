@@ -6,6 +6,7 @@ use App\Entity\CallerSession;
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
+use App\Service\livekit\EgressService;
 use App\Service\Lobby\LobbyUtils;
 use App\Service\Summary\SendSummaryViaEmailService;
 use App\Service\ThemeService;
@@ -26,7 +27,8 @@ class RoomWebhookService
         LoggerInterface                    $logger,
         ParameterBagInterface              $parameterBag,
         private SendSummaryViaEmailService $sendSummaryViaEmailService,
-        private ThemeService               $themeService
+        private ThemeService               $themeService,
+        private EgressService              $egressService
     )
     {
         $this->em = $entityManager;
@@ -44,7 +46,7 @@ class RoomWebhookService
                     $res = $this->roomCreated(
                         $data['room_name'],
                         $data['is_breakout'],
-                        isset($data['breakout_room_id'])?$data['breakout_room_id']:null,
+                        isset($data['breakout_room_id']) ? $data['breakout_room_id'] : null,
                         $data['room_jid'],
                         $data['created_at']
                     );
@@ -52,7 +54,7 @@ class RoomWebhookService
                 case 'muc-room-destroyed':
                     $res = $this->roomDestroyed(
                         $data['is_breakout'],
-                        isset($data['breakout_room_id'])?$data['breakout_room_id']:null,
+                        isset($data['breakout_room_id']) ? $data['breakout_room_id'] : null,
                         $data['room_jid'],
                         $data['destroyed_at']
                     );
@@ -60,11 +62,11 @@ class RoomWebhookService
                 case 'muc-occupant-joined':
                     $res = $this->roomParticipantJoin(
                         $data['is_breakout'],
-                        isset($data['breakout_room_id'])?$data['breakout_room_id']:null,
+                        isset($data['breakout_room_id']) ? $data['breakout_room_id'] : null,
                         $data['room_jid'],
                         $data['occupant']['occupant_jid'],
                         $data['occupant']['joined_at'],
-                        isset($data['occupant']['name'])?$data['occupant']['name']:null
+                        isset($data['occupant']['name']) ? $data['occupant']['name'] : null
 
                     );
                     break;
@@ -87,12 +89,13 @@ class RoomWebhookService
 
 
     public function roomCreated(
-        string $roomName,
-        bool $isBreakout,
+        string  $roomName,
+        bool    $isBreakout,
         ?string $breakoutRoomId,
-        string $roomJid,
-        int $createdAt
-    ): ?string {
+        string  $roomJid,
+        int     $createdAt
+    ): ?string
+    {
         try {
 
 
@@ -119,17 +122,19 @@ class RoomWebhookService
             }
 
             if ($roomStatus) {
+                $roomStatus->setJitsiRoomId($roomJid);
+                $roomStatus->setUpdatedAt(new \DateTime());
+                $this->em->persist($roomStatus);
+                $this->em->flush();
                 $text = 'Room already created';
                 $this->logger->error($text, ['roomJidID' => $roomJid]);
                 return $text;
             }
 
-            if (!$roomStatus) {
                 $roomStatus = new RoomStatus();
                 $roomStatus->setCreatedAt(new \DateTime())
                     ->setJitsiRoomId($roomJid)
                     ->setRoom($room);
-            }
 
             $roomStatus->setRoomCreatedAt(\DateTime::createFromFormat('U', $createdAt))
                 ->setUpdatedAt(new \DateTime())
@@ -147,11 +152,12 @@ class RoomWebhookService
 
     public function roomDestroyed(
 
-        bool $isBreakout,
+        bool    $isBreakout,
         ?string $breakoutRoomId,
-        string $roomJid,
-        int $destroyedAt
-    ): ?string {
+        string  $roomJid,
+        int     $destroyedAt
+    ): ?string
+    {
         try {
 
 
@@ -195,8 +201,12 @@ class RoomWebhookService
                     ->setInRoom(false);
                 $this->em->persist($data2);
             }
+            if ($roomStatus->getRoom()){
+                foreach ($roomStatus->getRoom()->getLiveKitRecordings() as $recording) {
+                    $this->egressService->stopEgress($recording);
+                }
+            }
             $this->em->flush();
-
             $this->clenRoomStatus($roomStatus);
 
         } catch (\Exception $exception) {
@@ -212,18 +222,18 @@ class RoomWebhookService
     }
 
     public function roomParticipantJoin(
-        ?bool $isBreakput,
+        ?bool   $isBreakput,
         ?string $breakoutRoomName,
-        string $roomJId,
-    string $occupantJId,
-        $joinedAt,
+        string  $roomJId,
+        string  $occupantJId,
+                $joinedAt,
         ?string $occupantName = null,
     ): ?string
     {
         try {
 
             if ($isBreakput === true) {
-                $this->logger->debug('This is a breakoutRoom', ['breakout_room_id ' =>$breakoutRoomName, 'room_jid' => $roomJId]);
+                $this->logger->debug('This is a breakoutRoom', ['breakout_room_id ' => $breakoutRoomName, 'room_jid' => $roomJId]);
                 return 'Room is a breakout room we don`t join the participant';
             }
             $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRoomsbyJitsiId($roomJId);
@@ -262,12 +272,13 @@ class RoomWebhookService
 
     public function roomParticipantLeft(
 
-        bool $isBreakout,
+        bool    $isBreakout,
         ?string $breakoutRoomId,
-        string $occupantJid,
-        int $leftAt,
-        ?int $totalDominantSpeakerTime = null
-    ): ?string {
+        string  $occupantJid,
+        int     $leftAt,
+        ?int    $totalDominantSpeakerTime = null
+    ): ?string
+    {
         try {
 
             if ($isBreakout) {
@@ -302,9 +313,10 @@ class RoomWebhookService
         return null;
     }
 
-    public function clenRoomStatus(RoomStatus $roomStatus){
-        if (!$roomStatus->getRoom()){
-            foreach ($roomStatus->getRoomStatusParticipants() as $data){
+    public function clenRoomStatus(RoomStatus $roomStatus)
+    {
+        if (!$roomStatus->getRoom()) {
+            foreach ($roomStatus->getRoomStatusParticipants() as $data) {
                 $this->em->remove($data);
             }
             $this->em->remove($roomStatus);

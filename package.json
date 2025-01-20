@@ -16,7 +16,8 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "build": "encore production --progress",
+        "start-ws": "node --env-file=.env.local nodejs"
     },
     "dependencies": {
         "@dmuy/datepicker": "^2.0.1",
@@ -50,7 +51,7 @@
         "jquery": "^3.5.1",
         "jquery-confirm": "^3.3.4",
         "lodash": "^4.17.21",
-        "mdb-ui-kit": "^6.4.0",
+        "mdb-ui-kit": "^8.0.0",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",
         "moveable": "^0.36.3",

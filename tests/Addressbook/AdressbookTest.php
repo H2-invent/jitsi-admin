@@ -228,7 +228,7 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateGroup($userGroup);
         $this->assertEquals(
             [
-                ['name' => "Testgruppe", 'user' => "test2@local.de\ntest@local3.de"],
+                ['name' => "Testgruppe", 'user' => ['test2@local.de','test@local3.de']],
             ],
             $res
         );
@@ -237,7 +237,7 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateGroup($userGroup);
         $this->assertEquals(
             [
-                ['name' => "Testgruppe", 'user' => "test2@local.de\ntest@local3.de"],
+                ['name' => "Testgruppe", 'user' => ['test2@local.de','test@local3.de']],
             ],
             $res
         );

@@ -3,7 +3,7 @@ import $ from "jquery";
 import {tooltip} from 'mdb-ui-kit';
 import {setCookie} from "./cookie";
 import {checkIfIsMutable, zIndex} from "./createConference";
-
+import { Tooltip, initMDB } from "mdb-ui-kit";
 export class multiframe {
 
 
@@ -50,27 +50,31 @@ export class multiframe {
         this.random = md5(urlPath);
         var html =
             `<div id="jitsiadminiframe${this.random}" class="jitsiadminiframe" data-x="${this.xValue}" data-y="${this.yValue}" data-maximal="0" style="border-color: ${this.borderColor}">
-            <div class="headerBar">
+<div class="multiframeContent d-flex h-100 w-100 flex-column">
+        <div class="headerBar">
             <div class="dragger"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>${this.title}</div>
             <div class="actionIconLeft">
-            <div class="pauseConference d-none  actionIcon" data-pause="0"><i class="fa-solid fa-pause" data-mdb-toggle="tooltip" title="Pause"></i></div> 
-            <div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize" data-mdb-toggle="tooltip" title="Minimize"></i></div> 
-            <div class=" button-restore actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Restore"><i class="fa-solid fa-window-restore"></i></div> 
-            <div class=" button-maximize  actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Maximize"><i class="fa-solid fa-window-maximize"></i></div> 
-            ${document.fullscreenEnabled ? '<div class="button-fullscreen actionIcon" data-mdb-toggle="tooltip" title="Fullscreen"><i class="fa-solid fa-expand"></i></div> ' : ''}
-            <div class="closer  actionIcon"><i class="fa-solid fa-xmark" data-mdb-toggle="tooltip" title="Exit"></i></div>
+            <div class="pauseConference d-none  actionIcon" data-pause="0"><i class="fa-solid fa-pause" data-mdb-tooltip-init  title="Pause"></i></div> 
+            <div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize" data-mdb-tooltip-init  title="Minimize"></i></div> 
+            <div class=" button-restore actionIcon" data-maximal="0" data-mdb-tooltip-init  title="Restore"><i class="fa-solid fa-window-restore"></i></div> 
+            <div class=" button-maximize  actionIcon" data-maximal="0" data-mdb-tooltip-init  title="Maximize"><i class="fa-solid fa-window-maximize"></i></div> 
+            ${document.fullscreenEnabled ? '<div class="button-fullscreen actionIcon" data-mdb-tooltip-init  title="Fullscreen"><i class="fa-solid fa-expand"></i></div> ' : ''}
+            <div class="closer  actionIcon"><i class="fa-solid fa-xmark" data-mdb-tooltip-init title="Exit"></i></div>
             </div>
             </div>
             <div class="iframeFrame">
             <iframe  class="multiframeIframe"></iframe>
             </div>
+</div>
+    
             </div>`;
         if (document.getElementById('window')) {
             document.getElementById('window').insertAdjacentHTML('beforeend', html);
         } else {
             document.querySelector('body').insertAdjacentHTML('beforeend', html);
         }
-        $('[data-mdb-toggle="tooltip"]').tooltip();
+        initMDB({ Tooltip });
+
         this.frame = document.getElementById('jitsiadminiframe' + this.random);
         this.frame.style.transform = `translate(${this.xValue}px, ${this.yValue}px)`;
         this.frame.style.width = this.width + 'px';

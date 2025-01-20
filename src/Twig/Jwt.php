@@ -33,9 +33,10 @@ class Jwt extends AbstractExtension
         ];
     }
 
-    public function jwtFromRoom(?User $user, Rooms $rooms, $name, $moderatorExplizit = false)
+    public function jwtFromRoom(?User $user, Rooms $rooms, $name, $moderatorExplizit = false,$noModerator=false)
     {
-        return $this->roomService->generateJwt($rooms, $user, $name, $moderatorExplizit);
+
+        return $this->roomService->generateJwt($rooms, $user, $name, $moderatorExplizit, noModerator: $noModerator);
     }
 
     public function urlFromRoom(?User $user, Rooms $rooms, $name, $t)

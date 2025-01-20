@@ -1,8 +1,8 @@
 version: '3.8'
 
 x-app-common: &jitsi_admin_app
-  image: h2invent/jitsi-admin-main:latest
-#  build: .
+#  image: h2invent/jitsi-admin-main:latest
+  build: .
   environment:
     APACHE_DOCUMENT_ROOT: "public/"
     PHP_EXTENSION_XDEBUG: "1"
@@ -145,6 +145,7 @@ services:
       - theme_data:/var/www/html/theme
       - image_upload:/var/www/html/public/uploads/images
       - theme_assests_data:/var/www/html/public/theme
+      - recording_uploads:/var/www/html/data/recording
     networks:
       - external
       - internal
@@ -191,7 +192,7 @@ services:
       - internal
 
   keycloak-ja:
-    image: quay.io/keycloak/keycloak:22.0.3
+    image: quay.io/keycloak/keycloak:26.1.0
     depends_on:
       app-ja:
         condition: service_healthy
@@ -204,7 +205,8 @@ services:
       KC_DB: mariadb
       KC_DB_USERNAME: keycloak
       KC_HTTP_RELATIVE_PATH: /keycloak
-      KC_PROXY: passthrough
+      KC_PROXY: edge
+      KC_HOSTNAME: ${APP_SCHEME}://${PUBLIC_URL}/keycloak
     restart: unless-stopped
     command:
       - start-dev
@@ -234,3 +236,4 @@ volumes:
   image_upload:
   theme_data:
   theme_assests_data:
+  recording_uploads:

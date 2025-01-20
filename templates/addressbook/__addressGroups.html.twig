@@ -13,7 +13,7 @@
 
             </span>
             <span class="noBreak">
-<a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdb-html="true"
+<a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus" data-mdb-html="true"
    title="{{ 'Mitglieder'|trans }}"
    data-mdb-content='<ul>{% for m in g.member|sort((a, b) => a|nameOfUser|lower <=> b|nameOfUser|lower) %}<li>{{ m|nameOfUser }}</li>  {% endfor %}</ul>'><i
             class="fa fa-info-circle"></i></a>

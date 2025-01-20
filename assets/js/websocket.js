@@ -1,7 +1,7 @@
 import {io} from "socket.io-client";
 import {initStatus, setMyStatus, setStatus, showOnlineUsers} from "./onlineStatus";
 import {masterNotify} from "./lobbyNotification";
-import {inIframe} from "./moderatorIframe";
+import {inIframe, removeListnerFromMEssage} from "./moderatorIframe";
 import {createIframe} from "./createConference";
 import {initAwayTime, setAwayTimeField} from "./enterAwayTime";
 import {setSnackbar, deleteToast} from './myToastr'
@@ -31,7 +31,7 @@ export function initWebsocket(jwt) {
     socket.io.on("error", (error) => {
         if (!errorTimeout) {
             errorTimeout = setTimeout(function () {
-                setSnackbar('Websocket Error. There is no real time communication at the moment. Please reload the page.', 'danger', true, 'socketAlert', 30000)
+                setSnackbar('Websocket Error. There is no real time communication at the moment. Please reload the page.','Websocket', 'danger', true, 'socketAlert', 30000)
                 errorTimeout = null;
             }, 5000);
         }
@@ -42,7 +42,7 @@ export function initWebsocket(jwt) {
             errorTimeout = null;
         }else {
             deleteToast('socketAlert');
-            setSnackbar('Websocket successfully reconnected', 'success', false, 'socketAlert', 3000)
+            setSnackbar('Websocket successfully reconnected', 'Websocket','success', false, 'socketAlert', 3000)
         }
 
     });
@@ -119,6 +119,7 @@ export function enterMeeting() {
 
 export function leaveMeeting() {
     sendViaWebsocket('leaveMeeting',);
+    removeListnerFromMEssage();
 }
 
 export function sendViaWebsocket(event, message) {

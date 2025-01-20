@@ -7,7 +7,7 @@ import {initNotofication} from './lobbyNotification';
 import {initCircle} from './initCircle';
 import {choosenLabelFull, initWebcam, stopWebcam, toggle} from './cameraUtils';
 import {echoOff, initAUdio, micLabelFull} from './audioUtils';
-import {initAjaxSend} from './confirmation';
+import {initAjaxSend, initAllComponents} from './confirmation';
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
 import {leaveMeeting, socket} from './websocket';
@@ -18,6 +18,7 @@ import Swal from 'sweetalert2'
 
 import {JitsiUtils} from "./jitsiUtils";
 import {LivekitUtils} from "./livekit/livekitUtils";
+import $ from "jquery";
 
 let jitsiUtils = null;
 let liveKitUtils = null;
@@ -109,7 +110,7 @@ document.getElementById('renewParticipant').addEventListener('click', function (
                         clearInterval(intervalRenew);
                     }
                 }, 1000);
-                setSnackbar(data.message, data.color);
+                setSnackbar(data.message,'', data.color);
             });
     }
 });
@@ -212,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initAUdio();
     initWebcam();
     initMercure();
-
+    initAllComponents();
     const webcamRow = document.getElementById('webcamRow');
     const webcamArea = document.querySelector('.webcamArea');
     webcamRow.style.height = `${webcamArea.clientHeight}px`;
@@ -299,5 +300,7 @@ function askHangup() {
 //         });
 //     }
 // }
+
+
 
 

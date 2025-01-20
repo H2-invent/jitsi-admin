@@ -1,86 +1,86 @@
 label.konferenzId: 会議ID
 label.email: メールアドレス
 label.name: あなたの名前
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
-label.teilnehmerSpeichern: E-Mail zur Einladung versenden
-label.emailModerator: E-Mail-Adresse des Organisators eingeben
-help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
-label.organisatorhinzufuegen: Organisator hinzufügen
-label.serverKonferenz: Jitsi Meet Server
-label.konferenzName: Name der Konferenz
-label.start: Start
-label.dauerKonferenz: Dauer der Konferenz
+label.teilnehmerEmailhinzufuegen: 新しい参加者のメールアドレスを入力してください
+label.teilnehmerSpeichern: 招待メールを送信する
+label.emailModerator: 主催者のメールアドレスを入力してください
+help.emailTextfeld: 複数のメールアドレスを一度に追加できます。それぞれのメール アドレスを1行に分けて入力してください。
+label.organisatorhinzufuegen: 主催者を追加
+label.serverKonferenz: Jitsi Meetサーバ
+label.konferenzName: 会議の名前
+label.start: 開始
+label.dauerKonferenz: 会議の時間
 label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
-label.speichern: Speichern
+label.speichern: 保存
 label.allowMaybeOption: '"Vielleicht"-Option anbieten'
-option.15min: 15 Minuten
-option.30min: 30 Minuten
-option.45min: 45 Minuten
-option.60min: 1 Stunde
-option.75min: 1:15 Stunden
-option.90min: 1:30 Stunden
-option.105min: 1:45 Stunden
-option.120min: 2 Stunden
-option.150min: 2:30 Stunden
-option.180min: 3 Stunden
-option.210min: 3:30 Stunden
-option.240min: 4 Stunden
-option.270min: 4:30 Stunden
-option.300min: 5 Stunden
-option.330min: 5:30 Stunden
-option.360min: 6 Stunden
-option.390min: 6:30 Stunden
-option.420min: 7 Stunden
-option.450min: 7:30 Stunden
-option.480min: 8 Stunden
+option.15min: 15 分
+option.30min: 30 分
+option.45min: 45 分
+option.60min: 1 時間
+option.75min: 1 時間 15 分
+option.90min: 1 時間 30 分
+option.105min: 1 時間 45 分
+option.120min: 2 時間
+option.150min: 2 時間 30 分
+option.180min: 3 時間
+option.210min: 3 時間 30 分
+option.240min: 4 時間
+option.270min: 4 時間 30 分
+option.300min: 5 時間
+option.330min: 5 時間 30 分
+option.360min: 6 時間
+option.390min: 6 時間 30 分
+option.420min: 7 時間
+option.450min: 7 時間 30 分
+option.480min: 8 時間
 option:
-  monday: Montag
-  tuesday: Dienstag
-  wednesday: Mittwoch
-  thursday: Donnerstag
-  friday: Freitag
-  saturday: Samstag
-  sunday: Sonntag
-  weekly: Wöchentlich
-  daily: Täglich
-  montly: Monatlich
-  yearly: Jährlich
-  montlyRelative: Monatlich flexibel festlegen
-  yearlyRelative: Jährlich flexibel festlegen
-  first: Erster
-  second: Zweiter
-  third: Dritter
-  fourth: Vierter
-  fifth: Fünfter
-  last: Letzter
-  january: Januar
-  february: Februar
-  march: März
-  april: April
-  may: Mai
-  june: Juni
-  july: Juli
-  august: August
-  septembre: September
-  octobre: Oktober
-  novembre: November
-  decembre: Dezember
-  user: Im User Claim
-  root: Im Root Claim
+  monday: 月曜日
+  tuesday: 火曜日
+  wednesday: 水曜日
+  thursday: 木曜日
+  friday: 金曜日
+  saturday: 土曜日
+  sunday: 日曜日
+  weekly: 毎週
+  daily: 毎日
+  montly: 毎月
+  yearly: 毎年
+  montlyRelative: 柔軟な月間スケジュールを設定する
+  yearlyRelative: 柔軟な年間スケジュールを設定する
+  first: 1番
+  second: 2番
+  third: 3番
+  fourth: 4番
+  fifth: 5番
+  last: 最後
+  january: 1月
+  february: 2月
+  march: 3月
+  april: 4月
+  may: 5月
+  june: 6月
+  july: 7月
+  august: 8月
+  septembre: 9月
+  octobre: 10月
+  novembre: 11月
+  decembre: 12月
+  user: ユーザステートメントでは
+  root: ルートステートメントでは
 lable.serverUrl: Konferenz Server URL
-label.appId: App-ID
-label.appSecret: App-Secret
-label.scheduleMeeting: Termin vorschlagen
+label.appId: AppID
+label.appSecret: Appシークレット
+label.scheduleMeeting: 予定のアンケートを作成する
 help:
-  serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
-  featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
-  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
-  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
-  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
-  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
-  jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
+  serverUrl: '「https://」を指定しない場合(例：meet.jit.si)'
+  featureEnalbeByJwt: '「JWT による機能を有効にする」プラグインは、Jitsi Meet サーバーでアクティブ化する必要があります。そうしないと、JWT がサーバーによって正しく認識され、処理されません。'
+  teilnehmerEmailhinzufuegenModerator: 複数のメールアドレスを一度に追加できます。それぞれのメール アドレスを1行に分けて入力してください。
+  serverName: ここにサーバー名を入力してください。これは参加者に表示されます。
+  secondEmail: デフォルトの電子メール アドレス宛てのすべての電子メールは、この追加の電子メール アドレス (カンマ区切り) に送信される必要があります。
+  corsHeader: CORS または親フレームヘッダーが設定されており、この URL を指していない場合、JITSI iFrame API を使用することはできません。これにより、一部の機能が失われます。
+  jigasiApiUrl: ここに Jigasi API を入力します。これは会議ピンを取得するために使用できます。通常、これは「ConferenceMapper」で終わります。
   jigasiNumberUrl: 'ダイヤルイン番号をJSON形式で入力します。Jigasiの "numbers.json "に入力されているように入力してください。 (例: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
-  jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
+  jigasiProsodyDomain: ここにProsodyドメインを入力します。これは通常、「conference.domain.topdomain」のパターンに従います。
   disallowFirefox: Firefox ブラウザはブラウザ内で非アクティブになります。Firefoxブラウザで参加を希望する参加者は、Chromiumベースのブラウザにリダイレクトされます。
   enforceE2e: このJitsiサーバーでは、すべての会議において「エンド・ツー・エンド暗号化」セキュリティ機能が実施されています。
   allowIp: 指定したIPアドレスまたはIP範囲のみが会議に参加できます。IP範囲は10.10.10.10/24の表記で指定する必要があります。複数の IP アドレスまたは IP 範囲をカンマ区切りで入力できます。
@@ -92,66 +92,66 @@ help:
   prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
   liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
   livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
-  livekitMiddlewareUrl: Hier kann eine Url (https://middlewareUrl.com) angegeben werden. Es wird bisher nur die Meetling Middleware unterstützt. Sollten Sie nicht wissen was Sie hier eintragen sollen, einfach leer lassen damit die voreingestellte Middleware verwendet wird. Wenn Sie eine eigene Middleware verwenden wollen wenden Sie sich an info@h2-invent.com
+  livekitMiddlewareUrl: ここで Url (https://middlewareUrl.com) を指定できます。これまでのところ、Meetling ミドルウェアのみがサポートされています。ここに何を入力すればよいかわからない場合は、デフォルトのミドルウェアが使用されるように、空白のままにしておきます。独自のミドルウェアを使用したい場合は、info@h2-invent.com までお問い合わせください。
 label:
-  beitretenApp: Mit der Elektron-App beitreten
+  beitretenApp: Elektron アプリで参加する
   beitretenBrowser: 参加する。
-  serverSmtpHostName: SMTP-Hostname
-  serverSmtpHostPort: SMTP-Port
-  serverSmtpEncryption: Verschlüsselung
-  serverSmtpUsername: SMTP-Benutzername
-  serverSmtpPassword: SMTP-Passwort
-  serverSmtpSenderEmail: Absender-E-Mail
-  serverSmtpSenderName: Absendername
-  serverLintLogo: Link zu Logo
-  serverPrivacyPolicy: Datenschutzhinweise für diesen Server
-  serverEmailHeader: Individuelle Überschrift für E-Mail
-  serverEmailBody: Individueller Content für E-Mail
-  serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
-  apiKey: Api-Key für diesen Server
-  agenda: Kurze Agenda für dieses Meeting (Markdown)
-  staticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
-  schowStaticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
-  featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
-  dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
-  puplicRoom: Link zur Einladung freischalten
-  showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
-  subscribe: Anmelden
-  vorname: Vorname
-  nachname: Nachname
+  serverSmtpHostName: SMTPホストネーム
+  serverSmtpHostPort: 'SMTPポート番号:'
+  serverSmtpEncryption: 暗号化
+  serverSmtpUsername: SMTPユーザー名
+  serverSmtpPassword: SMTPパスワード
+  serverSmtpSenderEmail: 送信者メールアドレス
+  serverSmtpSenderName: 送信者名
+  serverLintLogo: ロゴのリンク
+  serverPrivacyPolicy: このサーバのプライバシーポリシー
+  serverEmailHeader: メールの件名
+  serverEmailBody: メールの内容
+  serverLicenseKey: Jitsi-Admin ライセンスキーの入力
+  apiKey: このサーバのAPIキー
+  agenda: この会議の要約 (マークダウン)
+  staticBackgroundColor: 参加ページに画像の代わりに静的な色を表示します。
+  schowStaticBackgroundColor: 参加ページに画像の代わりに静的な色を表示します。
+  featureEnalbeByJwt: JWT プラグインによる機能の有効化がサーバーで有効になっています。
+  dissallowScreenshareGlobal: 主催者のみが画面共有できます。
+  dissallowPrivateMessage: 主催者のみがプライベートメッセージの送信を許可できます。
+  puplicRoom: 自己登録を有効にする
+  showRoomOnJoinpage: 参加ページに会議を表示する
+  subscribe: ログイン
+  vorname: 名
+  nachname: 姓
   maxParticipants: 自己登録の最大登録数
-  waitinglist: Warteliste aktivieren
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
-  weekday: Wochentag
-  repetation: Endet nach x Terminen
-  repeatType: Serienmuster
-  repeaterDays: Nach x Tagen wiederholen
-  repeaterWeeks: Nach x Wochen wiederholen
-  repeatMontly: Nach x Monaten wiederholen
-  repeatYearly: Nach x Jahren wiederholen
-  montlyRelativeNumber: Wie vielter Wochentag im Monat
-  montlyRelativeWeekday: Wochentag
-  montlyRelativeMonth: Monat
-  repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
-  persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
-  totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
-  totalOpenRoomsOpenTime: Raumöffnungszeit
-  addressgroupName: Gruppenname
-  addressgroupMember: Gruppenmitglieder auswählen
-  jwtModeratorPosition: Moderatorposition im JWT Token
-  timezone: Zeitzone
-  serverName: Servername
-  lobby: Lobby aktivieren
-  secondEmail: CC-E-Mail
-  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
-  corsHeader: CORS-Header oder frame-ancestor Header
-  tag: Kategorie
-  serverBackgroundImage: Statitisches Hintergrund für die Joinseite
+  waitinglist: 待機リストを有効にする
+  teilnehmerEmailhinzufuegenModerator: 新しいモデレーターの電子メールアドレスを入力してください
+  weekday: 平日
+  repetation: 日後に終了
+  repeatType: 繰り返しの種類
+  repeaterDays: 日後に繰り返す
+  repeaterWeeks: 週後に繰り返す
+  repeatMontly: ヶ月後に繰り返す
+  repeatYearly: 年後に繰り返す
+  montlyRelativeNumber: 月の何曜日か
+  montlyRelativeWeekday: 平日
+  montlyRelativeMonth: 月
+  repeaterRemoved: このアイテムのみを編集します
+  persistantRoom: このカンファレンスには日付はありませんが、いつでも参加できます。
+  totalOpenRooms: 参加者リストを非アクティブ化し、リンク経由で参加します。
+  totalOpenRoomsOpenTime: ルームのオープン時間
+  addressgroupName: グループ名
+  addressgroupMember: メンバー
+  jwtModeratorPosition: JWTトークンのモデレータ
+  timezone: タイムゾーン
+  serverName: サーバ名
+  lobby: ロビーを有効化
+  secondEmail: メールのCC
+  profilImage: プロフィール写真(会議で表示する)
+  corsHeader: CORSもしくは親フレームヘッダー
+  tag: カテゴリ
+  serverBackgroundImage: サーバ背景
   jigasiApiUrl: Jigasi ConferenceMapper-URL
-  jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
-  jigasiProsodyDomain: Jigasi Prosody Domain
-  go: Los gehts!
+  jigasiNumberUrl: Jigasi ダイヤルイン番号（JSONフォーマット）
+  jigasiProsodyDomain: Jigasi prosody のドメイン
+  go: さあ、始めましょう！
   moderator: オーガナイザーを選択
   disallowFirefox: Jitsi-MeetサーバーでFirefoxが無効化されています。
   enforceE2e: End to End を強制する。
@@ -163,14 +163,15 @@ label:
   disableWhiteboard: ホワイトボードを無効にする。
   disableEtherpad: イーサパッドを無効にする。
   prefixRoomUidWithHash: ルームUidとサーバーハッシュプレフィックス
-  myName: Mein Name
-  liveKitServer: Ich möchte einen Livekit-Server einrichten
-  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
-  livekitMiddlewareUrl: Livekitmiddleware-Url
+  myName: 名前
+  liveKitServer: Livekit serverをセットアップする
+  livekitBackgroundImages: JSON形式の会議用背景画像
+  livekitMiddlewareUrl: LivekitミドルウェアのURL
+  disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
-  none: Keine
+  none: なし
 placeholder:
-  maxParticipants: Keine Begrenzung
-  chooseTime: Zeit und Datum auswählen
+  maxParticipants: 制限なし
+  chooseTime: 日付と時間を選択

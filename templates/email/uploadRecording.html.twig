@@ -1,0 +1,15 @@
+{% extends 'email/base.html.twig' %}
+{% block header %}
+    {{'recording.email.title'|trans}}
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center">
+        {{ room.name }}
+    </h4>
+    <p>
+        {% trans with {'{name}': room.name} %}recording.email.body{% endtrans %}
+    </p>
+
+<a class="text-center" href="{{ laF_baseUrl }}{{ path('dashboard') }}"> <button href="{{ laF_baseUrl }}/{{ path('dashboard') }}" class="expanded rounded">{{ 'Dashboard'|trans }}</button></a>
+{% endblock %}

@@ -78,12 +78,13 @@
                     checked
                             {% endif %}/>
                     <label class="form-check-label" for="switchDarkmode2">
-                        {{ 'Darkmode'|trans }}</i>
+                       {{ 'Darkmode'|trans }}
                     </label>
                 </div>
 
                 <a href="#" class="caretdown after"
-                   data-mdb-toggle="collapse"
+
+                   data-mdb-collapse-init
                    data-mdb-target="#mydeputies"
                    aria-expanded="false"
                    aria-controls="mydeputies">
@@ -92,7 +93,7 @@
                 <div class="collapse" id="mydeputies">
                     <ul class="list-group">
                         {% for d in app.user.deputy %}
-                        <li class="list-inline-item">{{ d|nameOfUserNoSymbol }}</li>
+                            <li class="list-inline-item">{{ d|nameOfUserNoSymbol }}</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -141,7 +142,7 @@
                     <div class="row">
                         <div class="col-lg-12 mt-3">
                             <div class="mb-3">
-                                <b>{{ 'iCal Link'|trans }}</b>
+                                <b>{{ 'iCal Link'|trans }}</b><br>
                                 <a href="https://h2-invent.com/post/howtos/ical-link-kalender-importieren">
                                     {{ 'help.ical.Link'|trans }}
                                 </a>
@@ -156,6 +157,21 @@
                             </div>
                         </div>
                     </div>
+                {% endif %}
+                <hr>
+                <div class="mb-3">
+                    <b>{{ 'calendly.header'|trans }}</b><br>
+                    <a href="https://calendly.com/" target="_blank">
+                        {{ 'calendly.link.text'|trans }}
+                    </a>
+                </div>
+                {% if not app.user.calendlySucessfullyAdded %}
+                <a href="{{ path('app_calendly_webhook_connect') }}" class="btn btn-danger loadContent">
+                        {{ 'calendly.connection.isNotConnected'|trans }}
+                </a><br>
+                {% else %}
+                    <h5> <span class="badge badge-success">{{'calendly.connection.connected'|trans }}</span></h5>
+                    <a href="{{ path('app_calendly_webhook_remove') }}">{{ 'callendly.disconnect'|trans }}</a>
                 {% endif %}
             </div>
 

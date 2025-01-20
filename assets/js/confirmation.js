@@ -1,29 +1,90 @@
 import Swal from 'sweetalert2'
 import {initSearchUser} from './searchUser'
-import * as mdb from 'mdb-ui-kit'; // lib
+import {Popover, Tooltip, Collapse, Dropdown, Input, initMDB} from "mdb-ui-kit";
+import {createIframe} from "./createConference";
+
 var title = "Bestätigung";
 var cancel = "Abbrechen";
 var ok = "OK";
 
 function initDirectSend() {
     document.addEventListener('click', function (e) {
-        if (e.target.matches('.directSend')) {
+        const triggerElement = e.target.closest('.directSend');
+
+        if (triggerElement) {
             e.preventDefault();
             var url = e.target.href;
             var target = e.target.dataset.target;
-            var targetUrl = e.target.dataset.url;
+            const targetUrl = e.target.dataset.url;
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    replaceContent(target,targetUrl)
+                    reloadPartial(targetUrl, target);
+                    if (data.snack) {
+                        document.getElementById('snackbar').textContent = data.text;
+                        document.getElementById('snackbar').classList.add('show');
+                    }
                 });
+
+
         }
+    });
+}
+
+export function initAllComponents() {
+    initInput();
+    initCollapse();
+    initDropdown();
+    initTooltip();
+    initPopover();
+}
+
+export function initPopover() {
+    initMDB({Popover});
+    const items = document.querySelectorAll('[data-mdb-popover-init]');
+    items.forEach(item => {
+        Popover.getOrCreateInstance(item);
+    });
+}
+
+export function initDropdown() {
+    initMDB({Dropdown});
+    const items = document.querySelectorAll('[data-mdb-dropdown-init]');
+    items.forEach(item => {
+        Dropdown.getOrCreateInstance(item);
+    });
+}
+
+export function initCollapse() {
+    initMDB({Collapse});
+    const items = document.querySelectorAll('[data-mdb-collapse-init]');
+    items.forEach(item => {
+        Collapse.getOrCreateInstance(item);
+    });
+}
+
+export function initInput() {
+    initMDB({Input});
+    const items = document.querySelectorAll('[data-mdb-input-init]');
+    items.forEach(item => {
+        Input.getOrCreateInstance(item);
+    });
+}
+
+
+export function initTooltip() {
+    initMDB({Tooltip});
+    const items = document.querySelectorAll('[data-mdb-tooltip-init]');
+    items.forEach(item => {
+        Tooltip.getOrCreateInstance(item);
     });
 }
 
 function initconfirmHref() {
     document.addEventListener('click', function (e) {
-        if (e.target.matches('.confirmHref')) {
+        const triggerElement = e.target.closest('.confirmHref');
+
+        if (triggerElement) {
             e.preventDefault();
             const url = e.target.href;
             const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
@@ -32,12 +93,12 @@ function initconfirmHref() {
                 title: title,
                 text: text,
                 icon: 'question',
-                backdrop:false,
+                backdrop: false,
                 showCancelButton: true,
                 cancelButtonText: cancel,
                 customClass: {
                     confirmButton: 'btn-danger btn',
-                    cancelButton:  'btn-outline-primary btn'
+                    cancelButton: 'btn-outline-primary btn'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -50,7 +111,10 @@ function initconfirmHref() {
 
 function initconfirmLoadOpenPopUp() {
     document.addEventListener('click', function (e) {
-        if (e.target.matches('.confirmloadOpenPopUp')) {
+        const triggerElement = e.target.closest('.confirmloadOpenPopUp');
+
+        if (triggerElement) {
+
             e.preventDefault();
             const url = e.target.href;
             const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
@@ -59,12 +123,12 @@ function initconfirmLoadOpenPopUp() {
                 title: title,
                 text: text,
                 icon: 'question',
-                backdrop:false,
+                backdrop: false,
                 showCancelButton: true,
                 cancelButtonText: cancel,
                 customClass: {
                     confirmButton: 'btn-danger btn',
-                    cancelButton:  'btn-outline-primary btn'
+                    cancelButton: 'btn-outline-primary btn'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -85,62 +149,47 @@ function initconfirmLoadOpenPopUp() {
 
 function initConfirmDirectSendHref() {
     document.addEventListener('click', function (e) {
-        if (e.target.matches('.directSendWithConfirm')) {
+        // Prüft die DOM-Hierarchie auf ein Element mit der Klasse `.directSendWithConfirm`
+        const triggerElement = e.target.closest('.directSendWithConfirm');
+
+        if (triggerElement) {
             e.preventDefault();
-            const url = e.target.href;
-            const target = e.target.dataset.target;
-            const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
-            const targetUrl = e.target.dataset.url;
+
+            const url = triggerElement.href;
+            const target = triggerElement.dataset.target;
+            const targetUrl = triggerElement.dataset.url;
+            const text = triggerElement.dataset.text || 'Wollen Sie die Aktion durchführen?';
 
             Swal.fire({
-                title: 'Sind Sie sicher?',
+                title: 'Bestätigung', // Hier ggf. den Titel anpassen
                 text: text,
                 icon: 'question',
-                backdrop:false,
+                backdrop: false,
                 showCancelButton: true,
-                cancelButtonText: cancel,
+                cancelButtonText: 'Abbrechen', // Übersetzung anpassen
                 customClass: {
                     confirmButton: 'btn-danger btn',
-                    cancelButton:  'btn-outline-primary btn'
+                    cancelButton: 'btn-outline-primary btn'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
                     fetch(url)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
-                            }
-                        })
+                        .then(response => response.json()) // Erwartet eine JSON-Antwort
                         .then(data => {
-                         replaceContent(target,targetUrl)
-                            if (data.snack !== undefined) {
+                            reloadPartial(targetUrl, target);
+                            if (data.snack) {
                                 const snackbar = document.getElementById('snackbar');
-                                if (snackbar) {
-                                    snackbar.textContent = data.snack;
-                                    snackbar.classList.add('show');
-                                }
+                                snackbar.textContent = data.text;
+                                snackbar.classList.add('show');
+                                setTimeout(() => snackbar.classList.remove('show'), 3000); // Snackbar nach 3 Sekunden entfernen
                             }
-
-                            document.querySelectorAll('[data-mdb-toggle="popover"]').forEach(el => {
-                                new mdb.Popover(el, { html: true });
-                            });
-                            document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => {
-                                const tooltipInstance = mdb.Tooltip.getInstance(el);
-                                if (tooltipInstance) tooltipInstance.hide();
-                            });
-                            document.querySelectorAll('.tooltip').forEach(el => el.remove());
-                            document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => {
-                                new mdb.Tooltip(el);
-                            });
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
                         });
                 }
             });
         }
     });
 }
+
 
 function initAjaxSend(titleL, cancelL, okL) {
     title = titleL;
@@ -150,44 +199,72 @@ function initAjaxSend(titleL, cancelL, okL) {
     initDirectSend();
     initconfirmHref();
     initconfirmLoadOpenPopUp();
+    initOpenInMultiframe();
 }
+
+export function reloadPartial(url, target) {
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            // Erstelle ein temporäres DOM-Element, um die HTML-Antwort zu parsen
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = data;
+
+            // Extrahiere den Inhalt des atendeeList-Elements aus der Antwort
+            const newContent = tempDiv.querySelector(target);
+            if (newContent) {
+                // Aktualisiere den Inhalt von atendeeList im aktuellen DOM
+                const oldContent = document.querySelector(target);
+                oldContent.innerHTML = newContent.innerHTML; // Setze nur den neuen Inhalt
+                initMDB({Collapse, Dropdown, Popover, Tooltip});
+                hideTooltip();
+                initDropdown();
+                initCollapse();
+                initPopover();
+                initTooltip();
+            } else {
+                console.error('Das atendeeList-Element wurde in der Antwort nicht gefunden.');
+            }
+
+
+            if (data.snack) {
+                document.getElementById('snackbar').textContent = data.text;
+                document.getElementById('snackbar').classList.add('show');
+            }
+        });
+}
+
+
+export function initOpenInMultiframe() {
+    document.addEventListener('click', function (e) {
+        const triggerElement = e.target.closest('.loadInMultiframe');
+
+        if (triggerElement) {
+
+            e.preventDefault();
+
+            var url = e.target.href;
+            return fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.popups) {
+                        data.popups.forEach(function (value) {
+                            createIframe(value.url, value.title);
+                        });
+                    }
+                })
+                .catch(() => {
+                    Swal.showValidationMessage('Request failed');
+                });
+        }
+    });
+
+
+};
+
 
 function hideTooltip() {
     document.querySelectorAll('.tooltip').forEach(el => el.remove());
 }
 
-function replaceContent(target,targetUrl) {
-    const parentDiv = document.querySelector(target).closest('div');
-    fetch(targetUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.text();
-        })
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const targetContent = doc.querySelector(target);
-
-            if (targetContent) {
-                parentDiv.innerHTML = targetContent.outerHTML;
-            }
-            initSearchUser();
-            hideTooltip();
-            document.querySelectorAll('[data-mdb-toggle="popover"]').forEach(el => {
-                new mdb.Popover(el, { html: true });
-            });
-            document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => {
-                const tooltipInstance = mdb.Tooltip.getInstance(el);
-                if (tooltipInstance) tooltipInstance.hide();
-            });
-            document.querySelectorAll('.tooltip').forEach(el => el.remove());
-            document.querySelectorAll('[data-mdb-toggle="tooltip"]').forEach(el => {
-                new mdb.Tooltip(el);
-            });
-        });
-
-
-}
 export {initAjaxSend, initDirectSend, initConfirmDirectSendHref, initconfirmHref};

@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use Agence104\LiveKit\WebhookReceiver;
+use App\Entity\RoomStatus;
 use App\Repository\RoomsRepository;
+use App\Repository\RoomStatusRepository;
 use App\Service\api\CheckAuthorizationService;
+use App\Service\livekit\EgressService;
 use App\Service\webhook\RoomWebhookService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,12 +23,14 @@ class LiveKitEventSyncController extends AbstractController
     private WebhookReceiver $webhookReceiver;
 
     public function __construct(
-        private RoomWebhookService    $webhookService,
-        private LoggerInterface       $logger,
-        private RoomsRepository       $roomsRepository,
+        private RoomWebhookService   $webhookService,
+        private LoggerInterface      $logger,
+        private RoomsRepository      $roomsRepository,
+        private EgressService        $egressService,
+        private RoomStatusRepository $roomStatusRepository,
     )
     {
-              $this->webhookReceiver = new WebhookReceiver('test','test');
+        $this->webhookReceiver = new WebhookReceiver('test', 'test');
     }
 
     #[Route('/livekit/event', name: 'app_live_kit_event_sync')]
@@ -52,7 +57,7 @@ class LiveKitEventSyncController extends AbstractController
         $this->logger->debug('livekit event token valid');
         $eventType = $event->getEvent();
         $roomName = $event->getRoom()->getName();
-        $room =$this->roomsRepository->findOneBy(['name'=>$roomName]);
+        $room = $this->roomsRepository->findOneBy(['name' => $roomName]);
         $res = ['error' => false];
         $this->logger->debug('livekit Event found', ['event' => $eventType]);
         switch ($eventType) {
@@ -62,6 +67,10 @@ class LiveKitEventSyncController extends AbstractController
                     $event->getRoom()->getSid(),
                     $event->getCreatedAt()
                 );
+                $roomStatus = $this->roomStatusRepository->findCreatedRoomsbyJitsiId($event->getRoom()->getSid());
+                if ($roomStatus){
+                    $this->egressService->stopAllEgress($roomStatus->getRoom());
+                }
                 break;
             case 'room_started':
                 $res = $this->webhookService->roomCreated(
@@ -92,7 +101,7 @@ class LiveKitEventSyncController extends AbstractController
                 );
                 break;
             default:
-                $this->logger->error('unregistered Event found', ['event' => $eventType]);
+                $this->logger->debug('unregistered Event found', ['event' => $eventType]);
                 break;
         }
         if (!$res) {

@@ -2289,7 +2289,7 @@
       </trans-unit>
       <trans-unit id="OvciGc." resname="transfer.room.error">
         <source>transfer.room.error</source>
-        <target state="needs-translation">Fehler. Die Konfernz konnte nicht übertragen werden.</target>
+        <target state="needs-translation">Fehler. Die Konferenz konnte nicht übertragen werden.</target>
       </trans-unit>
       <trans-unit id="vOi9OLP" resname="scheduler.transform">
         <source>scheduler.transform</source>
@@ -2312,8 +2312,56 @@
         <target state="needs-translation">Enterprise Livekit Einstellungen</target>
       </trans-unit>
       <trans-unit id="EBZKW.9" resname="server.livekit.settings.header">
-        <source>Livekit-Servereinstellungen</source>
+        <source>server.livekit.settings.header</source>
         <target state="needs-translation">Livekit-Servereinstellungen</target>
+      </trans-unit>
+      <trans-unit id="JzXOpBe" resname="Sofort Konferenz">
+        <source>Sofort Konferenz</source>
+        <target state="needs-translation">Sofort Konferenz</target>
+      </trans-unit>
+      <trans-unit id="wbKYh_R" resname="Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.">
+        <source>Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</source>
+        <target state="needs-translation">Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</target>
+      </trans-unit>
+      <trans-unit id="x91IzR8" resname="Aufnahmen">
+        <source>Aufnahmen</source>
+        <target state="needs-translation">Aufnahmen</target>
+      </trans-unit>
+      <trans-unit id="CCvu_YE" resname="recordings.modal.title">
+        <source>recordings.modal.title</source>
+        <target state="needs-translation">Aufnahmen von Videokonferenzen</target>
+      </trans-unit>
+      <trans-unit id="KIFeNTw" resname="recording.email.subject">
+        <source>recording.email.subject</source>
+        <target state="needs-translation">Es wurde eine neue Aufnahme der Videokonferenz hochgeladen</target>
+      </trans-unit>
+      <trans-unit id="nYMq8lL" resname="recording.email.title">
+        <source>recording.email.title</source>
+        <target state="needs-translation">Es wurde eine Aufnahme für die Videokonferenz hochgladen</target>
+      </trans-unit>
+      <trans-unit id="cG2pjfJ" resname="recording.email.body">
+        <source>recording.email.body</source>
+        <target state="needs-translation">Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
+      </trans-unit>
+      <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
+        <source>recording.startSpeakerOnly</source>
+        <target state="needs-translation">Nur Sprecher </target>
+      </trans-unit>
+      <trans-unit id="SH.E5Cd" resname="recording.startSpeaker">
+        <source>recording.startSpeaker</source>
+        <target state="needs-translation">Sprecher Zentral </target>
+      </trans-unit>
+      <trans-unit id="yhh1FGG" resname="recording.startGrid">
+        <source>recording.startGrid</source>
+        <target state="needs-translation">Alle Teilnehmer in Kacheln</target>
+      </trans-unit>
+      <trans-unit id="yDlEa9I" resname="options.startRecording">
+        <source>options.startRecording</source>
+        <target state="needs-translation">Aufnahme starten</target>
+      </trans-unit>
+      <trans-unit id="JJHW_6u" resname="options.stopRecording">
+        <source>options.stopRecording</source>
+        <target state="needs-translation">Aufnahme beenden</target>
       </trans-unit>
     </body>
   </file>

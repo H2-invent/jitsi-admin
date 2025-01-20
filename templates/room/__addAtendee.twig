@@ -1,67 +1,52 @@
-<div class="row mb-2">
-    <div class="col-lg-6">
-        <div class="dropdown " id="selectAtendeeArea" tabindex="-1">
-            <div class="form-outline">
+<div class="row {% if laf_addParticipantsNoInput == 1 %}d-none{% endif %}">
+    <div class="col-12">
+        <button
+                class="btn btn-primary"
+                type="button"
+                data-mdb-collapse-init
+                data-mdb-target="#bulkInvite"
+                aria-expanded="false"
+                aria-controls="bulkInvite"
+        >
+            Mehrere E-Mail-Adressen auf einmal eingeben
+        </button>
 
-            <input
-                    placeholder="{{ 'input.placeholder.search'|trans }}"
-                   autocomplete=off
-                   type="text"
-                   id="searchUser"
-                   class="form-control"
-                   href="{{ path('search_participant') }}"
-            >
-                <label class="form-label" for="searchUser">{{ 'Teilnehmer suchen'|trans }}</label>
-            </div>
-            <div data-mdb-toggle="dropdown"
-                  data-mdb-auto-close="false"
-                 id="searchUserDropdownTrigger">
-
-            </div>
-            <div class="dropdown-menu" id="participantUser" style="overflow-x:hidden;">
-                <a class="dropdown-item defaultSearch" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
+        <div class="collapse mt-3" id="bulkInvite">
+            <div class="card card-block">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 ">
+                            {% if form is defined and form is not null %}
+                                {{ form_start(form) }}
+                                {{ form_row(form.member) }}
+                                {{ form_row(form.submit) }}
+                                {{ form_end(form) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Buttons trigger collapse -->
+
 </div>
 
-{{ form_start(form) }}
-<div class="row {% if laf_addParticipantsNoInput == 1 %}d-none{% endif %}">
-
-    <div class="col-lg-6 ">
-        {{ form_row(form.member) }}
-    </div>
-    <div class="col-lg-6 ">
-        {{ form_row(form.moderator) }}
-    </div>
 </div>
 
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-lg-12 mt-3 d-flex align-items-start justify-content-end">
 
-<div class="row {% if laf_addParticipantsNoInput == 0 %}d-none {% endif %}">
-    <div class="col-lg-6">
-        {{ 'Teilnehmer'|trans }}:
-        <ul class="list-group" id="participantsListAdd">
-            <li class="list-group-item helpItem">{{ 'Suchen und durch klicken auf <i class="fas fa-plus"></i> hinzufügen'|trans|raw }}</li>
-        </ul>
-    </div>
-    <div class="col-lg-6">
-        {{ 'Moderator'|trans }}:
-        <ul class="list-group" id="moderatorListAdd">
-            <li class="list-group-item helpItem">{{ 'Suchen und durch klicken auf <i class="fas fa-crown"></i> hinzufügen'|trans|raw }}</li>
-        </ul>
+            <a class="btn btn-outline-danger" href="{{ path('dashboard') }}">
+                {{ 'Abbrechen' | trans }}
+
+            </a>
+
+        </div>
+
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-12 mt-3 d-flex align-items-start justify-content-end">
 
-        <a class="btn btn-outline-danger" href="{{ path('dashboard') }}">
-            {{ 'Abbrechen' | trans }}
-
-        </a>
-        {{ form_row(form.submit) }}
-    </div>
-
-</div>
-{{ form_end(form) }}

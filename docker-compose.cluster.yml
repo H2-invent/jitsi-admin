@@ -111,8 +111,8 @@ services:
       PHP_INI_MEMORY_LIMIT: "1G"
       PHP_EXTENSION_LDAP: 1
       PHP_EXTENSION_INTL: 1
-      PHP_INI_UPLOAD_MAX_FILESIZE: 8M
-      PHP_INI_POST_MAX_SIZE: 8M
+      PHP_INI_UPLOAD_MAX_FILESIZE: 25M
+      PHP_INI_POST_MAX_SIZE: 25M
       DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
@@ -156,7 +156,7 @@ services:
       - theme_data:/var/www/html/theme
       - image_upload:/var/www/html/public/uploads/images
       - theme_assests_data:/var/www/html/public/theme
-
+      - recording_data:/var/www/html/data
     networks:
       - default
       - jitsi-admin
@@ -236,6 +236,7 @@ volumes:
   etherpad_data:
   theme_data:
   theme_assests_data:
+  recording_data:
 
 networks:
   default:

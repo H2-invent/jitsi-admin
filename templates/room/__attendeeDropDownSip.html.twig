@@ -2,7 +2,7 @@
     {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and room.scheduleMeeting != true %}
         {% if  sipPinFromRoomAndUser(room,user) is not null %}
             <a class=" dropdown-item stopCloseDropdown"
-               href="#sipCaller{{ user.id }}" type="button" data-mdb-toggle="collapse"
+               href="#sipCaller{{ user.id }}" type="button" data-mdb-collapse-init
                aria-expanded="false" aria-controls="sipCaller{{ user.id }}">
                 <i class="fas fa-phone"></i> {{ 'sip.caller.data'|trans }}</a>
 

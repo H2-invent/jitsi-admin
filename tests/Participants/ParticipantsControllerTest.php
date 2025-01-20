@@ -18,29 +18,23 @@ class ParticipantsControllerTest extends WebTestCase
         $organizer = $room->getModerator();
         $client->loginUser($organizer);
 
-        $crawler = $client->request('GET', '/room/participant/add?room=' . $room->getId());
+        $crawler = $client->request('GET', '/room/participant/add/' . $room->getId());
         $buttonCrawlerNode = $crawler->filter('#new_member_submit');
 
 // retrieve the Form object for the form belonging to this button
         $form = $buttonCrawlerNode->form();
         $form['new_member[member]'] = "test@local4.de\ntestNeu@local.de";
-        $form['new_member[moderator]'] = "test@australia.de\ntestNeuModerator@local.de";
         $client->submit($form);
 
         self::assertResponseRedirects('/room/dashboard');
         $client->request('GET', '/room/dashboard');
         self::assertSelectorTextContains('.snackbar', 'Die Teilnehmenden wurden eingeladen.');
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        self::assertEquals(7, $room->getUser()->count());
+        self::assertEquals(5, $room->getUser()->count());
         $userRoomRepo = self::getContainer()->get(RoomsUserRepository::class);
         foreach ($room->getUser() as $data) {
             $roomUSer = $userRoomRepo->findOneBy(['room' => $room, 'user' => $data]);
-            if ($data->getEmail() === 'test@australia.de') {
-                self::assertTrue($roomUSer->getModerator());
-            }
-            if ($data->getEmail() === 'testNeuModerator@local.de') {
-                self::assertTrue($roomUSer->getModerator());
-            }
+
             if ($data->getEmail() === 'test@local4.de') {
                 self::assertNull($roomUSer);
             }
@@ -58,18 +52,17 @@ class ParticipantsControllerTest extends WebTestCase
         $organizer = $room->getModerator();
         $client->loginUser($organizer);
 
-        $crawler = $client->request('GET', '/room/participant/add?room=' . $room->getId());
+        $crawler = $client->request('GET', '/room/participant/add/' . $room->getId());
         $buttonCrawlerNode = $crawler->filter('#new_member_submit');
 
 // retrieve the Form object for the form belonging to this button
         $form = $buttonCrawlerNode->form();
         $form['new_member[member]'] = "falschTeilnehmer";
-        $form['new_member[moderator]'] = "falschModerator";
         $client->submit($form);
 
         self::assertResponseRedirects('/room/dashboard');
         $client->request('GET', '/room/dashboard');
-        self::assertSelectorTextContains('.snackbar', 'Einige Teilnehmende wurden eingeladen. falschTeilnehmer, falschModerator ist/sind nicht korrekt und können nicht eingeladen werden.');
+        self::assertSelectorTextContains('.snackbar', 'Einige Teilnehmende wurden eingeladen. falschTeilnehmer ist/sind nicht korrekt und können nicht eingeladen werden.');
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, $room->getUser()->count());
     }
@@ -81,7 +74,7 @@ class ParticipantsControllerTest extends WebTestCase
         self::assertEquals(3, $room->getUser()->count());
         $user = $room->getUser()[1];
         $client->loginUser($user);
-        $crawler = $client->request('GET', '/room/participant/add?room=' . $room->getId());
+        $crawler = $client->request('GET', '/room/participant/add/' . $room->getId());
         self::assertResponseRedirects('/room/dashboard');
         $client->request('GET', '/room/dashboard');
         self::assertSelectorTextContains('.snackbar', 'Keine Berechtigung');

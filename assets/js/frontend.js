@@ -3,10 +3,10 @@
  *
  */
 import $ from 'jquery';
-
+import { Popover, initMDB } from "mdb-ui-kit";
 global.$ = global.jQuery = $;
 
-import * as mdb from 'mdb-ui-kit'; // lib
+
 
 import {initSchedulePublic} from './scheduling'
 import {initGenerell} from './init';
@@ -27,9 +27,11 @@ $(document).ready(function () {
 
 });
 $(window).on('load', function () {
-    $('[data-mdb-toggle="popover"]').popover({html: true});
+
+
+    initMDB({ Popover });
     $('[data-mdb-toggle="toastr"]').click(function (e) {
 
-        setSnackbar($(this).data('text'),$(this).data('type'))
+        setSnackbar($(this).data('text'),'',$(this).data('type'))
     });
 });

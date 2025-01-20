@@ -1,6 +1,9 @@
 <ul class="nav navbar-nav">
 
-    <div class="d-flex me-1">
+    <div class="d-flex me-1 align-items-center">
+        <li class="nav-item me-2">
+            <a href="{{ path('dashboard') }}" class="btn btn-outline-primary">{{ 'Login'|trans }}</a>
+        </li>
         <li class="nav-item d-flex align-items-center me-4">
             <div class="d-flex justify-content-end">
 
@@ -19,6 +22,8 @@
                 </div>
             </div>
         </li>
+
+
         <li class="nav-item dropdown language-dropdown">
             {% if app.request %}
                 {{ include('base/__languageDropdown.html.twig') }}

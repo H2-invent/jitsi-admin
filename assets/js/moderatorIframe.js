@@ -3,23 +3,27 @@
 var blockPause = null;
 var showBlockPause = false;
 
-function initModeratorIframe(closeFkt) {
-    window.addEventListener('message', function (e) {
-        const decoded = e.data;
-        if (typeof decoded.scope !== 'undefined' && decoded.scope == "jitsi-admin-iframe") {
-            window.parent.postMessage(JSON.stringify({type: 'ack', messageId: decoded.messageId}), '*');
-            if (decoded.type === 'init') {
+let messageListener;  // Deklariere eine Variable global
 
+function initModeratorIframe(closeFkt) {
+    messageListener = function(e) {
+        const decoded = e.data;
+        if (typeof decoded.scope !== 'undefined' && decoded.scope === "jitsi-admin-iframe") {
+            window.parent.postMessage(JSON.stringify({ type: 'ack', messageId: decoded.messageId }), '*');
+            if (decoded.type === 'init') {
                 if (showBlockPause) {
                     showPlayPause();
                 }
             } else if (decoded.type === 'pleaseClose') {
-
                 stopclosingMe();
                 closeFkt();
             }
         }
-    });
+    };
+
+    // Füge den Event-Listener hinzu
+    window.addEventListener('message', messageListener);
+
     var floatingTag = document.getElementById('tagContent');
     if (!floatingTag) {
         return;
@@ -28,6 +32,10 @@ function initModeratorIframe(closeFkt) {
     sendBorderColorToMultiframe(color);
 }
 
+export function removeListnerFromMEssage() {
+    // Jetzt funktioniert das Entfernen, da messageListener global verfügbar ist
+    window.removeEventListener('message', messageListener);
+}
 function close() {
     if (inIframe()) {
 

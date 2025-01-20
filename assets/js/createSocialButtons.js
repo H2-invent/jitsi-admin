@@ -1,9 +1,12 @@
+import {setupStartEgress, setupStopEgress} from "./livekit/egress";
 
 
 var gDevices;
 export function initSocialIcons(cbFkt) {
     createSocialBox();
     createCameraChangeButton(cbFkt);
+    setupStartEgress();
+    setupStopEgress();
 }
 
 function createCameraChangeButton(cbFkt) {

@@ -86,6 +86,9 @@
         {% endif %}
         {% block extension %}{% endblock %}
         {% include 'conference_modules/__toggleFilmstripe.html.twig' %}
+        {% if room.server.liveKitServer %}
+            {% include 'conference_modules/__livekit_recording.html.twig' %}
+        {% endif %}
     </div>
 </div>
 

@@ -1,11 +1,12 @@
 import $ from "jquery";
-import {close, inIframe} from "./moderatorIframe";
+import {close, inIframe, removeListnerFromMEssage} from "./moderatorIframe";
 import formbricks from "@formbricks/js";
 
 export var starShowed = false;
 export var initilized = false;
 
 export async function initStarSend() {
+    removeListnerFromMEssage();
     if (starShowed) {
         closeWindow();
     }

@@ -12,6 +12,8 @@ import {ConferenceUtils} from "./ConferenceUtils";
 import {livekitApi} from "./livekit/main";
 import {initSocialIcons} from "./createSocialButtons";
 import {LivekitUtils} from "./livekit/livekitUtils";
+import {initAjaxSend, initAllComponents} from "./confirmation";
+import {setupStartEgress, setupStopEgress} from "./livekit/egress";
 
 var frameId;
 var joined = false;
@@ -109,4 +111,7 @@ docReady(function () {
     initModeratorIframe(checkClose);
     initWebsocket(websocketTopics);
     initStartIframe();
+    initAllComponents();
+    initAjaxSend();
+
 });

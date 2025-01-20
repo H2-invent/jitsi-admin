@@ -185,6 +185,28 @@ export class LivekitUtils {
         )
     }
 
+    pauseConference(
+    ) {
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setParticipantStatus',
+            {
+                status: 'away'
+            }
+        )
+    }
+
+    playConference(
+    ) {
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setParticipantStatus',
+            {
+                status: 'online'
+            }
+        )
+    }
+
     hangup() {
         this.api.sendMessageToIframe(
             'LocalParticipant',
@@ -243,6 +265,7 @@ export class LivekitUtils {
         )
         return true;
     }
+
     initChatToggle() {
         this.chatBtn = document.getElementById('externalChat');
         if (!this.chatBtn) {
@@ -251,8 +274,8 @@ export class LivekitUtils {
         this.filterDot = this.chatBtn.querySelector('.filter-dot');
 
         if (this.chatBtn) {
-            this.chatBtn.addEventListener('click', ()=> {
-               this.api.sendMessageToIframe('LocalParticipant','toggleChat');
+            this.chatBtn.addEventListener('click', () => {
+                this.api.sendMessageToIframe('LocalParticipant', 'toggleChat');
                 this.filterDot.classList.add('d-none');
                 this.chatBtn.style.removeProperty('background-color');
                 this.chatBtn.style.removeProperty('color');
