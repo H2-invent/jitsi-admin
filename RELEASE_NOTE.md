@@ -1,19 +1,37 @@
-# Release Notes - Version 0.79.x
+# Release Notes - Version 1.1.x
 
 ## New Features:
-- **Toggle Filmstripe**: A new button has been introduced in the conference interface, allowing users to toggle the Filmstripe view on or off easily.
-- **Prefix Room Name**: Rooms now support a server hash prefix feature, enabling the loading of different Jitsi configurations during runtime.
-- **Transfer Room**: Add the possibility to transfer a room to an other moderator.
-## Improvements:
-- **Autoupload to Dockerhub**: Jitsi admin now includes an automatic upload functionality to Docker Hub, streamlining the deployment process.
-- **Addressbook in Dark Mode**: The Addressbook feature now comes with a transparent background when in dark mode, enhancing visibility and aesthetics.
-- **Addressbook Filter Enhancement**: The address book's filtering mechanism has been improved to search the entire row, enhancing its usability beyond checkbox-only search.
-- **Upgrade MDBootstrap**: Updated the MDBootstrap library to its latest version for improved performance and compatibility.
-- **Enhanced Fullscreen Mode**: Made the Fullscreen mode in multiframe mode more robust, ensuring a smoother and more reliable experience.
-- **Improved Multiframe Closing**: Users can now close a multiframe even if its internal content has not loaded, improving the overall user experience.
+* **Livekit Recording Implementation**:
+    * Recordings can be uploaded in chunks to Jitsi Admin.
+    * Recordings can be started directly from a conference.
+    * An email is sent after the recording is uploaded to your Jitsi Admin.
+    * Recordings are stored in the PHP filesystem (Gaufrette).
+    * Recordings can be removed after a set period of time.
 
-## Bugfix
-- **Breakoutroom leads to Star page** Moving to a Breakout room leads to the star page
+* **Calendly Integration**:
+    * Calendly can now be integrated, so your appointments from Calendly are automatically included in your conferences.
+
+* **Ad-hoc Conference Creation**:
+    * Added the ability to create an ad-hoc conference to start an immediate conference and invite others by sharing the link without scheduling.
+
+## Improvements:
+* Refactor of the lobby interface.
+* Improved rendering speed for multi-frame displays.
+* Enhanced toast notifications design.
+* Upgraded to a new version of the MDBootstrap library with modern triggers.
+* Better invitation and participant management without requiring text areas.
+* Improved pause and play functionality for conferences.
+* Upgraded to Symfony 7.1.
+* Public conferences can now be shown without scheduling, just like Jitsi.
+* Migrated to the latest cron library to match process signatures.
+* Made the Webhook controller more robust for Livekit webhooks.
+
+### Docker Improvements:
+* Upgraded Keycloak to version 26.
+* Moved more environment variables to the `.env` file instead of exporting them manually.
+
+## Bug Fixes:
+* Various bug fixes to improve stability and performance.
 
 ## Discussion:
 We highly value your feedback and suggestions, which play a crucial role in shaping our platform. Your insights, ideas, and any encountered issues in this version are instrumental in guiding our future enhancements.

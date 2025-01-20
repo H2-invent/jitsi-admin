@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Calcendly;
+namespace App\Tests\Calendly;
 
 
 use App\Entity\User;
