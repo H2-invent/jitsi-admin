@@ -1676,11 +1676,11 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="8VukY2U" resname="join.privacy.ownServer">
         <source>join.privacy.ownServer</source>
-        <target state="needs-translation"><![CDATA[ Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
-            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
-            gelesen und nehme diese zur Kenntnis.]]></target>
+        <target state="translated"><![CDATA[ J'ai lu les <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>les informations sur la protection des données de Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
+            et les <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>informations sur la protection des données de {url}</u><i class="fa fa-external-link-alt"></i></a>
+            et j'en prends connaissance.]]></target>
       </trans-unit>
       <trans-unit id="L8P5j9Z" resname="lobby.participants.noch">
         <source>lobby.participants.noch</source>
@@ -1886,9 +1886,8 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:&lt;a
             href="http://www.adobe.com/products/acrobat/readstep2.html"&gt;http://www.adobe.com/products/acrobat/readstep2.html&lt;/a&gt;
         herunterladen und installieren können.</source>
-        <target state="needs-translation"><![CDATA[Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:<a
-            href="http://www.adobe.com/products/acrobat/readstep2.html">http://www.adobe.com/products/acrobat/readstep2.html</a>
-        herunterladen und installieren können.]]></target>
+        <target state="translated"><![CDATA[Pour visualiser la pièce jointe, vous avez besoin de ADOBE READER, que vous pouvez télécharger à l'URL :<a href="http://www.adobe.com/products/acrobat/readstep2.html">http://www.adobe.com/products/acrobat/readstep2.html</a>
+        et l'installer.]]></target>
       </trans-unit>
       <trans-unit id="h0zTgRw" resname="options.meetingNotes">
         <source>options.meetingNotes</source>
