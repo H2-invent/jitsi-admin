@@ -132,7 +132,8 @@ class ParticipantController extends JitsiAdminController
             $this->addFlash('danger', $snack);
             return  $this->redirectToRoute('dashboard');
         }
-        return $this->render('room/attendeeModal.twig', ['title' => 'einladen', 'room' => $room]);
+        return new JsonResponse(['error'=>false,'toast'=>true,'message'=>$this->translator->trans('Teilnehmer gelöscht'),'color'=>'success']);
+
     }
 
 

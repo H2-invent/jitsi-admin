@@ -2,6 +2,7 @@ import Swal from 'sweetalert2'
 import {initSearchUser} from './searchUser'
 import {Popover, Tooltip, Collapse, Dropdown, Input, initMDB} from "mdb-ui-kit";
 import {createIframe} from "./createConference";
+import {setSnackbar} from "./myToastr";
 
 var title = "Bestätigung";
 var cancel = "Abbrechen";
@@ -136,6 +137,7 @@ function initconfirmLoadOpenPopUp() {
                     fetch(url)
                         .then(response => response.json())
                         .then(data => {
+
                             if (data.popups) {
                                 data.popups.forEach(value => win.location.href = value);
                             }
@@ -177,6 +179,9 @@ function initConfirmDirectSendHref() {
                         .then(response => response.json()) // Erwartet eine JSON-Antwort
                         .then(data => {
                             reloadPartial(targetUrl, target);
+                            if (data.toast){
+                                setSnackbar(data.message,'',data.color,false,'0x00',5000);
+                            }
                             if (data.snack) {
                                 const snackbar = document.getElementById('snackbar');
                                 snackbar.textContent = data.text;
