@@ -1,6 +1,5 @@
-ARG PHP_IMAGE_VERSION=3.20.6
 FROM thecodingmachine/php:8.3-v4-fpm-node22 AS builder
-ARG VERSION
+ARG VERSION=development
 
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
@@ -36,9 +35,8 @@ RUN tar \
     -zcvf /artifact.tgz .
 
 
-FROM git.h2-invent.com/public-system-design/alpine-php8-webserver:${PHP_IMAGE_VERSION}
-ARG VERSION
-ARG SUPERCRONIC_VERSION=0.2.33
+FROM git.h2-invent.com/public-system-design/alpine-php8-webserver:3.20.6
+ARG VERSION=development
 
 LABEL version="${VERSION}" \
     Maintainer="H2 invent GmbH" \
@@ -60,7 +58,7 @@ RUN apk --no-cache add \
 
 RUN echo "Europe/Berlin" > /etc/timezone
 
-RUN wget https://github.com/aptible/supercronic/releases/download/v${SUPERCRONIC_VERSION}/supercronic-linux-amd64 -O /supercronic \
+RUN wget https://github.com/aptible/supercronic/releases/download/v0.2.33/supercronic-linux-amd64 -O /supercronic \
     && chmod +x /supercronic
 
 RUN wget https://git.h2-invent.com/Public-System-Design/Public-Helperscripts/raw/branch/main/distributed_cron.sh -O /distributed_cron.sh \
