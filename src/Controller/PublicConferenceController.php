@@ -85,6 +85,7 @@ class PublicConferenceController extends JitsiAdminController
                 'name' => $this->getUser() ? $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')) : $name,
                 'moderator' => !$firstUser,
                 'server' => $this->server,
+                'noModerator'=>true,
             ]
         );
         $lastConf = $request->cookies->get('LAST_CONFERENCE');
