@@ -39,7 +39,7 @@
       </trans-unit>
       <trans-unit id="lQtXCpb" resname="Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden">
         <source>Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden</source>
-        <target state="translated">参加者を招待しました。{emails} が間違っているため、招待が送信されませんでした。</target>
+        <target state="translated">参加者を招待しましが、 {emails} が間違っているため、招待が送信されませんでした。</target>
       </trans-unit>
       <trans-unit id="7iG30HO" resname="Teilnehmer verwalten">
         <source>Teilnehmer verwalten</source>
@@ -1076,11 +1076,11 @@
       </trans-unit>
       <trans-unit id="28ahzcg" resname="Es wird eine Terminumfrage erstellt, keine Konferenz.">
         <source>Es wird eine Terminumfrage erstellt, keine Konferenz.</source>
-        <target state="translated">投票が作成されました（会議ではありません）</target>
+        <target state="translated">投票が作成されました</target>
       </trans-unit>
       <trans-unit id="QK6Ev.b" resname="Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.">
         <source>Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</source>
-        <target state="translated">プラットフォームにアカウントを持つユーザーのみがこのミーティングに参加できます。これには、ユーザー名とパスワードを入力する必要があります。これは追加の保護を意味します。</target>
+        <target state="translated">アカウントを持つユーザーのみがこのミーティングに参加できます。これには、ユーザー名とパスワードを入力する必要があります。これは追加の保護を意味します。</target>
       </trans-unit>
       <trans-unit id="oxDSmtl" resname="Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.">
         <source>Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</source>
@@ -1386,9 +1386,9 @@
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target state="needs-translation"><![CDATA[Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
-        Ihre E-Mail-Adresse: {email}<br>
-        Konferenz ID: {uid}]]></target>
+        <target state="translated"><![CDATA[カンファレンスに参加するには、以下の詳細をご覧ください:<br>
+        あなたのメールアドレス: {email}<br>
+        会議 ID: {uid}]]></target>
       </trans-unit>
       <trans-unit id="3ZzIBKG" resname="lobby.stop.echo">
         <source>lobby.stop.echo</source>
@@ -1400,7 +1400,7 @@
       </trans-unit>
       <trans-unit id="XVW8mf_" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
-        <target state="needs-translation">Den Teilnehmenden zum Lobbymoderator ernennen</target>
+        <target state="translated">参加者をロビーモデレータとして任命する</target>
       </trans-unit>
       <trans-unit id="UEon3ZG" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
@@ -1412,28 +1412,27 @@
       </trans-unit>
       <trans-unit id="LElUXKX" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
-        <target state="needs-translation">Fügen Sie Teilnehmende hinzu und und geben Sie diesen Teilnehmenden Berechtigungen als Lobbymoderator oder Konferenzmoderator.</target>
+        <target state="translated">参加者を追加し、これらの参加者にロビーモデレーターまたは会議モデレーターの権限を与える。</target>
       </trans-unit>
       <trans-unit id="rfUqSvg" resname="newRoom.error.noServer.addServer">
         <source>newRoom.error.noServer.addServer</source>
-        <target state="needs-translation">Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.</target>
+        <target state="translated">サーバーが作成されていないか、まだサーバーが割り当てられていません。ナビゲーションの歯車記号をクリックしてサーバーを作成してください。</target>
       </trans-unit>
       <trans-unit id="ISvideZ" resname="newRoom.error.noServer.askAdmin">
         <source>newRoom.error.noServer.askAdmin</source>
-        <target state="needs-translation"><![CDATA[Ihnen wurde noch kein Konferenzserver zugewiesen. Bitte kontaktieren Sie Ihren Administrator unter der E-Mail
-        <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></target>
+        <target state="translated"><![CDATA[会議サーバーは割り当てられませんでした。 <a href="mailto:{adminEmail}">{adminEmail}</a> 宛てにメールで管理者にお問い合わせください。]]></target>
       </trans-unit>
       <trans-unit id="Q_3vwSn" resname="confirm.delete.adressbookUser">
         <source>confirm.delete.adressbookUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich entfernen?</target>
+        <target state="translated">このエントリを削除してもよろしいですか?</target>
       </trans-unit>
       <trans-unit id=".McqmXI" resname="confirm.delete.adressbookGroupUser">
         <source>confirm.delete.adressbookGroupUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen?</target>
+        <target state="translated">このエントリをグループから削除してもよろしいですか?</target>
       </trans-unit>
       <trans-unit id="V7MLPoR" resname="confirm.title">
         <source>confirm.title</source>
-        <target state="needs-translation">Bestätigung</target>
+        <target state="translated">確認</target>
       </trans-unit>
       <trans-unit id="QC45MUM" resname="confirm.cancel">
         <source>confirm.cancel</source>
@@ -1521,7 +1520,7 @@
       </trans-unit>
       <trans-unit id="8VQZpT5" resname="lobby.dashboard.newUser.message">
         <source>lobby.dashboard.newUser.message</source>
-        <target state="needs-translation"><![CDATA[Der Teilnehmende {name} ist der Lobby der Konferenz {room} beigetreten<br><a href="{url}" target="_new" class="btn btn-sm btn-primary">Zur Lobby</a>]]></target>
+        <target state="translated"><![CDATA[参加者 {name} は会議 {room} のロビーに参加しました<br><a href="{url}" target="_new" class="btn btn-sm btn-primary">ロビーへ</a >]]></target>
       </trans-unit>
       <trans-unit id="tDI01PY" resname="Diese Aktion ist nicht erlaubt.">
         <source>Diese Aktion ist nicht erlaubt.</source>
@@ -1569,7 +1568,7 @@
       </trans-unit>
       <trans-unit id="B4oKv9g" resname="addhock.notification.message">
         <source>addhock.notification.message</source>
-        <target state="needs-translation"><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
+        <target state="translated"><![CDATA[{name} はあなたとの臨時ミーティングを開始したいと考えています。<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i>ここをクリック</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
       </trans-unit>
       <trans-unit id="928J8pd" resname="addhock.notification.pushMessage">
         <source>addhock.notification.pushMessage</source>
@@ -1707,39 +1706,39 @@
       </trans-unit>
       <trans-unit id="MI..OPw" resname="enterprise.settings.header.sip">
         <source>enterprise.settings.header.sip</source>
-        <target state="needs-translation">Jigasi SIP-Einwahldaten</target>
+        <target state="translated">Jigasi SIP ダイヤルアップデータ</target>
       </trans-unit>
       <trans-unit id="GQ0QgwA" resname="statistic.real.participants">
         <source>statistic.real.participants</source>
-        <target state="needs-translation">Anzahl reale Teilnehmende</target>
+        <target state="translated">参加者数</target>
       </trans-unit>
       <trans-unit id="AohzXJm" resname="email.sip.roomnumber">
         <source>email.sip.roomnumber</source>
-        <target state="needs-translation">Raumnummer</target>
+        <target state="translated">部屋番号</target>
       </trans-unit>
       <trans-unit id="sIWTG7_" resname="status.offline">
         <source>status.offline</source>
-        <target state="needs-translation">Offline</target>
+        <target state="translated">オフライン</target>
       </trans-unit>
       <trans-unit id="cb3viG6" resname="status.online">
         <source>status.online</source>
-        <target state="needs-translation">Online</target>
+        <target state="translated">オンライン</target>
       </trans-unit>
       <trans-unit id="7mSrGiR" resname="status.away">
         <source>status.away</source>
-        <target state="needs-translation">Abwesend</target>
+        <target state="translated">不在</target>
       </trans-unit>
       <trans-unit id="zNaAAEv" resname="status.inMeeting">
         <source>status.inMeeting</source>
-        <target state="needs-translation">In einem Meeting</target>
+        <target state="translated">ミーティング中</target>
       </trans-unit>
       <trans-unit id="_csFZ.g" resname="lobby.participant.online">
         <source>lobby.participant.online</source>
-        <target state="needs-translation">Diese*r Teilnehmende ist bereits in der Konferenz</target>
+        <target state="translated">この参加者はすでに会議に参加しています</target>
       </trans-unit>
       <trans-unit id="PwYZl9Z" resname="lobby.participant.notInLobby">
         <source>lobby.participant.notInLobby</source>
-        <target state="needs-translation">Diese*r Teilnehmende ist nicht mehr in der Lobby.</target>
+        <target state="translated">この参加者はロビーにいません。</target>
       </trans-unit>
       <trans-unit id="FEXNV9v" resname="Wie war die Gesprächsqualität?">
         <source>Wie war die Gesprächsqualität?</source>
@@ -1759,11 +1758,11 @@
       </trans-unit>
       <trans-unit id="r3Pll64" resname="lobby.notification.newUser.toLobby">
         <source>lobby.notification.newUser.toLobby</source>
-        <target state="needs-translation">Zur Lobby</target>
+        <target state="translated">ロビーに行く</target>
       </trans-unit>
       <trans-unit id="iaVU7xq" resname="lobby.endMeeting.ask.participant">
         <source>lobby.endMeeting.ask.participant</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich beenden.</target>
+        <target state="translated">すべての参加者に対してこの会議を終了しますか？</target>
       </trans-unit>
       <trans-unit id="R5gnTbc" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
@@ -1771,7 +1770,7 @@
       </trans-unit>
       <trans-unit id="yqzy2pq" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
-        <target state="needs-translation">Zeit in Minuten</target>
+        <target state="translated">分単位の時間</target>
       </trans-unit>
       <trans-unit id="FxwJ60T" resname="stars.lastTen">
         <source>stars.lastTen</source>
@@ -1803,15 +1802,15 @@
       </trans-unit>
       <trans-unit id="gp8p9RE" resname="callout.status.occupied">
         <source>callout.status.occupied</source>
-        <target state="needs-translation">Besetzt</target>
+        <target state="translated">ユーザーはビジーです</target>
       </trans-unit>
       <trans-unit id="l9si2Nu" resname="callout.status.later">
         <source>callout.status.later</source>
-        <target state="needs-translation">Später</target>
+        <target state="translated">今はしない</target>
       </trans-unit>
       <trans-unit id="ynnNCPU" resname="callout.status.timeout">
         <source>callout.status.timeout</source>
-        <target state="needs-translation">Nicht abgenommen</target>
+        <target state="translated">応答しませんでした</target>
       </trans-unit>
       <trans-unit id="TLVQQe_" resname="callout.info.noMoreRetries">
         <source>callout.info.noMoreRetries</source>
@@ -1847,19 +1846,19 @@
       </trans-unit>
       <trans-unit id="yyvvXtv" resname="lobby.message.placeholder">
         <source>lobby.message.placeholder</source>
-        <target state="needs-translation">Hier tippen...</target>
+        <target state="translated">ここに入力...</target>
       </trans-unit>
       <trans-unit id="k0GIDFb" resname="lobby.message.label">
         <source>lobby.message.label</source>
-        <target state="needs-translation">Nachricht senden</target>
+        <target state="translated">メッセージを送る</target>
       </trans-unit>
       <trans-unit id="0lYBDA." resname="Meeting fertig">
         <source>Meeting fertig</source>
-        <target state="needs-translation">Konferenz beendet</target>
+        <target state="translated">会議は終了しました</target>
       </trans-unit>
       <trans-unit id="8IUBkZC" resname="PDF Download">
         <source>PDF Download</source>
-        <target state="needs-translation">PDF Download</target>
+        <target state="translated">PDFファイルをダウンロード</target>
       </trans-unit>
       <trans-unit id="4aqKuo6" resname="Keine Agenda">
         <source>Keine Agenda</source>
@@ -1895,11 +1894,11 @@
       </trans-unit>
       <trans-unit id="h0zTgRw" resname="options.meetingNotes">
         <source>options.meetingNotes</source>
-        <target state="needs-translation">Konferennotizen</target>
+        <target state="translated">会議メモ</target>
       </trans-unit>
       <trans-unit id="oTGrMe1" resname="lobby.btn.message.to.all">
         <source>lobby.btn.message.to.all</source>
-        <target state="needs-translation">An alle Wartenden</target>
+        <target state="translated">お待ちの皆様へ</target>
       </trans-unit>
       <trans-unit id="yBfb3pN" resname="lobby.message.failed">
         <source>lobby.message.failed</source>
@@ -1911,31 +1910,31 @@
       </trans-unit>
       <trans-unit id="YqcfW5o" resname="lobby.participant.tooltip.acccept">
         <source>lobby.participant.tooltip.acccept</source>
-        <target state="needs-translation">Wartenden zulassen</target>
+        <target state="translated">待機中の全てのユーザ</target>
       </trans-unit>
       <trans-unit id=".c19CeT" resname="lobby.participant.tooltip.decline">
         <source>lobby.participant.tooltip.decline</source>
-        <target state="needs-translation">Wartenden ablehnen</target>
+        <target state="translated">待機の拒否</target>
       </trans-unit>
       <trans-unit id="YZdPXj7" resname="lobby.participant.tooltip.message">
         <source>lobby.participant.tooltip.message</source>
-        <target state="needs-translation">Nachricht senden</target>
+        <target state="translated">メッセージを送る</target>
       </trans-unit>
       <trans-unit id="LSqMdN4" resname="Hmmmm. Hier lief ziemlich was schief.">
         <source>Hmmmm. Hier lief ziemlich was schief.</source>
-        <target state="needs-translation">Hmmmm. Hier lief ziemlich was schief.</target>
+        <target state="translated">うーん。何か問題が発生しました。</target>
       </trans-unit>
       <trans-unit id="rYXkkzU" resname="Sie haben ein Verhalten gefunden, das uns unbekannt ist.">
         <source>Sie haben ein Verhalten gefunden, das uns unbekannt ist.</source>
-        <target state="needs-translation">Sie haben ein Verhalten gefunden, das uns unbekannt ist.</target>
+        <target state="translated">未知の動作が見つかりました。</target>
       </trans-unit>
       <trans-unit id="azNCHaZ" resname="Hier gehts zurück">
         <source>Hier gehts zurück</source>
-        <target state="needs-translation">Hier gehts zurück</target>
+        <target state="translated">戻るにはここをクリック</target>
       </trans-unit>
       <trans-unit id="HoIkyRt" resname="Hier sollten Sie nicht sein.">
         <source>Hier sollten Sie nicht sein.</source>
-        <target state="needs-translation">Hier sollten Sie nicht sein.</target>
+        <target state="translated">あなたはここにいるべきではありません。</target>
       </trans-unit>
       <trans-unit id="gh_rvF8" resname="Beinahe hätten Sie hinter die Kullissen schauen können.">
         <source>Beinahe hätten Sie hinter die Kullissen schauen können.</source>
