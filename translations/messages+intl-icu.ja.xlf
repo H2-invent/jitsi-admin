@@ -2042,7 +2042,7 @@
       </trans-unit>
       <trans-unit id="z5PYLSd" resname="terms.haeder">
         <source>terms.haeder</source>
-        <target state="needs-translation">Allgemeinen Geschäftsbedingungen</target>
+        <target state="translated">利用規約</target>
       </trans-unit>
       <trans-unit id="d.ugRAJ" resname="terms.accept">
         <source>terms.accept</source>
