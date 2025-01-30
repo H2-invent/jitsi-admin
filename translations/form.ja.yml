@@ -10,9 +10,9 @@ label.serverKonferenz: Jitsi Meetサーバ
 label.konferenzName: 会議の名前
 label.start: 開始
 label.dauerKonferenz: 会議の時間
-label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
+label.nurRegistriertenutzer: このプラットフォームのアカウントを持つ登録ユーザーのみが会議に参加できます。
 label.speichern: 保存
-label.allowMaybeOption: '「変更される可能性があります」オプションを提供する'
+label.allowMaybeOption: '「変更する」オプションを提供する'
 option.15min: 15 分
 option.30min: 30 分
 option.45min: 45 分
@@ -65,14 +65,14 @@ option:
   octobre: 10月
   novembre: 11月
   decembre: 12月
-  user: ユーザステートメントでは
-  root: ルートステートメントでは
+  user: ユーザ側
+  root: ルート側
 lable.serverUrl: サーバURL
 label.appId: AppID
 label.appSecret: Appシークレット
-label.scheduleMeeting: 予定のアンケートを作成する
+label.scheduleMeeting: ミーティングのスケジュールを設定する
 help:
-  serverUrl: '「https://」を指定しない場合(例：meet.jit.si)'
+  serverUrl: '「https://」を指定しないで入力(例：meet.jit.si)'
   featureEnalbeByJwt: '「JWT による機能を有効にする」プラグインは、Jitsi Meet サーバーでアクティブ化する必要があります。そうしないと、JWT がサーバーによって正しく認識され、処理されません。'
   teilnehmerEmailhinzufuegenModerator: 複数のメールアドレスを一度に追加できます。それぞれのメール アドレスを1行に分けて入力してください。
   serverName: ここにサーバー名を入力してください。これは参加者に表示されます。
@@ -82,16 +82,16 @@ help:
   jigasiNumberUrl: 'ダイヤルイン番号をJSON形式で入力します。Jigasiの "numbers.json "に入力されているように入力してください。 (例: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: ここにProsodyドメインを入力します。これは通常、「conference.domain.topdomain」のパターンに従います。
   disallowFirefox: Firefox ブラウザはブラウザ内で非アクティブになります。Firefoxブラウザで参加を希望する参加者は、Chromiumベースのブラウザにリダイレクトされます。
-  enforceE2e: このJitsiサーバーでは、すべての会議において「エンド・ツー・エンド暗号化」セキュリティ機能が実施されています。
+  enforceE2e: このJitsiサーバーのすべての会議において「エンド・ツー・エンド暗号化」セキュリティ機能を強制する。
   allowIp: 指定したIPアドレスまたはIP範囲のみが会議に参加できます。IP範囲は10.10.10.10/24の表記で指定する必要があります。複数の IP アドレスまたは IP 範囲をカンマ区切りで入力できます。
   jitsiEventSyncUrl: ここには、SIPリクエストに対応するJitsiイベント同期を保存している別のJitsi管理者を指定できます。ベースURLのみを指定する必要があります。この関数を使用するには、バージョン >0.77.x の Jitsi-admin が必要です。
-  disableFilmstripe: Jitsiでフィルムストリップを無効にする
-  disableChat: Jitsiのチャットを停止して非表示にする
-  disableWhiteboard: 会議中にホワイトボードを無効にする
-  disableEtherpad: 会議中にイーサパッドを無効にする
+  disableFilmstripe: ビデオのストライプ表示を無効にする
+  disableChat: チャットを停止して非表示にする
+  disableWhiteboard: ホワイトボードを無効にする
+  disableEtherpad: イーサパッドを無効にする
   prefixRoomUidWithHash: 会議 UID には、サーバー スラッグとハッシュとしてのサーバー ID が接頭辞として付けられます。これは、nginx Web サーバー内のさまざまな仮想サーバーを区別するために使用できます。
   liveKitServer: このサーバーは Livekit サーバーであり、Livekit API 機能を使用することを目的としています。
-  livekitBackgroundImages: 会議参加者が会議中に背景画像として選択できる背景画像を含む JSON 配列。
+  livekitBackgroundImages: 参加者が会議中に背景として選択できる画像を含む JSON 配列。
   livekitMiddlewareUrl: ここで Url (https://middlewareUrl.com) を指定できます。これまでのところ、Meetling ミドルウェアのみがサポートされています。ここに何を入力すればよいかわからない場合は、デフォルトのミドルウェアが使用されるように、空白のままにしておきます。独自のミドルウェアを使用したい場合は、info@h2-invent.com までお問い合わせください。
 label:
   beitretenApp: Elektron アプリで参加する
@@ -116,7 +116,7 @@ label:
   dissallowScreenshareGlobal: 主催者のみが画面共有できます。
   dissallowPrivateMessage: 主催者のみがプライベートメッセージの送信を許可できます。
   puplicRoom: 自己登録を有効にする
-  showRoomOnJoinpage: 参加ページに会議を表示する
+  showRoomOnJoinpage: この会議の要約
   subscribe: ログイン
   vorname: 名
   nachname: 姓
@@ -153,15 +153,15 @@ label:
   jigasiProsodyDomain: Jigasi prosody のドメイン
   go: さあ、始めましょう！
   moderator: オーガナイザーを選択
-  disallowFirefox: Jitsi-MeetサーバーでFirefoxが無効化されています。
-  enforceE2e: End to End を強制する。
-  allowIp: IPまたはIP幅の会議への参加を許可する
+  disallowFirefox: Jitsi-MeetサーバーでFirefoxを無効化
+  enforceE2e: End to End を強制
+  allowIp: 指定のIPまたはIP幅の会議への参加を許可
   maxUser: 最大参加人数
-  jitsiEventSyncUrl: Jitsiイベント同期リレーURL
-  disableFilmstripe: フィルムストリップを無効にする
-  disableChat: チャットを無効にする。
-  disableWhiteboard: ホワイトボードを無効にする。
-  disableEtherpad: イーサパッドを無効にする。
+  jitsiEventSyncUrl: イベント同期リレーURL
+  disableFilmstripe: ビデオのストライプ表示を無効にする
+  disableChat: チャットを無効にする
+  disableWhiteboard: ホワイトボードを無効にする
+  disableEtherpad: イーサパッドを無効にする
   prefixRoomUidWithHash: ルームUidとサーバーハッシュプレフィックス
   myName: 名前
   liveKitServer: Livekit serverをセットアップする
