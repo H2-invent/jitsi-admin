@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Update PHP Version and tools
         uses: shivammathur/setup-php@v2
@@ -15,7 +15,7 @@ jobs:
           ini-values: date.timezone ="Europe/Berlin"
 
       - name: Install NPM Packages
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ vars.NODE_VERSION }}
 
@@ -40,7 +40,7 @@ jobs:
           args: zip -qq -r artifact_${{github.run_number}}.zip .
 
       - name: Upload articats
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifact_${{github.run_number}}
           path: artifact_${{github.run_number}}.zip
