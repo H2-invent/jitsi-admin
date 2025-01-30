@@ -26,7 +26,7 @@ jobs:
       # endregion mysql_start
       # region load_artifact
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: artifact_${{github.run_number}}
 
