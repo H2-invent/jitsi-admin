@@ -168,6 +168,7 @@ label:
   livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
   livekitMiddlewareUrl: Livekitmiddleware-Url
   disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
+  calendlyToken: Calendly Oauth Token
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
