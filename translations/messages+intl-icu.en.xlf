@@ -1816,7 +1816,7 @@
       </trans-unit>
       <trans-unit id="mSSJ9ZF" resname="public.invite.moreApps">
         <source>public.invite.moreApps</source>
-        <target state="translated">Share the invitation to the meeting</target>
+        <target state="needs-translation">Einladung zur Konferenz teilen</target>
       </trans-unit>
       <trans-unit id="wll_aF8" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
         <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
@@ -2356,6 +2356,54 @@
       <trans-unit id="JJHW_6u" resname="options.stopRecording">
         <source>options.stopRecording</source>
         <target state="needs-translation">Aufnahme beenden</target>
+      </trans-unit>
+      <trans-unit id="qEvCOWP" resname="calendly.connect.alreadyConnected">
+        <source>calendly.connect.alreadyConnected</source>
+        <target state="needs-translation">Calendly ist bereits mit ihrem Account verknüpft</target>
+      </trans-unit>
+      <trans-unit id="O88dTcc" resname="calendly.connect.success">
+        <source>calendly.connect.success</source>
+        <target state="needs-translation">Calendly erfolgreich verbunden</target>
+      </trans-unit>
+      <trans-unit id="Anobqg3" resname="calendly.header">
+        <source>calendly.header</source>
+        <target state="needs-translation">Calendly Verknüpfung</target>
+      </trans-unit>
+      <trans-unit id="EmLG0x7" resname="calendly.remove.success">
+        <source>calendly.remove.success</source>
+        <target state="needs-translation">Calendly erfolgreich getrennt</target>
+      </trans-unit>
+      <trans-unit id="mAx5a8B" resname="calendly.connect.wrongToken">
+        <source>calendly.connect.wrongToken</source>
+        <target state="needs-translation">Ungültiger Calendly Token</target>
+      </trans-unit>
+      <trans-unit id="99weUMj" resname="calendly.connect.netWorkError">
+        <source>calendly.connect.netWorkError</source>
+        <target state="needs-translation">Netzwerkfehler mit Calendly</target>
+      </trans-unit>
+      <trans-unit id="Hbzs3rh" resname="calendly.connect.redirectError">
+        <source>calendly.connect.redirectError</source>
+        <target state="needs-translation">Weiterleitungsfehler zu Calendly</target>
+      </trans-unit>
+      <trans-unit id="Pg0GhO4" resname="calendly.link.text">
+        <source>calendly.link.text</source>
+        <target state="needs-translation">Hier gehts zu Calendly</target>
+      </trans-unit>
+      <trans-unit id="l1FnXYh" resname="calendly.connection.isNotConnected">
+        <source>calendly.connection.isNotConnected</source>
+        <target state="needs-translation">Klicken um Calendly zu Verknüpfen</target>
+      </trans-unit>
+      <trans-unit id="HQT.6nh" resname="calendly.connection.connected">
+        <source>calendly.connection.connected</source>
+        <target state="needs-translation">Calendly ist bereits verknüpft</target>
+      </trans-unit>
+      <trans-unit id="KZOVa06" resname="callendly.disconnect">
+        <source>callendly.disconnect</source>
+        <target state="needs-translation">Calendly trennen</target>
+      </trans-unit>
+      <trans-unit id="KhffR.T" resname="calendly.tutorial.help">
+        <source>calendly.tutorial.help</source>
+        <target state="needs-translation">Wie binde ich Calendly ein?</target>
       </trans-unit>
     </body>
   </file>
