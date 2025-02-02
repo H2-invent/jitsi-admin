@@ -167,7 +167,7 @@ label:
   liveKitServer: I want to set up a Livekit server
   livekitBackgroundImages: Background images for conference in JSON format
   livekitMiddlewareUrl: Livekitmiddleware-Url
-  disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
+  disableSelfSubscriptionDoubleOptIn: Do not send a double opt-in e-mail for self-registration
   calendlyToken: Calendly Oauth Token
 choice:
   tls: STARTTLS/TLS
