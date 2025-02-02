@@ -1686,7 +1686,7 @@
       </trans-unit>
       <trans-unit id="L8P5j9Z" resname="lobby.participants.noch">
         <source>lobby.participants.noch</source>
-        <target state="needs-translation">noch</target>
+        <target state="translated">まだ</target>
       </trans-unit>
       <trans-unit id="QHGxcIp" resname="lobby.participants.seconds">
         <source>lobby.participants.seconds</source>
@@ -1694,7 +1694,7 @@
       </trans-unit>
       <trans-unit id="I9W18.N" resname="email.sip.text">
         <source>email.sip.text</source>
-        <target state="needs-translation">Sie können sich auch einfach per Telefon in die Konferenz einwählen.</target>
+        <target state="translated">電話で簡単に会議に参加することもできます。</target>
       </trans-unit>
       <trans-unit id="MosCvF7" resname="email.sip.number">
         <source>email.sip.number</source>
@@ -1742,11 +1742,11 @@
       </trans-unit>
       <trans-unit id="FEXNV9v" resname="Wie war die Gesprächsqualität?">
         <source>Wie war die Gesprächsqualität?</source>
-        <target state="needs-translation">Wie war die Gesprächsqualität?</target>
+        <target state="translated">通話品質はどうでしたか？</target>
       </trans-unit>
       <trans-unit id="K4v8gk6" resname="Schreibe uns einen Kommentar">
         <source>Schreibe uns einen Kommentar</source>
-        <target state="needs-translation">Schreibe uns einen Kommentar</target>
+        <target state="translated">コメントを書いてください</target>
       </trans-unit>
       <trans-unit id="BdWaIJA" resname="lobby.notVerified">
         <source>lobby.notVerified</source>
@@ -2050,11 +2050,11 @@
       </trans-unit>
       <trans-unit id="Ag9J..r" resname="Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.">
         <source>Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.</source>
-        <target state="needs-translation">Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.</target>
+        <target state="translated">エラー: あなたのメール アドレスは参加者リストにありません。会議に招待するには、モデレーターに連絡してください。</target>
       </trans-unit>
       <trans-unit id="yzse.07" resname="Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.">
         <source>Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.</source>
-        <target state="needs-translation">Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.</target>
+        <target state="translated">重要: このメールを転送しないでください。このメール内のすべてのリンクはパーソナライズされており、あなただけに有効です。この会議に他の人を招待したい場合は、その人のメール アドレスを記載してこのメ​​ールに返信してください。</target>
       </trans-unit>
       <trans-unit id="zFEiJq4" resname="deputy.fromLdap.disabled">
         <source>deputy.fromLdap.disabled</source>
