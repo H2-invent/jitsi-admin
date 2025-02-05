@@ -40,6 +40,7 @@ jobs:
         with:
           php-version: ${{ vars.PHP_VERSION }}
           ini-values: date.timezone ="Europe/Berlin"
+          extensions: pdo, pdo_mysql
 
       - name: Run php test
         # run: php composer.phar test
