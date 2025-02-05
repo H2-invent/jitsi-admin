@@ -43,8 +43,6 @@ class RepeaterControllerTest extends WebTestCase
         echo "\n".sizeof($rooms)."\n";
         foreach ($rooms as $data) {
 
-            echo $start->format('d.m.Y H:i')."\n";
-            echo $data->getStart()->format('d.m.Y H:i')."\n";
 
             if ($data->getRepeater()) {
 
@@ -73,6 +71,10 @@ class RepeaterControllerTest extends WebTestCase
         $start = new \DateTime('2022-04-10T12:00:00');
         $start->setTime($start->format('H'), $start->format('i'), 0);
         foreach ($rooms as $data) {
+
+            echo $start->format('d.m.Y H:i')."\n";
+            echo $data->getStart()->format('d.m.Y H:i')."\n";
+
             if ($data->getRepeater()) {
                 self::assertEquals($start, $data->getStart());
                 $start->modify('+1day');
