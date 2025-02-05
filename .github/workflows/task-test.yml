@@ -42,11 +42,6 @@ jobs:
           ini-values: date.timezone ="Europe/Berlin"
 
       - name: Run php test
-        # run: php composer.phar test
-        uses: php-actions/phpunit@v3
-        with:
-          php_version: ${{ vars.PHP_VERSION }}
-          memory_limit: "512M"
-          testsuite: "onlyRepeater"
+        run: "php composer.phar test --testsuite: onlyRepeater"
       # endregion phpunit
       # endregion test
