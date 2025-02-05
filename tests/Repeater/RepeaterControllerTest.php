@@ -40,6 +40,7 @@ class RepeaterControllerTest extends WebTestCase
         $start = $room->getStart();
         $start->setTime($start->format('H'), $start->format('i'), 0);
         echo 'before assert';
+        echo "\n".sizeof($rooms)."\n";
         foreach ($rooms as $data) {
             echo $start->format('d.m.Y H:i');
             echo $data->getStart()->format('d.m.Y H:i');
