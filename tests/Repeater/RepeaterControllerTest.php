@@ -41,6 +41,8 @@ class RepeaterControllerTest extends WebTestCase
         $start->setTime($start->format('H'), $start->format('i'), 0);
         foreach ($rooms as $data) {
             if ($data->getRepeater()) {
+                var_dump($start);
+                var_dump($data);
                 self::assertEquals($start, $data->getStart());
                 $start->modify('+1day');
             } else {
