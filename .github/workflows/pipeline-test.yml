@@ -4,9 +4,9 @@ on: [push]
 
 jobs:
   artifact:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
+    uses: ./.github/workflows/task-artifact.yml
 
   test:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-test.yml@devops
+    uses: ./.github/workflows/task-test.yml
     needs:
       - artifact
