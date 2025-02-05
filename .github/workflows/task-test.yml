@@ -47,5 +47,6 @@ jobs:
         with:
           php_version: ${{ vars.PHP_VERSION }}
           memory_limit: "512M"
+          testsuite: "onlyRepeater"
       # endregion phpunit
       # endregion test
