@@ -100,7 +100,7 @@ class RepeaterControllerTest extends WebTestCase
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Sie haben erfolgreich einen Serientermin bearbeitet.');
 
-        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0']);
+        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(4, sizeof($rooms));
         $start = new \DateTime('2022-04-10T12:00:00');
         foreach ($rooms as $data) {
@@ -113,7 +113,7 @@ class RepeaterControllerTest extends WebTestCase
         }
 
         $crawler = $client->request('GET', '/room/repeater/remove?repeat=' . $rooms[1]->getRepeater()->getId());
-        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0']);
+        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(4, sizeof($rooms));
         foreach ($rooms as $data) {
             self::assertEquals(0, sizeof($data->getUser()));
