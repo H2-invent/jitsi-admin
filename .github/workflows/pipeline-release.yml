@@ -63,7 +63,7 @@ jobs:
   upload_dockerhub_main:
     needs:
       - version
-    uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'h2invent/jitsi-admin-main'
       dockerfile_path: './Dockerfile'
@@ -76,7 +76,7 @@ jobs:
   upload_dockerhub_websocket:
     needs:
       - create_release
-    uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'h2invent/jitsi-admin-websocket'
       dockerfile_path: './nodejs/Dockerfile'
