@@ -197,9 +197,11 @@ class RoomWebhookService
             }
 
             foreach ($roomStatus->getRoomStatusParticipants() as $data2) {
-                $data2->setLeftRoomAt(\DateTime::createFromFormat('U', $destroyedAt))
-                    ->setInRoom(false);
-                $this->em->persist($data2);
+                if($data2->getInRoom()){
+                    $data2->setLeftRoomAt(\DateTime::createFromFormat('U', $destroyedAt))
+                        ->setInRoom(false);
+                    $this->em->persist($data2);
+                }
             }
             if ($roomStatus->getRoom()){
                 foreach ($roomStatus->getRoom()->getLiveKitRecordings() as $recording) {

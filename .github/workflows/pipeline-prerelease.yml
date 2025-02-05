@@ -10,10 +10,10 @@ on:
 
 jobs:
   artifact:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
+    uses: ./.github/workflows/task-artifact.yml
 
   test:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-test.yml@devops
+    uses: ./.github/workflows/task-test.yml
     needs:
       - artifact
 
@@ -69,7 +69,7 @@ jobs:
   upload_dockerhub_main:
     needs:
       - test
-    uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'h2invent/jitsi-admin-main'
       dockerfile_path: './Dockerfile'
@@ -82,7 +82,7 @@ jobs:
   upload_dockerhub_websocket:
     needs:
       - test
-    uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'h2invent/jitsi-admin-websocket'
       dockerfile_path: './nodejs/Dockerfile'

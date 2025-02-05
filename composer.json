@@ -152,6 +152,10 @@
       "@test-prepare",
       " php vendor/bin/phpunit --testsuite=Development"
     ],
+    "test-repeater": [
+      "@test-prepare",
+      " php vendor/bin/phpunit --testsuite=onlyRepeater"
+    ],
     "test-complete": [
       "@test-prepare",
       " php vendor/bin/phpunit --testsuite=Complete"

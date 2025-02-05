@@ -11,6 +11,8 @@ use App\Repository\UploadedRecordingRepository;
 use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Gaufrette\FilesystemInterface;
+use Gaufrette\Stream\InMemoryBuffer;
+use Gaufrette\StreamMode;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -19,6 +21,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
@@ -148,29 +151,43 @@ class RecordingController extends AbstractController
     public function download(string $filename): Response
     {
         try {
+            // Finde die Datei in der Datenbank
             $uploadedFile = $this->uploadedRecordingRepository->findOneBy(['filename' => $filename]);
 
             if (!$uploadedFile) {
                 return new JsonResponse(['error' => 'File not found in database'], Response::HTTP_NOT_FOUND);
             }
+
+            // Überprüfe, ob der Benutzer berechtigt ist, die Datei herunterzuladen
             if ($uploadedFile->getRoom()->getModerator() !== $this->getUser()) {
                 throw new AccessDeniedHttpException('Access denied');
             }
-            // Überprüfen, ob die Datei existiert
-            if (!$this->filesystem->has($uploadedFile->getFilename())) {
 
+            // Überprüfe, ob die Datei im Dateisystem existiert
+            if (!$this->filesystem->has($uploadedFile->getFilename())) {
                 return new JsonResponse(['error' => 'File not found in path'], Response::HTTP_NOT_FOUND);
             }
 
-            // Dateiinhalt abrufen
-            $fileContent = $this->filesystem->read($filename);
+            // Hole die Dateierweiterung basierend auf dem MIME-Typ
             $extension = $this->getFileExtensionFromMimeType($uploadedFile->getType());
+            // Adapter abrufen (LocalAdapter)
+            // Den Adapter holen
+            $file = $this->filesystem->get($filename);
+            $response = new StreamedResponse(function () use ($filename) {
+                $stream = $this->filesystem->createStream($filename);
+                $stream->open(new StreamMode('rb'));
+                while (!$stream->eof()){
+                    $chunk = $stream->read(8 * 1024);
+                    echo $chunk;
+                   flush();
+                }
+                $stream->close();
+            });
 
-            // Dateiinformationen festlegen
-            $response = new Response($fileContent);
-            $response->headers->set('Content-Type', $uploadedFile->getType());  // Setze den MIME-Typ
+
+            $response->headers->set('Content-Type', $uploadedFile->getType());
             $response->headers->set('Content-Disposition', 'attachment; filename="' . $uploadedFile->getRoom()->getName() . '.' . $extension . '"');
-            $response->headers->set('Content-Length', strlen($fileContent));
+            $response->headers->set('Content-Length', $this->filesystem->size($uploadedFile->getFilename()));
 
             return $response;
         } catch (\Exception $e) {
