@@ -42,8 +42,10 @@ class RepeaterControllerTest extends WebTestCase
         echo 'before assert';
         echo "\n".sizeof($rooms)."\n";
         foreach ($rooms as $data) {
-            echo $start->format('d.m.Y H:i');
-            echo $data->getStart()->format('d.m.Y H:i');
+
+            echo $start->format('d.m.Y H:i')."\n";
+            echo $data->getStart()->format('d.m.Y H:i')."\n";
+
             if ($data->getRepeater()) {
 
 //                self::assertEquals($start, $data->getStart());
