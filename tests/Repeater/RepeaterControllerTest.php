@@ -48,7 +48,7 @@ class RepeaterControllerTest extends WebTestCase
 
             if ($data->getRepeater()) {
 
-//                self::assertEquals($start, $data->getStart());
+                self::assertEquals($start, $data->getStart());
                 $start->modify('+1day');
             } else {
                 self::assertEquals($data->getStart(), $data->getRepeaterProtoype()->getStartDate());
@@ -68,7 +68,7 @@ class RepeaterControllerTest extends WebTestCase
 
         self::assertEquals('{"error":false,"redirectUrl":"\/room\/dashboard?snack=Sie%20haben%20erfolgreich%20einen%20Serientermin%20bearbeitet.\u0026color=success"}', $client->getResponse()->getContent());
 
-        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0']);
+        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
         $start = new \DateTime('2022-04-10T12:00:00');
         $start->setTime($start->format('H'), $start->format('i'), 0);
