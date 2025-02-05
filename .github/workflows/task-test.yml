@@ -44,5 +44,8 @@ jobs:
       - name: Run php test
         # run: php composer.phar test
         uses: php-actions/phpunit@v3
+        with:
+          php_version: ${{ vars.PHP_VERSION }}
+          memory_limit: "512M"
       # endregion phpunit
       # endregion test
