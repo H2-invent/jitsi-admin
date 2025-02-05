@@ -43,6 +43,6 @@ jobs:
           extensions: pdo, pdo_mysql
 
       - name: Run php test
-        run: php composer.phar test --testsuite=onlyRepeater
+        run: php composer.phar test-repeater
       # endregion phpunit
       # endregion test
