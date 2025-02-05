@@ -10,30 +10,19 @@ on:
       - master
 
 jobs:
+  version:
+    uses: h2-invent/jitsi-admin/.github/workflows/task-version.yml@devops
   artifact:
     uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
 
   create_release:
     needs:
+      - version
       - artifact
     runs-on: ubuntu-latest
     outputs:
       create_release_output: ${{ steps.version.outputs.version }}
     steps:
-
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - uses: paulhatch/semantic-version@v5.0.2
-        id: version
-        with:
-          tag_prefix: ""
-          major_pattern: "(MAJOR)"
-          minor_pattern: "(MINOR)"
-          change_path: .
-          version_format: "${major}.${minor}.${patch}"
 
       - uses: actions/download-artifact@v4
         with:
@@ -41,13 +30,9 @@ jobs:
 
       - run: unzip -qq artifact_${{github.run_number}}.zip -d artifact
 
-      - name: Write semantic Version in .env.local
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "laF_version=2.0.0-dev"
-          replace: "laF_version=${{ steps.version.outputs.version }}"
-          regex: false
-          include: "artifact/.env"
+      - name: Set laF_version in .env
+        run: |
+          sed -i 's/^laF_version=.*/laF_version=${{ needs.version.outputs.version_output }}/' artifact/.env
 
       - name: Archive Release for application
         uses: thedoctor0/zip-release@0.7.1
@@ -70,21 +55,22 @@ jobs:
         with:
           draft: false
           prerelease: false
-          name: Release ${{ steps.version.outputs.version }}
-          tag: ${{ steps.version.outputs.version }}
+          allowUpdates: true
+          name: Release ${{ needs.version.outputs.version_output }}
+          tag: ${{ needs.version.outputs.version_output }}
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
           artifactContentType: application/zip
           bodyFile: RELEASE_NOTE.md
 
   upload_dockerhub_main:
     needs:
-      - create_release
+      - version
     uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
     with:
       reponame: 'h2invent/jitsi-admin-main'
       dockerfile_path: './Dockerfile'
       directory: '.'
-      version: h2invent/jitsi-admin-main:latest,h2invent/jitsi-admin-main:${{ needs.create_release.outputs.create_release_output }}
+      version: h2invent/jitsi-admin-main:latest,h2invent/jitsi-admin-main:${{ needs.version.outputs.version_output }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -97,7 +83,7 @@ jobs:
       reponame: 'h2invent/jitsi-admin-websocket'
       dockerfile_path: './nodejs/Dockerfile'
       directory: './nodejs'
-      version: h2invent/jitsi-admin-websocket:latest,h2invent/jitsi-admin-websocket:${{ needs.create_release.outputs.create_release_output }}
+      version: h2invent/jitsi-admin-websocket:latest,h2invent/jitsi-admin-websocket:${{ needs.version.outputs.version_output }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
