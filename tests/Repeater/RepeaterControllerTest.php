@@ -35,7 +35,7 @@ class RepeaterControllerTest extends WebTestCase
         self::assertEquals($flashMessage, 'Sie haben erfolgreich einen Serientermin erstellt.');
 
 
-        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0']);
+        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
         $start = $room->getStart();
         $start->setTime($start->format('H'), $start->format('i'), 0);
