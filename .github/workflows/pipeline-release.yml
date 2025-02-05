@@ -20,8 +20,6 @@ jobs:
       - version
       - artifact
     runs-on: ubuntu-latest
-    outputs:
-      create_release_output: ${{ steps.version.outputs.version }}
     steps:
 
       - uses: actions/download-artifact@v4
