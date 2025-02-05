@@ -11,9 +11,9 @@ on:
 
 jobs:
   version:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-version.yml@devops
+    uses: ./.github/workflows/task-version.yml
   artifact:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
+    uses: ./.github/workflows/task-artifact.yml
 
   create_release:
     needs:
