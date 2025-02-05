@@ -65,7 +65,6 @@ jobs:
         with:
           draft: false
           prerelease: false
-          allowUpdates: true
           name: Release ${{ steps.version.outputs.version }}
           tag: ${{ steps.version.outputs.version }}
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
