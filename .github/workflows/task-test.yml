@@ -42,6 +42,7 @@ jobs:
           ini-values: date.timezone ="Europe/Berlin"
 
       - name: Run php test
-        run: php composer.phar test
+        # run: php composer.phar test
+        uses: php-actions/phpunit@v3
       # endregion phpunit
       # endregion test
