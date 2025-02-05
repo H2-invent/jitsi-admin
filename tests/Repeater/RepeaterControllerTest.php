@@ -39,8 +39,7 @@ class RepeaterControllerTest extends WebTestCase
         self::assertEquals(11, sizeof($rooms));
         $start = $room->getStart();
         $start->setTime($start->format('H'), $start->format('i'), 0);
-        echo 'before assert';
-        echo "\n".sizeof($rooms)."\n";
+
         foreach ($rooms as $data) {
 
 
@@ -71,10 +70,6 @@ class RepeaterControllerTest extends WebTestCase
         $start = new \DateTime('2022-04-10T12:00:00');
         $start->setTime($start->format('H'), $start->format('i'), 0);
         foreach ($rooms as $data) {
-
-            echo $start->format('d.m.Y H:i')."\n";
-            echo $data->getStart()->format('d.m.Y H:i')."\n";
-
             if ($data->getRepeater()) {
                 self::assertEquals($start, $data->getStart());
                 $start->modify('+1day');
@@ -112,7 +107,7 @@ class RepeaterControllerTest extends WebTestCase
             }
         }
 
-        $crawler = $client->request('GET', '/room/repeater/remove?repeat=' . $rooms[1]->getRepeater()->getId());
+        $crawler = $client->request('GET', '/room/repeater/remove?repeat=' . $rooms[2]->getRepeater()->getId());
         $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(4, sizeof($rooms));
         foreach ($rooms as $data) {
