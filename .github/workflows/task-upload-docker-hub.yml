@@ -61,4 +61,4 @@ jobs:
           context: ${{ inputs.directory }}
           file: ${{ inputs.dockerfile_path }}
           push: true
-          tags: ${{ inputs.reponame }}:${{ inputs.version }}
+          tags: ${{ inputs.version }}
