@@ -1,4 +1,4 @@
-{% if app.user and room.moderator == app.user %}
+{% if app.user and room.moderator == app.user and room.server.enableRecording %}
 <div id="startEgress" class="wrapper {% if getRecordingForRoomAndUser(app.user,room) %}d-none{% endif %}">
     <div class="dropdown">
         <div

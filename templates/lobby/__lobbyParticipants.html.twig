@@ -27,7 +27,7 @@
                           {% endif %}
                       {% endif %}
                   </div>
-                  <div class="nameHolder">
+                  <div class="nameHolder d-flex flex-column align-items-start">
                       <div class="participantsName">{{ wU.showName }}
 
                       </div>
@@ -37,13 +37,7 @@
                           {% if wU.callerSession.callerIdVerified %}
                               <span class="callerVerified badge badge-success">{{ 'lobby.verified'|trans }}</span>
                           {% else %}
-                              <a class="callerNotVerified badge badge-danger w-100"
-                                 data-mdb-popover-init
-                                 data-mdb-trigger="focus"
-                                 tabindex="0"
-                                 data-mdb-content="{{ 'lobby.notVerified'|trans }}">
-                                  <i class="fa-2x fa-solid fa-bolt text-warning"></i>
-                              </a>
+                              <span class="callerVerified badge badge-danger">{{ 'lobby.notVerifiedShort'|trans }}</span>
                           {% endif %}
                       {% endif %}
                   </div>
