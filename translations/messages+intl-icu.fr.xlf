@@ -2413,6 +2413,10 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>calendly.tutorial.help</source>
         <target state="translated">Comment intégrer Calendly ?</target>
       </trans-unit>
+      <trans-unit id="iOianqA" resname="lobby.notVerifiedShort">
+        <source>Nicht verifiziert</source>
+        <target state="needs-translation">Nicht verifiziert</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
