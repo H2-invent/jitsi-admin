@@ -169,6 +169,7 @@ label:
   livekitMiddlewareUrl: Livekitmiddleware-Url
   disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
   calendlyToken: Calendly Oauth Token
+  enableRecording: Recording aktiveren
 choice:
   tls: STARTTLS / TLS
   ssl: SSL
