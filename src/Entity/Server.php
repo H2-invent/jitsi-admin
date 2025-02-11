@@ -152,6 +152,9 @@ class Server
     }
 ]";
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $enableRecording = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -879,6 +882,18 @@ class Server
     public function setLivekitBackgroundImages(?string $livekitBackgroundImages): static
     {
         $this->livekitBackgroundImages = $livekitBackgroundImages;
+
+        return $this;
+    }
+
+    public function isEnableRecording(): ?bool
+    {
+        return $this->enableRecording;
+    }
+
+    public function setEnableRecording(?bool $enableRecording): static
+    {
+        $this->enableRecording = $enableRecording;
 
         return $this;
     }
