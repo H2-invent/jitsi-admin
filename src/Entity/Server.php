@@ -155,6 +155,12 @@ class Server
     #[ORM\Column(nullable: true)]
     private ?bool $enableRecording = null;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(mappedBy: 'calendlyServer', targetEntity: User::class)]
+    private Collection $calendlyUsers;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -163,6 +169,7 @@ class Server
         $this->OwnRoomUSer = new ArrayCollection();
         $this->stars = new ArrayCollection();
         $this->tag = new ArrayCollection();
+        $this->calendlyUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -882,6 +889,36 @@ class Server
     public function setLivekitBackgroundImages(?string $livekitBackgroundImages): static
     {
         $this->livekitBackgroundImages = $livekitBackgroundImages;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getCalendlyUsers(): Collection
+    {
+        return $this->calendlyUsers;
+    }
+
+    public function addCalendlyUser(User $calendlyUser): static
+    {
+        if (!$this->calendlyUsers->contains($calendlyUser)) {
+            $this->calendlyUsers->add($calendlyUser);
+            $calendlyUser->setCalendlyServer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalendlyUser(User $calendlyUser): static
+    {
+        if ($this->calendlyUsers->removeElement($calendlyUser)) {
+            // set the owning side to null (unless already changed)
+            if ($calendlyUser->getCalendlyServer() === $this) {
+                $calendlyUser->setCalendlyServer(null);
+            }
+        }
 
         return $this;
     }
