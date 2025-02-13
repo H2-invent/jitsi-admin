@@ -170,6 +170,7 @@ label:
   disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
   calendlyToken: Calendly Oauth Token
   enableRecording: Recording aktiveren
+  calendlyServer: Konferenzserver für Calendly-Konferenzen
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
