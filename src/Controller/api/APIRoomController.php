@@ -121,4 +121,5 @@ class APIRoomController extends JitsiAdminController
         $res['error'] = false;
         return new JsonResponse($res);
     }
+
 }

@@ -161,6 +161,9 @@ class Server
     #[ORM\OneToMany(mappedBy: 'calendlyServer', targetEntity: User::class)]
     private Collection $calendlyUsers;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isAllowedToCloneForAutoscale = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -931,6 +934,18 @@ class Server
     public function setEnableRecording(?bool $enableRecording): static
     {
         $this->enableRecording = $enableRecording;
+
+        return $this;
+    }
+
+    public function isAllowedToCloneForAutoscale(): ?bool
+    {
+        return $this->isAllowedToCloneForAutoscale;
+    }
+
+    public function setAllowedToCloneForAutoscale(?bool $isAllowedToCloneForAutoscale): static
+    {
+        $this->isAllowedToCloneForAutoscale = $isAllowedToCloneForAutoscale;
 
         return $this;
     }
