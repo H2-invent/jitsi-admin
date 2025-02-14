@@ -1,0 +1,58 @@
+name: Publish new Release
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'release version'
+        default: true
+        type: string
+      prerelease:
+        description: 'publish releases as preprelease'
+        default: true
+        type: boolean
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: artifact_${{github.run_number}}
+
+      - run: unzip -qq artifact_${{github.run_number}}.zip -d artifact
+
+      - name: Set laF_version in .env
+        run: |
+          sed -i 's/^laF_version=.*/laF_version=${{ inputs.version }}/' .env
+
+      - name: Archive Release for application
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+          type: 'zip'
+          filename: 'application.zip'
+          exclusions: '*.git* *.github* /*node_modules/* /*nodejs/* /*var/* .editorconfig'
+          directory: artifact
+
+      - name: Archive Release for websocket
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+          type: 'zip'
+          filename: 'websocket.zip'
+          directory: artifact/nodejs
+
+      - name: Create new Release with semantic-version tag
+        uses: ncipollo/release-action@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: ${{ inputs.prerelease }}
+          name: Release ${{ inputs.version }}
+          tag: ${{ inputs.version }}
+          artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
+          artifactContentType: application/zip
+          bodyFile: RELEASE_NOTE.md
