@@ -203,12 +203,12 @@ function addInteractions(ele) {
 
     moveable.on("dragStart", event => {
         dragactive = true;
-        addOverlayOverAllMultiframes();
         event.inputEvent.stopPropagation();
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
             return null;
         }
         makeBlury(event.target.closest('.jitsiadminiframe'))
+        addOverlayOverAllMultiframes();
         moveActualToForeground(getMultiframeFromHtmlFrame(event.target));
         position.x = parseInt(event.target.closest('.jitsiadminiframe').dataset.x)
         position.y = parseInt(event.target.closest('.jitsiadminiframe').dataset.y)
@@ -340,9 +340,9 @@ function addInteractions(ele) {
 
     moveable.on("resizeStart", ({target, clientX, clientY}) => {
         dragactive = true;
-        addOverlayOverAllMultiframes();
         moveActualToForeground(getMultiframeFromHtmlFrame(target));
         makeBlury(target.closest('.jitsiadminiframe'));
+        addOverlayOverAllMultiframes();
     }).on("resize", event => {
 
             if (event.target.classList.contains('minified') || event.clientX < 0 || event.clientX > window.innerWidth || event.clientY > window.innerHeight || event.clientY < 0) {
@@ -362,9 +362,9 @@ function addInteractions(ele) {
             event.target.dataset.y = beforeTranslate[1];
         }
     ).on("resizeEnd", ({target, isDrag, clientX, clientY}) => {
-        removeOverlayFromAllMultiframes();
         dragactive = false;
         removeBlury(target.closest('.jitsiadminiframe'));
+        removeOverlayFromAllMultiframes();
     });
 
 }
