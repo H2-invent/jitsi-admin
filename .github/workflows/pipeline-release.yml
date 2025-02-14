@@ -43,13 +43,14 @@ jobs:
 
   upload_dockerhub_main:
     needs:
-      - create_release
+      - version
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'h2invent/jitsi-admin-main'
       dockerfile_path: './Dockerfile'
       directory: '.'
-      version: h2invent/jitsi-admin-main:latest,h2invent/jitsi-admin-main:${{ needs.create_release.outputs.create_release_output }}
+      version: ${{ needs.version.outputs.version }}
+      tags: h2invent/jitsi-admin-main:latest,h2invent/jitsi-admin-main:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
