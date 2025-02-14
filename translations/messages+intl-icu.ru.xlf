@@ -1697,19 +1697,19 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="I9W18.N" resname="email.sip.text">
         <source>email.sip.text</source>
-        <target state="needs-translation">Sie können sich auch einfach per Telefon in die Konferenz einwählen.</target>
+        <target state="translated">Вы также можете просто присоединиться к конференции по телефону.</target>
       </trans-unit>
       <trans-unit id="MosCvF7" resname="email.sip.number">
         <source>email.sip.number</source>
-        <target state="needs-translation">Einwahlnummern</target>
+        <target state="translated">Номер для набора</target>
       </trans-unit>
       <trans-unit id="BaifIQ." resname="email.sip.pin">
         <source>email.sip.pin</source>
-        <target state="needs-translation">PIN</target>
+        <target state="translated">PIN-код</target>
       </trans-unit>
       <trans-unit id="MI..OPw" resname="enterprise.settings.header.sip">
         <source>enterprise.settings.header.sip</source>
-        <target state="needs-translation">Jigasi SIP-Einwahldaten</target>
+        <target state="translated">Данные о наборе номера Jigasi SIP</target>
       </trans-unit>
       <trans-unit id="GQ0QgwA" resname="statistic.real.participants">
         <source>statistic.real.participants</source>
@@ -2418,6 +2418,10 @@ ID конференции: {uid}]]></target>
       <trans-unit id="KhffR.T" resname="calendly.tutorial.help">
         <source>calendly.tutorial.help</source>
         <target state="needs-translation">Wie binde ich Calendly ein?</target>
+      </trans-unit>
+      <trans-unit id="iOianqA" resname="lobby.notVerifiedShort">
+        <source>Nicht verifiziert</source>
+        <target state="needs-translation">Nicht verifiziert</target>
       </trans-unit>
     </body>
   </file>
