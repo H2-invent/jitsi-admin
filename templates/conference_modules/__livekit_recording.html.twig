@@ -1,3 +1,4 @@
+{% if app.user and room.moderator == app.user %}
 <div id="startEgress" class="wrapper {% if getRecordingForRoomAndUser(app.user,room) %}d-none{% endif %}">
     <div class="dropdown">
         <div
@@ -42,5 +43,6 @@
         {{ 'options.stopRecording'|trans }}
     </div>
 </div>
+{% endif %}
 
 

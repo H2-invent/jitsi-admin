@@ -66,7 +66,9 @@ We welcome your ideas and suggestions to enhance the project and encourage you t
 To join the community talk, please click on the subscription link provided: http://jitsi-admin.de/subscribe/self/4754e33d3ee9a6c40a2bf04ffa1528c7
 
 Once you have subscribed, we will send you a reminder closer to the date of the talk. We hope to see you there!
+### Mailinglist
 
+[Join here](https://verteiler.h2-invent.com/?p=subscribe&id=1)
 
 If you want to be notified, if there are new updates or releases, you can subscribe to the __Jitsi Admin Update__ mailing list.
 H2 invent will send out information to the mailing list concering releases, updates or new features.
@@ -75,14 +77,13 @@ This is __not__ a marketing newsletter.
 If you want to join the mailing list just click on the link [Mailing List](https://verteiler.h2-invent.com/?p=subscribe&id=1) and enter your email address.
 We use a double-opt-in process where you will receive a confirmation email containing a link with with you confirm, that you want to join to mailing list.
 
-It is always possible to leave the mailing list.
 
 ### Partners and Sponsors
-![H2 invent](docs/images/h2-invent.png)<br>
-H2 invent develops as maintainer the jitsi admin
+[![H2 invent](docs/images/h2-invent.png)](https://h2-invent.com)<br>
+[H2 invent ](https://h2-invent.com)develops as maintainer the jitsi admin
 
-![meetling](docs/images/meetling.png)<br>
-meetling is the official SAAS solution for the jitsi admin for professionals
+[![meetling](docs/images/meetling.png)](https://meetling.de)<br>
+[meetling](https://meetling.de) is the official SAAS solution for the jitsi admin for professionals
 
 ![re@di Digital](docs/images/readi.png)<br>
 We cooperate with the city administrations of Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten and Stutensee

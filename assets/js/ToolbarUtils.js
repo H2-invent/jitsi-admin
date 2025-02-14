@@ -27,6 +27,11 @@ class ToolbarUtils {
             if (floatingTag) {
                 floatingTag.classList.remove('show')
             }
+            var shownElements = sidebar.querySelectorAll(".show");
+            shownElements.forEach(element => {
+                element.classList.remove('show');
+
+            });
 
         }, 3000);
         sidebar.classList.add('show');
