@@ -25,6 +25,7 @@ let tryfullscreen = null;
 function initStartIframe() {
 
     document.addEventListener("mouseover", function (ele) {
+
         initInteractionFrame(ele);
 
     });
@@ -110,7 +111,7 @@ function getotherFramesNotActual(instance) {
 }
 function removeMultiframe(instance) {
     multiframes = multiframes.filter(i => i !== instance);
-    console.log(`Instanz mit der random-ID ${instance.random} wurde entfernt.`);
+
 }
 
 function isFullscreen() {
@@ -129,7 +130,8 @@ function removeInteraction() {
 }
 
 function initInteractionFrame(ele) {
-    var t = ele.target.closest('.jitsiadminiframe')
+    var t = ele.target.closest('.jitsiadminiframe');
+
     if (t && t.style.width !== '100%' && !t.classList.contains('minified') && dragactive === false) {
         addInteractions(ele.target.closest('.jitsiadminiframe'));
         if (ele.target.classList.contains('dragger')) {
@@ -141,6 +143,7 @@ function initInteractionFrame(ele) {
 }
 
 function switchDragOn() {
+
     if (moveable) {
         moveable.draggable = true;
         return null;
@@ -148,6 +151,7 @@ function switchDragOn() {
 }
 
 function switchDragOff() {
+
     if (moveable) {
         moveable.draggable = false;
         return null;
@@ -199,6 +203,7 @@ function addInteractions(ele) {
 
     moveable.on("dragStart", event => {
         dragactive = true;
+        addOverlayOverAllMultiframes();
         event.inputEvent.stopPropagation();
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
             return null;
@@ -303,6 +308,7 @@ function addInteractions(ele) {
     }).on("dragEnd", event => {
 
         removeBlury(event.target.closest('.jitsiadminiframe'))
+        removeOverlayFromAllMultiframes();
         var ifr = event.target.closest('.jitsiadminiframe').querySelector('.multiframeIframe');
         ifr.style.removeProperty('display');
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
@@ -334,6 +340,7 @@ function addInteractions(ele) {
 
     moveable.on("resizeStart", ({target, clientX, clientY}) => {
         dragactive = true;
+        addOverlayOverAllMultiframes();
         moveActualToForeground(getMultiframeFromHtmlFrame(target));
         makeBlury(target.closest('.jitsiadminiframe'));
     }).on("resize", event => {
@@ -355,7 +362,7 @@ function addInteractions(ele) {
             event.target.dataset.y = beforeTranslate[1];
         }
     ).on("resizeEnd", ({target, isDrag, clientX, clientY}) => {
-
+        removeOverlayFromAllMultiframes();
         dragactive = false;
         removeBlury(target.closest('.jitsiadminiframe'));
     });
@@ -401,4 +408,31 @@ function checkIfIsMutable(frame) {
 //     }
 // }
 
+function addOverlayOverAllMultiframes() {
+    const iframes = document.querySelectorAll('iframe');
+
+    iframes.forEach(iframe => {
+        const overlay = document.createElement('div');
+        overlay.classList.add('iframe-overlay');
+        overlay.style.position = 'absolute';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = iframe.offsetWidth + 'px';
+        overlay.style.height = iframe.offsetHeight + 'px';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0)'; // halbtransparent
+
+        // overlay.style.zIndex = '9999'; // über allem anderen
+
+        // Position relativ zum Iframe setzen
+        iframe.style.position = 'relative';
+        iframe.parentElement.style.position = 'relative';
+
+        // Overlay hinzufügen
+        iframe.parentElement.appendChild(overlay);
+    });
+}
+
+function removeOverlayFromAllMultiframes() {
+    document.querySelectorAll('.iframe-overlay').forEach(overlay => overlay.remove());
+}
 export {initStartIframe, createIframe,  checkIfIsMutable}
