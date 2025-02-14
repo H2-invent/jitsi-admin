@@ -1,6 +1,6 @@
 {% if not isAllowedToOrganize(room,app.user) %}
     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
-       class="element btn btn-outline-default btn-darkred confirmHref participants-remove"
+       class="element btn btn-outline-default btn-darkred directSendWithConfirm participants-remove"
        data-text="{{ 'confirm.delete.room'|trans }}">
         <i class="fa-solid fa-trash"></i>
     </a>
