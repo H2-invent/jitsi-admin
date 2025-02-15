@@ -8,29 +8,6 @@ var title = "Bestätigung";
 var cancel = "Abbrechen";
 var ok = "OK";
 
-function initDirectSend() {
-    document.addEventListener('click', function (e) {
-        const triggerElement = e.target.closest('.directSend');
-
-        if (triggerElement) {
-            e.preventDefault();
-            var url = e.target.href;
-            var target = e.target.dataset.target;
-            const targetUrl = e.target.dataset.url;
-            fetch(url)
-                .then(response => response.text())
-                .then(data => {
-                    reloadPartial(targetUrl, target);
-                    if (data.snack) {
-                        document.getElementById('snackbar').textContent = data.text;
-                        document.getElementById('snackbar').classList.add('show');
-                    }
-                });
-
-
-        }
-    });
-}
 
 export function initAllComponents() {
     initInput();
@@ -80,6 +57,35 @@ export function initTooltip() {
         Tooltip.getOrCreateInstance(item);
     });
 }
+
+function initDirectSend() {
+    document.addEventListener('click', function (e) {
+        const triggerElement = e.target.closest('.directSend');
+
+        if (triggerElement) {
+            e.preventDefault();
+            var url = e.target.href;
+            var target = e.target.dataset.target;
+            const targetUrl = e.target.dataset.url;
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    if (targetUrl && target){
+                        reloadPartial(targetUrl, target);
+                    }
+                    if (data.snack) {
+                        const snackbar = document.getElementById('snackbar');
+                        snackbar.textContent = data.text;
+                        snackbar.classList.add('show');
+                        setTimeout(() => snackbar.classList.remove('show'), 3000); // Snackbar nach 3 Sekunden entfernen
+                    }
+                });
+
+
+        }
+    });
+}
+
 
 function initconfirmHref() {
     document.addEventListener('click', function (e) {
@@ -158,10 +164,10 @@ function initConfirmDirectSendHref() {
             e.preventDefault();
 
             const url = triggerElement.href;
-            const target = triggerElement.dataset.target;
-            const targetUrl = triggerElement.dataset.url;
             const text = triggerElement.dataset.text || 'Wollen Sie die Aktion durchführen?';
 
+            const target = triggerElement.dataset.target;
+            const targetUrl = triggerElement.dataset.url;
             Swal.fire({
                 title: 'Bestätigung', // Hier ggf. den Titel anpassen
                 text: text,
@@ -178,7 +184,10 @@ function initConfirmDirectSendHref() {
                     fetch(url)
                         .then(response => response.json()) // Erwartet eine JSON-Antwort
                         .then(data => {
-                            reloadPartial(targetUrl, target);
+                            if (targetUrl && target){
+                                reloadPartial(targetUrl, target);
+                            }
+
                             if (data.toast){
                                 setSnackbar(data.message,'',data.color,false,'0x00',5000);
                             }

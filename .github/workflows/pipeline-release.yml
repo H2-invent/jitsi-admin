@@ -10,19 +10,13 @@ on:
       - master
 
 jobs:
-  artifact:
-    uses: ./.github/workflows/task-artifact.yml
-
-  create_release:
-    needs:
-      - artifact
+  version:
     runs-on: ubuntu-latest
     outputs:
-      create_release_output: ${{ steps.version.outputs.version }}
+      version: ${{ steps.version.outputs.version }}
     steps:
-
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -35,69 +29,42 @@ jobs:
           change_path: .
           version_format: "${major}.${minor}.${patch}"
 
-      - uses: actions/download-artifact@v4
-        with:
-          name: artifact_${{github.run_number}}
+  artifact:
+    uses: ./.github/workflows/task-artifact.yml
 
-      - run: unzip -qq artifact_${{github.run_number}}.zip -d artifact
-
-      - name: Write semantic Version in .env.local
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "laF_version=2.0.0-dev"
-          replace: "laF_version=${{ steps.version.outputs.version }}"
-          regex: false
-          include: "artifact/.env"
-
-      - name: Archive Release for application
-        uses: thedoctor0/zip-release@0.7.1
-        with:
-          type: 'zip'
-          filename: 'application.zip'
-          exclusions: '*.git* *.github* /*node_modules/* /*nodejs/* /*var/* .editorconfig'
-          directory: artifact
-
-      - name: Archive Release for websocket
-        uses: thedoctor0/zip-release@0.7.1
-        with:
-          type: 'zip'
-          filename: 'websocket.zip'
-          directory: artifact/nodejs
-
-      - name: Create new Release with semantic-version tag
-        uses: ncipollo/release-action@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          name: Release ${{ steps.version.outputs.version }}
-          tag: ${{ steps.version.outputs.version }}
-          artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
-          artifactContentType: application/zip
-          bodyFile: RELEASE_NOTE.md
+  release:
+    needs:
+      - artifact
+      - version
+    uses: ./.github/workflows/task-release.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      prerelease: false
 
   upload_dockerhub_main:
     needs:
-      - create_release
+      - version
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'h2invent/jitsi-admin-main'
       dockerfile_path: './Dockerfile'
       directory: '.'
-      version: h2invent/jitsi-admin-main:latest,h2invent/jitsi-admin-main:${{ needs.create_release.outputs.create_release_output }}
+      version: ${{ needs.version.outputs.version }}
+      tags: h2invent/jitsi-admin-main:latest,h2invent/jitsi-admin-main:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
 
   upload_dockerhub_websocket:
     needs:
-      - create_release
+      - version
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'h2invent/jitsi-admin-websocket'
       dockerfile_path: './nodejs/Dockerfile'
       directory: './nodejs'
-      version: h2invent/jitsi-admin-websocket:latest,h2invent/jitsi-admin-websocket:${{ needs.create_release.outputs.create_release_output }}
+      version: ${{ needs.version.outputs.version }}
+      tags: h2invent/jitsi-admin-websocket:latest,h2invent/jitsi-admin-websocket:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
