@@ -244,7 +244,7 @@
       </trans-unit>
       <trans-unit id="P6awl_5" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="needs-translation">Anzahl der Eingeladenen</target>
+        <target state="translated">受邀人数</target>
       </trans-unit>
       <trans-unit id="0r4e3w5" resname="Adressbuch">
         <source>Adressbuch</source>
