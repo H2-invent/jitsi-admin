@@ -146,7 +146,7 @@ label:
   secondEmail: CC-E-Mail
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
   corsHeader: CORS-Header oder frame-ancestor Header
-  tag: Kategorie
+  tag: 类别
   serverBackgroundImage: Statitisches Hintergrund für die Joinseite
   jigasiApiUrl: Jigasi ConferenceMapper-URL
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
