@@ -580,7 +580,7 @@
       </trans-unit>
       <trans-unit id="0JGAgSU" resname="Teilnehmer suchen">
         <source>Teilnehmer suchen</source>
-        <target state="needs-translation">Teilnehmende suchen</target>
+        <target state="translated">查找参与者</target>
       </trans-unit>
       <trans-unit id="aVl9O9C" resname="Tippen zum Suchen">
         <source>Tippen zum Suchen</source>
@@ -714,7 +714,7 @@
       </trans-unit>
       <trans-unit id="Eb8Nq57" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
         <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="needs-translation">Sie wurden soeben zu einer Terminplanung eingeladen. Bitte suchen Sie über den beigefügten Link ganz einfach Ihren Wunschtermin aus.</target>
+        <target state="translated">您刚刚被邀请参加一个日程安排会议。 请使用所附链接选择意向日期。</target>
       </trans-unit>
       <trans-unit id="vjMI4Tr" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
@@ -926,15 +926,15 @@
       </trans-unit>
       <trans-unit id="TMaUznT" resname="Sie haben Erfolgreich einen Serientermin erstellt">
         <source>Sie haben Erfolgreich einen Serientermin erstellt</source>
-        <target state="needs-translation">Sie haben erfolgreich einen Serientermin erstellt.</target>
+        <target state="translated">您已成功创建一个系列预约。</target>
       </trans-unit>
       <trans-unit id="5N17GqC" resname="Sie haben Erfolgreich einen Serientermin bearbeitet">
         <source>Sie haben Erfolgreich einen Serientermin bearbeitet</source>
-        <target state="needs-translation">Sie haben erfolgreich einen Serientermin bearbeitet.</target>
+        <target state="translated">您已成功处理一个系列预约。</target>
       </trans-unit>
       <trans-unit id=".7ZZsh8" resname="Sie haben Erfolgreich einen Serientermin gelöscht">
         <source>Sie haben Erfolgreich einen Serientermin gelöscht</source>
-        <target state="needs-translation">Sie haben erfolgreich einen Serientermin gelöscht.</target>
+        <target state="translated">您已成功删除一个系列预约。</target>
       </trans-unit>
       <trans-unit id="tgLL1Gv" resname="Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet">
         <source>Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
@@ -990,7 +990,7 @@
       </trans-unit>
       <trans-unit id="ymRJ_nM" resname="Sie haben erfolgreich einen Serientermin bearbeitet">
         <source>Sie haben erfolgreich einen Serientermin bearbeitet</source>
-        <target state="needs-translation">Sie haben erfolgreich einen Serientermin bearbeitet.</target>
+        <target state="translated">您已成功处理一个系列预约。</target>
       </trans-unit>
       <trans-unit id="2t7rmGX" resname="Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet">
         <source>Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
