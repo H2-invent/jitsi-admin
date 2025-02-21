@@ -125,7 +125,7 @@ label:
   teilnehmerEmailhinzufuegenModerator: 输入新主持人的邮箱
   weekday: 星期几
   repetation: 在x天后结束
-  repeatType: Serienmuster
+  repeatType: 系列样本
   repeaterDays: Nach X Tagen wiederholen
   repeaterWeeks: Nach X Wochen wiederholen
   repeatMontly: Nach X Monaten wiederholen
@@ -142,11 +142,11 @@ label:
   jwtModeratorPosition: 支持人JWT令牌
   timezone: 时区
   serverName: 服务器名
-  lobby: Lobby aktivieren
+  lobby: 启动大厅
   secondEmail: CC-E-Mail
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
   corsHeader: CORS-Header oder frame-ancestor Header
-  tag: Kategorie
+  tag: 类别
   serverBackgroundImage: Statitisches Hintergrund für die Joinseite
   jigasiApiUrl: Jigasi ConferenceMapper-URL
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format

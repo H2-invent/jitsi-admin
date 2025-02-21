@@ -81,7 +81,7 @@ help:
   jigasiApiUrl: Enter URL to Jigasi API which will be used for getting conference pin. It usually ends with "ConferenceManager".
   jigasiNumberUrl: 'Enter the dial-in number here in JSON format. To do this, these must be entered as they are entered in Jigasi in the "numbers.json" (e.g.: {"message":"Dial-in numbers","numbers":{"DE":["04122/012345"]},"numbersEnabled" :true}).'
   jigasiProsodyDomain: Enter prosody domain. Usually it has pattern "conference.domain.topdomain".
-  disallowFirefox: Firefox browser is disabled. All participants joining with firefox will be redirected to a chromium based browser.
+  disallowFirefox: Firefox browser is disabled. All participants joining with Firefox will be redirected to a chromium based browser.
   enforceE2e: End-to-end encryption security is enforced in every conference on this Jitsi server.
   allowIp: Only the specified IP address or IP ranges are allowed to join the conference. IP ranges must be specified in the notation 10.10.10.10/24. Multiple IPs or ranges can be entered separated by commas.
   jitsiEventSyncUrl: Here you can specify another Jitsi admin who has saved the corresponding Jitsi event syncs for SIP requests. Only the base URL needs to be specified. This function requires Jitsi-admin version >0.77.x
@@ -89,7 +89,7 @@ help:
   disableChat: Disable and hide chat in Jitsi
   disableWhiteboard: Disable whiteboard while conference
   disableEtherpad: Disable etherpad while conference
-  prefixRoomUidWithHash: The conference uid is prefixed with the server slug and the server ID as a hash. This can be used to distinguish between different V-servers in the nginx web server.
+  prefixRoomUidWithHash: The conference UID is prefixed with the server slug and the server ID as a hash. This can be used to distinguish between different V-servers in the nginx web server.
   liveKitServer: This server is a Livekit server and is intended to use the Livekit API functionalities
   livekitBackgroundImages: JSON array with background images which can be selected by conference participants as background images during the conference.
   livekitMiddlewareUrl: A URL (https://middlewareUrl.com) can be specified here. So far only the Meetling middleware is supported. If you don't know what to enter here, simply leave it blank so that the default middleware is used. If you want to use your own middleware, contact info@h2-invent.com
@@ -157,17 +157,17 @@ label:
   enforceE2e: Force end to end
   allowIp: IPs or IP range that are allowed to join the conference
   maxUser: Maximum number of participants
-  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
+  jitsiEventSyncUrl: Jitsi-Event-Sync Relay URL
   disableFilmstripe: Disable stripe with videos
   disableChat: Disable chat
   disableWhiteboard: Disable whiteboard
   disableEtherpad: Disable Etherpad
-  prefixRoomUidWithHash: Room uid with server hash prefix
+  prefixRoomUidWithHash: Room UID with server hash prefix
   myName: My Name
   liveKitServer: I want to set up a Livekit server
   livekitBackgroundImages: Background images for conference in JSON format
   livekitMiddlewareUrl: Livekitmiddleware-Url
-  disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
+  disableSelfSubscriptionDoubleOptIn: Do not send a double opt-in e-mail for self-registration
   calendlyToken: Calendly Oauth Token
 choice:
   tls: STARTTLS/TLS
