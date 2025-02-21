@@ -35,12 +35,16 @@ class RepeaterControllerTest extends WebTestCase
         self::assertEquals($flashMessage, 'Sie haben erfolgreich einen Serientermin erstellt.');
 
 
-        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0']);
+        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
         $start = $room->getStart();
         $start->setTime($start->format('H'), $start->format('i'), 0);
+
         foreach ($rooms as $data) {
+
+
             if ($data->getRepeater()) {
+
                 self::assertEquals($start, $data->getStart());
                 $start->modify('+1day');
             } else {
@@ -61,7 +65,7 @@ class RepeaterControllerTest extends WebTestCase
 
         self::assertEquals('{"error":false,"redirectUrl":"\/room\/dashboard?snack=Sie%20haben%20erfolgreich%20einen%20Serientermin%20bearbeitet.\u0026color=success"}', $client->getResponse()->getContent());
 
-        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0']);
+        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
         $start = new \DateTime('2022-04-10T12:00:00');
         $start->setTime($start->format('H'), $start->format('i'), 0);
@@ -91,7 +95,7 @@ class RepeaterControllerTest extends WebTestCase
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Sie haben erfolgreich einen Serientermin bearbeitet.');
 
-        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0']);
+        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(4, sizeof($rooms));
         $start = new \DateTime('2022-04-10T12:00:00');
         foreach ($rooms as $data) {
@@ -103,8 +107,8 @@ class RepeaterControllerTest extends WebTestCase
             }
         }
 
-        $crawler = $client->request('GET', '/room/repeater/remove?repeat=' . $rooms[1]->getRepeater()->getId());
-        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0']);
+        $crawler = $client->request('GET', '/room/repeater/remove?repeat=' . $rooms[2]->getRepeater()->getId());
+        $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(4, sizeof($rooms));
         foreach ($rooms as $data) {
             self::assertEquals(0, sizeof($data->getUser()));

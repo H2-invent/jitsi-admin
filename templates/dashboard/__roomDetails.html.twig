@@ -48,7 +48,9 @@
             <i class="fa-solid fa-file-contract me-1 createdByDeputy  {% if app.user == room.moderator %} loadContent{% endif %}"
                {% if app.user == room.moderator %} href="{{ path('app_change_log',{'room_id':room.id}) }}"{% endif %}
             ></i>{% endif %}
-
+            {% if room.uploadedRecordings|length > 0 %}
+                <i class="loadContent fa-solid fa-film"></i>
+            {% endif %}
 
             {{ 'Organisator'|trans }}</span>
         <br>
