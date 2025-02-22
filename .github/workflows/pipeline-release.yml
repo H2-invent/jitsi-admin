@@ -66,6 +66,7 @@ jobs:
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'git.h2-invent.com/meetling/application'
+      registry: git.h2-invent.com
       dockerfile_path: './Dockerfile-prod'
       directory: '.'
       version: ${{ needs.version.outputs.version }}
@@ -80,6 +81,7 @@ jobs:
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'git.h2-invent.com/meetling/websocket'
+      registry: git.h2-invent.com
       dockerfile_path: './nodejs/Dockerfile-prod'
       directory: './nodejs'
       version: ${{ needs.version.outputs.version }}
