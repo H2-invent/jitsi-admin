@@ -35,6 +35,11 @@ on:
         description: 'the tags of the Dockerfile image'
         required: true
         type: string
+      registry:
+        description: 'Login Registry'
+        default: 'registry-1.docker.io'
+        required: true
+        type: string
     secrets:
       dockerhub_username:
         required: true
@@ -56,6 +61,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
+          registry: ${{ inputs.registry }}
           username: ${{ secrets.dockerhub_username }}
           password: ${{ secrets.dockerhub_password }}
 
