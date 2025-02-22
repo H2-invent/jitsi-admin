@@ -68,3 +68,31 @@ jobs:
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+
+  docker_build_application_prod:
+    needs:
+      - version
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      reponame: 'git.h2-invent.com/meetling/application'
+      dockerfile_path: './Dockerfile-prod'
+      directory: '.'
+      version: ${{ needs.version.outputs.version }}
+      tags: git.h2-invent.com/meetling/application:${{ needs.version.outputs.version }},git.h2-invent.com/meetling/application:latest
+    secrets:
+      dockerhub_password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      dockerhub_username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+
+  docker_build_websocket_prod:
+    needs:
+      - version
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      reponame: 'git.h2-invent.com/meetling/websocket'
+      dockerfile_path: './nodejs/Dockerfile-prod'
+      directory: './nodejs'
+      version: ${{ needs.version.outputs.version }}
+      tags: git.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }},git.h2-invent.com/meetling/websocket:latest
+    secrets:
+      dockerhub_password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      dockerhub_username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
