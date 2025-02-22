@@ -38,7 +38,6 @@ on:
       registry:
         description: 'Login Registry'
         default: 'registry-1.docker.io'
-        required: true
         type: string
     secrets:
       dockerhub_username:
