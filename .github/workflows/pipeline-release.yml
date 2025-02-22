@@ -32,6 +32,15 @@ jobs:
   artifact:
     uses: ./.github/workflows/task-artifact.yml
 
+  release:
+    needs:
+      - artifact
+      - version
+    uses: ./.github/workflows/task-release.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      prerelease: false
+
   upload_dockerhub_main:
     needs:
       - version
