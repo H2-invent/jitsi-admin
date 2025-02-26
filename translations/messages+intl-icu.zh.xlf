@@ -244,7 +244,7 @@
       </trans-unit>
       <trans-unit id="P6awl_5" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="needs-translation">Anzahl der Eingeladenen</target>
+        <target state="translated">受邀人数</target>
       </trans-unit>
       <trans-unit id="0r4e3w5" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -396,7 +396,7 @@
       </trans-unit>
       <trans-unit id="4cipQ9E" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Sie wurden soeben zu einer Videokonferenz eingeladen. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
+        <target state="translated">您刚刚被邀请参加一个视频会议。通过附带的链接，您可以轻松加入视频会议。</target>
       </trans-unit>
       <trans-unit id="7_GgDT2" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
@@ -548,7 +548,7 @@
       </trans-unit>
       <trans-unit id="ZlARj2z" resname="Erlauben seinen Desktop zu teilen">
         <source>Erlauben seinen Desktop zu teilen</source>
-        <target state="needs-translation">Dem Teilnehmenden erlauben, die Ansicht auf seinem Bildschirm zu teilen</target>
+        <target state="translated">允许参与者在屏幕上分享视图</target>
       </trans-unit>
       <trans-unit id="V2Z1FsY" resname="Organisator">
         <source>Organisator</source>
@@ -580,7 +580,7 @@
       </trans-unit>
       <trans-unit id="0JGAgSU" resname="Teilnehmer suchen">
         <source>Teilnehmer suchen</source>
-        <target state="needs-translation">Teilnehmende suchen</target>
+        <target state="translated">查找参与者</target>
       </trans-unit>
       <trans-unit id="aVl9O9C" resname="Tippen zum Suchen">
         <source>Tippen zum Suchen</source>
@@ -714,7 +714,7 @@
       </trans-unit>
       <trans-unit id="Eb8Nq57" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
         <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="needs-translation">Sie wurden soeben zu einer Terminplanung eingeladen. Bitte suchen Sie über den beigefügten Link ganz einfach Ihren Wunschtermin aus.</target>
+        <target state="translated">您刚刚被邀请参加一个日程安排会议。 请使用所附链接选择意向日期。</target>
       </trans-unit>
       <trans-unit id="vjMI4Tr" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
@@ -914,7 +914,7 @@
       </trans-unit>
       <trans-unit id="ZtYxLXy" resname="Fehler, Bitte füllen Sie alle Felder aus">
         <source>Fehler, Bitte füllen Sie alle Felder aus</source>
-        <target state="needs-translation">Fehler, bitte füllen Sie alle Felder aus.</target>
+        <target state="translated">错误，请填写所有字段。</target>
       </trans-unit>
       <trans-unit id="CmWI3wZ" resname="Sie dürfen nur maximal {amount} Wiederholungen angeben">
         <source>Sie dürfen nur maximal {amount} Wiederholungen angeben</source>
@@ -926,15 +926,15 @@
       </trans-unit>
       <trans-unit id="TMaUznT" resname="Sie haben Erfolgreich einen Serientermin erstellt">
         <source>Sie haben Erfolgreich einen Serientermin erstellt</source>
-        <target state="needs-translation">Sie haben erfolgreich einen Serientermin erstellt.</target>
+        <target state="translated">您已成功创建一个系列预约。</target>
       </trans-unit>
       <trans-unit id="5N17GqC" resname="Sie haben Erfolgreich einen Serientermin bearbeitet">
         <source>Sie haben Erfolgreich einen Serientermin bearbeitet</source>
-        <target state="needs-translation">Sie haben erfolgreich einen Serientermin bearbeitet.</target>
+        <target state="translated">您已成功处理一个系列预约。</target>
       </trans-unit>
       <trans-unit id=".7ZZsh8" resname="Sie haben Erfolgreich einen Serientermin gelöscht">
         <source>Sie haben Erfolgreich einen Serientermin gelöscht</source>
-        <target state="needs-translation">Sie haben erfolgreich einen Serientermin gelöscht.</target>
+        <target state="translated">您已成功删除一个系列预约。</target>
       </trans-unit>
       <trans-unit id="tgLL1Gv" resname="Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet">
         <source>Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
@@ -990,7 +990,7 @@
       </trans-unit>
       <trans-unit id="ymRJ_nM" resname="Sie haben erfolgreich einen Serientermin bearbeitet">
         <source>Sie haben erfolgreich einen Serientermin bearbeitet</source>
-        <target state="needs-translation">Sie haben erfolgreich einen Serientermin bearbeitet.</target>
+        <target state="translated">您已成功处理一个系列预约。</target>
       </trans-unit>
       <trans-unit id="2t7rmGX" resname="Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet">
         <source>Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
@@ -1627,7 +1627,7 @@
       </trans-unit>
       <trans-unit id="3vkvqhB" resname="tag.name">
         <source>tag.name</source>
-        <target state="needs-translation">Kategorie</target>
+        <target state="translated">类别</target>
       </trans-unit>
       <trans-unit id="39QvJC4" resname="Speichern">
         <source>Speichern</source>
@@ -2414,6 +2414,10 @@
       <trans-unit id="KhffR.T" resname="calendly.tutorial.help">
         <source>calendly.tutorial.help</source>
         <target state="needs-translation">Wie binde ich Calendly ein?</target>
+      </trans-unit>
+      <trans-unit id="iOianqA" resname="lobby.notVerifiedShort">
+        <source>Nicht verifiziert</source>
+        <target state="needs-translation">Nicht verifiziert</target>
       </trans-unit>
     </body>
   </file>

@@ -2411,6 +2411,10 @@
         <source>calendly.tutorial.help</source>
         <target state="needs-translation">Wie binde ich Calendly ein?</target>
       </trans-unit>
+      <trans-unit id="iOianqA" resname="lobby.notVerifiedShort">
+        <source>Nicht verifiziert</source>
+        <target state="needs-translation">Nicht verifiziert</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
