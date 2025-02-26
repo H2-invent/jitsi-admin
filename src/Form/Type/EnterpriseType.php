@@ -55,6 +55,8 @@ class EnterpriseType extends AbstractType
             ->add('jigasiProsodyDomain', TextType::class, ['required' => false, 'label' => 'label.jigasiProsodyDomain', 'help' => 'help.jigasiProsodyDomain', 'translation_domain' => 'form'])
             ->add('jitsiEventSyncUrl', TextType::class, ['required' => false, 'label' => 'label.jitsiEventSyncUrl', 'help' => 'help.jitsiEventSyncUrl', 'translation_domain' => 'form'])
             ->add('livekitMiddlewareUrl', TextType::class, ['required' => false, 'label' => 'label.livekitMiddlewareUrl', 'help' => 'help.livekitMiddlewareUrl', 'translation_domain' => 'form'])
+            ->add('enableRecording', CheckboxType::class, ['required' => false, 'label' => 'label.enableRecording', 'translation_domain' => 'form'])
+
             ->add('tag', EntityType::class, [
                 'class' => Tag::class,
                 'query_builder' => function (EntityRepository $er): QueryBuilder {

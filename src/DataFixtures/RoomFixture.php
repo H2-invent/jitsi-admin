@@ -22,7 +22,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class RoomFixture extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
 
         // create a user

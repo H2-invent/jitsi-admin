@@ -27,7 +27,7 @@ class ParticipantsSingleControllerTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(4, $room->getUser()->count());
         self::assertResponseStatusCodeSame(200);
-        assertEquals('{"invalidMember":[]}', $client->getResponse()->getContent());
+        assertEquals('{"invalidMember":[],"validMember":["test@local4.de"]}', $client->getResponse()->getContent());
     }
     public function testEmptyInvite(): void
     {
@@ -86,7 +86,7 @@ class ParticipantsSingleControllerTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, $room->getUser()->count());
         self::assertResponseStatusCodeSame(200);
-        assertEquals('{"invalidMember":["test@local4.de"]}', $client->getResponse()->getContent());
+        assertEquals('{"invalidMember":["test@local4.de"],"validMember":[]}', $client->getResponse()->getContent());
     }
 
 }

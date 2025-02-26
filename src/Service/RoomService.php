@@ -173,7 +173,10 @@ class RoomService
             ],
 
         ];
-
+        if ($userName === 'Meetling' && $server->isLiveKitServer()){
+           $payload['context']['user']['name'] = '';
+        }
+        dump($payload);
         if ($server->isLiveKitServer()) {
             try {
                 $encSecret = $this->generateEncryptedSecret($server);

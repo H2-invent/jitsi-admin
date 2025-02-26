@@ -22,15 +22,28 @@ class CalendlyTokenType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('calendly_token',TextareaType::class, ['attr' => ['placeholder' => 'label.calendlyToken'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-        ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);
-        ;
+            ->add(
+                'calendlyServer',
+                EntityType::class,
+                [
+                    'choice_label' => 'serverName',
+                    'class' => Server::class,
+                    'choices' => $options['server'],
+                    'label' => 'label.calendlyServer',
+                    'translation_domain' => 'form',
+                    'multiple' => false,
+                    'required' => true,
+                ]
+            )
+            ->add('calendly_token', TextareaType::class, ['attr' => ['placeholder' => 'label.calendlyToken'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
+            ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'server'=>[]
         ]);
     }
 }

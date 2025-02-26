@@ -289,6 +289,19 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findRoomsForRoomInGivenMinutes(Server $server, $minutes = 0)
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        return $qb->leftJoin('r.server', 'server')
+            ->andWhere('server = :server')
+            ->andWhere('r.start BETWEEN :now AND :future')
+            ->setParameter('server', $server)
+            ->setParameter('now', new \DateTime())
+            ->setParameter('future', new \DateTime("+$minutes minutes"))
+            ->getQuery()
+            ->getResult();
+    }
 
     public function findRoomsnotInPast()
     {
