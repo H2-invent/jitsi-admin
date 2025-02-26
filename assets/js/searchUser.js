@@ -63,7 +63,7 @@ const searchUSer = ($url, $search) => {
 
                 const $user = data.user;
                 if ($user.length > 0) {
-                    $target.insertAdjacentHTML('beforeend', '<b>Kontakte</b>');
+                    $target.insertAdjacentHTML('beforeend', '<b><i class="fa fa-user"></i> </b>');
                 }
 
                 // Füge Benutzer hinzu
@@ -87,7 +87,7 @@ const searchUSer = ($url, $search) => {
                 }
                 const $group = data.group;
                 if ($group.length > 0) {
-                    $target.insertAdjacentHTML('beforeend', '<b>Gruppen</b>');
+                    $target.insertAdjacentHTML('beforeend', '<b><i class="fa fa-users"></i><b>');
                 }
 
                 // Füge Gruppen hinzu

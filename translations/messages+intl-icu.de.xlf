@@ -2044,7 +2044,7 @@
       </trans-unit>
       <trans-unit id="dHLCFve" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
         <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
-        <target><![CDATA[__Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
+        <target><![CDATA[Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
       </trans-unit>
       <trans-unit id="z5PYLSd" resname="terms.haeder">
         <source>terms.haeder</source>
@@ -2423,8 +2423,12 @@
         <target>Wie binde ich Calendly ein?</target>
       </trans-unit>
       <trans-unit id="iOianqA" resname="lobby.notVerifiedShort">
-        <source>Nicht verifiziert</source>
+        <source>lobby.notVerifiedShort</source>
         <target>Nicht verifiziert</target>
+      </trans-unit>
+      <trans-unit id="p3mIz7q" resname="Mehrere E-Mail-Adressen auf einmal eingeben">
+        <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
+        <target>Mehrere E-Mail-Adressen auf einmal eingeben</target>
       </trans-unit>
     </body>
   </file>
