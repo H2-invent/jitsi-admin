@@ -7,7 +7,7 @@
 # To get a newer version, you will need to update the SHA.
 # You can also reference a tag or branch, but the action may change without warning.
 
-name: Publish Docker image
+name: Build and Publish Docker Image
 
 on:
   workflow_call:
@@ -31,6 +31,14 @@ on:
         description: 'the version/tag of the Dockerfile image'
         required: true
         type: string
+      tags:
+        description: 'the tags of the Dockerfile image'
+        required: true
+        type: string
+      registry:
+        description: 'Login Registry'
+        default: 'registry-1.docker.io'
+        type: string
     secrets:
       dockerhub_username:
         required: true
@@ -38,8 +46,8 @@ on:
         required: true
 
 jobs:
-  push_to_registry:
-    name: Push Docker image to Docker Hub
+  build_and_push:
+    name: Build and Publish Docker Image
     runs-on: ubuntu-latest
     steps:
       - name: Get current Username
@@ -52,6 +60,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
+          registry: ${{ inputs.registry }}
           username: ${{ secrets.dockerhub_username }}
           password: ${{ secrets.dockerhub_password }}
 
@@ -61,4 +70,5 @@ jobs:
           context: ${{ inputs.directory }}
           file: ${{ inputs.dockerfile_path }}
           push: true
-          tags: ${{ inputs.version }}
+          build-args: VERSION=${{ inputs.version }}
+          tags: ${{ inputs.tags }}
