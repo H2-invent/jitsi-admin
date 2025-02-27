@@ -101,7 +101,9 @@
             {% endif %}
         {% endif %}
         {% block extension %}{% endblock %}
+        {% if room.server.liveKitServer %}
         {% include 'conference_modules/__toggleFilmstripe.html.twig' %}
+        {% endif %}
         {% if room.server.liveKitServer %}
             {% include 'conference_modules/__livekit_recording.html.twig' %}
         {% endif %}
