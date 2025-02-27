@@ -173,6 +173,9 @@ class RoomService
             ],
 
         ];
+        if ($userName === 'Meetling' && $server->isLiveKitServer()){
+           $payload['context']['user']['name'] = '';
+        }
 
         if ($server->isLiveKitServer()) {
             try {

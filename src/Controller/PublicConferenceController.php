@@ -75,6 +75,7 @@ class PublicConferenceController extends JitsiAdminController
     public function startMeeting($confId, Request $request): Response
     {
         $room = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
+        $this->server = $room->getServer();
         $firstUser = $this->roomStatusFrontendService->isRoomCreated($room);
         $name = $this->requestStack->getSession()->get('myName')?:'Meetling';
         $response = $this->render(

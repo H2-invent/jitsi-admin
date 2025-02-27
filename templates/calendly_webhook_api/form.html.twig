@@ -8,10 +8,16 @@
         <div class="modal-body">
             {{ form_start(form) }}
             <div class="row">
+
                 {% if form.calendly_token is defined %}
                     <div class="col-12 mb-3">
                         {{ form_widget(form.calendly_token) }}
                         <a href="https://meetling.de/tutorials/calendly">{{ 'calendly.tutorial.help'|trans }}</a>
+                    </div>
+                {% endif %}
+                {% if form.calendlyServer is defined %}
+                    <div class="col-12 mb-3">
+                        {{ form_row(form.calendlyServer) }}
                     </div>
                 {% endif %}
             </div>

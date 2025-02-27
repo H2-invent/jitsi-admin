@@ -169,6 +169,8 @@ label:
   livekitMiddlewareUrl: LivekitミドルウェアのURL
   disableSelfSubscriptionDoubleOptIn: 自分で登録する場合は、確認メールを送信しないでください
   calendlyToken: Calendly 認証トークン
+  enableRecording: Recording aktiveren
+  calendlyServer: Konferenzserver für Calendly-Konferenzen
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

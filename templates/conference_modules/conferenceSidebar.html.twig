@@ -1,10 +1,26 @@
+
+{% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
+
+{% if server is defined and  server is not null and server.logoUrl is not null %}
+    {% set logo_small =  server.logoUrl %}
+{% else %}
+    {% if theme == false %}
+        {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
+    {% else %}
+        {% set logo_small = theme.logo %}
+    {% endif %}
+{% endif %}
+
+
 <div class="conference-sidebar">
     {% if user is defined and user is not null %}
         <script>
             var schowNameInWidgets = "{{ user|nameOfUserNoSymbol }}";
         </script>
     {% endif %}
-
+<div class="logo">
+    <img src="{{ logo_small }}">
+</div>
 
     <div class="wrapperIcons" id="wrapperIcons">
 
@@ -85,7 +101,9 @@
             {% endif %}
         {% endif %}
         {% block extension %}{% endblock %}
+        {% if not room.server.liveKitServer %}
         {% include 'conference_modules/__toggleFilmstripe.html.twig' %}
+        {% endif %}
         {% if room.server.liveKitServer %}
             {% include 'conference_modules/__livekit_recording.html.twig' %}
         {% endif %}

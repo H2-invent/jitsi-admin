@@ -8,7 +8,7 @@
                 aria-expanded="false"
                 aria-controls="bulkInvite"
         >
-            Mehrere E-Mail-Adressen auf einmal eingeben
+            {{ 'Mehrere E-Mail-Adressen auf einmal eingeben'|trans }}
         </button>
 
         <div class="collapse mt-3" id="bulkInvite">
@@ -33,14 +33,13 @@
 
 </div>
 
-</div>
 
 <div class="modal-footer">
     <div class="row">
         <div class="col-lg-12 mt-3 d-flex align-items-start justify-content-end">
 
-            <a class="btn btn-outline-danger" href="{{ path('dashboard') }}">
-                {{ 'Abbrechen' | trans }}
+            <a class="btn btn-outline-danger">
+                {{ 'Schließen' | trans }}
 
             </a>
 

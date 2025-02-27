@@ -1,7 +1,8 @@
 import $ from "jquery";
 import autosize from "autosize";
 import {Collapse, initMDB ,Dropdown,Input, Tooltip} from 'mdb-ui-kit';
-import {initDropdown, initTooltip, reloadPartial} from "./confirmation"; // lib
+import {initDropdown, initTooltip, reloadPartial} from "./confirmation";
+import {setSnackbar} from "./myToastr"; // lib
 
 
 
@@ -62,7 +63,7 @@ const searchUSer = ($url, $search) => {
 
                 const $user = data.user;
                 if ($user.length > 0) {
-                    $target.insertAdjacentHTML('beforeend', '<b>Kontakte</b>');
+                    $target.insertAdjacentHTML('beforeend', '<b><i class="fa fa-user"></i> </b>');
                 }
 
                 // Füge Benutzer hinzu
@@ -86,7 +87,7 @@ const searchUSer = ($url, $search) => {
                 }
                 const $group = data.group;
                 if ($group.length > 0) {
-                    $target.insertAdjacentHTML('beforeend', '<b>Gruppen</b>');
+                    $target.insertAdjacentHTML('beforeend', '<b><i class="fa fa-users"></i><b>');
                 }
 
                 // Füge Gruppen hinzu
@@ -141,6 +142,11 @@ const sendData = (url, data) => {
             const reloadUrl = $searchUserField.getAttribute('data-reload-url');
 
             reloadPartList(reloadUrl);
+            if (result['validMember']){
+                for (const email of result['validMember']){
+                    setSnackbar(email,'','success',false,',10000');
+                }
+            }
         })
         .catch(error => {
             console.error('Fehler beim Senden der Daten:', error);

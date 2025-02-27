@@ -25,31 +25,9 @@
 </head>
 <body style="margin: 0"
       class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-    blackMode{% endif %} joinPage">
+    blackMode{% endif %} joinPage d-flex">
 
-{% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
 
-{% if server is defined and  server is not null and server.logoUrl is not null %}
-    {% set logo_small =  server.logoUrl %}
-{% else %}
-    {% if theme == false %}
-        {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
-    {% else %}
-        {% set logo_small = theme.logo %}
-    {% endif %}
-{% endif %}
-
-{% set logo_large = httpsAbolutUrl(asset('logo.png')) %}
-
-{% if server is defined and  server is not null and server.logoUrl is not null %}
-    {% set logo_large =  server.logoUrl %}
-{% else %}
-    {% if theme == false %}
-        {% set logo_large = httpsAbolutUrl(asset('logo_small.png')) %}
-    {% else %}
-        {% set logo_large = theme.logo %}
-    {% endif %}
-{% endif %}
 {% block sidebar %}
     {% embed('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
         {% block extension %}
@@ -71,7 +49,7 @@
            style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
     {% endif %}
     <div class="w-100" id="jitsiWindow">
-        {% include('conference_modules/conference_logo.html.twig') with {'logo_small':logo_small,'logo_large':logo_large} %}
+
     </div>
 </div>
 
