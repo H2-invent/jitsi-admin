@@ -37,7 +37,6 @@ on:
         type: string
       registry:
         description: 'Login Registry'
-        default: 'registry-1.docker.io'
         type: string
     secrets:
       dockerhub_username:
