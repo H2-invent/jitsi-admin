@@ -26,7 +26,7 @@ jobs:
           major_pattern: "(MAJOR)"
           minor_pattern: "(MINOR)"
           change_path: .
-          version_format: "${major}.${minor}.${patch}"
+          version_format: "${major}.${minor}.${patch}-${increment}"
 
   artifact:
     uses: ./.github/workflows/task-artifact.yml
@@ -55,8 +55,8 @@ jobs:
       reponame: 'h2invent/jitsi-admin-main'
       dockerfile_path: './Dockerfile'
       directory: '.'
-      version: "dev-ci-unstable-${{github.run_number}}"
-      tags: "h2invent/jitsi-admin-main:dev-ci-unstable-${{github.run_number}}"
+      version: ${{ needs.version.outputs.version }}
+      tags: h2invent/jitsi-admin-main:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -70,8 +70,8 @@ jobs:
       reponame: 'h2invent/jitsi-admin-websocket'
       dockerfile_path: './nodejs/Dockerfile'
       directory: './nodejs'
-      version: "dev-ci-unstable-${{github.run_number}}"
-      tags: "h2invent/jitsi-admin-websocket:dev-ci-unstable-${{github.run_number}}"
+      version: ${{ needs.version.outputs.version }}
+      tags: h2invent/jitsi-admin-websocket:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -87,7 +87,7 @@ jobs:
       dockerfile_path: './Dockerfile-prod'
       directory: '.'
       version: ${{ needs.version.outputs.version }}
-      tags: git.h2-invent.com/meetling/application:dev-ci-unstable-${{github.run_number}}
+      tags: git.h2-invent.com/meetling/application:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       dockerhub_username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
@@ -103,7 +103,7 @@ jobs:
       dockerfile_path: './nodejs/Dockerfile-prod'
       directory: './nodejs'
       version: ${{ needs.version.outputs.version }}
-      tags: git.h2-invent.com/meetling/websocket:dev-ci-unstable-${{github.run_number}}
+      tags: git.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       dockerhub_username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
