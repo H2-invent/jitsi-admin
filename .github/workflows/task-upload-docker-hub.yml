@@ -73,4 +73,5 @@ jobs:
           file: ${{ inputs.dockerfile_path }}
           push: true
           build-args: VERSION=${{ inputs.version }}
+          platforms: linux/amd64
           tags: ${{ inputs.tags }}
