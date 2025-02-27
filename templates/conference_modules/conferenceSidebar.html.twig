@@ -101,7 +101,7 @@
             {% endif %}
         {% endif %}
         {% block extension %}{% endblock %}
-        {% if room.server.liveKitServer %}
+        {% if not room.server.liveKitServer %}
         {% include 'conference_modules/__toggleFilmstripe.html.twig' %}
         {% endif %}
         {% if room.server.liveKitServer %}
