@@ -121,7 +121,7 @@
 
     </div>
 
-    <div class="w-100" id="jitsiWindow">
+    <div class="w-100  d-flex d-none" id="jitsiWindow">
         {% block sidebar %}
             {% embed('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
                 {% block extension %}
