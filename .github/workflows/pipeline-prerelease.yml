@@ -55,7 +55,8 @@ jobs:
       reponame: 'h2invent/jitsi-admin-main'
       dockerfile_path: './Dockerfile'
       directory: '.'
-      version: "h2invent/jitsi-admin-main:dev-ci-unstable-${{github.run_number}}"
+      version: "dev-ci-unstable-${{github.run_number}}"
+      tags: "h2invent/jitsi-admin-main:dev-ci-unstable-${{github.run_number}}"
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -69,7 +70,8 @@ jobs:
       reponame: 'h2invent/jitsi-admin-websocket'
       dockerfile_path: './nodejs/Dockerfile'
       directory: './nodejs'
-      version: "h2invent/jitsi-admin-websocket:dev-ci-unstable-${{github.run_number}}"
+      version: "dev-ci-unstable-${{github.run_number}}"
+      tags: "h2invent/jitsi-admin-websocket:dev-ci-unstable-${{github.run_number}}"
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
