@@ -46,7 +46,7 @@ jobs:
       version: ${{ needs.version.outputs.version }}
       prerelease: true
 
-  upload_dockerhub_main:
+  dockerhub_application:
     needs:
       - version
       - test
@@ -61,7 +61,7 @@ jobs:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
 
-  upload_dockerhub_websocket:
+  dockerhub_websocket:
     needs:
       - version
       - test
@@ -75,3 +75,35 @@ jobs:
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+
+  docker_prod_application:
+    needs:
+      - version
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      reponame: 'git.h2-invent.com/meetling/application'
+      registry: git.h2-invent.com
+      dockerfile_path: './Dockerfile-prod'
+      directory: '.'
+      version: ${{ needs.version.outputs.version }}
+      tags: git.h2-invent.com/meetling/application:dev-ci-unstable-${{github.run_number}}
+    secrets:
+      dockerhub_password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      dockerhub_username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+
+  docker_prod_websocket:
+    needs:
+      - version
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      reponame: 'git.h2-invent.com/meetling/websocket'
+      registry: git.h2-invent.com
+      dockerfile_path: './nodejs/Dockerfile-prod'
+      directory: './nodejs'
+      version: ${{ needs.version.outputs.version }}
+      tags: git.h2-invent.com/meetling/websocket:dev-ci-unstable-${{github.run_number}}
+    secrets:
+      dockerhub_password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      dockerhub_username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
