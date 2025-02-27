@@ -169,6 +169,8 @@ label:
   livekitMiddlewareUrl: Adres URL oprogramowania Livekitmiddleware
   disableSelfSubscriptionDoubleOptIn: Jeśli rejestrujesz się sam, nie wysyłaj podwójnego e-maila ze zgodą
   calendlyToken: Calendly Oauth Token
+  enableRecording: Recording aktiveren
+  calendlyServer: Konferenzserver für Calendly-Konferenzen
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
