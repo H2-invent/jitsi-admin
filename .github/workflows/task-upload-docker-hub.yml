@@ -47,7 +47,7 @@ on:
 
 jobs:
   build_and_push:
-    name: Build and Publish Docker Image
+    name: Build and Publish
     runs-on: ubuntu-latest
     steps:
       - name: Get current Username
