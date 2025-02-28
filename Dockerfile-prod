@@ -34,8 +34,7 @@ RUN tar \
     --exclude='./var/log' \
     -zcvf /artifact.tgz .
 
-
-FROM git.h2-invent.com/public-system-design/alpine-php8-webserver:3.20.6
+FROM git.h2-invent.com/public-system-design/alpine-php8-cron-webserver:3.20.8
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
@@ -51,24 +50,13 @@ LABEL version="${VERSION}" \
     org.opencontainers.image.url="https://jitsi-admin.de"
 
 USER root
+
 RUN apk --no-cache add \
     php83-ldap \
     php83-bcmath \
     && rm -rf /var/cache/apk/*
 
 RUN echo "Europe/Berlin" > /etc/timezone
-
-RUN wget https://github.com/aptible/supercronic/releases/download/v0.2.33/supercronic-linux-amd64 -O /supercronic \
-    && chmod +x /supercronic
-
-RUN wget https://git.h2-invent.com/Public-System-Design/Public-Helperscripts/raw/branch/main/distributed_cron.sh -O /distributed_cron.sh \
-    && chmod +x /distributed_cron.sh
-
-RUN mkdir /etc/service/cron \
-    && echo "#!/bin/sh" > /etc/service/cron/run \
-    && echo "exec 2>&1 /supercronic /var/crontab" >> /etc/service/cron/run \
-    && chown -R nobody:nobody /etc/service/cron \
-    && chmod -R +x /etc/service/cron
 
 RUN mkdir /etc/service/symfony_messenger \
     && echo "#!/bin/sh -e" > /etc/service/symfony_messenger/run \
@@ -79,7 +67,7 @@ RUN mkdir /etc/service/symfony_messenger \
 RUN echo "# Docker Cron Jobs" > /var/crontab \
     && echo "SHELL=/bin/sh" >> /var/crontab \
     && echo "TZ=Europe/Berlin" >> /var/crontab \
-    && echo "*/10 * * * * /bin/sh /distributed_cron.sh '/var/www/html/data/cron_lock' 'php /var/www/html/bin/console cron:run'" >> /var/crontab \
+    && echo "*/10 * * * * /bin/sh /distributed_cron.sh '/var/www/html/data/cron_lock' 'sleep 5' 'php /var/www/html/bin/console cron:run'" >> /var/crontab \
     && echo "" >> /var/crontab \
     && chown nobody:nobody /var/crontab
 
