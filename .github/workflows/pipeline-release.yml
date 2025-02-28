@@ -32,9 +32,14 @@ jobs:
   artifact:
     uses: ./.github/workflows/task-artifact.yml
 
-  release:
+  test:
+    uses: ./.github/workflows/task-test.yml
     needs:
       - artifact
+
+  release:
+    needs:
+      - test
       - version
     uses: ./.github/workflows/task-release.yml
     with:
@@ -44,6 +49,7 @@ jobs:
   upload_dockerhub_main:
     needs:
       - version
+      - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'h2invent/jitsi-admin-main'
@@ -58,6 +64,7 @@ jobs:
   upload_dockerhub_websocket:
     needs:
       - version
+      - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'h2invent/jitsi-admin-websocket'
@@ -72,6 +79,7 @@ jobs:
   docker_build_application_prod:
     needs:
       - version
+      - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'git.h2-invent.com/meetling/application'
@@ -87,6 +95,7 @@ jobs:
   docker_build_websocket_prod:
     needs:
       - version
+      - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       reponame: 'git.h2-invent.com/meetling/websocket'
