@@ -169,7 +169,7 @@ label:
   livekitMiddlewareUrl: Livekitmiddleware-Url
   disableSelfSubscriptionDoubleOptIn: Ne pas envoyer d'e-mail double opt-in en cas d'auto-inscription
   calendlyToken: Token Oauth Calendly
-  enableRecording: Recording aktiveren
+  enableRecording: Activer l'enregistrement
   calendlyServer: Konferenzserver für Calendly-Konferenzen
 choice:
   tls: STARTTLS/TLS
