@@ -55,7 +55,7 @@ function initStartIframe() {
 
 
 
-function createIframe(url, title, startMaximized = true, borderColor = '') {
+function createIframe(url, title, startMaximized = true, borderColor = '',roomUid = null) {
 
     width = window.innerWidth * 0.75;
     height = window.innerHeight * 0.75;
@@ -71,7 +71,7 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
         existingMultiframe.moveInForeground();
 
     }else {
-        const newInstance = new multiframe(url,title,startMaximized,borderColor,counter,counter,height,width,multiframes.length+zIndexOffset);
+        const newInstance = new multiframe(url,title,startMaximized,borderColor,counter,counter,height,width,multiframes.length+zIndexOffset,roomUid);
         newInstance.addEventListener('remove', () => {
             removeMultiframe(newInstance);
         });
@@ -85,7 +85,7 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
            zIndex++;
         });
         newInstance.addEventListener('createNewMultiframe', (data) => {
-          createIframe(data.url,data.title,data.maximize)
+          createIframe(data.url,data.title,data.maximize,'',data.roomUid)
         });
         multiframes.push(newInstance);
 

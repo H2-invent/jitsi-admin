@@ -54,10 +54,12 @@
                                     or roomPermissions(app.user,room).lobbyModerator == true) %}
                                     data-selfurl="{{ createWhitebophirLink(room,true) }}"
                                     data-room="whiteboard/{{ room.uidReal }}"
+
                                     data-url="{{ createWhitebophirLink(room,false) }}"
                                 {% else %}
                                     data-selfurl="{{ createWhitebophirLink(room,false) }}"
                                 {% endif %}
+                             data-roomUid="{{ room.uid }}"
                         >
                             <i class="fa-solid fa-chalkboard"></i>
 
@@ -70,6 +72,22 @@
             {% endif %}
         {% endif %}
 
+        {% if getApplicationProperties('LAF_LOOKYLOOKY_FUNCTION') == 1 %}
+
+                    <div class="wrapper">
+                        <div class="startExternalApp  startLookyLooky conference-icon d-none"
+                                    data-selfurl="{{ getApplicationProperties('LOOKYLOOKY_URL') }}"
+                             data-roomUid="{{ room.uid }}"
+                        >
+                            <i class="fa-solid fa-file-pdf"></i>
+
+                        </div>
+                        <div class="wrapper-helper">
+                            {{ 'options.whiteboard'|trans }}
+                        </div>
+                    </div>
+
+        {% endif %}
         {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
             {% if name is not defined or name is null %}
                 {% set name = 'Meetling' %}
@@ -90,6 +108,7 @@
                                 {% else %}
                                     data-selfurl="{{ createEtherpadLink(room,user) }}"
                                 {% endif %}
+                             data-roomUid="{{ room.uid }}"
                         >
                             <i class="fa-solid fa-clipboard"></i>
                         </div>
