@@ -83,6 +83,7 @@ const searchUSer = ($url, $search) => {
                         const dataVal = JSON.parse(userElement.getAttribute('data-val'));
                         sendData(apiUrl, dataVal); // Sendet die Daten für Benutzer
                         event.currentTarget.remove();
+                        document.getElementById('searchUser').value = '';
                     });
                 }
                 const $group = data.group;
@@ -107,6 +108,7 @@ const searchUSer = ($url, $search) => {
                         const dataVal = JSON.parse(linkElement.getAttribute('data-val'));
                         sendData(apiUrl, dataVal); // Sendet die Daten für Gruppen
                         event.currentTarget.remove();
+                        document.getElementById('searchUser').value = '';
                     });
                 }
 
