@@ -3,7 +3,7 @@ import autosize from "autosize";
 import {Collapse, initMDB ,Dropdown,Input, Tooltip} from 'mdb-ui-kit';
 import {initDropdown, initTooltip, reloadPartial} from "./confirmation";
 import {setSnackbar} from "./myToastr"; // lib
-
+import {trans,EMAIL_SEND_INVITATION} from '../translator.js';
 
 
 let timer;              // Timer identifier
@@ -146,7 +146,8 @@ const sendData = (url, data) => {
             reloadPartList(reloadUrl);
             if (result['validMember']){
                 for (const email of result['validMember']){
-                    setSnackbar(email,'','success',false,',10000');
+                    const snackbar = trans(EMAIL_SEND_INVITATION, {email: email},'ux_message');
+                    setSnackbar(snackbar,'','success',false,'0x00',5000);
                 }
             }
         })

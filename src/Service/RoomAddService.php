@@ -78,7 +78,7 @@ class RoomAddService
         return $falseEmail;
     }
 
-    public function createSingleParticipantAndAddtoRoom($userId, ?User $inviter, Rooms $room)
+    public function createSingleParticipantAndAddtoRoom($userId, ?User $inviter, Rooms $room):?User
     {
         $invalidEmail = [];
         $user = $this->createUserFromUserUid($userId,$invalidEmail);
@@ -88,8 +88,9 @@ class RoomAddService
             } else {
                 throw new \Exception('User can not be created');
             }
+
         }
-        return  true;
+        return  $user;
     }
 
     /**
