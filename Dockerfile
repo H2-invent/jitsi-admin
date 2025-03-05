@@ -37,4 +37,6 @@ RUN chown -R docker:docker public/uploads/
 RUN chown -R docker:docker public/theme/
 RUN chown -R docker:docker theme/
 RUN chown -R  docker:docker data/
+RUN php cache:clear
+RUN php cache:warmup
 USER docker
