@@ -9,13 +9,14 @@ ENV COMPOSER_MEMORY_LIMIT=-1
 COPY . /var/www/html
 
 USER root
+
 RUN composer install --no-scripts
-RUN php bin/console cache:clear
-RUN php bin/console cache:warmup
+
+RUN php bin/console cache:clear\
+    && php bin/console cache:warmup
+
 RUN npm install \
     && npm run build
-
-
 
 RUN sed -i "s/^laF_version=.*/laF_version=${VERSION}/" .env
 
