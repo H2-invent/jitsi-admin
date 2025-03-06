@@ -18,7 +18,7 @@ COPY . /var/www/html
 RUN npm install
 USER docker
 RUN composer install --no-scripts
-USER ROOT
+USER root
 #do npm build
 RUN mkdir var
 RUN chmod -R 777 var/
