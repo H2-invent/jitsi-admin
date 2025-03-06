@@ -2047,7 +2047,7 @@
       </trans-unit>
       <trans-unit id="zFEiJq4" resname="deputy.fromLdap.disabled">
         <source>deputy.fromLdap.disabled</source>
-        <target state="translated">Is assigend to you as representative</target>
+        <target state="translated">Is assigned to you as representative</target>
       </trans-unit>
       <trans-unit id="MmfFT5o" resname="deputy.help.ldap">
         <source>deputy.help.ldap</source>
@@ -2343,7 +2343,7 @@
       </trans-unit>
       <trans-unit id="SH.E5Cd" resname="recording.startSpeaker">
         <source>recording.startSpeaker</source>
-        <target state="needs-translation">Sprecher Zentral </target>
+        <target state="translated">Central speaker </target>
       </trans-unit>
       <trans-unit id="yhh1FGG" resname="recording.startGrid">
         <source>recording.startGrid</source>
@@ -2407,7 +2407,7 @@
       </trans-unit>
       <trans-unit id="iOianqA" resname="lobby.notVerifiedShort">
         <source>lobby.notVerifiedShort</source>
-        <target state="needs-translation">Nicht verifiziert</target>
+        <target state="translated">Not verified</target>
       </trans-unit>
       <trans-unit id="p3mIz7q" resname="Mehrere E-Mail-Adressen auf einmal eingeben">
         <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
