@@ -154,7 +154,7 @@ label:
   go: Allons-y!
   moderator: Sélectionner un organisateur
   disallowFirefox: Firefox est désactivé sur le serveur Jitsi-Meet
-  enforceE2e: Activer la fonction de sécurité « Encryption de bout en bout » 
+  enforceE2e: Activer la fonction de sécurité « Encryption de bout en bout »
   allowIp: IPs ou plage d'IPs autorisées à se joindre à la conférence
   maxUser: Nombre maximum de participants
   jitsiEventSyncUrl: URL des Jitsi-Event-Sync Relais
@@ -170,7 +170,7 @@ label:
   disableSelfSubscriptionDoubleOptIn: Ne pas envoyer d'e-mail double opt-in en cas d'auto-inscription
   calendlyToken: Token Oauth Calendly
   enableRecording: Activer l'enregistrement
-  calendlyServer: Konferenzserver für Calendly-Konferenzen
+  calendlyServer: Serveur de conférence pour les conférences Calendly
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
