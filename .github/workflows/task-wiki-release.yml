@@ -30,7 +30,7 @@ jobs:
       - name: Update Content from wiki
         run: |
           cd wiki
-          echo '[
+          cat <<EOF > Release-Notes/Release_Note_${{ inputs.version }}.json
             {
               "text": "A new Release of Jitsi Admin has been installed.<br>
                 Checkout more information about this release in the 
@@ -41,7 +41,8 @@ jobs:
               "type": "info",
               "identifier": "${{ inputs.version }}"
             }
-          ]' > Release-Notes/Release_Note_${{ inputs.version }}.json
+          ]
+          EOF
           wget -O Release-Notes/Release_Note_${{ inputs.version }}.md \
           https://raw.githubusercontent.com/${{ inputs.repo }}/refs/tags/${{ inputs.version }}/RELEASE_NOTE.md
           git config user.name 'H2 invent Release Bot'
