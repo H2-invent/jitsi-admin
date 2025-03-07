@@ -17,6 +17,5 @@ jobs:
         uses: Zomzog/changelog-checker@v1.2.0
         with:
           fileName: RELEASE_NOTE.md
-          noChangelogLabel: my custom label # default `no changelog`
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
