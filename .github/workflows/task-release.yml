@@ -54,3 +54,8 @@ jobs:
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
           artifactContentType: application/zip
           bodyFile: RELEASE_NOTE.md
+
+  wiki:
+    uses: ./.github/workflows/task-wiki-release.yml
+    with:
+      version: ${{ inputs.version }}
