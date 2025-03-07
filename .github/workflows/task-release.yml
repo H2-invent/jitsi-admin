@@ -57,5 +57,7 @@ jobs:
 
   wiki:
     uses: ./.github/workflows/task-wiki-release.yml
+    needs:
+      - release
     with:
       version: ${{ inputs.version }}
