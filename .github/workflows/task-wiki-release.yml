@@ -13,9 +13,7 @@ on:
         type: string
     secrets:
       token:
-        description: 'release version'
-        default: true
-        type: string
+        required: true
 
 jobs:
   publish_release_notes:
