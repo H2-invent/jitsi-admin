@@ -1,16 +1,15 @@
-name: Wiki
+name: Release Note
 
 on:
   workflow_call:
     inputs:
       version:
         description: 'release version'
-        default: true
         type: string
 
 jobs:
   publish_release_notes:
-    name: Publish Release Notes to Wiki
+    name: Publish to Wiki
     runs-on: ubuntu-latest
     steps:
       - name: Checkout wiki code
