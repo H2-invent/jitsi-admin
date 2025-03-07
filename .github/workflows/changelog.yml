@@ -13,9 +13,9 @@ jobs:
       - name: Update Repository
         uses: actions/checkout@v1
 
-      - name: Changelog check
-        uses: Zomzog/changelog-checker@v1.2.0
+      - name: Get Changelog Entry
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
         with:
-          fileName: RELEASE_NOTE.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          validation_level: error
+          path: ./RELEASE_NOTE.md
