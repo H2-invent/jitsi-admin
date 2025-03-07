@@ -6,10 +6,7 @@ jobs:
   wiki:
     uses: ./.github/workflows/task-wiki-release.yml
     with:
-      version: 1.2.8
-      repo: h2-invent/jitsi-admin
-    secrets:
-      token: ${{ secrets.token }}
+      version: 0.0.0
 
   artifact:
     uses: ./.github/workflows/task-artifact.yml
