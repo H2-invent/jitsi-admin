@@ -46,6 +46,14 @@ jobs:
       version: ${{ needs.version.outputs.version }}
       prerelease: true
 
+  release_note:
+    uses: ./.github/workflows/task-wiki-release.yml
+    needs:
+      - release
+      - version
+    with:
+      version: ${{ needs.version.outputs.version }}
+
   dockerhub_application:
     needs:
       - version
