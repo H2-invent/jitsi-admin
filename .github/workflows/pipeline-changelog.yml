@@ -4,7 +4,10 @@ on:
     types: [assigned, opened, synchronize, reopened, labeled, unlabeled]
     branches:
       - master
-      - development
+      - feature/development
+      - unstable/*
+      - hotfix/*
+
 jobs:
   build:
     name: Check Actions
