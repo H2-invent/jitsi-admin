@@ -13,9 +13,6 @@ jobs:
       - name: Update Repository
         uses: actions/checkout@v1
 
-      - name: Changelog check
-        uses: Zomzog/changelog-checker@v1.2.0
+      - uses: tarides/changelog-check-action@v2
         with:
-          fileName: RELEASE_NOTE.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          changelog: RELEASE_NOTE.md
