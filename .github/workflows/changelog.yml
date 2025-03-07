@@ -13,9 +13,6 @@ jobs:
       - name: Update Repository
         uses: actions/checkout@v1
 
-      - name: Get Changelog Entry
-        id: changelog_reader
-        uses: mindsers/changelog-reader-action@v2
+      - uses: tarides/changelog-check-action@v2
         with:
-          validation_level: error
-          path: ./RELEASE_NOTE.md
+          changelog: RELEASE_NOTE.md
