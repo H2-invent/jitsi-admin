@@ -3,7 +3,7 @@ name: Test Pipeline
 on: [push]
 
 jobs:
-  wiki:
+  release_note:
     uses: ./.github/workflows/task-wiki-release.yml
     with:
       version: 1.0.0
