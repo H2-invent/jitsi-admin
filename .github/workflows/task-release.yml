@@ -55,7 +55,7 @@ jobs:
           artifactContentType: application/zip
           bodyFile: RELEASE_NOTE.md
 
-  wiki:
+  release_note:
     uses: ./.github/workflows/task-wiki-release.yml
     needs:
       - release
