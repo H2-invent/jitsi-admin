@@ -37,7 +37,7 @@ jobs:
           ]
           EOF
           wget -O Release-Notes/Release_Note_${{ inputs.version }}.md \
-          https://raw.githubusercontent.com/${{github.repository}}.wiki/refs/tags/${{ inputs.version }}/RELEASE_NOTE.md
+          https://raw.githubusercontent.com/${{github.repository}}/refs/tags/${{ inputs.version }}/RELEASE_NOTE.md
           git config user.name 'H2 invent Release Bot'
           git config user.email 'support@h2-invent.com'
           # Überprüfen, ob es Änderungen gibt
