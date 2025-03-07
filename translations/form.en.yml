@@ -169,8 +169,8 @@ label:
   livekitMiddlewareUrl: Livekitmiddleware-Url
   disableSelfSubscriptionDoubleOptIn: Do not send a double opt-in e-mail for self-registration
   calendlyToken: Calendly Oauth Token
-  enableRecording: Recording aktiveren
-  calendlyServer: Konferenzserver für Calendly-Konferenzen
+  enableRecording: Enable recording
+  calendlyServer: Conference server for Calendly conferences
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
