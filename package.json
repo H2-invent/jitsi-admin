@@ -1,9 +1,11 @@
 {
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.18.6",
+        "@symfony/ux-translator": "file:vendor/symfony/ux-translator/assets",
         "@symfony/webpack-encore": "^4.0.0",
         "chromedriver": "^105.0.0",
         "core-js": "^3.8.1",
+        "intl-messageformat": "^10.5.11",
         "nightwatch": "^2.3.4",
         "regenerator-runtime": "^0.13.7",
         "sass-loader": "^13.0.0",

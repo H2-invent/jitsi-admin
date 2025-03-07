@@ -2027,7 +2027,7 @@
       </trans-unit>
       <trans-unit id="dHLCFve" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
         <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
-        <target state="needs-translation"><![CDATA[Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
+        <target state="translated"><![CDATA[Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
       </trans-unit>
       <trans-unit id="z5PYLSd" resname="terms.haeder">
         <source>terms.haeder</source>
@@ -2047,7 +2047,7 @@
       </trans-unit>
       <trans-unit id="zFEiJq4" resname="deputy.fromLdap.disabled">
         <source>deputy.fromLdap.disabled</source>
-        <target state="translated">Is assigend to you as representative</target>
+        <target state="translated">Is assigned to you as representative</target>
       </trans-unit>
       <trans-unit id="MmfFT5o" resname="deputy.help.ldap">
         <source>deputy.help.ldap</source>
@@ -2343,7 +2343,7 @@
       </trans-unit>
       <trans-unit id="SH.E5Cd" resname="recording.startSpeaker">
         <source>recording.startSpeaker</source>
-        <target state="needs-translation">Sprecher Zentral </target>
+        <target state="translated">Central speaker </target>
       </trans-unit>
       <trans-unit id="yhh1FGG" resname="recording.startGrid">
         <source>recording.startGrid</source>
@@ -2407,11 +2407,11 @@
       </trans-unit>
       <trans-unit id="iOianqA" resname="lobby.notVerifiedShort">
         <source>lobby.notVerifiedShort</source>
-        <target state="needs-translation">Nicht verifiziert</target>
+        <target state="translated">Not verified</target>
       </trans-unit>
       <trans-unit id="p3mIz7q" resname="Mehrere E-Mail-Adressen auf einmal eingeben">
         <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
-        <target state="needs-translation">Mehrere E-Mail-Adressen auf einmal eingeben</target>
+        <target state="translated">Enter several e-mail addresses at once</target>
       </trans-unit>
     </body>
   </file>

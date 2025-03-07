@@ -64,9 +64,9 @@ function initDirectSend() {
 
         if (triggerElement) {
             e.preventDefault();
-            var url = e.target.href;
-            var target = e.target.dataset.target;
-            const targetUrl = e.target.dataset.url;
+            var url = triggerElement.href;
+            var target = triggerElement.dataset.target;
+            const targetUrl = triggerElement.dataset.url;
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
@@ -93,8 +93,8 @@ function initconfirmHref() {
 
         if (triggerElement) {
             e.preventDefault();
-            const url = e.target.href;
-            const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
+            const url = triggerElement.href;
+            const text = triggerElement.dataset.text || 'Wollen Sie die Aktion durchführen?';
 
             Swal.fire({
                 title: title,
@@ -123,8 +123,8 @@ function initconfirmLoadOpenPopUp() {
         if (triggerElement) {
 
             e.preventDefault();
-            const url = e.target.href;
-            const text = e.target.dataset.text || 'Wollen Sie die Aktion durchführen?';
+            const url = triggerElement.href;
+            const text = triggerElement.dataset.text || 'Wollen Sie die Aktion durchführen?';
 
             Swal.fire({
                 title: title,
