@@ -20,6 +20,9 @@ jobs:
     name: Publish Release Notes to Wiki
     runs-on: ubuntu-latest
     steps:
+      - name: Check changelog
+        uses: tarides/changelog-check-action@v2
+
       - name: Checkout wiki code
         uses: actions/checkout@v2
         with:
