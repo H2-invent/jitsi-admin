@@ -30,7 +30,7 @@ jobs:
       - name: Update Content from wiki
         run: |
           cd wiki
-          cat <<EOF > Release-Notes/Release_Note_${{ inputs.version }}.json
+          cat <<EOF > Release-Notes/notification_${{ inputs.version }}.json
             {
               "text": "A new Release of Jitsi Admin has been installed.<br>
                 Checkout more information about this release in the 
