@@ -1,10 +1,5 @@
 name: Wiki
 
-env:
-  GITHUB_TOKEN: ${{ secrets.token }}
-  USER_NAME: H2 invent Release Bot
-  USER_EMAIL: support@h2-invent.com
-
 on:
   workflow_call:
     inputs:
@@ -16,6 +11,10 @@ on:
         description: 'release version'
         default: true
         type: string
+      token:
+        description: 'release version'
+        default: true
+        type: string
 
 jobs:
   publish_release_notes:
@@ -24,12 +23,12 @@ jobs:
     steps:
       - name: Update Content from wiki
         run: |
-          git clone https://$USER_TOKEN@github.com/${{ inputs.repo }}.wiki.git
+          git clone https://github.com/${{ inputs.repo }}.wiki.git
           cd $REPO.wiki
           wget -O Release_Notes/Release_Note_${{ inputs.version }}.md \
           https://raw.githubusercontent.com/${{ inputs.repo }}/refs/tags/${{ inputs.version }}/RELEASE_NOTE.md
-          git config user.name $USER_NAME
-          git config user.email $USER_EMAIL
+          git config user.name 'H2 invent Release Bot'
+          git config user.email 'support@h2-invent.com'
           git add .
           git commit -m "Update Release Note ${{ inputs.version }} in Wiki" 
-          git push -f --set-upstream https://$USER_TOKEN@github.com/${{ inputs.repo }}.wiki.git master
+          git push -f --set-upstream https://${{ inputs.token }}@github.com/${{ inputs.repo }}.wiki.git master
