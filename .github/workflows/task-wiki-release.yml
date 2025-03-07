@@ -22,8 +22,9 @@ jobs:
     steps:
       - name: Update Content from wiki
         run: |
-          git clone https://${{ secrets.token }}@github.com/${{ inputs.repo }}.wiki.git
-          cd ${{ inputs.repo }}.wiki
+          mkdir wiki
+          cd wiki
+          git clone https://${{ secrets.token }}@github.com/${{ inputs.repo }}.wiki.git .
           wget -O Release_Notes/Release_Note_${{ inputs.version }}.md \
           https://raw.githubusercontent.com/${{ inputs.repo }}/refs/tags/${{ inputs.version }}/RELEASE_NOTE.md
           git config user.name 'H2 invent Release Bot'
