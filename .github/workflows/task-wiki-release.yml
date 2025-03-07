@@ -3,17 +3,10 @@ name: Wiki
 on:
   workflow_call:
     inputs:
-      repo:
-        description: 'Clone Repo'
-        default: true
-        type: string
       version:
         description: 'release version'
         default: true
         type: string
-    secrets:
-      token:
-        required: true
 
 jobs:
   publish_release_notes:
@@ -34,7 +27,7 @@ jobs:
             {
               "text": "A new Release of Jitsi Admin has been installed.<br>
                 Checkout more information about this release in the 
-                <a href='https://raw.githubusercontent.com/wiki/${{ inputs.repo }}/Release-Notes/Release_Note_${{ inputs.version }}.md'>
+                <a href='https://raw.githubusercontent.com/wiki/${{github.repository}}.wiki/Release-Notes/Release_Note_${{ inputs.version }}.md'>
                 Release Notes
                 </a>",
               "head": "New Release ${{ inputs.version }} installed",
@@ -44,7 +37,7 @@ jobs:
           ]
           EOF
           wget -O Release-Notes/Release_Note_${{ inputs.version }}.md \
-          https://raw.githubusercontent.com/${{ inputs.repo }}/refs/tags/${{ inputs.version }}/RELEASE_NOTE.md
+          https://raw.githubusercontent.com/${{github.repository}}.wiki/refs/tags/${{ inputs.version }}/RELEASE_NOTE.md
           git config user.name 'H2 invent Release Bot'
           git config user.email 'support@h2-invent.com'
           # Überprüfen, ob es Änderungen gibt
