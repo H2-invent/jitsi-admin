@@ -22,7 +22,9 @@ jobs:
     steps:
       - name: Check changelog
         uses: tarides/changelog-check-action@v2
-
+        with:
+          changelog: RELEASE_NOTE.md
+          
       - name: Checkout wiki code
         uses: actions/checkout@v2
         with:
