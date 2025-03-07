@@ -148,6 +148,37 @@ strong {
   height: 100vh;
   justify-content: center;
   background-color: $toolbarColor;
+  .sidebar-toggle{
+    display: none;
+  }
+  @media (max-width: $breakpointMobile)  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    transform: translateX(-100%);
+    transition: ease-in transform 0.2s;
+    .sidebar-toggle{
+      position: absolute;
+      top: 50%;
+      right: -30px;
+      display: flex;
+      width: 30px;
+      height: 30px;
+      align-items: center;
+      justify-content: center;
+      background-color: $toolbarColor;
+      color: white;
+      cursor: pointer;
+      &.show{
+        transform: rotate(180deg);
+      }
+    }
+    &.show{
+      transform: translateX(0)!important;
+      transition: ease-in transform 0.2s;
+    }
+  }
   .logo{
     padding-top: 8px;
     display: flex;

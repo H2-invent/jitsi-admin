@@ -131,6 +131,7 @@ function initLoadContent() {
                 })
                 .then(data => {
                     const modalElement = document.getElementById('loadContentModal');
+                    modalElement.innerHTML='';
                     modalElement.innerHTML = data;
 
                     // Überprüfe, ob das Modal geöffnet ist

@@ -12,7 +12,10 @@
 {% endif %}
 
 
-<div class="conference-sidebar">
+<div class="conference-sidebar" id="conferenceSidebar">
+    <div class="sidebar-toggle" id="sidebarToggleMobile">
+        <i class="fa fa-caret-right"></i>
+    </div>
     {% if user is defined and user is not null %}
         <script>
             var schowNameInWidgets = "{{ user|nameOfUserNoSymbol }}";

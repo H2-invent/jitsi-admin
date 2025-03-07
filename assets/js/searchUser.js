@@ -3,7 +3,7 @@ import autosize from "autosize";
 import {Collapse, initMDB ,Dropdown,Input, Tooltip} from 'mdb-ui-kit';
 import {initDropdown, initTooltip, reloadPartial} from "./confirmation";
 import {setSnackbar} from "./myToastr"; // lib
-
+import {trans,EMAIL_SEND_INVITATION} from '../translator.js';
 
 
 let timer;              // Timer identifier
@@ -83,6 +83,7 @@ const searchUSer = ($url, $search) => {
                         const dataVal = JSON.parse(userElement.getAttribute('data-val'));
                         sendData(apiUrl, dataVal); // Sendet die Daten für Benutzer
                         event.currentTarget.remove();
+                        document.getElementById('searchUser').value = '';
                     });
                 }
                 const $group = data.group;
@@ -107,6 +108,7 @@ const searchUSer = ($url, $search) => {
                         const dataVal = JSON.parse(linkElement.getAttribute('data-val'));
                         sendData(apiUrl, dataVal); // Sendet die Daten für Gruppen
                         event.currentTarget.remove();
+                        document.getElementById('searchUser').value = '';
                     });
                 }
 
@@ -144,7 +146,8 @@ const sendData = (url, data) => {
             reloadPartList(reloadUrl);
             if (result['validMember']){
                 for (const email of result['validMember']){
-                    setSnackbar(email,'','success',false,',10000');
+                    const snackbar = trans(EMAIL_SEND_INVITATION, {email: email},'ux_message');
+                    setSnackbar(snackbar,'','success',false,'0x00',5000);
                 }
             }
         })

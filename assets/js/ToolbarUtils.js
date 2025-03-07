@@ -10,11 +10,14 @@ class ToolbarUtils {
     content = document.getElementById('inviteButtonOpenRoomContent');
     inviteBtn = document.getElementById('inviteButtonOpenRoom');
     closeBtn = document.getElementById('inviteButtonOpenRoomClose');
+    sidebarToggleMObile = document.getElementById('sidebarToggleMobile');
+    sidebar = document.getElementById('conferenceSidebar');
     constructor() {
         this.sidebar.addEventListener('mouseover', () => {
             clearTimeout(this.sidebarTimeout);
         });
         this.inviteParticipantsToggle();
+        this.initToggleSidebarMobile()
     }
 
     sidebarAction() {
@@ -73,6 +76,12 @@ class ToolbarUtils {
     }
     hideInvitePane(){
         this.content.classList.remove('show');
+    }
+    initToggleSidebarMobile(){
+        this.sidebarToggleMObile.addEventListener('click',()=>{
+           this.sidebar.classList.toggle('show');
+           this.sidebarToggleMObile.classList.toggle('show');
+        })
     }
 
 }
