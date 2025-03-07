@@ -25,7 +25,7 @@ jobs:
           mkdir wiki
           cd wiki
           git clone https://${{ secrets.token }}@github.com/${{ inputs.repo }}.wiki.git .
-          wget -O Release_Notes/Release_Note_${{ inputs.version }}.md \
+          wget -O Release-Notes/Release_Note_${{ inputs.version }}.md \
           https://raw.githubusercontent.com/${{ inputs.repo }}/refs/tags/${{ inputs.version }}/RELEASE_NOTE.md
           git config user.name 'H2 invent Release Bot'
           git config user.email 'support@h2-invent.com'
