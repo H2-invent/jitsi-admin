@@ -31,4 +31,4 @@ jobs:
           git config user.email 'support@h2-invent.com'
           git add .
           git commit -m "Update Release Note ${{ inputs.version }} in Wiki" 
-          git push -f --set-upstream https://${{ secrets.token }}@github.com/${{ inputs.repo }}.wiki.git master
+          git push
