@@ -8,6 +8,7 @@ jobs:
     with:
       repo: h2-invent/jitsi-admin
       version: 1.2.8
+    secrets:
       token: ${{ secrets.token }}
 
   artifact:
