@@ -20,9 +20,14 @@ jobs:
     name: Publish Release Notes to Wiki
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout wiki code
+        uses: actions/checkout@v2
+        with:
+          repository: ${{github.repository}}.wiki
+          path: wiki
+
       - name: Update Content from wiki
         run: |
-          mkdir wiki
           cd wiki
           git clone https://${{ secrets.token }}@github.com/${{ inputs.repo }}.wiki.git .
           wget -O Release-Notes/Release_Note_${{ inputs.version }}.md \
