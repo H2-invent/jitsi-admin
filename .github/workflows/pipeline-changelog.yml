@@ -3,8 +3,8 @@ on:
   pull_request:
     types: [assigned, opened, synchronize, reopened, labeled, unlabeled]
     branches:
-      - main
-      - develop
+      - master
+      - development
 jobs:
   build:
     name: Check Actions
