@@ -2,19 +2,22 @@ import {initSocialIcons} from "./createSocialButtons";
 
 class ToolbarUtils {
 
-
     chatBtn = document.getElementById('externalChat');
     frame = document.getElementById('frame');
     sidebar = document.getElementById('wrapperIcons');
     sidebarTimeout = null;
     floatingTag = document.getElementById('tagContent')
-
-
+    content = document.getElementById('inviteButtonOpenRoomContent');
+    inviteBtn = document.getElementById('inviteButtonOpenRoom');
+    closeBtn = document.getElementById('inviteButtonOpenRoomClose');
+    sidebarToggleMObile = document.getElementById('sidebarToggleMobile');
+    sidebar = document.getElementById('conferenceSidebar');
     constructor() {
         this.sidebar.addEventListener('mouseover', () => {
             clearTimeout(this.sidebarTimeout);
         });
         this.inviteParticipantsToggle();
+        this.initToggleSidebarMobile()
     }
 
     sidebarAction() {
@@ -23,18 +26,12 @@ class ToolbarUtils {
         var floatingTag = this.floatingTag;
         clearTimeout(this.sidebarTimeout);
         this.sidebarTimeout = setTimeout(function () {
-            sidebar.classList.remove('show');
+
             if (floatingTag) {
                 floatingTag.classList.remove('show')
             }
-            var shownElements = sidebar.querySelectorAll(".show");
-            shownElements.forEach(element => {
-                element.classList.remove('show');
-
-            });
 
         }, 3000);
-        sidebar.classList.add('show');
         if (floatingTag) {
             floatingTag.classList.add('show')
         }
@@ -60,23 +57,32 @@ class ToolbarUtils {
 
 
     inviteParticipantsToggle() {
-        var inviteBtn = document.getElementById('inviteButtonOpenRoom');
-        if (inviteBtn) {
-            var closeBtn = document.getElementById('inviteButtonOpenRoomClose');
-            inviteBtn.addEventListener('click', this.toggleInviteContent)
-            closeBtn.addEventListener('click', this.toggleInviteContent)
+
+        if (this.inviteBtn) {
+            this.inviteBtn.addEventListener('click',()=>{ this.toggleInvitationPane()})
+            this.closeBtn.addEventListener('click', ()=>{this.hideInvitePane()})
+            this.showInvitePane();
         }
     }
-
-    toggleInviteContent(ele) {
-        var content = document.getElementById('inviteButtonOpenRoomContent');
-        if (content.classList.contains('show')) {
-            content.classList.remove('show');
-        } else {
-            content.classList.add('show');
+    toggleInvitationPane(){
+        if (this.content.classList.contains('show')){
+            this.content.classList.remove('show');
+        }else {
+            this.content.classList.add('show');
         }
     }
-
+    showInvitePane(){
+        this.content.classList.add('show');
+    }
+    hideInvitePane(){
+        this.content.classList.remove('show');
+    }
+    initToggleSidebarMobile(){
+        this.sidebarToggleMObile.addEventListener('click',()=>{
+           this.sidebar.classList.toggle('show');
+           this.sidebarToggleMObile.classList.toggle('show');
+        })
+    }
 
 }
 

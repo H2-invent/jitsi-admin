@@ -37,7 +37,6 @@ on:
         type: string
       registry:
         description: 'Login Registry'
-        default: 'registry-1.docker.io'
         type: string
     secrets:
       dockerhub_username:
@@ -47,7 +46,7 @@ on:
 
 jobs:
   build_and_push:
-    name: Build and Publish Docker Image
+    name: Build and Publish
     runs-on: ubuntu-latest
     steps:
       - name: Get current Username
@@ -71,4 +70,5 @@ jobs:
           file: ${{ inputs.dockerfile_path }}
           push: true
           build-args: VERSION=${{ inputs.version }}
+          platforms: linux/amd64
           tags: ${{ inputs.tags }}

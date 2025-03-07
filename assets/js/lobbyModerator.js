@@ -110,7 +110,7 @@ document.querySelectorAll('.startJitsiIframe').forEach(function (element) {
         window.onbeforeunload = function () {
             return '';
         };
-
+        document.getElementById('jitsiWindow').classList.remove('d-none');
         // Livekit- oder JitsiUtils initialisieren
         if (typeof livekitUrl !== 'undefined') {
             livekitUtil = new LivekitUtils('jitsiWindow', livekitUrl, toggle, choosenLabelFull, micLabelFull);
@@ -121,7 +121,6 @@ document.querySelectorAll('.startJitsiIframe').forEach(function (element) {
                 videoInput: choosenId
             };
             jitsiUtils = new JitsiUtils(options, domain, toggle, choosenLabelFull, micLabelFull, askHangup);
-
             const jitsiIframe = document.querySelector('#jitsiWindow iframe');
             if (jitsiIframe) {
                 jitsiIframe.style.height = '100%';
@@ -184,13 +183,6 @@ function moveWrapper() {
     const jitsiWindow = document.getElementById('jitsiWindow');
     jitsiWindow.classList.add('inMeeting');
     frameDiv.prepend(jitsiWindow);
-
-    // Logo-Bild bearbeiten und in jitsiWindow verschieben
-    const logoImage = document.getElementById('logo_image');
-    logoImage.href = '#';
-    logoImage.classList.add('stick');
-    logoImage.classList.remove('d-none');
-    jitsiWindow.prepend(logoImage);
 
     // jitsiWrapper verschieben
     const jitsiWrapper = document.getElementById('jitsiWrapper');

@@ -22,6 +22,7 @@ $my-theme-primary: $main-color; // theme primary color, change this value to cus
 $my-theme-secondary: $sec-color; // theme secondary color, change this value to customize theme
 $background-color: white;
 $breakpointMenue: 1200px;
+$breakpointMobile: 576px;
 $utilities-border-colors: $main-color;
 $in-a-meeting: #0158B0;
 $online: #00B047;
@@ -39,3 +40,4 @@ $card-box-shadow-3dp:0px 1px 8px 0px rgba(0, 0, 0, 0.2),
 0px 3px 3px -2px rgba(0, 0, 0, 0.12);
 $lobbyButtonsize: 40px;
 $lobbybuttonFontSize: 20px;
+$toolbarColor: rgb(2,6,23 )

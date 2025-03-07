@@ -8,20 +8,20 @@ use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Helper\JitsiAdminController;
 use App\Service\ParticipantSearchService;
+use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\ThemeService;
 use App\Service\UserService;
 use App\UtilsHelper;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ParticipantController extends JitsiAdminController
 {
+
     #[Route(path: '/room/participant/search', name: 'search_participant')]
     public function index(Request $request, ParticipantSearchService $participantSearchService): Response
     {
@@ -77,9 +77,11 @@ class ParticipantController extends JitsiAdminController
     }
 
     #[Route(path: '/room/participant/add_single/{room}', name: 'room_add_user_single', methods: "POST")]
-    public function roomAddUserSingle(Request $request, RoomAddService $roomAddService, Rooms $room): JsonResponse
+    public function roomAddUserSingle(Request $request, RoomAddService $roomAddService, Rooms $room, RepeaterService $repeaterService): JsonResponse
     {
         $invalidMember = [];
+        $validMember=[];
+        $validUser = new ArrayCollection();
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return new JsonResponse(['error' => true]);
@@ -96,13 +98,29 @@ class ParticipantController extends JitsiAdminController
 
         foreach ($newParticipant as $data) {
             try {
-                $roomAddService->createSingleParticipantAndAddtoRoom($data, $this->getUser(), $room);
+                $tmpUSer = $roomAddService->createSingleParticipantAndAddtoRoom($data, $this->getUser(), $room);
+                if ($tmpUSer){
+                    $validUser->add($tmpUSer);
+                }
+                $validMember[] = $data;
             } catch (\Exception) {
                 $invalidMember[] = $data;
             }
 
         }
-        return new JsonResponse(['invalidMember' => $invalidMember]);
+        if ($room->getRepeater()) {
+            $this->logger->debug('We add users to a series');
+            //here the users are added to the series. before the users are only added to the prototype room
+            $repeaterService->addUserRepeat($room->getRepeater());
+            try {
+                $repeaterService->sendEMail($room->getRepeater(), 'email/repeaterNew.html.twig', $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt'), ['room' => $room->getRepeater()->getPrototyp()], 'REQUEST', $validUser->toArray());
+            } catch (\Exception $e) {
+                $this->logger->error($e->getMessage());
+            }
+
+        }
+
+        return new JsonResponse(['invalidMember' => $invalidMember,'validMember'=>$validMember]);
     }
 
     #[Route(path: '/room/participant/past', name: 'room_past_user')]

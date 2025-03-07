@@ -1,8 +1,9 @@
 import $ from "jquery";
 import autosize from "autosize";
 import {Collapse, initMDB ,Dropdown,Input, Tooltip} from 'mdb-ui-kit';
-import {initDropdown, initTooltip, reloadPartial} from "./confirmation"; // lib
-
+import {initDropdown, initTooltip, reloadPartial} from "./confirmation";
+import {setSnackbar} from "./myToastr"; // lib
+import {trans,EMAIL_SEND_INVITATION} from '../translator.js';
 
 
 let timer;              // Timer identifier
@@ -62,7 +63,7 @@ const searchUSer = ($url, $search) => {
 
                 const $user = data.user;
                 if ($user.length > 0) {
-                    $target.insertAdjacentHTML('beforeend', '<b>Kontakte</b>');
+                    $target.insertAdjacentHTML('beforeend', '<b><i class="fa fa-user"></i> </b>');
                 }
 
                 // Füge Benutzer hinzu
@@ -82,11 +83,12 @@ const searchUSer = ($url, $search) => {
                         const dataVal = JSON.parse(userElement.getAttribute('data-val'));
                         sendData(apiUrl, dataVal); // Sendet die Daten für Benutzer
                         event.currentTarget.remove();
+                        document.getElementById('searchUser').value = '';
                     });
                 }
                 const $group = data.group;
                 if ($group.length > 0) {
-                    $target.insertAdjacentHTML('beforeend', '<b>Gruppen</b>');
+                    $target.insertAdjacentHTML('beforeend', '<b><i class="fa fa-users"></i><b>');
                 }
 
                 // Füge Gruppen hinzu
@@ -106,6 +108,7 @@ const searchUSer = ($url, $search) => {
                         const dataVal = JSON.parse(linkElement.getAttribute('data-val'));
                         sendData(apiUrl, dataVal); // Sendet die Daten für Gruppen
                         event.currentTarget.remove();
+                        document.getElementById('searchUser').value = '';
                     });
                 }
 
@@ -141,6 +144,12 @@ const sendData = (url, data) => {
             const reloadUrl = $searchUserField.getAttribute('data-reload-url');
 
             reloadPartList(reloadUrl);
+            if (result['validMember']){
+                for (const email of result['validMember']){
+                    const snackbar = trans(EMAIL_SEND_INVITATION, {email: email},'ux_message');
+                    setSnackbar(snackbar,'','success',false,'0x00',5000);
+                }
+            }
         })
         .catch(error => {
             console.error('Fehler beim Senden der Daten:', error);

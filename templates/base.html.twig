@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale|replace({ '_': '-' }) }}">
 {% set theme =  getThemeProperties() %}
 {{ include('base/__head.html.twig') }}
 

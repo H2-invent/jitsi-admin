@@ -139,15 +139,11 @@ function prepareVideoFrame() {
     body.insertAdjacentHTML('afterbegin', '<div id="frame"></div>');
 
     const frameDiv = document.getElementById('frame');
-    const logoImage = document.getElementById('logo_image');
-    logoImage.setAttribute('href', '#');
-    logoImage.classList.add('stick');
+
     const jitsiWindow = document.getElementById('jitsiWindow');
-    jitsiWindow.insertAdjacentElement('afterbegin', logoImage);
+
     frameDiv.insertAdjacentElement('afterbegin', jitsiWindow);
-    // logoImage.insertAdjacentElement('afterbegin', document.getElementById('jitsiWindow'));
-    //
-    // frameDiv.insertAdjacentHTML('afterbegin', document.getElementById('jitsiWindow'));
+
     moveTag(frameDiv);
     document.getElementById('window').remove();
     document.getElementById('mainContent').remove();
@@ -228,7 +224,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function startConference(options){
+    document.getElementById('jitsiWindow').classList.remove('d-none');
     if (typeof livekitUrl!== 'undefined'){
+
         liveKitUtils =  new LivekitUtils('jitsiWindow', livekitUrl+'&jwt='+options.jwt,toggle,choosenLabelFull,micLabelFull);
         //here start the livekitu confernece
     }else {

@@ -164,6 +164,9 @@ class User extends BaseUser
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $calendlyWebhookId = null;
 
+    #[ORM\ManyToOne(inversedBy: 'calendlyUsers')]
+    private ?Server $calendlyServer = null;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -1400,6 +1403,18 @@ class User extends BaseUser
     public function setCalendlyWebhookId(?string $calendlyWebhookId): static
     {
         $this->calendlyWebhookId = $calendlyWebhookId;
+
+        return $this;
+    }
+
+    public function getCalendlyServer(): ?Server
+    {
+        return $this->calendlyServer;
+    }
+
+    public function setCalendlyServer(?Server $calendlyServer): static
+    {
+        $this->calendlyServer = $calendlyServer;
 
         return $this;
     }
