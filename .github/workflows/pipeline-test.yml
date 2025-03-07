@@ -6,7 +6,7 @@ jobs:
   wiki:
     uses: ./.github/workflows/task-wiki-release.yml
     with:
-      version: 0.0.0
+      version: 1.0.0
 
   artifact:
     uses: ./.github/workflows/task-artifact.yml
