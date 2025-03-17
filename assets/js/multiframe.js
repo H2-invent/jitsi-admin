@@ -169,12 +169,12 @@ export class multiframe {
             delete this.closingTimeout;
         } else if (type === 'openNewIframe') {
             //todo in controllerklasse
-            this.triggerCreateNewMultiframe(decoded.url, decoded.title, false);
+            this.triggerCreateNewMultiframe(decoded.url, decoded.title, false,decoded.roomuid);
         }
         else if (type === 'openNewIframeOnOthers') {
             //todo in controllerklasse
             var message = {
-                room: decoded.room,
+                room: this.roomUid,
                 url: decoded.url,
                 title: decoded.title
             }
@@ -429,8 +429,8 @@ export class multiframe {
 
     }
 
-    triggerCreateNewMultiframe(url, title, maximize,roomUid=null) {
-        this.triggerEvent('createNewMultiframe', {url: url, title: title, maximize: maximize,roomUid:roomUid})
+    triggerCreateNewMultiframe(url, title, maximize,roomuid=null) {
+        this.triggerEvent('createNewMultiframe', {url: url, title: title, maximize: maximize,roomuid:roomuid})
 
     }
 }

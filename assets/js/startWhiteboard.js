@@ -14,7 +14,7 @@ export function initStartWhiteboard() {
         ele.addEventListener('click', function (ev) {
             var selfurl = this.dataset.selfurl;
             var url = this.dataset.url;
-            const roomUid = this.dataset.roomUid;
+            const roomUid = this.dataset.roomuid||null;
             if (this.dataset.room && url) {
                 var message = {
                     room: this.dataset.room,
@@ -30,12 +30,12 @@ export function initStartWhiteboard() {
                         type: 'openNewIframe',
                         url: selfurl,
                         'title': document.title,
-                        roomUid: roomUid,
+                        roomuid: roomUid,
                     });
                     window.parent.postMessage(parentMessage, '*');
                 }
             } else {
-                createIframe(selfurl, document.title,  false,'',);
+                createIframe(selfurl, document.title,  false,'',roomUid);
             }
         })
     }

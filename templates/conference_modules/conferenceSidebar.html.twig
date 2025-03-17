@@ -79,8 +79,9 @@
 
                     <div class="wrapper">
                         <div class="startExternalApp  startLookyLooky conference-icon d-none"
-                                    data-selfurl="{{ getApplicationProperties('LOOKYLOOKY_URL') }}"
-                             data-roomUid="{{ room.uid }}"
+                             data-selfurl="{{ getApplicationProperties('LOOKYLOOKY_URL') }}"
+                             data-roomuid="{{ room.uid }}"
+                             data-room="lookylooky/{{ room.uidReal }}"
                         >
                             <i class="fa-solid fa-file-pdf"></i>
 
@@ -106,7 +107,7 @@
                                     or roomPermissions(app.user,room).moderator == true
                                     or roomPermissions(app.user,room).lobbyModerator == true) %}
                                     data-selfurl="{{ createEtherpadLink(room,user) }}"
-                                    data-room="whiteboard/{{ room.uidReal }}"
+                                    data-room="etherpad/{{ room.uidReal }}"
                                     data-url="{{ createEtherpadLink(room) }}"
                                 {% else %}
                                     data-selfurl="{{ createEtherpadLink(room,user) }}"

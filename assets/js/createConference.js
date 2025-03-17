@@ -85,7 +85,7 @@ function createIframe(url, title, startMaximized = true, borderColor = '',roomUi
            zIndex++;
         });
         newInstance.addEventListener('createNewMultiframe', (data) => {
-          createIframe(data.url,data.title,data.maximize,'',data.roomUid)
+          createIframe(data.url,data.title,data.maximize,'',data.roomuid)
         });
         multiframes.push(newInstance);
 
