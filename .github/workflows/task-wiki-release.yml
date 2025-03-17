@@ -26,7 +26,7 @@ jobs:
             {
               "text": "A new Release of Jitsi Admin has been installed.<br>
                 Checkout more information about this release in the 
-                <a href='https://raw.githubusercontent.com/wiki/${{github.repository}}.wiki/Release-Notes/Release_Note_${{ inputs.version }}.md'>
+                <a href='https://github.com/H2-invent/jitsi-admin/releases/tag/${{ inputs.version }}'>
                 Release Notes
                 </a>",
               "head": "New Release ${{ inputs.version }} installed",
@@ -35,15 +35,12 @@ jobs:
             }
           ]
           EOF
-          wget -O Release-Notes/Release_Note_${{ inputs.version }}.md \
-          https://raw.githubusercontent.com/${{github.repository}}/refs/tags/${{ inputs.version }}/RELEASE_NOTE.md
           git config user.name 'H2 invent Release Bot'
           git config user.email 'support@h2-invent.com'
-          # Überprüfen, ob es Änderungen gibt
-          if git diff --quiet; then
+          git add .
+          if git diff --cached --quiet; then
             echo "Keine Änderungen vorhanden. Überspringe Commit und Push."
           else
-            git add .
             git commit -m "Update Release Note ${{ inputs.version }} in Wiki"
             git push
           fi
