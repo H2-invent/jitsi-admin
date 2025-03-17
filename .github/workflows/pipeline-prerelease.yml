@@ -29,16 +29,6 @@ jobs:
           change_path: .
           version_format: "${major}.${minor}.${patch}-${increment}"
 
-      - name: Create new Release with semantic-version tag
-        uses: ncipollo/release-action@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: true
-          name: Release ${{ steps.version.outputs.version }}
-          tag: ${{ steps.version.outputs.version }}
-          body: CREATING RELEASE
-
   artifact:
     uses: ./.github/workflows/task-artifact.yml
 
