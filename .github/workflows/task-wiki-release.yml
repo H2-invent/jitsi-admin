@@ -39,11 +39,10 @@ jobs:
           https://raw.githubusercontent.com/${{github.repository}}/refs/tags/${{ inputs.version }}/RELEASE_NOTE.md
           git config user.name 'H2 invent Release Bot'
           git config user.email 'support@h2-invent.com'
-          # Überprüfen, ob es Änderungen gibt
-          if git diff --quiet; then
+          git add .
+          if git diff --cached --quiet; then
             echo "Keine Änderungen vorhanden. Überspringe Commit und Push."
           else
-            git add .
             git commit -m "Update Release Note ${{ inputs.version }} in Wiki"
             git push
           fi
