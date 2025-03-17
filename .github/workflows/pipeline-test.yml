@@ -3,6 +3,11 @@ name: Test Pipeline
 on: [push]
 
 jobs:
+  release_note:
+    uses: ./.github/workflows/task-wiki-release.yml
+    with:
+      version: 1.0.0
+
   artifact:
     uses: ./.github/workflows/task-artifact.yml
 
