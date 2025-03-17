@@ -119,12 +119,6 @@ class CalendlyWebhookApiController extends AbstractController
         $user = $this->getUser();
         try {
 
-            try {
-                $this->callendlyConnect->cleanWebhooks($user, $user->getCalendlyWebhookId());
-            } catch (\Exception $exception) {
-                $this->addFlash('danger', $exception->getMessage());
-                return $this->redirectToRoute('dashboard');
-            }
             $user->setCalendlyToken(null);
             $user->setCalendlyOrgUri(null);
             $user->setCalendlyUserUri(null);
@@ -133,9 +127,17 @@ class CalendlyWebhookApiController extends AbstractController
             $user->setCalendlySucessfullyAdded(false);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
+
+            try {
+                $this->callendlyConnect->cleanWebhooks($user, $user->getCalendlyWebhookId());
+            } catch (\Exception $exception) {
+                $this->addFlash('danger', $exception->getMessage());
+                return $this->redirectToRoute('dashboard');
+            }
+
         } catch
         (\Exception $e) {
-            $this->addFlash('danger', $exception->getMessage());
+            $this->addFlash('danger', $e->getMessage());
             return $this->redirectToRoute('dashboard');
 
         }
