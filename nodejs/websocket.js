@@ -68,7 +68,6 @@ io.on("connection", async (socket) => {
     console.log(jwtObj.rooms);
 
     for (var i = 0; i < jwtObj.rooms.length; i++) {
-        socket.join(jwtObj.rooms[i]);
         console.log(`JOin room ${jwtObj.rooms[i]}`);
     }
     var user = loginUser(socket);

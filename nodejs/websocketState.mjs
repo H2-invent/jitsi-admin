@@ -80,7 +80,6 @@ function sendStatusToOwnUSer(socket) {
 function sendNewIframe(socket, data) {
     try {
         var message = JSON.parse(data);
-        console.log(data);
         socket.to(message.room).emit('openNewIframe', JSON.stringify({
                     url: message.url,
                     title: message.title
