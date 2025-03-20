@@ -65,6 +65,8 @@ io.use(function (socket, next) {
 
 io.on("connection", async (socket) => {
     var jwtObj = jwt.decode(socket.handshake.query.token);
+    console.log(jwtObj.rooms);
+
     for (var i = 0; i < jwtObj.rooms.length; i++) {
         socket.join(jwtObj.rooms[i]);
         console.log(`JOin room ${jwtObj.rooms[i]}`);

@@ -5,6 +5,7 @@ import {Tooltip} from 'mdb-ui-kit';
 import $ from "jquery";
 import {setCookie, getCookie} from './cookie'
 import {multiframe} from "./multiframe";
+import {sendViaWebsocket} from "./websocket";
 
 
 let counter = 50;
@@ -20,7 +21,7 @@ let startWidth = null;
 let startHeight = null;
 let startTransform = null;
 let tryfullscreen = null;
-
+let blockedUrls = [];
 
 function initStartIframe() {
 
@@ -39,9 +40,9 @@ function initStartIframe() {
             e.preventDefault();
             var target = e.target.closest('.startIframe')
             if ("iframetoast" in target.dataset) {
-                setSnackbar(target.dataset.iframetoast, '','danger');
+                setSnackbar(target.dataset.iframetoast, '', 'danger');
             } else {
-                const isMaximized= getCookie('startMaximized')?getCookie('startMaximized'):1;
+                const isMaximized = getCookie('startMaximized') ? getCookie('startMaximized') : 1;
                 createIframe(target.href, target.dataset.roomname, isMaximized == 1, true, target.dataset.bordercolor);
             }
         }
@@ -54,8 +55,7 @@ function initStartIframe() {
 }
 
 
-
-function createIframe(url, title, startMaximized = true, borderColor = '',roomUid = null) {
+function createIframe(url, title, startMaximized = true, borderColor = '', roomUid = null) {
 
     width = window.innerWidth * 0.75;
     height = window.innerHeight * 0.75;
@@ -65,13 +65,17 @@ function createIframe(url, title, startMaximized = true, borderColor = '',roomUi
     var random = md5(urlPath);
 
     const existingMultiframe = multiframeCheck(random);
-    if (existingMultiframe){
+    const isInBlockedUrl = checkIfUrlIsBlocked(url);
+    if (isInBlockedUrl) {
+        return;
+    }
+    if (existingMultiframe) {
         existingMultiframe.restoreWindowFromMaximized();
         existingMultiframe.restoreMinimized();
         existingMultiframe.moveInForeground();
 
-    }else {
-        const newInstance = new multiframe(url,title,startMaximized,borderColor,counter,counter,height,width,multiframes.length+zIndexOffset,roomUid);
+    } else {
+        const newInstance = new multiframe(url, title, startMaximized, borderColor, counter, counter, height, width, multiframes.length + zIndexOffset, roomUid);
         newInstance.addEventListener('remove', () => {
             removeMultiframe(newInstance);
         });
@@ -82,10 +86,16 @@ function createIframe(url, title, startMaximized = true, borderColor = '',roomUi
             removeInteraction(newInstance.frame);
         });
         newInstance.addEventListener('incrementZindex', () => {
-           zIndex++;
+            zIndex++;
         });
         newInstance.addEventListener('createNewMultiframe', (data) => {
-          createIframe(data.url,data.title,data.maximize,'',data.roomuid)
+            createIframe(data.url, data.title, data.maximize, '', data.roomuid)
+        });
+        newInstance.addEventListener('blockUrlForMultiframe', (data) => {
+            blockedUrls.push(data.url);
+        });
+        newInstance.addEventListener('openNewMultiframe', (data) => {
+            sendViaWebsocket('openNewIframe',JSON.stringify(data));
         });
         multiframes.push(newInstance);
 
@@ -93,22 +103,30 @@ function createIframe(url, title, startMaximized = true, borderColor = '',roomUi
     counter += 40;
 
     if (isFullscreen()) {
-        if (document){
+        if (document) {
             document.exitFullscreen();
         }
     }
 }
-function multiframeCheck(random) {
-    return multiframes.some(instance => instance.random === random);
+
+function checkIfUrlIsBlocked(url) {
+    return blockedUrls.includes(url)
 }
+
+function multiframeCheck(random) {
+    return multiframes.find(instance => instance.random === random);
+}
+
 function getMultiframeFromHtmlFrame(frame) {
-    const res= multiframes.find(instance => instance.frame === frame);
+    const res = multiframes.find(instance => instance.frame === frame);
     return res;
 }
+
 function getotherFramesNotActual(instance) {
     const res = multiframes.filter(frame => frame !== instance);
     return res;
 }
+
 function removeMultiframe(instance) {
     multiframes = multiframes.filter(i => i !== instance);
 
@@ -157,6 +175,7 @@ function switchDragOff() {
         return null;
     }
 }
+
 function moveActualToForeground(actualFrame) {
     if (actualFrame.isMutable) {
         actualFrame.playFrame();
@@ -171,7 +190,7 @@ function moveActualToForeground(actualFrame) {
     const totalFrames = multiframes.length;
 
     // Setze das z-index des aktuellen Frames auf die Anzahl der Frames (höchstes z-index)
-    actualFrame.setZindex(totalFrames +zIndexOffset);
+    actualFrame.setZindex(totalFrames + zIndexOffset);
     actualFrame.moveInForeground();
     // Sortiere die anderen Frames nach ihrem aktuellen z-index
     const otherFrames = getotherFramesNotActual(actualFrame)
@@ -181,10 +200,11 @@ function moveActualToForeground(actualFrame) {
     // Vergib die z-index-Werte beginnend bei 1
     let zIndex = 1;
     otherFrames.forEach(frame => {
-        frame.setZindex(zIndex+zIndexOffset);
+        frame.setZindex(zIndex + zIndexOffset);
         zIndex++;
     });
 }
+
 function addInteractions(ele) {
 
     const position = {x: counter, y: counter}
@@ -372,7 +392,7 @@ function addInteractions(ele) {
 
 function makeBlury(frame) {
     var content = frame.querySelector('.iframeFrame');
-    content.style.visibility='hidden';
+    content.style.visibility = 'hidden';
     frame.style.opacity = 0.5;
     // for (var f of frames) {
     //     f.insertAdjacentHTML('afterbegin', '<div class="blurryOverlay" style="position: absolute; z-index: 2; height: 100%; width: 100%; opacity: 0.0; background-color: inherit"></div>');
@@ -390,6 +410,7 @@ function removeBlury(frame) {
 function checkIfIsMutable(frame) {
 
 }
+
 // function checkIfIsMutable(frame) {
 //     if (frame.classList.contains('isMutable')) {
 //         var actualPause = frame.querySelector('.pauseConference')
@@ -435,4 +456,5 @@ function addOverlayOverAllMultiframes() {
 function removeOverlayFromAllMultiframes() {
     document.querySelectorAll('.iframe-overlay').forEach(overlay => overlay.remove());
 }
-export {initStartIframe, createIframe,  checkIfIsMutable}
+
+export {initStartIframe, createIframe, checkIfIsMutable}

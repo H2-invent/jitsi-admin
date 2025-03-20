@@ -172,13 +172,13 @@ export class multiframe {
             this.triggerCreateNewMultiframe(decoded.url, decoded.title, false,decoded.roomuid);
         }
         else if (type === 'openNewIframeOnOthers') {
-            //todo in controllerklasse
+            this.triggerBlockUrlForMultiframe(decoded.url);
             var message = {
                 room: this.roomUid,
                 url: decoded.url,
                 title: decoded.title
             }
-            sendViaWebsocket('openNewIframe', JSON.stringify(message));
+            this.triggerOpenNewFrameOnOthers(message);
 
         }else if (type === 'showPlayPause') {
             this.frame.classList.add('isMutable');
@@ -431,6 +431,14 @@ export class multiframe {
 
     triggerCreateNewMultiframe(url, title, maximize,roomuid=null) {
         this.triggerEvent('createNewMultiframe', {url: url, title: title, maximize: maximize,roomuid:roomuid})
+
+    }
+    triggerBlockUrlForMultiframe(url) {
+        this.triggerEvent('blockUrlForMultiframe', {url: url})
+
+    }
+    triggerOpenNewFrameOnOthers(data) {
+        this.triggerEvent('openNewMultiframe', data)
 
     }
 }

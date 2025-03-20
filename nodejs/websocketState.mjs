@@ -78,11 +78,17 @@ function sendStatusToOwnUSer(socket) {
 }
 
 function sendNewIframe(socket, data) {
-    var message = JSON.parse(data);
-    socket.to(message.room).emit('openNewIframe', JSON.stringify({
-                url: message.url,
-                title: message.title
-            }
+    try {
+        var message = JSON.parse(data);
+        console.log(data);
+        socket.to(message.room).emit('openNewIframe', JSON.stringify({
+                    url: message.url,
+                    title: message.title
+                }
+            )
         )
-    )
+    }catch (e) {
+        console.log(e)
+    }
+
 }
