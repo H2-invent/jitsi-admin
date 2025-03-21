@@ -46,7 +46,7 @@
         "file-loader": "^6.2.0",
         "flatpickr": "^4.6.9",
         "fs": "^0.0.1-security",
-        "h2-invent-apps": "^2.4.0",
+        "h2-invent-apps": "^2.5.0",
         "h2-invent-material-tabs": "^1.10.0",
         "hotkeys-js": "^3.9.4",
         "interactjs": "^1.10.17",

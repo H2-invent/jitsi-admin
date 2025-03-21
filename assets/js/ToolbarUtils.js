@@ -61,7 +61,7 @@ class ToolbarUtils {
         if (this.inviteBtn) {
             this.inviteBtn.addEventListener('click',()=>{ this.toggleInvitationPane()})
             this.closeBtn.addEventListener('click', ()=>{this.hideInvitePane()})
-            this.showInvitePane();
+
         }
     }
     toggleInvitationPane(){

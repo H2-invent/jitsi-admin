@@ -1,0 +1,46 @@
+name: Release Note
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'release version'
+        type: string
+
+jobs:
+  publish_release_notes:
+    name: Publish to Wiki
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout wiki code
+        uses: actions/checkout@v2
+        with:
+          repository: ${{github.repository}}.wiki
+          ref: master
+          path: wiki
+
+      - name: Update Content from wiki
+        run: |
+          cd wiki
+          cat <<EOF > Release-Notes/notification_${{ inputs.version }}.json
+            {
+              "text": "A new Release of Jitsi Admin has been installed.<br>
+                Checkout more information about this release in the 
+                <a href='https://github.com/H2-invent/jitsi-admin/releases/tag/${{ inputs.version }}'>
+                Release Notes
+                </a>",
+              "head": "New Release ${{ inputs.version }} installed",
+              "type": "info",
+              "identifier": "${{ inputs.version }}"
+            }
+          ]
+          EOF
+          git config user.name 'H2 invent Release Bot'
+          git config user.email 'support@h2-invent.com'
+          git add .
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen vorhanden. Überspringe Commit und Push."
+          else
+            git commit -m "Update Release Note ${{ inputs.version }} in Wiki"
+            git push
+          fi
