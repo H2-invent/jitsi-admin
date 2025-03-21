@@ -49,6 +49,7 @@ export function websocketState(event, socket, message) {
             sendStatus(socket);
             break;
         case 'openNewIframe':
+            console.log(message);
             sendNewIframe(socket, message)
             break;
         case 'giveOnlineStatus':

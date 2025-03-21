@@ -172,7 +172,11 @@
       -ms-transition-delay: 0.25s;
       -o-transition-delay: 0.25s;
       transition-delay: 0.25s;
-
+      position: absolute!important;
+      left: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: $box-shadow;
     }
   }
 
