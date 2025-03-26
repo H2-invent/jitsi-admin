@@ -12,3 +12,4 @@
 * Collapse the Sidenavigation on mobile devices
 * Calendly disconnection fails when token was removed in advance in calndly
 * Open invitation modal in open conferneces onyl on moderators
+* When a SIP Trunk in livekit is created then all numbers are allowed to join this short living SIP-Trunk
