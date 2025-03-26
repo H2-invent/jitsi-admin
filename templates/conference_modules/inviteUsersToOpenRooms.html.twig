@@ -6,7 +6,7 @@
     <div class="toggle conference-icon" id="inviteButtonOpenRoom">
         <i class="fa fa-user-plus"></i>
     </div>
-    <div class="content text-center" id="inviteButtonOpenRoomContent">
+    <div class="content text-center {%  if app.user and app.user == room.moderator %}show{% endif %}" id="inviteButtonOpenRoomContent">
         <div class="close" id="inviteButtonOpenRoomClose">
             <i class="fa fa-times"></i>
         </div>

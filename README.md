@@ -68,13 +68,13 @@ To join the community talk, please click on the subscription link provided: http
 Once you have subscribed, we will send you a reminder closer to the date of the talk. We hope to see you there!
 ### Mailinglist
 
-[Join here](https://verteiler.h2-invent.com/?p=subscribe&id=1)
+[Join here](https://lists.h2-invent.com/forms/nfrm_weLJnLY5)
 
 If you want to be notified, if there are new updates or releases, you can subscribe to the __Jitsi Admin Update__ mailing list.
 H2 invent will send out information to the mailing list concering releases, updates or new features.
 This is __not__ a marketing newsletter.
 
-If you want to join the mailing list just click on the link [Mailing List](https://verteiler.h2-invent.com/?p=subscribe&id=1) and enter your email address.
+If you want to join the mailing list just click on the link [Mailing List](https://lists.h2-invent.com/forms/nfrm_weLJnLY5) and enter your email address.
 We use a double-opt-in process where you will receive a confirmation email containing a link with with you confirm, that you want to join to mailing list.
 
 

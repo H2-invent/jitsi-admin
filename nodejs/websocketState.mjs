@@ -49,6 +49,7 @@ export function websocketState(event, socket, message) {
             sendStatus(socket);
             break;
         case 'openNewIframe':
+            console.log(message);
             sendNewIframe(socket, message)
             break;
         case 'giveOnlineStatus':
@@ -78,11 +79,16 @@ function sendStatusToOwnUSer(socket) {
 }
 
 function sendNewIframe(socket, data) {
-    var message = JSON.parse(data);
-    socket.to(message.room).emit('openNewIframe', JSON.stringify({
-                url: message.url,
-                title: message.title
-            }
+    try {
+        var message = JSON.parse(data);
+        socket.to(message.room).emit('openNewIframe', JSON.stringify({
+                    url: message.url,
+                    title: message.title
+                }
+            )
         )
-    )
+    }catch (e) {
+        console.log(e)
+    }
+
 }
