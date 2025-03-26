@@ -15,8 +15,9 @@ RUN usermod -a -G www-data docker
 #Do npm install
 
 COPY . /var/www/html
-USER docker
+
 RUN npm install
+USER docker
 RUN composer install --no-scripts
 USER root
 #do npm build
