@@ -32,9 +32,11 @@ RUN mkdir -m 775 -p public/build
 USER docker
 RUN php bin/console cache:clear
 RUN php bin/console cache:warmup
+USER root
 RUN npm run build
+
 RUN rm -rf node_modules/
 RUN chown -R docker:docker var/
 #copy all the rest of the app
 
-
+USER docker
