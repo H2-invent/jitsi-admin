@@ -60,10 +60,10 @@ class MailerService
             if ($server->getSmtpUsername()) {
                 $this->logger->debug('we have a new Mailer with a pasword');
                 $this->logger->debug('Credentials: ', ['username' => $server->getSmtpUsername(), 'password' => $server->getSmtpPassword()]);
-                $dsn = 'smtp://' . urlencode($server->getSmtpUsername()) . ':' . urlencode($server->getSmtpPassword()) . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
+                $dsn = 'smtp://' . urlencode($server->getSmtpUsername()) . ':' . urlencode($server->getSmtpPassword()) . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false&auto_tls=false';
             } else {
                 $this->logger->debug('We have no password');
-                $dsn = 'smtp://' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
+                $dsn = 'smtp://' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false&auto_tls=false';
             }
             $this->logger->debug($dsn);
             $this->logger->info('The Transport is new and we take him');
