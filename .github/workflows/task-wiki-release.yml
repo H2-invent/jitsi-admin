@@ -25,7 +25,7 @@ jobs:
           cat <<EOF > Release-Notes/notification_${{ inputs.version }}.json
           [
               {
-                  "text": "A new Release of Jitsi Admin has been installed. Checkout more information about this release in the <a href='https://github.com/H2-invent/jitsi-admin/releases/tag/${{ inputs.version }}'>Release Notes</a>",
+                  "text": "A new Release of Jitsi Admin has been installed. Checkout more information about this release in the <a href='https://github.com/H2-invent/jitsi-admin/releases/tag/${{ inputs.version }}' style='color: red; text-decoration: underline dotted;'>Release Notes</a>",
                   "head": "New Release ${{ inputs.version }} installed",
                   "type": "info",
                   "identifier": "${{ inputs.version }}"
