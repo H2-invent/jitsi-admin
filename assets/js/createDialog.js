@@ -15,7 +15,14 @@ export function showDialog(data) {
         backdrop: false,
         html: `<p>${data.text}</p>${buttonsHtml}`,
         icon: data.dialogType,
-        showConfirmButton: false
+        showConfirmButton: false,
+        didRender: () => {
+            data.buttons.forEach((button, index) => {
+                document.getElementById(`swal-btn-${index}`).addEventListener('click', () => {
+                    Swal.close();
+                });
+            });
+        }
     });
 }
 
