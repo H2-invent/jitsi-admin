@@ -40,7 +40,7 @@ class ServerAPIController extends AbstractController
             ->setAppId($request->get('app_id'))
             ->setAppSecret($request->get('app_secret'))
             ->setUpdatedAt(new \DateTime())
-            ->setApiKey(null)
+            ->setAllowedToCloneForAutoscale(null)
             ->setSlug(urlencode($newServer->getUrl()));
         foreach ($newServer->getUser() as $user){
             $newServer->removeUser($user);
