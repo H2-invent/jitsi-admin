@@ -46,7 +46,7 @@ class RoomWebhookService
                     $res = $this->roomCreated(
                         $data['room_name'],
                         $data['is_breakout'],
-                        isset($data['breakout_room_id']) ? $data['breakout_room_id'] : null,
+                        $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['created_at']
                     );
@@ -54,7 +54,7 @@ class RoomWebhookService
                 case 'muc-room-destroyed':
                     $res = $this->roomDestroyed(
                         $data['is_breakout'],
-                        isset($data['breakout_room_id']) ? $data['breakout_room_id'] : null,
+                        $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['destroyed_at']
                     );
@@ -62,11 +62,11 @@ class RoomWebhookService
                 case 'muc-occupant-joined':
                     $res = $this->roomParticipantJoin(
                         $data['is_breakout'],
-                        isset($data['breakout_room_id']) ? $data['breakout_room_id'] : null,
+                        $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['occupant']['occupant_jid'],
                         $data['occupant']['joined_at'],
-                        isset($data['occupant']['name']) ? $data['occupant']['name'] : null
+                        $data['occupant']['name'] ?? null
 
                     );
                     break;
@@ -90,7 +90,7 @@ class RoomWebhookService
 
     public function roomCreated(
         string  $roomName,
-        bool    $isBreakout,
+        ?bool    $isBreakout,
         ?string $breakoutRoomId,
         string  $roomJid,
         int     $createdAt
@@ -152,7 +152,7 @@ class RoomWebhookService
 
     public function roomDestroyed(
 
-        bool    $isBreakout,
+        ?bool    $isBreakout,
         ?string $breakoutRoomId,
         string  $roomJid,
         int     $destroyedAt
@@ -224,7 +224,7 @@ class RoomWebhookService
     }
 
     public function roomParticipantJoin(
-        ?bool   $isBreakput,
+        ?bool   $isBreakout,
         ?string $breakoutRoomName,
         string  $roomJId,
         string  $occupantJId,
@@ -234,7 +234,7 @@ class RoomWebhookService
     {
         try {
 
-            if ($isBreakput === true) {
+            if ($isBreakout === true) {
                 $this->logger->debug('This is a breakoutRoom', ['breakout_room_id ' => $breakoutRoomName, 'room_jid' => $roomJId]);
                 return 'Room is a breakout room we don`t join the participant';
             }
@@ -274,7 +274,7 @@ class RoomWebhookService
 
     public function roomParticipantLeft(
 
-        bool    $isBreakout,
+        ?bool    $isBreakout,
         ?string $breakoutRoomId,
         string  $occupantJid,
         int     $leftAt,
@@ -315,7 +315,7 @@ class RoomWebhookService
         return null;
     }
 
-    public function clenRoomStatus(RoomStatus $roomStatus)
+    public function clenRoomStatus(RoomStatus $roomStatus): void
     {
         if (!$roomStatus->getRoom()) {
             foreach ($roomStatus->getRoomStatusParticipants() as $data) {
