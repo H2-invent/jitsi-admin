@@ -22,13 +22,13 @@ final class ApiMoveRoomToOtherServerController extends AbstractController
     {
     }
 
-    #[Route('/api/v1/move/room/{roomId}', name: 'app_api_move_room_to_other_server', methods: ['POST'])]
-    public function index(Request $request, $roomId): Response
+    #[Route('/api/v1/move/room/{roomUid}', name: 'app_api_move_room_to_other_server', methods: ['POST'])]
+    public function index(Request $request, $roomUid): Response
     {
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
-        $room = $this->roomsRepository->findOneBy(['id' => $roomId]);
+        $room = $this->roomsRepository->findOneBy(['uidReal' => $roomUid]);
         if (!$room) {
             return new JsonResponse(['error' => true, 'message' => 'Room not found'], Response::HTTP_NOT_FOUND);
         }

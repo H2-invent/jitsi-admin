@@ -27,7 +27,7 @@
 
 ### ⭐ Improvements
 * Join a Videoconference without an camera and microphone
-* Add Api to change Server of Room to use auto provisioner
+* Add Api to change Server of Room with uidReal to use auto provioner
 
 
 ### 🐛 Bug Fixes
