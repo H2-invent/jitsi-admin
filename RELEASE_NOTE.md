@@ -27,6 +27,8 @@
 
 ### ⭐ Improvements
 * Join a Videoconference without an camera and microphone
+* Add Api to change Server of Room to use auto provisioner
+
 
 ### 🐛 Bug Fixes
 * Fix new Lobby for Multiple Users
