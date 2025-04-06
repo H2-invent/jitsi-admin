@@ -174,7 +174,16 @@ class Server
         $this->tag = new ArrayCollection();
         $this->calendlyUsers = new ArrayCollection();
     }
+    public function __clone()
+    {
+        // ID zurücksetzen
+        $this->id = null;
 
+        // Collection leeren, damit ManyToMany nicht übernommen wird
+        $this->user = new ArrayCollection();
+
+        // Falls du andere Beziehungen hast: individuell behandeln
+    }
     public function getId(): ?int
     {
         return $this->id;
