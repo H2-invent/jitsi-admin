@@ -26,7 +26,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
     public function testRoomNotFound()
     {
         $this->createRoomWithServer('correctToken');
-        $this->client->request('POST', '/api/v1/room/move/notValid', [], [], [
+        $this->client->request('POST', '/api/v1/room/move', ['uid'=>'notValid'], [], [
             'HTTP_AUTHORIZATION' => 'Bearer someKey'
         ]);
 
@@ -42,7 +42,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
     {
         $this->createRoomWithServer('correctToken');
         // Beispiel: Room mit ID 1 hat nicht diesen API-Key
-        $this->client->request('POST', '/api/v1/room/move/testUidReal', [], [], [
+        $this->client->request('POST', '/api/v1/room/move',['uid'=>'testUidReal'], [], [
             'HTTP_AUTHORIZATION' => 'Bearer wrongApiKey'
         ]);
 
@@ -59,8 +59,9 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         // Hier muss Room existieren und API-Key korrekt sein
         $room = $this->createRoomWithServer('validKey');
 
-        $this->client->request('POST', '/api/v1/room/move/testUidReal', [
-            'serverId' => 99999,
+        $this->client->request('POST', '/api/v1/room/move', [
+            'uid'=>'testUidReal',
+            'server' => 99999,
         ], [], [
             'HTTP_AUTHORIZATION' => 'Bearer validKey'
         ]);
@@ -83,8 +84,9 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         $this->entityManager->persist($room);
         $this->entityManager->flush();
 
-        $this->client->request('POST', '/api/v1/room/move/testUidReal', [
-            'serverId' => $newServer->getId()
+        $this->client->request('POST', '/api/v1/room/move', [
+            'uid'=>'testUidReal',
+            'server' => $newServer->getId()
         ], [], [
             'HTTP_AUTHORIZATION' => 'Bearer validKey'
         ]);
@@ -110,8 +112,9 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         $this->entityManager->persist($room);
         $this->entityManager->flush();
 
-        $this->client->request('POST', '/api/v1/room/move/testUidReal' , [
-            'serverId' => $newServer->getId()
+        $this->client->request('POST', '/api/v1/room/move' , [
+            'uid'=>'testUidReal',
+            'server' => $newServer->getId()
         ], [], [
             'HTTP_AUTHORIZATION' => 'Bearer invalidKey'
         ]);
