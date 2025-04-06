@@ -22,7 +22,7 @@ final class ApiMoveRoomToOtherServerController extends AbstractController
     {
     }
 
-    #[Route('/api/v1/move/room/{roomUid}', name: 'app_api_move_room_to_other_server', methods: ['POST'])]
+    #[Route('/api/v1/room/move/{roomUid}', name: 'app_api_move_room_to_other_server', methods: ['POST'])]
     public function index(Request $request, $roomUid): Response
     {
         $apiKey = $request->headers->get('Authorization');
