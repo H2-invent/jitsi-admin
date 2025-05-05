@@ -16,6 +16,7 @@ export function showDialog(data) {
         html: `<p>${data.text}</p>${buttonsHtml}`,
         icon: data.dialogType,
         showConfirmButton: false,
+        heightAuto: false,
         didRender: () => {
             data.buttons.forEach((button, index) => {
                 document.getElementById(`swal-btn-${index}`).addEventListener('click', () => {

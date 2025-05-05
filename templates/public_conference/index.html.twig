@@ -12,17 +12,22 @@
     <div class=" col-12 text-center mt-5">
 
         {{ form_start(form) }}
-        {{ form_widget(form.myName) }}
-            {{ form_widget(form.roomName) }}
-            {{ form_widget(form.submit) }}
+        {% if form.myName is defined %}
+            {{ form_row(form.myName) }}
+
+        {% endif %}
+        {{ form_row(form.roomName) }}
+
+        {{ form_widget(form.submit) }}
 
 
         {{ form_end(form) }}
         <div class="row mt-3">
             <div class="col-12">
                 <ul class="list-group">
-                    {% for lC in  app.request.cookies.get('LAST_CONFERENCE')|json_decode  %}
-                        <li class="list-group-item"><a href="{{ path('app_public_conference',{'confId':lC}) }}">{{ lC }}</a> </li>
+                    {% for lC in  app.request.cookies.get('LAST_CONFERENCE')|json_decode %}
+                        <li class="list-group-item"><a
+                                    href="{{ path('app_public_conference',{'confId':lC}) }}">{{ lC }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

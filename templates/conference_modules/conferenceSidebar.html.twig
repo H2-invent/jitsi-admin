@@ -1,4 +1,3 @@
-
 {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
 
 {% if server is defined and  server is not null and server.logoUrl is not null %}
@@ -21,26 +20,28 @@
             var schowNameInWidgets = "{{ user|nameOfUserNoSymbol }}";
         </script>
     {% endif %}
-<div class="logo">
-    <img src="{{ logo_small }}">
-</div>
+    <div class="logo">
+        <img src="{{ logo_small }}">
+    </div>
 
     <div class="wrapperIcons" id="wrapperIcons">
 
         {% if room is defined and room is not null %}
-            {% if room.server.disableChat != true %}
+            {% if not room.server.liveKitServer %}
+                {% if room.server.disableChat != true %}
 
-                <div class="wrapper">
-                    <div class=" externalChat conference-icon" id="externalChat">
-                        <i class="fa-regular fa-message"></i>
-                        <div class="filter-dot d-none"></div>
+                    <div class="wrapper">
+                        <div class=" externalChat conference-icon" id="externalChat">
+                            <i class="fa-regular fa-message"></i>
+                            <div class="filter-dot d-none"></div>
+                        </div>
+                        <div class="wrapper-helper">
+                            {{ 'options.chat'|trans }}
+
+
+                        </div>
                     </div>
-                    <div class="wrapper-helper">
-                        {{ 'options.chat'|trans }}
-
-
-                    </div>
-                </div>
+                {% endif %}
             {% endif %}
         {% endif %}
 
@@ -76,19 +77,19 @@
 
         {% if getApplicationProperties('LAF_LOOKYLOOKY_FUNCTION') == 1 %}
 
-                    <div class="wrapper">
-                        <div class="startExternalApp  startLookyLooky conference-icon d-none"
-                             data-selfurl="{{ getApplicationProperties('LOOKYLOOKY_URL') }}"
-                             data-roomUid="{{ room.uidReal }}"
-                             data-room="{{ room.uid }}"
-                        >
-                            <i class="fa-solid fa-file-pdf"></i>
+            <div class="wrapper">
+                <div class="startExternalApp  startLookyLooky conference-icon d-none"
+                     data-selfurl="{{ getApplicationProperties('LOOKYLOOKY_URL') }}"
+                     data-roomUid="{{ room.uidReal }}"
+                     data-room="{{ room.uid }}"
+                >
+                    <i class="fa-solid fa-file-pdf"></i>
 
-                        </div>
-                        <div class="wrapper-helper">
-                            {{ 'options.whiteboard'|trans }}
-                        </div>
-                    </div>
+                </div>
+                <div class="wrapper-helper">
+                    {{ 'options.whiteboard'|trans }}
+                </div>
+            </div>
 
         {% endif %}
         {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
@@ -124,7 +125,7 @@
         {% endif %}
         {% block extension %}{% endblock %}
         {% if not room.server.liveKitServer %}
-        {% include 'conference_modules/__toggleFilmstripe.html.twig' %}
+            {% include 'conference_modules/__toggleFilmstripe.html.twig' %}
         {% endif %}
         {% if room.server.liveKitServer %}
             {% include 'conference_modules/__livekit_recording.html.twig' %}

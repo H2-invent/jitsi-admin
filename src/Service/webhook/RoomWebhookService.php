@@ -45,7 +45,7 @@ class RoomWebhookService
                 case 'muc-room-created':
                     $res = $this->roomCreated(
                         $data['room_name'],
-                        $data['is_breakout'],
+                        $data['is_breakout']??null,
                         $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['created_at']
@@ -53,7 +53,7 @@ class RoomWebhookService
                     break;
                 case 'muc-room-destroyed':
                     $res = $this->roomDestroyed(
-                        $data['is_breakout'],
+                        $data['is_breakout']??null,
                         $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['destroyed_at']
@@ -61,7 +61,7 @@ class RoomWebhookService
                     break;
                 case 'muc-occupant-joined':
                     $res = $this->roomParticipantJoin(
-                        $data['is_breakout'],
+                        $data['is_breakout']??null,
                         $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['occupant']['occupant_jid'],
@@ -72,7 +72,7 @@ class RoomWebhookService
                     break;
                 case 'muc-occupant-left':
                     $res = $this->roomParticipantLeft(
-                        $data['is_breakout'],
+                        $data['is_breakout']??null,
                         $data['breakout_room_id'] ?? null,
                         $data['occupant']['occupant_jid'],
                         $data['occupant']['left_at'],

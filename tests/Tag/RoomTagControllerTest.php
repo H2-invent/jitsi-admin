@@ -25,7 +25,7 @@ class RoomTagControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/new');
-        self::assertEquals('KategorieTest Tag EnabledTest Tag Enabled No2Test Tag 0Test Tag 1Test Tag 2Test Tag 3Test Tag 4', $crawler->filter('#form_tag_wrapper')->text());
+        self::assertEquals('Test Tag EnabledTest Tag Enabled No2Test Tag 0Test Tag 1Test Tag 2Test Tag 3Test Tag 4', $crawler->filter('#form_tag_wrapper')->text());
         self::assertStringContainsString('Server without License', $client->getResponse()->getContent());
         self::assertStringContainsString('Server no JWT', $client->getResponse()->getContent());
         self::assertStringContainsString('Server with License', $client->getResponse()->getContent());
@@ -81,7 +81,7 @@ class RoomTagControllerTest extends WebTestCase
         $manager->flush();
 
         $crawler = $client->request('GET', '/room/new?serverfake='.$server->getId());
-        self::assertEquals('KategorieTest Tag EnabledTest Tag 0', $crawler->filter('#form_tag_wrapper')->text());
+        self::assertEquals('Test Tag EnabledTest Tag 0', $crawler->filter('#form_tag_wrapper')->text());
         $dropdownElement = $crawler->filter('#form_tag_wrapper');
         $this->assertEquals(1, $dropdownElement->count());
         $optionElement = $crawler->filter('#form_tag_wrapper option');

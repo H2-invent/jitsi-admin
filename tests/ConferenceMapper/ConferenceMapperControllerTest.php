@@ -82,7 +82,7 @@ class ConferenceMapperControllerTest extends WebTestCase
             json_encode(
                 [
                     'state' => 'STARTED',
-                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiIxMjM0NTYyMjU1NjYifX0sIm1vZGVyYXRvciI6ZmFsc2V9.cd8QFXA3LnS54ESBAFR4iGOQuMtz1nQZ7snqEjSjivo',
+                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCJ9LCJ1c2VyIjp7Im5hbWUiOiIxMjM0NTYyMjU1NjYifX0sIm1vZGVyYXRvciI6ZmFsc2V9.NFr8Y8YOi9Ab-vapJafEaaxUU9ni-CEZQoF3ugWdtZQ',
                     'room_name' => '123456780@testdomain.com',
                     "display_name" => "123456225566"
                 ]
