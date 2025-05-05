@@ -32,6 +32,9 @@ class JwtTest extends KernelTestCase
                 'user' => [
                     'name' => 'Test User',
                 ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
+                ]
             ],
             'moderator' => true,
         ];
