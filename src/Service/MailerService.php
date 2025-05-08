@@ -17,7 +17,9 @@ use App\UtilsHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Mime\Address;
@@ -25,182 +27,232 @@ use Symfony\Component\Mime\Email;
 
 class MailerService
 {
-    private $parameter;
-    private $kernel;
-    private $logger;
-    private ?CustomMailerMessage $customMailer;
-    private $licenseService;
-    private $mailer;
-    private $bus;
+    private ?CustomMailerMessage $customMailer = null;
 
     public function __construct(
-        MessageBusInterface   $bus,
-        LicenseService        $licenseService,
-        LoggerInterface       $logger,
-        ParameterBagInterface $parameterBag,
-        KernelInterface       $kernel,
-        MailerInterface       $mailer,
-        private ThemeService          $themeService)
-    {
+        private MessageBusInterface   $bus,
+        private LicenseService        $licenseService,
+        private LoggerInterface       $logger,
+        private ParameterBagInterface $parameter,
+        private KernelInterface       $kernel,
+        private MailerInterface       $mailer,
+        private ThemeService          $themeService
+    ) {}
 
-        $this->parameter = $parameterBag;
-        $this->kernel = $kernel;
-        $this->logger = $logger;
-        $this->customMailer = null;
-        $this->licenseService = $licenseService;
-        $this->mailer = $mailer;
-        $this->bus = $bus;
-    }
-
-    public function buildTransport(Server $server)
-    {
-
-        if ($server->getSmtpHost()) {
-            $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
-            if ($server->getSmtpUsername()) {
-                $this->logger->debug('we have a new Mailer with a pasword');
-                $this->logger->debug('Credentials: ', ['username' => $server->getSmtpUsername(), 'password' => $server->getSmtpPassword()]);
-                $dsn = 'smtp://' . urlencode($server->getSmtpUsername()) . ':' . urlencode($server->getSmtpPassword()) . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false&auto_tls=false';
-            } else {
-                $this->logger->debug('We have no password');
-                $dsn = 'smtp://' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false&auto_tls=false';
-            }
-            $this->logger->debug($dsn);
-            $this->logger->info('The Transport is new and we take him');
-            $this->customMailer = new CustomMailerMessage($dsn);
-            return true;
-        }
-        return false;
-    }
-
-    public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = []): bool
-    {
+    public function sendEmail(
+        User $user,
+        string $betreff,
+        string $content,
+        Server $server,
+        ?string $replyTo = null,
+        ?Rooms $rooms = null,
+        array $attachment = []
+    ): bool {
         $to = $user->getEmail();
-        $cc = [];
-        if ($user->getSecondEmail()) {
-            foreach (explode(',', $user->getSecondEmail()) as $data) {
-                $e = trim($data);
-                if (filter_var($e, FILTER_VALIDATE_EMAIL)) {
-                    $cc[] = $e;
-                }
-            }
-        }
-        if ($user->getLdapUserProperties() && filter_var($to, FILTER_VALIDATE_EMAIL) == false) {
-            $this->logger->debug('We sent no email, because the User is an LDAP User and the email is not a valid Email');
+        $cc = $this->extractValidEmails($user->getSecondEmail());
+
+        if ($user->getLdapUserProperties() && !$this->isValidEmail($to)) {
+            $this->logger->debug('Invalid LDAP user email. Skipping.');
             return true;
         }
+
         if ($this->parameter->get('DISALLOW_ALL_EMAILS') === 1) {
-            $this->logger->debug('We don`t send emails at all so we  dont send any emails here');
+            $this->logger->debug('Global email sending disabled.');
             return true;
         }
+
         try {
-            $this->logger->info('Mail To: ' . $to);
-            $res = $this->sendViaMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment, $cc);
+            $this->logger->info("Mail To: $to");
+            return $this->sendViaMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment, $cc);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
-            $res = false;
+            return false;
         }
-        return $res;
     }
 
-    public function sendPlainMail($to, $suject, $message): void
+    public function sendPlainMail(string $to, string $subject, string $message): void
     {
         $server = new Server();
-        $reciever = explode(',', $to);
-        foreach ($reciever as $data) {
-            $this->sendViaMailer(to: $data, betreff: $suject, content: $message, server: $server);
+        foreach (explode(',', $to) as $email) {
+            $this->sendViaMailer(trim($email), $subject, $message, $server);
         }
-
     }
 
-    private function sendViaMailer($to, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = [], $cc = []): bool
-    {
+    private function sendViaMailer(
+        string $to,
+        string $betreff,
+        string $content,
+        Server $server,
+        ?string $replyTo = null,
+        ?Rooms $rooms = null,
+        array $attachment = [],
+        array $cc = []
+    ): bool {
         $this->buildTransport($server);
-        if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
-            $this->logger->info($server->getSmtpEmail());
-            $sender = $server->getSmtpEmail();
-            $senderName = $server->getSmtpSenderName();
-        } else {
-            $sender = $this->parameter->get('registerEmailAdress');
-            $senderName = $this->parameter->get('registerEmailName');
-        }
-        if ($rooms && $rooms->getModerator() && $this->parameter->get('emailSenderIsModerator')) {
-            $senderName = $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName();
-        }
-        $message = (new Email())
-            ->subject($betreff)
-            ->from(new Address($sender, $senderName))
-            ->to($to)
-            ->html($content);
 
-        if ($replyTo) {
-            if (filter_var($replyTo, FILTER_VALIDATE_EMAIL) == true) {
-                $message->replyTo($replyTo);
-            }
-        }
-        foreach ($attachment as $data) {
-            $message->attach($data['body'], UtilsHelper::slugifywithDot($data['filename']), $data['type']);
-        };
-        if ($this->kernel->getEnvironment() !== 'dev') {
-            foreach ($cc as $data) {
-                $message->addCc($data);
-            }
-        }
+        [$fromAddress, $fromName] = $this->resolveSender($server, $rooms);
 
-        if ($this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') == 1) {
-            if ($rooms && $rooms->getModerator()->getEmail() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true) {
-                $message->returnPath($rooms->getModerator()->getEmail());
-            }
-        }
-        if ($rooms){
-            if ($this->themeService->getTheme($rooms)){
-                $emailAddress = '';
-                if ($this->themeService->getTheme($rooms)['EMAIL_SENDER_NAME']){
-                   $emailAddress =$this->themeService->getTheme($rooms)['EMAIL_SENDER_NAME'];
-                }
-                if ($this->themeService->getTheme($rooms)['EMAIL_SENDER_ADDRESS']){
-                    $emailAddress =$emailAddress. '<'.$this->themeService->getTheme($rooms)['EMAIL_SENDER_ADDRESS'].'>';
-                }
-                if ($emailAddress!==''){
-                    $message->from(Address::create($emailAddress));
-                }
-            }
-        }
+        $email = $this->createEmailMessage($to, $betreff, $content, $fromAddress, $fromName, $replyTo, $attachment, $cc);
+        $this->applyRoomThemeSender($email, $rooms);
+        $this->applyReturnPath($email, $rooms);
 
         try {
             if ($server->getSmtpHost()) {
                 if ($this->kernel->getEnvironment() === 'dev') {
-                    foreach ($this->parameter->get('delivery_addresses') as $data) {
-                        $message->to($data);
+                    foreach ($this->parameter->get('delivery_addresses') as $devRecipient) {
+                        $email->to($devRecipient);
                     }
                 }
-                if ($rooms && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL)) {
-                    $this->customMailer->setAbsender($rooms->getModerator()->getEmail());
+                if ($rooms?->getModerator() && $this->isValidEmail($rooms->getModerator()->getEmail())) {
+                    $this->customMailer?->setAbsender($rooms->getModerator()->getEmail());
                 }
                 if ($rooms) {
-                    $this->customMailer->setRoomId($rooms->getId());
+                    $this->customMailer?->setRoomId($rooms->getId());
                 }
-                $this->customMailer->setTo($to);
-                $this->logger->info('Send from Custom Mailer');
+                $this->customMailer?->setTo($to);
+
+                $this->logger->info('Sending via Custom Mailer');
                 $this->bus->dispatch(
-                    $this->customMailer->send($message),
-                    [
-                        // wait 5 seconds before processing
-                        new DelayStamp(rand(1000, 10000)),
-                    ]
+                    $this->customMailer->send($email),
+                    [new DelayStamp(rand(1000, 10000))]
                 );
             } else {
-                $this->mailer->send($message);
+                $this->mailer->send($email);
             }
         } catch (\Exception $e) {
-            //we reset the sender name if the individual email is not working
-            $sender = $this->parameter->get('registerEmailAdress');
-            $senderName = $this->parameter->get('registerEmailName');
-            $message->from(new Address($sender, $senderName));
-            $this->mailer->send($message);
             $this->logger->error($e->getMessage());
+            $fallbackEmail = new Email();
+            $fallbackEmail->from(new Address(
+                $this->parameter->get('registerEmailAdress'),
+                $this->parameter->get('registerEmailName')
+            ));
+            $this->mailer->send($fallbackEmail);
             throw $e;
         }
+
         return true;
     }
+
+    public function buildTransport(Server $server): void
+    {
+        if (!$server->getSmtpHost()) return;
+
+        $this->logger->info('Building new Transport: ' . $server->getSmtpHost());
+        $dsn = $server->getSmtpUsername()
+            ? sprintf(
+                'smtp://%s:%s@%s:%s?verify_peer=false&auto_tls=false',
+                urlencode($server->getSmtpUsername()),
+                urlencode($server->getSmtpPassword()),
+                $server->getSmtpHost(),
+                $server->getSmtpPort()
+            )
+            : sprintf('smtp://%s:%s?verify_peer=false&auto_tls=false', $server->getSmtpHost(), $server->getSmtpPort());
+
+        $this->customMailer = new CustomMailerMessage($dsn);
+    }
+
+    private function createEmailMessage(
+        string $to,
+        string $subject,
+        string $htmlContent,
+        string $fromEmail,
+        string $fromName,
+        ?string $replyTo,
+        array $attachments,
+        array $cc
+    ): Email {
+        $email = (new Email())
+            ->subject($subject)
+            ->from(new Address($fromEmail, $fromName))
+            ->to($to)
+            ->html($htmlContent);
+
+        if ($replyTo && $this->isValidEmail($replyTo)) {
+            $email->replyTo($replyTo);
+        }
+
+        foreach ($attachments as $file) {
+            $email->attach($file['body'], UtilsHelper::slugifywithDot($file['filename']), $file['type']);
+        }
+
+        if ($this->kernel->getEnvironment() !== 'dev') {
+            foreach ($cc as $emailCc) {
+                $email->addCc($emailCc);
+            }
+        }
+
+        return $email;
+    }
+
+    private function applyRoomThemeSender(Email $email, ?Rooms $rooms): void
+    {
+        $theme = $rooms ? $this->themeService->getTheme($rooms) : null;
+        if (!$theme) return;
+
+        $name = $theme['EMAIL_SENDER_NAME'] ?? '';
+        $address = $theme['EMAIL_SENDER_ADDRESS'] ?? '';
+
+        if ($address) {
+            $full = $name ? "$name<$address>" : $address;
+            $email->from(Address::create($full));
+        }
+    }
+
+    private function applyReturnPath(Email $email, ?Rooms $rooms): void
+    {
+        if ($this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') === 1 && $rooms?->getModerator()) {
+            $moderatorEmail = $rooms->getModerator()->getEmail();
+            if ($this->isValidEmail($moderatorEmail)) {
+                $email->returnPath($moderatorEmail);
+            }
+        }
+    }
+
+    private function resolveSender(Server $server, ?Rooms $rooms): array
+    {
+        if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
+            return [$server->getSmtpEmail(), $server->getSmtpSenderName()];
+        }
+
+        if ($rooms?->getModerator() && $this->parameter->get('emailSenderIsModerator')) {
+            $moderator = $rooms->getModerator();
+            return [
+                $this->parameter->get('registerEmailAdress'),
+                $moderator->getFirstName() . ' ' . $moderator->getLastName()
+            ];
+        }
+
+        return [
+            $this->parameter->get('registerEmailAdress'),
+            $this->parameter->get('registerEmailName')
+        ];
+    }
+
+    private function extractValidEmails(?string $emails): array
+    {
+        $list = [];
+        foreach (explode(',', $emails ?? '') as $email) {
+            $email = trim($email);
+            if ($this->isValidEmail($email)) {
+                $list[] = $email;
+            }
+        }
+        return $list;
+    }
+
+    private function isValidEmail(?string $email): bool
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+    }
+
+    public function getCustomMailer(): ?CustomMailerMessage
+    {
+        return $this->customMailer;
+    }
+
+    public function setCustomMailer(?CustomMailerMessage $customMailer): void
+    {
+        $this->customMailer = $customMailer;
+    }
+
 }

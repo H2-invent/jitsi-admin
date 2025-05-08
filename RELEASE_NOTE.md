@@ -32,6 +32,8 @@
 
 ### 🐛 Bug Fixes
 * Fix new Lobby for Multiple Users
+* Fix extra html not blocking other js
+* Fix smtp error when email address is incorrect. This email shows now the reason why an email was not send
 
 # Changes in the Managed Service
 * All Livekit Server Conferences will run on the new Middleware

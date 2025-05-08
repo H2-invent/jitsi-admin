@@ -137,12 +137,14 @@
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
     var confirmOk = "{{ 'confirm.ok'|trans }}";
 </script>
-{% if theme and theme.extrahtml is defined %}
-    {{ include(template_from_string(theme.extrahtml|raw)) }}
-{% endif %}
+
 
 {% block javascripts %}{% endblock %}
 {{ include('base/__script.html.twig') }}
+
+{% if theme and theme.extrahtml is defined %}
+    {{ include(template_from_string(theme.extrahtml|raw)) }}
+{% endif %}
 <style type="text/css">
     .woot-widget-bubble {
         z-index: 5 !important;
