@@ -8,4 +8,5 @@
 ## Bug Fixes:
 
 # Mailinglist
-To get the lastest updates subscripe to the newsletter [Subscripe here](https://lists.h2-invent.com/forms/nfrm_weLJnLY5)
+* You can use the **Github Notification** via E-Mail to get informed about new features in the next release
+* Sign up for the **Jitsi Admin Mailing-List**, which we send out: [Sign Up](https://lists.h2-invent.com/forms/nfrm_weLJnLY5)

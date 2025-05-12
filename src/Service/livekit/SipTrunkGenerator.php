@@ -75,8 +75,7 @@ class SipTrunkGenerator
                 'name' => $rooms->getUid(),
                 'numbers' => [
                     $this->sipTrunkNumber
-                ],
-                'allowed_numbers' => [$callerId],
+                ]
             ]
         ];
 
