@@ -79,6 +79,7 @@ class DashboardController extends JitsiAdminController
                 ],
             );
         }
+
         $roomsFuture = $this->doctrine->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
 
         $r = [];
@@ -180,6 +181,14 @@ class DashboardController extends JitsiAdminController
 
 
         }
+        $res->headers->setCookie(
+            Cookie::create(
+                'is_loggedIn_user',
+                1,
+                time() + (2 * 365 * 24 * 60 * 60),
+                '/',      // Path.
+            )
+        );
         return $res;
     }
 

@@ -32,6 +32,9 @@ class JwtTest extends KernelTestCase
                 'user' => [
                     'name' => 'Test User',
                 ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
+                ]
             ],
             'moderator' => true,
         ];
@@ -85,6 +88,9 @@ class JwtTest extends KernelTestCase
                 'features' => [
                     'screen-sharing' => true,
                     'private-message' => true,
+                ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
                 ]
             ],
             'moderator' => true,
@@ -121,6 +127,9 @@ class JwtTest extends KernelTestCase
                 'features' => [
                     'screen-sharing' => true,
                     'private-message' => true,
+                ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
                 ]
             ],
             'moderator' => false,
@@ -157,6 +166,9 @@ class JwtTest extends KernelTestCase
                 'features' => [
                     'screen-sharing' => false,
                     'private-message' => false,
+                ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
                 ]
             ],
             'moderator' => false,
@@ -193,6 +205,9 @@ class JwtTest extends KernelTestCase
                 'features' => [
                     'screen-sharing' => true,
                     'private-message' => true,
+                ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
                 ]
             ],
             'moderator' => true,
@@ -233,6 +248,9 @@ class JwtTest extends KernelTestCase
                 'features' => [
                     'screen-sharing' => true,
                     'private-message' => true,
+                ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
                 ]
             ],
             'moderator' => true,
@@ -273,6 +291,9 @@ class JwtTest extends KernelTestCase
                 'features' => [
                     'screen-sharing' => true,
                     'private-message' => false,
+                ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
                 ]
             ],
             'moderator' => false,
@@ -313,6 +334,9 @@ class JwtTest extends KernelTestCase
                 'features' => [
                     'screen-sharing' => false,
                     'private-message' => true,
+                ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
                 ]
             ],
             'moderator' => false,
@@ -354,6 +378,9 @@ class JwtTest extends KernelTestCase
                 'features' => [
                     'screen-sharing' => true,
                     'private-message' => true,
+                ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
                 ]
             ],
             'moderator' => false,
@@ -397,6 +424,9 @@ class JwtTest extends KernelTestCase
                 'features' => [
                     'screen-sharing' => true,
                     'private-message' => true,
+                ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
                 ]
             ],
 
@@ -441,6 +471,9 @@ class JwtTest extends KernelTestCase
                 'features' => [
                     'screen-sharing' => true,
                     'private-message' => true,
+                ],
+                'room'=>[
+                    'name'=>'TestMeeting: 0'
                 ]
             ],
 

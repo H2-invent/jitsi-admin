@@ -158,6 +158,8 @@
                         </div>
                     </div>
                 {% endif %}
+
+                {% if getApplicationProperties('LAF_SHOW_CALENDLY') != false %}
                 <hr>
                 <div class="mb-3">
                     <b>{{ 'calendly.header'|trans }}</b><br>
@@ -172,6 +174,7 @@
                 {% else %}
                     <h5> <span class="badge badge-success">{{'calendly.connection.connected'|trans }}</span></h5>
                     <a href="{{ path('app_calendly_webhook_remove') }}">{{ 'callendly.disconnect'|trans }}</a>
+                {% endif %}
                 {% endif %}
             </div>
 
