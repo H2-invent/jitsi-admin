@@ -1,0 +1,21 @@
+name: Check Changelog
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened, labeled, unlabeled]
+    branches:
+      - master
+      - feature/development
+      - unstable/*
+      - hotfix/*
+
+jobs:
+  build:
+    name: Check Actions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Repository
+        uses: actions/checkout@v1
+
+      - uses: tarides/changelog-check-action@v2
+        with:
+          changelog: RELEASE_NOTE.md

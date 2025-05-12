@@ -31,9 +31,9 @@ class JoinViewType extends AbstractType
     {
 
         $builder
-            ->add('uid', TextType::class, ['attr' => ['placeholder' => 'label.konferenzId'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('email', TextType::class, ['attr' => ['placeholder' => 'label.email'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.name'], 'label' => false, 'required' => true, 'translation_domain' => 'form']);
+            ->add('uid', TextType::class, ['attr' => ['placeholder' => 'label.konferenzId'], 'label' => 'label.konferenzId', 'required' => true, 'translation_domain' => 'form'])
+            ->add('email', TextType::class, ['attr' => ['placeholder' => 'label.email'], 'label' => 'label.email', 'required' => true, 'translation_domain' => 'form'])
+            ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.name'], 'label' => 'label.name', 'required' => true, 'translation_domain' => 'form']);
         if ($this->themeService->getApplicationProperties('start_dropdown_allow_browser')) {
             $builder->add('joinBrowser', SubmitType::class, ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.beitretenBrowser', 'translation_domain' => 'form']);
         }

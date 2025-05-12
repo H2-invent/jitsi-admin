@@ -27,13 +27,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class OwnRoomController extends JitsiAdminController
 {
     #[Route(path: '/myRoom/start/{uid}', name: 'own_room_startPage')]
+    #[Route(path: '/room/myRoom/start/{uid}', name: 'own_room_startPage_protected')]
     public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator, StartMeetingService $startMeetingService): Response
     {
+        $session = $request->getSession();
         $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $uid, 'totalOpenRooms' => true]);
         if (!$rooms) {
             $this->addFlash('danger', $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
             return $this->redirectToRoute('join_index_no_slug');
         }
+
         if (!StartMeetingService::checkTime($rooms)) {
             $startPrint = $rooms->getTimeZone() ? clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getStart();
             $startPrint->modify('-30min');
@@ -51,7 +54,19 @@ class OwnRoomController extends JitsiAdminController
         }
 
         $data = [];
+        if (!$this->getUser() &&  $request->cookies->get('is_loggedIn_user')== 1) { // the user was logged in the past, so we send him to the login page
+
+            if ($session->get('login_attempted')) {// second try
+                $session->remove('login_attempted'); // Zurücksetzen
+                $response = $this->redirectToRoute('own_room_startPage',['uid' => $rooms->getUid()]);
+                $response->headers->clearCookie('is_loggedIn_user');
+                return  $response;
+            }
+            $session->set('login_attempted', true);
+           return $this->redirectToRoute('own_room_startPage_protected',['uid' => $rooms->getUid()]);
+        }
         if ($this->getUser()) {
+            $session->remove('login_attempted'); // Zurücksetzen
             $data['name'] = $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName();
         } elseif ($request->get('name')) {
             $data['name'] = base64_decode($request->get('name'));

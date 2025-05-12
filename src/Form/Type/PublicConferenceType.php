@@ -24,9 +24,10 @@ class PublicConferenceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
+
         $builder
-            ->add('myName', TextType::class, ['attr' => ['placeholder' => 'label.myName'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('roomName', TextType::class, ['attr' => ['class' => 'mt-3','placeholder' => 'label.konferenzName'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
+            ->add('myName', TextType::class, ['attr' => ['placeholder' => 'label.myName'], 'label' => 'label.myName', 'required' => true, 'translation_domain' => 'form'])
+            ->add('roomName', TextType::class, ['attr' => ['class' => 'mt-3','placeholder' => 'label.konferenzName'], 'label' => 'label.konferenzName', 'required' => true, 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, array('attr' => array('class' => 'btn btn-outline-primary btn-block mt-3'), 'label' => 'label.go', 'translation_domain' => 'form'),);
     }
 

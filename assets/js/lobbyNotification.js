@@ -15,6 +15,7 @@ import {close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
 import { Tooltip, initMDB } from "mdb-ui-kit";
 import {initAllComponents} from "./confirmation";
+import {showDialog} from "./createDialog";
 
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
@@ -32,6 +33,10 @@ function masterNotify(data) {
     Push.Permission.request();
     if (data.type === 'notification') {
         notifymoderator(data)
+    }else if (data.type === 'browserPush') {
+        showPush(data)
+    }else if (data.type === 'playSound') {
+        showPush(data)
     } else if (data.type === 'cleanNotification') {
         deleteToast(data.messageId);
     } else if (data.type === 'refresh') {
@@ -42,7 +47,10 @@ function masterNotify(data) {
         redirect(data);
     } else if (data.type === 'snackbar') {
         setSnackbar(data.message,'', data.color, false,'0x00',data.closeAfter)
-    } else if (data.type === 'newJitsi') {
+    }
+    else if (data.type === 'dialog') {
+        showDialog(data);
+    }else if (data.type === 'newJitsi') {
         //do nothing. Is handeled somewhere localy
     } else if (data.type === 'refreshDashboard') {
         refreshDashboard();
@@ -178,6 +186,22 @@ function showPush(data) {
         }, 2500)
     }, Math.floor(Math.random() * 50) + 50);
 }
+function playSound(data) {
+    setTimeout(function () {
+        TabUtils.lockFunction('notification' + data.messageId, function () {
+            if (data.soundName === ' caller'){
+                var audio = new Audio(callerSound);
+                audio.play();
+            }else if (data.soundName === 'notfication'){
+                var audio = new Audio(notificationSound);
+                audio.play();
+            }else if (data.soundName === 'newMessage'){
+                var audio = new Audio(newMessageSound);
+                audio.play();
+            }
+        }, 2500)
+    }, Math.floor(Math.random() * 50) + 50);
+}
 
 function callAddhock(data) {
     setTimeout(function () {
@@ -199,6 +223,7 @@ function callAddhock(data) {
 
         }, 5000)
     }, Math.floor(Math.random() * 50) + 50);
+
     setSnackbar(data.message,'Lobby', data.color, true);
 }
 

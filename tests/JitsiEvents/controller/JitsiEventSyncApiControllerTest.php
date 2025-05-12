@@ -15,7 +15,7 @@ class JitsiEventSyncApiControllerTest extends WebTestCase
         $client = static::createClient([],['HTTP_AUTHORIZATION' => 'Bearer 123456']);
         $crawler = $client->request('POST', '/api/v1/event/sync/?room_uid=00000',);
         $this->assertResponseIsSuccessful();
-        self::assertJsonStringEqualsJsonString('{"status":"ROOOM_CLOSED"}',$client->getResponse()->getContent());
+        self::assertJsonStringEqualsJsonString('{"status":"ROOM_CLOSED"}',$client->getResponse()->getContent());
     }
     public function testRoomStarted(): void
     {
