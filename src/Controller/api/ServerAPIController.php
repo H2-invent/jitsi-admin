@@ -34,17 +34,17 @@ class ServerAPIController extends AbstractController
             return new JsonResponse(['error' => true, 'text' => 'No Server found. The server mus be allowed to be cloned to autoscale',
             'hint'=>'use the command php bin/console app:server:allowTo #serverid to allow to clone']);
         }
+        $serverUSer = $server->getUser()->toArray();
+
         $newServer = clone $server;
         $newServer->setUrl($request->get('url'))
             ->setServerName($request->get('name'))
             ->setAppId($request->get('app_id'))
             ->setAppSecret($request->get('app_secret'))
             ->setUpdatedAt(new \DateTime())
-            ->setApiKey(null)
+            ->setAllowedToCloneForAutoscale(null)
             ->setSlug(urlencode($newServer->getUrl()));
-        foreach ($newServer->getUser() as $user){
-            $newServer->removeUser($user);
-        }
+        $newServer->getUser()->clear();
         $newServer->setAdministrator(null);
         $this->entityManager->persist($newServer);
         $this->entityManager->flush();

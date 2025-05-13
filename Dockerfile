@@ -15,24 +15,28 @@ RUN usermod -a -G www-data docker
 #Do npm install
 
 COPY . /var/www/html
+
 RUN npm install
 USER docker
 RUN composer install --no-scripts
 USER root
 #do npm build
 RUN mkdir var
-RUN chmod -R 777 var/
+RUN chmod -R 775 var/
 RUN chown -R docker:docker var/
 RUN chown -R docker:docker public/uploads/
 RUN chown -R docker:docker public/theme/
 RUN chown -R docker:docker theme/
 RUN chown -R  docker:docker data/
-RUN mkdir -m 777 -p public/build
+RUN mkdir -m 775 -p public/build
+USER docker
 RUN php bin/console cache:clear
 RUN php bin/console cache:warmup
+USER root
 RUN npm run build
-RUN rm -rf node_modules/
-#copy all the rest of the app
 
+RUN rm -rf node_modules/
+RUN chown -R docker:docker var/
+#copy all the rest of the app
 
 USER docker

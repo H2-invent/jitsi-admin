@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler;
 
+use AllowDynamicProperties;
 use App\Entity\Rooms;
 use App\Message\CustomMailerMessage;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
-#[AsMessageHandler]
+#[AllowDynamicProperties] #[AsMessageHandler]
 class CustomMailerMessageDispatcher
 {
     public function __construct(
@@ -37,11 +38,11 @@ class CustomMailerMessageDispatcher
             $this->logger->debug('there was an exeption during sending', ['error' => $exception->getMessage()]);
             $room = $this->entityManager->getRepository(Rooms::class)->find($customMailerMessage->getRoomId());
             $this->logger->debug('We looking for a room with the id', ['id' => $customMailerMessage->getRoomId()]);
-            $this->sendNotdelivery($room, $customMailerMessage->getAbsender(), $customMailerMessage->getTo());
+            $this->sendNotdelivery($room, $customMailerMessage->getAbsender(), $customMailerMessage->getTo(), $exception->getMessage());
         }
     }
 
-    private function sendNotdelivery(Rooms $room, $to, $wrongEmail)
+    private function sendNotdelivery(Rooms $room, $to, $wrongEmail, $error)
     {
         $sender = $this->parameterBag->get('registerEmailAdress');
         $senderName = $this->parameterBag->get('registerEmailName');
@@ -51,6 +52,7 @@ class CustomMailerMessageDispatcher
             ->to($to)
             ->html(
                 '<h2>You tried to send an email with an invalid email address.:' . $wrongEmail . '</h2>'
+                .'<p>Reason:'.$error.'</p>'
                 . '<p>Please doublecheck the email address and try to resend the message again.</p>'
                 . ($room ? sprintf('<br><p>%s: %s</p>', 'Room name', $room->getName()) : '')
             );

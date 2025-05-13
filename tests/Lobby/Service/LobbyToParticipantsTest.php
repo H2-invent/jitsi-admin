@@ -29,7 +29,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                     self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success","closeAfter":2000}', $update->getData());
                 }
                 if (strpos($update->getData(), 'jitsi-meet') > 0) {
-                    self::assertEquals('{"type":"redirect","url":"jitsi-meet:\/\/meet.jit.si2\/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE#config.subject=%22this_is_a_room_with_lobby%22","timeout":5000}', $update->getData());
+                    self::assertEquals('{"type":"redirect","url":"jitsi-meet:\/\/meet.jit.si2\/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkifSwidXNlciI6eyJuYW1lIjoiVGVzdDIgVXNlcjIifX0sIm1vZGVyYXRvciI6ZmFsc2V9.7snKUVKtKp1XjGzzEJXEE5ev2VBblDU1StO2yGvGMWA#config.subject=%22this_is_a_room_with_lobby%22","timeout":5000}', $update->getData());
                 }
                 return 'id';
             }
@@ -129,7 +129,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                             'type' => "newJitsi",
                             'options' => [
 
-                                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE',
+                                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkifSwidXNlciI6eyJuYW1lIjoiVGVzdDIgVXNlcjIifX0sIm1vZGVyYXRvciI6ZmFsc2V9.7snKUVKtKp1XjGzzEJXEE5ev2VBblDU1StO2yGvGMWA',
                                 ],
                         ],
                         json_decode($update->getData(), true)
@@ -183,7 +183,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                         [
                             'type' => "newJitsi",
                             'options' => [
-                                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE',
+                                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkifSwidXNlciI6eyJuYW1lIjoiVGVzdDIgVXNlcjIifX0sIm1vZGVyYXRvciI6ZmFsc2V9.7snKUVKtKp1XjGzzEJXEE5ev2VBblDU1StO2yGvGMWA',
                             ]
                         ],
                         json_decode($update->getData(), true)
