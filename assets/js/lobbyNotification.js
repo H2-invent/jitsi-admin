@@ -36,7 +36,7 @@ function masterNotify(data) {
     }else if (data.type === 'browserPush') {
         showPush(data)
     }else if (data.type === 'playSound') {
-        showPush(data)
+        playSound(data)
     } else if (data.type === 'cleanNotification') {
         deleteToast(data.messageId);
     } else if (data.type === 'refresh') {

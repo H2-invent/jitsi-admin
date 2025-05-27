@@ -26,6 +26,7 @@ function setSnackbar(text,title, color, closeWithHover = false, id = '0x00',time
         color = 'error';
     }
     Snackbar.show({
+        pos: 'top-center',
         text: text
     })
     // Toastr.options.timeOut = timeout;
