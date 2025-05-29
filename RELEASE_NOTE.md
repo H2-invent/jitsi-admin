@@ -28,7 +28,9 @@
 ### ⭐ Improvements
 * Join a Videoconference without an camera and microphone
 * Add Api to change Server of Room to use auto provisioner
-
+* add @ server to livekit roomname
+* add @ servername to jwt roomname claim
+* add relay for events to other middlewares
 
 ### 🐛 Bug Fixes
 * Fix new Lobby for Multiple Users

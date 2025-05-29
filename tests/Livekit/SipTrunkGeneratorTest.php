@@ -5,6 +5,7 @@ namespace App\Tests\Livekit;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Service\livekit\SipTrunkGenerator;
+use App\Service\LivekitRoomNameGenerator;
 use Firebase\JWT\JWT;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -18,15 +19,16 @@ class SipTrunkGeneratorTest extends TestCase
     private $sipTrunkGenerator;
     private $rooms;
     private $server;
+    private $livekitUrlgenerator;
 
     protected function setUp(): void
     {
         // HttpClient und Logger mocken
         $this->httpClient = $this->createMock(HttpClientInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-
+        $this->livekitUrlgenerator = $this->createMock(LivekitRoomNameGenerator::class);
         // Instanz der SipTrunkGenerator Klasse erstellen
-        $this->sipTrunkGenerator = new SipTrunkGenerator($this->httpClient, $this->logger);
+        $this->sipTrunkGenerator = new SipTrunkGenerator($this->httpClient, $this->logger, $this->livekitUrlgenerator);
 
         // Räume und Server mocken
         $this->rooms = $this->createMock(Rooms::class);
@@ -35,6 +37,7 @@ class SipTrunkGeneratorTest extends TestCase
         $this->server->method('getAppSecret')->willReturn('secret');
         $this->server->method('getAppId')->willReturn('key1');
         $this->rooms->method('getUid')->willReturn('test_room');
+        $this->livekitUrlgenerator->method('getLiveKitName')->willReturn('test_room@localhost:8000');
     }
 
     public function testCreateNewSIPNumber()
@@ -103,7 +106,7 @@ class SipTrunkGeneratorTest extends TestCase
             "sip_dispatch_rule_id" => "SDR_qp9tqqPQTXWF",
             "rule" => [
                 "dispatch_rule_direct" => [
-                    "room_name" => "test2_livekit-696",
+                    "room_name" => "test2_livekit-696localhost:8000",
                     "pin" => ""
                 ]
             ],
