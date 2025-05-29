@@ -3,12 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\RoomsRepository;
-use App\Service\ThemeService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: RoomsRepository::class)]
@@ -167,8 +165,7 @@ class Rooms
     private ?string $calendly_uri = null;
 
 
-    public function __construct(
-    )
+    public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->userAttributes = new ArrayCollection();
@@ -1165,6 +1162,4 @@ class Rooms
 
         return $this;
     }
-
-
 }
