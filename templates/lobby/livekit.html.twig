@@ -186,7 +186,7 @@
     {% if name is defined and name is not null %}
 
         <script>
-            var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name) }}&secret={{ generateEncryptedSecret(room) }}';
+            var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ getLiveKitName(room)  }}?jwt={{ jwtFromRoom(user,room,name) }}&secret={{ generateEncryptedSecret(room) }}';
             const displayName = '{{ name }}';
             var hangupQuestion = "{{ 'lobby.endMeeting.ask'|trans }}";
             var endMeetingUrl = "{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}";
