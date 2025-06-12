@@ -31,6 +31,7 @@
 * add @ server to livekit roomname
 * add @ servername to jwt roomname claim
 * add relay for events to other middlewares
+* Add Chatwoot in conferences in sidebar
 
 ### 🐛 Bug Fixes
 * Fix new Lobby for Multiple Users
