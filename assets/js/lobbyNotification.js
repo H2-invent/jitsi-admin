@@ -189,7 +189,7 @@ function showPush(data) {
 function playSound(data) {
     setTimeout(function () {
         TabUtils.lockFunction('notification' + data.messageId, function () {
-            if (data.soundName === ' caller'){
+            if (data.soundName === 'caller'){
                 var audio = new Audio(callerSound);
                 audio.play();
             }else if (data.soundName === 'notfication'){
