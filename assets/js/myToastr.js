@@ -20,14 +20,16 @@ import * as Snackbar from 'node-snackbar'
 // }
 
 
-function setSnackbar(text,title, color, closeWithHover = false, id = '0x00',timeout=0) {
+function setSnackbar(text,title, color='blue', closeWithHover = false, id = '0x00',timeout=0) {
 
     if (color === 'danger') {
-        color = 'error';
+        color = 'red';
     }
     Snackbar.show({
         pos: 'top-center',
-        text: text
+        text: text,
+        duration: timeout,
+        textColor: color
     })
     // Toastr.options.timeOut = timeout;
     // if (closeWithHover === true) {

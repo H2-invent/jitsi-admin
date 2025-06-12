@@ -75,6 +75,10 @@ class SipTrunkGenerator
                 'name' => $rooms->getUid(),
                 'numbers' => [
                     $this->sipTrunkNumber
+                ],
+                'include_headers'=>1,
+                'headers_to_attributes'=>[
+                    'X-'
                 ]
             ]
         ];

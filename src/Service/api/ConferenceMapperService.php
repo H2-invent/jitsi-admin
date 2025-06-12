@@ -62,8 +62,11 @@ class ConferenceMapperService
                 ];
             }
         }
+        $user = null;
+        if ($callerId){
+            $user = $this->findNameFromCallerId(callerId: $callerId);
+        }
 
-        $user = $this->findNameFromCallerId(callerId: $callerId);
 
         $res = [
             'state' => 'STARTED',

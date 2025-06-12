@@ -141,5 +141,15 @@
 
 
 {% include 'conference_end/__rating.html.twig' with {'room':room} %}
+{% if theme and theme.extrahtml is defined %}
+    {{ include(template_from_string(theme.extrahtml|raw)) }}
+
+    <script>
+        if (window.$chatwoot) {
+            window.$chatwoot.toggleBubbleVisibility("hide"); // to hide the bubble
+        }
+    </script>
+
+{% endif %}
 
 </html>
