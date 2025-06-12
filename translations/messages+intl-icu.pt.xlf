@@ -167,83 +167,83 @@
       </trans-unit>
       <trans-unit id="XwtOUUe" resname="Konferenz nicht gefunden. Zugangsdaten erneut eingeben">
         <source>Konferenz nicht gefunden. Zugangsdaten erneut eingeben</source>
-        <target state="needs-translation">Die Konferenz wurde nicht gefunden. Bitte geben Sie Ihre Zugangsdaten erneut ein.</target>
+        <target state="translated">A conferência não foi encontrada. Insira seus dados de login novamente.</target>
       </trans-unit>
       <trans-unit id="vN5CG5e" resname="Jitsi-Meet-Server bearbeiten">
         <source>Jitsi-Meet-Server bearbeiten</source>
-        <target state="needs-translation">Jitsi Meet Server bearbeiten</target>
+        <target state="translated">Editar Jitsi Meet Server</target>
       </trans-unit>
       <trans-unit id="fsMtJ9O" resname="Jitsi-Meet-Server erstellen">
         <source>Jitsi-Meet-Server erstellen</source>
-        <target state="needs-translation">Jitsi Meet Server erstellen</target>
+        <target state="translated">Crie um servidor Jitsi Meet</target>
       </trans-unit>
       <trans-unit id="dy_GeG5" resname="Jitsi-Admin Enterprise Einstellungen">
         <source>Jitsi-Admin Enterprise Einstellungen</source>
-        <target state="needs-translation">Jitsi-Admin-Enterprise-Einstellungen</target>
+        <target state="translated">Configurações do Jitsi Admin Enterprise</target>
       </trans-unit>
       <trans-unit id="uJNZgDI" resname="Organisator zu Server hinzufügen">
         <source>Organisator zu Server hinzufügen</source>
-        <target state="needs-translation">Bitte fügen Sie den Organisator zum Server hinzu.</target>
+        <target state="translated">Adicione o organizador ao servidor.</target>
       </trans-unit>
       <trans-unit id="d13MkUI" resname="Berechtigung gelöscht">
         <source>Berechtigung gelöscht</source>
-        <target state="needs-translation">Berechtigung gelöscht</target>
+        <target state="translated">Autorização excluída</target>
       </trans-unit>
       <trans-unit id="UUNN.xf" resname="Server gelöscht">
         <source>Server gelöscht</source>
-        <target state="needs-translation">Server gelöscht</target>
+        <target state="translated">Servidor excluído</target>
       </trans-unit>
       <trans-unit id="11h1OVO" resname="SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten">
         <source>SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten</source>
-        <target state="needs-translation">Die SMTP-Einstellungen sind korrekt. Sie sollten in Kürze eine E-Mail erhalten.</target>
+        <target state="translated">As configurações de SMTP estão corretas. Você deverá receber um e-mail em breve.</target>
       </trans-unit>
       <trans-unit id="CvLQYUn" resname="Fehler, der Server ist nicht registriert">
         <source>Fehler, der Server ist nicht registriert</source>
-        <target state="needs-translation">Fehler, der Server ist nicht registriert.</target>
+        <target state="translated">Erro, o servidor não está registrado.</target>
       </trans-unit>
       <trans-unit id="db4Tc5g" resname="Testmail vom Jitsi-Admin">
         <source>Testmail vom Jitsi-Admin</source>
-        <target state="needs-translation">Test-E-Mail von Jitsi Admin</target>
+        <target state="translated">E-mail de teste do Jitsi Admin</target>
       </trans-unit>
       <trans-unit id="tEn5ESM" resname="Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet">
         <source>Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet</source>
-        <target state="needs-translation">Sie haben einen SMTP Server für Ihren Jitsi Server erfolgreich eingerichtet.</target>
+        <target state="translated">Você configurou com sucesso um servidor SMTP para o seu servidor Jitsi.</target>
       </trans-unit>
       <trans-unit id="6CdI0x2" resname="Fehler, Ihre SMTP-Parameter sind fehlerhaft">
         <source>Fehler, Ihre SMTP-Parameter sind fehlerhaft</source>
-        <target state="needs-translation">Fehler, Ihre SMTP-Parameter sind fehlerhaft.</target>
+        <target state="translated">Erro, seus parâmetros SMTP estão incorretos.</target>
       </trans-unit>
       <trans-unit id="CqaZ.1f" resname="Bitte geben Sie ihre Daten ein">
         <source>Bitte geben Sie ihre Daten ein</source>
-        <target state="needs-translation">Bitte geben Sie Ihre Daten ein.</target>
+        <target state="translated">Por favor, insira seus dados.</target>
       </trans-unit>
       <trans-unit id="wxmdl47" resname="Konferenzen">
         <source>Konferenzen</source>
-        <target state="needs-translation">Konferenzen</target>
+        <target state="translated">Conferências</target>
       </trans-unit>
       <trans-unit id="1e8jFXq" resname="Teilnehmer">
         <source>Teilnehmer</source>
-        <target state="needs-translation">Teilnehmende</target>
+        <target state="translated">Participantes</target>
       </trans-unit>
       <trans-unit id="STLNIRk" resname="Organisatoren">
         <source>Organisatoren</source>
-        <target state="needs-translation">Organisatoren</target>
+        <target state="translated">Organizadores</target>
       </trans-unit>
       <trans-unit id="K59Wy84" resname="Neue Version von Jitsi Admin verfügbar">
         <source>Neue Version von Jitsi Admin verfügbar</source>
-        <target state="needs-translation">Eine neue Version von Jitsi Admin ist verfügbar.</target>
+        <target state="translated">Uma nova versão do Jitsi Admin está disponível.</target>
       </trans-unit>
       <trans-unit id="r9DA9sF" resname="Aktuellste Jitsi Admin Version installiert">
         <source>Aktuellste Jitsi Admin Version installiert</source>
-        <target state="needs-translation">Die aktuelle Jitsi-Admin-Version wurde installiert.</target>
+        <target state="translated">A versão atual do Jitsi Admin foi instalada.</target>
       </trans-unit>
       <trans-unit id="xe1M_dI" resname="Anzahl Konferenzen">
         <source>Anzahl Konferenzen</source>
-        <target state="needs-translation">Anzahl der Konferenzen</target>
+        <target state="translated">Número de conferências</target>
       </trans-unit>
       <trans-unit id="P6awl_5" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="needs-translation">Anzahl der Eingeladenen</target>
+        <target state="translated">Número de convidados</target>
       </trans-unit>
       <trans-unit id="0r4e3w5" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -462,57 +462,56 @@
       </trans-unit>
       <trans-unit id="igPBE0L" resname="Geplante Dauer">
         <source>Geplante Dauer</source>
-        <target state="needs-translation">Geplante Dauer</target>
+        <target state="translated">Duração planejada</target>
       </trans-unit>
       <trans-unit id="np50Sa5" resname="Minuten">
         <source>Minuten</source>
-        <target state="needs-translation">Minuten</target>
+        <target state="translated">minutos</target>
       </trans-unit>
       <trans-unit id="0YNVynf" resname="Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen">
         <source>Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen</source>
-        <target state="needs-translation">Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen.</target>
+        <target state="translated">Agora você pode criar conferências com o Jitsi Server {url}.</target>
       </trans-unit>
       <trans-unit id="ItIVAzb" resname="Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie&#10;        sich einen Benutzer.">
         <source>Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
         sich einen Benutzer.</source>
-        <target state="needs-translation">Sie können nun Jitsi-Meet-Konferenzen über Jitsi Admin verwalten. Loggen Sie sich bitte ein oder erstellen Sie
-        sich einen Benutzer.</target>
+        <target state="translated">Agora você pode gerenciar conferências do Jitsi Meet via Jitsi Admin. Faça login ou crie um usuário.</target>
       </trans-unit>
       <trans-unit id="4f3WEva" resname="Login">
         <source>Login</source>
-        <target state="needs-translation">Log-in</target>
+        <target state="translated">Conecte-se</target>
       </trans-unit>
       <trans-unit id="2KpWL9Z" resname="Server Administrator">
         <source>Server Administrator</source>
-        <target state="needs-translation">Server Administrator</target>
+        <target state="translated">Administrador do servidor</target>
       </trans-unit>
       <trans-unit id="f4aqU0d" resname="Bestätigung Ihrer Anmeldung">
         <source>Bestätigung Ihrer Anmeldung</source>
-        <target state="needs-translation">Bestätigung Ihrer Anmeldung</target>
+        <target state="translated">Confirmação da sua inscrição</target>
       </trans-unit>
       <trans-unit id="TbOhCzT" resname="Sie haben sich zur Konferenz {name} angemeldet.">
         <source>Sie haben sich zur Konferenz {name} angemeldet.</source>
-        <target state="needs-translation">Sie haben sich zur Konferenz {name} angemeldet.</target>
+        <target state="translated">Você se inscreveu na conferência {name}.</target>
       </trans-unit>
       <trans-unit id="k3D2lZ." resname="Klicken Sie hier um die Anmeldung abzuschließen">
         <source>Klicken Sie hier um die Anmeldung abzuschließen</source>
-        <target state="needs-translation">Bitte klicken Sie hier, um die Anmeldung abzuschließen.</target>
+        <target state="translated">Clique aqui para concluir o registro.</target>
       </trans-unit>
       <trans-unit id="wMCAtIO" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz-ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz-ID: {uid}</source>
-        <target state="needs-translation"><![CDATA[Folgende Daten benötigen Sie, um der Konferenz beizutreten:<br>
-        Ihre E-Mail-Adresse: {email}<br>
-        Konferenz-ID: {uid}]]></target>
+        <target state="translated"><![CDATA[Você precisa das seguintes informações para participar da conferência:<br>
+        Seu endereço de e-mail: {e-mail}<br>
+        ID da conferência: {uid}]]></target>
       </trans-unit>
       <trans-unit id="a_1cDCX" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
         <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
-        <target state="needs-translation">Klicken Sie hier, um direkt zu der Videokonferenz zu gelangen.</target>
+        <target state="translated">Clique aqui para ir diretamente para a videoconferência.</target>
       </trans-unit>
       <trans-unit id="7B3V0of" resname="Konferenz beitreten">
         <source>Konferenz beitreten</source>
-        <target state="needs-translation">Zur Konferenz beitreten</target>
+        <target state="translated">Participe da conferência</target>
       </trans-unit>
       <trans-unit id="mp7za9I" resname="Füllen Sie das Formular aus um der Konferenz beizutreten">
         <source>Füllen Sie das Formular aus um der Konferenz beizutreten</source>
@@ -520,19 +519,19 @@
       </trans-unit>
       <trans-unit id="D1jmB18" resname="Startseite">
         <source>Startseite</source>
-        <target state="needs-translation">Startseite</target>
+        <target state="translated">Tela Inicial</target>
       </trans-unit>
       <trans-unit id="xHsbIh6" resname="Dashboard">
         <source>Dashboard</source>
-        <target state="needs-translation">Dashboard</target>
+        <target state="translated">Painel Administrativo</target>
       </trans-unit>
       <trans-unit id="zsOFi4H" resname="Registrieren">
         <source>Registrieren</source>
-        <target state="needs-translation">Registrieren</target>
+        <target state="translated">Registrar</target>
       </trans-unit>
       <trans-unit id="7b88WxI" resname="Öffentliche Konferenzen">
         <source>Öffentliche Konferenzen</source>
-        <target state="needs-translation">Öffentliche Konferenzen</target>
+        <target state="translated">Conferências Públicas</target>
       </trans-unit>
       <trans-unit id="pJger6D" resname="Anmelden">
         <source>Anmelden</source>
@@ -540,75 +539,75 @@
       </trans-unit>
       <trans-unit id="ySFyIYP" resname="Teilnehmerliste">
         <source>Teilnehmerliste</source>
-        <target state="needs-translation">Teilnehmendenliste</target>
+        <target state="translated">Lista de participantes</target>
       </trans-unit>
       <trans-unit id="Q26TzN7" resname="Zum Moderator ernennen">
         <source>Zum Moderator ernennen</source>
-        <target state="needs-translation">Moderator ernennen</target>
+        <target state="translated">Nomear moderador</target>
       </trans-unit>
       <trans-unit id="ZlARj2z" resname="Erlauben seinen Desktop zu teilen">
         <source>Erlauben seinen Desktop zu teilen</source>
-        <target state="needs-translation">Dem Teilnehmenden erlauben, die Ansicht auf seinem Bildschirm zu teilen</target>
+        <target state="translated">Permitir que o participante compartilhe a visualização em sua tela</target>
       </trans-unit>
       <trans-unit id="V2Z1FsY" resname="Organisator">
         <source>Organisator</source>
-        <target state="needs-translation">Organisator</target>
+        <target state="translated">Organizador</target>
       </trans-unit>
       <trans-unit id="ymAqBXk" resname="Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?">
         <source>Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden wirklich zum Moderator ernennen?</target>
+        <target state="translated">Você realmente deseja nomear o participante como moderador?</target>
       </trans-unit>
       <trans-unit id="_HbRcm3" resname="Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?">
         <source>Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden wirklich als Moderator entfernen?</target>
+        <target state="translated">Você realmente deseja remover o participante como moderador?</target>
       </trans-unit>
       <trans-unit id=".Ar6YZg" resname="Diesem Nutzer erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer erlauben seinen Bildschirm zu teilen</source>
-        <target state="needs-translation">Diesem Nutzer erlauben, die Ansicht auf dem Bildschirm zu teilen</target>
+        <target state="translated">Permitir que este usuário compartilhe a visualização na tela</target>
       </trans-unit>
       <trans-unit id="w86IY9b" resname="Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen</source>
-        <target state="needs-translation">Diesem Nutzer nicht mehr erlauben, die Ansicht auf dem Bildschirm zu teilen</target>
+        <target state="translated">Não permitir mais que este usuário compartilhe a visualização na tela</target>
       </trans-unit>
       <trans-unit id="odImhmg" resname="Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden">
         <source>Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Diesem Nutzer erlauben, private Nachrichten an andere Teilnehmende zu senden</target>
+        <target state="translated">Permitir que este usuário envie mensagens privadas para outros participantes</target>
       </trans-unit>
       <trans-unit id="ujpzVuV" resname="Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden">
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Diesem Nutzer nicht mehr erlauben, private Nachrichten an andere Teilnehmende zu senden</target>
+        <target state="translated">Não permitir mais que este usuário envie mensagens privadas para outros participantes</target>
       </trans-unit>
       <trans-unit id="0JGAgSU" resname="Teilnehmer suchen">
         <source>Teilnehmer suchen</source>
-        <target state="needs-translation">Teilnehmende suchen</target>
+        <target state="translated">Pesquisar participantes</target>
       </trans-unit>
       <trans-unit id="aVl9O9C" resname="Tippen zum Suchen">
         <source>Tippen zum Suchen</source>
-        <target state="needs-translation">Tippen zum Suchen</target>
+        <target state="translated">Toque para pesquisar</target>
       </trans-unit>
       <trans-unit id="zBJw8QA" resname="Abbrechen">
         <source>Abbrechen</source>
-        <target state="needs-translation">Abbrechen</target>
+        <target state="translated">Cancelar</target>
       </trans-unit>
       <trans-unit id="xh.U15f" resname="Server ID und Secret anzeigen">
         <source>Server ID und Secret anzeigen</source>
-        <target state="needs-translation">Server-ID und Secret anzeigen</target>
+        <target state="translated">Mostrar ID e segredo do servidor</target>
       </trans-unit>
       <trans-unit id="lWzOFMU" resname="Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.">
         <source>Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.</source>
-        <target state="needs-translation">Bitte geben Sie hier Ihren Pro-Lizenz-Key ein, wenn Sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi Admin Enterprise.</target>
+        <target state="translated">Insira sua chave de licença Pro aqui se você tiver adquirido uma. Saiba mais sobre o Jitsi Admin Enterprise aqui.</target>
       </trans-unit>
       <trans-unit id="7X.Gs6V" resname="Enterprise bis">
         <source>Enterprise bis</source>
-        <target state="needs-translation">Enterprise bis</target>
+        <target state="translated">Empresa para</target>
       </trans-unit>
       <trans-unit id="8oJeBOq" resname="Logo">
         <source>Logo</source>
-        <target state="needs-translation">Logo</target>
+        <target state="translated">Logotipo</target>
       </trans-unit>
       <trans-unit id="alI4yq2" resname="Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.">
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
-        <target state="needs-translation">Hier können Sie eine URL-Adresse zu Ihrem Logo einfügen, damit die Teilnehmenden auf der Join-Seite Ihr Logo sehen.</target>
+        <target state="translated">Aqui você pode inserir um endereço URL para o seu logotipo para que os participantes possam ver o seu logotipo na página de adesão.</target>
       </trans-unit>
       <trans-unit id="76rUyBo" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.">
         <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
@@ -742,7 +741,7 @@
       </trans-unit>
       <trans-unit id="I8wtD50" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target state="needs-translation">Unter Vorbehalt</target>
+        <target state="translated">Condicional</target>
       </trans-unit>
       <trans-unit id="UN_yfpB" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
@@ -848,7 +847,7 @@
       </trans-unit>
       <trans-unit id="5rrruMD" resname="Warteliste">
         <source>Warteliste</source>
-        <target state="needs-translation">Warteliste</target>
+        <target state="translated">Lista de Espera</target>
       </trans-unit>
       <trans-unit id="EOF2kTG" resname="Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen">
         <source>Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</source>
@@ -872,7 +871,7 @@
       </trans-unit>
       <trans-unit id="SHVIhjN" resname="Dieser Teilnehmer darf seinen Bildschirm teilen">
         <source>Dieser Teilnehmer darf seinen Bildschirm teilen</source>
-        <target state="needs-translation">Dieser Teilnehmende darf die Ansicht auf dem Bildschirm zu teilen.</target>
+        <target state="translated">Permitir que este usuário compartilhe a visualização na tela.</target>
       </trans-unit>
       <trans-unit id="HS6VuSy" resname="Dieser Teilnehmer darf private Nachrichten versenden">
         <source>Dieser Teilnehmer darf private Nachrichten versenden</source>
@@ -880,7 +879,7 @@
       </trans-unit>
       <trans-unit id="DWzXO1L" resname="Darkmode">
         <source>Darkmode</source>
-        <target state="needs-translation">Darkmode</target>
+        <target state="translated">Modo escuro</target>
       </trans-unit>
       <trans-unit id="yOl4OZC" resname="iCal Link">
         <source>iCal Link</source>
@@ -888,11 +887,11 @@
       </trans-unit>
       <trans-unit id="ZRzAfo3" resname="Die Serienvideokonferenz {name} wurde bearbeitet">
         <source>Die Serienvideokonferenz {name} wurde bearbeitet</source>
-        <target state="needs-translation">Die Serienvideokonferenz {name} wurde bearbeitet.</target>
+        <target state="translated">A série de videoconferências {nome} foi editada.</target>
       </trans-unit>
       <trans-unit id="rdg4qib" resname="Hier beitreten">
         <source>Hier beitreten</source>
-        <target state="needs-translation">Hier beitreten</target>
+        <target state="translated">Entrar aqui</target>
       </trans-unit>
       <trans-unit id="2VnBhfW" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
@@ -1184,7 +1183,7 @@
       </trans-unit>
       <trans-unit id="boEqtE1" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="needs-translation">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">Escolha aqui o fuso horário em que a reunião será planejada. Participantes em outros fusos horários verão a conferência no horário local.</target>
       </trans-unit>
       <trans-unit id="L5CLtca" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1296,7 +1295,7 @@
       </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
-        <target state="needs-translation">{name}</target>
+        <target state="translated">{name}</target>
       </trans-unit>
       <trans-unit id="UEEqYAE" resname="lobby.noWebCamFound">
         <source>lobby.noWebCamFound</source>
@@ -1364,11 +1363,11 @@
       </trans-unit>
       <trans-unit id="1akOrlW" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="needs-translation">Alle Wartenden zulassen</target>
+        <target state="translated">Permitir que todos esperem</target>
       </trans-unit>
       <trans-unit id="KpxABb6" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target state="needs-translation">Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.</target>
+        <target state="translated">Todos aqueles que esperavam foram admitidos com sucesso na conferência.</target>
       </trans-unit>
       <trans-unit id="JwocwOM" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
@@ -1441,7 +1440,7 @@
       </trans-unit>
       <trans-unit id="QC45MUM" resname="confirm.cancel">
         <source>confirm.cancel</source>
-        <target state="needs-translation">Abbrechen</target>
+        <target state="translated">Cancelar</target>
       </trans-unit>
       <trans-unit id="C8omiG2" resname="confirm.ok">
         <source>confirm.ok</source>
@@ -1501,7 +1500,7 @@
       </trans-unit>
       <trans-unit id="NrftFQI" resname="participant.resend.invitation.sucess">
         <source>participant.resend.invitation.sucess</source>
-        <target state="needs-translation">Die Einladung wurde erfolgreich versandt.</target>
+        <target state="needs-translation">Der Teilnehmer wurde erfolgreich eingeladen.</target>
       </trans-unit>
       <trans-unit id="mIUK2UT" resname="secondEmail.help">
         <source>secondEmail.help</source>
@@ -1771,7 +1770,7 @@
       </trans-unit>
       <trans-unit id="R5gnTbc" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
-        <target state="needs-translation">Abwesend anzeigen nach</target>
+        <target state="translated">Mostrar depois</target>
       </trans-unit>
       <trans-unit id="yqzy2pq" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
@@ -1787,19 +1786,19 @@
       </trans-unit>
       <trans-unit id="atGRmKn" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
-        <target state="needs-translation">{name} hat nicht abgenommen</target>
+        <target state="translated">{name} não diminuiu</target>
       </trans-unit>
       <trans-unit id="pRMPsMB" resname="callout.message.occupied">
         <source>callout.message.occupied</source>
-        <target state="needs-translation">Der Anschluss von {name} ist besetzt.</target>
+        <target state="translated">A conexão de {name} está ocupada.</target>
       </trans-unit>
       <trans-unit id="GXTkaQa" resname="callout.message.later">
         <source>callout.message.later</source>
-        <target state="needs-translation">{name} wird später der Konferenz beitreten.</target>
+        <target state="translated">{name} participará da conferência mais tarde.</target>
       </trans-unit>
       <trans-unit id="cRo7nH0" resname="callout.message.refuse">
         <source>callout.message.refuse</source>
-        <target state="needs-translation">{name} hat abgelehnt.</target>
+        <target state="translated">{name} recusou.</target>
       </trans-unit>
       <trans-unit id="4Ifc3ZM" resname="callout.message.error">
         <source>callout.message.error</source>
@@ -1831,7 +1830,7 @@
       </trans-unit>
       <trans-unit id="mSSJ9ZF" resname="public.invite.moreApps">
         <source>public.invite.moreApps</source>
-        <target state="needs-translation">Einladung zur Konferenz teilen</target>
+        <target state="translated">Compartilhar convite de conferência</target>
       </trans-unit>
       <trans-unit id="wll_aF8" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
         <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
@@ -1947,7 +1946,7 @@
       </trans-unit>
       <trans-unit id="4PaSJ9f" resname="Wie hätte nicht gedacht, das jemand so tief gräbt.">
         <source>Wie hätte nicht gedacht, das jemand so tief gräbt.</source>
-        <target state="needs-translation">Wie hätte nicht gedacht, dass jemand so tief gräbt.</target>
+        <target state="translated">Como eu não poderia imaginar que alguém cavaria tão fundo.</target>
       </trans-unit>
       <trans-unit id="urBLedD" resname="Hier geht es wieder zurück an die Oberfläche">
         <source>Hier geht es wieder zurück an die Oberfläche</source>
@@ -1967,79 +1966,79 @@
       </trans-unit>
       <trans-unit id="qqr4YP9" resname="deputy.message.added">
         <source>deputy.message.added</source>
-        <target state="needs-translation">Vertreter erfolgreich hinzugefügt.</target>
+        <target state="translated">Representante adicionado com sucesso.</target>
       </trans-unit>
       <trans-unit id="XEgKY6O" resname="deputy.message.removed">
         <source>deputy.message.removed</source>
-        <target state="needs-translation">Vertreter erfolgreich entfernt.</target>
+        <target state="translated">Representante removido com sucesso.</target>
       </trans-unit>
       <trans-unit id="ZyMWXfm" resname="deputy.remove">
         <source>deputy.remove</source>
-        <target state="needs-translation">Als Vertreter entfernen</target>
+        <target state="translated">Remover como representante</target>
       </trans-unit>
       <trans-unit id="nxp9EKG" resname="deputy.add">
         <source>deputy.add</source>
-        <target state="needs-translation">Als Vertreter hinzufügen</target>
+        <target state="translated">Adicionar como representante</target>
       </trans-unit>
       <trans-unit id="zY8xDlJ" resname="deputy.help">
         <source>deputy.help</source>
-        <target state="needs-translation">Sie können diesem Benutzer erlauben, Konferenzen für Sie zu erstellen, diese zu bearbeiten und Teilnehmende zu diesen Konferenzen einzuladen. ACHTUNG! Ein Vertreter nimmt nicht automatisch an einer von ihm geplanten Konferenz Teil, sondern muss separate vom Organisator eingeladen werden.</target>
+        <target state="translated">Você pode permitir que este usuário crie e edite conferências para você e convide participantes para essas conferências. PERIGO! Um representante não participa automaticamente de uma conferência que ele ou ela planeja, mas deve ser convidado separadamente pelo organizador.</target>
       </trans-unit>
       <trans-unit id="4pdBQbm" resname="deputy.text.isDeputy">
         <source>deputy.text.isDeputy</source>
-        <target state="needs-translation">Ist Vertreter</target>
+        <target state="translated">É representativo</target>
       </trans-unit>
       <trans-unit id="3Iv9MoO" resname="room.new.help.server">
         <source>room.new.help.server</source>
-        <target state="needs-translation">Wählen Sie den Server aus, über welchen Sie die Konferenz abhalten wollen.</target>
+        <target state="translated">Selecione o servidor no qual você deseja realizar a conferência.</target>
       </trans-unit>
       <trans-unit id="waqIPk4" resname="room.new.help.manager">
         <source>room.new.help.manager</source>
-        <target state="needs-translation">Sie sind als Vertreter/in eingetragen. Wählen Sie aus, ob Sie die Konferenz für Sie oder den Vertretenen erstellen wollen.</target>
+        <target state="translated">Você está registrado como representante. Escolha se você deseja criar a conferência para você ou para a pessoa que você está representando.</target>
       </trans-unit>
       <trans-unit id="cIcZdHn" resname="Private Konferenz">
         <source>Private Konferenz</source>
-        <target state="needs-translation">Private Konferenz</target>
+        <target state="translated">Conferência privada</target>
       </trans-unit>
       <trans-unit id="q.hF5v3" resname="log.modal.header">
         <source>log.modal.header</source>
-        <target state="needs-translation">Änderungshistorie</target>
+        <target state="translated">histórico de alterações</target>
       </trans-unit>
       <trans-unit id="dCyRSCY" resname="log.new.object">
         <source>log.new.object</source>
-        <target state="needs-translation">Nach der Änderung</target>
+        <target state="translated">Depois da mudança</target>
       </trans-unit>
       <trans-unit id="uMFePQL" resname="log.old.object">
         <source>log.old.object</source>
-        <target state="needs-translation">Vor der Änderung</target>
+        <target state="translated">Antes da mudança</target>
       </trans-unit>
       <trans-unit id="Y3a7ITS" resname="room.creator.text">
         <source>room.creator.text</source>
-        <target state="needs-translation">Erstellt von</target>
+        <target state="translated">Criado por</target>
       </trans-unit>
       <trans-unit id="H47wSvb" resname="custom.more">
         <source>custom.more</source>
-        <target state="needs-translation">Mehr</target>
+        <target state="translated">Mais</target>
       </trans-unit>
       <trans-unit id="6K54T3J" resname="room.new.help.name">
         <source>room.new.help.name</source>
-        <target state="needs-translation">Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</target>
+        <target state="translated">Insira um nome curto e conciso para a conferência aqui.</target>
       </trans-unit>
       <trans-unit id="sMx2I1G" resname="room.new.help.agenda">
         <source>room.new.help.agenda</source>
-        <target state="needs-translation">Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</target>
+        <target state="translated">Forneça a pauta aqui e informe aos participantes o motivo desta conferência.</target>
       </trans-unit>
       <trans-unit id="lgQwFzb" resname="room.new.help.persistant">
         <source>room.new.help.persistant</source>
-        <target state="needs-translation">Diese Konferenz steht den Eingeladenen dauerhaft zur Verfügung. Sie müssen die Teilnehmenden über einen separaten Kommunikationspfad (Telefon oder Chat) auf den Beginn der Konferenz hinweisen. Eine dauerhafte Konferenz hat kein Startzeitpunkt und keine Dauer.</target>
+        <target state="translated">Esta conferência está permanentemente disponível para os convidados. Você deve notificar os participantes sobre o início da conferência por meio de um canal de comunicação separado (telefone ou chat). Uma conferência permanente não tem hora de início nem duração.</target>
       </trans-unit>
       <trans-unit id="7Dj0H9u" resname="room.new.help.start">
         <source>room.new.help.start</source>
-        <target state="needs-translation">Wann beginnt die Konferenz. Öffnen Sie den Kalender durch Klicken auf die Schaltflächen und Wählen Sie das Datum und anschließend die Zeit aus.</target>
+        <target state="translated">Quando começa a conferência? Abra o calendário clicando nos botões e selecione a data e depois a hora.</target>
       </trans-unit>
       <trans-unit id="_u5asYc" resname="room.new.help.duration">
         <source>room.new.help.duration</source>
-        <target state="needs-translation">Geben Sie hier die Dauer der Konferenz ein.</target>
+        <target state="translated">Insira a duração da conferência aqui.</target>
       </trans-unit>
       <trans-unit id="dHLCFve" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
         <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
@@ -2063,219 +2062,219 @@
       </trans-unit>
       <trans-unit id="zFEiJq4" resname="deputy.fromLdap.disabled">
         <source>deputy.fromLdap.disabled</source>
-        <target state="needs-translation">Ist ihnen als Vertreter zugeteilt</target>
+        <target state="translated">É atribuído a você como representante</target>
       </trans-unit>
       <trans-unit id="MmfFT5o" resname="deputy.help.ldap">
         <source>deputy.help.ldap</source>
-        <target state="needs-translation">Dieser Vertreter wurde Ihnen von Ihrer Organisation zugeteilt und kann nicht durch Sie bearbeitet werden. Wollen Sie diesen Vertreter bearbeiten, wenden Sie sich bitte an Ihren Support. Die Kontaktdaten für Ihren Support erhalten Sie durch einen Klick auf das "?" in der Navigationsleiste.</target>
+        <target state="translated">Este representante foi atribuído a você pela sua organização e não pode ser editado por você. Se desejar editar este representante, entre em contato com sua equipe de suporte. Você pode obter os detalhes de contato do seu suporte clicando no botão "?" na barra de navegação.</target>
       </trans-unit>
       <trans-unit id="nfm1yqR" resname="Bewertungen">
         <source>Bewertungen</source>
-        <target state="needs-translation">Bewertungen</target>
+        <target state="translated">Avaliações</target>
       </trans-unit>
       <trans-unit id="mVwwqih" resname="Profileinstellungen">
         <source>Profileinstellungen</source>
-        <target state="needs-translation">Profileinstellungen</target>
+        <target state="translated">Configurações de perfil</target>
       </trans-unit>
       <trans-unit id="TV1xqgp" resname="Einstellungen">
         <source>Einstellungen</source>
-        <target state="needs-translation">Einstellungen</target>
+        <target state="translated">Configurações</target>
       </trans-unit>
       <trans-unit id="ZwKeJyF" resname="Startet in {time} min">
         <source>Startet in {time} min</source>
-        <target state="needs-translation">Startet in {time} min</target>
+        <target state="translated">Começa em {time} min</target>
       </trans-unit>
       <trans-unit id="6cce70X" resname="addressbook.favorite.remove.success">
         <source>addressbook.favorite.remove.success</source>
-        <target state="needs-translation">Sie haben {name} als Favorit entfernt.</target>
+        <target state="translated">Você removeu {name} dos favoritos.</target>
       </trans-unit>
       <trans-unit id="T9VOm8D" resname="addressbook.favorite.remove.failure">
         <source>addressbook.favorite.remove.failure</source>
-        <target state="needs-translation">Der Kontakt konte nicht als Favorit entfernt werden.</target>
+        <target state="translated">O contato não pôde ser removido como favorito.</target>
       </trans-unit>
       <trans-unit id="bh25LYA" resname="addressbook.favorite.add.success">
         <source>addressbook.favorite.add.success</source>
-        <target state="needs-translation">Sie haben {name} erfolgreich als Favorit hinzugefügt.</target>
+        <target state="translated">Você adicionou {name} como favorito com sucesso.</target>
       </trans-unit>
       <trans-unit id="SfWjLss" resname="addressbook.favorite.add.failure">
         <source>addressbook.favorite.add.failure</source>
-        <target state="needs-translation">Der Kontakt konnte nicht als Favorit hinzugefügt werden.</target>
+        <target state="translated">Não foi possível adicionar o contato como favorito.</target>
       </trans-unit>
       <trans-unit id="4BBJtCu" resname="addressbook.favorite.help">
         <source>addressbook.favorite.help</source>
-        <target state="needs-translation"><![CDATA[<i class="far fa-star"></i> drücken, um einen Kontakt als Favorit zu markieren.]]></target>
+        <target state="translated"><![CDATA[<i class="far fa-star"></i> Pressione para marcar um contato como favorito.]]></target>
       </trans-unit>
       <trans-unit id=".ri8qck" resname="Meetling Pro Tip">
         <source>Meetling Pro Tip</source>
-        <target state="needs-translation">Meetling Pro Tip</target>
+        <target state="translated">Dica profissional para reuniões</target>
       </trans-unit>
       <trans-unit id="BOqQPrS" resname="Hotkeys">
         <source>Hotkeys</source>
-        <target state="needs-translation">Hotkeys</target>
+        <target state="translated">Teclas de atalho</target>
       </trans-unit>
       <trans-unit id="PKTiQmk" resname="Allgemeiner Fehler">
         <source>Allgemeiner Fehler</source>
-        <target state="needs-translation">Allgemeiner Fehler</target>
+        <target state="translated">Erro geral</target>
       </trans-unit>
       <trans-unit id="hM6PRqW" resname="Hier ist was schief gelaufen. Tut uns Leid">
         <source>Hier ist was schief gelaufen. Tut uns Leid</source>
-        <target state="needs-translation">Hier ist was schiefgelaufen. Tut uns Leid</target>
+        <target state="translated">Algo deu errado aqui. Lamentamos</target>
       </trans-unit>
       <trans-unit id="3tK6Gmt" resname="Zur Startseite">
         <source>Zur Startseite</source>
-        <target state="needs-translation">Zur Startseite</target>
+        <target state="translated">Para a página inicial</target>
       </trans-unit>
       <trans-unit id="1TDzJaC" resname="Seite nicht gefunden">
         <source>Seite nicht gefunden</source>
-        <target state="needs-translation">Seite nicht gefunden</target>
+        <target state="translated">Página não encontrada</target>
       </trans-unit>
       <trans-unit id="r1C.Uou" resname="Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.">
         <source>Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</source>
-        <target state="needs-translation">Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</target>
+        <target state="translated">Caramba? Para onde você queria ir? Infelizmente a reunião não conseguiu encontrar a página.</target>
       </trans-unit>
       <trans-unit id="70s8ByM" resname="Hier gehts zurück zur Startseite">
         <source>Hier gehts zurück zur Startseite</source>
-        <target state="needs-translation">Hier gehts zurück zur Startseite</target>
+        <target state="translated">Clique aqui para voltar à página inicial</target>
       </trans-unit>
       <trans-unit id="3To1Txn" resname="Seite kaputt">
         <source>Seite kaputt</source>
-        <target state="needs-translation">Seite kaputt</target>
+        <target state="translated">Página quebrada</target>
       </trans-unit>
       <trans-unit id="DwsgV9o" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
-        <target state="needs-translation">Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
+        <target state="translated">Ohoh - o que está acontecendo aqui? Algo deve ter quebrado na reunião. Mas não se preocupe, ele cuidará de consertar.</target>
       </trans-unit>
       <trans-unit id="qHaNrGf" resname="Changelog">
         <source>Changelog</source>
-        <target state="needs-translation">Changelog</target>
+        <target state="translated">Registro de alterações</target>
       </trans-unit>
       <trans-unit id="PkicOGI" resname="Jetzt einladen">
         <source>Jetzt einladen</source>
-        <target state="needs-translation">Jetzt einladen</target>
+        <target state="translated">Convide agora</target>
       </trans-unit>
       <trans-unit id="ooTUcOW" resname="callout.message.unreachable">
         <source>callout.message.unreachable</source>
-        <target state="needs-translation">{name} ist nicht erreichbar.</target>
+        <target state="translated">{name} não está acessível.</target>
       </trans-unit>
       <trans-unit id="o7tHpZ5" resname="Filter">
         <source>Filter</source>
-        <target state="needs-translation">Filter</target>
+        <target state="translated">filtro</target>
       </trans-unit>
       <trans-unit id="WJQ_sl9" resname="deputy.mydebutys">
         <source>deputy.mydebutys</source>
-        <target state="needs-translation">Meine Vertreter</target>
+        <target state="translated">Meus representantes</target>
       </trans-unit>
       <trans-unit id="mKsLYV1" resname="callout.dropdown.empty">
         <source>callout.dropdown.empty</source>
-        <target state="needs-translation">Hier werden die Ergebnisse der Suche angezeigt</target>
+        <target state="translated">Os resultados da pesquisa são exibidos aqui</target>
       </trans-unit>
       <trans-unit id="qUF4xEe" resname="scheduling.new.schedulingTime.subject">
         <source>scheduling.new.schedulingTime.subject</source>
-        <target state="needs-translation">[Terminplanung] Neuer Terminvorschlag zu einer Terminumfrage hinzugefügt</target>
+        <target state="translated">[Agendamento de consultas] Nova sugestão de consulta adicionada a uma pesquisa de consulta</target>
       </trans-unit>
       <trans-unit id="6ukpo4B" resname="Teilnehmer können bei der Abstimmung mit &quot;Vielleicht&quot; abstimmen.">
         <source>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</source>
-        <target state="needs-translation">Teilnehmer können bei der Abstimmung mit "Unter Vorbehalt" abstimmen.</target>
+        <target state="translated">Os participantes podem votar “Condicional” ao votar.</target>
       </trans-unit>
       <trans-unit id="_paPcDq" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
-        <target state="needs-translation">Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
+        <target state="translated">Ohoh - o que está acontecendo aqui? Algo deve ter quebrado na reunião. Mas não se preocupe, ele cuidará de consertar.</target>
       </trans-unit>
       <trans-unit id=".PiK4px" resname="scheduling.new.schedulingTime.header">
         <source>scheduling.new.schedulingTime.header</source>
-        <target state="needs-translation">Es wurde ein neuer Terminvorschlag hinzugefügt.</target>
+        <target state="translated">Uma nova data sugerida foi adicionada.</target>
       </trans-unit>
       <trans-unit id="_HqEnl5" resname="Als CSV Downloaden">
         <source>Als CSV Downloaden</source>
-        <target state="needs-translation">Ergebnisse herunterladen (CSV)</target>
+        <target state="translated">Baixar resultados (CSV)</target>
       </trans-unit>
       <trans-unit id="8vk8dHY" resname="scheduler.new.schedule">
         <source>scheduler.new.schedule</source>
-        <target state="needs-translation">Weiteren Termin zur Auswahl hinzufügen</target>
+        <target state="translated">Adicionar outro compromisso à seleção</target>
       </trans-unit>
       <trans-unit id="NvlF9cE" resname="scheduling.new.schedulingTime.text">
         <source>scheduling.new.schedulingTime.text</source>
-        <target state="needs-translation">Es wurde ein neuer Termin in die Liste der Terminvorschläge hinzugefügt. Dieser kann entweder durch den Moderator oder durch einen anderen Eingeladenen hinzugefügt worden sein.</target>
+        <target state="translated">Um novo compromisso foi adicionado à lista de compromissos sugeridos. Isso pode ter sido adicionado pelo moderador ou por outro convidado.</target>
       </trans-unit>
       <trans-unit id="bADiBI8" resname="scheduling.completeVoting.subject">
         <source>scheduling.completeVoting.subject</source>
-        <target state="needs-translation">[Terminplanung] Es haben alle Teilnehmenden abgestimmt</target>
+        <target state="translated">[Agendamento] Todos os participantes concordaram</target>
       </trans-unit>
       <trans-unit id="L3ifyZr" resname="scheduling.completeVoting.header">
         <source>scheduling.completeVoting.header</source>
-        <target state="needs-translation">Es haben alle Teilnehmenden abgestimmt</target>
+        <target state="translated">Todos os participantes votaram</target>
       </trans-unit>
       <trans-unit id="_5FP2vg" resname="scheduling.completeVoting.text">
         <source>scheduling.completeVoting.text</source>
-        <target state="needs-translation">Die Teilnehmenden haben abgestimmt und die Ergebnisse sind nun verfügbar. Die Zusammenfassung der Ergebnisse finden Sie auf Ihrem Dashboard.</target>
+        <target state="translated">Os participantes votaram e os resultados já estão disponíveis. Você pode encontrar o resumo dos resultados em seu painel.</target>
       </trans-unit>
       <trans-unit id="FOIAG7O" resname="theme.invalid.">
         <source>theme.invalid.</source>
-        <target state="needs-translation">Ihr Theme läuft in {days} Tagen ab</target>
+        <target state="translated">Seu tema expirará em {days} dias</target>
       </trans-unit>
       <trans-unit id="n4Lt39N" resname="browser.warning">
         <source>browser.warning</source>
-        <target state="needs-translation">Browserwarnung</target>
+        <target state="translated">Aviso do navegador</target>
       </trans-unit>
       <trans-unit id="foenNwE" resname="browser.warning.text">
         <source>browser.warning.text</source>
-        <target state="needs-translation">Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</target>
+        <target state="translated">Seu navegador atual não é compatível. Mude para um navegador moderno que suporte totalmente WebRTC.</target>
       </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
-        <target state="needs-translation">Weiter mit Edge</target>
+        <target state="translated">Continuar com o Edge</target>
       </trans-unit>
       <trans-unit id="ectan0o" resname="browser.warning.toMac">
         <source>browser.warning.toMac</source>
-        <target state="needs-translation">Weiter mit Safari</target>
+        <target state="translated">Continuar com o Safari</target>
       </trans-unit>
       <trans-unit id="ttEhK3s" resname="error.scheduler.noSchedules">
         <source>error.scheduler.noSchedules</source>
-        <target state="needs-translation">Fehler, es gibt noch keine Terminvorschläge.</target>
+        <target state="translated">Erro, ainda não há datas sugeridas.</target>
       </trans-unit>
       <trans-unit id="Bkbd94D" resname="error.scheduler.novotings">
         <source>error.scheduler.novotings</source>
-        <target state="needs-translation">Fehler, es wurde noch nicht abgestimmt.</target>
+        <target state="translated">Erro, ainda não foi votado.</target>
       </trans-unit>
       <trans-unit id="JBzpke0" resname="help.ical.Link">
         <source>help.ical.Link</source>
-        <target state="needs-translation">Was ist ein iCal Link</target>
+        <target state="translated">O que é um link iCal</target>
       </trans-unit>
       <trans-unit id="hMLYhc9" resname="error.internalError">
         <source>error.internalError</source>
-        <target state="needs-translation">Interner Fehler</target>
+        <target state="translated">Erro interno</target>
       </trans-unit>
       <trans-unit id="5bzvh9n" resname="rooms.help.setmaxparticipantsHardLimit">
         <source>rooms.help.setmaxparticipantsHardLimit</source>
-        <target state="needs-translation">Anzahl an Teilnehmenden, die der Konferenz beitreten können. Diese Zahl ist ein hartes Limit. Ist die maximale Anzahl an Teilnehmenden erreicht, können keine weiteren Teilnehmenden mehr beitreten, auch wenn die Teilnehmenden eingeladen worden sind.</target>
+        <target state="translated">Número de participantes que podem ingressar na conferência. Este número é um limite rígido. Uma vez atingido o número máximo de participantes, nenhum outro participante poderá ingressar, mesmo que os participantes tenham sido convidados.</target>
       </trans-unit>
       <trans-unit id="5dX_LOJ" resname="room.option.sendProtokoll.question">
         <source>room.option.sendProtokoll.question</source>
-        <target state="needs-translation">Wollen Sie das Protokoll wirklich an alle Teilnehmenden versenden?</target>
+        <target state="translated">Você realmente deseja enviar a ata a todos os participantes?</target>
       </trans-unit>
       <trans-unit id="nN5aj82" resname="room.option.sendProtokoll.button">
         <source>room.option.sendProtokoll.button</source>
-        <target state="needs-translation">Protokoll versenden</target>
+        <target state="translated">Enviar registro</target>
       </trans-unit>
       <trans-unit id="ErciSCF" resname="room.error.noAccessAllowed">
         <source>room.error.noAccessAllowed</source>
-        <target state="needs-translation">Zugriff nicht erlaubt</target>
+        <target state="translated">Acesso não permitido</target>
       </trans-unit>
       <trans-unit id="vF8AjQR" resname="room.error.noAccessAllowedIP">
         <source>room.error.noAccessAllowedIP</source>
-        <target state="needs-translation">Sie dürfen dieser Konferenz mit Ihrer IP-Adresse nicht beitreten. Bitte kontaktieren Sie ihren Support.</target>
+        <target state="translated">Você não tem permissão para ingressar nesta conferência usando seu endereço IP. Entre em contato com seu suporte.</target>
       </trans-unit>
       <trans-unit id="GXDLmKT" resname="room.error.noAccessAllowedToManyParticipants">
         <source>room.error.noAccessAllowedToManyParticipants</source>
-        <target state="needs-translation">Zu viele Teilnehmenden</target>
+        <target state="translated">Muitos participantes</target>
       </trans-unit>
       <trans-unit id="ENCDenQ" resname="room.error.noAccessAllowedToManyParticipantsText">
         <source>room.error.noAccessAllowedToManyParticipantsText</source>
-        <target state="needs-translation">Das maximale Limit der Teilnehmenden in dieser Konferenz ist erreicht. Bitte versuchen Sie es zu einem späteren Zeitpukt erneut oder kontaktieren Sie Ihren Helpdesk</target>
+        <target state="translated">O limite máximo de participantes nesta conferência foi atingido. Tente novamente mais tarde ou entre em contato com seu suporte técnico</target>
       </trans-unit>
       <trans-unit id="X1FjSvj" resname="enterprise.settings.header.tags">
         <source>enterprise.settings.header.tags</source>
-        <target state="needs-translation">Auswählbare Kategorien</target>
+        <target state="translated">Categorias selecionáveis</target>
       </trans-unit>
       <trans-unit id="mHxk7jy" resname="options.chat">
         <source>options.chat</source>
@@ -2283,27 +2282,27 @@
       </trans-unit>
       <trans-unit id="0GtfBck" resname="options.toggleFilmstripe">
         <source>options.toggleFilmstripe</source>
-        <target state="needs-translation">Filmstripe ein/ausblenden</target>
+        <target state="translated">Mostrar/ocultar tira de filme</target>
       </trans-unit>
       <trans-unit id="frFt3Yz" resname="transfer.room.success">
         <source>transfer.room.success</source>
-        <target state="needs-translation">Konferenz erfolgreich übertragen</target>
+        <target state="translated">Conferência transferida com sucesso</target>
       </trans-unit>
       <trans-unit id="lq.WUgz" resname="transfer.room.confirm">
         <source>transfer.room.confirm</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich auf diesem Nutzer übertragen? Sie haben anschließend keinen Zugriff mehr auf diese Konferenz, sondern sind nur noch als Teilnehmender in dieser Konferenz.</target>
+        <target state="translated">Você realmente deseja transmitir esta conferência para este usuário? Você não terá mais acesso a esta conferência, mas apenas estará nela como participante.</target>
       </trans-unit>
       <trans-unit id="k3gVjyc" resname="transfer.room.start">
         <source>transfer.room.start</source>
-        <target state="needs-translation">Konferenz auf diesem Nutzer übertragen</target>
+        <target state="translated">Transferir conferência para este usuário</target>
       </trans-unit>
       <trans-unit id="OvciGc." resname="transfer.room.error">
         <source>transfer.room.error</source>
-        <target state="needs-translation">Fehler. Die Konferenz konnte nicht übertragen werden.</target>
+        <target state="translated">Erro. A conferência não pôde ser transmitida.</target>
       </trans-unit>
       <trans-unit id="vOi9OLP" resname="scheduler.transform">
         <source>scheduler.transform</source>
-        <target state="needs-translation">Umwandeln</target>
+        <target state="translated">Converter</target>
       </trans-unit>
       <trans-unit id="tp1bCrr" resname="confirm.schedule.delete">
         <source>confirm.schedule.delete</source>
@@ -2315,19 +2314,19 @@
       </trans-unit>
       <trans-unit id="tZZ.9zn" resname="scheduler.transform.long">
         <source>scheduler.transform.long</source>
-        <target state="needs-translation">Terminplanung umwandeln</target>
+        <target state="translated">Converter agendamento</target>
       </trans-unit>
       <trans-unit id="1v88VLX" resname="enterprise.settings.livekit">
         <source>enterprise.settings.livekit</source>
-        <target state="needs-translation">Enterprise Livekit Einstellungen</target>
+        <target state="translated">Configurações do Livekit Corporativo</target>
       </trans-unit>
       <trans-unit id="EBZKW.9" resname="server.livekit.settings.header">
         <source>server.livekit.settings.header</source>
-        <target state="needs-translation">Livekit-Servereinstellungen</target>
+        <target state="translated">Configurações do servidor Livekit</target>
       </trans-unit>
       <trans-unit id="JzXOpBe" resname="Sofort Konferenz">
         <source>Sofort Konferenz</source>
-        <target state="needs-translation">Sofort Konferenz</target>
+        <target state="translated">Conferência imediatamente</target>
       </trans-unit>
       <trans-unit id="wbKYh_R" resname="Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.">
         <source>Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</source>
@@ -2335,95 +2334,95 @@
       </trans-unit>
       <trans-unit id="x91IzR8" resname="Aufnahmen">
         <source>Aufnahmen</source>
-        <target state="needs-translation">Aufnahmen</target>
+        <target state="translated">gravações</target>
       </trans-unit>
       <trans-unit id="CCvu_YE" resname="recordings.modal.title">
         <source>recordings.modal.title</source>
-        <target state="needs-translation">Aufnahmen von Videokonferenzen</target>
+        <target state="translated">Gravações de videoconferência</target>
       </trans-unit>
       <trans-unit id="KIFeNTw" resname="recording.email.subject">
         <source>recording.email.subject</source>
-        <target state="needs-translation">Es wurde eine neue Aufnahme der Videokonferenz hochgeladen</target>
+        <target state="translated">Uma nova gravação da videoconferência foi enviada</target>
       </trans-unit>
       <trans-unit id="nYMq8lL" resname="recording.email.title">
         <source>recording.email.title</source>
-        <target state="needs-translation">Es wurde eine Aufnahme für die Videokonferenz hochgladen</target>
+        <target state="translated">Uma gravação da videoconferência foi enviada</target>
       </trans-unit>
       <trans-unit id="cG2pjfJ" resname="recording.email.body">
         <source>recording.email.body</source>
-        <target state="needs-translation">Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
+        <target state="translated">Uma gravação da conferência {name} foi enviada. Você pode baixar a gravação da conferência usando as opções do painel.</target>
       </trans-unit>
       <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
         <source>recording.startSpeakerOnly</source>
-        <target state="needs-translation">Nur Sprecher </target>
+        <target state="translated">Somente alto-falantes </target>
       </trans-unit>
       <trans-unit id="SH.E5Cd" resname="recording.startSpeaker">
         <source>recording.startSpeaker</source>
-        <target state="needs-translation">Sprecher Zentral </target>
+        <target state="translated">Alto-falante Central </target>
       </trans-unit>
       <trans-unit id="yhh1FGG" resname="recording.startGrid">
         <source>recording.startGrid</source>
-        <target state="needs-translation">Alle Teilnehmer in Kacheln</target>
+        <target state="translated">Todos os participantes em blocos</target>
       </trans-unit>
       <trans-unit id="yDlEa9I" resname="options.startRecording">
         <source>options.startRecording</source>
-        <target state="needs-translation">Aufnahme starten</target>
+        <target state="translated">Comece a gravar</target>
       </trans-unit>
       <trans-unit id="JJHW_6u" resname="options.stopRecording">
         <source>options.stopRecording</source>
-        <target state="needs-translation">Aufnahme beenden</target>
+        <target state="translated">Pare de gravar</target>
       </trans-unit>
       <trans-unit id="qEvCOWP" resname="calendly.connect.alreadyConnected">
         <source>calendly.connect.alreadyConnected</source>
-        <target state="needs-translation">Calendly ist bereits mit ihrem Account verknüpft</target>
+        <target state="translated">Calendly já está vinculado à sua conta</target>
       </trans-unit>
       <trans-unit id="O88dTcc" resname="calendly.connect.success">
         <source>calendly.connect.success</source>
-        <target state="needs-translation">Calendly erfolgreich verbunden</target>
+        <target state="translated">Calendly conectado com sucesso</target>
       </trans-unit>
       <trans-unit id="Anobqg3" resname="calendly.header">
         <source>calendly.header</source>
-        <target state="needs-translation">Calendly Verknüpfung</target>
+        <target state="translated">Link do calendário</target>
       </trans-unit>
       <trans-unit id="EmLG0x7" resname="calendly.remove.success">
         <source>calendly.remove.success</source>
-        <target state="needs-translation">Calendly erfolgreich getrennt</target>
+        <target state="translated">Calendly desconectado com sucesso</target>
       </trans-unit>
       <trans-unit id="mAx5a8B" resname="calendly.connect.wrongToken">
         <source>calendly.connect.wrongToken</source>
-        <target state="needs-translation">Ungültiger Calendly Token</target>
+        <target state="translated">Token de calendário inválido</target>
       </trans-unit>
       <trans-unit id="99weUMj" resname="calendly.connect.netWorkError">
         <source>calendly.connect.netWorkError</source>
-        <target state="needs-translation">Netzwerkfehler mit Calendly</target>
+        <target state="translated">Erro de rede com Calendly</target>
       </trans-unit>
       <trans-unit id="Hbzs3rh" resname="calendly.connect.redirectError">
         <source>calendly.connect.redirectError</source>
-        <target state="needs-translation">Weiterleitungsfehler zu Calendly</target>
+        <target state="translated">Erro de redirecionamento para Calendly</target>
       </trans-unit>
       <trans-unit id="Pg0GhO4" resname="calendly.link.text">
         <source>calendly.link.text</source>
-        <target state="needs-translation">Hier gehts zu Calendly</target>
+        <target state="translated">Clique aqui para Calendly</target>
       </trans-unit>
       <trans-unit id="l1FnXYh" resname="calendly.connection.isNotConnected">
         <source>calendly.connection.isNotConnected</source>
-        <target state="needs-translation">Klicken um Calendly zu Verknüpfen</target>
+        <target state="translated">Clique para vincular o Calendly</target>
       </trans-unit>
       <trans-unit id="HQT.6nh" resname="calendly.connection.connected">
         <source>calendly.connection.connected</source>
-        <target state="needs-translation">Calendly ist bereits verknüpft</target>
+        <target state="translated">Calendly já está vinculado</target>
       </trans-unit>
       <trans-unit id="KZOVa06" resname="callendly.disconnect">
         <source>callendly.disconnect</source>
-        <target state="needs-translation">Calendly trennen</target>
+        <target state="translated">Desconectar o Calendly</target>
       </trans-unit>
       <trans-unit id="KhffR.T" resname="calendly.tutorial.help">
         <source>calendly.tutorial.help</source>
-        <target state="needs-translation">Wie binde ich Calendly ein?</target>
+        <target state="translated">Como faço para integrar o Calendly?</target>
       </trans-unit>
       <trans-unit id="iOianqA" resname="lobby.notVerifiedShort">
         <source>lobby.notVerifiedShort</source>
-        <target state="needs-translation">Nicht verifiziert</target>
+        <target state="translated">Não verificado</target>
       </trans-unit>
       <trans-unit id="p3mIz7q" resname="Mehrere E-Mail-Adressen auf einmal eingeben">
         <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
