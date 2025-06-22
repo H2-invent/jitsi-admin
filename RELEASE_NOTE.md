@@ -8,6 +8,7 @@
 ### ⭐ Improvements
 * Invite Participants faster with the new invitation modal from the new sidenavigation inside the conference
 * Improve the Livekit Phone Number Mapping into the video conference
+* Update Docker Base Image to Access-Control-Allow-Origin for theme folder
 
 ### 🐛 Bug Fixes
 * Collapse the Side-Navigation on mobile devices
