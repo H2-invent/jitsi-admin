@@ -71,7 +71,7 @@
         {% endif %}
     <script>
         {% if room.server.liveKitServer %}
-        var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name,moderator,noModerator is defined?noModerator:false) }}&secret={{ generateEncryptedSecret(room) }}';
+        var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ getLiveKitName(room) }}?jwt={{ jwtFromRoom(user,room,name,moderator,noModerator is defined?noModerator:false) }}&secret={{ generateEncryptedSecret(room) }}';
         const displayName = '{{ name }}';
         {% endif %}
         var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
@@ -142,14 +142,26 @@
 
 {% include 'conference_end/__rating.html.twig' with {'room':room} %}
 {% if theme and theme.extrahtml is defined %}
-    {{ include(template_from_string(theme.extrahtml|raw)) }}
-
+    {% if app.user is defined and app.user is not null %}
+        {{ include(template_from_string(theme.extrahtml|raw)) }}
+    {% endif %}
     <script>
-        if (window.$chatwoot) {
-            window.$chatwoot.toggleBubbleVisibility("hide"); // to hide the bubble
-        }
+        window.addEventListener("chatwoot:ready", function () {
+            if (window.$chatwoot) {
+                window.$chatwoot.toggleBubbleVisibility("hide"); // to hide the bubble
+                const questionButton = document.getElementById('chatwoot-helper');
+                console.log('show button');
+                if (questionButton){
+                    questionButton.classList.remove('d-none');
+                    questionButton.querySelector('.conference-icon').addEventListener('click',()=>{
+                        window.$chatwoot.toggle(); // to hide the bubble
+                    })
+                }
+            }
+        });
     </script>
-
 {% endif %}
 
 </html>
+
+

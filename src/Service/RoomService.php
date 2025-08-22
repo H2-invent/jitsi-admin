@@ -40,6 +40,7 @@ class RoomService
     private $logger;
 
     private $uploadHelper;
+    private $baseUrl;
 
     public function __construct(
         UploaderHelper                $uploaderHelper,
@@ -54,6 +55,8 @@ class RoomService
 
         $this->logger = $logger;
         $this->uploadHelper = $uploaderHelper;
+        $this->baseUrl =str_replace('https://','',$this->parameterBag->get('laF_baseUrl')) ;
+        $this->baseUrl = str_replace('http://','',$this->baseUrl);
     }
 
     public
@@ -118,7 +121,8 @@ class RoomService
         $serverUrl = str_replace('https://', '', $serverUrl);
         $serverUrl = str_replace('http://', '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
-        $url = $jitsi_server_url . '/' . $room->getUid();
+        $roomName = $room->getUid().($room->getServer()->isLiveKitServer()?('@'.$this->baseUrl):'');
+        $url = $jitsi_server_url . '/' . $roomName;
 
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
             $token = $this->generateJwt($room, $user, $userName, $isModerator, $avatar);
@@ -152,12 +156,13 @@ class RoomService
     }
 
     public
-    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null, $noModerator=false)
+    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null, $noModerator=false): ?array
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
             return null;
         }
+        $roomName = $room->getUid().($room->getServer()->isLiveKitServer()?('@'.$this->baseUrl):'');
 
 
         $payload = [
@@ -165,7 +170,7 @@ class RoomService
             "aud" => "jitsi_admin",
             "iss" => $room->getServer()->getAppId(),
             "sub" => $room->getServer()->getUrl(),
-            "room" => $room->getUid(),
+            "room" => $roomName,
             "context" => [
                 'room'=>[
                     'name'=>$room->getName()

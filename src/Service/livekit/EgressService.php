@@ -7,6 +7,7 @@ use App\Entity\Recording;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Repository\RecordingRepository;
+use App\Service\LivekitRoomNameGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Livekit\EncodedFileOutput;
 use Livekit\EncodedFileType;
@@ -19,6 +20,7 @@ class EgressService
         private RecordingRepository    $recordingRepository,
         private EntityManagerInterface $entityManager,
         private LoggerInterface        $logger,
+        private LivekitRoomNameGenerator $livekitRoomNameGenerator,
     )
     {
     }
@@ -39,7 +41,7 @@ class EgressService
                     $rooms->getServer()->getAppSecret()
                 );
                 $res = $egressClient->startRoomCompositeEgress(
-                    $recording->getRoom()->getUid(),
+                    $this->livekitRoomNameGenerator->getLiveKitName($recording->getRoom()),
                     $template,
                     (new EncodedFileOutput())
                         ->setFilepath('/out/' . $recording->getUid() . '.mp4')

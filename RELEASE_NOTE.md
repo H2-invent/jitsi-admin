@@ -5,9 +5,16 @@
 
 ## Improvements:
 a lot
-todo wirte more
+
 
 ## Bug Fixes:
+### ⭐ Improvements
+* Join a Videoconference without an camera and microphone
+* Add Api to change Server of Room to use auto provisioner
+* add @ server to livekit roomname
+* add @ servername to jwt roomname claim
+* add relay for events to other middlewares
+* Add Chatwoot in conferences in sidebar
 
 # Mailinglist
 * You can use the **Github Notification** via E-Mail to get informed about new features in the next release
