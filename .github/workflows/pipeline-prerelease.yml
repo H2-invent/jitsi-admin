@@ -5,9 +5,8 @@ env:
 on:
   push:
     branches:
-      - feature/development
-      - unstable/*
       - hotfix/*
+      - staging
 
 jobs:
   version:

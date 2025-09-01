@@ -58,10 +58,14 @@ class LdapUserService
                 $user->setLdapUserProperties($ldap);
                 $user->getLdapUserProperties()->setLdapNumber($ldapType->getSerVerId());
             }
-
-            if ($ldapType->getRdn()) {
-                $user->getLdapUserProperties()->setRdn($ldapType->getRdn() . '=' . $entry->getAttribute($ldapType->getRdn())[0]);
+            try {
+                if ($ldapType->getRdn()) {
+                    $user->getLdapUserProperties()->setRdn($ldapType->getRdn() . '=' . $entry->getAttribute($ldapType->getRdn())[0]);
+                }
+            }catch (\Exception $exception){
+                $this->logger->error($exception->getMessage());
             }
+
             $specialField = $this->getSpezialPropertiesFields(ldapType: $ldapType, entry: $entry);
 
             $user->setSpezialProperties($specialField);

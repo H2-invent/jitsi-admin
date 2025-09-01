@@ -50,10 +50,14 @@ class PublicConferenceController extends JitsiAdminController
             return $this->redirectToRoute('dashboard');
         }
         $data = [
-            'roomName' => UtilsHelper::readable_random_string(20),
+            'server'=>$this->server,
+            'roomName' => UtilsHelper::readable_random_string(5),
             'myName'=> $this->requestStack->getSession()->get('myName')?:''
         ];
         $form = $this->createForm(PublicConferenceType::class, $data);
+        if ($this->server->isLiveKitServer()){
+            $form->remove('myName');
+        }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();

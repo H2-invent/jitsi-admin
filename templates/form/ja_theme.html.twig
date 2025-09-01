@@ -1,0 +1,49 @@
+{% block form_row -%}
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group')|trim})} %}{{ block('attributes') }}{% endwith %}>
+
+    {{- form_widget(form, widget_attr) -}}
+    {{- form_help(form) -}}
+    </{{ element|default('div') }}>
+{%- endblock form_row %}
+{% block text_widget %}
+    <div class="form-outline mt-3" data-mdb-input-init>
+        {% set id = form.vars.id %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control form-control-lg')|trim}) %}
+        {{ block('form_widget_simple') }}
+        <label class="form-label" for="{{ id }}">{{- form_label(form) -}}</label>
+    </div>
+{% endblock %}
+
+{% block email_widget %}
+    {{ block('text_widget') }}
+{% endblock %}
+
+{% block number_widget %}
+    {{ block('text_widget') }}
+{% endblock %}
+
+{# Optional: textarea, password, search, etc. #}
+{% block textarea_widget %}
+    <div class="form-outline" data-mdb-input-init>
+
+        <textarea class="form-control" id="{{ id }}"
+                  name="{{ field_name(form)  }}"
+                  rows="4"
+                  {% if form.vars.disabled %}
+                  disabled="disabled"
+                  {% endif %}
+        ></textarea>
+        <label class="form-label" for="{{ id }}">{{- form_label(form) -}}</label>
+    </div>
+{% endblock %}
+
+{% block password_widget %}
+    {{ block('text_widget') }}
+{% endblock %}
