@@ -93,7 +93,7 @@ class RoomController extends JitsiAdminController
 
         if ($edit) {
             $form->remove('moderator');
-            if ($this->parameterBag->get('ALLOW_SERVER_CHANGE_WHEN_DISABLED') === 0){
+            if ($this->parameterBag->get('ALLOW_SERVER_CHANGE_WHEN_DISABLED') == 0){
                 if (!in_array($room->getServer(), $servers)) {
                     $form->remove('server');
                 }
