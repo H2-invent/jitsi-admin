@@ -17,6 +17,7 @@
 * Remove Auto TLS in Mailer DSN in SMTP server
 * Docker Image failed because of permission Issues. Thanks to @nkiss1980 for reporting the bug
 * Allow to change server when disabled via theme or permissions
+* Fix Docker Image Build to new Base Image
 
 # Features, Improvements, and Bug Fixes related to the Livekit Integration
 
