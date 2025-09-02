@@ -94,10 +94,10 @@ jobs:
       dockerfile_path: './Dockerfile-prod'
       directory: '.'
       version: ${{ needs.version.outputs.version }}
-      tags: git.h2-invent.com/meetling/application:${{ needs.version.outputs.version }},git.h2-invent.com/meetling/application:latest
+      tags: reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/application:latest
     secrets:
-      dockerhub_password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-      dockerhub_username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
 
   docker_build_websocket_prod:
     needs:
@@ -111,5 +111,5 @@ jobs:
       version: ${{ needs.version.outputs.version }}
       tags: reg.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/websocket:latest
     secrets:
-      docker_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
-      docker_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
