@@ -61,7 +61,6 @@ jobs:
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
-      reponame: 'h2invent/jitsi-admin-main'
       dockerfile_path: './Dockerfile'
       directory: '.'
       version: ${{ needs.version.outputs.version }}
