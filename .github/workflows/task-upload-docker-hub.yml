@@ -12,11 +12,6 @@ name: Build and Publish Docker Image
 on:
   workflow_call:
     inputs:
-      reponame:
-        description: 'the image name of the docker hub image'
-        default: 'h2invent/jitsi-admin-main'
-        required: true
-        type: string
       directory:
         description: 'the dir of the Dockerfile image'
         default: '.'
