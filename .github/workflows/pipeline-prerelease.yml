@@ -75,7 +75,6 @@ jobs:
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
-      reponame: 'h2invent/jitsi-admin-websocket'
       dockerfile_path: './nodejs/Dockerfile'
       directory: './nodejs'
       version: ${{ needs.version.outputs.version }}
