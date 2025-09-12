@@ -92,7 +92,7 @@ jobs:
       dockerfile_path: './Dockerfile-core'
       directory: '.'
       version: ${{ needs.version.outputs.version }}
-      tags: reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/application:latest
+      tags: reg.h2-invent.com/meetling/core:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/core:latest
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
