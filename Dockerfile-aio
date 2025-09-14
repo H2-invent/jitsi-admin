@@ -1,5 +1,5 @@
 ARG VERSION=development
-FROM reg.h2-invent.com/meeting/core:${VERSION}
+FROM reg.h2-invent.com/meetling/core:${VERSION}
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
