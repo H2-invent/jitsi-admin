@@ -42,7 +42,7 @@ ARG VERSION=development
 
 LABEL version="${VERSION}" \
     Maintainer="H2 invent GmbH" \
-    Description="Docker Image der Anwendung Jitsi Admin" \
+    Description="Core Docker Image for Jitsi Admin" \
     org.opencontainers.version="${VERSION}" \
     org.opencontainers.image.title="Jitsi Admin" \
     org.opencontainers.image.license="AGPLv3" \
@@ -86,12 +86,12 @@ ENV nginx_root_directory=/var/www/html/public \
 
 
 ARG VERSION=development
-FROM reg.h2-invent.com/meeting/core:${VERSION} AS application
+FROM reg.h2-invent.com/meeting/core:${VERSION} AS aio
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
     Maintainer="H2 invent GmbH" \
-    Description="Docker Image der Anwendung Jitsi Admin" \
+    Description="All-In-One Docker Image for Jitsi Admin" \
     org.opencontainers.version="${VERSION}" \
     org.opencontainers.image.title="Jitsi Admin" \
     org.opencontainers.image.license="AGPLv3" \
