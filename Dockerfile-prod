@@ -37,7 +37,7 @@ RUN tar \
     --exclude='./var/log' \
     -zcvf /artifact.tgz .
 
-FROM git.h2-invent.com/public-system-design/alpine-php8-cron-webserver:3.20.13
+FROM reg.h2-invent.com/public-system-design/alpine-php8-cron-webserver:3.20.15 AS core
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
@@ -61,19 +61,6 @@ RUN apk --no-cache add \
 
 RUN echo "Europe/Berlin" > /etc/timezone
 
-RUN mkdir /etc/service/symfony_messenger \
-    && echo "#!/bin/sh -e" > /etc/service/symfony_messenger/run \
-    && echo "exec 2>&1 php -d memory_limit=-1 /var/www/html/bin/console messenger:consume async --memory-limit=512m --env=prod" >> /etc/service/symfony_messenger/run \
-    && chown -R nobody:nobody /etc/service/symfony_messenger \
-    && chmod -R +x /etc/service/symfony_messenger 
-
-RUN echo "# Docker Cron Jobs" > /var/crontab \
-    && echo "SHELL=/bin/sh" >> /var/crontab \
-    && echo "TZ=Europe/Berlin" >> /var/crontab \
-    && echo "*/10 * * * * /bin/sh /distributed_cron.sh '/var/www/html/data/cron_lock' 'sleep 5' 'php /var/www/html/bin/console cron:run'" >> /var/crontab \
-    && echo "" >> /var/crontab \
-    && chown nobody:nobody /var/crontab
-
 RUN echo "#!/bin/sh" > /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console cache:clear" >> /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console doc:mig:mig --no-interaction" >> /docker-entrypoint-init.d/03-symfony.sh \
@@ -96,3 +83,37 @@ ENV nginx_root_directory=/var/www/html/public \
     post_max_size=20M \
     upload_max_filesize=20M \
     date_timezone=Europe/Berlin
+
+
+ARG VERSION=development
+FROM reg.h2-invent.com/meeting/core:${VERSION} AS application
+ARG VERSION=development
+
+LABEL version="${VERSION}" \
+    Maintainer="H2 invent GmbH" \
+    Description="Docker Image der Anwendung Jitsi Admin" \
+    org.opencontainers.version="${VERSION}" \
+    org.opencontainers.image.title="Jitsi Admin" \
+    org.opencontainers.image.license="AGPLv3" \
+    org.opencontainers.image.vendor="H2 invent GmbH" \
+    org.opencontainers.image.authors="Emanuel Holzmann <support@h2-invent.com>" \
+    org.opencontainers.image.source="https://github.com/h2-invent/jitsi-admin" \
+    org.opencontainers.image.documentation="https://meetling.de" \
+    org.opencontainers.image.url="https://jitsi-admin.de"
+
+USER root
+
+RUN mkdir /etc/service/symfony_messenger \
+    && echo "#!/bin/sh -e" > /etc/service/symfony_messenger/run \
+    && echo "exec 2>&1 php -d memory_limit=-1 /var/www/html/bin/console messenger:consume async --memory-limit=512m --env=prod" >> /etc/service/symfony_messenger/run \
+    && chown -R nobody:nobody /etc/service/symfony_messenger \
+    && chmod -R +x /etc/service/symfony_messenger 
+
+RUN echo "# Docker Cron Jobs" > /var/crontab \
+    && echo "SHELL=/bin/sh" >> /var/crontab \
+    && echo "TZ=Europe/Berlin" >> /var/crontab \
+    && echo "*/10 * * * * /bin/sh /distributed_cron.sh '/var/www/html/data/cron_lock' 'sleep 5' 'php /var/www/html/bin/console cron:run'" >> /var/crontab \
+    && echo "" >> /var/crontab \
+    && chown nobody:nobody /var/crontab
+
+USER nobody
