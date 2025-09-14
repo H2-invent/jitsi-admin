@@ -33,8 +33,6 @@ on:
         description: 'the tags of the Dockerfile image'
         required: true
         type: string
-      target:
-        type: string
     secrets:
       dockerhub_username:
         required: true
@@ -69,4 +67,3 @@ jobs:
           build-args: VERSION=${{ inputs.version }}
           platforms: linux/amd64
           tags: ${{ inputs.tags }}
-          target: ${{ inputs.target }}
