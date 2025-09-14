@@ -94,6 +94,7 @@ jobs:
       directory: '.'
       version: ${{ needs.version.outputs.version }}
       tags: reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }}
+      target: core
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
@@ -110,6 +111,7 @@ jobs:
       directory: '.'
       version: ${{ needs.version.outputs.version }}
       tags: reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }}
+      target: aio
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
