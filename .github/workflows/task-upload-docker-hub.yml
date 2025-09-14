@@ -12,6 +12,9 @@ name: Build and Publish Docker Image
 on:
   workflow_call:
     inputs:
+      registry:
+        description: 'Login Registry'
+        type: string
       directory:
         description: 'the dir of the Dockerfile image'
         default: '.'
@@ -30,8 +33,7 @@ on:
         description: 'the tags of the Dockerfile image'
         required: true
         type: string
-      registry:
-        description: 'Login Registry'
+      target:
         type: string
     secrets:
       dockerhub_username:
@@ -67,3 +69,4 @@ jobs:
           build-args: VERSION=${{ inputs.version }}
           platforms: linux/amd64
           tags: ${{ inputs.tags }}
+          target: ${{ inputs.target }}
