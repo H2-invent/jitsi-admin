@@ -27,13 +27,25 @@ Whether you're using **JWT tokens** for secure authentication or setting up with
 - **Organize and Manage Conferences**: Control participant access, privileges, and conference settings with ease.
 - **Series Appointments & Polls**: Schedule recurring meetings and gather availability with appointment polls.
 - **LDAP or SSO Integration**: Simplify user authentication by connecting Jitsi Admin to your existing LDAP or SSO setup.
-- **Direct Calls**: Enable one-on-one communication directly through Jitsi.
+- **Direct Calls**: Enable one-to-one communication directly through Jitsi.
 - **Outlook Integration**: Synchronize your meetings with Outlook via iCal links.
+- **Chrome Extention**: Use the Meetling Chrome Extention to start a one-to-one conference [Chrome Extention](https://chromewebstore.google.com/detail/meetling-sofortkonferenz/eigjajmppcgpcghajhmbddidmdfeepce)
 - **Webinars and Open Conferences**: Host larger webinars and open meetings effortlessly.
 - **Meeting Reminders**: Keep participants informed with automated email reminders.
 - **Calendly integration**: Integrate you calendly meetings directly in you jitsi admin
 ---
 
+# Installation
+You can install Jitsi Admin with the provided Docker Compose Installer Script or with the Kubernetes Based Helm Chart.
+
+## Docker installation
+follow the instruction at [Dockerinstruction](installDocker.md)
+
+## Kubernetes Helm Installation
+Pull and deploy Jitsi Admin on Kubernetes with the provided Helm Charts.
+[Helm Chart](https://reg.h2-invent.com/harbor/projects/16/repositories/meetling/artifacts-tab)
+
+---
 ## Testing Livekit Integration
 
 To test Livekit integration:
@@ -88,9 +100,6 @@ We use a double-opt-in process where you will receive a confirmation email conta
 ![re@di Digital](docs/images/readi.png)<br>
 We cooperate with the city administrations of Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten and Stutensee
 
-## Docker installation
-follow the instruction at [Dockerinstruction](installDocker.md)
-
 ## Translation
 Please help us to improve our localization
 
@@ -137,6 +146,7 @@ As some Composer dependencies need to be installed, it is advised to only instal
 * [Minimum Requirements](https://github.com/H2-invent/jitsi-admin/wiki/Minimum-server-requirements-English)
 * [API Documentation (in German)](https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints)
 
+
 # Support policy
 You can use the jitsi-admin for free, respecting the obligations of the Open Source license, but please do not ask or expect free support as well.
 Use discussions to ask questions and get support from the community.
@@ -144,21 +154,9 @@ If you report an invalid issue and/or ask for step-by-step support, your issue w
 
 
 # License
-
 Currently Jitsi Admin is released under the [AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.en.html). Additional information can be found in the [LICENSE file](LICENSE).
 
-# Installation
-Download the version you want to install or clone the whole repository.
-After that execute the following command
-for Debian:
-```bash
-bash installDockerDebian.sh
-```
-for Ubuntu
-```bash
-bash installDockerUbuntu.sh
-```
-Follow the instruction in the command window.
+
 ## Customize your installation
 To customize the environment variable in your installation please set the environments in the `.env.custom` file.
 You can copy/past the variable you want to change from `.env` into the `.env.custom`.
