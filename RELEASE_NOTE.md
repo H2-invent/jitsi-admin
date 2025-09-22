@@ -9,6 +9,8 @@
 * Invite Participants faster with the new invitation modal from the new sidenavigation inside the conference
 * Improve the Livekit Phone Number Mapping into the video conference
 * New Docker Registry deployment
+* Set name in public rooms via url
+* Skip Lobby by URL parameter in public rooms
 
 ### 🐛 Bug Fixes
 * Collapse the Side-Navigation on mobile devices
