@@ -27,6 +27,7 @@
 * Force a name for unregistered participants
 * Preselection of camera, microphone, and background
 * New device recognition
+* Add Helm chart for deploying meetling on kubernetes with the new Docker Core Image --> [Helm Chart](https://reg.h2-invent.com/harbor/projects/16/repositories/meetling/artifacts-tab)
 
 ### ⭐ Improvements
 * Join a Videoconference without an camera and microphone

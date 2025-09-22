@@ -83,7 +83,7 @@ jobs:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
 
-  docker_prod_application:
+  docker_prod_core:
     needs:
       - version
       - test
@@ -93,7 +93,7 @@ jobs:
       dockerfile_path: './Dockerfile-prod'
       directory: '.'
       version: ${{ needs.version.outputs.version }}
-      tags: reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }}
+      tags: reg.h2-invent.com/meetling/core:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
@@ -109,6 +109,23 @@ jobs:
       directory: './nodejs'
       version: ${{ needs.version.outputs.version }}
       tags: reg.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }}
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+
+  docker_prod_application:
+    needs:
+      - version
+      - test
+      - docker_prod_core
+      - docker_prod_websocket
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './Dockerfile-aio'
+      directory: '.'
+      version: ${{ needs.version.outputs.version }}
+      tags: reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
