@@ -11,6 +11,7 @@
 * New Docker Registry deployment
 * Set name in public rooms via url
 * Skip Lobby by URL parameter in public rooms
+* Enable Mic and Camera by URL paramter
 
 ### 🐛 Bug Fixes
 * Collapse the Side-Navigation on mobile devices
