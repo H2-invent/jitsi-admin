@@ -71,7 +71,7 @@
         {% endif %}
     <script>
         {% if room.server.liveKitServer %}
-        var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ getLiveKitName(room) }}?jwt={{ jwtFromRoom(user,room,name,moderator,noModerator is defined?noModerator:false,app.request.get('skipLobby') is defined?app.request.get('skipLobby'):false) }}&secret={{ generateEncryptedSecret(room) }}';
+        var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ getLiveKitName(room) }}?jwt={{ jwtFromRoom(user,room,name,moderator,noModerator is defined?noModerator:false,app.request.get('skipLobby') is defined?app.request.get('skipLobby'):false,app.request.get('enableMic') is defined?app.request.get('enableMic'):null,app.request.get('enableCamera') is defined?app.request.get('enableCamera'):null) }}&secret={{ generateEncryptedSecret(room) }}';
         const displayName = '{{ name }}';
         {% endif %}
         var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';

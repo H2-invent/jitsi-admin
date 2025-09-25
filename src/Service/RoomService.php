@@ -41,7 +41,7 @@ class RoomService
 
     private $uploadHelper;
     private $baseUrl;
-
+    private $identity;
     public function __construct(
         UploaderHelper                $uploaderHelper,
         FormFactoryInterface          $formBuilder,
@@ -52,7 +52,7 @@ class RoomService
         private SluggerInterface      $slugger,
     )
     {
-
+        $this->identity = time().'_'.ByteString::fromRandom(8);
         $this->logger = $logger;
         $this->uploadHelper = $uploaderHelper;
         $this->baseUrl =str_replace('https://','',$this->parameterBag->get('laF_baseUrl')) ;
@@ -134,7 +134,7 @@ class RoomService
     }
 
     public
-    function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null, $noModerator=false, $skipLobby=false)
+    function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): string
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -152,11 +152,11 @@ class RoomService
         if ($avatarUrl) {
             $avatar = $avatarUrl;
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby), $room->getServer()->getAppSecret(), 'HS256');
+        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera), $room->getServer()->getAppSecret(), 'HS256');
     }
 
     public
-    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null, $noModerator=false, $skipLobby=false): ?array
+    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): ?array
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
@@ -185,6 +185,12 @@ class RoomService
         ];
         if ($skipLobby === "true"){
             $payload['context']['user']['skipLobby'] = true;
+        }
+        if ($enableMic!== null){
+            $payload['settings']['isMicrophoneEnabled'] = $enableMic==='true';
+        }
+        if ($enableCamera!== null){
+            $payload['settings']['isCameraEnabled'] = $enableCamera==='true';
         }
         if ($userName === 'Meetling' && $server->isLiveKitServer()){
            $payload['context']['user']['name'] = '';
@@ -226,7 +232,7 @@ class RoomService
                     $this->logger->error('Invalid JSON in background images');
                 }
             }
-            $payload['context']['user']['identity'] = 'meetling_'.$this->slugger->slug($userName).'_'.time().'_'.ByteString::fromRandom(8);
+            $payload['context']['user']['identity'] = 'meetling_'.$this->slugger->slug($userName).'_'.$this->identity;
         }
         if ($roomUser && !$avatar) {
             $this->logger->debug('profile picure is added to the jwt');
