@@ -78,6 +78,10 @@ class SipTrunkGenerator
                 'name' => $this->livekitRoomNameGenerator->getLiveKitName($rooms),
                 'numbers' => [
                     $this->sipTrunkNumber
+                ],
+                'include_headers'=>1,
+                'headers_to_attributes'=>[
+                    'X-'
                 ]
             ]
         ];

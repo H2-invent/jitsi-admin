@@ -28,7 +28,7 @@ export class LivekitUtils {
             initStartWhiteboard();
             showPlayPause();
             initSocialIcons(changeCamera.bind(this));
-            this.initChatToggle();
+            // this.initChatToggle();
             this.conferenceRunning = true;
             this.initMicAndCamera();
             window.onbeforeunload = function (e) {
@@ -111,6 +111,9 @@ export class LivekitUtils {
                     case 'playIframe':
                         this.conferencePaused = false;
                         this.playConference();
+                        break;
+                    case 'pleaseClose':
+                        this.hangup();
                         break;
                     // Weitere Fälle können hier hinzugefügt werden
                     default:

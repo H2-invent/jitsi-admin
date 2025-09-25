@@ -49,6 +49,6 @@ class JItsiEventSyncAPITest extends KernelTestCase
         $result = $this->eventSyncApiService->getCallerSessionFromUid($uid);
 
         // Assert
-        $this->assertEquals(['status' => 'ROOOM_CLOSED'], $result);
+        $this->assertEquals(['status' => 'ROOM_CLOSED'], $result);
     }
 }

@@ -172,6 +172,10 @@ class RoomService
             "sub" => $room->getServer()->getUrl(),
             "room" => $roomName,
             "context" => [
+                'room'=>[
+                    'name'=>$room->getName()
+
+                ],
                 'user' => [
                     'name' => $userName,
 
@@ -191,7 +195,17 @@ class RoomService
         if ($userName === 'Meetling' && $server->isLiveKitServer()){
            $payload['context']['user']['name'] = '';
         }
+        if ($server->getJigasiNumberUrl()){
+            try {
+                $dialInNumbers = json_decode($server->getJigasiNumberUrl(),true);
+                $payload['context']['room']['dialIn']['numbers']=$dialInNumbers['numbers'];
+                $payload['context']['room']['dialIn']['pin']=$room->getCallerRoom()->getCallerId();
+            }catch (\Exception $exception){
+                $this->logger->error($exception->getMessage());
+            }
 
+
+        }
         if ($server->isLiveKitServer()) {
             try {
                 $encSecret = $this->generateEncryptedSecret($server);

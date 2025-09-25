@@ -114,6 +114,47 @@ class UploadThemeController extends AbstractController
         return $this->redirectToRoute('app_upload_theme_form');
     }
 
+    private function processTheme(string $themeFilePath): void
+    {
+        $path = $this->CACHE_DIR . md5(uniqid());
+        $zip = new \ZipArchive();
+
+        if ($zip->open($themeFilePath) !== true) {
+            throw new \RuntimeException('Unable to open the zip file');
+        }
+
+        $zip->extractTo($path);
+        $zip->close();
+
+        $finder = new Finder();
+        $finder->files()->in($path)->name('*.json.signed');
+
+        if ($finder->count() !== 1) {
+            throw new \RuntimeException('No valid theme file found in the zip');
+        }
+
+        $items = iterator_to_array($finder);
+        $themePath = reset($items)->getRealPath();
+
+        if (!$themePath) {
+            throw new \RuntimeException('Unable to read theme file');
+        }
+
+        $themeContent = file_get_contents($themePath);
+        $validSignature = $this->checkSignature->verifySignature($themeContent);
+
+        if (!$validSignature) {
+            throw new \RuntimeException('Invalid theme signature');
+        }
+
+        $this->moveTheme($themePath, $path);
+
+        $filesystem = new Filesystem();
+        $filesystem->remove($path);
+
+        $this->cacheItemPool->clear();
+    }
+
     private function moveTheme($themePath, $path)
     {
         $filesystem = new Filesystem();
