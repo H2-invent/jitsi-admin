@@ -4,6 +4,7 @@
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 ### Bug Fixes:
+a lot
 ### ⭐ Improvements
 * Join a Videoconference without an camera and microphone
 * Add Api to change Server of Room to use auto provisioner
@@ -11,7 +12,6 @@
 * add @ servername to jwt roomname claim
 * add relay for events to other middlewares
 * Add Chatwoot in conferences in sidebar
-
 
 ## 1.2
 ### 🚀 Features
