@@ -8,55 +8,67 @@ import {
     getUserStatus,
     getUserFromSocket,
     disconnectUser,
-    checkEmptySockets, setAwayTime, getStatusForListOfIds
+    checkEmptySockets, 
+    setAwayTime, 
+    getStatusForListOfIds
 } from './login.mjs'
-import {io} from './server.mjs'
 
-export function websocketState(event, socket, message) {
+export async function websocketState(event, socket, message) {
 
     switch (event) {
         case 'disconnect':
             disconnectUser(socket);
-            setTimeout(function () {
+            setTimeout(async function () {
                 if (checkEmptySockets(socket)) {
-                    io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+                    io.emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
                     console.log('Send is Offline');
                 }
-                sendStatus(socket);
+                await sendStatus(socket);
             }, 7000);
             break;
-        case 'login'://fügt den SOcket zu dem USer hinzu. Schickt keine Benachrichtigungen an die anderen Clients
+
+        case 'login': 
             break;
-        case 'setStatus'://setzt den Status und informiert alle Clients, das sich der Status geändert hat
-            setStatus(socket, message);
-            sendStatus(socket);
+
+        case 'setStatus':
+            await setStatus(socket, message);
+            await sendStatus(socket);
             break;
+
         case 'getStatus':
-            io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+            io.emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
             break;
+
         case 'getMyStatus':
             socket.emit('sendUserStatus', getUserStatus(socket));
             break;
+
         case 'stillOnline':
             stillOnline(socket);
             break;
+
         case 'enterMeeting':
             enterMeeting(socket);
-            sendStatus(socket);
+            await sendStatus(socket);
             break;
+
         case 'leaveMeeting':
             leaveMeeting(socket);
-            sendStatus(socket);
+            await sendStatus(socket);
             break;
+
         case 'openNewIframe':
             sendNewIframe(socket, message)
             break;
+
         case 'giveOnlineStatus':
             getStatusForListOfIds(socket, message);
             break;
+
         case 'setAwayTime':
             setAwayTime(socket, message);
             break;
+
         default:
             console.log(event);
             console.log('not known')
@@ -64,12 +76,12 @@ export function websocketState(event, socket, message) {
     }
 }
 
-function sendStatus(socket) {
-    sendStatusToOwnUSer(socket);
-    io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+async function sendStatus(socket) {
+    await sendStatusToOwnUSer(socket);
+    io.emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
 }
 
-function sendStatusToOwnUSer(socket) {
+async function sendStatusToOwnUSer(socket) {
     var user = getUserFromSocket(socket)
     if (user) {
         user.sendToAllSockets('sendUserStatus', user.getStatus());
