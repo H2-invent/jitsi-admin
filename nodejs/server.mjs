@@ -7,11 +7,8 @@ import jwt from "jsonwebtoken";
 import { Server } from "socket.io";
 
 import { checkFileContains } from "./checkCertAndKey.js";
-import {
-  getOnlineUSer,
-  loginUser
-} from "./login.mjs";
 import { websocketState } from "./websocketState.mjs";
+import { loginUser, getOnlineUSer } from "./login.mjs";
 import {
   MERCURE_INTERNAL_URL,
   PORT,
@@ -25,24 +22,18 @@ import {
 
 const app = express();
 const router = express.Router();
-
 let server;
 
+// HTTP oder HTTPS
 try {
-  if (
-    checkFileContains(CERT_FILE, "BEGIN CERTIFICATE") &&
-    checkFileContains(KEY_FILE, "BEGIN PRIVATE KEY")
-  ) {
-    console.log("✅ Zertifikat & Key gefunden – HTTPS Server wird gestartet.");
-    server = https.createServer(
-      {
-        key: fs.readFileSync(KEY_FILE),
-        cert: fs.readFileSync(CERT_FILE)
-      },
-      app
-    );
+  if (checkFileContains(CERT_FILE, "BEGIN CERTIFICATE") && checkFileContains(KEY_FILE, "BEGIN PRIVATE KEY")) {
+    console.log("✅ HTTPS Server wird gestartet.");
+    server = https.createServer({
+      key: fs.readFileSync(KEY_FILE),
+      cert: fs.readFileSync(CERT_FILE)
+    }, app);
   } else {
-    console.log("⚠️ Zertifikat ungültig oder nicht gefunden – HTTP Server wird gestartet.");
+    console.log("⚠️ HTTPS Zertifikat nicht gefunden, HTTP Server wird gestartet.");
     server = http.createServer(app);
   }
 } catch (err) {
@@ -50,7 +41,7 @@ try {
   server = http.createServer(app);
 }
 
-// 🧠 Socket.IO Server-Instanz
+// Socket.IO Server
 export const io = new Server(server, {
   path: "/ws",
   cors: {
@@ -59,6 +50,7 @@ export const io = new Server(server, {
   }
 });
 
+// Optional: Redis Adapter für Cluster
 if (REDIS_ENABLED) {
   try {
     const { createAdapter } = await import("@socket.io/redis-adapter");
@@ -71,32 +63,77 @@ if (REDIS_ENABLED) {
     await subClient.connect();
 
     io.adapter(createAdapter(pubClient, subClient));
-    console.log(`🔗 [Socket.IO] Redis-Adapter aktiviert (${REDIS_HOST}:${REDIS_PORT})`);
+    console.log(`🔗 Redis-Adapter aktiviert (${REDIS_HOST}:${REDIS_PORT})`);
   } catch (err) {
-    console.warn("⚠️ [Socket.IO] Redis-Adapter konnte nicht initialisiert werden – Fallback auf Standalone:", err.message);
+    console.warn("⚠️ Redis-Adapter konnte nicht initialisiert werden, Standalone läuft:", err.message);
   }
 } else {
-  console.log("⚙️ [Socket.IO] Redis deaktiviert – läuft im Single-Node-Modus.");
+  console.log("⚙️ Redis deaktiviert – Standalone-Modus");
 }
 
-// 🧱 Authentifizierung über JWT
-io.use(function (socket, next) {
-  if (socket.handshake.query && socket.handshake.query.token) {
-    jwt.verify(socket.handshake.query.token, WEBSOCKET_SECRET, function (err, decoded) {
-      if (err) {
-        console.log("❌ Ungültiges JWT-Secret");
-        return next(new Error("Authentication error"));
-      }
+// JWT Auth
+io.use((socket, next) => {
+  if (socket.handshake.query?.token) {
+    jwt.verify(socket.handshake.query.token, WEBSOCKET_SECRET, (err, decoded) => {
+      if (err) return next(new Error("Authentication error"));
       socket.decoded = decoded;
       next();
     });
-  } else {
-    next(new Error("Authentication error"));
-  }
+  } else next(new Error("Authentication error"));
 });
 
+// Socket.IO Events
 io.on("connection", async (socket) => {
   const jwtObj = jwt.decode(socket.handshake.query.token);
-  if (!jwtObj || !jwtObj.rooms) return;
+  if (jwtObj?.rooms) jwtObj.rooms.forEach(room => socket.join(room));
 
-  for (const room of j
+  const user = await loginUser(socket);
+  if (user) {
+    user.initUserAway?.();
+    socket.emit("sendUserStatus", user.getStatus?.());
+    socket.emit("sendUserTimeAway", user.awayTime ?? 0);
+    io.emit("sendOnlineUser", JSON.stringify(await getOnlineUSer()));
+  }
+
+  socket.on("disconnect", () => websocketState("disconnect", socket, null));
+  socket.onAny((event, data) => websocketState(event, socket, data));
+});
+
+// Express Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// MERCURE Webhook
+router.post(MERCURE_INTERNAL_URL, async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.sendStatus(403);
+
+  const token = authHeader.split(" ")[1];
+  jwt.verify(token, WEBSOCKET_SECRET, async (err) => {
+    if (err) return res.sendStatus(403);
+
+    const data = req.body.data;
+    const room = req.body.topic;
+    io.to(room).emit("mercure", data);
+    res.end("OK");
+  });
+});
+
+router.get(MERCURE_INTERNAL_URL, (_, res) => res.sendStatus(200));
+router.get("/healthz", (_, res) => res.sendStatus(200));
+app.use("/", router);
+
+// Server starten
+server.listen(PORT, () => {
+  console.log(`🚀 Server läuft auf Port ${PORT} (${REDIS_ENABLED ? "Cluster" : "Standalone"})`);
+});
+
+// 🌐 Test: alle 10 Sekunden globale Userliste ausgeben
+setInterval(async () => {
+  try {
+    const users = await getOnlineUSer();
+    console.log("🌐 Globale Userliste:", users);
+  } catch (err) {
+    console.error("Fehler beim Abrufen der globalen Userliste:", err.message);
+  }
+}, 10000);
