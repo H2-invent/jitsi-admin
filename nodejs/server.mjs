@@ -163,15 +163,5 @@ if (REDIS_ENABLED && redis) {
       console.error("Fehler beim Heartbeat / globale Userliste:", err.message);
     }
   }, 10000); // alle 10 Sekunden
-} else {
-  // Standalone-Modus: nur lokale Userliste ausgeben
-  setInterval(async () => {
-    try {
-      const users = await getOnlineUSer();
-      console.log("🌐 Globale Userliste (Standalone):", users);
-    } catch (err) {
-      console.error("Fehler beim Abrufen der Userliste:", err.message);
-    }
-  }, 10000);
 }
 
