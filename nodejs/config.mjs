@@ -1,7 +1,7 @@
 export const WEBSOCKET_SECRET = process.env.WEBSOCKET_SECRET || "MY_SECRET";
 export const MERCURE_INTERNAL_URL = process.env.MERCURE_INTERNAL_URL || "/.well-known/mercure";
-export const PORT = process.env.PORT || 3000;
-export const AWAY_TIME = process.env.AWAY_TIME || 5;
+export const PORT = parseInt(process.env.PORT || "3000", 10);
+export const AWAY_TIME = parseInt(process.env.AWAY_TIME || "5", 10);
 export const DEFAULT_STATE = process.env.DEFAULT_STATE || "offline";
 export const KEY_FILE = process.env.KEY_FILE || "./tls_certificate/key.pem";
 export const CERT_FILE = process.env.CERT_FILE || "./tls_certificate/cert.pem";
