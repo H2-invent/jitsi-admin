@@ -2,7 +2,7 @@
   "name": "jitsi-admin-websocket",
   "version": "1.0.0",
   "description": "",
-  "main": "websocket.js",
+  "main": "server.mjs",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
