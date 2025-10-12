@@ -8,7 +8,7 @@ import { Server } from "socket.io";
 
 import { checkFileContains } from "./checkCertAndKey.js";
 import { websocketState } from "./websocketState.mjs";
-import { loginUser, getOnlineUSer } from "./login.mjs";
+import { loginUser, getOnlineUSer, getUserId } from "./login.mjs";
 import {
   MERCURE_INTERNAL_URL,
   PORT,
@@ -50,6 +50,8 @@ export const io = new Server(server, {
   }
 });
 
+let redis = null;
+
 // Optional: Redis Adapter für Cluster
 if (REDIS_ENABLED) {
   try {
@@ -62,6 +64,7 @@ if (REDIS_ENABLED) {
     await pubClient.connect();
     await subClient.connect();
 
+    redis = pubClient; // global für Heartbeat
     io.adapter(createAdapter(pubClient, subClient));
     console.log(`🔗 Redis-Adapter aktiviert (${REDIS_HOST}:${REDIS_PORT})`);
   } catch (err) {
@@ -128,12 +131,47 @@ server.listen(PORT, () => {
   console.log(`🚀 Server läuft auf Port ${PORT} (${REDIS_ENABLED ? "Cluster" : "Standalone"})`);
 });
 
-// 🌐 Test: alle 10 Sekunden globale Userliste ausgeben
-setInterval(async () => {
-  try {
-    const users = await getOnlineUSer();
-    console.log("🌐 Globale Userliste:", users);
-  } catch (err) {
-    console.error("Fehler beim Abrufen der globalen Userliste:", err.message);
-  }
-}, 10000);
+// 🔄 Heartbeat: lokale User alle 10 Sekunden erneut in Redis registrieren
+if (REDIS_ENABLED && redis) {
+  setInterval(async () => {
+    try {
+      const usersFromRedis = {};
+
+      // Alle lokal verbundenen Sockets in Redis registrieren (Heartbeat)
+      for (const socket of io.sockets.sockets.values()) {
+        const userId = getUserId(socket);
+        if (!userId) continue;
+
+        const userData = {
+          id: userId,
+          status: socket.decoded?.status === 1 ? 'online' : 'offline',
+          updatedAt: Date.now()
+        };
+
+        await redis.hset("users", userId, JSON.stringify(userData));
+
+        // Für Testausgabe vorbereiten
+        const status = userData.status;
+        if (!usersFromRedis[status]) usersFromRedis[status] = [];
+        usersFromRedis[status].push(userId);
+      }
+
+      // 🌐 Test: globale Userliste ausgeben
+      console.log("🌐 Globale Userliste (Redis + Heartbeat):", usersFromRedis);
+
+    } catch (err) {
+      console.error("Fehler beim Heartbeat / globale Userliste:", err.message);
+    }
+  }, 10000); // alle 10 Sekunden
+} else {
+  // Standalone-Modus: nur lokale Userliste ausgeben
+  setInterval(async () => {
+    try {
+      const users = await getOnlineUSer();
+      console.log("🌐 Globale Userliste (Standalone):", users);
+    } catch (err) {
+      console.error("Fehler beim Abrufen der Userliste:", err.message);
+    }
+  }, 10000);
+}
+
