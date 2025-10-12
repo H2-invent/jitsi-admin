@@ -1,4 +1,4 @@
-import {io} from './server.mjs'
+import { io } from "./websocket.js";
 import { getOnlineUSer } from "./login.mjs";
 import { AWAY_TIME, DEFAULT_STATE } from "./config.mjs";
 
@@ -15,38 +15,20 @@ class User {
 
     constructor(userId, socket, status) {
         this.userId = userId;
-        this.sockets.push(socket);
         this.status = status;
+        this.sockets.push(socket);
         this.offline = status === DEFAULT_STATE;
         this.awayTime = AWAY_TIME;
-        this.initUserAway(); // async-Aufruf kann bei Konstruktoren nicht await sein
+        this.initUserAway(); // async, kein await im Konstruktor möglich
     }
 
     addSocket(socket) {
-        if (!this.sockets.includes(socket)) {
-            this.sockets.push(socket);
-        }
+        if (!this.sockets.includes(socket)) this.sockets.push(socket);
     }
 
     removeSocket(socket) {
         const index = this.sockets.indexOf(socket);
-        if (index > -1) {
-            this.sockets.splice(index, 1);
-        }
-    }
-
-    hasSocket(socket) {
-        return this.sockets.includes(socket);
-    }
-
-    getSockets() {
-        return this.sockets;
-    }
-
-    async setStatus(status) {
-        this.status = status;
-        this.offline = status === 'offline';
-        await this.initUserAway();
+        if (index > -1) this.sockets.splice(index, 1);
     }
 
     getStatus() {
@@ -56,18 +38,10 @@ class User {
         return this.status;
     }
 
-    setAlive() {
-        this.initUserAway();
-    }
-
     async sendStatus() {
-        const onlineUsers = await getOnlineUSer(); // global aus Redis oder lokal
+        const onlineUsers = await getOnlineUSer();
         io.emit('sendOnlineUser', JSON.stringify(onlineUsers));
         this.sendToAllSockets('sendUserStatus', this.getStatus());
-    }
-
-    getUserId() {
-        return this.userId;
     }
 
     async initUserAway() {
@@ -84,6 +58,16 @@ class User {
             this.away = true;
             await this.sendStatus();
         }, 60000 * this.awayTime);
+    }
+
+    async setStatus(status) {
+        this.status = status;
+        this.offline = status === 'offline';
+        await this.initUserAway();
+    }
+
+    sendToAllSockets(ev, message) {
+        for (const socket of this.sockets) socket.emit(ev, message);
     }
 
     enterMeeting(socket) {
@@ -108,12 +92,6 @@ class User {
             }
         } catch (e) {
             console.error(e);
-        }
-    }
-
-    sendToAllSockets(ev, message) {
-        for (const socket of this.sockets) {
-            socket.emit(ev, message);
         }
     }
 }
