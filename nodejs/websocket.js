@@ -1,75 +1,105 @@
 import express from 'express';
 import bodyParser from "body-parser";
-
-const router = express.Router();
-const app = express();
-import http from 'http'
+import http from 'http';
 import https from "https";
 import fs from "fs";
+import jwt from 'jsonwebtoken';
+import { Server } from "socket.io";
+import { createClient } from "ioredis";
 
-import {checkFileContains} from './checkCertAndKey.js';
-import {Server} from "socket.io";
-import jwt from 'jsonwebtoken'
+import { checkFileContains } from './checkCertAndKey.js';
+import { getOnlineUSer, loginUser } from './login.mjs';
+import { websocketState } from './websocketState.mjs';
+import { 
+    MERCURE_INTERNAL_URL, 
+    PORT, 
+    WEBSOCKET_SECRET, 
+    KEY_FILE, 
+    CERT_FILE,
+    REDIS_HOST = 'redis',
+    REDIS_PORT = 6379
+} from "./config.mjs";
 
-import {getOnlineUSer, loginUser} from './login.mjs'
-import {websocketState} from './websocketState.mjs';
-import {MERCURE_INTERNAL_URL, PORT, WEBSOCKET_SECRET, KEY_FILE, CERT_FILE} from "./config.mjs";
+const app = express();
+const router = express.Router();
 
-
-const keyPath = KEY_FILE;
-const certPath = CERT_FILE;
+// --- HTTPS oder HTTP ---
 let server;
 try {
-    if (checkFileContains(certPath, 'BEGIN CERTIFICATE') && checkFileContains(keyPath, 'BEGIN PRIVATE KEY')) {
-        console.log('We found the cert and the key file');
-        console.log('The cert and key are valid.')
-        console.log('We start an HTTPS Server.');
+    if (checkFileContains(CERT_FILE, 'BEGIN CERTIFICATE') && checkFileContains(KEY_FILE, 'BEGIN PRIVATE KEY')) {
+        console.log('Zertifikat & Key gefunden, starte HTTPS-Server.');
         server = https.createServer({
-                key: fs.readFileSync(keyPath),
-                cert: fs.readFileSync(certPath)
-            },
-            app);
+            key: fs.readFileSync(KEY_FILE),
+            cert: fs.readFileSync(CERT_FILE)
+        }, app);
     } else {
+        console.log('Kein gültiges Zertifikat gefunden – starte HTTP-Server.');
         server = http.createServer(app);
     }
 } catch (err) {
-    console.error(err)
+    console.error('Fehler beim Laden der Zertifikate:', err);
     server = http.createServer(app);
 }
 
-
-export const io = new Server(server, {
+// --- Socket.IO Setup ---
+const io = new Server(server, {
     path: '/ws',
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
+    cors: { origin: "*", methods: ["GET", "POST"] },
+});
+
+// --- Redis optional verbinden ---
+let redisEnabled = false;
+
+try {
+    const pubClient = createClient({ host: REDIS_HOST, port: REDIS_PORT });
+    const subClient = pubClient.duplicate();
+
+    await Promise.allSettled([pubClient.connect(), subClient.connect()]);
+
+    // prüfen, ob Redis verbunden ist
+    if (pubClient.status === "ready" && subClient.status === "ready") {
+        const { createAdapter } = await import("@socket.io/redis-adapter");
+        io.adapter(createAdapter(pubClient, subClient));
+        redisEnabled = true;
+        console.log(`Redis-Adapter aktiviert @ ${REDIS_HOST}:${REDIS_PORT}`);
+    } else {
+        console.log("Redis nicht verfügbar – Socket.IO läuft im Standalone-Modus.");
+    }
+
+    // Fehlerbehandlung
+    pubClient.on("error", () => {
+        console.log("Redis-Verbindung verloren – bleibe im Standalone-Modus.");
+    });
+} catch (err) {
+    console.log("Konnte keine Redis-Verbindung herstellen – Socket.IO läuft Standalone.");
+}
+
+// --- Auth Middleware ---
+io.use((socket, next) => {
+    if (socket.handshake.query && socket.handshake.query.token) {
+        jwt.verify(socket.handshake.query.token, WEBSOCKET_SECRET, (err, decoded) => {
+            if (err) {
+                console.log('Falscher JWT-Secret.');
+                return next(new Error('Authentication error'));
+            }
+            socket.decoded = decoded;
+            next();
+        });
+    } else {
+        next(new Error('Authentication error'));
     }
 });
 
-io.use(function (socket, next) {
-        if (socket.handshake.query && socket.handshake.query.token) {
-            jwt.verify(socket.handshake.query.token, WEBSOCKET_SECRET, function (err, decoded) {
-                if (err) {
-                    console.log('wrong secret. Check your secrets');
-                    return next(new Error('Authentication error'));
-                }
-                socket.decoded = decoded;
-                next();
-            });
-        } else {
-
-            next(new Error('Authentication error'));
-        }
-    }
-)
-
+// --- WebSocket Event Handling ---
 io.on("connection", async (socket) => {
-    var jwtObj = jwt.decode(socket.handshake.query.token);
-    for (var i = 0; i < jwtObj.rooms.length; i++) {
-        socket.join(jwtObj.rooms[i]);
-    }
-    var user = loginUser(socket);
+    console.log(`🔌 Neue Verbindung: ${socket.id} (${redisEnabled ? 'Cluster' : 'Standalone'})`);
 
+    const jwtObj = jwt.decode(socket.handshake.query.token);
+    if (jwtObj?.rooms) {
+        jwtObj.rooms.forEach(room => socket.join(room));
+    }
+
+    const user = loginUser(socket);
     if (user) {
         user.initUserAway();
         socket.emit('sendUserStatus', user.getStatus());
@@ -77,55 +107,39 @@ io.on("connection", async (socket) => {
         io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
     }
 
-    socket.on('disconnect', function () {
-        websocketState('disconnect', socket, null);
-    })
+    socket.on('disconnect', () => websocketState('disconnect', socket, null));
+    socket.onAny((event, data) => websocketState(event, socket, data));
+});
 
-    socket.onAny(function (event, data) {
-        websocketState(event, socket, data);
-    })
-})
-app.use(bodyParser.urlencoded({extended: false}));
+// --- Express API ---
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-router.post(MERCURE_INTERNAL_URL, (request, response) => {
-//code to perform particular action.
-//To access POST variable use req.body()methods.
-    console.log('Receive new Backend Request');
-    const authHeader = request.headers.authorization;
+
+router.post(MERCURE_INTERNAL_URL, (req, res) => {
+    console.log('Backend Request empfangen');
+    const authHeader = req.headers.authorization;
     if (authHeader) {
         const token = authHeader.split(' ')[1];
-
-        jwt.verify(token, WEBSOCKET_SECRET, (err, user) => {
+        jwt.verify(token, WEBSOCKET_SECRET, (err) => {
             if (err) {
-                console.log('Wrong JWT signature');
-                return response.sendStatus(403);
-            } else {
-
-                var data = request.body.data;
-                var room = request.body.topic;
-                io.to(room).emit('mercure', data);
-
-                response.end('OK');
+                console.log('Ungültige JWT-Signatur');
+                return res.sendStatus(403);
             }
+            const { topic: room, data } = req.body;
+            io.to(room).emit('mercure', data);
+            res.end('OK');
         });
     } else {
-
-        response.sendStatus(403);
-        response.end('OK');
+        res.sendStatus(403);
     }
 });
-router.get(MERCURE_INTERNAL_URL, (request, response) => {
-//code to perform particular action.
-//To access POST variable use req.body()methods.
-    return response.sendStatus(200);
-});
-router.get('/healthz', (request, response) => {
-//code to perform particular action.
-//To access POST variable use req.body()methods.
-    return response.sendStatus(200);
-});
+
+router.get(MERCURE_INTERNAL_URL, (_, res) => res.sendStatus(200));
+router.get('/healthz', (_, res) => res.sendStatus(200));
 
 app.use("/", router);
+
+// --- Server starten ---
 server.listen(PORT, () => {
-    console.log('listening on *:' + PORT);
+    console.log(`WebSocket-Server läuft auf Port ${PORT} (${redisEnabled ? 'mit Redis-Cluster' : 'Standalone'})`);
 });
