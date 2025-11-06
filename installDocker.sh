@@ -173,15 +173,23 @@ echo ".env.local Datei wurde erfolgreich erstellt."
 
 chmod +x dockerupdate.sh
 
-if [ "$ENVIRONMENT" == 'dev' ]; then
-  docker-compose -f docker-compose.test.yml build
-  docker-compose -f docker-compose.test.yml up -d --remove-orphans 
-elif [ "$ENVIRONMENT" == 'cluster' ]; then
-  docker-compose -f docker-compose.test.yml build
-  docker-compose -f docker-compose.cluster.yml up -d --remove-orphans 
+# New version of docker uses "docker compose" instead of "docker-compose"
+if command -v docker-compose; then
+    DOCKER_COMPOSE="docker-compose"
 else
-   docker-compose -f docker-compose.yml build
-  docker-compose -f docker-compose.yml up -d --remove-orphans 
+    DOCKER_COMPOSE="docker compose"
+fi
+
+if [ "$ENVIRONMENT" == 'dev' ]; then
+  # use env to set conf file variables without leaking them to the host system
+  env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.test.yml build
+  env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.test.yml up -d --remove-orphans
+elif [ "$ENVIRONMENT" == 'cluster' ]; then
+  $env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.test.yml build
+  $env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.cluster.yml up -d --remove-orphans
+else
+  $env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.yml build
+  $env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.yml up -d --remove-orphans
 fi
 RED='\033[0;31m'
 NC='\033[0m' # No Color
