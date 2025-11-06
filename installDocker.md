@@ -17,7 +17,7 @@ This all leads to a bigger complexity. To make the installation as easy as befor
 
 ### Installation
 Clone this repo in your directory.
-We suggest to clone it into a persistant directory.
+We suggest to clone it into a persistent directory.
 
 ```
 cd /var/www
@@ -37,7 +37,7 @@ From here you can decide if you want to use the jitsi-admin only for local testi
 
 start the installer with
 `bash installDocker.sh`
-Now you are going to be asked for a lot informations.
+Now you are going to be asked for a lot of information.
 
 ![](docs/images/installDocker.PNG)
 
@@ -56,7 +56,7 @@ Hin enter and wait. After some minutes just go to the browser and enter **http:/
 
 start the installer with
 `bash installDocker.sh`
-Now you are going to be asked for a lot informations.
+Now you are going to be asked for a lot of information.
 
 ![](docs/images/installDockerProd.PNG)
 
