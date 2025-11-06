@@ -140,7 +140,7 @@ fi
 cat <<EOL > .env.local
 MAILER_DSN='smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort'
 DEFAULT_EMAIL=$smtpFrom
-DATABASE_URL='mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin'
+DATABASE_URL='mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin?serverVersion=12.0.2-MariaDB-ubu2404'
 laF_baseUrl='$HTTP_METHOD://$PUBLIC_URL'
 VICH_BASE='$HTTP_METHOD://$PUBLIC_URL'
 GIT_VERSION=$(git rev-parse --short=5 HEAD)
