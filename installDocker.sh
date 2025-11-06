@@ -1,21 +1,19 @@
 echo Welcome to the installer:
 FILE=docker.conf
-if [ -f "$FILE" ]; then
-  source $FILE
-else
+if [ ! -f "$FILE" ]; then
   touch $FILE
-    KEYCLOAK_PW=$(date +%s | sha256sum | base64 | head -c 32)
-    JITSI_ADMIN_PW=$(date +%s | sha256sum | base64 | head -c 32)
-    MERCURE_JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32)
-    KEYCLOAK_ADMIN_PW=$(date +%s | sha256sum | base64 | head -c 32)
-    NEW_UUID=$(date +%s | sha256sum | base64 | head -c 32)
-    echo "KEYCLOAK_PW=$KEYCLOAK_PW" >> $FILE
-    echo "MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET" >> $FILE
-    echo "KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW" >> $FILE
-    echo "NEW_UUID=$NEW_UUID" >> $FILE
-    echo "JITSI_ADMIN_PW=$JITSI_ADMIN_PW" >> $FILE
-  source $FILE
-fi
+
+  KEYCLOAK_PW=$(date +%s | sha256sum | base64 | head -c 32)
+  JITSI_ADMIN_PW=$(date +%s | sha256sum | base64 | head -c 32)
+  MERCURE_JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32)
+  KEYCLOAK_ADMIN_PW=$(date +%s | sha256sum | base64 | head -c 32)
+  NEW_UUID=$(date +%s | sha256sum | base64 | head -c 32)
+  echo "KEYCLOAK_PW=$KEYCLOAK_PW" >> $FILE
+  echo "MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET" >> $FILE
+  echo "KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW" >> $FILE
+  echo "NEW_UUID=$NEW_UUID" >> $FILE
+  echo "JITSI_ADMIN_PW=$JITSI_ADMIN_PW" >> $FILE
+
   ENVIRONMENT=${ENVIRONMENT:=prod}
   read -p "Enter the environment dev/prod[$ENVIRONMENT]: " input
   ENVIRONMENT=${input:=$ENVIRONMENT}
@@ -34,9 +32,10 @@ fi
   sed -i '/PUBLIC_URL/d' $FILE
   echo "PUBLIC_URL=$PUBLIC_URL" >> $FILE
 
-  echo --------------------------------------------------------------------------
-  echo -----------------We looking for all the other parameters-------------------
-  echo --------------------------------------------------------------------------
+  echo -------------------------------------------------------------------------------
+  echo -----------------We are looking for all the other parameters-------------------
+  echo -------------------------------------------------------------------------------
+
   echo -------------------------------------------------------------
   echo -----------------Mailer--------------------------------------
   echo -------------------------------------------------------------
@@ -83,10 +82,13 @@ fi
   default_language=${input:=$default_language}
   sed -i '/default_language/d' $FILE
   echo "default_language=$default_language" >> $FILE
+fi
 
-  echo -------------------------------------------------------------
-  echo -----------------we build the KEycloak-----------------------
-  echo -------------------------------------------------------------
+source $FILE
+
+echo -------------------------------------------------------------
+echo -----------------We build the Keycloak-----------------------
+echo -------------------------------------------------------------
 sed -i "s|<clientsecret>|$NEW_UUID|g" docker/keycloak/realm-export.json
 sed -i "s|<clientUrl>|$HTTP_METHOD://$PUBLIC_URL|g" docker/keycloak/realm-export.json
 
@@ -105,9 +107,9 @@ elif [ "$smtpEncryption" == 'ssl' ]; then
      sed -i "s|<smtpEncyption>| \"ssl\": \"false\",\n\"starttls\": \"false\",|g" docker/keycloak/realm-export.json
 fi
 
-  echo -------------------------------------------------------------
-  echo -----------------we build the Database-----------------------
-  echo -------------------------------------------------------------
+echo -------------------------------------------------------------
+echo -----------------We build the Database-----------------------
+echo -------------------------------------------------------------
 sed -i "s|<jitsi-admin-pw>|$JITSI_ADMIN_PW|g" docker/docker-entrypoint-initdb.d/init-userdb.sql
 sed -i "s|<keycloak-pw>|$KEYCLOAK_PW|g" docker/docker-entrypoint-initdb.d/init-userdb.sql
 
