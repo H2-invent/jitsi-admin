@@ -223,19 +223,18 @@ class RoomAddService
      * If the room is a series, the participant is removed from all rooms in the series
      * @param User $user
      * @param Rooms $rooms
-     * @return string
+     * @return void
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function removeUserFromRoom(User $user, Rooms $rooms): string
+    public function removeUserFromRoom(User $user, Rooms $rooms): void
     {
         if ($rooms->getRepeater()) {
             $this->removeUserFromRepeaterRoom($rooms, $user);
         } else {
             $this->removeUserFromRoomNoRepeat($rooms, $user);
         }
-        return $this->translator->trans('Teilnehmer gelöscht');
     }
 
     /**
