@@ -5,6 +5,7 @@ namespace App\Tests\Rooms\Service;
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
 use App\Entity\RoomsUser;
+use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use App\Service\RoomAddService;
@@ -530,5 +531,21 @@ class RoomAddServiceTest extends KernelTestCase
         self::assertEquals(0, $room->getUserAttributes()->count());
         self::assertEquals(0, $room->getCallerIds()->count());
         self::assertEquals(2, sizeof($room->getUser()->toArray()));
+    }
+
+    public function testremoveParticipantRemovesRoomFromUsersFavorites(): void
+    {
+        self::bootKernel();
+        $roomAddService = self::getContainer()->get(RoomAddService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
+
+        $user->addFavorite($room);
+        $roomAddService->removeUserFromRoom($user, $room);
+
+        self::assertFalse($user->getFavorites()->contains($room));
     }
 }

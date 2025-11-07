@@ -139,7 +139,7 @@ class ParticipantController extends JitsiAdminController
 
 
     #[Route(path: '/room/participant/remove', name: 'room_user_remove')]
-    public function roomUserRemove(Request $request, RoomAddService $roomAddService, FavoriteService $favoriteService)
+    public function roomUserRemove(Request $request, RoomAddService $roomAddService)
     {
 
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
@@ -150,7 +150,6 @@ class ParticipantController extends JitsiAdminController
         }
 
         $roomAddService->removeUserFromRoom($user, $room);
-        $favoriteService->cleanFavorites($user);
         return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('Teilnehmer gelöscht'), 'color' => 'success']);
     }
 

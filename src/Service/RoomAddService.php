@@ -28,7 +28,8 @@ class RoomAddService
         private UserService             $userService,
         private TranslatorInterface     $translator,
         private PermissionChangeService $permissionChangeService,
-        private LoggerInterface         $logger
+        private FavoriteService         $favoriteService,
+        private LoggerInterface         $logger,
     )
     {
     }
@@ -235,6 +236,7 @@ class RoomAddService
         } else {
             $this->removeUserFromRoomNoRepeat($rooms, $user);
         }
+        $this->favoriteService->cleanFavorites($user);
     }
 
     /**
