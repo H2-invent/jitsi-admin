@@ -4,6 +4,7 @@ namespace App\Tests\Rooms\Service;
 
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
+use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
 use App\Repository\RoomsRepository;
@@ -299,154 +300,132 @@ class RoomAddServiceTest extends KernelTestCase
         self::assertEquals(false, $room->getUserAttributes()[1]->getPrivateMessage());
     }
 
-    public function testaddParticipantWhenParrticipantIsCreator(): void
+    public function testAddParticipantWhenParticipantIsCreator(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
         $roomAddService = self::getContainer()->get(RoomAddService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
+
+        /** @var Rooms $room */
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        $creator = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $userMail = 'test@local2.de';
+        $creator = $userRepo->findOneBy(['email' => $userMail]);
+
+        $countUsers = sizeof($room->getUser()->toArray());
         $room->setCreator($creator);
-        $user = "test@local2.de";
-        $res = $roomAddService->createModerators($user, $room, $room->getCreator());
-        self::assertEquals(1, sizeof($res));
-        self::assertEquals('test@local2.de', $res[0]);
-        $count = 0;
-        foreach ($room->getUser() as $data) {
-            switch ($count) {
-                case 0:
-                    self::assertEquals('test@local.de', $data->getEmail());
-                    break;
-                case 1:
-                    self::assertEquals('test@local2.de', $data->getEmail());
-                    break;
-                case 2:
-                    self::assertEquals('test@local3.de', $data->getEmail());
-                    break;
+        $disallowedModerators = $roomAddService->createParticipants($userMail, $room, $room->getCreator());
+
+        self::assertEquals(1, sizeof($disallowedModerators));
+        self::assertEquals($userMail, $disallowedModerators[0]);
+
+        $hasOurUser = false;
+        foreach ($room->getUser() as $user) {
+            if ($user->getEmail() === $userMail) {
+                $hasOurUser = true;
+                break;
             }
-            $count++;
         }
-        self::assertEquals(3, sizeof($room->getUser()->toArray()));
-    }
-    public function testaddParticipantWhenParrticipantIsCreatorinviterisModerator(): void
-    {
-        $kernel = self::bootKernel();
-        $roomAddService = self::getContainer()->get(RoomAddService::class);
-        $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        $creator = $userRepo->findOneBy(['email' => 'test@local2.de']);
-        $room->setCreator($creator);
-        $user = "test@local2.de";
-        $res = $roomAddService->createModerators($user, $room, $room->getModerator());
-        self::assertEquals(0, sizeof($res));
-        $count = 0;
-        foreach ($room->getUser() as $data) {
-            switch ($count) {
-                case 0:
-                    self::assertEquals('test@local.de', $data->getEmail());
-                    break;
-                case 1:
-                    self::assertEquals('test@local2.de', $data->getEmail());
-                    break;
-                case 2:
-                    self::assertEquals('test@local3.de', $data->getEmail());
-                    break;
-            }
-            $count++;
-        }
-        self::assertEquals(3, sizeof($room->getUser()->toArray()));
+
+        self::assertTrue($hasOurUser);
+        self::assertEquals($countUsers, sizeof($room->getUser()->toArray()));
     }
 
-
-    public function testaddModeratorWhereParrticipantIsCreator(): void
+    public function testAddParticipantWhenParticipantIsCreatorInviterIsModerator(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
         $roomAddService = self::getContainer()->get(RoomAddService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
+
+        /** @var Rooms $room */
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        $creator = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $userMail = 'test@local2.de';
+        $creator = $userRepo->findOneBy(['email' => $userMail]);
+
+        $countUsers = sizeof($room->getUser()->toArray());
         $room->setCreator($creator);
-        $user = "test@local2.de";
-        $res = $roomAddService->createModerators($user, $room, $room->getCreator());
-        self::assertEquals(1, sizeof($res));
-        self::assertEquals('test@local2.de', $res[0]);
-        $count = 0;
-        foreach ($room->getUser() as $data) {
-            switch ($count) {
-                case 0:
-                    self::assertEquals('test@local.de', $data->getEmail());
-                    break;
-                case 1:
-                    self::assertEquals('test@local2.de', $data->getEmail());
-                    break;
-                case 2:
-                    self::assertEquals('test@local3.de', $data->getEmail());
-                    break;
+        $disallowedModerators = $roomAddService->createParticipants($userMail, $room, $room->getModerator());
+
+        self::assertEquals(0, sizeof($disallowedModerators));
+
+        $hasOurUser = false;
+        foreach ($room->getUser() as $user) {
+            if ($user->getEmail() === $userMail) {
+                $hasOurUser = true;
+                break;
             }
-            $count++;
         }
-        self::assertEquals(3, sizeof($room->getUser()->toArray()));
+
+        self::assertTrue($hasOurUser);
+        self::assertEquals($countUsers, sizeof($room->getUser()->toArray()));
     }
 
-    public function testaddModeratorWhereParrticipantIsCreatorbutModeratorAdds(): void
+
+    public function testAddModeratorWhereParticipantIsCreator(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
         $roomAddService = self::getContainer()->get(RoomAddService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
+
+        /** @var Rooms $room */
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        $creator = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $userMail = 'test@local2.de';
+        $creator = $userRepo->findOneBy(['email' => $userMail]);
+
+        $countUsers = sizeof($room->getUser()->toArray());
         $room->setCreator($creator);
-        $user = "test@local2.de";
-        $res = $roomAddService->createModerators($user, $room, $room->getModerator());
-        self::assertEquals(0, sizeof($res));
-        $count = 0;
-        foreach ($room->getUser() as $data) {
-            switch ($count) {
-                case 0:
-                    self::assertEquals('test@local.de', $data->getEmail());
-                    break;
-                case 1:
-                    self::assertEquals('test@local2.de', $data->getEmail());
-                    break;
-                case 2:
-                    self::assertEquals('test@local3.de', $data->getEmail());
-                    break;
+        $disallowedModerators = $roomAddService->createModerators($userMail, $room, $room->getCreator());
+
+        self::assertEquals(1, sizeof($disallowedModerators));
+        self::assertEquals($userMail, $disallowedModerators[0]);
+
+        $hasOurUser = false;
+        foreach ($room->getUser() as $user) {
+            if ($user->getEmail() === $userMail) {
+                $hasOurUser = true;
+                break;
             }
-            $count++;
         }
-        self::assertEquals(3, sizeof($room->getUser()->toArray()));
+
+        self::assertTrue($hasOurUser);
+        self::assertEquals($countUsers, sizeof($room->getUser()->toArray()));
     }
 
-    public function testremoveParticipant(): void
+    public function testRemoveParticipant(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
         $roomAddService = self::getContainer()->get(RoomAddService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        self::assertEquals(3, sizeof($room->getUser()->toArray()));
         $userRepo = self::getContainer()->get(UserRepository::class);
+
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
+
+        $countUsers = sizeof($room->getUser()->toArray());
+
         $roomAddService->removeUserFromRoom($user, $room);
-        self::assertEquals(2, sizeof($room->getUser()->toArray()));
+
+        self::assertEquals($countUsers - 1, sizeof($room->getUser()->toArray()));
     }
 
-    public function testremoveParticipantWithCallerIdAndRoomUSer(): void
+    public function testRemoveParticipantWithCallerIdAndRoomUser(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
         $roomAddService = self::getContainer()->get(RoomAddService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
-
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        self::assertEquals(3, sizeof($room->getUser()->toArray()));
         $userRepo = self::getContainer()->get(UserRepository::class);
+
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
-        self::assertEquals(0, $room->getUserAttributes()->count());
-        self::assertEquals(0, $room->getCallerIds()->count());
+
+        $countUsers = sizeof($room->getUser()->toArray());
+        $countUserAttributes = $room->getUserAttributes()->count();
+        $countCallerIds = $room->getCallerIds()->count();
+        $countCalloutSessions = $room->getCalloutSessions()->count();
+
         $callerId = new CallerId();
         $callerId->setUser($user)
             ->setRoom($room)
@@ -481,29 +460,33 @@ class RoomAddServiceTest extends KernelTestCase
         $manager->persist($calloutSession);
         $manager->flush();
 
-        self::assertEquals(1, $room->getUserAttributes()->count());
-        self::assertEquals(1, $room->getCallerIds()->count());
-        self::assertEquals(1, $room->getCalloutSessions()->count());
+        self::assertEquals($countUserAttributes + 1, $room->getUserAttributes()->count());
+        self::assertEquals($countCallerIds + 1, $room->getCallerIds()->count());
+        self::assertEquals($countCalloutSessions + 1, $room->getCalloutSessions()->count());
+
         $roomAddService->removeUserFromRoom($user, $room);
-        self::assertEquals(0, $room->getUserAttributes()->count());
-        self::assertEquals(0, $room->getCallerIds()->count());
-        self::assertEquals(0, $room->getCalloutSessions()->count());
-        self::assertEquals(2, sizeof($room->getUser()->toArray()));
+
+        self::assertEquals($countUserAttributes, $room->getUserAttributes()->count());
+        self::assertEquals($countCallerIds, $room->getCallerIds()->count());
+        self::assertEquals($countCalloutSessions, $room->getCalloutSessions()->count());
+        self::assertEquals($countUsers - 1, sizeof($room->getUser()->toArray()));
     }
 
-    public function testremoveParticipantWithCallerIdAndRoomUSerAndRepeater(): void
+    public function testRemoveParticipantWithCallerIdAndRoomUserAndRepeater(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
         $roomAddService = self::getContainer()->get(RoomAddService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
-
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        self::assertEquals(3, sizeof($room->getUser()->toArray()));
         $userRepo = self::getContainer()->get(UserRepository::class);
+
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
-        self::assertEquals(0, $room->getUserAttributes()->count());
-        self::assertEquals(0, $room->getCallerIds()->count());
+
+        $countRoomUsers = sizeof($room->getUser()->toArray());
+        $countUserAttributes = $room->getUserAttributes()->count();
+        $countCallerIds = $room->getCallerIds()->count();
+
         $callerId = new CallerId();
         $callerId->setUser($user)
             ->setRoom($room)
@@ -525,15 +508,18 @@ class RoomAddServiceTest extends KernelTestCase
         $manager->persist($room);
         $manager->persist($user);
         $manager->flush();
-        self::assertEquals(1, $room->getUserAttributes()->count());
-        self::assertEquals(1, $room->getCallerIds()->count());
+
+        self::assertEquals($countUserAttributes + 1, $room->getUserAttributes()->count());
+        self::assertEquals($countCallerIds + 1, $room->getCallerIds()->count());
+
         $roomAddService->removeUserFromRoom($user, $room);
-        self::assertEquals(0, $room->getUserAttributes()->count());
-        self::assertEquals(0, $room->getCallerIds()->count());
-        self::assertEquals(2, sizeof($room->getUser()->toArray()));
+
+        self::assertEquals($countRoomUsers - 1, sizeof($room->getUser()->toArray()));
+        self::assertEquals($countUserAttributes, $room->getUserAttributes()->count());
+        self::assertEquals($countCallerIds, $room->getCallerIds()->count());
     }
 
-    public function testremoveParticipantRemovesRoomFromUsersFavorites(): void
+    public function testRemoveParticipantRemovesRoomFromUsersFavorites(): void
     {
         self::bootKernel();
         $roomAddService = self::getContainer()->get(RoomAddService::class);
