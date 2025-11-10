@@ -22,6 +22,8 @@
 * Docker Image failed because of permission Issues. Thanks to @nkiss1980 for reporting the bug
 * Allow to change server when disabled via theme or permissions
 * Fix Docker Image Build to new Base Image 
+* fix api to move room to other server
+* remove langauges which are all over in the project
 
 # Features, Improvements, and Bug Fixes related to the Livekit Integration
 
