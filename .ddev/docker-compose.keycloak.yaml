@@ -1,0 +1,35 @@
+services:
+  keycloak:
+    container_name: ddev-${DDEV_SITENAME}-keycloak
+    hostname: ${DDEV_SITENAME}-keycloak
+    image: quay.io/keycloak/keycloak:26.0
+    entrypoint: /opt/keycloak/docker-entrypoint.sh
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    environment:
+      - VIRTUAL_HOST=$DDEV_HOSTNAME
+      - HTTP_EXPOSE=8442:8080
+      - HTTPS_EXPOSE=8443:8080
+      - KC_LOG_LEVEL=DEBUG
+      - KC_LOG_CONSOLE_OUTPUT=default
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+    volumes:
+      - "keycloak:/opt/keycloak/data/"
+      - "./keycloak/docker-entrypoint.sh:/opt/keycloak/docker-entrypoint.sh"
+      - ".:/mnt/ddev_config"
+      - "./keycloak/themes:/opt/keycloak/themes/"
+    external_links:
+      - ddev-router:$DDEV_HOSTNAME
+    x-ddev:
+      describe-info: |
+        Admin Login: admin:admin
+        User Login: jitsi@admin.de:jitsiadmin
+
+  web:
+    links:
+      - keycloak
+
+volumes:
+  keycloak:
