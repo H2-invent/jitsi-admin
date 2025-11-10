@@ -7,7 +7,7 @@ use App\Entity\LobbyWaitungUser;
 use App\Service\FormatName;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\RoomService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;

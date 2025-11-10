@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Service\Theme\ThemeService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 

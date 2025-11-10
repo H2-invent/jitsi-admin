@@ -7,7 +7,7 @@ use App\Entity\MyUser;
 use App\Entity\User;
 use App\Service\CreateHttpsUrl;
 use App\Service\IndexUserService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;

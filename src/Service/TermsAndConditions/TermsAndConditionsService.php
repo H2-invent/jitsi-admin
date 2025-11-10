@@ -3,7 +3,7 @@
 namespace App\Service\TermsAndConditions;
 
 use App\Entity\User;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 
 class TermsAndConditionsService

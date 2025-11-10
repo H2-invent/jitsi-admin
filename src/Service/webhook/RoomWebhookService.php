@@ -2,14 +2,13 @@
 
 namespace App\Service\webhook;
 
-use App\Entity\CallerSession;
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
 use App\Service\livekit\EgressService;
 use App\Service\Lobby\LobbyUtils;
 use App\Service\Summary\SendSummaryViaEmailService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
