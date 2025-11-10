@@ -7,7 +7,7 @@ use App\Entity\CalloutSession;
 use App\Entity\Rooms;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;

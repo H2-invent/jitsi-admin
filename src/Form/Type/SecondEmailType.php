@@ -10,13 +10,12 @@
 namespace App\Form\Type;
 
 use App\Entity\User;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class SecondEmailType extends AbstractType
 {

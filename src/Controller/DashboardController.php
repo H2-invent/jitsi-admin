@@ -10,7 +10,6 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
-use App\Entity\Server;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
 use App\Repository\ServerRepository;
@@ -18,7 +17,7 @@ use App\Service\analytics\AnalyticsService;
 use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -27,7 +26,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\Translation\TranslatorInterface;

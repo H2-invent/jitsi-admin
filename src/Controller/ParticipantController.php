@@ -10,7 +10,7 @@ use App\Helper\JitsiAdminController;
 use App\Service\ParticipantSearchService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use App\Service\UserService;
 use App\UtilsHelper;
 use Doctrine\Common\Collections\ArrayCollection;

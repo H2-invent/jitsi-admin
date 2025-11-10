@@ -9,7 +9,7 @@
 
 namespace App\Form\Type;
 
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
