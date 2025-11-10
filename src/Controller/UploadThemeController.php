@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Form\Type\ThemeUploadType;
+use App\Service\Result\Error\ThemeUploadError;
 use App\Service\Theme\ThemeService;
+use App\Service\Theme\ThemeUploadService;
+use App\Twig\Theme;
 use H2Entwicklung\Signature\CheckSignature;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,21 +23,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class UploadThemeController extends AbstractController
 {
     public function __construct(
-        private UrlGeneratorInterface  $urlGenerator,
-        private ParameterBagInterface  $parameterBag,
-        private CheckSignature         $checkSignature,
-        private CacheItemPoolInterface $cacheItemPool,
-        private ThemeService           $themeService,
+        private UrlGeneratorInterface $urlGenerator,
+        private ThemeService          $themeService,
+        private ThemeUploadService    $themeUploadService,
     )
     {
-        $this->CACHE_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
-        $this->THEME_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
-        $this->PUBLIC_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR.'theme'.DIRECTORY_SEPARATOR;
     }
-
-    private $THEME_DIR;
-    private $PUBLIC_DIR;
-    private $CACHE_DIR;
 
     #[Route('form', name: 'form', methods: ['GET'])]
     public function index(): Response
@@ -56,85 +50,39 @@ class UploadThemeController extends AbstractController
     public function save(Request $request): Response
     {
         $form = $this->createForm(ThemeUploadType::class);
-
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $themeFile */
-            $themeFile = $form->get('theme')->getData();
-
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($themeFile) {
-                try {
-
-                    $path = $this->CACHE_DIR . md5(uniqid());
-                    $zip = new \ZipArchive();
-                    $res = $zip->open($themeFile->getRealPath());
-                    if ($res) {
-                        $zip->extractTo($path);
-                        $zip->close();
-
-                        $finder = new Finder();
-                        $finder->files()->in($path)->name('*.json.signed');
-                        if ($finder->count() === 1) {
-                            $arr = iterator_to_array($finder);
-                            $themePath = reset($arr);
-                            $theme = $themePath->getContents();
-                            $validSignature = $this->checkSignature->verifySignature($theme);
-                            if (!$validSignature) {
-                                $this->addFlash('danger', 'Theme is invalid');
-                                return $this->redirectToRoute('app_upload_theme_form');
-                            }
-                            $this->moveTheme(reset($arr), $path);
-                            $filesystem = new Filesystem();
-                            $filesystem->remove($path);
-                            $this->cacheItemPool->clear();
-                            $this->addFlash('success', 'Theme successfully uploaded');
-                            return $this->redirectToRoute('app_upload_theme_form');
-                        } else {
-                            $this->addFlash('danger', 'No Theme in the zip');
-                            return $this->redirectToRoute('app_upload_theme_form');
-                        }
-
-                    }
-                } catch (\Exception $exception) {
-                    $this->addFlash('danger', $exception->getMessage());
-                    return $this->redirectToRoute('app_upload_theme_form');
-                }
-            } else {
-                $this->addFlash('danger', 'No Theme uploaded');
-                return $this->redirectToRoute('app_upload_theme_form');
-            }
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            $this->addFlash('danger', 'Please upload a zip file');
+            return $this->redirectToRoute('app_upload_theme_form');
         }
-        $this->addFlash('danger', 'Please upload a zip file');
+
+        /** @var UploadedFile $themeFile */
+        $themeFile = $form->get('theme')->getData();
+        // this condition is needed because the 'brochure' field is not required
+        // so the PDF file must be processed only when a file is uploaded
+        if (!$themeFile) {
+            $this->addFlash('danger', 'No Theme uploaded');
+            return $this->redirectToRoute('app_upload_theme_form');
+        }
+
+        try {
+            $uploadThemeResult = $this->themeUploadService->uploadTheme($themeFile);
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+            return $this->redirectToRoute('app_upload_theme_form');
+        }
+
+        if ($uploadThemeResult->isSuccess()) {
+            $this->addFlash('success', 'Theme successfully uploaded');
+            return $this->redirectToRoute('app_upload_theme_form');
+        }
+
+        $errorMessage = match ($uploadThemeResult->getErrorType()) {
+            ThemeUploadError::INVALID_ZIP => 'Could not open zip file',
+            ThemeUploadError::INVALID_THEME => 'Theme is invalid',
+            ThemeUploadError::NO_THEME_IN_ZIP => 'No Theme in the zip',
+        };
+        $this->addFlash('danger', $errorMessage);
         return $this->redirectToRoute('app_upload_theme_form');
-    }
-
-    private function moveTheme($themePath, $path)
-    {
-        $filesystem = new Filesystem();
-        $tmp = explode(DIRECTORY_SEPARATOR, $themePath);
-        $fileName = end($tmp);
-        $themeTargetPath = $this->THEME_DIR . $fileName;
-        $filesystem->remove($themeTargetPath);
-        $filesystem->copy($themePath, $themeTargetPath);
-        $filesystem->remove($themePath);
-
-        $finder = new Finder();
-        $finder->depth('==0');
-        $finder->files()->in($path)->directories();
-        $arr = iterator_to_array($finder);
-        foreach ($arr as $assest) {
-            $tmp = explode(DIRECTORY_SEPARATOR, $assest);
-            $dir = end($tmp);
-            if (str_starts_with($dir,'theme')){
-                $dir = preg_replace('/theme/','',$dir);
-            }
-            $assetTargetPath = $this->PUBLIC_DIR . $dir;
-            $filesystem->remove($assetTargetPath . '/*');
-            $filesystem->mirror($assest, $assetTargetPath);
-        }
-
     }
 }
