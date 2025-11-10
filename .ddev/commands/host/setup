@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+## Description: Run first time setup for Jitsi Admin
+## Usage: setup
+## Example: "ddev setup"
+## ExecRaw: true
+## MutagenSync: true
+
+ddev console cache:clear
+ddev npm install
+ddev npm run dev
+ddev console doctrine:migrations:migrate --no-interaction
+docker cp docker/keycloak/realm-export.json ddev-jitsi-admin-keycloak:/tmp/realm-export.json
+ddev kc import --dir /mnt/ddev_config/keycloak/import --log-console-level error
