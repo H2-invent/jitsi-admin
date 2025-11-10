@@ -4,6 +4,7 @@
 * **Improved Side-Navigation in the Conference**:
     * Better overview of all Add-Ons during the conference
     * New invitation Modal inside the conference
+* **New DDEV local development setup**
 
 ### ⭐ Improvements
 * Invite Participants faster with the new invitation modal from the new sidenavigation inside the conference
