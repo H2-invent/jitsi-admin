@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Service\Result;
 
-use UnitEnum;
+use BackedEnum;
 
-class ServiceResult
+readonly class ServiceResult
 {
     private function __construct(
-        private bool  $success,
+        private bool $success,
         private mixed $data = null,
-        private ?UnitEnum $errorType = null,
+        private ?BackedEnum $errorType = null,
     )
     {
     }
@@ -20,7 +20,7 @@ class ServiceResult
         return new self(true, $data, null);
     }
 
-    public static function failure(UnitEnum $errorType): self
+    public static function failure(BackedEnum $errorType): self
     {
         return new self(false, null, $errorType);
     }
@@ -35,7 +35,7 @@ class ServiceResult
         return $this->data;
     }
 
-    public function getErrorType(): UnitEnum
+    public function getErrorType(): BackedEnum
     {
         return $this->errorType;
     }
