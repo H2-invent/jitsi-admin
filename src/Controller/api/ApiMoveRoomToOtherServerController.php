@@ -2,6 +2,7 @@
 
 namespace App\Controller\api;
 
+use App\Helper\BearerTokenAuthHelper;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use Doctrine\ORM\EntityManager;
@@ -18,6 +19,7 @@ final class ApiMoveRoomToOtherServerController extends AbstractController
         private readonly EntityManagerInterface    $entityManager,
         private readonly RoomsRepository  $roomsRepository,
         private readonly ServerRepository $serverRepository,
+        private readonly BearerTokenAuthHelper $bearerTokenAuthHelper,
     )
     {
     }
@@ -25,9 +27,7 @@ final class ApiMoveRoomToOtherServerController extends AbstractController
     #[Route('/api/v1/move/room/{roomId}', name: 'app_api_move_room_to_other_server', methods: ['POST'])]
     public function index(Request $request, $roomId): Response
     {
-        $apiKey = $request->headers->get('Authorization');
-        // skip beyond "Bearer "
-        $apiKey = substr($apiKey, 7);
+        $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         $room = $this->roomsRepository->findOneBy(['id' => $roomId]);
         if (!$room) {
             return new JsonResponse(['error' => true, 'message' => 'Room not found'], Response::HTTP_NOT_FOUND);
@@ -44,6 +44,5 @@ final class ApiMoveRoomToOtherServerController extends AbstractController
         $this->entityManager->persist($room);
         $this->entityManager->flush();
         return new JsonResponse(['error' => false, 'message' => 'Room moved'], Response::HTTP_OK);
-
     }
 }
