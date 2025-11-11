@@ -5,12 +5,12 @@ namespace App\Service\Theme;
 
 use App\Service\Result\Error\ThemeUploadError;
 use App\Service\Result\ServiceResult;
-use App\Twig\Theme;
 use H2Entwicklung\Signature\CheckSignature;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ThemeUploadService
@@ -30,45 +30,59 @@ class ThemeUploadService
         $this->publicDir = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
     }
 
-    public function uploadTheme(UploadedFile $themeFile): ServiceResult
+    public function uploadTheme(UploadedFile $signatureFile): ServiceResult
     {
-        $path = $this->cacheDir . md5(uniqid());
-        $zip = new \ZipArchive();
-        $res = $zip->open($themeFile->getRealPath());
-        if (!$res) {
+        $extractionPath = $this->cacheDir . md5(uniqid());
+        $success = $this->extractZipToPath($signatureFile, $extractionPath);
+        if (!$success) {
             return ServiceResult::failure(ThemeUploadError::INVALID_ZIP);
         }
 
-        $zip->extractTo($path);
-        $zip->close();
-
-        $finder = new Finder();
-        $finder->files()->in($path)->name('*.json.signed');
-        if ($finder->count() !== 1) {
+        $signatureFile = $this->findSignatureFile($extractionPath);
+        if ($signatureFile === null) {
             return ServiceResult::failure(ThemeUploadError::NO_THEME_IN_ZIP);
         }
 
-        $arr = iterator_to_array($finder);
-        $themePath = reset($arr);
-        $theme = $themePath->getContents();
-
-        $validSignature = $this->checkSignature->verifySignature($theme);
+        $signatureFileContent = $signatureFile->getContents();
+        $validSignature = $this->checkSignature->verifySignature($signatureFileContent);
         if (!$validSignature) {
             return ServiceResult::failure(ThemeUploadError::INVALID_THEME);
         }
-        $this->moveTheme(reset($arr), $path);
-        $filesystem = new Filesystem();
-        $filesystem->remove($path);
-        $this->cacheItemPool->clear();
+
+        $themePath = $signatureFile->getPathname();
+        $themeTargetPath = $this->themeDir . $signatureFile->getFilename();
+        $this->moveThemeToTargetPathAndRemoveTempFiles($themePath, $themeTargetPath, $extractionPath);
 
         return ServiceResult::success();
     }
 
-    private function moveTheme(\SplFileInfo $themeFile, $path)
+    private function extractZipToPath(UploadedFile $themeFile, string $path): bool
     {
-        $themePath = $themeFile->getPathname();
-        $themeTargetPath = $this->themeDir . $themeFile->getFilename();
+        $zip = new \ZipArchive();
+        $res = $zip->open($themeFile->getRealPath());
+        if (!$res) {
+            return false;
+        }
+        $zip->extractTo($path);
+        $zip->close();
 
+        return true;
+    }
+
+    private function findSignatureFile(string $extractionPath): ?SplFileInfo
+    {
+        $finder = new Finder();
+        $finder->files()->in($extractionPath)->name('*.json.signed');
+        if ($finder->count() !== 1) {
+            return null;
+        }
+        $foundFiles = iterator_to_array($finder, false);
+
+        return $foundFiles[0] ?? null;
+    }
+
+    private function moveThemeToTargetPathAndRemoveTempFiles(string $themePath, string $themeTargetPath, string $extractionPath): void
+    {
         $filesystem = new Filesystem();
         $filesystem->remove($themeTargetPath);
         $filesystem->copy($themePath, $themeTargetPath);
@@ -76,15 +90,19 @@ class ThemeUploadService
 
         $finder = new Finder();
         $finder->depth('==0');
-        $finder->files()->in($path)->directories();
-        foreach ($finder as $asset) {
-            $dir = $asset->getFilename();
-            if (str_starts_with($dir, 'theme')) {
-                $dir = str_replace("theme", '', $dir);
+        $finder->files()->in($extractionPath)->directories();
+
+        foreach ($finder as $assetDir) {
+            $dirName = $assetDir->getFilename();
+            if (str_starts_with($dirName, 'theme')) {
+                $dirName = str_replace("theme", '', $dirName);
             }
-            $assetTargetPath = $this->publicDir . $dir;
+            $assetTargetPath = $this->publicDir . $dirName;
             $filesystem->remove($assetTargetPath . '/*');
-            $filesystem->mirror($asset->getPath(), $assetTargetPath);
+            $filesystem->mirror($assetDir->getPath(), $assetTargetPath);
         }
+
+        $filesystem->remove($extractionPath);
+        $this->cacheItemPool->clear();
     }
 }
