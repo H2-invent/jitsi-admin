@@ -59,8 +59,9 @@ class ThemeUploadService
     private function extractZipToPath(UploadedFile $themeFile, string $path): bool
     {
         $zip = new \ZipArchive();
-        $res = $zip->open($themeFile->getRealPath());
-        if (!$res) {
+        $zipResult = $zip->open($themeFile->getRealPath());
+        // $zipResult is either true or an int, which also evaluates truthy, so we have to check for bool like this
+        if ($zipResult !== true) {
             return false;
         }
         $zip->extractTo($path);

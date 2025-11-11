@@ -24,8 +24,8 @@ class UploadThemeController extends AbstractController
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
-        private ThemeService          $themeService,
-        private ThemeUploadService    $themeUploadService,
+        private ThemeService $themeService,
+        private ThemeUploadService $themeUploadService,
     )
     {
     }
@@ -35,12 +35,19 @@ class UploadThemeController extends AbstractController
     {
         if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
             $groups = $this->getUser()->getGroups();
-            if (!in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
+            if (!in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'),
+                $groups
+            )) {
                 $this->addFlash('danger', 'Permission denied');
+
                 return $this->redirectToRoute('index');
             }
         }
-        $form = $this->createForm(ThemeUploadType::class, null, ['action' => $this->urlGenerator->generate('app_upload_theme_save')]);
+        $form = $this->createForm(ThemeUploadType::class,
+            null,
+            ['action' => $this->urlGenerator->generate('app_upload_theme_save')]
+        );
+
         return $this->render('upload_theme/index.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -72,17 +79,15 @@ class UploadThemeController extends AbstractController
             return $this->redirectToRoute('app_upload_theme_form');
         }
 
-        if ($uploadThemeResult->isSuccess()) {
-            $this->addFlash('success', 'Theme successfully uploaded');
+        if (!$uploadThemeResult->isSuccess()) {
+            $errorMessage = $uploadThemeResult->getErrorType()->value;
+
+            $this->addFlash('danger', $errorMessage);
             return $this->redirectToRoute('app_upload_theme_form');
         }
 
-        $errorMessage = match ($uploadThemeResult->getErrorType()) {
-            ThemeUploadError::INVALID_ZIP => 'Could not open zip file',
-            ThemeUploadError::INVALID_THEME => 'Theme is invalid',
-            ThemeUploadError::NO_THEME_IN_ZIP => 'No Theme in the zip',
-        };
-        $this->addFlash('danger', $errorMessage);
+        $this->addFlash('success', 'Theme successfully uploaded');
         return $this->redirectToRoute('app_upload_theme_form');
+
     }
 }
