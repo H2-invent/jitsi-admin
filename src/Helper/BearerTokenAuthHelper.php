@@ -8,9 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 class BearerTokenAuthHelper
 {
     /**
-     * @note Matches this format: "Bearer [Any non whitespace Character]"
+     * @note Matches these formats:
+     * "Bearer Token"
+     * "Bearer:Token"
+     * where Token must not contain whitespace
      */
-    private const BEARER_TOKEN_REGEX = '/^Bearer (?<token>\S+)$/';
+    private const BEARER_TOKEN_REGEX = '/^Bearer[ :](?<token>\S+)$/';
 
     public function getBearerTokenFromRequest(Request $request): ?string
     {
