@@ -7,11 +7,10 @@ use App\Service\Result\Error\ThemeUploadError;
 use App\Service\Result\ServiceResult;
 use H2Entwicklung\Signature\CheckSignature;
 use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ThemeUploadService
 {
@@ -20,20 +19,21 @@ class ThemeUploadService
     private string $publicDir;
 
     public function __construct(
-        private ParameterBagInterface  $parameterBag,
         private CheckSignature         $checkSignature,
         private CacheItemPoolInterface $cacheItemPool,
+        #[Autowire(param: 'kernel.project_dir')]
+        string $kernelProjektDir,
     )
     {
-        $this->cacheDir = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
-        $this->themeDir = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
-        $this->publicDir = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
+        $this->cacheDir = $kernelProjektDir . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
+        $this->themeDir = $kernelProjektDir . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
+        $this->publicDir = $kernelProjektDir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
     }
 
-    public function uploadTheme(UploadedFile $signatureFile): ServiceResult
+    public function uploadTheme(string $absoluteFilePathZip): ServiceResult
     {
         $extractionPath = $this->cacheDir . md5(uniqid());
-        $success = $this->extractZipToPath($signatureFile, $extractionPath);
+        $success = $this->extractZipToPath($absoluteFilePathZip, $extractionPath);
         if (!$success) {
             return ServiceResult::failure(ThemeUploadError::INVALID_ZIP);
         }
@@ -56,10 +56,10 @@ class ThemeUploadService
         return ServiceResult::success();
     }
 
-    private function extractZipToPath(UploadedFile $themeFile, string $path): bool
+    private function extractZipToPath(string $absoluteFilePathZip, string $path): bool
     {
         $zip = new \ZipArchive();
-        $zipResult = $zip->open($themeFile->getRealPath());
+        $zipResult = $zip->open($absoluteFilePathZip);
         // $zipResult is either true or an int, which also evaluates truthy, so we have to check for bool like this
         if ($zipResult !== true) {
             return false;

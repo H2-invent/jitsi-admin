@@ -73,7 +73,7 @@ class UploadThemeController extends AbstractController
         }
 
         try {
-            $uploadThemeResult = $this->themeUploadService->uploadTheme($themeFile);
+            $uploadThemeResult = $this->themeUploadService->uploadTheme($themeFile->getRealPath());
         } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
             return $this->redirectToRoute('app_upload_theme_form');
