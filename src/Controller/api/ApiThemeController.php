@@ -40,7 +40,7 @@ final class ApiThemeController extends AbstractController
         }
 
         try {
-            $result = $this->themeUploadService->uploadTheme($firstUploadedFile);
+            $result = $this->themeUploadService->uploadTheme($firstUploadedFile->getRealPath());
         } catch (Throwable $exception) {
             return new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
