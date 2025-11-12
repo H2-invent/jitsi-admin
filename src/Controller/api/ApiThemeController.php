@@ -29,10 +29,11 @@ final class ApiThemeController extends AbstractController
     public function upload(Request $request): Response
     {
         $bearerToken = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
-        if ($bearerToken !== $this->themeApiBearerToken) {
+        if ($this->themeApiBearerToken === '' || $bearerToken !== $this->themeApiBearerToken) {
             return new JsonResponse([], Response::HTTP_FORBIDDEN);
         }
 
+        // accepts file in every form property name
         $files = $request->files->all();
         $firstUploadedFile = reset($files);
         if (count($files) !== 1 || !$firstUploadedFile instanceof UploadedFile ) {
