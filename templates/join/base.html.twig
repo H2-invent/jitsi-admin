@@ -137,7 +137,6 @@
                             <div class="container-fluid">
 
 
-
                             </div>
 
                             {% if server is defined and server and server|roomsinFuture|length > 0 %}
@@ -222,6 +221,26 @@
     {{ encore_entry_script_tags('frontend') }}
 {% endblock %}
 {% block pageEnd %}{% endblock %}
+{% if theme and theme.extrahtml is defined %}
+    {% if app.user is defined and app.user is not null %}
+        {{ include(template_from_string(theme.extrahtml|raw)) }}
+    {% endif %}
+    <script>
+        window.addEventListener("chatwoot:ready", function () {
+            if (window.$chatwoot) {
+                window.$chatwoot.toggleBubbleVisibility("hide"); // to hide the bubble
+                const questionButton = document.getElementById('chatwoot-helper');
+                console.log('show button');
+                if (questionButton) {
+                    questionButton.classList.remove('d-none');
+                    questionButton.querySelector('.conference-icon').addEventListener('click', () => {
+                        window.$chatwoot.toggle(); // to hide the bubble
+                    })
+                }
+            }
+        });
+    </script>
+{% endif %}
 </body>
 
 </html>

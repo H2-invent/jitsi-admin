@@ -8,6 +8,7 @@ use App\Entity\Rooms;
 use App\Repository\RecordingRepository;
 
 use App\Service\livekit\EgressService;
+use App\Service\LivekitRoomNameGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Livekit\DirectFileOutput;
 use Livekit\EncodedFileOutput;
@@ -27,6 +28,7 @@ class EgressController extends AbstractController
         private EntityManagerInterface $entityManager,
         private LoggerInterface        $logger,
         private EgressService $egressService,
+
     )
     {
     }

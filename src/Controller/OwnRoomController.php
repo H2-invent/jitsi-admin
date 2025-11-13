@@ -85,17 +85,24 @@ class OwnRoomController extends JitsiAdminController
         $form = $this->createForm(JoinMyRoomType::class, $data);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+        if ($form->isSubmitted() && $form->isValid() || $request->query->has('userName')) {
+            $name = '';
+            if ($request->query->has('userName')) {
+                $name = $request->get('userName');
+            } else {
+                $data = $form->getData();
+                $name = $data['name'];
+            }
+
             $type = 'b';
             if ($form->has('joinApp') && $form->get('joinApp')->isClicked()) {
                 $type = 'a';
             } elseif ($form->has('joinBrowser') && $form->get('joinBrowser')->isClicked()) {
                 $type = 'b';
             }
-            $startMeetingService->setAttribute($rooms, $this->getUser(), $type, $data['name']);
+            $startMeetingService->setAttribute($rooms, $this->getUser(), $type, $name);
 
-            $url = $roomService->joinUrl($type, $rooms, $data['name'], $isModerator);
+            $url = $roomService->joinUrl($type, $rooms, $name, $isModerator);
             //der Raum ist als dauerhaft markiert
             if (!$rooms->getPersistantRoom()) {
                 //Die Lobby ist aktiviert und der Teilnehmer wird direkt in die Lobby überführt.
@@ -115,7 +122,7 @@ class OwnRoomController extends JitsiAdminController
                     if ($this->getUser() === $rooms->getModerator()) {
                         $res = $startMeetingService->roomDefault();
                     } else {
-                        $res = $this->redirectToRoute('room_waiting', ['name' => $data['name'], 'uid' => $rooms->getUid(), 'type' => $type]);
+                        $res = $this->redirectToRoute('room_waiting', ['name' => $name, 'uid' => $rooms->getUid(), 'type' => $type]);
                     }
                 }
             } else {
@@ -138,7 +145,7 @@ class OwnRoomController extends JitsiAdminController
                     $res = $startMeetingService->roomDefault();
                 }
             }
-            $res->headers->setCookie(new Cookie('name', $data['name'], (new \DateTime())->modify('+365 days')));
+            $res->headers->setCookie(new Cookie('name', $name, (new \DateTime())->modify('+365 days')));
             return $res;
         }
 
