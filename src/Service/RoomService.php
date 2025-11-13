@@ -40,7 +40,8 @@ class RoomService
     private $logger;
 
     private $uploadHelper;
-
+    private $baseUrl;
+    private $identity;
     public function __construct(
         UploaderHelper                $uploaderHelper,
         FormFactoryInterface          $formBuilder,
@@ -51,9 +52,11 @@ class RoomService
         private SluggerInterface      $slugger,
     )
     {
-
+        $this->identity = time().'_'.ByteString::fromRandom(8);
         $this->logger = $logger;
         $this->uploadHelper = $uploaderHelper;
+        $this->baseUrl =str_replace('https://','',$this->parameterBag->get('laF_baseUrl')) ;
+        $this->baseUrl = str_replace('http://','',$this->baseUrl);
     }
 
     public
@@ -118,7 +121,8 @@ class RoomService
         $serverUrl = str_replace('https://', '', $serverUrl);
         $serverUrl = str_replace('http://', '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
-        $url = $jitsi_server_url . '/' . $room->getUid();
+        $roomName = $room->getUid().($room->getServer()->isLiveKitServer()?('@'.$this->baseUrl):'');
+        $url = $jitsi_server_url . '/' . $roomName;
 
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
             $token = $this->generateJwt($room, $user, $userName, $isModerator, $avatar);
@@ -130,7 +134,7 @@ class RoomService
     }
 
     public
-    function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null, $noModerator=false)
+    function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): string
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -148,16 +152,17 @@ class RoomService
         if ($avatarUrl) {
             $avatar = $avatarUrl;
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator), $room->getServer()->getAppSecret(), 'HS256');
+        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera), $room->getServer()->getAppSecret(), 'HS256');
     }
 
     public
-    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null, $noModerator=false)
+    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): ?array
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
             return null;
         }
+        $roomName = $room->getUid().($room->getServer()->isLiveKitServer()?('@'.$this->baseUrl):'');
 
 
         $payload = [
@@ -165,7 +170,7 @@ class RoomService
             "aud" => "jitsi_admin",
             "iss" => $room->getServer()->getAppId(),
             "sub" => $room->getServer()->getUrl(),
-            "room" => $room->getUid(),
+            "room" => $roomName,
             "context" => [
                 'room'=>[
                     'name'=>$room->getName()
@@ -173,10 +178,20 @@ class RoomService
                 ],
                 'user' => [
                     'name' => $userName,
+
                 ],
             ],
 
         ];
+        if ($skipLobby === "true"){
+            $payload['context']['user']['skipLobby'] = true;
+        }
+        if ($enableMic!== null){
+            $payload['settings']['isMicrophoneEnabled'] = $enableMic==='true';
+        }
+        if ($enableCamera!== null){
+            $payload['settings']['isCameraEnabled'] = $enableCamera==='true';
+        }
         if ($userName === 'Meetling' && $server->isLiveKitServer()){
            $payload['context']['user']['name'] = '';
         }
@@ -217,7 +232,7 @@ class RoomService
                     $this->logger->error('Invalid JSON in background images');
                 }
             }
-            $payload['context']['user']['identity'] = 'meetling_'.$this->slugger->slug($userName).'_'.time().'_'.ByteString::fromRandom(8);
+            $payload['context']['user']['identity'] = 'meetling_'.$this->slugger->slug($userName).'_'.$this->identity;
         }
         if ($roomUser && !$avatar) {
             $this->logger->debug('profile picure is added to the jwt');
