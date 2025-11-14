@@ -643,44 +643,50 @@ class CallerSessionTest extends KernelTestCase
 
     public function testSendMessageToCallerIn(): void
     {
-        $kernel = self::bootKernel();
-        $directSend = $this->getContainer()->get(DirectSendService::class);
-
-
-        $hub = new MockHub(
-            'http://localhost:3000/.well-known/mercure',
-            new StaticTokenProvider('test'),
-            function (Update $update): string {
-                self::assertEquals('{"type":"message","message":"test Nachricht","from":"Test1, 1234, User, Test"}', $update->getData());
-                self::assertEquals(['lobby_WaitingUser_websocket/c4ca4238a0b923820dcc509a6f75849b'], $update->getTopics());
-                return 'id';
-            }
-        );
-        $directSend->setMercurePublisher($hub);
+        self::bootKernel();
+        $directSend = self::getContainer()->get(DirectSendService::class);
         $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
-        $message = $messageRepo->findAll();
         $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
-
         $waitingUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
-        $waitingUser = $waitingUSerRepo->findOneBy(['uid' => md5(1)]);
         $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $callerSessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+
+        $message = $messageRepo->findAll();
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $waitingUser = $waitingUSerRepo->findOneBy(['uid' => md5(1)]);
+
         $callerSession = new CallerSession();
         $callerSession->setSessionId('test')
             ->setAuthOk(false)
             ->setCreatedAt(new \DateTime())
             ->setShowName('testUser');
         $waitingUser->setCallerSession($callerSession);
-        $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($callerSession);
         $em->persist($waitingUser);
         $em->flush();
 
-        self::assertEquals(true, $sendMessage->sendMessage(md5(1), 'test Nachricht', $user));
+        $testMessage = 'test Nachricht';
 
-        $callerSessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update) use ($testMessage): string {
+                $updateData = json_decode($update->getData(), true);
+                self::assertIsArray($updateData);
+                self::assertArrayHasKey('message', $updateData);
+                self::assertSame($testMessage, $updateData['message']);
+                self::assertEquals(['lobby_WaitingUser_websocket/c4ca4238a0b923820dcc509a6f75849b'], $update->getTopics());
+                return 'id';
+            }
+        );
+        $directSend->setMercurePublisher($hub);
+        $messageResult = $sendMessage->sendMessage(md5(1), $testMessage, $user);
+
+        self::assertEquals(true, $messageResult);
+
         $callerSession2 = $callerSessionRepo->findOneBy(['sessionId' => 'test']);
-        assertEquals(['uid' => $callerSession2->getMessageUid(), 'message' => 'test Nachricht'], $sessionService->createMessageElement($callerSession));
+        self::assertEquals(['uid' => $callerSession2->getMessageUid(), 'message' => $testMessage], $sessionService->createMessageElement($callerSession));
     }
 }

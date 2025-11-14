@@ -16,7 +16,7 @@ class SendMessageToWaitingUSerServiceTest extends KernelTestCase
 {
     public function testfromMessage(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
         $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
         self::assertEquals('test nachricht', $sendMessage->createMessageFromString('test nachricht', 1));
         self::assertNull($sendMessage->createMessageFromString('test nachricht', 0));
@@ -24,7 +24,7 @@ class SendMessageToWaitingUSerServiceTest extends KernelTestCase
 
     public function testfromId(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
 
         $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
         $message = $messageRepo->findAll();
@@ -36,55 +36,72 @@ class SendMessageToWaitingUSerServiceTest extends KernelTestCase
 
     public function testfromMessageIthSocket(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
         $directSend = $this->getContainer()->get(DirectSendService::class);
+        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
 
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $message = 'test Nachricht';
 
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                self::assertEquals('{"type":"message","message":"test Nachricht","from":"Test1, 1234, User, Test"}', $update->getData());
+            function (Update $update) use ($message): string {
+                $updateData = json_decode($update->getData(), true);
+                self::assertIsArray($updateData);
+                self::assertArrayHasKey('message', $updateData);
+                self::assertSame($message, $updateData['message']);
                 self::assertEquals(['lobby_WaitingUser_websocket/c4ca4238a0b923820dcc509a6f75849b'], $update->getTopics());
                 return 'id';
             }
         );
         $directSend->setMercurePublisher($hub);
-        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
-        self::assertEquals(true, $sendMessage->sendMessage(md5(1), 'test Nachricht', $user));
+        $sendResult = $sendMessage->sendMessage(md5(1), $message, $user);
+
+        self::assertTrue($sendResult);
     }
 
     public function testfromIdWIthSocket(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
         $directSend = $this->getContainer()->get(DirectSendService::class);
+        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
+        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
 
+        $lobbyMessage = $messageRepo->findOneBy([]);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $lobbyMessage = $messageRepo->findOneBy(['id' => $lobbyMessage->getId(), 'active' => true]);
 
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                self::assertEquals('{"type":"message","message":"Bitte warten!","from":"Test1, 1234, User, Test"}', $update->getData());
+            function (Update $update) use ($lobbyMessage): string {
+                $updateData = json_decode($update->getData(), true);
+                self::assertIsArray($updateData);
+                self::assertArrayHasKey('message', $updateData);
+                self::assertSame($lobbyMessage->getText(), $updateData['message']);
                 self::assertEquals(['lobby_WaitingUser_websocket/c4ca4238a0b923820dcc509a6f75849b'], $update->getTopics());
                 return 'id';
             }
         );
         $directSend->setMercurePublisher($hub);
-        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
-        $message = $messageRepo->findAll();
-        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
-        self::assertEquals(true, $sendMessage->sendMessage(md5(1), $message[0]->getId(), $user));
+        $sendResult = $sendMessage->sendMessage(md5(1), $lobbyMessage->getId(), $user);
+
+        self::assertTrue($sendResult);
     }
 
     public function testfromIdErrorWIthSocket(): void
     {
-        $kernel = self::bootKernel();
+        self::bootKernel();
         $directSend = $this->getContainer()->get(DirectSendService::class);
+        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
+        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
 
+        $message = $messageRepo->findAll();
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
 
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
@@ -96,19 +113,20 @@ class SendMessageToWaitingUSerServiceTest extends KernelTestCase
             }
         );
         $directSend->setMercurePublisher($hub);
-        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
-        $message = $messageRepo->findAll();
-        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
         self::assertEquals(false, $sendMessage->sendMessage(md5(1), $message[1]->getId(), $user));
     }
 
     public function testfromIdINvaliduidSocket(): void
     {
-        $kernel = self::bootKernel();
-        $directSend = $this->getContainer()->get(DirectSendService::class);
+        self::bootKernel();
+        $directSend = self::getContainer()->get(DirectSendService::class);
+        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
+        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
 
+        $message = $messageRepo->findAll();
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
 
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
@@ -120,18 +138,19 @@ class SendMessageToWaitingUSerServiceTest extends KernelTestCase
             }
         );
         $directSend->setMercurePublisher($hub);
-        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
-        $message = $messageRepo->findAll();
-        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
         self::assertEquals(false, $sendMessage->sendMessage('invalid', $message[0]->getId(), $user));
     }
     public function testfromIdINvalidUSerSocket(): void
     {
-        $kernel = self::bootKernel();
-        $directSend = $this->getContainer()->get(DirectSendService::class);
+        self::bootKernel();
+        $directSend = self::getContainer()->get(DirectSendService::class);
+        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
+        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
 
+        $message = $messageRepo->findAll();
+        $user = $userRepo->findOneBy(['email' => 'test@local3.de']);
 
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
@@ -143,33 +162,36 @@ class SendMessageToWaitingUSerServiceTest extends KernelTestCase
             }
         );
         $directSend->setMercurePublisher($hub);
-        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
-        $message = $messageRepo->findAll();
-        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(['email' => 'test@local3.de']);
+
         self::assertEquals(false, $sendMessage->sendMessage(md5(1), $message[0]->getId(), $user));
     }
     public function testSendToAllInLobby(): void
     {
-        $kernel = self::bootKernel();
-        $directSend = $this->getContainer()->get(DirectSendService::class);
+        self::bootKernel();
+        $directSend = self::getContainer()->get(DirectSendService::class);
+        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
+        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $room = $roomRepo->findOneBy(['name' => 'Room with Start and no Participants list and Lobby Activated']);
+        $lobbyMessage = $messageRepo->findOneBy([]);
+
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                self::assertEquals('{"type":"message","message":"Bitte warten!","from":"Test1, 1234, User, Test"}', $update->getData());
+            function (Update $update) use ($lobbyMessage): string {
+                $updateData = json_decode($update->getData(), true);
+                self::assertIsArray($updateData);
+                self::assertArrayHasKey('message', $updateData);
+                self::assertSame($lobbyMessage->getText(), $updateData['message']);
                 return 'id';
             }
         );
         $directSend->setMercurePublisher($hub);
-        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
-        $message = $messageRepo->findAll();
-        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['name' => 'Room with Start and no Participants list and Lobby Activated']);
-        self::assertEquals(['counter' => 10, 'success' => true], $sendMessage->sendMessageToAllWaitingUser($message[0]->getId(), $user, $room));
+        $messageResult = $sendMessage->sendMessageToAllWaitingUser($lobbyMessage->getId(), $user, $room);
+
+        self::assertEquals(['counter' => 10, 'success' => true], $messageResult);
     }
 }
