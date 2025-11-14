@@ -93,7 +93,7 @@ class RoomServiceJWTTest extends KernelTestCase
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
                 'sub' => 'testLivekit.de',
-                'room' => 'testuid',
+                'room' => 'testuid@localhost:8000',
                 'context' =>
                     [
                         'user' =>
@@ -200,7 +200,7 @@ class RoomServiceJWTTest extends KernelTestCase
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
                 'sub' => 'testLivekit.de',
-                'room' => 'testuid',
+                'room' => 'testuid@localhost:8000',
                 'backgroundImages'=>[
                     [
                         'description'=>'Im Land',
@@ -292,7 +292,7 @@ class RoomServiceJWTTest extends KernelTestCase
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
                 'sub' => 'testLivekit.de',
-                'room' => 'testuid',
+                'room' => 'testuid@localhost:8000',
                 'context' =>
                     [
                         'user' =>
@@ -359,7 +359,7 @@ invalidKey
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
                 'sub' => 'testLivekit.de',
-                'room' => 'testuid',
+                'room' => 'testuid@localhost:8000',
                 'context' =>
                     [
                         'user' =>
