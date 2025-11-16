@@ -149,6 +149,7 @@ parameters:
     JITSI_COMPONENT_SELECTOR_JWT_KID: '%env(JITSI_COMPONENT_SELECTOR_JWT_KID)%'
     LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
     app.scheme: '%env(APP_SCHEME)%'
+    API_TOKEN_BEARER_THEME: '%env(API_TOKEN_BEARER_THEME)%'
 
 services:
     gaufrette.recording_fs_filesystem:

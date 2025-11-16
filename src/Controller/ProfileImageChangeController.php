@@ -2,16 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\Type\ProfileImageType;
-use App\Form\Type\SecondEmailType;
-use App\Form\Type\TimeZoneType;
 use App\Helper\JitsiAdminController;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
-use http\Exception\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
