@@ -50,6 +50,12 @@ https://jitsi-admin.ddev.site
 - Keycloak User `jitsi@admin.de:jitsiadmin`
 
 
+#### Ngrok public domain
+- (Create a ngrok account)[https://ngrok.com/]
+- (Find your created domain)[https://dashboard.ngrok.com/domains]
+- `ddev setup-ngrok [paste your domain here]`
+- `ddev restart`
+- `ddev share`
 
 ### Install local Jitsi-admin
 #### Prerequisites
