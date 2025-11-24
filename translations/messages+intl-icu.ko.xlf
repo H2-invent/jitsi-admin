@@ -2376,55 +2376,55 @@
       </trans-unit>
       <trans-unit id="qEvCOWP" resname="calendly.connect.alreadyConnected">
         <source>calendly.connect.alreadyConnected</source>
-        <target state="needs-translation">Calendly ist bereits mit ihrem Account verknüpft</target>
+        <target state="translated">Calendly가 이미 계정과 연동되어 있습니다.</target>
       </trans-unit>
       <trans-unit id="O88dTcc" resname="calendly.connect.success">
         <source>calendly.connect.success</source>
-        <target state="needs-translation">Calendly erfolgreich verbunden</target>
+        <target state="translated">Calendly와 연동되었습니다.</target>
       </trans-unit>
       <trans-unit id="Anobqg3" resname="calendly.header">
         <source>calendly.header</source>
-        <target state="needs-translation">Calendly Verknüpfung</target>
+        <target state="translated">Calendly 연동</target>
       </trans-unit>
       <trans-unit id="EmLG0x7" resname="calendly.remove.success">
         <source>calendly.remove.success</source>
-        <target state="needs-translation">Calendly erfolgreich getrennt</target>
+        <target state="translated">Calendly 연동이 해제되었습니다.</target>
       </trans-unit>
       <trans-unit id="mAx5a8B" resname="calendly.connect.wrongToken">
         <source>calendly.connect.wrongToken</source>
-        <target state="needs-translation">Ungültiger Calendly Token</target>
+        <target state="translated">유효하지 않은 Calendly 토큰입니다.</target>
       </trans-unit>
       <trans-unit id="99weUMj" resname="calendly.connect.netWorkError">
         <source>calendly.connect.netWorkError</source>
-        <target state="needs-translation">Netzwerkfehler mit Calendly</target>
+        <target state="translated">Calendly와의 네트워크 오류가 발생했습니다.</target>
       </trans-unit>
       <trans-unit id="Hbzs3rh" resname="calendly.connect.redirectError">
         <source>calendly.connect.redirectError</source>
-        <target state="needs-translation">Weiterleitungsfehler zu Calendly</target>
+        <target state="translated">Calendly로의 연결(리다이렉트) 중 오류가 발생했습니다.</target>
       </trans-unit>
       <trans-unit id="Pg0GhO4" resname="calendly.link.text">
         <source>calendly.link.text</source>
-        <target state="needs-translation">Hier gehts zu Calendly</target>
+        <target state="translated">여기를 눌러 Calendly로 이동하기</target>
       </trans-unit>
       <trans-unit id="l1FnXYh" resname="calendly.connection.isNotConnected">
         <source>calendly.connection.isNotConnected</source>
-        <target state="needs-translation">Klicken um Calendly zu Verknüpfen</target>
+        <target state="translated">클릭하여 Calendly와 연동하기</target>
       </trans-unit>
       <trans-unit id="HQT.6nh" resname="calendly.connection.connected">
         <source>calendly.connection.connected</source>
-        <target state="needs-translation">Calendly ist bereits verknüpft</target>
+        <target state="translated">Calendly가 이미 연동되어 있습니다.</target>
       </trans-unit>
       <trans-unit id="KZOVa06" resname="callendly.disconnect">
         <source>callendly.disconnect</source>
-        <target state="needs-translation">Calendly trennen</target>
+        <target state="translated">Calendly 연동 해제</target>
       </trans-unit>
       <trans-unit id="KhffR.T" resname="calendly.tutorial.help">
         <source>calendly.tutorial.help</source>
-        <target state="needs-translation">Wie binde ich Calendly ein?</target>
+        <target state="translated">Calendly는 어떻게 연동하나요?</target>
       </trans-unit>
       <trans-unit id="iOianqA" resname="lobby.notVerifiedShort">
         <source>lobby.notVerifiedShort</source>
-        <target state="needs-translation">Nicht verifiziert</target>
+        <target state="translated">확인되지 않음</target>
       </trans-unit>
       <trans-unit id="p3mIz7q" resname="Mehrere E-Mail-Adressen auf einmal eingeben">
         <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
