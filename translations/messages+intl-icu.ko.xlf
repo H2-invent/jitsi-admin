@@ -743,7 +743,7 @@
       </trans-unit>
       <trans-unit id="I8wtD50" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target state="needs-translation">Unter Vorbehalt</target>
+        <target state="translated">조건부 참석</target>
       </trans-unit>
       <trans-unit id="UN_yfpB" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
@@ -893,7 +893,7 @@
       </trans-unit>
       <trans-unit id="rdg4qib" resname="Hier beitreten">
         <source>Hier beitreten</source>
-        <target state="needs-translation">Hier beitreten</target>
+        <target state="translated">입장하기</target>
       </trans-unit>
       <trans-unit id="2VnBhfW" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
@@ -1185,7 +1185,7 @@
       </trans-unit>
       <trans-unit id="boEqtE1" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="needs-translation">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">예정된 회의를 위한 시간대를 선택하세요. 다른 시간대의 참가자는 현지 시간대로 회의 시간이 표시됩니다.</target>
       </trans-unit>
       <trans-unit id="L5CLtca" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1365,11 +1365,11 @@
       </trans-unit>
       <trans-unit id="1akOrlW" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="needs-translation">Alle Wartenden zulassen</target>
+        <target state="translated">대기 중인 모든 참가자 허용</target>
       </trans-unit>
       <trans-unit id="KpxABb6" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target state="needs-translation">Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.</target>
+        <target state="translated">대기 중이던 모든 참가자가 성공적으로 회의에 입장했습니다.</target>
       </trans-unit>
       <trans-unit id="JwocwOM" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
@@ -1502,7 +1502,7 @@
       </trans-unit>
       <trans-unit id="NrftFQI" resname="participant.resend.invitation.sucess">
         <source>participant.resend.invitation.sucess</source>
-        <target state="needs-translation">Der Teilnehmer wurde erfolgreich eingeladen.</target>
+        <target state="translated">참가자가 성공적으로 초대되었습니다.</target>
       </trans-unit>
       <trans-unit id="mIUK2UT" resname="secondEmail.help">
         <source>secondEmail.help</source>
@@ -1772,7 +1772,7 @@
       </trans-unit>
       <trans-unit id="R5gnTbc" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
-        <target state="needs-translation">Abwesend anzeigen nach</target>
+        <target state="translated">부재 중으로 표시되는 시간 기준</target>
       </trans-unit>
       <trans-unit id="yqzy2pq" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
@@ -1788,11 +1788,11 @@
       </trans-unit>
       <trans-unit id="atGRmKn" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
-        <target state="needs-translation">{name} hat nicht abgenommen</target>
+        <target state="translated">{name} 님이 전화를 받지 않았습니다.</target>
       </trans-unit>
       <trans-unit id="pRMPsMB" resname="callout.message.occupied">
         <source>callout.message.occupied</source>
-        <target state="needs-translation">Der Anschluss von {name} ist besetzt.</target>
+        <target state="translated">{name} 님이 통화 중입니다.</target>
       </trans-unit>
       <trans-unit id="GXTkaQa" resname="callout.message.later">
         <source>callout.message.later</source>
