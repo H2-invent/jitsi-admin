@@ -1297,7 +1297,7 @@
       </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
-        <target state="needs-translation">{name}</target>
+        <target state="translated">{name}</target>
       </trans-unit>
       <trans-unit id="UEEqYAE" resname="lobby.noWebCamFound">
         <source>lobby.noWebCamFound</source>
@@ -1409,11 +1409,11 @@
       </trans-unit>
       <trans-unit id="UEon3ZG" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator hinzufügen?</target>
+        <target state="translated">이 참가자를 로비 관리자로 지정하시겠습니까?</target>
       </trans-unit>
       <trans-unit id="x9dbNmw" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator entfernen?</target>
+        <target state="translated">이 참가자의 로비 관리자 지정을 해제하시겠습니까?</target>
       </trans-unit>
       <trans-unit id="LElUXKX" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
@@ -2044,7 +2044,7 @@
       </trans-unit>
       <trans-unit id="dHLCFve" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
         <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
-        <target state="needs-translation"><![CDATA[Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
+        <target state="translated"><![CDATA[H2-Invent가 독일 Lörrach에서 마음을 담아 만들었습니다.]]></target>
       </trans-unit>
       <trans-unit id="z5PYLSd" resname="terms.haeder">
         <source>terms.haeder</source>
@@ -2280,7 +2280,7 @@
       </trans-unit>
       <trans-unit id="mHxk7jy" resname="options.chat">
         <source>options.chat</source>
-        <target state="needs-translation">Chat anzeigen</target>
+        <target state="translated">채팅 열기</target>
       </trans-unit>
       <trans-unit id="0GtfBck" resname="options.toggleFilmstripe">
         <source>options.toggleFilmstripe</source>
@@ -2332,7 +2332,7 @@
       </trans-unit>
       <trans-unit id="wbKYh_R" resname="Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.">
         <source>Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</source>
-        <target state="needs-translation">Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</target>
+        <target state="translated">셀프 등록으로 참여하는 사용자는 참가자 명단에 추가되기 위해 Double-Opt-In 이메일의 링크를 클릭할 필요가 없습니다.</target>
       </trans-unit>
       <trans-unit id="x91IzR8" resname="Aufnahmen">
         <source>Aufnahmen</source>
@@ -2428,7 +2428,7 @@
       </trans-unit>
       <trans-unit id="p3mIz7q" resname="Mehrere E-Mail-Adressen auf einmal eingeben">
         <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
-        <target state="needs-translation">Mehrere E-Mail-Adressen auf einmal eingeben</target>
+        <target state="translated">여러 개의 이메일 주소를 한 번에 입력하기</target>
       </trans-unit>
     </body>
   </file>
