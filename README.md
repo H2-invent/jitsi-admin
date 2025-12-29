@@ -1,7 +1,7 @@
 [deutsch](README_de.md)
 
 <div align="center">
-  <img src="docs/images/header.webp" alt="Jitsi Admin Header" width="100%" />
+  <img src="docs/images/jitsi-admin-header.png" alt="Jitsi Admin Header" width="100%" />
 </div>
 
 <br/>
