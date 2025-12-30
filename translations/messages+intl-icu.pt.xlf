@@ -1500,7 +1500,7 @@
       </trans-unit>
       <trans-unit id="NrftFQI" resname="participant.resend.invitation.sucess">
         <source>participant.resend.invitation.sucess</source>
-        <target state="needs-translation">Die Einladung wurde erfolgreich versandt.</target>
+        <target state="needs-translation">Der Teilnehmer wurde erfolgreich eingeladen.</target>
       </trans-unit>
       <trans-unit id="mIUK2UT" resname="secondEmail.help">
         <source>secondEmail.help</source>
