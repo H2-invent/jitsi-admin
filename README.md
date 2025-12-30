@@ -1,179 +1,279 @@
 [deutsch](README_de.md)
 
-![Header](docs/images/header.webp
-)
-# Jitsi Admin
+<div align="center">
+  <img src="docs/images/jitsi-admin-header.png" alt="Jitsi Admin Header" width="100%" />
+</div>
+
+<br/>
+
+<h1 align="center">Jitsi Admin</h1>
+
+<div align="center">
+  <a href="code_of_conduct.md">
+    <img src="https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg" />
+  </a>
+  <a href="https://crowdin.com/project/jitsi-admin">
+    <img src="https://badges.crowdin.net/jitsi-admin/localized.svg" />
+  </a>
+  <a href="https://github.com/H2-invent/jitsi-admin/actions/workflows/pipeline-test.yml">
+    <img src="https://github.com/H2-invent/jitsi-admin/actions/workflows/pipeline-test.yml/badge.svg" />
+  </a>
+</div>
+
+<hr/>
+
+<h2>Overview</h2>
+
+<p>
+<strong>Jitsi Admin</strong> (formerly Jitsi Manager) is a central administration platform
+for operating <strong>Jitsi</strong> and <strong>Livekit</strong> based video conferencing infrastructures.
+</p>
+
+<p>
+The platform focuses on <strong>control, security and scalability</strong>.
+It is built for organizations that want predictable behavior instead of ad-hoc meetings
+and unmanaged conference links.
+</p>
+
+<hr/>
+
+<h2>Architecture</h2>
+
+<ul>
+  <li><strong>Frontend:</strong> Purpose-built UI, optimized for daily administrative workflows</li>
+  <li><strong>Backend:</strong> Conference lifecycle management, scheduling, JWT handling</li>
+  <li><strong>Media Layer:</strong>
+    <ul>
+      <li>Jitsi (classic deployments)</li>
+      <li><strong>Livekit</strong> (recommended for performance and stability)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>
+Authentication can be operated with or without JWTs.
+Running public conferences without protection will result in abuse. That is not a bug.
+</p>
+
+<hr/>
+
+<h2>Key Features</h2>
+
+<table>
+  <tr>
+    <td><strong>Media</strong></td>
+    <td>
+      Livekit integration · Jitsi support · Low latency WebRTC · Direct calls · Webinars
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Scheduling</strong></td>
+    <td>
+      Series appointments · Polls · Outlook / iCal · Calendly integration
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Identity</strong></td>
+    <td>
+      LDAP · SSO (Keycloak etc.) · Guest access via JWT
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Tooling</strong></td>
+    <td>
+      Chrome Extension:
+      <a href="https://chromewebstore.google.com/detail/meetling-sofortkonferenz/eigjajmppcgpcghajhmbddidmdfeepce">
+        Meetling
+      </a>
+    </td>
+  </tr>
+</table>
+
+<hr/>
+
+<h2>Installation</h2>
+
+<p>
+Jitsi Admin requires shell access and basic Docker or Kubernetes knowledge.
+This is infrastructure software, not a hosted SaaS click-install.
+</p>
+
+<h3>Docker</h3>
+
+<p>
+Recommended for small to medium installations.
+</p>
 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
-[![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
-[![Test Pipeline](https://github.com/H2-invent/jitsi-admin/actions/workflows/pipeline-test.yml/badge.svg)](https://github.com/H2-invent/jitsi-admin/actions/workflows/pipeline-test.yml)
+<p>
+👉 <a href="installDocker.md">Docker installation instructions</a>
+</p>
 
+<h3>Kubernetes / Helm</h3>
 
-Jitsi Manager (or Jitsi Admin) is a powerful tool designed to manage Jitsi conferences and servers effectively. Now, with **Livekit integration**, you can experience a next-generation WebRTC server that provides unmatched quality and performance.
+<p>
+Recommended for production and high availability setups.
+</p>
 
----
+<p>
+👉 <a href="https://reg.h2-invent.com/harbor/projects/16/repositories/meetling/artifacts-tab">
+Helm Chart Repository
+</a>
+</p>
 
-## Introduction
+<hr/>
 
-With the addition of **Livekit**, Jitsi Manager now offers an even more comprehensive solution for organizing and securing your video conferences. Livekit's performance far surpasses that of traditional WebRTC solutions, providing superior video and audio quality. We’ve also developed a new frontend tailored to Livekit, ensuring productivity-focused features while avoiding unnecessary complexity.
+<h2>Livekit Evaluation</h2>
 
-Whether you're using **JWT tokens** for secure authentication or setting up without them, Jitsi Manager ensures your conferences are safe from intrusions like conference bombing attacks. Manage everything centrally with our easy-to-use dashboard and enjoy seamless user experience with **LDAP/SSO integration** or direct guest access.
+<ol>
+  <li>Install Livekit</li>
+  <li>Configure it via the Jitsi Admin UI</li>
+  <li>Run a conference</li>
+</ol>
 
----
+<p>
+The difference in latency and media quality compared to classic Jitsi is obvious.
+</p>
 
-## Key Features
+<hr/>
 
-- **Livekit Integration**: Experience top-tier WebRTC server technology, providing unmatched video/audio quality and low-latency communication.
-- **Organize and Manage Conferences**: Control participant access, privileges, and conference settings with ease.
-- **Series Appointments & Polls**: Schedule recurring meetings and gather availability with appointment polls.
-- **LDAP or SSO Integration**: Simplify user authentication by connecting Jitsi Admin to your existing LDAP or SSO setup.
-- **Direct Calls**: Enable one-to-one communication directly through Jitsi.
-- **Outlook Integration**: Synchronize your meetings with Outlook via iCal links.
-- **Chrome Extention**: Use the Meetling Chrome Extention to start a one-to-one conference [Chrome Extention](https://chromewebstore.google.com/detail/meetling-sofortkonferenz/eigjajmppcgpcghajhmbddidmdfeepce)
-- **Webinars and Open Conferences**: Host larger webinars and open meetings effortlessly.
-- **Meeting Reminders**: Keep participants informed with automated email reminders.
-- **Calendly integration**: Integrate you calendly meetings directly in you jitsi admin
----
+<h2>User Interface</h2>
 
-# Installation
-You can install Jitsi Admin with the provided Docker Compose Installer Script or with the Kubernetes Based Helm Chart.
+<h3>Dashboard</h3>
+<p>Central overview of conferences and system state.</p>
+<img src="docs/images/dashboard-heading.png" width="100%" />
 
-## Docker installation
-follow the instruction at [Dockerinstruction](installDocker.md)
+<h3>Server Management</h3>
+<p>Multiple Jitsi servers combined into one logical setup.</p>
+<img src="docs/images/server.png" width="100%" />
 
-## Kubernetes Helm Installation
-Pull and deploy Jitsi Admin on Kubernetes with the provided Helm Charts.
-[Helm Chart](https://reg.h2-invent.com/harbor/projects/16/repositories/meetling/artifacts-tab)
+<h3>Authentication</h3>
+<p>SSO based login via Keycloak or compatible providers.</p>
+<img src="docs/images/login.png" width="100%" />
 
----
-## Testing Livekit Integration
+<h3>Conference Join</h3>
 
-To test Livekit integration:
-1. Install Livekit with a single line of code.
-2. Set up your Livekit server through the Jitsi Admin dashboard.
+<p>
+<strong>Guests:</strong> Join via email link, JWT is generated automatically.
+</p>
+<img src="docs/images/join.png" width="100%" />
 
-You’ll experience the new level of performance and see how easily Livekit integrates with Jitsi Manager.
+<p>
+<strong>Users:</strong> Join directly via web UI or Electron app.
+</p>
+<img src="docs/images/joint-internal.png" width="100%" />
 
----
-### Known from
+<hr/>
 
+<h2>Getting Started</h2>
 
-![Server](docs/images/ct-logo.png)
+<ul>
+  <li><a href="https://github.com/H2-invent/jitsi-admin/wiki/Get-Started-English">Getting Started</a></li>
+  <li><a href="https://github.com/H2-invent/jitsi-admin/wiki/Minimum-server-requirements-English">Minimum Requirements</a></li>
+  <li><a href="https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints">API Documentation (German)</a></li>
+</ul>
 
+<p>
+Project website: <a href="https://jitsi-admin.de">https://jitsi-admin.de</a>
+</p>
 
-### Mailing list and contact
+<hr/>
 
-To directly chat with the community join our matrix group
+<h2>Community</h2>
 
-__#jitsi-admin:h2-invent.com__
+<p>
+Matrix channel:<br/>
+<strong>#jitsi-admin:h2-invent.com</strong><br/>
+<a href="https://matrix.to/#/#jitsi-admin:h2-invent.com">Join via matrix.to</a>
+</p>
 
+<p>
+Community call every even Thursday at 18:00 (CEST).
+</p>
 
-[Join the matrix grop via matrix.to](https://matrix.to/#/#jitsi-admin:h2-invent.com)
+<p>
+<a href="http://jitsi-admin.de/subscribe/self/4754e33d3ee9a6c40a2bf04ffa1528c7">
+Subscribe here
+</a>
+</p>
 
+<hr/>
 
+<h2>Mailing Lists</h2>
 
-Furthermore, we are excited to announce that we will be hosting an open conference every two weeks, where you can join us to discuss how we can make Jitsi and Jitsi-admin even more popular.
-We welcome your ideas and suggestions to enhance the project and encourage you to be a part of this exciting initiative. The community talk takes place every even Thursday at 06:00pm
+<p>
+<a href="https://lists.h2-invent.com/forms/nfrm_weLJnLY5">Join mailing list</a><br/>
+Technical updates only. No marketing. Double opt-in.
+</p>
 
-To join the community talk, please click on the subscription link provided: http://jitsi-admin.de/subscribe/self/4754e33d3ee9a6c40a2bf04ffa1528c7
+<hr/>
 
-Once you have subscribed, we will send you a reminder closer to the date of the talk. We hope to see you there!
-### Mailinglist
+<h2>Partners & Sponsors</h2>
 
-[Join here](https://lists.h2-invent.com/forms/nfrm_weLJnLY5)
+<p>
+<a href="https://h2-invent.com">
+  <img src="docs/images/h2-invent.png" height="60"/>
+</a><br/>
+Core maintainer
+</p>
 
-If you want to be notified, if there are new updates or releases, you can subscribe to the __Jitsi Admin Update__ mailing list.
-H2 invent will send out information to the mailing list concering releases, updates or new features.
-This is __not__ a marketing newsletter.
+<p>
+<a href="https://meetling.de">
+  <img src="docs/images/meetling.png" height="60"/>
+</a><br/>
+Official SaaS solution
+</p>
 
-If you want to join the mailing list just click on the link [Mailing List](https://lists.h2-invent.com/forms/nfrm_weLJnLY5) and enter your email address.
-We use a double-opt-in process where you will receive a confirmation email containing a link with with you confirm, that you want to join to mailing list.
+<p>
+<img src="docs/images/readi.png" height="60"/><br/>
+Public sector cooperation (Baden-Württemberg)
+</p>
 
+<hr/>
 
-### Partners and Sponsors
-[![H2 invent](docs/images/h2-invent.png)](https://h2-invent.com)<br>
-[H2 invent ](https://h2-invent.com)develops as maintainer the jitsi admin
+<h2>Support Policy</h2>
 
-[![meetling](docs/images/meetling.png)](https://meetling.de)<br>
-[meetling](https://meetling.de) is the official SAAS solution for the jitsi admin for professionals
+<p>
+Jitsi Admin is free software.
+Free individual support is not included.
+</p>
 
-![re@di Digital](docs/images/readi.png)<br>
-We cooperate with the city administrations of Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten and Stutensee
+<p>
+Invalid issues and support requests will be closed.
+This is intentional.
+</p>
 
-## Translation
-Please help us to improve our localization
+<hr/>
 
-[![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
-# Features
+<h2>License</h2>
 
-The following features are already part of Jitsi Admin:
+<p>
+AGPL-3.0<br/>
+<a href="https://www.gnu.org/licenses/agpl-3.0.en.html">License text</a> ·
+<a href="LICENSE">LICENSE file</a>
+</p>
 
-* Complete 
+<hr/>
 
-### The Dashboard
+<h2>Customization</h2>
 
-The Dashboard is the central view where all information to all conferences is displayed
-![Dashboard](docs/images/dashboard-heading.png)
+<p>
+Use <code>.env.custom</code> for overrides.<br/>
+After changes run:
+</p>
 
-### The Servers
+<pre><code>bash installDocker.sh</code></pre>
 
-All servers can be managed centrally and different permissions can be configured.
-Multiple Jitsi Servers can be combined to one setup and managed accordingly
-![Server](docs/images/server.png)
+<p>
+<code>docker-compose up</code> is not sufficient.
+</p>
 
-### Login
+<hr/>
 
-The login uses a SSO Server, e.g. Keycloak or other Identidy Providers
-![Login](docs/images/login.png)
+<h2>Updates</h2>
 
-### Join of the conference
-
-Guests are able to join a conference through a link received via email __without__ having a user account in Jitsi Manager.
-There is a page for joining where the conference ID, the email address and the name are entered.
-After that a JWT will be generated and the guest is able to join the conference.
-![Join](docs/images/join.png)
-
-Users with a user account are able to join conferences directly via Jitsi Manager, either by using the web page or the Jitsi Electron Desktop App.
-![Join](docs/images/joint-internal.png)
-
-More information can be found at https://jitsi-admin.de
-
-# Getting Started
-
-As some Composer dependencies need to be installed, it is advised to only install Jitsi Manager if you have shell access to you server.
-
-* [Getting Started ](https://github.com/H2-invent/jitsi-admin/wiki/Get-Started-English)
-* [Minimum Requirements](https://github.com/H2-invent/jitsi-admin/wiki/Minimum-server-requirements-English)
-* [API Documentation (in German)](https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints)
-
-
-# Support policy
-You can use the jitsi-admin for free, respecting the obligations of the Open Source license, but please do not ask or expect free support as well.
-Use discussions to ask questions and get support from the community.
-If you report an invalid issue and/or ask for step-by-step support, your issue will be closed as invalid without further explanation and/or the "support request" label will be added. Invalid bug reports may confuse other users. Thanks for understanding.
-
-
-# License
-Currently Jitsi Admin is released under the [AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.en.html). Additional information can be found in the [LICENSE file](LICENSE).
-
-
-## Customize your installation
-To customize the environment variable in your installation please set the environments in the `.env.custom` file.
-You can copy/past the variable you want to change from `.env` into the `.env.custom`.
-After changing the `.env.custom` file you have to rerun `bash installDocker.sh` command to restart the container. `docker-compose up` is not enough
-
-
-
-# Update
-Follow the corresponding update instruction.
-    
-For versions <= 0.72x checkout the update instruction in the github version description.
-
-For Version 0.73 or later the update instruction is described in the file 
-`update_instruction_<fromVersion>...<toVersion>.md`
-
-[Update instruction 0.75.x to 0.76.x](update_instruction_0.75.x...0.76.x.md)
-[Update instruction 0.74.x to 0.75.x](update_instruction_0.74.x...0.75.x.md)
-[Update instruction 0.73.x to 0.74.x](update_instruction_0.73.x...0.74.x.md)
-[Update instruction 0.72.x to 0.73.x](update_instruction_0.72.x...0.73.x.md)
-
+<ul>
+  <li><a href="update_instruction_0.75.x...0.76.x.md">0.75.x → 0.76.x</a></li>
+  <li><a href="update_instruction_0.74.x...0.75.x.md">0.74.x → 0.75.x</a></li>
+  <li><a href="update_instruction_0.73.x...0.74.x.md">0.73.x → 0.74.x</a></li>
+  <li><a href="update_instruction_0.72.x...0.73.x.md">0.72.x → 0.73.x</a></li>
+</ul>

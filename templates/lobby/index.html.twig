@@ -245,13 +245,13 @@
                 'lobby_moderator/'~room.uidReal,
                 'lobby_broadcast_websocket/'~ room.uidReal,
                 'lobby_personal'~room.uidReal~app.user.uid,
-                'whiteboard/'~room.uidReal
+                room.uidReal
             ] %}
             {% else %}
             {% set topics =[
                 'lobby_moderator/'~room.uidReal,
                 'lobby_broadcast_websocket/'~ room.uidReal,
-                'whiteboard/'~room.uidReal
+                room.uidReal
             ] %}
             {% endif %}
             var topic ={{ mercure(topics)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};

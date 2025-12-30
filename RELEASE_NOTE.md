@@ -1,5 +1,19 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
+## 1.3
 
+### Features:
+* **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
+### Bug Fixes:
+a lot
+### ⭐ Improvements
+* Join a Videoconference without an camera and microphone
+* Add Api to change Server of Room to use auto provisioner
+* add @ server to livekit roomname
+* add @ servername to jwt roomname claim
+* add relay for events to other middlewares
+* Add Chatwoot in conferences in sidebar
+
+## 1.2
 ### 🚀 Features
 * **Improved Side-Navigation in the Conference**:
     * Better overview of all Add-Ons during the conference
@@ -27,7 +41,10 @@
 * On user room removal, room is now correctly removed from users favorite list
 
 # Features, Improvements, and Bug Fixes related to the Livekit Integration
+## 1.3
+Nothing
 
+## 1.2
 ### 🚀 Feature
 * New start page for registered and unregistered conference participants
 * Force a name for unregistered participants

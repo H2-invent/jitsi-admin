@@ -101,6 +101,9 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity']
                             ),
+                        'room'=>[
+                            'name'=>'testRoom'
+                        ]
                     ],
                 'livekit' =>
                     [
@@ -219,6 +222,9 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'identity' => $payload['context']['user']['identity'],
                                 'name' => 'Testuser',
                             ),
+                        'room'=>[
+                            'name'=>'testRoom'
+                        ]
                     ],
                 'livekit' =>
                     [
@@ -296,6 +302,9 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'identity' => $payload['context']['user']['identity'],
 
                             ),
+                        'room'=>[
+                            'name'=>'testRoom'
+                        ]
                     ],
                 'livekit' =>
                     [
@@ -358,6 +367,9 @@ invalidKey
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity'],
                             ),
+                        'room'=>[
+                            'name'=>'testRoom'
+                        ]
                     ],
                 'livekit' =>
                     [

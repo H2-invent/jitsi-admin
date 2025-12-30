@@ -4,6 +4,7 @@ import {tooltip} from 'mdb-ui-kit';
 import {setCookie} from "./cookie";
 import {checkIfIsMutable, zIndex} from "./createConference";
 import { Tooltip, initMDB } from "mdb-ui-kit";
+import {sendViaWebsocket} from "./websocket";
 export class multiframe {
 
 
@@ -15,7 +16,7 @@ export class multiframe {
     isPaused = false;
     random = null;
     eventListeners = {};
-
+    roomUid = null;
     constructor(
         url,
         title,
@@ -26,6 +27,7 @@ export class multiframe {
         height,
         width,
         zIndex,
+        roomUid = null,
     ) {
         this.url = url;
         this.title = title;
@@ -35,6 +37,7 @@ export class multiframe {
         this.height = height;
         this.width = width;
         this.zIndex = zIndex;
+        this.roomUid = roomUid;
         this.createIframe();
         if (startMaximized) {
             this.prepareMaximize();
@@ -63,7 +66,7 @@ export class multiframe {
             </div>
             </div>
             <div class="iframeFrame">
-            <iframe  class="multiframeIframe"></iframe>
+            <iframe  class="multiframeIframe"  sandbox="allow-same-origin allow-scripts allow-modals"></iframe>
             </div>
 </div>
     
@@ -166,8 +169,18 @@ export class multiframe {
             delete this.closingTimeout;
         } else if (type === 'openNewIframe') {
             //todo in controllerklasse
-            this.triggerCreateNewMultiframe(decoded.url, decoded.title, false);
-        } else if (type === 'showPlayPause') {
+            this.triggerCreateNewMultiframe(decoded.url, decoded.title, false,decoded.roomuid);
+        }
+        else if (type === 'openNewIframeOnOthers') {
+            this.triggerBlockUrlForMultiframe(decoded.url);
+            var message = {
+                room: this.roomUid,
+                url: decoded.url,
+                title: decoded.title
+            }
+            this.triggerOpenNewFrameOnOthers(message);
+
+        }else if (type === 'showPlayPause') {
             this.frame.classList.add('isMutable');
             this.frame.dataset.muted = "0";
             this.frame.querySelector('.pauseConference').classList.remove('d-none');
@@ -416,8 +429,16 @@ export class multiframe {
 
     }
 
-    triggerCreateNewMultiframe(url, title, maximize) {
-        this.triggerEvent('createNewMultiframe', {url: url, title: title, maximize: maximize})
+    triggerCreateNewMultiframe(url, title, maximize,roomuid=null) {
+        this.triggerEvent('createNewMultiframe', {url: url, title: title, maximize: maximize,roomuid:roomuid})
+
+    }
+    triggerBlockUrlForMultiframe(url) {
+        this.triggerEvent('blockUrlForMultiframe', {url: url})
+
+    }
+    triggerOpenNewFrameOnOthers(data) {
+        this.triggerEvent('openNewMultiframe', data)
 
     }
 }

@@ -46,7 +46,7 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
             json_encode(
                 [
                     'state' => 'STARTED',
-                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJVc2VyMiwgVGVzdDIsIHRlc3RAbG9jYWwyLmRlIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.tBl3a2rCTYla8Bxeg3kSxPLenTgnUuZIURHQoxSPvbY',
+                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCJ9LCJ1c2VyIjp7Im5hbWUiOiJVc2VyMiwgVGVzdDIsIHRlc3RAbG9jYWwyLmRlIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.lDoGuJgrxB3AmWYj4Ctn2NCDd-evE7lqeVjnOw0AC84',
                     'room_name' => '123456780@testdomain.com',
                     "display_name" => "User2, Test2, test@local2.de"
                 ]
@@ -90,7 +90,7 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
             json_encode(
                 [
                     'state' => 'STARTED',
-                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiIwMDk4NzY1NDU1MzI1In19LCJtb2RlcmF0b3IiOmZhbHNlfQ.f_A4MtvIEUJ06FWTmimXbCiEP98JcYrHfYJAabNu29M',
+                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCJ9LCJ1c2VyIjp7Im5hbWUiOiIwMDk4NzY1NDU1MzI1In19LCJtb2RlcmF0b3IiOmZhbHNlfQ.3S-rlZiAnrObreUX5SKKVh2sVeEAqpY0XrdbSQLyOcs',
                     'room_name' => '123456780@testdomain.com',
                     "display_name" => "0098765455325"
                 ]
