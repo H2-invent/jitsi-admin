@@ -12,6 +12,7 @@ a lot
 * add @ servername to jwt roomname claim
 * add relay for events to other middlewares
 * Add Chatwoot in conferences in sidebar
+* Websocket Cluster via Redis Adapter
 
 ## 1.2
 ### 🚀 Features
