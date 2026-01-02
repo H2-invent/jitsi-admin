@@ -10,7 +10,7 @@ import {
     disconnectUser,
     checkEmptySockets, setAwayTime, getStatusForListOfIds
 } from './login.mjs'
-import {io} from './websocket.js'
+import {io} from './websocket.mjs'
 
 export function websocketState(event, socket, message) {
 
