@@ -4,7 +4,7 @@
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 ### Bug Fixes:
-a lot
+* remove header in sip trunk generation
 ### ⭐ Improvements
 * Join a Videoconference without an camera and microphone
 * Add Api to change Server of Room to use auto provisioner
