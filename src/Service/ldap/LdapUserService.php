@@ -10,6 +10,7 @@ use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Ldap\Entry;
+use Symfony\Component\Ldap\Exception\ConnectionException;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Ldap;
 
@@ -143,25 +144,51 @@ class LdapUserService
      */
     public function checkUserInLdap(User $user, LdapType $ldap): ?Entry
     {
-        $object = null;
-        $filterString = $ldap->buildObjectClass();
+
+        $ldapProps = $user->getLdapUserProperties();
+        if ($ldapProps === null) {
+            return null;
+        }
+
+        // feste Base-DN, z.B. "ou=users,dc=example,dc=com"
+        $baseDn = $ldap->getUserDn();
+
+        // eindeutiges Attribut (z. B. uid / sAMAccountName)
+        $username = ldap_escape(
+            $ldapProps->getUser()->getUsername(),
+            '',
+            LDAP_ESCAPE_FILTER
+        );
+
+        // sauberer Filter
+        $filter = sprintf(
+            '(&%s(%s=%s))',
+            $ldap->buildObjectClass(), // z.B. (objectClass=person)
+            $ldap->getUserNameAttribute(), // z.B. uid
+            $username
+        );
 
         try {
-            if ($user->getLdapUserProperties()) {
-                $query = $ldap->getLdap()->query($user->getLdapUserProperties()->getLdapDn(), $filterString);
-                $object = $query->execute();
-            } else {
-                return null;
-            }
-            if (sizeof($object->toArray()) === 0) {
-                $this->deleteUser($user);
-                return null;
-            }
+            $query  = $ldap->getLdap()->query($baseDn, $filter);
+            $result = $query->execute();
+        } catch (ConnectionException $e) {
+            // LDAP nicht erreichbar → KEIN Löschen
+            return null;
         } catch (LdapException $e) {
+            // echter LDAP-Fehler → eskalieren, nicht raten
+            return  null;
+        }
+
+        $entries = $result->toArray();
+
+        if (count($entries) === 0) {
+            // User existiert definitiv nicht mehr
             $this->deleteUser($user);
             return null;
         }
-        return $object->toArray()[0];
+
+        // Mehr als ein Treffer wäre ein Datenfehler
+        return $entries[0];
     }
 
     /**
@@ -247,3 +274,4 @@ class LdapUserService
         return $specialField;
     }
 }
+

@@ -67,7 +67,8 @@
     "twig/intl-extra": "^3.2",
     "twig/markdown-extra": "^3.3",
     "twig/twig": "^3.0",
-    "vich/uploader-bundle": "^1.19"
+    "vich/uploader-bundle": "^1.19",
+    "ext-ldap": "*"
   },
   "require-dev": {
     "dama/doctrine-test-bundle": "^v7.2",
@@ -93,7 +94,8 @@
     "sort-packages": true,
     "allow-plugins": {
       "symfony/flex": true,
-      "symfony/runtime": true
+      "symfony/runtime": true,
+      "php-http/discovery": true
     }
   },
   "autoload": {
