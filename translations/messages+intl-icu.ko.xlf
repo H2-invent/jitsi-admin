@@ -743,7 +743,7 @@
       </trans-unit>
       <trans-unit id="I8wtD50" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target state="needs-translation">Unter Vorbehalt</target>
+        <target state="translated">조건부 참석</target>
       </trans-unit>
       <trans-unit id="UN_yfpB" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
@@ -893,7 +893,7 @@
       </trans-unit>
       <trans-unit id="rdg4qib" resname="Hier beitreten">
         <source>Hier beitreten</source>
-        <target state="needs-translation">Hier beitreten</target>
+        <target state="translated">입장하기</target>
       </trans-unit>
       <trans-unit id="2VnBhfW" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
@@ -1185,7 +1185,7 @@
       </trans-unit>
       <trans-unit id="boEqtE1" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="needs-translation">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">예정된 회의를 위한 시간대를 선택하세요. 다른 시간대의 참가자는 현지 시간대로 회의 시간이 표시됩니다.</target>
       </trans-unit>
       <trans-unit id="L5CLtca" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1297,7 +1297,7 @@
       </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
-        <target state="needs-translation">{name}</target>
+        <target state="translated">{name}</target>
       </trans-unit>
       <trans-unit id="UEEqYAE" resname="lobby.noWebCamFound">
         <source>lobby.noWebCamFound</source>
@@ -1365,11 +1365,11 @@
       </trans-unit>
       <trans-unit id="1akOrlW" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="needs-translation">Alle Wartenden zulassen</target>
+        <target state="translated">대기 중인 모든 참가자 허용</target>
       </trans-unit>
       <trans-unit id="KpxABb6" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target state="needs-translation">Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.</target>
+        <target state="translated">대기 중이던 모든 참가자가 성공적으로 회의에 입장했습니다.</target>
       </trans-unit>
       <trans-unit id="JwocwOM" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
@@ -1409,11 +1409,11 @@
       </trans-unit>
       <trans-unit id="UEon3ZG" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator hinzufügen?</target>
+        <target state="translated">이 참가자를 로비 관리자로 지정하시겠습니까?</target>
       </trans-unit>
       <trans-unit id="x9dbNmw" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator entfernen?</target>
+        <target state="translated">이 참가자의 로비 관리자 지정을 해제하시겠습니까?</target>
       </trans-unit>
       <trans-unit id="LElUXKX" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
@@ -1502,7 +1502,7 @@
       </trans-unit>
       <trans-unit id="NrftFQI" resname="participant.resend.invitation.sucess">
         <source>participant.resend.invitation.sucess</source>
-        <target state="needs-translation">Die Einladung wurde erfolgreich versandt.</target>
+        <target state="translated">참가자가 성공적으로 초대되었습니다.</target>
       </trans-unit>
       <trans-unit id="mIUK2UT" resname="secondEmail.help">
         <source>secondEmail.help</source>
@@ -1772,7 +1772,7 @@
       </trans-unit>
       <trans-unit id="R5gnTbc" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
-        <target state="needs-translation">Abwesend anzeigen nach</target>
+        <target state="translated">부재 중으로 표시되는 시간 기준</target>
       </trans-unit>
       <trans-unit id="yqzy2pq" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
@@ -1788,19 +1788,19 @@
       </trans-unit>
       <trans-unit id="atGRmKn" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
-        <target state="needs-translation">{name} hat nicht abgenommen</target>
+        <target state="translated">{name} 님이 전화를 받지 않았습니다.</target>
       </trans-unit>
       <trans-unit id="pRMPsMB" resname="callout.message.occupied">
         <source>callout.message.occupied</source>
-        <target state="needs-translation">Der Anschluss von {name} ist besetzt.</target>
+        <target state="translated">{name} 님이 통화 중입니다.</target>
       </trans-unit>
       <trans-unit id="GXTkaQa" resname="callout.message.later">
         <source>callout.message.later</source>
-        <target state="needs-translation">{name} wird später der Konferenz beitreten.</target>
+        <target state="translated">{name} 님은 나중에 회의에 참여할 예정입니다.</target>
       </trans-unit>
       <trans-unit id="cRo7nH0" resname="callout.message.refuse">
         <source>callout.message.refuse</source>
-        <target state="needs-translation">{name} hat abgelehnt.</target>
+        <target state="translated">{name} 님이 초대를 거절했습니다.</target>
       </trans-unit>
       <trans-unit id="4Ifc3ZM" resname="callout.message.error">
         <source>callout.message.error</source>
@@ -1832,7 +1832,7 @@
       </trans-unit>
       <trans-unit id="mSSJ9ZF" resname="public.invite.moreApps">
         <source>public.invite.moreApps</source>
-        <target state="needs-translation">Einladung zur Konferenz teilen</target>
+        <target state="translated">회의 초대 공유하기</target>
       </trans-unit>
       <trans-unit id="wll_aF8" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
         <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
@@ -1948,7 +1948,7 @@
       </trans-unit>
       <trans-unit id="4PaSJ9f" resname="Wie hätte nicht gedacht, das jemand so tief gräbt.">
         <source>Wie hätte nicht gedacht, das jemand so tief gräbt.</source>
-        <target state="needs-translation">Wie hätte nicht gedacht, dass jemand so tief gräbt.</target>
+        <target state="translated">이렇게 깊이 파고들 줄은 몰랐네요.</target>
       </trans-unit>
       <trans-unit id="urBLedD" resname="Hier geht es wieder zurück an die Oberfläche">
         <source>Hier geht es wieder zurück an die Oberfläche</source>
@@ -1968,83 +1968,83 @@
       </trans-unit>
       <trans-unit id="qqr4YP9" resname="deputy.message.added">
         <source>deputy.message.added</source>
-        <target state="needs-translation">Vertreter erfolgreich hinzugefügt.</target>
+        <target state="translated">대표자가 성공적으로 추가되었습니다.</target>
       </trans-unit>
       <trans-unit id="XEgKY6O" resname="deputy.message.removed">
         <source>deputy.message.removed</source>
-        <target state="needs-translation">Vertreter erfolgreich entfernt.</target>
+        <target state="translated">대표자가 성공적으로 제거되었습니다.</target>
       </trans-unit>
       <trans-unit id="ZyMWXfm" resname="deputy.remove">
         <source>deputy.remove</source>
-        <target state="needs-translation">Als Vertreter entfernen</target>
+        <target state="translated">대표자에서 제거</target>
       </trans-unit>
       <trans-unit id="nxp9EKG" resname="deputy.add">
         <source>deputy.add</source>
-        <target state="needs-translation">Als Vertreter hinzufügen</target>
+        <target state="translated">대표자로 추가</target>
       </trans-unit>
       <trans-unit id="zY8xDlJ" resname="deputy.help">
         <source>deputy.help</source>
-        <target state="needs-translation">Sie können diesem Benutzer erlauben, Konferenzen für Sie zu erstellen, diese zu bearbeiten und Teilnehmende zu diesen Konferenzen einzuladen. ACHTUNG! Ein Vertreter nimmt nicht automatisch an einer von ihm geplanten Konferenz Teil, sondern muss separate vom Organisator eingeladen werden.</target>
+        <target state="translated">이 사용자가 대신 회의를 생성하고 수정하며 참가자를 초대할 수 있도록 권한을 부여할 수 있습니다. 단, 대표자는 자신이 만든 회의에 자동으로 참여하지 않으며 주최자가 별도로 초대해야 합니다.</target>
       </trans-unit>
       <trans-unit id="4pdBQbm" resname="deputy.text.isDeputy">
         <source>deputy.text.isDeputy</source>
-        <target state="needs-translation">Ist Vertreter</target>
+        <target state="translated">대표자입니다.</target>
       </trans-unit>
       <trans-unit id="3Iv9MoO" resname="room.new.help.server">
         <source>room.new.help.server</source>
-        <target state="needs-translation">Wählen Sie den Server aus, über welchen Sie die Konferenz abhalten wollen.</target>
+        <target state="translated">회의를 진행할 서버를 선택하세요.</target>
       </trans-unit>
       <trans-unit id="waqIPk4" resname="room.new.help.manager">
         <source>room.new.help.manager</source>
-        <target state="needs-translation">Sie sind als Vertreter/in eingetragen. Wählen Sie aus, ob Sie die Konferenz für Sie oder den Vertretenen erstellen wollen.</target>
+        <target state="translated">현재 대표자로 등록되어 있습니다. 본인을 위해 회의를 만들지, 혹은 위임받은 사람을 대신해 만들지 선택하세요.</target>
       </trans-unit>
       <trans-unit id="cIcZdHn" resname="Private Konferenz">
         <source>Private Konferenz</source>
-        <target state="needs-translation">Private Konferenz</target>
+        <target state="translated">비공개 회의</target>
       </trans-unit>
       <trans-unit id="q.hF5v3" resname="log.modal.header">
         <source>log.modal.header</source>
-        <target state="needs-translation">Änderungshistorie</target>
+        <target state="translated">변경 이력</target>
       </trans-unit>
       <trans-unit id="dCyRSCY" resname="log.new.object">
         <source>log.new.object</source>
-        <target state="needs-translation">Nach der Änderung</target>
+        <target state="translated">변경 후</target>
       </trans-unit>
       <trans-unit id="uMFePQL" resname="log.old.object">
         <source>log.old.object</source>
-        <target state="needs-translation">Vor der Änderung</target>
+        <target state="translated">변경 전</target>
       </trans-unit>
       <trans-unit id="Y3a7ITS" resname="room.creator.text">
         <source>room.creator.text</source>
-        <target state="needs-translation">Erstellt von</target>
+        <target state="translated">생성한 사람</target>
       </trans-unit>
       <trans-unit id="H47wSvb" resname="custom.more">
         <source>custom.more</source>
-        <target state="needs-translation">Mehr</target>
+        <target state="translated">더 보기</target>
       </trans-unit>
       <trans-unit id="6K54T3J" resname="room.new.help.name">
         <source>room.new.help.name</source>
-        <target state="needs-translation">Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</target>
+        <target state="translated">간단하고 명확한 회의명을 입력하세요.</target>
       </trans-unit>
       <trans-unit id="sMx2I1G" resname="room.new.help.agenda">
         <source>room.new.help.agenda</source>
-        <target state="needs-translation">Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</target>
+        <target state="translated">회의 안건을 입력하고, 참가자에게 회의 목적을 알려주세요.</target>
       </trans-unit>
       <trans-unit id="lgQwFzb" resname="room.new.help.persistant">
         <source>room.new.help.persistant</source>
-        <target state="needs-translation">Diese Konferenz steht den Eingeladenen dauerhaft zur Verfügung. Sie müssen die Teilnehmenden über einen separaten Kommunikationspfad (Telefon oder Chat) auf den Beginn der Konferenz hinweisen. Eine dauerhafte Konferenz hat kein Startzeitpunkt und keine Dauer.</target>
+        <target state="translated">이 회의는 초대받은 사람에게 항상 열려 있습니다. 시작 시간을 알리기 위해 전화나 채팅 등 별도의 방법으로 참가자에게 안내해야 합니다. 상시 회의에는 시작 시간과 예상 소요 시간이 없습니다.</target>
       </trans-unit>
       <trans-unit id="7Dj0H9u" resname="room.new.help.start">
         <source>room.new.help.start</source>
-        <target state="needs-translation">Wann beginnt die Konferenz. Öffnen Sie den Kalender durch Klicken auf die Schaltflächen und Wählen Sie das Datum und anschließend die Zeit aus.</target>
+        <target state="translated">회의 시작 시간을 선택하세요. 버튼을 눌러 캘린더를 열고 날짜와 시간을 지정해주세요.</target>
       </trans-unit>
       <trans-unit id="_u5asYc" resname="room.new.help.duration">
         <source>room.new.help.duration</source>
-        <target state="needs-translation">Geben Sie hier die Dauer der Konferenz ein.</target>
+        <target state="translated">회의 예상 소요 시간을 입력하세요.</target>
       </trans-unit>
       <trans-unit id="dHLCFve" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
         <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
-        <target state="needs-translation"><![CDATA[Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
+        <target state="translated"><![CDATA[H2-Invent가 독일 Lörrach에서 마음을 담아 만들었습니다.]]></target>
       </trans-unit>
       <trans-unit id="z5PYLSd" resname="terms.haeder">
         <source>terms.haeder</source>
@@ -2064,247 +2064,247 @@
       </trans-unit>
       <trans-unit id="zFEiJq4" resname="deputy.fromLdap.disabled">
         <source>deputy.fromLdap.disabled</source>
-        <target state="needs-translation">Ist ihnen als Vertreter zugeteilt</target>
+        <target state="translated">해당 사용자는 대표자로 지정되어 있습니다.</target>
       </trans-unit>
       <trans-unit id="MmfFT5o" resname="deputy.help.ldap">
         <source>deputy.help.ldap</source>
-        <target state="needs-translation">Dieser Vertreter wurde Ihnen von Ihrer Organisation zugeteilt und kann nicht durch Sie bearbeitet werden. Wollen Sie diesen Vertreter bearbeiten, wenden Sie sich bitte an Ihren Support. Die Kontaktdaten für Ihren Support erhalten Sie durch einen Klick auf das "?" in der Navigationsleiste.</target>
+        <target state="translated">이 대표자는 조직에 의해 지정되어 있으며 직접 수정할 수 없습니다. 해당 대표자를 변경하려면 지원팀에 문의하세요. 지원팀 연락처는 네비게이션 바의 “?” 버튼을 눌러 확인할 수 있습니다.</target>
       </trans-unit>
       <trans-unit id="nfm1yqR" resname="Bewertungen">
         <source>Bewertungen</source>
-        <target state="needs-translation">Bewertungen</target>
+        <target state="translated">평가</target>
       </trans-unit>
       <trans-unit id="mVwwqih" resname="Profileinstellungen">
         <source>Profileinstellungen</source>
-        <target state="needs-translation">Profileinstellungen</target>
+        <target state="translated">프로필 설정</target>
       </trans-unit>
       <trans-unit id="TV1xqgp" resname="Einstellungen">
         <source>Einstellungen</source>
-        <target state="needs-translation">Einstellungen</target>
+        <target state="translated">설정</target>
       </trans-unit>
       <trans-unit id="ZwKeJyF" resname="Startet in {time} min">
         <source>Startet in {time} min</source>
-        <target state="needs-translation">Startet in {time} min</target>
+        <target state="translated">{time}분 후 시작됩니다</target>
       </trans-unit>
       <trans-unit id="6cce70X" resname="addressbook.favorite.remove.success">
         <source>addressbook.favorite.remove.success</source>
-        <target state="needs-translation">Sie haben {name} als Favorit entfernt.</target>
+        <target state="translated">{name}님을 즐겨찾기에서 제거했습니다.</target>
       </trans-unit>
       <trans-unit id="T9VOm8D" resname="addressbook.favorite.remove.failure">
         <source>addressbook.favorite.remove.failure</source>
-        <target state="needs-translation">Der Kontakt konte nicht als Favorit entfernt werden.</target>
+        <target state="translated">해당 연락처를 즐겨찾기에서 제거할 수 없습니다.</target>
       </trans-unit>
       <trans-unit id="bh25LYA" resname="addressbook.favorite.add.success">
         <source>addressbook.favorite.add.success</source>
-        <target state="needs-translation">Sie haben {name} erfolgreich als Favorit hinzugefügt.</target>
+        <target state="translated">{name}님을 즐겨찾기에 추가했습니다.</target>
       </trans-unit>
       <trans-unit id="SfWjLss" resname="addressbook.favorite.add.failure">
         <source>addressbook.favorite.add.failure</source>
-        <target state="needs-translation">Der Kontakt konnte nicht als Favorit hinzugefügt werden.</target>
+        <target state="translated">해당 연락처를 즐겨찾기에 추가할 수 없습니다.</target>
       </trans-unit>
       <trans-unit id="4BBJtCu" resname="addressbook.favorite.help">
         <source>addressbook.favorite.help</source>
-        <target state="needs-translation"><![CDATA[<i class="far fa-star"></i> drücken, um einen Kontakt als Favorit zu markieren.]]></target>
+        <target state="translated"><![CDATA[아이콘을 눌러 연락처를 즐겨찾기로 표시하세요.]]></target>
       </trans-unit>
       <trans-unit id=".ri8qck" resname="Meetling Pro Tip">
         <source>Meetling Pro Tip</source>
-        <target state="needs-translation">Meetling Pro Tip</target>
+        <target state="translated">Meetling 꿀팁</target>
       </trans-unit>
       <trans-unit id="BOqQPrS" resname="Hotkeys">
         <source>Hotkeys</source>
-        <target state="needs-translation">Hotkeys</target>
+        <target state="translated">단축키</target>
       </trans-unit>
       <trans-unit id="PKTiQmk" resname="Allgemeiner Fehler">
         <source>Allgemeiner Fehler</source>
-        <target state="needs-translation">Allgemeiner Fehler</target>
+        <target state="translated">일반 오류</target>
       </trans-unit>
       <trans-unit id="hM6PRqW" resname="Hier ist was schief gelaufen. Tut uns Leid">
         <source>Hier ist was schief gelaufen. Tut uns Leid</source>
-        <target state="needs-translation">Hier ist was schiefgelaufen. Tut uns Leid</target>
+        <target state="translated">문제가 발생했습니다. 죄송합니다.</target>
       </trans-unit>
       <trans-unit id="3tK6Gmt" resname="Zur Startseite">
         <source>Zur Startseite</source>
-        <target state="needs-translation">Zur Startseite</target>
+        <target state="translated">홈 화면으로 이동</target>
       </trans-unit>
       <trans-unit id="1TDzJaC" resname="Seite nicht gefunden">
         <source>Seite nicht gefunden</source>
-        <target state="needs-translation">Seite nicht gefunden</target>
+        <target state="translated">페이지를 찾을 수 없습니다.</target>
       </trans-unit>
       <trans-unit id="r1C.Uou" resname="Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.">
         <source>Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</source>
-        <target state="needs-translation">Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</target>
+        <target state="translated">어라? 어디로 가려 하셨나요? Meetling에서 해당 페이지를 찾을 수 없습니다.</target>
       </trans-unit>
       <trans-unit id="70s8ByM" resname="Hier gehts zurück zur Startseite">
         <source>Hier gehts zurück zur Startseite</source>
-        <target state="needs-translation">Hier gehts zurück zur Startseite</target>
+        <target state="translated">여기를 눌러 홈으로 돌아가기</target>
       </trans-unit>
       <trans-unit id="3To1Txn" resname="Seite kaputt">
         <source>Seite kaputt</source>
-        <target state="needs-translation">Seite kaputt</target>
+        <target state="translated">페이지 오류</target>
       </trans-unit>
       <trans-unit id="DwsgV9o" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
-        <target state="needs-translation">Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
+        <target state="translated">이런, 무슨 일이죠? Meetling에 문제가 발생한 것 같습니다. 하지만 걱정하지 마세요, 곧바로 해결하겠습니다.</target>
       </trans-unit>
       <trans-unit id="qHaNrGf" resname="Changelog">
         <source>Changelog</source>
-        <target state="needs-translation">Changelog</target>
+        <target state="translated">변경 이력</target>
       </trans-unit>
       <trans-unit id="PkicOGI" resname="Jetzt einladen">
         <source>Jetzt einladen</source>
-        <target state="needs-translation">Jetzt einladen</target>
+        <target state="translated">지금 초대하기</target>
       </trans-unit>
       <trans-unit id="ooTUcOW" resname="callout.message.unreachable">
         <source>callout.message.unreachable</source>
-        <target state="needs-translation">{name} ist nicht erreichbar.</target>
+        <target state="translated">{name}님과 연결할 수 없습니다.</target>
       </trans-unit>
       <trans-unit id="o7tHpZ5" resname="Filter">
         <source>Filter</source>
-        <target state="needs-translation">Filter</target>
+        <target state="translated">필터</target>
       </trans-unit>
       <trans-unit id="WJQ_sl9" resname="deputy.mydebutys">
         <source>deputy.mydebutys</source>
-        <target state="needs-translation">Meine Vertreter</target>
+        <target state="translated">대표자 목록</target>
       </trans-unit>
       <trans-unit id="mKsLYV1" resname="callout.dropdown.empty">
         <source>callout.dropdown.empty</source>
-        <target state="needs-translation">Hier werden die Ergebnisse der Suche angezeigt</target>
+        <target state="translated">여기에 검색 결과가 표시됩니다.</target>
       </trans-unit>
       <trans-unit id="qUF4xEe" resname="scheduling.new.schedulingTime.subject">
         <source>scheduling.new.schedulingTime.subject</source>
-        <target state="needs-translation">[Terminplanung] Neuer Terminvorschlag zu einer Terminumfrage hinzugefügt</target>
+        <target state="translated">[일정 조율] 일정 투표에 새로운 일정 제안이 추가되었습니다.</target>
       </trans-unit>
       <trans-unit id="6ukpo4B" resname="Teilnehmer können bei der Abstimmung mit &quot;Vielleicht&quot; abstimmen.">
         <source>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</source>
-        <target state="needs-translation">Teilnehmer können bei der Abstimmung mit "Unter Vorbehalt" abstimmen.</target>
+        <target state="translated">참가자는 투표 시 "조건부 참석"으로 표시할 수 있습니다.</target>
       </trans-unit>
       <trans-unit id="_paPcDq" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
-        <target state="needs-translation">Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
+        <target state="translated">이런, 무슨 일이죠? Meetling에 문제가 발생한 것 같습니다. 하지만 걱정하지 마세요, 곧바로 해결하겠습니다.</target>
       </trans-unit>
       <trans-unit id=".PiK4px" resname="scheduling.new.schedulingTime.header">
         <source>scheduling.new.schedulingTime.header</source>
-        <target state="needs-translation">Es wurde ein neuer Terminvorschlag hinzugefügt.</target>
+        <target state="translated">새로운 일정 제안이 추가되었습니다.</target>
       </trans-unit>
       <trans-unit id="_HqEnl5" resname="Als CSV Downloaden">
         <source>Als CSV Downloaden</source>
-        <target state="needs-translation">Ergebnisse herunterladen (CSV)</target>
+        <target state="translated">결과 다운로드(CSV)</target>
       </trans-unit>
       <trans-unit id="8vk8dHY" resname="scheduler.new.schedule">
         <source>scheduler.new.schedule</source>
-        <target state="needs-translation">Weiteren Termin zur Auswahl hinzufügen</target>
+        <target state="translated">선택할 수 있는 일정을 추가하기</target>
       </trans-unit>
       <trans-unit id="NvlF9cE" resname="scheduling.new.schedulingTime.text">
         <source>scheduling.new.schedulingTime.text</source>
-        <target state="needs-translation">Es wurde ein neuer Termin in die Liste der Terminvorschläge hinzugefügt. Dieser kann entweder durch den Moderator oder durch einen anderen Eingeladenen hinzugefügt worden sein.</target>
+        <target state="translated">일정 제안 목록에 새로운 일정이 추가되었습니다. 이는 진행자 또는 다른 초대자가 추가했을 수 있습니다.</target>
       </trans-unit>
       <trans-unit id="bADiBI8" resname="scheduling.completeVoting.subject">
         <source>scheduling.completeVoting.subject</source>
-        <target state="needs-translation">[Terminplanung] Es haben alle Teilnehmenden abgestimmt</target>
+        <target state="translated">[일정 조율] 모든 참가자가 투표를 완료했습니다.</target>
       </trans-unit>
       <trans-unit id="L3ifyZr" resname="scheduling.completeVoting.header">
         <source>scheduling.completeVoting.header</source>
-        <target state="needs-translation">Es haben alle Teilnehmenden abgestimmt</target>
+        <target state="translated">모든 참가자가 투표를 마쳤습니다.</target>
       </trans-unit>
       <trans-unit id="_5FP2vg" resname="scheduling.completeVoting.text">
         <source>scheduling.completeVoting.text</source>
-        <target state="needs-translation">Die Teilnehmenden haben abgestimmt und die Ergebnisse sind nun verfügbar. Die Zusammenfassung der Ergebnisse finden Sie auf Ihrem Dashboard.</target>
+        <target state="translated">참가자들이 투표를 완료했습니다. 이제 결과를 확인할 수 있습니다. 결과 요약은 대시보드에서 확인할 수 있습니다.</target>
       </trans-unit>
       <trans-unit id="FOIAG7O" resname="theme.invalid.">
         <source>theme.invalid.</source>
-        <target state="needs-translation">Ihr Theme läuft in {days} Tagen ab</target>
+        <target state="translated">사용 중인 테마는 {days}일 후 만료됩니다.</target>
       </trans-unit>
       <trans-unit id="n4Lt39N" resname="browser.warning">
         <source>browser.warning</source>
-        <target state="needs-translation">Browserwarnung</target>
+        <target state="translated">브라우저 경고</target>
       </trans-unit>
       <trans-unit id="foenNwE" resname="browser.warning.text">
         <source>browser.warning.text</source>
-        <target state="needs-translation">Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</target>
+        <target state="translated">현재 사용 중인 브라우저는 지원되지 않습니다. WebRTC를 완전히 지원하는 최신 브라우저로 변경해 주세요.</target>
       </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
-        <target state="needs-translation">Weiter mit Edge</target>
+        <target state="translated">Edge로 계속하기</target>
       </trans-unit>
       <trans-unit id="ectan0o" resname="browser.warning.toMac">
         <source>browser.warning.toMac</source>
-        <target state="needs-translation">Weiter mit Safari</target>
+        <target state="translated">Safari로 계속하기</target>
       </trans-unit>
       <trans-unit id="ttEhK3s" resname="error.scheduler.noSchedules">
         <source>error.scheduler.noSchedules</source>
-        <target state="needs-translation">Fehler, es gibt noch keine Terminvorschläge.</target>
+        <target state="translated">오류: 아직 등록된 일정 제안이 없습니다.</target>
       </trans-unit>
       <trans-unit id="Bkbd94D" resname="error.scheduler.novotings">
         <source>error.scheduler.novotings</source>
-        <target state="needs-translation">Fehler, es wurde noch nicht abgestimmt.</target>
+        <target state="translated">오류: 아직 투표가 진행되지 않았습니다.</target>
       </trans-unit>
       <trans-unit id="JBzpke0" resname="help.ical.Link">
         <source>help.ical.Link</source>
-        <target state="needs-translation">Was ist ein iCal Link</target>
+        <target state="translated">iCal 링크가 무엇인가요?</target>
       </trans-unit>
       <trans-unit id="hMLYhc9" resname="error.internalError">
         <source>error.internalError</source>
-        <target state="needs-translation">Interner Fehler</target>
+        <target state="translated">내부 오류</target>
       </trans-unit>
       <trans-unit id="5bzvh9n" resname="rooms.help.setmaxparticipantsHardLimit">
         <source>rooms.help.setmaxparticipantsHardLimit</source>
-        <target state="needs-translation">Anzahl an Teilnehmenden, die der Konferenz beitreten können. Diese Zahl ist ein hartes Limit. Ist die maximale Anzahl an Teilnehmenden erreicht, können keine weiteren Teilnehmenden mehr beitreten, auch wenn die Teilnehmenden eingeladen worden sind.</target>
+        <target state="translated">회의에 참가할 수 있는 최대 인원입니다. 최대 인원에 도달했으며, 최대 인원이 초과되면 초대받은 사람이라도 더 이상 회의에 입장할 수 없습니다.</target>
       </trans-unit>
       <trans-unit id="5dX_LOJ" resname="room.option.sendProtokoll.question">
         <source>room.option.sendProtokoll.question</source>
-        <target state="needs-translation">Wollen Sie das Protokoll wirklich an alle Teilnehmenden versenden?</target>
+        <target state="translated">정말 모든 참가자에게 회의록을 보내시겠습니까?</target>
       </trans-unit>
       <trans-unit id="nN5aj82" resname="room.option.sendProtokoll.button">
         <source>room.option.sendProtokoll.button</source>
-        <target state="needs-translation">Protokoll versenden</target>
+        <target state="translated">회의록 보내기</target>
       </trans-unit>
       <trans-unit id="ErciSCF" resname="room.error.noAccessAllowed">
         <source>room.error.noAccessAllowed</source>
-        <target state="needs-translation">Zugriff nicht erlaubt</target>
+        <target state="translated">접근 권한이 없습니다.</target>
       </trans-unit>
       <trans-unit id="vF8AjQR" resname="room.error.noAccessAllowedIP">
         <source>room.error.noAccessAllowedIP</source>
-        <target state="needs-translation">Sie dürfen dieser Konferenz mit Ihrer IP-Adresse nicht beitreten. Bitte kontaktieren Sie ihren Support.</target>
+        <target state="translated">현재 사용 중인 IP 주소로는 이 회의에 참여할 수 없습니다. 지원팀에 문의해 주시기 바랍니다.</target>
       </trans-unit>
       <trans-unit id="GXDLmKT" resname="room.error.noAccessAllowedToManyParticipants">
         <source>room.error.noAccessAllowedToManyParticipants</source>
-        <target state="needs-translation">Zu viele Teilnehmenden</target>
+        <target state="translated">참가자가 너무 많습니다.</target>
       </trans-unit>
       <trans-unit id="ENCDenQ" resname="room.error.noAccessAllowedToManyParticipantsText">
         <source>room.error.noAccessAllowedToManyParticipantsText</source>
-        <target state="needs-translation">Das maximale Limit der Teilnehmenden in dieser Konferenz ist erreicht. Bitte versuchen Sie es zu einem späteren Zeitpukt erneut oder kontaktieren Sie Ihren Helpdesk</target>
+        <target state="translated">이 회의의 최대 참가자 수에 도달했습니다. 잠시 후 다시 시도하시거나 헬프데스크에 문의해 주세요.</target>
       </trans-unit>
       <trans-unit id="X1FjSvj" resname="enterprise.settings.header.tags">
         <source>enterprise.settings.header.tags</source>
-        <target state="needs-translation">Auswählbare Kategorien</target>
+        <target state="translated">선택 가능한 카테고리</target>
       </trans-unit>
       <trans-unit id="mHxk7jy" resname="options.chat">
         <source>options.chat</source>
-        <target state="needs-translation">Chat anzeigen</target>
+        <target state="translated">채팅 열기</target>
       </trans-unit>
       <trans-unit id="0GtfBck" resname="options.toggleFilmstripe">
         <source>options.toggleFilmstripe</source>
-        <target state="needs-translation">Filmstripe ein/ausblenden</target>
+        <target state="translated">참가자 미리보기 표시/숨기기</target>
       </trans-unit>
       <trans-unit id="frFt3Yz" resname="transfer.room.success">
         <source>transfer.room.success</source>
-        <target state="needs-translation">Konferenz erfolgreich übertragen</target>
+        <target state="translated">회의가 성공적으로 이관되었습니다.</target>
       </trans-unit>
       <trans-unit id="lq.WUgz" resname="transfer.room.confirm">
         <source>transfer.room.confirm</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich auf diesem Nutzer übertragen? Sie haben anschließend keinen Zugriff mehr auf diese Konferenz, sondern sind nur noch als Teilnehmender in dieser Konferenz.</target>
+        <target state="translated">이 회의를 정말로 해당 사용자에게 이관하시겠습니까? 이관 후에는 이 회의에 대한 관리자 권한을 잃게 되며, 참가자로만 참여할 수 있습니다.</target>
       </trans-unit>
       <trans-unit id="k3gVjyc" resname="transfer.room.start">
         <source>transfer.room.start</source>
-        <target state="needs-translation">Konferenz auf diesem Nutzer übertragen</target>
+        <target state="translated">이 사용자에게 회의 이관하기</target>
       </trans-unit>
       <trans-unit id="OvciGc." resname="transfer.room.error">
         <source>transfer.room.error</source>
-        <target state="needs-translation">Fehler. Die Konferenz konnte nicht übertragen werden.</target>
+        <target state="translated">오류: 회의를 이관할 수 없습니다.</target>
       </trans-unit>
       <trans-unit id="vOi9OLP" resname="scheduler.transform">
         <source>scheduler.transform</source>
-        <target state="needs-translation">Umwandeln</target>
+        <target state="translated">전환하기</target>
       </trans-unit>
       <trans-unit id="tp1bCrr" resname="confirm.schedule.delete">
         <source>confirm.schedule.delete</source>
@@ -2316,119 +2316,119 @@
       </trans-unit>
       <trans-unit id="tZZ.9zn" resname="scheduler.transform.long">
         <source>scheduler.transform.long</source>
-        <target state="needs-translation">Terminplanung umwandeln</target>
+        <target state="translated">일정 조율을 다른 형식으로 전환하기</target>
       </trans-unit>
       <trans-unit id="1v88VLX" resname="enterprise.settings.livekit">
         <source>enterprise.settings.livekit</source>
-        <target state="needs-translation">Enterprise Livekit Einstellungen</target>
+        <target state="translated">엔터프라이즈 Livekit 설정</target>
       </trans-unit>
       <trans-unit id="EBZKW.9" resname="server.livekit.settings.header">
         <source>server.livekit.settings.header</source>
-        <target state="needs-translation">Livekit-Servereinstellungen</target>
+        <target state="translated">Livekit 서버 설정</target>
       </trans-unit>
       <trans-unit id="JzXOpBe" resname="Sofort Konferenz">
         <source>Sofort Konferenz</source>
-        <target state="needs-translation">Sofort Konferenz</target>
+        <target state="translated">빠른 회의 시작</target>
       </trans-unit>
       <trans-unit id="wbKYh_R" resname="Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.">
         <source>Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</source>
-        <target state="needs-translation">Teilnehmende, die sich per Selbsteinschreibung anmelden, müssen nicht zuerst in einer Double-Opt-In-E-Mail auf einen Link klicken, um auf die Teilnehmerliste zu gelangen.</target>
+        <target state="translated">셀프 등록으로 참여하는 사용자는 참가자 명단에 추가되기 위해 Double-Opt-In 이메일의 링크를 클릭할 필요가 없습니다.</target>
       </trans-unit>
       <trans-unit id="x91IzR8" resname="Aufnahmen">
         <source>Aufnahmen</source>
-        <target state="needs-translation">Aufnahmen</target>
+        <target state="translated">녹화본</target>
       </trans-unit>
       <trans-unit id="CCvu_YE" resname="recordings.modal.title">
         <source>recordings.modal.title</source>
-        <target state="needs-translation">Aufnahmen von Videokonferenzen</target>
+        <target state="translated">화상 회의 녹화본</target>
       </trans-unit>
       <trans-unit id="KIFeNTw" resname="recording.email.subject">
         <source>recording.email.subject</source>
-        <target state="needs-translation">Es wurde eine neue Aufnahme der Videokonferenz hochgeladen</target>
+        <target state="translated">새로운 화상 회의 녹화본이 업로드되었습니다.</target>
       </trans-unit>
       <trans-unit id="nYMq8lL" resname="recording.email.title">
         <source>recording.email.title</source>
-        <target state="needs-translation">Es wurde eine Aufnahme für die Videokonferenz hochgladen</target>
+        <target state="translated">화상 회의 녹화본이 업로드되었습니다.</target>
       </trans-unit>
       <trans-unit id="cG2pjfJ" resname="recording.email.body">
         <source>recording.email.body</source>
-        <target state="needs-translation">Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
+        <target state="translated">회의 {name}의 녹화본이 업로드되었습니다. 대시보드의 옵션에서 녹화 파일을 다운로드할 수 있습니다.</target>
       </trans-unit>
       <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
         <source>recording.startSpeakerOnly</source>
-        <target state="needs-translation">Nur Sprecher </target>
+        <target state="translated">말하는 사람만 보기</target>
       </trans-unit>
       <trans-unit id="SH.E5Cd" resname="recording.startSpeaker">
         <source>recording.startSpeaker</source>
-        <target state="needs-translation">Sprecher Zentral </target>
+        <target state="translated">말하는 사람 중심 레이아웃</target>
       </trans-unit>
       <trans-unit id="yhh1FGG" resname="recording.startGrid">
         <source>recording.startGrid</source>
-        <target state="needs-translation">Alle Teilnehmer in Kacheln</target>
+        <target state="translated">모든 참가자를 타일 형태로 표시</target>
       </trans-unit>
       <trans-unit id="yDlEa9I" resname="options.startRecording">
         <source>options.startRecording</source>
-        <target state="needs-translation">Aufnahme starten</target>
+        <target state="translated">녹화 시작</target>
       </trans-unit>
       <trans-unit id="JJHW_6u" resname="options.stopRecording">
         <source>options.stopRecording</source>
-        <target state="needs-translation">Aufnahme beenden</target>
+        <target state="translated">녹화 종료</target>
       </trans-unit>
       <trans-unit id="qEvCOWP" resname="calendly.connect.alreadyConnected">
         <source>calendly.connect.alreadyConnected</source>
-        <target state="needs-translation">Calendly ist bereits mit ihrem Account verknüpft</target>
+        <target state="translated">Calendly가 이미 계정과 연동되어 있습니다.</target>
       </trans-unit>
       <trans-unit id="O88dTcc" resname="calendly.connect.success">
         <source>calendly.connect.success</source>
-        <target state="needs-translation">Calendly erfolgreich verbunden</target>
+        <target state="translated">Calendly와 연동되었습니다.</target>
       </trans-unit>
       <trans-unit id="Anobqg3" resname="calendly.header">
         <source>calendly.header</source>
-        <target state="needs-translation">Calendly Verknüpfung</target>
+        <target state="translated">Calendly 연동</target>
       </trans-unit>
       <trans-unit id="EmLG0x7" resname="calendly.remove.success">
         <source>calendly.remove.success</source>
-        <target state="needs-translation">Calendly erfolgreich getrennt</target>
+        <target state="translated">Calendly 연동이 해제되었습니다.</target>
       </trans-unit>
       <trans-unit id="mAx5a8B" resname="calendly.connect.wrongToken">
         <source>calendly.connect.wrongToken</source>
-        <target state="needs-translation">Ungültiger Calendly Token</target>
+        <target state="translated">유효하지 않은 Calendly 토큰입니다.</target>
       </trans-unit>
       <trans-unit id="99weUMj" resname="calendly.connect.netWorkError">
         <source>calendly.connect.netWorkError</source>
-        <target state="needs-translation">Netzwerkfehler mit Calendly</target>
+        <target state="translated">Calendly와의 네트워크 오류가 발생했습니다.</target>
       </trans-unit>
       <trans-unit id="Hbzs3rh" resname="calendly.connect.redirectError">
         <source>calendly.connect.redirectError</source>
-        <target state="needs-translation">Weiterleitungsfehler zu Calendly</target>
+        <target state="translated">Calendly로의 연결(리다이렉트) 중 오류가 발생했습니다.</target>
       </trans-unit>
       <trans-unit id="Pg0GhO4" resname="calendly.link.text">
         <source>calendly.link.text</source>
-        <target state="needs-translation">Hier gehts zu Calendly</target>
+        <target state="translated">여기를 눌러 Calendly로 이동하기</target>
       </trans-unit>
       <trans-unit id="l1FnXYh" resname="calendly.connection.isNotConnected">
         <source>calendly.connection.isNotConnected</source>
-        <target state="needs-translation">Klicken um Calendly zu Verknüpfen</target>
+        <target state="translated">클릭하여 Calendly와 연동하기</target>
       </trans-unit>
       <trans-unit id="HQT.6nh" resname="calendly.connection.connected">
         <source>calendly.connection.connected</source>
-        <target state="needs-translation">Calendly ist bereits verknüpft</target>
+        <target state="translated">Calendly가 이미 연동되어 있습니다.</target>
       </trans-unit>
       <trans-unit id="KZOVa06" resname="callendly.disconnect">
         <source>callendly.disconnect</source>
-        <target state="needs-translation">Calendly trennen</target>
+        <target state="translated">Calendly 연동 해제</target>
       </trans-unit>
       <trans-unit id="KhffR.T" resname="calendly.tutorial.help">
         <source>calendly.tutorial.help</source>
-        <target state="needs-translation">Wie binde ich Calendly ein?</target>
+        <target state="translated">Calendly는 어떻게 연동하나요?</target>
       </trans-unit>
       <trans-unit id="iOianqA" resname="lobby.notVerifiedShort">
         <source>lobby.notVerifiedShort</source>
-        <target state="needs-translation">Nicht verifiziert</target>
+        <target state="translated">확인되지 않음</target>
       </trans-unit>
       <trans-unit id="p3mIz7q" resname="Mehrere E-Mail-Adressen auf einmal eingeben">
         <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
-        <target state="needs-translation">Mehrere E-Mail-Adressen auf einmal eingeben</target>
+        <target state="translated">여러 개의 이메일 주소를 한 번에 입력하기</target>
       </trans-unit>
     </body>
   </file>
