@@ -28,6 +28,7 @@ class UploadThemeController extends AbstractController
         private CheckSignature         $checkSignature,
         private CacheItemPoolInterface $cacheItemPool,
         private ThemeService           $themeService,
+        readonly private string  $themeDir, // z.B. per Parameter/DI setzen
     )
     {
         $this->CACHE_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
@@ -44,7 +45,7 @@ class UploadThemeController extends AbstractController
     {
         if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
             $groups = $this->getUser()->getGroups();
-            if (!in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
+            if (!$groups || !in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
                 $this->addFlash('danger', 'Permission denied');
                 return $this->redirectToRoute('index');
             }
@@ -54,6 +55,87 @@ class UploadThemeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('showThemes', name: 'showThemes', methods: ['GET'])]
+    public function showThemes(): Response
+    {
+        if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
+            $groups = $this->getUser()->getGroups();
+            if (!$groups || !in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
+                $this->addFlash('danger', 'Permission denied');
+                return $this->redirectToRoute('index');
+            }
+        }
+
+        $finder = (new Finder())
+            ->files()
+            ->in($this->themeDir)
+            ->name('*.json.signed')
+            ->sortByName();
+
+        $themes = [];
+
+        foreach ($finder as $file) {
+            $raw = $file->getContents();
+
+            $data = \json_decode($raw, true);
+            if (!\is_array($data)) {
+                // kaputte Datei -> trotzdem listen, aber markieren
+                $themes[] = [
+                    'filename'   => $file->getFilename(),
+                    'title'      => null,
+                    'validUntil' => null,
+                    'validUntilTs' => null,
+                    'modified'   => (new \DateTimeImmutable())->setTimestamp($file->getMTime()),
+                    'size'       => $file->getSize(),
+                    'error'      => 'Invalid JSON',
+                ];
+                continue;
+            }
+
+            $validUntilStr = $data['entry']['validUntil'] ?? null;
+
+            // robust: validUntil kann fehlen oder Müll sein
+            $validUntil = null;
+            $validUntilTs = null;
+            if (\is_string($validUntilStr) && $validUntilStr !== '') {
+                $dt = \DateTimeImmutable::createFromFormat('Y-m-d', $validUntilStr) ?: null;
+                if ($dt) {
+                    $validUntil = $dt;
+                    $validUntilTs = $dt->getTimestamp();
+                }
+            }
+
+            $themes[] = [
+                'filename'     => $file->getFilename(),
+                'title'        => $data['entry']['title'] ?? null,
+                'primaryColor' => $data['entry']['primaryColor'] ?? null,
+                'signature' => $data['signature']?? null,
+                'validUntil'   => $validUntil,     // DateTimeImmutable|null
+                'validUntilRaw'=> $validUntilStr,  // string|null (falls Format kaputt)
+                'validUntilTs' => $validUntilTs,   // int|null (zum Sortieren)
+                'modified'     => (new \DateTimeImmutable())->setTimestamp($file->getMTime()),
+                'size'         => $file->getSize(),
+                'error'        => null,
+            ];
+        }
+
+        // Optional: nach validUntil sortieren (frühestes zuerst), dann filename
+        usort($themes, static function(array $a, array $b): int {
+            $at = $a['validUntilTs'] ?? PHP_INT_MAX;
+            $bt = $b['validUntilTs'] ?? PHP_INT_MAX;
+            if ($at === $bt) {
+                return ($a['filename'] <=> $b['filename']);
+            }
+            return $at <=> $bt;
+        });
+
+        return $this->render('upload_theme/themeOverview.html.twig', [
+            'themes' => $themes,
+            'now' => new \DateTimeImmutable('today'),
+        ]);
+    }
+
 
     #[Route('save', name: 'save', methods: ['POST'])]
     public function save(Request $request): Response
