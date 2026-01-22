@@ -12,7 +12,7 @@
 * add @ servername to jwt roomname claim
 * add relay for events to other middlewares
 * Add Chatwoot in conferences in sidebar
-
+* Theme dashboard
 ## 1.2
 ### 🚀 Features
 * **Improved Side-Navigation in the Conference**:
