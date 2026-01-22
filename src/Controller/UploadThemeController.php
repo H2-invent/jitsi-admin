@@ -45,7 +45,7 @@ class UploadThemeController extends AbstractController
     {
         if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
             $groups = $this->getUser()->getGroups();
-            if (!in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
+            if (!$groups || !in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
                 $this->addFlash('danger', 'Permission denied');
                 return $this->redirectToRoute('index');
             }
@@ -59,6 +59,14 @@ class UploadThemeController extends AbstractController
     #[Route('showThemes', name: 'showThemes', methods: ['GET'])]
     public function showThemes(): Response
     {
+        if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
+            $groups = $this->getUser()->getGroups();
+            if (!$groups || !in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
+                $this->addFlash('danger', 'Permission denied');
+                return $this->redirectToRoute('index');
+            }
+        }
+
         $finder = (new Finder())
             ->files()
             ->in($this->themeDir)
@@ -102,6 +110,7 @@ class UploadThemeController extends AbstractController
                 'filename'     => $file->getFilename(),
                 'title'        => $data['entry']['title'] ?? null,
                 'primaryColor' => $data['entry']['primaryColor'] ?? null,
+                'signature' => $data['signature']?? null,
                 'validUntil'   => $validUntil,     // DateTimeImmutable|null
                 'validUntilRaw'=> $validUntilStr,  // string|null (falls Format kaputt)
                 'validUntilTs' => $validUntilTs,   // int|null (zum Sortieren)
