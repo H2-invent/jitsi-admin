@@ -147,8 +147,10 @@ parameters:
     JITSI_COMPONENT_SELECTOR_JWT_KID: '%env(JITSI_COMPONENT_SELECTOR_JWT_KID)%'
     LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
     app.scheme: '%env(APP_SCHEME)%'
+    app.theme_dir: '%kernel.project_dir%/theme'
 
 services:
+
     gaufrette.recording_fs_filesystem:
         class: Gaufrette\Filesystem
         arguments:
@@ -169,7 +171,8 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+        bind:
+            string $themeDir: '%app.theme_dir%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

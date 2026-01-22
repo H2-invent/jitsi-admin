@@ -1,0 +1,86 @@
+{% extends 'join/base_fluid.html.twig' %}
+{% block header %}
+   Themes
+{% endblock %}
+{% block content %}
+
+        <h1 class="mb-3">Themes</h1>
+
+        {% if themes is empty %}
+            <div class="alert alert-info">Keine signed themes gefunden.</div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Theme</th>
+                        <th>Primary</th>
+                        <th>Valid until</th>
+                        <th>Status</th>
+                        <th>Geändert</th>
+                        <th class="text-end">Größe</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for t in themes %}
+                        {% set expired = t.validUntil and t.validUntil < now %}
+                        <tr class="{% if expired %}table-warning{% endif %}">
+                            <td>
+                                <div class="fw-semibold">{{ t.title ?? 'Unbenannt' }}</div>
+                                <div class="text-muted small">{{ t.filename }}</div>
+                            </td>
+
+                            <td>
+                                {% if t.primaryColor %}
+                                    <span style="
+                                            display:inline-block;
+                                            width:18px;
+                                            height:18px;
+                                            border-radius:4px;
+                                            background-color: {{ t.primaryColor }};
+                                            border:1px solid #ccc;
+                                            "></span>
+                                    <span class="ms-1 small">{{ t.primaryColor }}</span>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if t.validUntil %}
+                                    {{ t.validUntil|date('d.m.Y') }}
+                                {% elseif t.validUntilRaw %}
+                                    {{ t.validUntilRaw }} <span class="text-muted">(ungültig)</span>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if t.error %}
+                                    <span class="badge bg-danger">Fehler</span>
+                                {% elseif t.validUntil is null %}
+                                    <span class="badge bg-secondary">unbekannt</span>
+                                {% elseif expired %}
+                                    <span class="badge bg-warning text-dark">abgelaufen</span>
+                                {% else %}
+                                    <span class="badge bg-success">ok</span>
+                                {% endif %}
+                            </td>
+
+                            <td>{{ t.modified|date('d.m.Y H:i') }}</td>
+
+                            <td class="text-end">
+                                {{ (t.size / 1024)|number_format(1, ',', '.') }} KB
+                            </td>
+
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+{% endblock %}
