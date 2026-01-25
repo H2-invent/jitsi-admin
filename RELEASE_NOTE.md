@@ -13,6 +13,7 @@
 * add relay for events to other middlewares
 * Add Chatwoot in conferences in sidebar
 * Theme dashboard
+* Rearange logo in conference
 ## 1.2
 ### 🚀 Features
 * **Improved Side-Navigation in the Conference**:
