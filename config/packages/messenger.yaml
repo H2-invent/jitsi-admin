@@ -7,8 +7,8 @@ framework:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
       async:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-        options:
-          check_delayed_interval: 1000
+#        options:
+#          check_delayed_interval: 1000
       # failed: 'doctrine://default?queue_name=failed'
       # sync: 'sync://'
 

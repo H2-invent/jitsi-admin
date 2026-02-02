@@ -1,0 +1,43 @@
+#ddev-generated
+services:
+  rabbitmq:
+    container_name: ddev-${DDEV_SITENAME}-rabbitmq
+    hostname: ${DDEV_SITENAME}-rabbitmq
+    image: ${RABBITMQ_DOCKER_IMAGE:-rabbitmq:4-management}-${DDEV_SITENAME}-built
+    build:
+      dockerfile_inline: |
+        ARG RABBITMQ_DOCKER_IMAGE="scratch"
+        FROM $${RABBITMQ_DOCKER_IMAGE}
+        RUN command -v apk >/dev/null 2>&1 || { (apt-get update || true) && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*; }
+        ARG TARGETARCH
+        RUN command -v apk >/dev/null 2>&1 && apk add --no-cache yq || { curl -fsSL "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_$${TARGETARCH}" -o /usr/bin/yq && chmod +x /usr/bin/yq; }
+      args:
+        RABBITMQ_DOCKER_IMAGE: ${RABBITMQ_DOCKER_IMAGE:-rabbitmq:4-management}
+    expose:
+      - 15672
+    environment:
+      - VIRTUAL_HOST=$DDEV_HOSTNAME
+      - HTTP_EXPOSE=15672:15672
+      - HTTPS_EXPOSE=15673:15672
+      - RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCLNMEQG
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQADMIN_USERNAME=rabbitmq
+      - RABBITMQADMIN_PASSWORD=rabbitmq
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+    volumes:
+      - "rabbitmq:/var/lib/rabbitmq/mnesia"
+      - ".:/mnt/ddev_config"
+      - "ddev-global-cache:/mnt/ddev-global-cache"
+    x-ddev:
+      describe-info: |
+        User: rabbitmq
+        Pass: rabbitmq
+      ssh-shell: bash
+
+volumes:
+  rabbitmq:
+    name: "${DDEV_SITENAME}_rabbitmq"

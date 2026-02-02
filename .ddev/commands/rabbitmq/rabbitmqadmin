@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#ddev-generated
+
+## Description: Manage parts of rabbitmq
+## Usage: rabbitmqadmin [options] subcommand
+## Example: ddev rabbitmqadmin --help
+
+rabbitmqadmin $@
