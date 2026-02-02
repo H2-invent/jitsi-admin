@@ -199,5 +199,8 @@ services:
                     key: '%env(AWS_KEY)%'
                     secret: '%env(AWS_SECRET_KEY)%'
 
+    App\Command\AmqpTestCommand:
+        arguments:
+            $testTransport: '@messenger.transport.test'
 
 

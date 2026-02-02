@@ -7,8 +7,10 @@ framework:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
       async:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-#        options:
-#          check_delayed_interval: 1000
+#          options:
+#            check_delayed_interval: 1000
+      test:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
       # failed: 'doctrine://default?queue_name=failed'
       # sync: 'sync://'
 
@@ -19,3 +21,4 @@ framework:
       App\Message\LobbyLeaverMessage: async
       #App\Message\CustomMailerMessage: async
       #Symfony\Component\Mailer\Messenger\SendEmailMessage:  async
+      App\Message\TestMessage: test
