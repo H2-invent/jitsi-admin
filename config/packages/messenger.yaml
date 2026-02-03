@@ -7,18 +7,43 @@ framework:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
       async:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-#          options:
-#            check_delayed_interval: 1000
+        options:
+          check_delayed_interval: 1000
+      rabbitmq:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN_RABBITMQ)%'
+        options:
+          exchange:
+            name: messages
+          queues:
+            messages: ~
+        serializer: messenger.transport.symfony_serializer
       test:
-        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        dsn: '%env(MESSENGER_TRANSPORT_DSN_RABBITMQ)%'
+        options:
+          exchange:
+            name: test
+          queues:
+            test: ~
+
       # failed: 'doctrine://default?queue_name=failed'
       # sync: 'sync://'
+
+    serializer:
+      symfony_serializer:
+        format: json
+        context: { }
 
 
     routing:
       # Route your messages to the transports
-      # 'App\Message\YourMessage': async
-      App\Message\LobbyLeaverMessage: async
-      #App\Message\CustomMailerMessage: async
       #Symfony\Component\Mailer\Messenger\SendEmailMessage:  async
+      App\Message\CustomMailerMessage: async
+      App\Message\LobbyLeaverMessage: async
+      App\Message\ProvisionNewInstanceMessage: rabbitmq
       App\Message\TestMessage: test
+
+when@test:
+  framework:
+    messenger:
+      transports:
+        rabbitmq: 'in-memory://'

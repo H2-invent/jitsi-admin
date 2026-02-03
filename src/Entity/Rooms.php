@@ -164,6 +164,9 @@ class Rooms
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $calendly_uri = null;
 
+    #[ORM\ManyToOne]
+    private ?Server $originalServer = null;
+
 
     public function __construct()
     {
@@ -1159,6 +1162,18 @@ class Rooms
     public function setCalendlyUri(?string $calendly_uri): static
     {
         $this->calendly_uri = $calendly_uri;
+
+        return $this;
+    }
+
+    public function getOriginalServer(): ?Server
+    {
+        return $this->originalServer;
+    }
+
+    public function setOriginalServer(?Server $originalServer): static
+    {
+        $this->originalServer = $originalServer;
 
         return $this;
     }
