@@ -13,9 +13,9 @@ class ProvisionerServiceTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
         /** @var ProvisionerService $provisionerService */
-        $provisionerService = static::getContainer()->get(ProvisionerService::class);
+        $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var RoomsRepository $roomsRepository */
-        $roomsRepository = static::getContainer()->get(RoomsRepository::class);
+        $roomsRepository = self::getContainer()->get(RoomsRepository::class);
         /** @var InMemoryTransport $transport */
         $transport = self::getContainer()->get('messenger.transport.rabbitmq');
 
@@ -30,9 +30,9 @@ class ProvisionerServiceTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
         /** @var ProvisionerService $provisionerService */
-        $provisionerService = static::getContainer()->get(ProvisionerService::class);
+        $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var RoomsRepository $roomsRepository */
-        $roomsRepository = static::getContainer()->get(RoomsRepository::class);
+        $roomsRepository = self::getContainer()->get(RoomsRepository::class);
 
         $room = $roomsRepository->findOneBy([]);
         $provisionerService->provisionNewInstanceForRoom($room);
