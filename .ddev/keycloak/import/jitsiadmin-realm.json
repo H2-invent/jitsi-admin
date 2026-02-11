@@ -539,7 +539,7 @@
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
     "secret" : "MDY3OTljNDM3MzRjMWU4ZmFkZTFlNzY5",
-    "redirectUris" : [ "https://jitsi-admin.ddev.site/*" ],
+    "redirectUris" : [ "https://jitsi-admin.ddev.site*" ],
     "webOrigins" : [ "https://jitsi-admin.ddev.site" ],
     "notBefore" : 0,
     "bearerOnly" : false,
