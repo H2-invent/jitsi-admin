@@ -10,5 +10,4 @@ ddev console cache:clear
 ddev npm install
 ddev npm run dev
 ddev console doctrine:migrations:migrate --no-interaction
-docker cp docker/keycloak/realm-export.json ddev-jitsi-admin-keycloak:/tmp/realm-export.json
 ddev kcctl import
