@@ -203,4 +203,16 @@ services:
         arguments:
             $testTransport: '@messenger.transport.test'
 
+    App\Service\RsaEncryptionService:
+        arguments:
+            $privateKeyPath: '/backend_private.pem'
+            $publicKeyPath: '/backend_public.pem'
+
+when@dev:
+    services:
+        App\Service\RsaEncryptionService:
+            arguments:
+                $privateKeyPath: '%kernel.project_dir%/backend_private.pem'
+                $publicKeyPath: '%kernel.project_dir%/backend_public.pem'
+
 

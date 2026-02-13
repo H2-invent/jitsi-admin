@@ -20,7 +20,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $transport = self::getContainer()->get('messenger.transport.rabbitmq');
 
         $room = $roomsRepository->findOneBy([]);
-        $provisionerService->provisionNewInstanceForRoom($room);
+        $provisionerService->provisionNewServerForRoom($room);
 
         $sentMessages = $transport->getSent();
         $this->assertCount(1, $sentMessages);
@@ -35,7 +35,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $roomsRepository = self::getContainer()->get(RoomsRepository::class);
 
         $room = $roomsRepository->findOneBy([]);
-        $provisionerService->provisionNewInstanceForRoom($room);
+        $provisionerService->provisionNewServerForRoom($room);
 
         $this->assertSame($room->getServer(), $room->getOriginalServer());
     }
