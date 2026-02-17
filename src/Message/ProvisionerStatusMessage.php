@@ -22,6 +22,7 @@ final class ProvisionerStatusMessage implements \JsonSerializable
         return [
             'room_id' => $this->room_id,
             'status' => $this->status->value,
+            'name' => $this->name,
             'app_id' => $this->app_id,
             'app_secret' => $this->app_secret,
             'url' => $this->url,

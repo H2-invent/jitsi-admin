@@ -23,36 +23,25 @@ class ProvisionerStatusSerializer implements SerializerInterface
         $body = $encodedEnvelope['body'];
         $data = json_decode($body, true, flags: JSON_THROW_ON_ERROR);
 
-        $secret = $data['app_secret'];
+        $secret = $data['app_secret'] ?? null;
         if ($secret !== null) {
-            $secret = base64_decode($secret);
-            $secret = $this->encryptionService->decrypt($secret);
+            $secret = $this->encryptionService->decryptBase64Wrapped($secret);
         }
 
         return new Envelope(
             new ProvisionerStatusMessage(
                 $data['room_id'],
                 Status::from($data['status']),
-                $data['name'],
-                $data['app_id'],
+                $data['name'] ?? null,
+                $data['app_id'] ?? null,
                 $secret,
-                $data['url'],
+                $data['url'] ?? null,
             )
         );
     }
 
     public function encode(Envelope $envelope): array
     {
-//        throw new LogicException("We should not write ProvisionerStatus Messages ourselves, always from Provisioner");
-
-        //FIXME noch austauschen
-        /** @var ProvisionerStatusMessage $message */
-        $message = $envelope->getMessage();
-        $message->appSecret = base64_encode($this->encryptionService->encrypt($message->appSecret ?? ''));
-
-        return [
-            'body' => json_encode($message, flags: JSON_THROW_ON_ERROR),
-            'headers' => ['Content-Type' => 'application/json'],
-        ];
+        throw new LogicException("We should not write ProvisionerStatus Messages ourselves, always from Provisioner");
     }
 }

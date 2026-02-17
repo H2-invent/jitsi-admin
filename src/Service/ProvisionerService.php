@@ -10,7 +10,6 @@ use App\Message\ProvisionerStatusMessage;
 use App\Repository\ServerRepository;
 use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -86,10 +85,10 @@ class ProvisionerService
         $newServer->getUser()->clear();
         $newServer->setAdministrator(null);
         $this->entityManager->persist($newServer);
+        $this->entityManager->flush();
 
         $room->setServer($newServer);
         $this->entityManager->persist($room);
-
         $this->entityManager->flush();
     }
 }
