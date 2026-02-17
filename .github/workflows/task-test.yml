@@ -10,20 +10,20 @@ jobs:
     # region declare_services
     services:
       mysql:
-        image: mysql:5.7
+        image: mariadb:10.11
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MARIADB_ROOT_PASSWORD: root
     # endregion declare_services
 
     steps:
-      # region mysql_start
-      - name: MySQL start
+      # region mariadb_start
+      - name: MariaDB start
         run: |
           sudo /etc/init.d/mysql start
-          sudo mysql --user=root --password=root -e "CREATE USER 'jitsiadmintest'@'localhost' IDENTIFIED  BY 'password';"
-          sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON jitsiadmintest.* TO 'jitsiadmintest'@'localhost';"
-          sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;"
-      # endregion mysql_start
+          sudo mariadb --user=root --password=root -e "CREATE USER 'jitsiadmintest'@'localhost' IDENTIFIED  BY 'password';"
+          sudo mariadb --user=root --password=root -e "GRANT ALL PRIVILEGES ON jitsiadmintest.* TO 'jitsiadmintest'@'localhost';"
+          sudo mariadb --user=root --password=root -e "FLUSH PRIVILEGES;"
+      # endregion mariadb_start
       # region load_artifact
       - name: Download Artifact
         uses: actions/download-artifact@v4
