@@ -16,8 +16,8 @@ corepack_enable: false
 hooks:
   post-start:
   - exec: cp .ddev/.env.test.local .env.test.local
-  - exec: cp .ddev/backend_private.pem backend_private.pem
-  - exec: cp .ddev/backend_public.pem backend_public.pem
+  - exec: cp tests/Provisioner/backend_private.pem backend_private.pem
+  - exec: cp tests/Provisioner/backend_public.pem backend_public.pem
 
 # Key features of DDEV's config.yaml:
 
