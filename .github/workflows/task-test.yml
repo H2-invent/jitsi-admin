@@ -13,6 +13,7 @@ jobs:
         image: mariadb:10.11
         env:
           MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: jitsiadmintest
           MARIADB_USER: jitsiadmintest
           MARIADB_PASSWORD: password
         ports:
