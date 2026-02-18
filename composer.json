@@ -141,7 +141,7 @@
       "@db-migrate"
     ],
     "db-reset-test": [
-      "php bin/console debug:dotenv",
+      "php bin/console debug:dotenv --env=test",
       "@db-drop --env=test",
       "@db-create --env=test",
       "@db-migrate --env=test",
