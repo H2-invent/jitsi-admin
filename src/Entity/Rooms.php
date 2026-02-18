@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: RoomsRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Index(fields: ['uidReal'], name: 'uid_real_idx')]
 class Rooms
 {
     #[ORM\Id]

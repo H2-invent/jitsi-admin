@@ -150,6 +150,8 @@ parameters:
     LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
     app.scheme: '%env(APP_SCHEME)%'
     API_TOKEN_BEARER_THEME: '%env(API_TOKEN_BEARER_THEME)%'
+    encryption.private_key_path: '%kernel.project_dir%/backend_private.pem'
+    encryption.public_key_path: '%kernel.project_dir%/backend_public.pem'
 
 services:
     gaufrette.recording_fs_filesystem:
@@ -203,4 +205,7 @@ services:
         arguments:
             $testTransport: '@messenger.transport.test'
 
-
+    App\Service\RsaEncryptionService:
+        arguments:
+            $privateKeyPath: '%encryption.private_key_path%'
+            $publicKeyPath: '%encryption.public_key_path%'

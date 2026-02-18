@@ -9,14 +9,23 @@ framework:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
           check_delayed_interval: 1000
-      rabbitmq:
+      provisioner_request:
         dsn: '%env(MESSENGER_TRANSPORT_DSN_RABBITMQ)%'
         options:
           exchange:
-            name: messages
+            name: meetling.provisioner.request
           queues:
-            messages: ~
+            meetling.provisioner.request: ~
         serializer: messenger.transport.symfony_serializer
+      provisioner_status:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN_RABBITMQ)%'
+        options:
+          exchange:
+            name: meetling.provisioner.status
+          queues:
+            meetling.provisioner.status: ~
+        serializer: App\Message\Serializer\ProvisionerStatusSerializer
+
       test:
         dsn: '%env(MESSENGER_TRANSPORT_DSN_RABBITMQ)%'
         options:
@@ -39,11 +48,6 @@ framework:
       #Symfony\Component\Mailer\Messenger\SendEmailMessage:  async
       App\Message\CustomMailerMessage: async
       App\Message\LobbyLeaverMessage: async
-      App\Message\ProvisionNewInstanceMessage: rabbitmq
       App\Message\TestMessage: test
-
-when@test:
-  framework:
-    messenger:
-      transports:
-        rabbitmq: 'in-memory://'
+      App\Message\ProvisionerStatusMessage: provisioner_status
+      App\Message\ProvisionerRequestMessage: provisioner_request
