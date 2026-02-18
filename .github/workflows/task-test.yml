@@ -9,21 +9,23 @@ jobs:
     
     # region declare_services
     services:
-      mysql:
-        image: mysql:5.7
+      mariadb:
+        image: mariadb:10.11
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: jitsiadmintest
+          MARIADB_USER: jitsiadmintest
+          MARIADB_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "healthcheck.sh --connect --innodb_initialized"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
     # endregion declare_services
 
     steps:
-      # region mysql_start
-      - name: MySQL start
-        run: |
-          sudo /etc/init.d/mysql start
-          sudo mysql --user=root --password=root -e "CREATE USER 'jitsiadmintest'@'localhost' IDENTIFIED  BY 'password';"
-          sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON jitsiadmintest.* TO 'jitsiadmintest'@'localhost';"
-          sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;"
-      # endregion mysql_start
       # region load_artifact
       - name: Download Artifact
         uses: actions/download-artifact@v4
