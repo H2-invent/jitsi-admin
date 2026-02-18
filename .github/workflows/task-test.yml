@@ -18,7 +18,11 @@ jobs:
           MARIADB_PASSWORD: password
         ports:
           - 3306:3306
-        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd "healthcheck.sh --connect --innodb_initialized"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
     # endregion declare_services
 
     steps:
