@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Message\ProvisionerRequest\RequestType;
 use App\Message\ProvisionerRequestMessage;
 use App\Message\ProvisionerStatusMessage;
@@ -21,8 +22,8 @@ class ProvisionerService
         private DirectSendService $websocketService,
         private MessageBusInterface $messageBus,
         private UrlGeneratorInterface $urlGenerator,
-        private ServerRepository $serverRepository,
         private EntityManagerInterface $entityManager,
+        private ServerService $serverService,
     )
     {
     }
@@ -73,19 +74,13 @@ class ProvisionerService
 
     private function saveNewServer(Rooms $room, ProvisionerStatusMessage $statusMessage): void
     {
-        $newServer = clone $room->getServer();
-        $newServer
-            ->setUrl($statusMessage->url)
-            ->setServerName($statusMessage->name)
-            ->setAppId($statusMessage->app_id)
-            ->setAppSecret($statusMessage->app_secret)
-            ->setUpdatedAt(new \DateTime())
-            ->setSlug(urlencode($statusMessage->url))
-        ;
-        $newServer->getUser()->clear();
-        $newServer->setAdministrator(null);
-        $this->entityManager->persist($newServer);
-        $this->entityManager->flush();
+        $newServer = $this->serverService->cloneServerForAutoscaling(
+            $room->getServer(),
+            $statusMessage->url,
+            $statusMessage->name,
+            $statusMessage->app_id,
+            $statusMessage->app_secret,
+        );
 
         $room->setServer($newServer);
         $this->entityManager->persist($room);

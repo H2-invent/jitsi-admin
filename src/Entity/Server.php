@@ -164,6 +164,9 @@ class Server
     #[ORM\Column(nullable: true)]
     private ?bool $isAllowedToCloneForAutoscale = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isProvisioningEnabled = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -957,5 +960,22 @@ class Server
         $this->isAllowedToCloneForAutoscale = $isAllowedToCloneForAutoscale;
 
         return $this;
+    }
+
+    public function isProvisioningEnabled(): ?bool
+    {
+        return $this->isProvisioningEnabled;
+    }
+
+    public function setIsProvisioningEnabled(bool $isProvisioningEnabled): static
+    {
+        $this->isProvisioningEnabled = $isProvisioningEnabled;
+
+        return $this;
+    }
+
+    public function shouldProvisionNewServer(): bool
+    {
+        return $this->isProvisioningEnabled() && $this->isAllowedToCloneForAutoscale();
     }
 }
