@@ -1,5 +1,5 @@
 <!-- Footer -->
-
+<ul>
 
 <li class="nav-item">
     {% if theme %}
@@ -26,33 +26,33 @@
 
 </li>
 
-<li class="nav-item d-none d-md-block">
-    {% if theme %}
-        {% if theme.footerReportIssueEnable == true %}
-            <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"
-               href="{{ getApplicationProperties('footerReportIssueUrl') }}">{{ getApplicationProperties('footerReportIssueText') }}</a>
-        {% endif %}
-    {% else %}
-        <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"
-           href="https://github.com/H2-invent/jitsi-admin/issues">{{ 'Fehler oder neue Idee melden'|trans }}</a>
-    {% endif %}
+{#<li class="nav-item d-none d-md-block">#}
+{#    {% if theme %}#}
+{#        {% if theme.footerReportIssueEnable == true %}#}
+{#            <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"#}
+{#               href="{{ getApplicationProperties('footerReportIssueUrl') }}">{{ getApplicationProperties('footerReportIssueText') }}</a>#}
+{#        {% endif %}#}
+{#    {% else %}#}
+{#        <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"#}
+{#           href="https://github.com/H2-invent/jitsi-admin/issues">{{ 'Fehler oder neue Idee melden'|trans }}</a>#}
+{#    {% endif %}#}
 
-</li>
-<li class="nav-item d-none d-xl-block ">
+{#</li>#}
+{#<li class="nav-item d-none d-xl-block ">#}
 
-    {% if theme %}
-        {% if theme.footerContributionEnable == true %}
-            {{ theme.footerContributionText|raw }}
+{#    {% if theme %}#}
+{#        {% if theme.footerContributionEnable == true %}#}
+{#            {{ theme.footerContributionText|raw }}#}
 
-        {% endif %}
-    {% else %}
-        <a class="nav-link float-left" target="_blank" referrerpolicy="no-referrer"
-           href="https://h2-invent.com/">Made with ❤ by H2 invent</a>
-    {% endif %}
+{#        {% endif %}#}
+{#    {% else %}#}
+{#        <a class="nav-link float-left" target="_blank" referrerpolicy="no-referrer"#}
+{#           href="https://h2-invent.com/">Made with ❤ by H2 invent</a>#}
+{#    {% endif %}#}
 
 
-</li>
-<li class="nav-item d-none d-xl-block ">
+{#</li>#}
+<li class="nav-item d-none d-xl-inline-block">
 
     <a class="nav-link"
        target="_blank"
@@ -80,5 +80,5 @@
     </li>
 {% endif %}
 
-
+</ul>
 <!-- Footer -->

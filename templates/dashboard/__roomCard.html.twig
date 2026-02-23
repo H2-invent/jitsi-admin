@@ -1,7 +1,7 @@
-<div class="card card-body mb-1 text-lg-start text-center triggerHide mb-3
+<div class="card card-body mb-4 text-lg-start text-center triggerHide mb-3
 {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %} awayBorder {% endif %} {% if runningRooms is defined and room in runningRooms %} olineBorder {% endif %}"
      id="room_card{{ room.uidReal }}">
-    <div class="row">
+    <div class="row align-items-start">
         {% if roomIsReadOnly(room,app.user) == true %}
             {% include 'dashboard/__roomInvisible.html.twig' with {'room':room} %}
         {% else %}

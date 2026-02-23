@@ -6,7 +6,7 @@ html {
 }
 
 body {
-  font-family: 'Poppins';
+  font-family: 'Geist';
   overflow: hidden;
   height: 100%;
 }
@@ -14,8 +14,12 @@ body {
 /* ---------------------------------------------------
     Paragraph Setting
 ----------------------------------------------------- */
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+  margin-bottom: 1.5rem;
+}
+
 p {
-  font-family: 'Poppins';
+  font-family: 'Geist';
   font-size: 1.1em;
   font-weight: 300;
   line-height: 1.7em;
@@ -78,13 +82,17 @@ a {
 
 .btn-dashboard {
   font-size: 1em;
-  padding: 20px;
+  padding: 10px 24px;
+  margin-left: 8px;
 
   &.btn-outline-primary {
-    border-width: 3px;
-    padding-top: 17px;
-    padding-bottom: 17px;
+    border-width: 1px;
+    padding: 9px 23px;
   }
+}
+
+.card .btn {
+  margin-left: 5px;
 }
 
 
@@ -158,14 +166,15 @@ strong {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     padding-right: 8px;
     padding-left: 16px;
     align-items: center;
     z-index: 5;
-    padding-bottom: 8px;
     background-color: white;
     height: fit-content;
+    border-bottom: 1px solid #dee2e6;
 
     .container {
       padding: 0;
@@ -209,15 +218,21 @@ strong {
 
   .footer {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     z-index: 5;
-    list-style: none;
+    border-top: 1px solid #dee2e6;
 
-    .nav-link {
-      color: black;
-      word-break: break-word;
-      @media only screen and (max-width: 576px) {
-        font-size: smaller;
+    ul {
+      list-style: none;
+      margin: 6px 0 0;
+
+      .nav-link {
+        color: rgba(0, 0, 0, 0.5);
+        word-break: break-word;
+        font-size: 13px;
+        @media only screen and (max-width: 576px) {
+          font-size: smaller;
+        }
       }
     }
   }
@@ -272,10 +287,16 @@ strong {
 
     #favorite-Container {
       h5 {
-        border-bottom: $main-color 3px solid;
-        padding-top: 8px;
-        padding-bottom: 5px;
+        //border-bottom: 1px solid #dee2e6;
+        padding-top: 12px;
+        padding-bottom: 9px;
         margin-bottom: 22px;
+        font-size: 18px;
+        b {
+          font-weight: normal;
+          margin-left: 8px;
+          display: inline-block;
+        }
       }
     }
 
@@ -421,6 +442,7 @@ strong {
 .btn-primary, .btn-primary.dropdown-toggle {
   background-color: $main-color !important;
   transition: background-color 0.3s ease-in;
+  box-shadow: none !important;
 
   &:hover {
     background-color: $main-color-hover !important;
@@ -438,6 +460,7 @@ strong {
 }
 
 .btn-outline-primary {
+  border-width: 1px !important;
   border-color: $main-color !important;
   color: $main-color !important;
 
@@ -456,7 +479,7 @@ strong {
   width: 25px;
   background-size: cover;
   height: 100%;
-  border-radius: 5000px;
+  border-radius: 6px;
 }
 
 @media only screen and (min-width: 768px) {
@@ -667,13 +690,13 @@ strong {
 .btn, .btn-group {
   margin-top: 4px;
   margin-bottom: 4px;
-  margin-right: 16px;
-
+  //margin-right: 16px;
 }
 
 .btn {
-  border-radius: 5000px;
+  border-radius: 6px;
   box-shadow: none;
+  font-size: 16px;
 }
 
 .btn-floating {
@@ -682,20 +705,20 @@ strong {
 
 
 .btn-group {
-  border-radius: 5000px;
+  border-radius: 6px;
 
   * {
     border-radius: 0;
   }
 
   *:first-child {
-    border-bottom-left-radius: 5000px !important;
-    border-top-left-radius: 5000px !important;
+    border-bottom-left-radius: 6px !important;
+    border-top-left-radius: 6px !important;
   }
 
   *:last-child {
-    border-bottom-right-radius: 5000px !important;
-    border-top-right-radius: 5000px !important;
+    border-bottom-right-radius: 6px !important;
+    border-top-right-radius: 6px !important;
   }
 
 }
@@ -982,34 +1005,38 @@ a:hover {
 
 .profile {
   display: flex;
-  flex-direction: column;
+  //flex-direction: column;
   margin-right: 8px;
 
   .profileLine {
     display: flex;
     align-items: center;
     flex-direction: row;
-    margin-bottom: 0.2em;
-    margin-top: 1em;
+    //margin-bottom: 0.2em;
+    //margin-top: 1em;
 
     .icons {
       display: flex;
-      flex-direction: column;
+      //flex-direction: column;
       margin-right: 1em;
-      padding-top: 8px;
-      font-weight: bold;
+      //padding-top: 8px;
+      font-weight: normal;
       align-items: flex-end;
 
       a {
-        margin-bottom: 0.5rem;
+        margin: 0 0.4rem;
         text-align: right;
         cursor: pointer;
+        font-size: 14px;
 
+        i {
+          font-size: 1.5em;
+        }
       }
     }
 
     .picture {
-      height: 5em;
+      height: 2.5em;
       aspect-ratio: 1/1;
       object-fit: contain;
 
@@ -1023,25 +1050,25 @@ a:hover {
         object-fit: cover;
         height: 100%;
         width: 100%;
-        border-radius: 5000px;
+        border-radius: 6px;
         background-color: white;
       }
 
       .pic-content {
-        border-radius: 5000px;
+        border-radius: 6px;
       }
 
       .dot {
         position: absolute;
-        bottom: -10%;
-        right: -10%;
-        width: 1.5em;
-        height: 1.5em;;
-        border-radius: 5000px;
+        bottom: -12%;
+        right: -12%;
+        width: 1em;
+        height: 1em;
+        border-radius: 6px;
 
         &.with-icon {
           &:before {
-            font-size: 1em;
+            font-size: 0.6em;
           }
         }
       }
@@ -1051,6 +1078,7 @@ a:hover {
   .statusLine {
     display: flex;
     justify-content: flex-end;
+    margin: 0 2rem 0;
 
     #onlineSelector {
 
@@ -1079,6 +1107,7 @@ a:hover {
   display: flex !important;
   justify-content: center;
   align-items: center;
+  font-size: 18px;
 
   span {
     margin-left: 1rem;
@@ -1124,7 +1153,7 @@ a:hover {
   bottom: -13px;
   align-self: center;
   font-size: small;
-  border-radius: 5000px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1407,7 +1436,7 @@ a:hover {
   z-index: 2;
   padding: 2px;
   color: white;
-  border-radius: 5000px;
+  border-radius: 6px;
   height: 16px;
   width: 16px;
   display: flex;
@@ -1505,10 +1534,11 @@ a:hover {
 }
 
 .card {
-  //box-shadow: none;
-  //border: 2px solid #a8a8a8;
-  box-shadow: $card-box-shadow;
+  box-shadow: none;
+  border: 1px solid #dee2e6;
+  //box-shadow: $card-box-shadow;
   background-color: $cardBackground_bright;
+  border-radius: 6px;
 
   &.awayBorder {
     background-color: scale-color($warning-color, $lightness: 90%);
@@ -1642,7 +1672,7 @@ a:hover {
 
     // Rundung, wenn es nur einen Button gibt
     &:only-child {
-      border-radius: 5000px;
+      border-radius: 6px;
     }
   }
 
@@ -1650,12 +1680,12 @@ a:hover {
   *:first-child {
     .btn, &.btn {
       width: 100%;
-      border-bottom-left-radius: 5000px;
-      border-top-left-radius: 5000px;
+      border-bottom-left-radius: 6px;
+      border-top-left-radius: 6px;
 
       &:only-child {
-        border-bottom-right-radius: 5000px;
-        border-top-right-radius: 5000px;
+        border-bottom-right-radius: 6px;
+        border-top-right-radius: 6px;
       }
     }
   }
@@ -1666,8 +1696,8 @@ a:hover {
     .btn, &.btn {
       width: 100%;
 
-      border-bottom-right-radius: 5000px;
-      border-top-right-radius: 5000px;
+      border-bottom-right-radius: 6px;
+      border-top-right-radius: 6px;
     }
   }
 }
@@ -1759,7 +1789,7 @@ a:hover {
 
     // Rundung, wenn es nur einen Button gibt
     &:only-child {
-      border-radius: 5000px;
+      border-radius: 6px;
     }
   }
 
@@ -1767,12 +1797,12 @@ a:hover {
   *:first-child {
     .btn, &.btn {
       width: 100%;
-      border-bottom-left-radius: 5000px;
-      border-top-left-radius: 5000px;
+      border-bottom-left-radius: 6px;
+      border-top-left-radius: 6px;
 
       &:only-child {
-        border-bottom-right-radius: 5000px;
-        border-top-right-radius: 5000px;
+        border-bottom-right-radius: 6px;
+        border-top-right-radius: 6px;
       }
     }
   }
@@ -1783,16 +1813,23 @@ a:hover {
     .btn, &.btn {
       width: 100%;
 
-      border-bottom-right-radius: 5000px;
-      border-top-right-radius: 5000px;
+      border-bottom-right-radius: 6px;
+      border-top-right-radius: 6px;
     }
   }
 }
 .badge{
   color: black;
+  font-size: 14px;
+  padding: 6px 12px;
+  font-weight: 500;
   i{
     color: black;
   }
+}
+.card .col-md-2 .badge {
+  margin-bottom: 5px;
+  display: block;
 }
 .blinking-red {
   color: white;
