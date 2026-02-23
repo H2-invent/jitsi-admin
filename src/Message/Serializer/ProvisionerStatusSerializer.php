@@ -6,7 +6,6 @@ namespace App\Message\Serializer;
 use App\Message\ProvisionerStatus\Status;
 use App\Message\ProvisionerStatusMessage;
 use App\Service\RsaEncryptionService;
-use LogicException;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
@@ -44,7 +43,10 @@ class ProvisionerStatusSerializer implements SerializerInterface
     {
         /** @var ProvisionerStatusMessage $message */
         $message = $envelope->getMessage();
-        $message->app_secret = $this->encryptionService->encryptBase64Wrapped($message->appSecret ?? '');
+
+        if ($message->app_secret !== null) {
+            $message->app_secret = $this->encryptionService->encryptBase64Wrapped($message->app_secret);
+        }
 
         return [
             'body' => json_encode($message, flags: JSON_THROW_ON_ERROR),
