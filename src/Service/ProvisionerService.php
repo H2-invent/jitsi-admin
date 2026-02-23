@@ -4,13 +4,12 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Rooms;
-use App\Entity\Server;
 use App\Message\ProvisionerRequest\RequestType;
 use App\Message\ProvisionerRequestMessage;
 use App\Message\ProvisionerStatusMessage;
-use App\Repository\ServerRepository;
 use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -31,7 +30,7 @@ class ProvisionerService
     public function provisionNewServerForRoom(Rooms $room): void
     {
         $this->saveOriginalServer($room);
-        $this->sendMessage($room);
+        $this->sendProvisionerRequest($room);
     }
 
     public function saveNewServerAndRedirect(Rooms $room, ProvisionerStatusMessage $statusMessage): void
@@ -40,14 +39,30 @@ class ProvisionerService
         $this->sendWebsocketRedirect($room);
     }
 
-    private function saveOriginalServer(Rooms $room): void
+    public function removeServerAndRestoreOriginal(Rooms $room): void
     {
-        if ($room->getOriginalServer() === null) {
-            $room->setOriginalServer($room->getServer());
+        if ($room->getServer() === null || $room->getOriginalServer() === null) {
+            throw new RuntimeException("Room server or original server not set. Can not continue deletion. Room ID: {$room->getId()}");
         }
+
+        $server = $room->getServer();
+        $room->setServer($room->getOriginalServer());
+        $room->setOriginalServer(null);
+
+        $this->entityManager->persist($room);
+        $this->entityManager->remove($server);
+        $this->entityManager->flush();
     }
 
-    private function sendMessage(Rooms $room): void
+    private function saveOriginalServer(Rooms $room): void
+    {
+        $room->setOriginalServer($room->getServer());
+
+        $this->entityManager->persist($room);
+        $this->entityManager->flush();
+    }
+
+    private function sendProvisionerRequest(Rooms $room): void
     {
         $provisionMessage = new ProvisionerRequestMessage(
             $room->getUidReal(),
@@ -56,7 +71,7 @@ class ProvisionerService
         $this->messageBus->dispatch($provisionMessage);
     }
 
-    private function sendWebsocketRedirect(Rooms $room): void
+    public function sendWebsocketRedirect(Rooms $room): void
     {
         $redirectUrl = $this->urlGenerator->generate(
             'room_join',
@@ -64,11 +79,12 @@ class ProvisionerService
                 't' => 'b',
                 'room' => $room->getId()
             ],
-            UrlGeneratorInterface::RELATIVE_PATH
+            UrlGeneratorInterface::ABSOLUTE_URL,
         );
-        $this->websocketService->sendRedirect(
+        $this->websocketService->sendRedirectLocal(
             self::WEBSOCKET_TOPIC_NAME . $room->getUidReal(),
             $redirectUrl,
+            0
         );
     }
 

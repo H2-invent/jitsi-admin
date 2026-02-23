@@ -41,8 +41,20 @@ final class ProvisionerStatusMessageHandler
                 return;
 
             case Status::READY:
+                $this->logger->info("Provisioner status 'ready' for roomId: {$message->room_id}");
                 $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
                 $this->provisionerService->saveNewServerAndRedirect($room, $message);
+
+                return;
+
+            case Status::DELETING:
+                $this->logger->info("Provisioner status 'deleting' for roomId: {$message->room_id}");
+
+                return;
+            case Status::DELETED:
+                $this->logger->info("Provisioner status 'deleted' for roomId: {$message->room_id}. Deleting server");
+                $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
+                $this->provisionerService->removeServerAndRestoreOriginal($room);
 
                 return;
         }

@@ -42,6 +42,13 @@ class ProvisionerStatusSerializer implements SerializerInterface
 
     public function encode(Envelope $envelope): array
     {
-        throw new LogicException("We should not write ProvisionerStatus Messages ourselves, always from Provisioner");
+        /** @var ProvisionerStatusMessage $message */
+        $message = $envelope->getMessage();
+        $message->app_secret = $this->encryptionService->encryptBase64Wrapped($message->appSecret ?? '');
+
+        return [
+            'body' => json_encode($message, flags: JSON_THROW_ON_ERROR),
+            'headers' => ['Content-Type' => 'application/json'],
+        ];
     }
 }

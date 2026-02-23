@@ -8,4 +8,6 @@ enum Status: string
     case FAILED = 'failed';
     case STARTED = 'started';
     case READY = 'ready';
+    case DELETING = 'deleting';
+    case DELETED = 'deleted';
 }

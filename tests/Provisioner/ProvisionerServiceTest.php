@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Provisioner;
 
+use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Message\ProvisionerStatus\Status;
 use App\Message\ProvisionerStatusMessage;
 use App\Repository\RoomsRepository;
@@ -111,7 +113,7 @@ class ProvisionerServiceTest extends KernelTestCase
             new StaticTokenProvider('test'),
             function (Update $update) use ($room): string {
                 $updateData = json_decode($update->getData(), true, 512, JSON_THROW_ON_ERROR);
-                self::assertSame('redirect', $updateData['type'] ?? null);
+                self::assertSame('redirect_local', $updateData['type'] ?? null);
                 self::assertContains(ProvisionerService::WEBSOCKET_TOPIC_NAME . $room->getUidReal(), $update->getTopics());
                 return 'id';
             }
@@ -129,5 +131,76 @@ class ProvisionerServiceTest extends KernelTestCase
         );
         $provisionerService = new ProvisionerService($directSend, $messageBus, $urlGenerator, $entityManager, $serverService);
         $provisionerService->saveNewServerAndRedirect($room, $statusMessage);
+    }
+
+    public function testRemoveServerAndRestoreOriginal_restoresOriginal(): void
+    {
+        self::bootKernel();
+        /** @var ProvisionerService $provisionerService */
+        $provisionerService = self::getContainer()->get(ProvisionerService::class);
+        /** @var RoomsRepository $roomRepository */
+        $roomRepository = self::getContainer()->get(RoomsRepository::class);
+        /** @var ServerRepository $serverRepository */
+        $serverRepository = self::getContainer()->get(ServerRepository::class);
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = self::getContainer()->get(EntityManagerInterface::class);
+
+        $room = $roomRepository->findOneBy([]);
+        $originalServer = $room->getServer();
+        $room->setOriginalServer($originalServer);
+        $server = new Server();
+
+        $room->setServer($server);
+
+        $provisionerService->removeServerAndRestoreOriginal($room);
+        $roomAfter = $roomRepository->find($room->getId());
+
+        self::assertNull($roomAfter->getOriginalServer());
+        self::assertSame($originalServer, $roomAfter->getServer());
+    }
+
+    public function testRemoveServerAndRestoreOriginal_deletesServer(): void
+    {
+        self::bootKernel();
+        /** @var ProvisionerService $provisionerService */
+        $provisionerService = self::getContainer()->get(ProvisionerService::class);
+        /** @var RoomsRepository $roomRepository */
+        $roomRepository = self::getContainer()->get(RoomsRepository::class);
+        /** @var ServerRepository $serverRepository */
+        $serverRepository = self::getContainer()->get(ServerRepository::class);
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = self::getContainer()->get(EntityManagerInterface::class);
+
+        $room = $roomRepository->findOneBy([]);
+        $server = (new Server())
+            ->setUrl('url')
+            ->setSlug('slug')
+            ->setServerName('serverName')
+            ->setJwtModeratorPosition(1)
+        ;
+        $entityManager->persist($server);
+        $room->setOriginalServer($room->getServer());
+        $room->setServer($server);
+        $entityManager->flush();
+        $serverId = $server->getId();
+
+        $provisionerService->removeServerAndRestoreOriginal($room);
+
+        $entityManager->clear();
+        $deletedServer = $serverRepository->find($serverId);
+
+        self::assertNull($deletedServer);
+    }
+
+    public function testRemoveServerAndRestoreOriginal_throwsOnNewRoom(): void
+    {
+        self::bootKernel();
+        /** @var ProvisionerService $provisionerService */
+        $provisionerService = self::getContainer()->get(ProvisionerService::class);
+
+        $this->expectException(\RuntimeException::class);
+
+        $room = new Rooms();
+        $provisionerService->removeServerAndRestoreOriginal($room);
     }
 }

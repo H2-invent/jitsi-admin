@@ -11,7 +11,7 @@ final class ProvisionerStatusMessage implements \JsonSerializable
         public readonly Status $status,
         public readonly ?string $name = null,
         public readonly ?string $app_id = null,
-        public readonly ?string $app_secret = null,
+        public ?string $app_secret = null,
         public readonly ?string $url = null,
     )
     {
