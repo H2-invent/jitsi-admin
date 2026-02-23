@@ -11,9 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class StartController extends JitsiAdminController
 {
     #[Route(path: '/room/join/{t}/{room}', name: 'room_join')]
-    public function joinRoom($t, Rooms $room, StartMeetingService $startMeetingService)
+    public function joinRoom($t, ?Rooms $room, StartMeetingService $startMeetingService)
     {
-        if ($room->getServer()->shouldProvisionNewServer()) {
+        if ($room !== null && $room->getServer()->shouldProvisionNewServer()) {
             return $this->redirectToRoute('app_provisioner_create', ['uidReal' => $room->getUidReal()]);
         }
 
