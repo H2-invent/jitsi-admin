@@ -9,6 +9,7 @@ use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Service\Lobby\DirectSendService;
 use App\Service\ProvisionerService;
+use App\Service\ServerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
@@ -99,10 +100,10 @@ class ProvisionerServiceTest extends KernelTestCase
         $messageBus = self::getContainer()->get(MessageBusInterface::class);
         /** @var UrlGeneratorInterface $urlGenerator */
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
-        /** @var ServerRepository $serverRepository */
-        $serverRepository = self::getContainer()->get(ServerRepository::class);
         /** @var EntityManagerInterface $entityManager */
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
+        /** @var ServerService $serverService */
+        $serverService = self::getContainer()->get(ServerService::class);
 
         $room = $roomsRepository->findOneBy([]);
         $hub = new MockHub(
@@ -126,7 +127,7 @@ class ProvisionerServiceTest extends KernelTestCase
             $randomString,
             $randomString,
         );
-        $provisionerService = new ProvisionerService($directSend, $messageBus, $urlGenerator, $serverRepository, $entityManager);
+        $provisionerService = new ProvisionerService($directSend, $messageBus, $urlGenerator, $entityManager, $serverService);
         $provisionerService->saveNewServerAndRedirect($room, $statusMessage);
     }
 }
