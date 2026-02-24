@@ -1,6 +1,6 @@
 import md5 from "blueimp-md5"
 import {setSnackbar} from "./myToastr";
-import Moveable from "moveable";
+let MoveableClass = null;
 import {Tooltip} from 'mdb-ui-kit';
 import $ from "jquery";
 import {setCookie, getCookie} from './cookie'
@@ -205,7 +205,7 @@ function moveActualToForeground(actualFrame) {
     });
 }
 
-function addInteractions(ele) {
+async function addInteractions(ele) {
 
     const position = {x: counter, y: counter}
     if (moveable) {
@@ -213,7 +213,12 @@ function addInteractions(ele) {
         return null;
     }
 
-    moveable = new Moveable(document.body, {
+    if (!MoveableClass) {
+        const module = await import(/* webpackChunkName: "moveable" */ "moveable");
+        MoveableClass = module.default;
+    }
+
+    moveable = new MoveableClass(document.body, {
         target: ele,
         draggable: false,
         resizable: true,
