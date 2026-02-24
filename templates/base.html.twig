@@ -49,7 +49,17 @@
             <div class="w-100 overflow-auto">
                 <div class="border-bottom">
                     <div class="container">
-                        <div class="d-flex flex-wrap w-100 py-3 justify-content-end ">
+                        <div class="d-flex flex-wrap w-100 py-2 justify-content-between align-items-center">
+                            <div class="d-flex flex-wrap align-items-center">
+                                <a class="btn btn-outline-secondary btn-dashboard"
+                                   data-mdb-modal-init
+                                   data-mdb-target="#modalAdressbook"
+                                   id="toggleAdressbook">
+                                    <i class="fa fa-address-book"></i>
+                                    {{ 'Adressbuch'|trans }}
+                                </a>
+                            </div>
+                            <div class="d-flex flex-wrap justify-content-end">
                             {% if input_settings_allow_sheduling == 1 %}
                                 {#                        <div class="col-12 col-md-6 flex-fill mb-3 p-0 pe-md-1 ps-md-1"> #}
                                 <div class="">
@@ -74,10 +84,11 @@
                                 <div>
                                     <a href="{{ path('schedule_admin_new') }}"
                                        class="loadContent dashboardBtn btn btn-outline-primary btn-dashboard">
-                                        {{ 'Einen Termin finden'|trans }}
+                                        <i class="fas fa-calendar me-1"></i> {{ 'Einen Termin finden'|trans }}
                                     </a>
                                 </div>
                             {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,11 +111,11 @@
                     </div>
                 </div>
             </div>
-            {{ include('base/__proTips.html.twig') }}
         </div>
         <div class="footer removeInIframe">
-            <div class="container">
+            <div class="container position-relative">
                 {{ include('base/__footer.html.twig') }}
+                {{ include('base/__proTips.html.twig') }}
             </div>
         </div>
     </div>

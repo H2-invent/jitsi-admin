@@ -57,6 +57,11 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
+                        {% if getApplicationProperties('LAF_HIDE_PROFILEPICTURE') == 0 %}
+                            <p class="mb-0"><a
+                                        href="{{ path('profile_image_change') }}"
+                                        class="loadContent">{% trans %}Profilbild ändern{% endtrans %}</a></p>
+                        {% endif %}
                         {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
                             <p class="mb-0"><a
                                         href="{{ path('connect_keycloak_edit') }}"
@@ -80,6 +85,10 @@
                     <label class="form-check-label" for="switchDarkmode2">
                        {{ 'Darkmode'|trans }}
                     </label>
+                </div>
+
+                <div class="mt-3 mb-3">
+                    {{ include('base/__languageDropdown.html.twig') }}
                 </div>
 
                 <a href="#" class="caretdown after"

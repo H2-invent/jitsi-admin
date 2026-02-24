@@ -137,7 +137,7 @@
                 <div id="ex1-tabs-2-init">
                     {% if roomsPast |length == 0 %}
                         <div class="card card-body">
-                            <p class="text-center">{{ 'Aktuell sind keine vergangenen Konferenzen vorhanden.'|trans }}</p>
+                            <p class="text-center mb-0">{{ 'Aktuell sind keine vergangenen Konferenzen vorhanden.'|trans }}</p>
                         </div>
                     {% endif %}
                     {% for room in roomsPast %}
@@ -158,6 +158,12 @@
                     {% for r in persistantRooms %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                     {% endfor %}
+                {% else %}
+                    <div class="card card-body mb-3">
+                        <p class="text-center mb-0">
+                            {% trans with {'{url}':path('room_new')} %}dashboard.noconference{% endtrans %}
+                        </p>
+                    </div>
                 {% endif %}
             </div>
         </div>

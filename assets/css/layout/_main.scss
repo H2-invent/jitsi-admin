@@ -20,9 +20,9 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 
 p {
   font-family: 'Geist';
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: 300;
-  line-height: 1.7em;
+  line-height: 1.6em;
   color: #000;
 }
 
@@ -82,12 +82,19 @@ a {
 
 .btn-dashboard {
   font-size: 1em;
-  padding: 10px 24px;
+  padding: 8px 20px;
   margin-left: 8px;
 
   &.btn-outline-primary {
     border-width: 1px;
-    padding: 9px 23px;
+    padding: 7px 19px;
+  }
+
+  &.btn-outline-secondary {
+    border-width: 1px;
+    padding: 7px 19px;
+    margin-left: 0;
+    margin-right: 5px;
   }
 }
 
@@ -166,10 +173,10 @@ strong {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    padding-right: 8px;
-    padding-left: 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-right: 4px;
+    padding-left: 4px;
     align-items: center;
     z-index: 5;
     background-color: white;
@@ -183,10 +190,8 @@ strong {
         margin-right: 1em;
 
         img {
-          max-width: 100%;
-          max-height: 50px;
-          height: auto;
-
+          height: 40px;
+          width: auto;
         }
       }
 
@@ -217,6 +222,7 @@ strong {
   }
 
   .footer {
+    position: relative;
     display: flex;
     justify-content: start;
     z-index: 5;
@@ -467,6 +473,22 @@ strong {
   &:hover {
     border-color: $main-color-hover !important;
     color: $main-color-hover !important;
+  }
+}
+
+.btn-outline-secondary {
+  border: 1px solid $contrast-base !important;
+  color: $contrast-base !important;
+  background-color: transparent !important;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &:active:focus,
+  &.active {
+    border: 1px solid $contrast-dark !important;
+    color: $contrast-dark !important;
+    background-color: transparent !important;
   }
 }
 
@@ -1017,20 +1039,25 @@ a:hover {
 
     .icons {
       display: flex;
-      //flex-direction: column;
-      margin-right: 1em;
-      //padding-top: 8px;
+      gap: 5px;
+      margin-right: 5px;
       font-weight: normal;
-      align-items: flex-end;
+      align-items: stretch;
 
-      a {
-        margin: 0 0.4rem;
-        text-align: right;
-        cursor: pointer;
-        font-size: 14px;
+      .btn {
+        height: 2.5em;
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+        border-color: var(--profile-color) !important;
+        color: var(--profile-color) !important;
+        border-radius: 6px;
 
         i {
-          font-size: 1.5em;
+          font-size: 1em;
         }
       }
     }
@@ -1039,12 +1066,14 @@ a:hover {
       height: 2.5em;
       aspect-ratio: 1/1;
       object-fit: contain;
-
-      &:has(.loadContent) {
-        cursor: pointer;
-      }
-
       position: relative;
+      cursor: pointer;
+
+      .pic-toggle {
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
 
       img {
         object-fit: cover;
@@ -1058,7 +1087,7 @@ a:hover {
         border-radius: 6px;
       }
 
-      .dot {
+      > .pic-toggle > .dot {
         position: absolute;
         bottom: -12%;
         right: -12%;
@@ -1072,35 +1101,19 @@ a:hover {
           }
         }
       }
+
+      &.dropdown .dropdown-menu {
+        right: 0;
+        left: auto;
+        max-height: none;
+        overflow-y: visible;
+      }
     }
   }
+}
 
-  .statusLine {
-    display: flex;
-    justify-content: flex-end;
-    margin: 0 2rem 0;
-
-    #onlineSelector {
-
-      white-space: nowrap;
-
-      &[aria-expanded="true"] {
-        &:after {
-          transform: rotatez(0.5turn);
-        }
-      }
-
-      &:after {
-        font-family: "Font Awesome 5 Free";
-        margin-left: 0.5em;
-        font-weight: 900;
-        float: left;
-        transition: transform 0.3s ease-in;
-        content: "\f107";
-      }
-
-    }
-  }
+.nav-mat-tabs .nav-mat-item:hover {
+  border-radius: 6px 6px 0 0 !important;
 }
 
 .nav-mat-link {
@@ -1121,18 +1134,7 @@ a:hover {
     background: none;
 
     &:after {
-      content: "";
-      background-image: url("../../image/jitsi-admin-half.png");
-      opacity: 0.3;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      position: absolute;
-      background-position: right;
-      background-size: contain;
-      background-repeat: no-repeat;
-      z-index: -1;
+      display: none;
     }
 
     .card-background {
@@ -1274,30 +1276,6 @@ a:hover {
 
 }
 
-.picture {
-  .no-picture {
-    position: relative;
-    overflow: hidden;
-
-    &:hover {
-      &:before {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.5);
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        top: 0;
-        left: 0;
-        color: white;
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\f030";
-      }
-    }
-  }
-}
 
 @keyframes removeSearchentry {
   0% {
@@ -1350,7 +1328,7 @@ a:hover {
 
 .proTips-wrapper {
   position: absolute;
-  top: 100%;
+  bottom: -6px;
   right: 20px;
   white-space: nowrap;
   z-index: 9;
@@ -1363,15 +1341,11 @@ a:hover {
       display: flex;
     }
 
-    img {
-      height: 20px;
-    }
-
     flex-direction: column;
     background-color: $background-color;
-    padding: 8px;
-    border-radius: 8px 8px 0 0;
-    border-top: 4px solid $main-color;
+    padding: 10px 15px 10px 15px;
+    border-radius: 6px 6px 0 0;
+    border-top: 1px solid $main-color;
     border-right: 1px solid $main-color;
     border-left: 1px solid $main-color;
     transition: all ease-in 0.2s;
@@ -1385,34 +1359,54 @@ a:hover {
     }
 
     &:hover {
-      transform: translateY(-100%) !important;
+      transform: translateY(0) !important;
 
       .fa {
         transform: rotateZ(180deg);
       }
 
-      .first-line {
-        font-size: 18px;
-      }
-
-      img {
-        height: 100%;
-      }
     }
 
     .first-line {
       display: flex;
       flex-direction: row;
       align-items: center;
-      font-size: 12px;
+      font-size: 1.0rem;
       font-weight: bolder;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
 
       * {
         &:last-child {
           margin-left: auto;
         }
       }
+    }
+
+    .instruction b {
+      display: block;
+      margin-bottom: 20px;
+      font-size: 1.0rem;
+    }
+
+    .instruction p {
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hotkey-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background-color: #e9ecef;
+      border-radius: 6px;
+      font-weight: normal;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      font-family: mono, monospace;
     }
   }
 }
