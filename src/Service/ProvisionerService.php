@@ -79,7 +79,7 @@ class ProvisionerService
                 't' => 'b',
                 'room' => $room->getId()
             ],
-            UrlGeneratorInterface::ABSOLUTE_URL,
+            UrlGeneratorInterface::ABSOLUTE_PATH,
         );
         $this->websocketService->sendRedirectLocal(
             self::WEBSOCKET_TOPIC_NAME . $room->getUidReal(),

@@ -19,6 +19,10 @@ final class ProvisionerController extends AbstractController
     #[Route('/provision/{uidReal}', name: 'app_provisioner_create')]
     public function create(Rooms $room): Response
     {
+        if ($room->getServer()->isAllowedToCloneForAutoscale() === null) {
+            return $this->redirectToRoute('room_join', ['t' => 'b', 'room' => $room->getId()]);
+        }
+
         $this->provisionerService->provisionNewServerForRoom($room);
 
         return $this->redirectToRoute('app_provisioner_wait', ['uidReal' => $room->getUidReal()]);
@@ -28,6 +32,10 @@ final class ProvisionerController extends AbstractController
     #[Route('/provision/{uidReal}/wait', name: 'app_provisioner_wait')]
     public function wait(Rooms $room): Response
     {
+        if ($room->getServer()->isAllowedToCloneForAutoscale() === null) {
+            return $this->redirectToRoute('room_join', ['t' => 'b', 'room' => $room->getId()]);
+        }
+
         return $this->render('provisioner/wait.html.twig', [
             'room' => $room,
         ]);
