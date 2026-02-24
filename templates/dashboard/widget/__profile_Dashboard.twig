@@ -11,6 +11,13 @@
                     </a>
                 {% endif %}
             {% endif %}
+            <a class="btn btn-outline-secondary btn-dashboard toggleDarkmode" href="#" title="{{ 'Darkmode'|trans }}">
+                {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                    <i class="fas fa-moon"></i>
+                {% else %}
+                    <i class="fas fa-sun"></i>
+                {% endif %}
+            </a>
             <a class="btn btn-outline-secondary btn-dashboard" data-mdb-modal-init data-mdb-target="#sideModalTR" id="toggleProfile" title="{{ 'Einstellungen'|trans }}">
                 <i class="fa-solid fa-gear"></i>
             </a>

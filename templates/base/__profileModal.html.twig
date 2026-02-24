@@ -9,189 +9,255 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-
-
-                                    <div class="picture me-2 "
-                                         style="min-width: 4em; max-width: 4em; height: 4em; border-radius: 5000px; overflow: hidden">
-
-
-                                        {% if app.user.profilePicture %}
-
-                                            <img src="{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}"
-                                                 class="pic-content w-100 h-100" style="object-fit: cover">
-
-                                        {% else %}
-                                            <div class="d-flex justify-content-center align-items-center w-100 h-100 pic-content"
-                                                 style="background-color: #{{ app.user.username|colorFromString }}; color: white; font-size: 2em">
-                                                {{ app.user|nameOfUserNoSymbol[:2]|upper }}
-                                            </div>
-
-
-                                        {% endif %}
-
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            {% if getApplicationProperties('LAF_HIDE_PROFILEPICTURE') == 0 %}
+                            <a href="{{ path('profile_image_change') }}" class="loadContent me-3" style="text-decoration: none;">
+                            {% endif %}
+                            <div class="picture {{ getApplicationProperties('LAF_HIDE_PROFILEPICTURE') == 0 ? '' : 'me-3' }}"
+                                 style="min-width: 4em; max-width: 4em; height: 4em; border-radius: 6px; overflow: hidden; cursor: {{ getApplicationProperties('LAF_HIDE_PROFILEPICTURE') == 0 ? 'pointer' : 'default' }}">
+                                {% if app.user.profilePicture %}
+                                    <img src="{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}"
+                                         class="pic-content w-100 h-100" style="object-fit: cover">
+                                {% else %}
+                                    <div class="d-flex justify-content-center align-items-center w-100 h-100 pic-content"
+                                         style="background-color: #{{ app.user.username|colorFromString }}; color: white; font-size: 2em">
+                                        {{ app.user|nameOfUserNoSymbol[:2]|upper }}
                                     </div>
-                                    <div class="d-flex flex-column">
-
-
-                                        <p class="mb-0">{% if theme != false %}{{ theme.nameIdentifier }}: {% endif %} {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}</p>
-                                        <p class="mb-0">
-                                            <small>{% if theme != false %}{{ theme.usernameIdentifier }}: {% endif %}{{ app.user.userIdentifier }}</small>
-                                        </p>
-                                        {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
-                                            <p><small>
-                                                    {% if  theme != false %}{{ theme.timeZoneIdentifier }}{% endif %}
-                                                    : {{ app.user.timeZone }}
-                                                </small></p>
-                                        {% endif %}
+                                {% endif %}
+                            </div>
+                            {% if getApplicationProperties('LAF_HIDE_PROFILEPICTURE') == 0 %}
+                            </a>
+                            {% endif %}
+                            <div class="d-flex flex-column">
+                                <p class="mb-0">{{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }} ({{ app.user.userIdentifier }})</p>
+                                <div class="mb-0 text-black-50 small">
+                                    {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
+                                        {{ app.user.timeZone }}
+                                        <span class="mx-1">|</span>
+                                    {% endif %}
+                                    {% set localeNames = {
+                                        'de': 'Deutsch',
+                                        'en': 'English',
+                                        'fr': 'Français',
+                                        'es': 'Español',
+                                        'vi': 'Tiếng Việt',
+                                        'zh': '中国人',
+                                        'ja': '日本',
+                                        'ru': 'Русский',
+                                        'pt': 'Português'
+                                    } %}
+                                    <div class="dropdown language-dropdown d-inline-block">
+                                        <a class="dropdown-toggle text-black-50 text-decoration-underline"
+                                           data-mdb-dropdown-init
+                                           aria-haspopup="true"
+                                           aria-expanded="false"
+                                           style="cursor: pointer;">
+                                            {{ localeNames[app.request.locale]|default(app.request.locale|upper) }}
+                                        </a>
+                                        <div class="dropdown-menu language-dropdown-menue">
+                                            {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages) %}
+                                                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}">Deutsch</a>
+                                            {% endif %}
+                                            {% if theme == false or (theme is not null and 'en' in theme.profileAllowLanguages) %}
+                                                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}">English</a>
+                                            {% endif %}
+                                            {% if theme == false or (theme is not null and 'fr' in theme.profileAllowLanguages) %}
+                                                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}">Français</a>
+                                            {% endif %}
+                                            {% if theme == false or (theme is not null and 'es' in theme.profileAllowLanguages) %}
+                                                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}">Español</a>
+                                            {% endif %}
+                                            {% if theme == false or (theme is not null and 'vi' in theme.profileAllowLanguages) %}
+                                                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}">Tiếng Việt</a>
+                                            {% endif %}
+                                            {% if theme == false or (theme is not null and 'zh' in theme.profileAllowLanguages) %}
+                                                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}">中国人</a>
+                                            {% endif %}
+                                            {% if theme == false or (theme is not null and 'ja' in theme.profileAllowLanguages) %}
+                                                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ja"}) }}">日本</a>
+                                            {% endif %}
+                                            {% if theme == false or (theme is not null and 'ru' in theme.profileAllowLanguages) %}
+                                                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ru"}) }}">Русский</a>
+                                            {% endif %}
+                                            {% if theme == false or (theme is not null and 'pt' in theme.profileAllowLanguages) %}
+                                                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "pt"}) }}">Português</a>
+                                            {% endif %}
+                                        </div>
                                     </div>
+                                </div>
+                                <p class="mb-0 small">
+                                    {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
+                                        <a href="{{ path('connect_keycloak_edit') }}" target="_blank" class="text-black-50 text-decoration-underline">{% trans %}Profil bearbeiten{% endtrans %}</a>
+                                    {% endif %}
+                                    {% if (theme == false  or (theme is not null and theme.profileAllowEdit == true  )) and (theme == false  or (theme is not null and theme.profileAllowPasswortreset == true  )) %}
+                                        <span class="text-black-50 mx-1">|</span>
+                                    {% endif %}
+                                    {% if theme == false  or (theme is not null and theme.profileAllowPasswortreset == true  ) %}
+                                        <a href="{{ path('connect_keycloak_password') }}" target="_blank" class="text-black-50 text-decoration-underline">{% trans %}Passwort ändern{% endtrans %}</a>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion" id="profileAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingDeputies">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-mdb-collapse-init data-mdb-target="#collapseDeputies"
+                                    aria-expanded="false" aria-controls="collapseDeputies">
+                                {{ 'deputy.mydebutys'|trans }}
+                            </button>
+                        </h2>
+                        <div id="collapseDeputies" class="accordion-collapse collapse" aria-labelledby="headingDeputies">
+                            <div class="accordion-body">
+                                <ul class="list-group">
+                                    {% for d in app.user.deputy %}
+                                        <li class="list-inline-item">{{ d|nameOfUserNoSymbol }}</li>
+                                    {% else %}
+                                        <li class="list-inline-item text-black-50">-</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTimeaway">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-mdb-collapse-init data-mdb-target="#collapseTimeaway"
+                                    aria-expanded="false" aria-controls="collapseTimeaway">
+                                {{ 'input.help.timeaway'|trans }}
+                            </button>
+                        </h2>
+                        <div id="collapseTimeaway" class="accordion-collapse collapse" aria-labelledby="headingTimeaway">
+                            <div class="accordion-body">
+                                <div class="input-group">
+                                    <input type="number" id="awayTimeField" class="form-control"/>
+                                    <span class="input-group-text">{{ 'Minuten'|trans }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        {% if getApplicationProperties('LAF_HIDE_PROFILEPICTURE') == 0 %}
-                            <p class="mb-0"><a
-                                        href="{{ path('profile_image_change') }}"
-                                        class="loadContent">{% trans %}Profilbild ändern{% endtrans %}</a></p>
-                        {% endif %}
-                        {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
-                            <p class="mb-0"><a
-                                        href="{{ path('connect_keycloak_edit') }}"
-                                        target="_blank">{% trans %}Profil bearbeiten{% endtrans %}</a></p>
-                        {% endif %}
-                        {% if theme == false  or (theme is not null and theme.profileAllowPasswortreset == true  ) %}
-                            <p><a
-                                        href="{{ path('connect_keycloak_password') }}"
-                                        target="_blank">{% trans %}Passwort ändern{% endtrans %}</a></p>
-                        {% endif %}
-                    </div>
-                </div>
-
-
-                <div class="form-check form-switch">
-                    <input class="form-check-input switchDarkmode" type="checkbox" role="switch" id="switchDarkmode2"
-                            {{ app.request.cookies.get('DARK_MODE') }}
-                            {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                    checked
-                            {% endif %}/>
-                    <label class="form-check-label" for="switchDarkmode2">
-                       {{ 'Darkmode'|trans }}
-                    </label>
-                </div>
-
-                <div class="mt-3 mb-3">
-                    {{ include('base/__languageDropdown.html.twig') }}
-                </div>
-
-                <a href="#" class="caretdown after"
-
-                   data-mdb-collapse-init
-                   data-mdb-target="#mydeputies"
-                   aria-expanded="false"
-                   aria-controls="mydeputies">
-                    {{ 'deputy.mydebutys'|trans }}
-                </a>
-                <div class="collapse" id="mydeputies">
-                    <ul class="list-group">
-                        {% for d in app.user.deputy %}
-                            <li class="list-inline-item">{{ d|nameOfUserNoSymbol }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-lg-12">
-                        <div class="mb-3">
-                            <b>{{ 'input.help.timeaway'|trans }}</b>
-                        </div>
-                        <div class="input-group  mb-3">
-                            <input type="number" id="awayTimeField" class="form-control"/>
-                            <span class="input-group-text">{{ 'Minuten'|trans }}</span>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                {% if secondEmailForm is defined %}
-                    {{ form_start(secondEmailForm) }}
-                    <div class="row">
-                        {% if secondEmailForm.secondEmail is defined %}
-                            <div class="col-12 mb-3">
-                                {{ form_row(secondEmailForm.secondEmail) }}
-                            </div>
-                        {% endif %}
-                        {% if secondEmailForm.timeZone is defined %}
-                            <div class="col-12 mb-3">
-                                {{ form_row(secondEmailForm.timeZone) }}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-end">
-                            {{ form_widget(secondEmailForm.submit) }}
-                        </div>
-                    </div>
-                    {{ form_rest(secondEmailForm) }}
-                    {{ form_end(secondEmailForm) }}
-                    <hr>
-                {% else %}
-                    <a class="btn btn-primary  loadContent"
-                       href="{{ path('second_email_change') }}"
-                       target="_blank">{{ 'second.email.title'|trans }}</a>
-                {% endif %}
-                {% if getApplicationProperties('profileHideiCalLink') != true %}
-                    <div class="row">
-                        <div class="col-lg-12 mt-3">
-                            <div class="mb-3">
-                                <b>{{ 'iCal Link'|trans }}</b><br>
-                                <a href="https://h2-invent.com/post/howtos/ical-link-kalender-importieren">
-                                    {{ 'help.ical.Link'|trans }}
-                                </a>
-                            </div>
-                            <div class="input-group mb-3">
-                                <input id="linkical" readonly type="text" class="form-control"
-                                       value="{{ httpsAbolutUrl(path('ical',{ 'id':app.user.uid })) }}">
-                                <button class="btn btn-md btn-outline-primary  waves-effect copyLink"
-                                        type="button" data-clipboard-target="#linkical"><i
-                                            class="fa-regular fa-copy"></i>
+                    {% if secondEmailForm is defined %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingPersonal">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-mdb-collapse-init data-mdb-target="#collapsePersonal"
+                                        aria-expanded="false" aria-controls="collapsePersonal">
+                                    {{ 'second.email.title'|trans }}
                                 </button>
+                            </h2>
+                            <div id="collapsePersonal" class="accordion-collapse collapse" aria-labelledby="headingPersonal">
+                                <div class="accordion-body">
+                                    {{ form_start(secondEmailForm) }}
+                                    <div class="row">
+                                        {% if secondEmailForm.secondEmail is defined %}
+                                            <div class="col-12 mb-3">
+                                                <div class="mb-3">
+                                                    <b>{{ 'CC-E-Mail'|trans }}</b>
+                                                </div>
+                                                {{ form_row(secondEmailForm.secondEmail) }}
+                                            </div>
+                                        {% endif %}
+                                        {% if secondEmailForm.timeZone is defined %}
+                                            <div class="col-12 mb-3">
+                                                <div class="mb-3">
+                                                    <b>{{ 'Zeitzone einstellen'|trans }}</b>
+                                                </div>
+                                                {{ form_row(secondEmailForm.timeZone) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 d-flex justify-content-end">
+                                            {{ form_widget(secondEmailForm.submit) }}
+                                        </div>
+                                    </div>
+                                    {{ form_rest(secondEmailForm) }}
+                                    {{ form_end(secondEmailForm) }}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endif %}
+                    {% else %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <a class="btn btn-primary loadContent d-block"
+                                   href="{{ path('second_email_change') }}"
+                                   target="_blank">{{ 'second.email.title'|trans }}</a>
+                            </h2>
+                        </div>
+                    {% endif %}
 
-                {% if getApplicationProperties('LAF_SHOW_CALENDLY') != false %}
-                <hr>
-                <div class="mb-3">
-                    <b>{{ 'calendly.header'|trans }}</b><br>
-                    <a href="https://calendly.com/" target="_blank">
-                        {{ 'calendly.link.text'|trans }}
-                    </a>
+                    {% if getApplicationProperties('profileHideiCalLink') != true %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingIcal">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-mdb-collapse-init data-mdb-target="#collapseIcal"
+                                        aria-expanded="false" aria-controls="collapseIcal">
+                                    {{ 'iCal Link'|trans }}
+                                </button>
+                            </h2>
+                            <div id="collapseIcal" class="accordion-collapse collapse" aria-labelledby="headingIcal">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <a href="https://h2-invent.com/post/howtos/ical-link-kalender-importieren">
+                                            {{ 'help.ical.Link'|trans }}
+                                        </a>
+                                    </div>
+                                    <div class="input-group">
+                                        <input id="linkical" readonly type="text" class="form-control"
+                                               value="{{ httpsAbolutUrl(path('ical',{ 'id':app.user.uid })) }}">
+                                        <button class="btn btn-md btn-outline-primary waves-effect copyLink"
+                                                type="button" data-clipboard-target="#linkical"><i
+                                                    class="fa-regular fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if getApplicationProperties('LAF_SHOW_CALENDLY') != false %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingCalendly">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-mdb-collapse-init data-mdb-target="#collapseCalendly"
+                                        aria-expanded="false" aria-controls="collapseCalendly">
+                                    {{ 'calendly.header'|trans }}
+                                </button>
+                            </h2>
+                            <div id="collapseCalendly" class="accordion-collapse collapse" aria-labelledby="headingCalendly">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <a href="https://calendly.com/" target="_blank">
+                                            {{ 'calendly.link.text'|trans }}
+                                        </a>
+                                    </div>
+                                    {% if not app.user.calendlySucessfullyAdded %}
+                                        <a href="{{ path('app_calendly_webhook_connect') }}" class="btn btn-primary d-block loadContent">
+                                            {{ 'calendly.connection.isNotConnected'|trans }}
+                                        </a>
+                                    {% else %}
+                                        <h5><span class="badge badge-success">{{ 'calendly.connection.connected'|trans }}</span></h5>
+                                        <a href="{{ path('app_calendly_webhook_remove') }}">{{ 'callendly.disconnect'|trans }}</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
-                {% if not app.user.calendlySucessfullyAdded %}
-                <a href="{{ path('app_calendly_webhook_connect') }}" class="btn btn-danger loadContent">
-                        {{ 'calendly.connection.isNotConnected'|trans }}
-                </a><br>
-                {% else %}
-                    <h5> <span class="badge badge-success">{{'calendly.connection.connected'|trans }}</span></h5>
-                    <a href="{{ path('app_calendly_webhook_remove') }}">{{ 'callendly.disconnect'|trans }}</a>
-                {% endif %}
-                {% endif %}
             </div>
 
 
             <div class="modal-footer">
                 {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
                     <a href="{{ path('logout_keycloak') }}"
-                       class="btn btn-block btn-danger btn-sm">{{ 'Logout'|trans }}</a>
+                       class="btn btn-block btn-outline-primary btn-sm bg-white">{{ 'Logout'|trans }}</a>
                 {% endif %}
             </div>
         </div>

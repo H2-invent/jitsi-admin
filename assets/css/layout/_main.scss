@@ -1228,10 +1228,15 @@ a:hover {
   }
 }
 
-.form-control, .form-check-input {
-  border-color: $main-color;
+.form-control, .form-check-input, .form-select, .input-group-text {
+  border-color: var(--color-button);
   border-radius: 8px;
-  border-width: 3px;
+  border-width: 1px !important;
+
+  &:focus, &:active, &:hover, &:checked {
+    border-color: var(--color-button) !important;
+    box-shadow: none !important;
+  }
 }
 
 .form-check-input {
@@ -1241,13 +1246,8 @@ a:hover {
 
 .btn-outline-white {
   border-color: white;
-  border-width: 3px;
+  border-width: 1px !important;
   color: white;
-}
-
-.input-group-text {
-  border-color: $main-color;
-  border-width: 3px;
 }
 
 .input-group {
@@ -1267,7 +1267,7 @@ a:hover {
   }
 
   .btn {
-    border-width: 3px;
+    border-width: 1px;
   }
 
   > :not(:last-child) {
@@ -1316,6 +1316,16 @@ a:hover {
       width: 100%;
       margin-right: 0;
     }
+  }
+
+  .accordion-button:not(.collapsed) {
+    color: var(--color-button);
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .accordion-button:focus {
+    box-shadow: none;
   }
 
 }
