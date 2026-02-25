@@ -47,7 +47,7 @@
         </div>
         <div class="main">
             <div class="w-100 overflow-auto">
-                <div class="border-bottom">
+                <div class="border-bottom py-2">
                     <div class="container">
                         <div class="d-flex flex-wrap w-100 py-2 justify-content-between align-items-center">
                             <div class="d-flex flex-wrap align-items-center">
@@ -55,39 +55,39 @@
                                    data-mdb-modal-init
                                    data-mdb-target="#modalAdressbook"
                                    id="toggleAdressbook">
-                                    <i class="fa fa-address-book"></i>
+                                    <i class="fa fa-address-book me-1"></i>
                                     {{ 'Adressbuch'|trans }}
                                 </a>
                             </div>
                             <div class="d-flex flex-wrap justify-content-end">
-                            {% if input_settings_allow_sheduling == 1 %}
-                                {#                        <div class="col-12 col-md-6 flex-fill mb-3 p-0 pe-md-1 ps-md-1"> #}
-                                <div class="">
-                                    <div class="btnGroup">
-                                        <a href="{{ path('room_new') }}"
-                                           class="loadContent dashboardBtn btn-primary btn btn-dashboard"
-                                           id="createNewConference">
-                                            {{ 'Eine Konferenz planen'|trans }}
-                                        </a>
-                                        {% if publicServer is defined and publicServer is not null %}
-                                            <a href="{{ path('app_create_fast_confernce') }}"
-                                               class=" loadInMultiframe dashboardBtn btn-primary btn btn-dashboard"
-                                               id="createNewFastConference">
-                                                {{ 'Sofort Konferenz'|trans }}
+                                {% if input_settings_allow_sheduling == 1 %}
+                                    {#                        <div class="col-12 col-md-6 flex-fill mb-3 p-0 pe-md-1 ps-md-1"> #}
+{#                                    <div class="">#}
+    {#                                    <div class="btnGroup">#}
+                                            <a href="{{ path('room_new') }}"
+                                               class="loadContent dashboardBtn btn-primary btn btn-dashboard"
+                                               id="createNewConference">
+                                                {{ 'Eine Konferenz planen'|trans }}
                                             </a>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% if input_settings_allow_roomPlanning == 1 %}
-                                {#                        <div class="col-12 col-md-6 flex-fill mb-3 p-0 pe-md-0 ps-md-1"> #}
-                                <div>
-                                    <a href="{{ path('schedule_admin_new') }}"
-                                       class="loadContent dashboardBtn btn btn-outline-primary btn-dashboard">
-                                        <i class="fas fa-calendar me-1"></i> {{ 'Einen Termin finden'|trans }}
-                                    </a>
-                                </div>
-                            {% endif %}
+                                            {% if publicServer is defined and publicServer is not null %}
+                                                <a href="{{ path('app_create_fast_confernce') }}"
+                                                   class=" loadInMultiframe dashboardBtn btn-primary btn btn-dashboard"
+                                                   id="createNewFastConference">
+                                                    {{ 'Sofort Konferenz'|trans }}
+                                                </a>
+                                            {% endif %}
+    {#                                    </div>#}
+{#                                    </div>#}
+                                {% endif %}
+                                {% if input_settings_allow_roomPlanning == 1 %}
+                                    {#                        <div class="col-12 col-md-6 flex-fill mb-3 p-0 pe-md-0 ps-md-1"> #}
+{#                                    <div>#}
+                                        <a href="{{ path('schedule_admin_new') }}"
+                                           class="loadContent dashboardBtn btn btn-outline-primary btn-dashboard">
+                                            <i class="fas fa-calendar me-1"></i> {{ 'Einen Termin finden'|trans }}
+                                        </a>
+{#                                    </div>#}
+                                {% endif %}
                             </div>
                         </div>
                     </div>

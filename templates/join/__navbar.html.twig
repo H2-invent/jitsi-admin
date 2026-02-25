@@ -2,33 +2,34 @@
 
     <div class="d-flex me-1 align-items-center">
         <li class="nav-item me-2">
-            <a href="{{ path('dashboard') }}" class="btn btn-outline-primary">{{ 'Login'|trans }}</a>
-        </li>
-        <li class="nav-item d-flex align-items-center me-4">
-            <div class="d-flex justify-content-end">
-
-                <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
-                <div class="form-check form-switch">
-                    <input class="form-check-input switchDarkmode" type="checkbox" role="switch" id="switchDarkmode2"
-                            {% if app.request is not null %}
-                            {{ app.request.cookies.get('DARK_MODE') }}
-                        {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                            checked
-                        {% endif %}
-                            {% endif %}/>
-                    <label class="form-check-label" for="switchDarkmode2">
-                        <i class="fas fa-moon"></i>
-                    </label>
-                </div>
-            </div>
+            <a href="{{ path('dashboard') }}" class="btn btn-primary">{{ 'Login'|trans }}</a>
         </li>
 
+{#        <li class="nav-item d-flex align-items-center me-4">#}
+{#            <div class="d-flex justify-content-end">#}
 
-        <li class="nav-item dropdown language-dropdown">
-            {% if app.request %}
-                {{ include('base/__languageDropdown.html.twig') }}
-            {% endif %}
-        </li>
+{#                <span class="me-2"><i class="fas fa-sun brightmode"></i></span>#}
+{#                <div class="form-check form-switch">#}
+{#                    <input class="form-check-input switchDarkmode" type="checkbox" role="switch" id="switchDarkmode2"#}
+{#                            {% if app.request is not null %}#}
+{#                            {{ app.request.cookies.get('DARK_MODE') }}#}
+{#                        {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}#}
+{#                            checked#}
+{#                        {% endif %}#}
+{#                            {% endif %}/>#}
+{#                    <label class="form-check-label" for="switchDarkmode2">#}
+{#                        <i class="fas fa-moon"></i>#}
+{#                    </label>#}
+{#                </div>#}
+{#            </div>#}
+{#        </li>#}
+
+
+{#        <li class="nav-item dropdown language-dropdown">#}
+{#            {% if app.request %}#}
+{#                {{ include('base/__languageDropdown.html.twig') }}#}
+{#            {% endif %}#}
+{#        </li>#}
     </div>
 </ul>
 

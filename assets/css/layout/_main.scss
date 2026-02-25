@@ -83,7 +83,7 @@ a {
 .btn-dashboard {
   font-size: 1em;
   padding: 8px 20px;
-  margin-left: 8px;
+  margin-left: 6px;
 
   &.btn-outline-primary {
     border-width: 1px;
@@ -99,7 +99,7 @@ a {
 }
 
 .card .btn {
-  margin-left: 5px;
+  //margin-left: 5px;
 }
 
 
@@ -170,6 +170,7 @@ strong {
   }
 
   .navigation {
+    height: 64px !important;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -180,7 +181,7 @@ strong {
     align-items: center;
     z-index: 5;
     background-color: white;
-    height: fit-content;
+    //height: fit-content;
     border-bottom: 1px solid #dee2e6;
 
     .container {
@@ -227,17 +228,21 @@ strong {
     justify-content: start;
     z-index: 5;
     border-top: 1px solid #dee2e6;
+    height: 50px;
 
     ul {
       list-style: none;
       margin: 6px 0 0;
-
-      .nav-link {
-        color: rgba(0, 0, 0, 0.5);
-        word-break: break-word;
-        font-size: 13px;
-        @media only screen and (max-width: 576px) {
-          font-size: smaller;
+      padding: 0;
+      li {
+        display: inline-block;
+        .nav-link {
+          color: rgba(0, 0, 0, 0.5);
+          word-break: break-word;
+          font-size: 13px;
+          @media only screen and (max-width: 576px) {
+            font-size: smaller;
+          }
         }
       }
     }

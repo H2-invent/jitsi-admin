@@ -1,28 +1,24 @@
-<div class="row mt-3 justify-content-center removeInIframe">
+<div class="mt-5 removeInIframe text-center text-black-50 small">
 
     {% if theme == false or (theme is not null and theme.allowHomePage == true) %}
-        <div class="col-md-3">
-            <a href="{{ path('index') }}"
-               class="btn btn-outline-elegant btn-sm w-100">{{ 'Startseite'|trans }}</a>
-        </div>
+{#        <div class="col-md-3">#}
+            <a href="{{ path('index') }}" class="text-black-50 small">{{ 'Startseite'|trans }}</a>
+{#        </div>#}
     {% endif %}
     {% if theme == false or (theme is not null and theme.allowDashboard == true) %}
-        <div class="col-md-3">
-            <a href="{{ path('dashboard') }}"
-               class="btn btn-outline-elegant btn-sm w-100">{{ 'Dashboard'|trans }}</a>
-        </div>
+{#        <div class="col-md-3">#}
+            | <a href="{{ path('dashboard') }}" class="text-black-50 small">{{ 'Dashboard'|trans }}</a>
+{#        </div>#}
     {% endif %}
     {% if theme == false or (theme is not null and theme.allowRegister == true) %}
-        <div class="col-md-3">
-            <a href="{{ path('register_keycloak') }}"
-               class="btn btn-outline-elegant btn-sm w-100">{{ 'Registrieren'|trans }}</a>
-        </div>
+{#        <div class="col-md-3">#}
+            | <a href="{{ path('register_keycloak') }}" class="text-black-50 small">{{ 'Registrieren'|trans }}</a>
+{#        </div>#}
     {% endif %}
     {% if theme == false or (theme is not null and theme.allowHelp == true) %}
-        <div class="col-md-3">
-            <a href="{{ helpUrlParticipants }}" target="_blank"
-               class="btn btn-outline-elegant btn-sm w-100">{{ 'Hilfe'|trans }}</a>
-        </div>
+{#        <div class="col-md-3">#}
+            | <a href="{{ helpUrlParticipants }}" class="text-black-50 small" target="_blank">{{ 'Hilfe'|trans }}</a>
+{#        </div>#}
     {% endif %}
 </div>
 
