@@ -1513,29 +1513,41 @@ a:hover {
 .chip {
   display: flex;
   padding: 0 1em 0 0;
-  border-radius: 1000px;
+  border-radius: 6px;
   white-space: nowrap;
+  cursor: pointer;
 
-  &.btn-outline-success .symbol {
-    background-color: $success-color;
-    border-color: $success-color;
+  &.btn-outline-success {
+    border: 1px solid $success-color;
+
+    .symbol {
+      background-color: transparent;
+      color: $success-color;
+    }
   }
 
-  &.btn-outline-danger .symbol {
-    background-color: $danger-color;
-    border-color: $danger-color;
+  &.btn-outline-danger {
+    border: 1px solid $danger-color;
+
+    .symbol {
+      background-color: transparent;
+      color: $danger-color;
+    }
   }
 
-  &.btn-outline-warning .symbol {
-    background-color: $warning-color;
-    border-color: $warning-color;
+  &.btn-outline-warning {
+    border: 1px solid $warning-color;
+
+    .symbol {
+      background-color: transparent;
+      color: $warning-color;
+    }
   }
 
   .symbol {
     padding-right: 0.5em;
     padding-left: 0.5em;
-    color: white;
-    border-radius: 1000px;
+    border-radius: 4px 0 0 4px;
     margin-right: 0.5em;
   }
 
@@ -1580,6 +1592,29 @@ a:hover {
 
 .list-group-item {
   background-color: unset;
+}
+
+#scheduleSlots {
+  * {
+    box-shadow: none !important;
+  }
+
+  .list-group-item {
+    border-width: 1px;
+    padding: 0.5rem 1rem;
+
+    & + .list-group-item {
+      margin-top: -1px;
+    }
+  }
+
+  .chip {
+    border-width: 1px;
+  }
+
+  .btn {
+    border-width: 1px;
+  }
 }
 
 .w-md-75 {
