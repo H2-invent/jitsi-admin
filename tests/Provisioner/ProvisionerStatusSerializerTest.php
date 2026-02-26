@@ -20,7 +20,7 @@ class ProvisionerStatusSerializerTest extends KernelTestCase
     private const STATUS_APP_SECRET = null;
     private const STATUS_URL = 'url';
     private const STATUS_PAYLOAD = [
-        'body' => '{"room_id":"6bc5bd4df9dae5a3c0ebdb4244bdaf6b","type":"provision","status":"ready","name":"name","app_id":"app_id","app_secret":null,"url":"url"}',
+        'body' => '{"room_id":"6bc5bd4df9dae5a3c0ebdb4244bdaf6b","type":"provision","status":"done","name":"name","app_id":"app_id","app_secret":null,"url":"url"}',
         'headers' => [
             'Content-Type' => 'application/json'
         ],
