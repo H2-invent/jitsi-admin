@@ -7,6 +7,7 @@ use App\Entity\Rooms;
 use App\Message\ProvisionerRequest\RequestType;
 use App\Message\ProvisionerRequestMessage;
 use App\Message\ProvisionerStatusMessage;
+use App\Repository\RoomsRepository;
 use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
@@ -23,6 +24,7 @@ class ProvisionerService
         private UrlGeneratorInterface $urlGenerator,
         private EntityManagerInterface $entityManager,
         private ServerService $serverService,
+        private RoomsRepository $roomsRepository,
     )
     {
     }
@@ -30,13 +32,23 @@ class ProvisionerService
     public function provisionNewServerForRoom(Rooms $room): void
     {
         $this->saveOriginalServer($room);
-        $this->sendProvisionerRequest($room);
+        $this->sendProvisionRequest($room);
     }
 
     public function saveNewServerAndRedirect(Rooms $room, ProvisionerStatusMessage $statusMessage): void
     {
         $this->saveNewServer($room, $statusMessage);
         $this->sendWebsocketRedirect($room);
+    }
+
+    public function cleanupUnusedProvisionedServers(): int
+    {
+        $rooms = $this->roomsRepository->findRoomsWhoseProvisionedServerCanBeDeleted();
+        foreach ($rooms as $room) {
+            $this->sendDeleteRequest($room);
+        }
+
+        return count($rooms);
     }
 
     public function removeServerAndRestoreOriginal(Rooms $room): void
@@ -62,13 +74,22 @@ class ProvisionerService
         $this->entityManager->flush();
     }
 
-    private function sendProvisionerRequest(Rooms $room): void
+    private function sendProvisionRequest(Rooms $room): void
     {
         $provisionMessage = new ProvisionerRequestMessage(
             $room->getUidReal(),
             RequestType::PROVISION,
         );
         $this->messageBus->dispatch($provisionMessage);
+    }
+
+    private function sendDeleteRequest(Rooms $room): void
+    {
+        $deletionMessage = new ProvisionerRequestMessage(
+            $room->getUidReal(),
+            RequestType::DELETION,
+        );
+        $this->messageBus->dispatch($deletionMessage);
     }
 
     public function sendWebsocketRedirect(Rooms $room): void

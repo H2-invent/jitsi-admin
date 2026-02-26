@@ -51,9 +51,15 @@ final class ProvisionerStatusMessageHandler
                 $this->logger->info("Provisioner status 'deleting' for roomId: {$message->room_id}");
 
                 return;
+
             case Status::DELETED:
                 $this->logger->info("Provisioner status 'deleted' for roomId: {$message->room_id}. Deleting server");
                 $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
+                if ($room === null) {
+                    $this->logger->info("Server was already deleted, should be no problem.");
+
+                    return;
+                }
                 $this->provisionerService->removeServerAndRestoreOriginal($room);
 
                 return;
