@@ -27,6 +27,31 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ProvisionerServiceTest extends KernelTestCase
 {
+    private array $entitiesToCleanup = [];
+
+    protected function tearDown(): void
+    {
+        $entityManager = self::getContainer()->get(EntityManagerInterface::class);
+        // Remove in reverse order to handle dependencies
+        foreach (array_reverse($this->entitiesToCleanup) as $entity) {
+            try {
+                $entityManager->remove($entity);
+            } catch (\Exception $e) {
+                // Entity may already be removed or not managed
+            }
+        }
+        $entityManager->flush();
+        $this->entitiesToCleanup = [];
+
+        parent::tearDown();
+    }
+
+    private function persistAndTrack(EntityManagerInterface $entityManager, object $entity): void
+    {
+        $entityManager->persist($entity);
+        $this->entitiesToCleanup[] = $entity;
+    }
+
     public function testProvisionNewInstance_sendsMessage(): void
     {
         self::bootKernel();
@@ -240,8 +265,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setDuration(60)
             ->setSequence(0)
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -286,8 +311,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setDuration(60)
             ->setSequence(0)
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -332,8 +357,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setDuration(60)
             ->setSequence(0)
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -379,8 +404,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setDuration(60)
             ->setSequence(0)
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -426,8 +451,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setDuration(60)
             ->setSequence(0)
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -487,10 +512,10 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setParticipantName('Test Participant')
             ->setEnteredRoomAt(new \DateTime())
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
-        $entityManager->persist($roomStatus);
-        $entityManager->persist($participant);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
+        $this->persistAndTrack($entityManager, $roomStatus);
+        $this->persistAndTrack($entityManager, $participant);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -550,10 +575,10 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setParticipantName('Test Participant')
             ->setEnteredRoomAt(new \DateTime())
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
-        $entityManager->persist($roomStatus);
-        $entityManager->persist($participant);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
+        $this->persistAndTrack($entityManager, $roomStatus);
+        $this->persistAndTrack($entityManager, $participant);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -613,10 +638,10 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setParticipantName('Test Participant')
             ->setEnteredRoomAt(new \DateTime())
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
-        $entityManager->persist($roomStatus);
-        $entityManager->persist($participant);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
+        $this->persistAndTrack($entityManager, $roomStatus);
+        $this->persistAndTrack($entityManager, $participant);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -662,8 +687,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setSequence(0)
             // No recording attached
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -714,9 +739,9 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setUser(null) // Recording without user
             ->setCreatedAt(new \DateTimeImmutable())
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
-        $entityManager->persist($recording);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
+        $this->persistAndTrack($entityManager, $recording);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -777,9 +802,9 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setUser($existingUser) // Active recording with user
             ->setCreatedAt(new \DateTimeImmutable())
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
-        $entityManager->persist($recording);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
+        $this->persistAndTrack($entityManager, $recording);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -833,9 +858,9 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setUpdatedAt(new \DateTime())
             // No participants added
         ;
-        $entityManager->persist($server);
-        $entityManager->persist($room);
-        $entityManager->persist($roomStatus);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
+        $this->persistAndTrack($entityManager, $roomStatus);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -897,10 +922,10 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setEnteredRoomAt(new \DateTime())
         ;
         // No recording
-        $entityManager->persist($server);
-        $entityManager->persist($room);
-        $entityManager->persist($roomStatus);
-        $entityManager->persist($participant);
+        $this->persistAndTrack($entityManager, $server);
+        $this->persistAndTrack($entityManager, $room);
+        $this->persistAndTrack($entityManager, $roomStatus);
+        $this->persistAndTrack($entityManager, $participant);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
