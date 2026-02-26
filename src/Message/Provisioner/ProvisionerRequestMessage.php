@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Message;
+namespace App\Message\Provisioner;
 
-use App\Message\ProvisionerRequest\RequestType;
-use App\Message\ProvisionerRequest\ServerFeature;
+use App\Message\Provisioner\Enum\ServerFeature;
+use App\Message\Provisioner\Enum\Type;
 use JsonSerializable;
 
 final class ProvisionerRequestMessage implements JsonSerializable
 {
     public function __construct(
         public readonly string $room_id,
-        public readonly RequestType $type,
+        public readonly Type $type,
         /** @var ServerFeature[] */
         public readonly ?array $server_features = null,
     )

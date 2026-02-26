@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Rooms;
-use App\Message\ProvisionerRequest\RequestType;
-use App\Message\ProvisionerRequestMessage;
-use App\Message\ProvisionerStatusMessage;
+use App\Message\Provisioner\Enum\Type;
+use App\Message\Provisioner\ProvisionerRequestMessage;
+use App\Message\Provisioner\ProvisionerStatusMessage;
 use App\Repository\RoomsRepository;
 use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,7 +78,7 @@ class ProvisionerService
     {
         $provisionMessage = new ProvisionerRequestMessage(
             $room->getUidReal(),
-            RequestType::PROVISION,
+            Type::PROVISION,
         );
         $this->messageBus->dispatch($provisionMessage);
     }
@@ -87,7 +87,7 @@ class ProvisionerService
     {
         $deletionMessage = new ProvisionerRequestMessage(
             $room->getUidReal(),
-            RequestType::DELETION,
+            Type::DELETION,
         );
         $this->messageBus->dispatch($deletionMessage);
     }

@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Message\Serializer;
 
-use App\Message\ProvisionerStatus\Status;
-use App\Message\ProvisionerStatusMessage;
+use App\Message\Provisioner\Enum\Status;
+use App\Message\Provisioner\Enum\Type;
+use App\Message\Provisioner\ProvisionerStatusMessage;
 use App\Service\RsaEncryptionService;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
@@ -30,6 +31,7 @@ class ProvisionerStatusSerializer implements SerializerInterface
         return new Envelope(
             new ProvisionerStatusMessage(
                 $data['room_id'],
+                Type::from($data['type']),
                 Status::from($data['status']),
                 $data['name'] ?? null,
                 $data['app_id'] ?? null,

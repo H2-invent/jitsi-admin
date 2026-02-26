@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Message\ProvisionerRequest;
+namespace App\Message\Provisioner\Enum;
 
-enum RequestType: string
+enum Type: string
 {
     case PROVISION = 'provision';
     case DELETION = 'deletion';

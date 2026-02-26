@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Message;
+namespace App\Message\Provisioner;
 
-use App\Message\ProvisionerStatus\Status;
+use App\Message\Provisioner\Enum\Status;
+use App\Message\Provisioner\Enum\Type;
 
 final class ProvisionerStatusMessage implements \JsonSerializable
 {
     public function __construct(
         public readonly string $room_id,
+        public readonly Type $type,
         public readonly Status $status,
         public readonly ?string $name = null,
         public readonly ?string $app_id = null,
@@ -21,6 +23,7 @@ final class ProvisionerStatusMessage implements \JsonSerializable
     {
         return [
             'room_id' => $this->room_id,
+            'type' => $this->type->value,
             'status' => $this->status->value,
             'name' => $this->name,
             'app_id' => $this->app_id,

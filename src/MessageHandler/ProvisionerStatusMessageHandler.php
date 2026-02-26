@@ -2,8 +2,8 @@
 
 namespace App\MessageHandler;
 
-use App\Message\ProvisionerStatus\Status;
-use App\Message\ProvisionerStatusMessage;
+use App\Message\Provisioner\Enum\Status;
+use App\Message\Provisioner\ProvisionerStatusMessage;
 use App\Repository\RoomsRepository;
 use App\Service\ProvisionerService;
 use Psr\Log\LoggerInterface;

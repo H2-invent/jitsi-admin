@@ -49,5 +49,5 @@ framework:
       App\Message\CustomMailerMessage: async
       App\Message\LobbyLeaverMessage: async
       App\Message\TestMessage: test
-      App\Message\ProvisionerStatusMessage: provisioner_status
-      App\Message\ProvisionerRequestMessage: provisioner_request
+      App\Message\Provisioner\ProvisionerStatusMessage: provisioner_status
+      App\Message\Provisioner\ProvisionerRequestMessage: provisioner_request
