@@ -3,6 +3,7 @@
 namespace App\MessageHandler;
 
 use App\Message\Provisioner\Enum\Status;
+use App\Message\Provisioner\Enum\Type;
 use App\Message\Provisioner\ProvisionerStatusMessage;
 use App\Repository\RoomsRepository;
 use App\Service\ProvisionerService;
@@ -22,47 +23,56 @@ final class ProvisionerStatusMessageHandler
 
     public function __invoke(ProvisionerStatusMessage $message): void
     {
-        switch ($message->status) {
-            case Status::FAILED:
-                $this->logger->error("Provisioner status 'failed' for roomId: {$message->room_id}. Retrying");
-                $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
-                if ($room === null) {
-                    $errorMessage = "Could not retry provisioning for roomId: {$message->room_id} as room could not be found";
-                    $this->logger->critical($errorMessage);
-                    throw new \RuntimeException($errorMessage);
+        switch ($message->type) {
+            case Type::PROVISION:
+                switch ($message->status) {
+                    case Status::FAILED:
+                        $this->logger->error("Provisioner status 'failed' for roomId: {$message->room_id}. Retrying");
+                        $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
+                        if ($room === null) {
+                            $errorMessage = "Could not retry provisioning for roomId: {$message->room_id} as room could not be found";
+                            $this->logger->critical($errorMessage);
+                            throw new \RuntimeException($errorMessage);
+                        }
+                        $this->provisionerService->provisionNewServerForRoom($room);
+
+                        return;
+
+                    case Status::STARTED:
+                        $this->logger->info("Provisioner status 'started' for roomId: {$message->room_id}");
+
+                        return;
+
+                    case Status::DONE:
+                        $this->logger->info("Provisioner status 'ready' for roomId: {$message->room_id}");
+                        $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
+                        $this->provisionerService->saveNewServerAndRedirect($room, $message);
+
+                        return;
                 }
-                $this->provisionerService->provisionNewServerForRoom($room);
 
-                return;
+            case Type::DELETION:
+                switch ($message->status) {
+                    case Status::FAILED:
+                        $this->logger->info("Deletion status 'failed' for roomId: {$message->room_id}");
+                        // cleanup is started regularly anyway, just ignore
+                        return;
 
-            case Status::STARTED:
-                $this->logger->info("Provisioner status 'started' for roomId: {$message->room_id}");
+                    case Status::DONE:
+                        $this->logger->info("Deletion status 'deleted' for roomId: {$message->room_id}. Deleting server"
+                        );
+                        $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
+                        if ($room === null) {
+                            // server was already deleted, should be no problem
+                            return;
+                        }
+                        $this->provisionerService->removeServerAndRestoreOriginal($room);
 
-                return;
+                        return;
 
-            case Status::READY:
-                $this->logger->info("Provisioner status 'ready' for roomId: {$message->room_id}");
-                $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
-                $this->provisionerService->saveNewServerAndRedirect($room, $message);
-
-                return;
-
-            case Status::DELETING:
-                $this->logger->info("Provisioner status 'deleting' for roomId: {$message->room_id}");
-
-                return;
-
-            case Status::DELETED:
-                $this->logger->info("Provisioner status 'deleted' for roomId: {$message->room_id}. Deleting server");
-                $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
-                if ($room === null) {
-                    $this->logger->info("Server was already deleted, should be no problem.");
-
-                    return;
+                    case Status::STARTED:
+                        throw new \RuntimeException('Type "deletion" and Status "started" should never go together');
                 }
-                $this->provisionerService->removeServerAndRestoreOriginal($room);
-
-                return;
         }
     }
 }
