@@ -2427,15 +2427,15 @@
       </trans-unit>
       <trans-unit id="vhXQ7u." resname="Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.">
         <source>Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.</source>
-        <target state="needs-translation">Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.</target>
+        <target state="translated">Each conference has its own link that you must click to join.</target>
       </trans-unit>
       <trans-unit id="Z3Ow33K" resname="Sie wurden zu einer Videokonferenz eingeladen.">
         <source>Sie wurden zu einer Videokonferenz eingeladen.</source>
-        <target state="needs-translation">Sie wurden zu einer Videokonferenz eingeladen.</target>
+        <target state="translated">You have been invited to a video conference.</target>
       </trans-unit>
       <trans-unit id="cWEPkYB" resname="options.lookylooky">
         <source>options.lookylooky</source>
-        <target state="needs-translation">Secure Document Share</target>
+        <target state="translated">Secure Document Share</target>
       </trans-unit>
     </body>
   </file>
