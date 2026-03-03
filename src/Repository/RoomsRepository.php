@@ -389,7 +389,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->leftJoin('status.roomStatusParticipants', 'status_participant')
             ->leftJoin('room.liveKitRecordings', 'recording')
             ->andWhere('server.isAllowedToCloneForAutoscale IS NULL')
-            ->andWhere('server.isProvisioningEnabled = 1')
+            ->andWhere('server.isProvisioningEnabled = true')
             ->andWhere(
                 $qb->expr()->orX(
                     'room.persistantRoom = true',
@@ -403,7 +403,7 @@ class RoomsRepository extends ServiceEntityRepository
                 $qb->expr()->orX(
                     'status_participant.inRoom IS NULL',
                     'status_participant.inRoom = false',
-                    'status.destroyed = 1',
+                    'status.destroyed = true',
                 ),
             )
             ->andWhere(
@@ -412,6 +412,26 @@ class RoomsRepository extends ServiceEntityRepository
                     'recording.user IS NULL',
                 ),
             )
+            ->setParameter('now', new DateTime('now', new DateTimeZone('utc')))
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsToProvisionInXMinutes(int $minutes): array
+    {
+        $qb = $this->createQueryBuilder('room');
+        return $qb
+            ->innerJoin('room.server', 'server')
+            ->andWhere('server.isAllowedToCloneForAutoscale = true')
+            ->andWhere('server.isProvisioningEnabled = true')
+            ->andWhere('room.persistantRoom = false')
+            ->andWhere('room.startUtc < :threshold')
+            ->andWhere('room.endDateUtc > :now')
+            ->setParameter('threshold', new DateTime("+ {$minutes} minutes", new DateTimeZone('utc')))
             ->setParameter('now', new DateTime('now', new DateTimeZone('utc')))
             ->getQuery()
             ->getResult()

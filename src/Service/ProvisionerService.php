@@ -11,6 +11,7 @@ use App\Repository\RoomsRepository;
 use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -25,6 +26,8 @@ class ProvisionerService
         private EntityManagerInterface $entityManager,
         private ServerService $serverService,
         private RoomsRepository $roomsRepository,
+        #[Autowire(param: 'provisioner.schedule.minutes_threshold')]
+        private int $scheduleMinutesTreshold,
     )
     {
     }
@@ -64,6 +67,18 @@ class ProvisionerService
         $this->entityManager->persist($room);
         $this->entityManager->remove($server);
         $this->entityManager->flush();
+    }
+
+    public function provisionServerForRoomsStartingIn(?int $minutes): int
+    {
+        $minutes ??= $this->scheduleMinutesTreshold;
+        
+        $rooms = $this->roomsRepository->findRoomsToProvisionInXMinutes($minutes);
+        foreach ($rooms as $room) {
+            $this->provisionNewServerForRoom($room);
+        }
+
+        return count($rooms);
     }
 
     private function saveOriginalServer(Rooms $room): void

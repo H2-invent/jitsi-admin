@@ -30,8 +30,6 @@ class ProvisionerCleanupCommand extends Command
 
         if ($count > 0) {
             $io->success("Sent {$count} provisioner deletion requests");
-        } else {
-            $io->success('Found no deletable servers');
         }
 
         return Command::SUCCESS;

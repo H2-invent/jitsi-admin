@@ -152,6 +152,7 @@ parameters:
     API_TOKEN_BEARER_THEME: '%env(API_TOKEN_BEARER_THEME)%'
     encryption.private_key_path: '%kernel.project_dir%/backend_private.pem'
     encryption.public_key_path: '%kernel.project_dir%/backend_public.pem'
+    provisioner.schedule.minutes_threshold: '%env(int:PROVISIONER_SCHEDULE_MINUTES_THRESHOLD)%'
 
 services:
     gaufrette.recording_fs_filesystem:
