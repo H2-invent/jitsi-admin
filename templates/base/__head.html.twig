@@ -64,7 +64,7 @@
             }
 
             .nav-mat-tabs .underline {
-                border-bottom: solid 3px {{ theme.colorButton }}!important;
+                border-bottom: solid 2px {{ theme.colorButton }}!important;
             }
 
             .nav-mat-tabs .nav-mat-item:hover {
@@ -75,7 +75,7 @@
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
             }
 
-            .light-blue.darken-3 {
+            body:not(.blackMode) .light-blue.darken-3 {
                 background-color: {{ theme.colorModalHeader }} !important;
             }
 
@@ -89,12 +89,13 @@
             }
 
             .blackMode .btn-outline-primary, .blackMode {
-                color: {{ theme.colorButtonOutlineTextcolorDarkMode }} !important;
-                border-color: {{ theme.colorButtonOutlinecolorDarkMode }} !important;
+                color: oklch(92% 0 0) !important;
+                border-color: oklch(33% 0 0) !important;
             }
 
             .blackMode a:not(.btn, .btn-floating) {
-                color: {{ theme.primaryColor }};
+                {#color: {{ theme.primaryColor }};#}
+                color: oklch(92% 0 0) !important;
             }
 
             .btn-outline-secondary, .btn-outline-default {
@@ -113,8 +114,8 @@
             }
 
             .blackMode .btn-outline-secondary, .blackMode .btn-outline-default {
-                border-color: {{ theme.colorButtonOutlinecolorDarkMode }} !important;
-                color: {{ theme.colorButtonOutlineTextcolorDarkMode }} !important;
+                border-color: oklch(33% 0 0) !important;
+                color: oklch(92% 0 0) !important;
             }
 
             .btn-outline-secondary .active, .btn-outline-default .active,
@@ -131,8 +132,8 @@
             .blackMode .btn-outline-secondary:active, .blackMode .btn-outline-default:active,
             .blackMode .btn-outline-secondary:focus, .blackMode .btn-outline-default:focus,
             .blackMode .show > .btn-outline-primary.dropdown-toggle {
-                border-color: {{ theme.colorButtonOutlinecolorDarkMode }} !important;
-                color: {{ theme.colorButtonOutlineTextcolorDarkMode }} !important;
+                border-color: white !important;
+                color: white !important;
             }
 
             .btn-primary {
@@ -156,13 +157,10 @@
                 color: var(--color-button-text) !important;
             }
 
-            .blackMode #content, .blackMode .sidebar.showSidebar {
+            {#.blackMode #content, .blackMode .sidebar.showSidebar {
                 background-color: {{ theme.darkmodeBackgroudcolor }} !important;
-            }
+            }#}
 
-            .blackMode .card, .blackMode .adressbookline {
-                background-color: {{ theme.darkmodeBackgroudcolorContrast }} !important;
-            }
 
             .dudp__calendar-header, .mdtp__wrapper[data-theme='blue'] .mdtp__time_holder {
                 background-color: {{ theme.colorModalHeader }} !important;
@@ -212,7 +210,7 @@
                 color: var(--color-button);
             }
             .input-group > .btn[class*=btn-outline-]{
-                border-color: var(--color-button) !important;
+                /*border-color: var(--color-button) !important;*/
             }
             .form-outline .form-control:focus ~ .form-notch .form-notch-leading {
                 border-color: var(--color-button);
@@ -255,9 +253,6 @@
             }
             .proTips {
                 border-color: var(--color-button)!important;
-            }
-            .blackMode .proTips{
-                background-color: {{ theme.darkmodeBackgroudcolor }}!important;
             }
             .window .sidebar #favorite-Container h5, .window .sidebar #favorite-Container .h5 {
                 border-color: {{ theme.colorButton  }};

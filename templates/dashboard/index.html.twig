@@ -105,16 +105,16 @@
                         </p>
                     </div>
                 {% elseif todayRooms |length == 0 %}
-                    <h4 style="padding-top: 16px" class="h5-responsive pl-xl-3">{{ 'Heute'|trans }} </h4>
+                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Heute'|trans }} </h4>
                     <div class="card card-body mb-3">
                         <p class="text-center mb-0">{{ 'Heute steht keine Jitsi Meet Konferenz an.'|trans }}</p>
                     </div>
                 {% endif %}
                 {% set locale =  app.request.locale %}
                 {% for date in roomsFuture %}
-                    <h5 style="padding-top: 16px" class="day h5-responsive pl-xl-3">
+                    <h4 style="padding-top: 16px" class="day h5-responsive pl-xl-3">
                         {% if today|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
-                            <p>{{ 'Heute'|trans }}</p>
+                            {{ 'Heute'|trans }}
                         {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
                             {{ 'Morgen'|trans }}
                         {% else %}
@@ -123,7 +123,7 @@
                             {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null) }},
                             {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=null) }}
                         {% endif %}
-                    </h5>
+                    </h4>
                     {% for room in date %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
                     {% endfor %}

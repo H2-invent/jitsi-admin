@@ -26,8 +26,9 @@
                 <div class="logo">
                     <a href="{{ path('dashboard') }}">
                         {% if theme %}
-                            <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo">
-                            <img class="d-block d-sm-none" src="{{ theme.logo }}" alt="Logo">
+                            {% set logoSrc = (app.request.cookies.get('DARK_MODE') == 1 and theme.logoDarkmode is defined and theme.logoDarkmode) ? theme.logoDarkmode : theme.logo %}
+                            <img class="d-none d-sm-block" src="{{ logoSrc }}" alt="Logo">
+                            <img class="d-block d-sm-none" src="{{ logoSrc }}" alt="Logo">
                         {% else %}
                             <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo">
                             <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo">
@@ -47,10 +48,16 @@
         </div>
         <div class="main">
             <div class="w-100 overflow-auto">
-                <div class="border-bottom py-2">
+                <div class="subnavigation border-bottom">
                     <div class="container">
-                        <div class="d-flex flex-wrap w-100 py-2 justify-content-between align-items-center">
+                        <div class="d-flex flex-wrap w-100 justify-content-between align-items-center">
                             <div class="d-flex flex-wrap align-items-center">
+                                <div class="sidebarToggle sidebarToggle--sub d-xl-none">
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <div class="sidebarToggle sidebarToggle--sub d-none">
+                                    <i class="fa fa-times"></i>
+                                </div>
                                 <a class="btn btn-outline-secondary btn-dashboard"
                                    data-mdb-modal-init
                                    data-mdb-target="#modalAdressbook"
@@ -58,6 +65,14 @@
                                     <i class="fa fa-address-book me-1"></i>
                                     {{ 'Adressbuch'|trans }}
                                 </a>
+                                {% if input_settings_allow_roomPlanning == 1 %}
+                                    <a href="{{ path('schedule_admin_new') }}"
+                                       class="loadContent dashboardBtn btn btn-outline-primary btn-dashboard">
+{#                                        <i class="fas fa-calendar me-1"></i>#}
+                                        <i class="fa-solid fa-square-poll-vertical me-1"></i>
+                                        {{ 'Einen Termin finden'|trans }}
+                                    </a>
+                                {% endif %}
                             </div>
                             <div class="d-flex flex-wrap justify-content-end">
                                 {% if input_settings_allow_sheduling == 1 %}
@@ -67,25 +82,19 @@
                                             <a href="{{ path('room_new') }}"
                                                class="loadContent dashboardBtn btn-primary btn btn-dashboard"
                                                id="createNewConference">
-                                                {{ 'Eine Konferenz planen'|trans }}
+{#                                                <i class="fa-regular fa-calendar-check me-1"></i>#}
+                                                <i class="fa-regular fa-calendar-plus me-1"></i>
+                                                {{ 'Planen'|trans }}
                                             </a>
                                             {% if publicServer is defined and publicServer is not null %}
                                                 <a href="{{ path('app_create_fast_confernce') }}"
                                                    class=" loadInMultiframe dashboardBtn btn-primary btn btn-dashboard"
                                                    id="createNewFastConference">
-                                                    {{ 'Sofort Konferenz'|trans }}
+                                                    <i class="fas fa-play me-1"></i>
+                                                    {{ 'Sofort'|trans }}
                                                 </a>
                                             {% endif %}
     {#                                    </div>#}
-{#                                    </div>#}
-                                {% endif %}
-                                {% if input_settings_allow_roomPlanning == 1 %}
-                                    {#                        <div class="col-12 col-md-6 flex-fill mb-3 p-0 pe-md-0 ps-md-1"> #}
-{#                                    <div>#}
-                                        <a href="{{ path('schedule_admin_new') }}"
-                                           class="loadContent dashboardBtn btn btn-outline-primary btn-dashboard">
-                                            <i class="fas fa-calendar me-1"></i> {{ 'Einen Termin finden'|trans }}
-                                        </a>
 {#                                    </div>#}
                                 {% endif %}
                             </div>

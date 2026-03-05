@@ -68,7 +68,7 @@
                             {% if theme == false %}
                                 {{ asset('logo.png') }}
                             {% else %}
-                                {{ theme.logo }}
+                                {{ (app.request.cookies.get('DARK_MODE') == 1 and theme.logoDarkmode is defined and theme.logoDarkmode) ? theme.logoDarkmode : theme.logo }}
                             {% endif %}
 
                         {% endif %}"
