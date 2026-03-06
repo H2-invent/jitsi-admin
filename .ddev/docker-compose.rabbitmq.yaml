@@ -11,6 +11,9 @@ services:
         RUN command -v apk >/dev/null 2>&1 || { (apt-get update || true) && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*; }
         ARG TARGETARCH
         RUN command -v apk >/dev/null 2>&1 && apk add --no-cache yq || { curl -fsSL "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_$${TARGETARCH}" -o /usr/bin/yq && chmod +x /usr/bin/yq; }
+        COPY rabbitmq/ca_certificate.pem rabbitmq/server_certificate.pem rabbitmq/server_key.pem /
+        RUN chown rabbitmq:rabbitmq /ca_certificate.pem /server_certificate.pem /server_key.pem
+        RUN chmod 600 /ca_certificate.pem /server_certificate.pem /server_key.pem
       args:
         RABBITMQ_DOCKER_IMAGE: ${RABBITMQ_DOCKER_IMAGE:-rabbitmq:4-management}
     expose:
@@ -32,6 +35,7 @@ services:
       - "rabbitmq:/var/lib/rabbitmq/mnesia"
       - ".:/mnt/ddev_config"
       - "ddev-global-cache:/mnt/ddev-global-cache"
+      - "./rabbitmq/rabbitmq.conf:/etc/rabbitmq/conf.d/20-rabbitmq.conf"
     x-ddev:
       describe-info: |
         User: rabbitmq
