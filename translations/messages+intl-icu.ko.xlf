@@ -19,7 +19,7 @@
       </trans-unit>
       <trans-unit id="LkZyqGT" resname="Konferenz bearbeiten">
         <source>Konferenz bearbeiten</source>
-        <target state="needs-translation">Bitte Konferenz bearbeiten</target>
+        <target state="needs-translation">Konferenz bearbeiten</target>
       </trans-unit>
       <trans-unit id="HAPXOlo" resname="Konferenz erfolgreich erstellt">
         <source>Konferenz erfolgreich erstellt</source>
@@ -27,7 +27,7 @@
       </trans-unit>
       <trans-unit id="HoXvwMv" resname="Neue Konferenz erstellen">
         <source>Neue Konferenz erstellen</source>
-        <target state="needs-translation">Bitte neue Konferenz erstellen</target>
+        <target state="needs-translation">Neue Konferenz erstellen</target>
       </trans-unit>
       <trans-unit id="ElYkn.a" resname="Fehler, Bitte kontrollieren Sie ihre Daten.">
         <source>Fehler, Bitte kontrollieren Sie ihre Daten.</source>
@@ -1025,7 +1025,7 @@
       </trans-unit>
       <trans-unit id="kMS4.OC" resname="Alle Serienelement der Serie bearbeiten">
         <source>Alle Serienelement der Serie bearbeiten</source>
-        <target state="needs-translation">Bitte bearbeiten Sie alle Serienelemente der Serie.</target>
+        <target state="needs-translation">Bearbeiten Sie alle Serienelemente der Serie.</target>
       </trans-unit>
       <trans-unit id="CyrT0si" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
@@ -1157,7 +1157,7 @@
       </trans-unit>
       <trans-unit id="pZTj_Lm" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="needs-translation">Bitte leiten Sie diesen Link an die Teilnehmenden weiter.</target>
+        <target state="needs-translation">Leiten Sie diesen Link an die Teilnehmenden weiter.</target>
       </trans-unit>
       <trans-unit id="tSRnGXc" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
@@ -1185,7 +1185,7 @@
       </trans-unit>
       <trans-unit id="boEqtE1" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="translated">예정된 회의를 위한 시간대를 선택하세요. 다른 시간대의 참가자는 현지 시간대로 회의 시간이 표시됩니다.</target>
+        <target state="needs-translation">Wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
       </trans-unit>
       <trans-unit id="L5CLtca" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1293,7 +1293,7 @@
       </trans-unit>
       <trans-unit id="5FL2Xdx" resname="room.new.help.lobby">
         <source>room.new.help.lobby</source>
-        <target state="needs-translation">Bitte für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
+        <target state="needs-translation">Für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
       </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
