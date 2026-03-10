@@ -10,7 +10,7 @@ framework:
         options:
           check_delayed_interval: 1000
       provisioner_request:
-        dsn: '%env(MESSENGER_TRANSPORT_DSN_RABBITMQ)%'
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
         options:
           exchange:
             name: meetling.provisioner.request
@@ -18,7 +18,7 @@ framework:
             meetling.provisioner.request: ~
         serializer: messenger.transport.symfony_serializer
       provisioner_status:
-        dsn: '%env(MESSENGER_TRANSPORT_DSN_RABBITMQ)%'
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
         options:
           exchange:
             name: meetling.provisioner.status
@@ -27,7 +27,7 @@ framework:
         serializer: App\Message\Serializer\ProvisionerStatusSerializer
 
       test:
-        dsn: '%env(MESSENGER_TRANSPORT_DSN_RABBITMQ)%'
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
         options:
           exchange:
             name: test

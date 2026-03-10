@@ -136,6 +136,9 @@ class ProvisionerServiceTest extends KernelTestCase
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
         /** @var ServerService $serverService */
         $serverService = self::getContainer()->get(ServerService::class);
+        /** @var int $minutesThreshold */
+        $minutesThreshold = self::getContainer()->getParameter('provisioner.schedule.minutes_threshold');
+
 
         $room = $roomsRepository->findOneBy([]);
         $hub = new MockHub(
@@ -160,7 +163,7 @@ class ProvisionerServiceTest extends KernelTestCase
             $randomString,
             $randomString,
         );
-        $provisionerService = new ProvisionerService($directSend, $messageBus, $urlGenerator, $entityManager, $serverService, $roomsRepository);
+        $provisionerService = new ProvisionerService($directSend, $messageBus, $urlGenerator, $entityManager, $serverService, $roomsRepository, $minutesThreshold);
         $provisionerService->saveNewServerAndRedirect($room, $statusMessage);
     }
 

@@ -210,3 +210,7 @@ services:
         arguments:
             $privateKeyPath: '%encryption.private_key_path%'
             $publicKeyPath: '%encryption.public_key_path%'
+
+    App\DependencyInjection\RabbitMqDsnEnvVarProcessor:
+        tags: ['container.env_var_processor']
+
