@@ -927,6 +927,10 @@ strong {
         }
       }
     }
+
+    &.active ~ .form-notch .form-notch-middle {
+      border-top: 1px solid transparent !important;
+    }
   }
 }
 

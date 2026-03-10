@@ -490,6 +490,10 @@ hr {
       }
     }
 
+    &.active ~ .form-notch .form-notch-middle {
+      border-top: 1px solid transparent !important;
+    }
+
     & ~ .form-label {
       color: $black_font-color;
     }
