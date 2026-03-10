@@ -496,8 +496,19 @@ strong {
     }
 
     ul {
-      padding-left: 20px;
-      list-style: disc;
+      padding-left: 10px;
+      li {
+        margin: 5px 0;
+        .profilePic {
+          min-width: 30px;
+          max-width: 30px;
+          background-size: cover;
+          height: 30px;
+          border-radius: 6px;
+          margin: 0 10px;
+          background-position: center;
+        }
+      }
     }
   }
 }
