@@ -499,9 +499,6 @@ strong {
       padding-left: 10px;
       li {
         margin: 5px 0;
-        > * {
-          margin-right: 10px;
-        }
         .profilePic {
           min-width: 30px;
           max-width: 30px;
@@ -509,6 +506,9 @@ strong {
           height: 30px;
           border-radius: 6px;
           background-position: center;
+        }
+        .dropdown-toggle, .profilePic {
+          margin-right: 10px;
         }
       }
     }
