@@ -1141,9 +1141,13 @@ a:hover {
         justify-content: center;
         padding: 0;
         margin: 0;
-        //border-color: var(--profile-color) !important;
-        //color: var(--profile-color) !important;
+        border-color: #dee2e6 !important;
+        color: rgba(0, 0, 0, .5) !important;
         border-radius: 6px;
+
+        &:hover {
+          border-color: rgba(0, 0, 0, .4) !important;
+        }
 
         i {
           font-size: 1em;
