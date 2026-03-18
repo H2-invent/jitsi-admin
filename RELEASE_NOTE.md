@@ -14,6 +14,7 @@
 * Set name in public rooms via url
 * Skip Lobby by URL parameter in public rooms
 * Enable Mic and Camera by URL paramter
+* Room Name includes local URL instead of ENV variable
 
 ### 🐛 Bug Fixes
 * Collapse the Side-Navigation on mobile devices

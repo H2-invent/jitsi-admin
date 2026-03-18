@@ -39,25 +39,23 @@ class RoomService
 {
 
     private $logger;
-
     private $uploadHelper;
-    private $baseUrl;
     private $identity;
+    
     public function __construct(
         UploaderHelper                $uploaderHelper,
         FormFactoryInterface          $formBuilder,
         LoggerInterface               $logger,
-        RequestStack                  $requestStack,
         private ParameterBagInterface $parameterBag,
         private CacheInterface        $cache,
         private HttpClientInterface   $httpClient,
         private SluggerInterface      $slugger,
+        private RequestStack          $requestStack,
     )
     {
         $this->identity = time().'_'.ByteString::fromRandom(8);
         $this->logger = $logger;
         $this->uploadHelper = $uploaderHelper;
-        $this->baseUrl = $requestStack->getMainRequest()->getHost();
     }
 
     public
@@ -361,7 +359,7 @@ class RoomService
     {
         $name = $room->getUid();
         if ($room->getServer()->isLiveKitServer()) {
-            $name .= "@{$this->baseUrl}";
+            $name .= "@{$this->requestStack->getMainRequest()->getHost()}";
         }
 
         return $name;
