@@ -41,7 +41,8 @@ class RoomService
     private $logger;
     private $uploadHelper;
     private $identity;
-    
+    private $baseUrl;
+
     public function __construct(
         UploaderHelper                $uploaderHelper,
         FormFactoryInterface          $formBuilder,
@@ -56,6 +57,7 @@ class RoomService
         $this->identity = time().'_'.ByteString::fromRandom(8);
         $this->logger = $logger;
         $this->uploadHelper = $uploaderHelper;
+        $this->baseUrl = str_replace(['https://', 'http://'], '', $this->parameterBag->get('laF_baseUrl'));
     }
 
     public
@@ -358,8 +360,10 @@ class RoomService
     private function createRoomName(Rooms $room): string
     {
         $name = $room->getUid();
+
         if ($room->getServer()->isLiveKitServer()) {
-            $name .= "@{$this->requestStack->getMainRequest()->getHost()}";
+            $name .= '@';
+            $name .= $this->requestStack->getMainRequest()?->getHost() ?? $this->baseUrl;
         }
 
         return $name;
