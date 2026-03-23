@@ -19,7 +19,7 @@
       </trans-unit>
       <trans-unit id="LkZyqGT" resname="Konferenz bearbeiten">
         <source>Konferenz bearbeiten</source>
-        <target state="needs-translation">Konferenz bearbeiten</target>
+        <target state="translated">Éditer la conférence</target>
       </trans-unit>
       <trans-unit id="HAPXOlo" resname="Konferenz erfolgreich erstellt" approved="yes">
         <source>Konferenz erfolgreich erstellt</source>
@@ -27,7 +27,7 @@
       </trans-unit>
       <trans-unit id="HoXvwMv" resname="Neue Konferenz erstellen">
         <source>Neue Konferenz erstellen</source>
-        <target state="needs-translation">Neue Konferenz erstellen</target>
+        <target state="translated">Créer une nouvelle conférence</target>
       </trans-unit>
       <trans-unit id="ElYkn.a" resname="Fehler, Bitte kontrollieren Sie ihre Daten." approved="yes">
         <source>Fehler, Bitte kontrollieren Sie ihre Daten.</source>
@@ -1019,7 +1019,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="kMS4.OC" resname="Alle Serienelement der Serie bearbeiten">
         <source>Alle Serienelement der Serie bearbeiten</source>
-        <target state="needs-translation">Bearbeiten Sie alle Serienelemente der Serie.</target>
+        <target state="translated">Modifier toutes les occurrences de la série.</target>
       </trans-unit>
       <trans-unit id="CyrT0si" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist" approved="yes">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
@@ -1151,7 +1151,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="pZTj_Lm" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="needs-translation">Leiten Sie diesen Link an die Teilnehmenden weiter.</target>
+        <target state="translated">Merci de transmettre ce lien aux participants.</target>
       </trans-unit>
       <trans-unit id="tSRnGXc" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
@@ -1179,7 +1179,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="boEqtE1" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="needs-translation">Wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">Veuillez sélectionner le fuseau horaire de la réunion prévue ici. Les utilisateurs dans d'autres fuseaux horaires recevront la conférence dans leur fuseau horaire local.</target>
       </trans-unit>
       <trans-unit id="L5CLtca" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1285,7 +1285,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="5FL2Xdx" resname="room.new.help.lobby">
         <source>room.new.help.lobby</source>
-        <target state="needs-translation">Für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
+        <target state="translated">Veuillez activer le lobby pour cette conférence. Vous pouvez admettre chaque participant individuellement à la conférence.</target>
       </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
@@ -2423,11 +2423,11 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="n2SdnDl" resname="meetling Konferenz">
         <source>meetling Konferenz</source>
-        <target state="needs-translation">meetling Konferenz</target>
+        <target state="translated">Conférence meetling</target>
       </trans-unit>
       <trans-unit id="uFBYrBR" resname="meetling">
         <source>meetling</source>
-        <target state="needs-translation">meetling</target>
+        <target state="translated">meetling</target>
       </trans-unit>
       <trans-unit id="JmOALRn" resname="Sie wurden zu einer Videokonferenz hinzugefügt.">
         <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
@@ -2435,15 +2435,15 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="vhXQ7u." resname="Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.">
         <source>Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.</source>
-        <target state="needs-translation">Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.</target>
+        <target state="translated">Chaque conférence dispose de son propre lien sur lequel vous devez cliquer pour y participer.</target>
       </trans-unit>
       <trans-unit id="Z3Ow33K" resname="Sie wurden zu einer Videokonferenz eingeladen.">
         <source>Sie wurden zu einer Videokonferenz eingeladen.</source>
-        <target state="needs-translation">Sie wurden zu einer Videokonferenz eingeladen.</target>
+        <target state="translated">Vous avez été ajouté à une visioconférence récurrente.</target>
       </trans-unit>
       <trans-unit id="cWEPkYB" resname="options.lookylooky">
         <source>options.lookylooky</source>
-        <target state="needs-translation">Secure Document Share</target>
+        <target state="translated">Partage de document sécurisé</target>
       </trans-unit>
     </body>
   </file>
