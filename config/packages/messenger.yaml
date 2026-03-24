@@ -6,9 +6,12 @@ framework:
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
       async:
-        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
         options:
-          check_delayed_interval: 1000
+          exchange:
+            name: meetling.messages
+          queues:
+            meetling.messages: ~
       provisioner_request:
         dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
         options:
