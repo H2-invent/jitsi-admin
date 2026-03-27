@@ -22,6 +22,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\String\ByteString;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -38,10 +39,10 @@ class RoomService
 {
 
     private $logger;
-
     private $uploadHelper;
-    private $baseUrl;
     private $identity;
+    private $baseUrl;
+
     public function __construct(
         UploaderHelper                $uploaderHelper,
         FormFactoryInterface          $formBuilder,
@@ -50,13 +51,13 @@ class RoomService
         private CacheInterface        $cache,
         private HttpClientInterface   $httpClient,
         private SluggerInterface      $slugger,
+        private RequestStack          $requestStack,
     )
     {
         $this->identity = time().'_'.ByteString::fromRandom(8);
         $this->logger = $logger;
         $this->uploadHelper = $uploaderHelper;
-        $this->baseUrl =str_replace('https://','',$this->parameterBag->get('laF_baseUrl')) ;
-        $this->baseUrl = str_replace('http://','',$this->baseUrl);
+        $this->baseUrl = str_replace(['https://', 'http://'], '', $this->parameterBag->get('laF_baseUrl'));
     }
 
     public
@@ -118,10 +119,9 @@ class RoomService
         }
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         $serverUrl = $room->getServer()->getUrl();
-        $serverUrl = str_replace('https://', '', $serverUrl);
-        $serverUrl = str_replace('http://', '', $serverUrl);
+        $serverUrl = str_replace(['https://', 'http://'], '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
-        $roomName = $room->getUid().($room->getServer()->isLiveKitServer()?('@'.$this->baseUrl):'');
+        $roomName = $this->createRoomName($room);
         $url = $jitsi_server_url . '/' . $roomName;
 
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
@@ -162,7 +162,7 @@ class RoomService
         if (!$server->getAppId()) {
             return null;
         }
-        $roomName = $room->getUid().($room->getServer()->isLiveKitServer()?('@'.$this->baseUrl):'');
+        $roomName = $this->createRoomName($room);
 
 
         $payload = [
@@ -357,5 +357,15 @@ class RoomService
         return $roomUser;
     }
 
+    private function createRoomName(Rooms $room): string
+    {
+        $name = $room->getUid();
 
+        if ($room->getServer()->isLiveKitServer()) {
+            $name .= '@';
+            $name .= $this->requestStack->getMainRequest()?->getHost() ?? $this->baseUrl;
+        }
+
+        return $name;
+    }
 }
