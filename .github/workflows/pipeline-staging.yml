@@ -69,6 +69,22 @@ jobs:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
 
+  docker_prod_application:
+    needs:
+      - version
+      - test
+      - docker_prod_core
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './Dockerfile-aio'
+      directory: '.'
+      version: ${{ needs.version.outputs.version }}
+      tags: reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/application:staging
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+
   docker_prod_websocket:
     needs:
       - version
@@ -80,23 +96,6 @@ jobs:
       directory: './nodejs'
       version: ${{ needs.version.outputs.version }}
       tags: reg.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/websocket:staging
-    secrets:
-      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
-      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
-
-  docker_prod_application:
-    needs:
-      - version
-      - test
-      - docker_prod_core
-      - docker_prod_websocket
-    uses: ./.github/workflows/task-upload-docker-hub.yml
-    with:
-      registry: reg.h2-invent.com
-      dockerfile_path: './Dockerfile-aio'
-      directory: '.'
-      version: ${{ needs.version.outputs.version }}
-      tags: reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/application:staging
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
