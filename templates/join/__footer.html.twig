@@ -2,32 +2,6 @@
     <div class="row ">
         <div class="col-lg-4 footerContent">
         </div>
-{#        <div class="col-lg-4 footerContent d-flex flex-column">#}
-{#            {% if theme == false %}#}
-{#                    <a href="https://jitsi-admin.de" target="_blank"><img#}
-{#                                src="{{ asset('logo.png') }}"></a>#}
-{#            {% else %}#}
-{#                <img src="{{ theme.logo }}">#}
-{#            {% endif %}#}
-{#        #}
-{#            <p class="small text-center">#}
-{#                {% if theme is not defined or theme == false %}#}
-{#                    <a href="https://jitsi-admin.de" target="_blank">Powered by#}
-{#                        Jitsi#}
-{#                        Admin</a><br>#}
-{#                {% endif %}#}
-{#                {% if theme != false %}#}
-{#                    {% if theme.footerGdprEnable == true %}#}
-{#                        <a class="nav-link" target="_blank"#}
-{#                           referrerpolicy="no-referrer"#}
-{#                           href="{{ dataPrivacy }}">{{ theme.footerGdprText }}</a>#}
-{#                    {% endif %}#}
-{#                {% else %}#}
-{#                    <a href="{{ dataPrivacy }}" target="_blank"#}
-{#                    >{{ 'Datenschutzhinweis'|trans }}</a><br>#}
-{#                {% endif %}#}
-{#            </p>#}
-{#        </div>#}
         {% if theme is not defined or theme == false %}
             <div class="col-lg-4 footerContent flex-column">
                 <div>
@@ -61,5 +35,3 @@
         {% endif %}
     </div>
 </div>
-
-

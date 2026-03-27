@@ -94,7 +94,6 @@
             }
 
             .blackMode a:not(.btn, .btn-floating) {
-                {#color: {{ theme.primaryColor }};#}
                 color: oklch(92% 0 0) !important;
             }
 
@@ -156,11 +155,6 @@
                 background-color: {{ theme.colorButtonActive }} !important;
                 color: var(--color-button-text) !important;
             }
-
-            {#.blackMode #content, .blackMode .sidebar.showSidebar {
-                background-color: {{ theme.darkmodeBackgroudcolor }} !important;
-            }#}
-
 
             .dudp__calendar-header, .mdtp__wrapper[data-theme='blue'] .mdtp__time_holder {
                 background-color: {{ theme.colorModalHeader }} !important;

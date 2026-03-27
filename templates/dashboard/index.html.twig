@@ -93,11 +93,8 @@
                     {% for r in myScheduledMeeting(app.user) %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                     {% endfor %}
-{#                    <hr/>#}
                 {% endif %}
 
-{#                <h4 style="padding-top: 16px"#}
-{#                    class="h4-responsive pl-xl-3">{{ 'Meine Videokonferenzen'|trans }} </h4>#}
                 {% if  roomsFuture |length == 0 %}
                     <div class="card card-body mb-3">
                         <p class="text-center mb-0">
@@ -118,8 +115,6 @@
                         {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
                             {{ 'Morgen'|trans }}
                         {% else %}
-                            {#                            {{ dump(date[0].startwithTimeZone(app.user)) }} #}
-                            {#                            {{ dump(date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null)) }} #}
                             {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null) }},
                             {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=null) }}
                         {% endif %}
@@ -153,7 +148,6 @@
         <div class="tab-content-watch">
             <div class="tab-pane fade" id="ex1-tabs-3" aria-labelledby="ex1-tab-3">
 
-{#                <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>#}
                 {% if persistantRooms|length > 0 %}
                     {% for r in persistantRooms %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}

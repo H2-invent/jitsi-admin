@@ -1,25 +1,15 @@
 <div class="mt-5 removeInIframe text-center text-black-50 small">
 
     {% if theme == false or (theme is not null and theme.allowHomePage == true) %}
-{#        <div class="col-md-3">#}
             <a href="{{ path('index') }}" class="text-black-50 small">{{ 'Startseite'|trans }}</a>
-{#        </div>#}
     {% endif %}
     {% if theme == false or (theme is not null and theme.allowDashboard == true) %}
-{#        <div class="col-md-3">#}
             | <a href="{{ path('dashboard') }}" class="text-black-50 small">{{ 'Dashboard'|trans }}</a>
-{#        </div>#}
     {% endif %}
     {% if theme == false or (theme is not null and theme.allowRegister == true) %}
-{#        <div class="col-md-3">#}
             | <a href="{{ path('register_keycloak') }}" class="text-black-50 small">{{ 'Registrieren'|trans }}</a>
-{#        </div>#}
     {% endif %}
     {% if theme == false or (theme is not null and theme.allowHelp == true) %}
-{#        <div class="col-md-3">#}
             | <a href="{{ helpUrlParticipants }}" class="text-black-50 small" target="_blank">{{ 'Hilfe'|trans }}</a>
-{#        </div>#}
     {% endif %}
 </div>
-
-
