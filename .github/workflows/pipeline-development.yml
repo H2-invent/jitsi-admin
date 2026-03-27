@@ -1,4 +1,4 @@
-name: Create Pre-Release
+name: Create Development
 env:
   GITHUB_TOKEN: ${{ secrets.token }}
 
