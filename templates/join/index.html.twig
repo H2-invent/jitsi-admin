@@ -3,10 +3,8 @@
     {{ 'Konferenz beitreten'|trans }}
 {% endblock %}
 {% block content %}
-
-
-
-        <p class="text-center text-md-start">
+<div class="text-center">
+        <p class="mb-4">
             {{ 'Füllen Sie das Formular aus um der Konferenz beizutreten'|trans }}
         </p>
         {{ form_start(form) }}
@@ -18,19 +16,14 @@
                 {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}
             </div>
         </div>
-        <div class="row">
+        <div>
             {% if form.joinBrowser is defined %}
-            <div class="col-md-6">
                 {{ form_row(form.joinBrowser) }}
-            </div>
             {% endif %}
             {% if form.joinApp is defined %}
-            <div class="col-md-6 d-none d-md-block">
                 {{ form_row(form.joinApp) }}
-            </div>
             {% endif %}
         </div>
-
         {{ form_end(form) }}
-
+</div>
 {% endblock %}

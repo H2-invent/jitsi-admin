@@ -1,6 +1,8 @@
-<!-- Footer -->
+<ul>
 
-
+<li class="nav-item">
+    <a class="nav-link" href="#" data-mdb-modal-init data-mdb-target="#helpModal">{{ 'Hilfe'|trans }}</a>
+</li>
 <li class="nav-item">
     {% if theme %}
         {% if theme.footerImprintEnable == true %}
@@ -23,36 +25,9 @@
         <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
            href="{{ dataPrivacy }}">{{ 'Datenschutzhinweis'|trans }}</a>
     {% endif %}
-
 </li>
 
-<li class="nav-item d-none d-md-block">
-    {% if theme %}
-        {% if theme.footerReportIssueEnable == true %}
-            <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"
-               href="{{ getApplicationProperties('footerReportIssueUrl') }}">{{ getApplicationProperties('footerReportIssueText') }}</a>
-        {% endif %}
-    {% else %}
-        <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"
-           href="https://github.com/H2-invent/jitsi-admin/issues">{{ 'Fehler oder neue Idee melden'|trans }}</a>
-    {% endif %}
-
-</li>
-<li class="nav-item d-none d-xl-block ">
-
-    {% if theme %}
-        {% if theme.footerContributionEnable == true %}
-            {{ theme.footerContributionText|raw }}
-
-        {% endif %}
-    {% else %}
-        <a class="nav-link float-left" target="_blank" referrerpolicy="no-referrer"
-           href="https://h2-invent.com/">Made with ❤ by H2 invent</a>
-    {% endif %}
-
-
-</li>
-<li class="nav-item d-none d-xl-block ">
+<li class="nav-item d-none d-xl-inline-block">
 
     <a class="nav-link"
        target="_blank"
@@ -73,12 +48,10 @@
 </li>
 {% if matomo_enable == '1' %}
     <li class="nav-item">
-        <!-- Button trigger modal -->
         <a class="nav-link" href="#" data-mdb-modal-init data-mdb-target="#exampleModal">
             Matomo Opt-out
         </a>
     </li>
 {% endif %}
 
-
-<!-- Footer -->
+</ul>

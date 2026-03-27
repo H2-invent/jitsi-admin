@@ -58,9 +58,9 @@
 
 <div id="mainContent" class="wrapper">
     <div class="window" id="window">
-        <div class="navigation fullwidth shadow-3">
+        <div class="navigation fullwidth">
             <div class="container d-flex justify-content-between align-items-center">
-                <div id="logo_image">
+                <div id="logo_image" class="logo">
                     <img class="d-none d-sm-block" src="
                     {% if server is defined and  server is not null and server.logoUrl is not null %}
                                 {{ server.logoUrl }}
@@ -68,12 +68,12 @@
                             {% if theme == false %}
                                 {{ asset('logo.png') }}
                             {% else %}
-                                {{ theme.logo }}
+                                {{ (app.request.cookies.get('DARK_MODE') == 1 and theme.logoDarkmode is defined and theme.logoDarkmode) ? theme.logoDarkmode : theme.logo }}
                             {% endif %}
 
                         {% endif %}"
                          alt="Logo"
-                         style="height: 50px; width: auto">
+                         style="">
 
 
                 </div>
@@ -92,14 +92,14 @@
             <div class="mainContent d-flex flex-column pb-0 justify-content-between">
 
                 {% block container %}
-                <div class="container mb-5">
+                <div class="container my-0 my-lg-4">
                     {% endblock %}
                     {% block body %}{% endblock %}
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center !my-0">
                         {% block mainRow %}
-                        <div class="col-xl-8 col-lg-12">
+                        <div class="col-xl-6 col-lg-10 col-md-12">
                             {% endblock %}
-                            <div class="card frozenGlas">
+                            <div class="card frozenGlas mx-2">
                                 <div class="glossy"></div>
                                 <div class="card-body">
                                     {% if room is defined and room is not null %}
@@ -111,7 +111,7 @@
                                         {% endif %}
                                     {% endif %}
                                     <div class="row justify-content-center">
-                                        <div class="{% if fullwidth is defined and fullwidth %}col-lg-12{% else %}col-lg-10 {% endif %}">
+                                        <div class="{% if fullwidth is defined and fullwidth %}col-lg-12{% else %}col-lg-11 {% endif %}">
                                             <div class="row">
                                                 <div class="col-12 d-flex justify-content-center mb-4">
                                                     <span class="joinPageHeader">{% block header %}{% endblock %}</span>
@@ -155,7 +155,9 @@
 
         </div>
         <div class="footer z-depth-1">
-            {{ include('base/__footer.html.twig') }}
+            <div class="container text-center">
+                {{ include('base/__footer.html.twig') }}
+            </div>
         </div>
 
         {% block back %}{% endblock %}
