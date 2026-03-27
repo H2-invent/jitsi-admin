@@ -31,6 +31,21 @@ jobs:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
 
+  docker_prod_application:
+    needs:
+      - test
+      - docker_prod_core
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './Dockerfile-aio'
+      directory: '.'
+      version: dev
+      tags: reg.h2-invent.com/meetling/application:dev
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+
   docker_prod_websocket:
     needs:
       - test
