@@ -6,6 +6,8 @@
     * New invitation Modal inside the conference
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 * **New DDEV local development setup**
+* **New Design** 
+  * refactor the whole jitsi admin
 
 ### ⭐ Improvements
 * Invite Participants faster with the new invitation modal from the new sidenavigation inside the conference
