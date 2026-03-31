@@ -44,6 +44,11 @@ class ProvisionerService
         $this->sendWebsocketRedirect($room);
     }
 
+    public function requestDeletion(Rooms $room): void
+    {
+        $this->sendDeleteRequest($room);
+    }
+
     public function cleanupUnusedProvisionedServers(): int
     {
         $rooms = $this->roomsRepository->findRoomsWhoseProvisionedServerCanBeDeleted();
@@ -107,7 +112,7 @@ class ProvisionerService
         $this->messageBus->dispatch($deletionMessage);
     }
 
-    public function sendWebsocketRedirect(Rooms $room): void
+    private function sendWebsocketRedirect(Rooms $room): void
     {
         $redirectUrl = $this->urlGenerator->generate(
             'room_join',
