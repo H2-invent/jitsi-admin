@@ -18,7 +18,7 @@ export class livekitApi {
         this.iframe.style.width = "100%";
         this.iframe.style.height = "100%";
 
-        this.iframe.allow = "autoplay; camera; clipboard-write; compute-pressure; display-capture; hid; microphone; screen-wake-lock; speaker-selection";
+        this.iframe.allow = "allow-popups; autoplay; camera; clipboard-write; compute-pressure; display-capture; hid; microphone; screen-wake-lock; speaker-selection";
         // Das iframe in das parentElement einfügen
         document.getElementById(this.parentElement).appendChild(this.iframe);
 
