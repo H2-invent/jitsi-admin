@@ -37,7 +37,7 @@ RUN tar \
     --exclude='./var/log' \
     -zcvf /artifact.tgz .
 
-FROM reg.h2-invent.com/public-system-design/alpine-php84-cron-webserver:3.23.3-4357
+FROM reg.h2-invent.com/public-system-design/alpine-php84-cron-webserver:3.23.3-4465
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
@@ -53,11 +53,6 @@ LABEL version="${VERSION}" \
     org.opencontainers.image.url="https://jitsi-admin.de"
 
 USER root
-
-RUN apk --no-cache add \
-    php83-ldap \
-    php83-bcmath \
-    && rm -rf /var/cache/apk/*
 
 RUN echo "Europe/Berlin" > /etc/timezone
 
