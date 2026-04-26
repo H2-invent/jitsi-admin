@@ -37,7 +37,7 @@ RUN tar \
     --exclude='./var/log' \
     -zcvf /artifact.tgz .
 
-FROM reg.h2-invent.com/public-system-design/alpine-php84-cron-webserver:3.23.3-4465
+FROM reg.h2-invent.com/public-system-design/debian-php84-webserver:3.23.3-4503
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
@@ -63,6 +63,15 @@ RUN echo "#!/bin/sh" > /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console cache:warmup" >> /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console app:setup:initial" >> /docker-entrypoint-init.d/03-symfony.sh \
     && chmod +x /docker-entrypoint-init.d/03-symfony.sh
+
+RUN echo "opcache.enable=1" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.enable_cli=1" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.preload=/var/www/html/config/preload.php" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.preload_user=nobody" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.memory_consumption=256" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.max_accelerated_files=32531" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.interned_strings_buffer=32" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.validate_timestamps=0" >> /etc/php/active/fpm/conf.d/custom.ini
 
 USER nobody
 
