@@ -64,7 +64,8 @@ RUN echo "#!/bin/sh" > /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console app:setup:initial" >> /docker-entrypoint-init.d/03-symfony.sh \
     && chmod +x /docker-entrypoint-init.d/03-symfony.sh
 
-RUN echo "opcache.enable=1" >> /etc/php/active/fpm/conf.d/custom.ini \
+RUN echo "" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.enable=1" >> /etc/php/active/fpm/conf.d/custom.ini \
     && echo "opcache.enable_cli=1" >> /etc/php/active/fpm/conf.d/custom.ini \
     && echo "opcache.preload=/var/www/html/config/preload.php" >> /etc/php/active/fpm/conf.d/custom.ini \
     && echo "opcache.preload_user=nobody" >> /etc/php/active/fpm/conf.d/custom.ini \
