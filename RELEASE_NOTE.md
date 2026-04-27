@@ -28,7 +28,7 @@
 * Set name in public rooms via url
 * Skip Lobby by URL parameter in public rooms
 * Enable Mic and Camera by URL paramter
-
+* Upgrade PHP to 8.4 in prod docker
 ### 🐛 Bug Fixes
 * Collapse the Side-Navigation on mobile devices
 * Calendly disconnection fails when token was removed in advance in Calendly
