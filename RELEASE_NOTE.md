@@ -47,6 +47,7 @@
 * When edit a conference the agenda field was rendered empty
 * Fis Server Statistics
 * Fix open Link with target blank from ifrmae
+* Fix not downloading images from whiteboard
 ## 1.3
 Nothing
 
