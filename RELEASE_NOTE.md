@@ -6,6 +6,7 @@
 ### Bug Fixes:
 * remove header in sip trunk generation
 * fix ical reply
+* fix delete LDAP user when removed in LDAP
 ### ⭐ Improvements
 * Join a Videoconference without an camera and microphone
 * Add Api to change Server of Room to use auto provisioner
