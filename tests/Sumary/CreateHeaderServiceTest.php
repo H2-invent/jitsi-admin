@@ -16,8 +16,8 @@ class CreateHeaderServiceTest extends KernelTestCase
         </td>
     </tr>
     <tr>
-        <td style=\"width: 250px; padding: 16px; vertical-align:top\"><p>Testagenda:0</p></td>
-        <td style=\"width: 250px; vertical-align:top\"><h3>Organisator</h3>Test1, 1234, User, Test</td>
+        <td style=\"width: 250px; vertical-align:top\"><p>Testagenda:0</p></td>
+        <td style=\"width: 250px; vertical-align:top\"><h3 style=\"margin-top-top:0\">Organisator</h3>Test1, 1234, User, Test</td>
     </tr>
     <tr>        
 <td colspan=\"2\" style=\"vertical-align:top\">
@@ -26,7 +26,7 @@ class CreateHeaderServiceTest extends KernelTestCase
          </p></td>
     </tr>
     <tr>
-        <td>
+        <td style=\"vertical-align:top\">
             <table>
                 <tbody>
                 <tr>

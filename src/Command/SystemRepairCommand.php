@@ -15,10 +15,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:system:repair', 'Add a short description for your command')]
 class SystemRepairCommand extends Command
 {
-    protected static $defaultName = 'app:system:repair';
-    protected static $defaultDescription = 'Add a short description for your command';
     private $em;
     private SymfonyStyle $io;
     private string $logfile = 'repairLog.txt';

@@ -26,9 +26,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RepeaterController extends JitsiAdminController
 {
-    /**
-     * @Route("/room/repeater/new", name="repeater_new")
-     */
+    #[Route(path: '/room/repeater/new', name: 'repeater_new')]
     public function index(ParameterBagInterface $parameterBag, Request $request, RepeaterService $repeaterService): Response
     {
 
@@ -45,6 +43,9 @@ class RepeaterController extends JitsiAdminController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $repeater = $form->getData();
+                /**
+                 * @var Repeat $repeater
+                 */
                 if (!$repeaterService->checkData($repeater)) {
                     $snack = $this->translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
                     $this->addFlash('danger', $snack);
@@ -63,9 +64,10 @@ class RepeaterController extends JitsiAdminController
                 $room->setPublic(false);
                 $em->persist($room);
                 $em->flush();
-
+                $repeater->setUid(md5(uniqid()));
                 $repeater->setPrototyp($room);
                 $repeater->setStartDate($room->getStart());
+
                 $em->persist($repeater);
                 $em->flush();
                 $repeaterService->cleanRepeater($repeater);
@@ -89,12 +91,11 @@ class RepeaterController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/room/repeater/edit/repeat", name="repeater_edit_repeater")
-     */
+    #[Route(path: '/room/repeater/edit/repeat', name: 'repeater_edit_repeater')]
     public function editRepeater(ParameterBagInterface $parameterBag, Request $request, RepeaterService $repeaterService, RoomAddService $roomAddService): Response
     {
         $repeater = $this->doctrine->getRepository(Repeat::class)->find($request->get('repeat'));
+        $uid = $repeater->getUid();
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $repeater->getPrototyp())) {
             throw new NotFoundHttpException('Not found');
         }
@@ -106,6 +107,9 @@ class RepeaterController extends JitsiAdminController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $repeater = $form->getData();
+                /**
+                 * @var Repeat $repeater
+                 */
                 if (!$repeaterService->checkData($repeater)) {
                     $snack = $this->translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
                     $this->addFlash('danger', $snack);
@@ -117,6 +121,7 @@ class RepeaterController extends JitsiAdminController
                     return $this->redirectToRoute('dashboard');
                 }
                 $em = $this->doctrine->getManager();
+                $repeater->setUid($uid);
                 $em->persist($repeater);
                 $em->flush();
                 $repeater = $repeaterService->cleanRepeater($repeater);
@@ -140,9 +145,7 @@ class RepeaterController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/room/repeater/remove", name="repeater_remove")
-     */
+    #[Route(path: '/room/repeater/remove', name: 'repeater_remove')]
     public function removeRepeater(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService): Response
     {
 
@@ -175,9 +178,7 @@ class RepeaterController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    /**
-     * @Route("/room/repeater/edit/room", name="repeater_edit_room")
-     */
+    #[Route(path: '/room/repeater/edit/room', name: 'repeater_edit_room')]
     public function editPrototype(Request $request, RepeaterService $repeaterService, ServerUserManagment $serverUserManagment): Response
     {
         $title = $this->translator->trans('Alle Serienelement der Serie bearbeiten');

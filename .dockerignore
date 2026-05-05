@@ -20,3 +20,4 @@
 !webpack.config.js
 !.env*
 !local-php-security-checker
+!data

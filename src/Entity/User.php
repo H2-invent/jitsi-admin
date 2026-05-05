@@ -137,6 +137,36 @@ class User extends BaseUser
     #[ORM\OneToMany(mappedBy: 'createdFrom', targetEntity: SchedulingTime::class)]
     private Collection $schedulingTimesCreated;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSipVideoUser = null;
+
+    /**
+     * @var Collection<int, Recording>
+     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Recording::class)]
+    private Collection $livekitRecordings;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendly_token = null;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendly_org_uri = null;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendly_user_uri = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $calendly_sucessfully_added = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $calendlySecret = null;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendlyWebhookId = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendlyUsers')]
+    private ?Server $calendlyServer = null;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -165,6 +195,7 @@ class User extends BaseUser
         $this->AdressbookFavorites = new ArrayCollection();
         $this->isAdressbookFavoriteFrom = new ArrayCollection();
         $this->schedulingTimesCreated = new ArrayCollection();
+        $this->livekitRecordings = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -786,7 +817,7 @@ class User extends BaseUser
 
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return $this->username?:'';
     }
 
     /**
@@ -845,11 +876,13 @@ class User extends BaseUser
 
     public function getPermissionForRoom(Rooms $rooms): RoomsUser
     {
+
         foreach ($this->roomsAttributes as $data) {
-            if ($data->getRoom() == $rooms) {
+            if ($data->getRoom()->getId() == $rooms->getId()) {
                 return $data;
             }
         }
+
         return new RoomsUser();
     }
 
@@ -1254,4 +1287,137 @@ class User extends BaseUser
 
         return $this;
     }
+
+    public function isIsSipVideoUser(): ?bool
+    {
+        return $this->isSipVideoUser;
+    }
+
+    public function setIsSipVideoUser(?bool $isSipVideoUser): static
+    {
+        $this->isSipVideoUser = $isSipVideoUser;
+
+        return $this;
+    }
+
+    public function getIsSipVideoUser(): ?bool
+    {
+        return $this->isSipVideoUser;
+    }
+
+    /**
+     * @return Collection<int, Recording>
+     */
+    public function getLivekitRecordings(): Collection
+    {
+        return $this->livekitRecordings;
+    }
+
+    public function addLivekitRecording(Recording $livekitRecording): static
+    {
+        if (!$this->livekitRecordings->contains($livekitRecording)) {
+            $this->livekitRecordings->add($livekitRecording);
+            $livekitRecording->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivekitRecording(Recording $livekitRecording): static
+    {
+        if ($this->livekitRecordings->removeElement($livekitRecording)) {
+            // set the owning side to null (unless already changed)
+            if ($livekitRecording->getUser() === $this) {
+                $livekitRecording->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCalendlyToken(): ?string
+    {
+        return $this->calendly_token;
+    }
+
+    public function setCalendlyToken(?string $calendly_token): static
+    {
+        $this->calendly_token = $calendly_token;
+
+        return $this;
+    }
+
+    public function getCalendlyOrgUri(): ?string
+    {
+        return $this->calendly_org_uri;
+    }
+
+    public function setCalendlyOrgUri(?string $calendly_org_uri): static
+    {
+        $this->calendly_org_uri = $calendly_org_uri;
+
+        return $this;
+    }
+
+    public function getCalendlyUserUri(): ?string
+    {
+        return $this->calendly_user_uri;
+    }
+
+    public function setCalendlyUserUri(?string $calendly_user_uri): static
+    {
+        $this->calendly_user_uri = $calendly_user_uri;
+
+        return $this;
+    }
+
+    public function isCalendlySucessfullyAdded(): ?bool
+    {
+        return $this->calendly_sucessfully_added;
+    }
+
+    public function setCalendlySucessfullyAdded(?bool $calendly_sucessfully_added): static
+    {
+        $this->calendly_sucessfully_added = $calendly_sucessfully_added;
+
+        return $this;
+    }
+
+    public function getCalendlySecret(): ?string
+    {
+        return $this->calendlySecret;
+    }
+
+    public function setCalendlySecret(?string $calendlySecret): static
+    {
+        $this->calendlySecret = $calendlySecret;
+
+        return $this;
+    }
+
+    public function getCalendlyWebhookId(): ?string
+    {
+        return $this->calendlyWebhookId;
+    }
+
+    public function setCalendlyWebhookId(?string $calendlyWebhookId): static
+    {
+        $this->calendlyWebhookId = $calendlyWebhookId;
+
+        return $this;
+    }
+
+    public function getCalendlyServer(): ?Server
+    {
+        return $this->calendlyServer;
+    }
+
+    public function setCalendlyServer(?Server $calendlyServer): static
+    {
+        $this->calendlyServer = $calendlyServer;
+
+        return $this;
+    }
+
+
 }

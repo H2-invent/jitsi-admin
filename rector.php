@@ -7,10 +7,11 @@ use Rector\Config\RectorConfig;
 
 return function (RectorConfig $rectorConfig): void {
     $rectorConfig->disableParallel();
-    $rectorConfig->sets([
-        DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
-        SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
-        NetteSetList::ANNOTATIONS_TO_ATTRIBUTES,
-        SensiolabsSetList::FRAMEWORK_EXTRA_61,
-    ]);
+//    $rectorConfig->sets([
+////    DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
+//        SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
+////        NetteSetList::ANNOTATIONS_TO_ATTRIBUTES,
+////        SensiolabsSetList::FRAMEWORK_EXTRA_61,
+//    ]);
+    $rectorConfig->rule(\Rector\Symfony\Symfony61\Rector\Class_\CommandPropertyToAttributeRector::class);
 };

@@ -14,7 +14,8 @@ export function initStartWhiteboard() {
         ele.addEventListener('click', function (ev) {
             var selfurl = this.dataset.selfurl;
             var url = this.dataset.url;
-            if (this.dataset.room) {
+            const roomUid = this.dataset.roomuid||null;
+            if (this.dataset.room && url) {
                 var message = {
                     room: this.dataset.room,
                     url: url,
@@ -24,14 +25,17 @@ export function initStartWhiteboard() {
             }
 
             if (inIframe()) {
-                const parentMessage = JSON.stringify({
-                    type: 'openNewIframe',
-                    url: selfurl,
-                    'title': document.title
-                });
-                window.parent.postMessage(parentMessage, '*');
+                if (selfurl){
+                    const parentMessage = JSON.stringify({
+                        type: 'openNewIframe',
+                        url: selfurl,
+                        'title': document.title,
+                        roomuid: roomUid,
+                    });
+                    window.parent.postMessage(parentMessage, '*');
+                }
             } else {
-                createIframe(selfurl, document.title,  false);
+                createIframe(selfurl, document.title,  false,'',roomUid);
             }
         })
     }

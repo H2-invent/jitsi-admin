@@ -19,6 +19,9 @@
     </php>
 
     <testsuites>
+        <testsuite name="onlyRepeater">
+            <directory>tests/Repeater</directory>
+        </testsuite>
         <testsuite name="Complete">
             <directory>tests</directory>
         </testsuite>

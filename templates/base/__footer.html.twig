@@ -63,18 +63,18 @@
             #
         {% endif %}
         "
-        {% if time is defined %}
-         data-mdb-toggle=" tooltip" title="{{ 'common.loadingTime'|trans }}: {{ time/1000 }}s"
-        {% endif %}>
+            {% if time is defined %}
+    data-mdb-tooltip-init title="{{ 'common.loadingTime'|trans }}: {{ time/1000 }}s"
+            {% endif %}>
 
-    {{ 'now'|date('Y') }} • v{{ laf_version }}
+        {{ 'now'|date('Y') }} • v{{ laf_version }}
 
     </a>
 </li>
 {% if matomo_enable == '1' %}
     <li class="nav-item">
         <!-- Button trigger modal -->
-        <a class="nav-link" href="#" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+        <a class="nav-link" href="#" data-mdb-modal-init data-mdb-target="#exampleModal">
             Matomo Opt-out
         </a>
     </li>

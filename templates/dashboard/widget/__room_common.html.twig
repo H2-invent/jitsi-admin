@@ -15,6 +15,13 @@
             <i class="fa-solid fa-file-pdf"></i>
             {{ 'PDF Download'|trans }}</a></li>
 {% endif %}
+{% if room.uploadedRecordings|length > 0 %}
+
+    <li><a href="{{ path('recording_modal',{'room': room.id}) }}"
+           class="dropdown-item loadContent">
+            <i class="fa-solid fa-film"></i>
+            {{ 'Aufnahmen'|trans }}</a></li>
+{% endif %}
 
 
 {% if dropdown_settings_common_duplicate == 1 %}

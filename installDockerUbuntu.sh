@@ -16,7 +16,7 @@ echo \
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin -y
 
-sudo wget https://github.com/docker/compose/releases/download/v2.7.0/docker-compose-linux-x86_64 -O /usr/local/bin/docker-compose
+sudo wget https://github.com/docker/compose/releases/download/v2.29.1/docker-compose-linux-x86_64 -O /usr/local/bin/docker-compose
 sudo chmod +x  /usr/local/bin/docker-compose
 docker-compose -v
 

@@ -31,7 +31,8 @@ class CalloutApiActionControllerTest extends WebTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $this->room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
         $user = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
-
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $this->client->loginUser($moderator);
         $callerUserId = new CallerId();
         $callerUserId->setCreatedAt(new \DateTime())
             ->setRoom($this->room)
@@ -40,7 +41,6 @@ class CalloutApiActionControllerTest extends WebTestCase
         $manager->persist($callerUserId);
         $manager->flush();
 
-        $this->client->loginUser($this->room->getModerator());
         $invite = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
         $crawler = $this->client->request('POST', '/room/callout/invite/' . $this->room->getUidReal(), ['uid' => $invite->getEmail()]);
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
@@ -378,6 +378,7 @@ class CalloutApiActionControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $url);
         assertEquals(1, $crawler->filter('.calloutsymbol')->count());
     }
+
     public function testOnHoldPoolEmpty(): void
     {
         $this->client->request('GET', '/api/v1/call/out/on_hold/', [], [], $this->authHEader);

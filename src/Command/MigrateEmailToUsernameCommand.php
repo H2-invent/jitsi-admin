@@ -9,10 +9,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:migrate:emailToUsername', 'This command migrates emails to username. This is important when the email should be used in the JItsi-admin as usernmae but the prefered_username in the keycloak was not set and the emails are different to the username (F.ex. in LDAP)')]
 class MigrateEmailToUsernameCommand extends Command
 {
-    protected static $defaultName = 'app:migrate:emailToUsername';
-    protected static $defaultDescription = 'This command migrates emails to username. This is important when the email should be used in the JItsi-admin as usernmae but the prefered_username in the keycloak was not set and the emails are different to the username (F.ex. in LDAP)';
     private $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {

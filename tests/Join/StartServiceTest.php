@@ -32,14 +32,15 @@ class StartServiceTest extends KernelTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        $jwtToCompare = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSJ9LCJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIn19LCJtb2RlcmF0b3IiOnRydWV9.UDpBmWP-jbm5WaLcsR0Ds1Ow0UjtPz199cuO0BiCwfQ';
         self::assertEquals(
             new RedirectResponse(
-                'jitsi-meet://meet.jit.si2/123456781?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIn19LCJtb2RlcmF0b3IiOnRydWV9.rgoK2HJlevbuRz1M3cIrkmJSARhQ6addjyaBG6zP4qU#config.subject=%22testmeeting_1%22'
+                'jitsi-meet://meet.jit.si2/123456781?jwt='.$jwtToCompare.'#config.subject=%22testmeeting_1%22'
             ),
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
         );
         self::assertStringContainsString(
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIn19LCJtb2RlcmF0b3IiOnRydWV9.rgoK2HJlevbuRz1M3cIrkmJSARhQ6addjyaBG6zP4qU',
+            $jwtToCompare,
             $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
         );
     }
@@ -57,12 +58,12 @@ class StartServiceTest extends KernelTestCase
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
         self::assertEquals(
             new RedirectResponse(
-                'jitsi-meet://meet.jit.si2/561d6f51s6f?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiNTYxZDZmNTFzNmYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlVzZXIsIFRlc3QsIHRlc3RAbG9jYWwuZGUifX0sIm1vZGVyYXRvciI6dHJ1ZX0.QGhyBYZF_hkMZu1tRQF7mfGv1aLV9Ewp21vgd4cGDto#config.subject=%22this_room_has_no_participants_and_fixed_room%22'
+                'jitsi-meet://meet.jit.si2/561d6f51s6f?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiNTYxZDZmNTFzNmYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgUm9vbSBoYXMgbm8gcGFydGljaXBhbnRzIGFuZCBmaXhlZCByb29tIn0sInVzZXIiOnsibmFtZSI6IlVzZXIsIFRlc3QsIHRlc3RAbG9jYWwuZGUifX0sIm1vZGVyYXRvciI6dHJ1ZX0.a8_tlm2PQi6TG2W9b_56IsWbdXsO1Y7OMqlWfaZiwrg#config.subject=%22this_room_has_no_participants_and_fixed_room%22'
             ),
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
         );
         self::assertStringContainsString(
-            "jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiNTYxZDZmNTFzNmYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlVzZXIsIFRlc3QsIHRlc3RAbG9jYWwuZGUifX0sIm1vZGVyYXRvciI6dHJ1ZX0.QGhyBYZF_hkMZu1tRQF7mfGv1aLV9Ewp21vgd4cGDto'",
+            "jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiNTYxZDZmNTFzNmYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgUm9vbSBoYXMgbm8gcGFydGljaXBhbnRzIGFuZCBmaXhlZCByb29tIn0sInVzZXIiOnsibmFtZSI6IlVzZXIsIFRlc3QsIHRlc3RAbG9jYWwuZGUifX0sIm1vZGVyYXRvciI6dHJ1ZX0.a8_tlm2PQi6TG2W9b_56IsWbdXsO1Y7OMqlWfaZiwrg'",
             $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
         );
         self::assertStringContainsString(

@@ -651,7 +651,7 @@ class CallerSessionTest extends KernelTestCase
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
             function (Update $update): string {
-                self::assertEquals('{"type":"message","message":"test Nachricht","from":"Test1, 1234, User, Test"}', $update->getData());
+                self::assertEquals('{"type":"snackbar","message":"test Nachricht","color":"red","closeAfter":10000}', $update->getData());
                 self::assertEquals(['lobby_WaitingUser_websocket/c4ca4238a0b923820dcc509a6f75849b'], $update->getTopics());
                 return 'id';
             }

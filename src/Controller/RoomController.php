@@ -52,9 +52,7 @@ class RoomController extends JitsiAdminController
 {
 
 
-    /**
-     * @Route("/room/new", name="room_new")
-     */
+    #[Route(path: '/room/new', name: 'room_new')]
     public function newRoom(
         RoomGeneratorService $roomGeneratorService,
         SchedulingService    $schedulingService,
@@ -95,9 +93,12 @@ class RoomController extends JitsiAdminController
 
         if ($edit) {
             $form->remove('moderator');
-            if (!in_array($room->getServer(), $servers)) {
-                $form->remove('server');
+            if ($this->parameterBag->get('ALLOW_SERVER_CHANGE_WHEN_DISABLED') == 0){
+                if (!in_array($room->getServer(), $servers)) {
+                    $form->remove('server');
+                }
             }
+
         }
 
         try {
@@ -171,9 +172,7 @@ class RoomController extends JitsiAdminController
     }
 
 
-    /**
-     * @Route("/room/remove", name="room_remove")
-     */
+    #[Route(path: '/room/remove', name: 'room_remove')]
     public
     function roomRemove(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService)
     {
@@ -198,9 +197,7 @@ class RoomController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    /**
-     * @Route("/room/clone/{room}", name="room_clone")
-     */
+    #[Route(path: '/room/clone/{room}', name: 'room_clone')]
     public
     function roomClone($room, RoomGeneratorService $roomGeneratorService, RoomCheckService $roomCheckService, Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment $serverUserManagment)
     {

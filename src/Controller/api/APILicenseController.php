@@ -11,9 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class APILicenseController extends JitsiAdminController
 {
-    /**
-     * @Route("/api/v1/generateLicense", name="api_generate_license",methods={"POST"})
-     */
+    #[Route(path: '/api/v1/generateLicense', name: 'api_generate_license', methods: ['POST'])]
     public function index(Request $request, LicenseService $licenseService): Response
     {
         return new JsonResponse(

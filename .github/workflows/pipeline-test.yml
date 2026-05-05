@@ -3,10 +3,15 @@ name: Test Pipeline
 on: [push]
 
 jobs:
+  release_note:
+    uses: ./.github/workflows/task-wiki-release.yml
+    with:
+      version: 1.0.0
+
   artifact:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
+    uses: ./.github/workflows/task-artifact.yml
 
   test:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-test.yml@devops
+    uses: ./.github/workflows/task-test.yml
     needs:
       - artifact

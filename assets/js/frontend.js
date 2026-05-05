@@ -3,14 +3,16 @@
  *
  */
 import $ from 'jquery';
-
+import { Popover, initMDB } from "mdb-ui-kit";
 global.$ = global.jQuery = $;
 
-import * as mdb from 'mdb-ui-kit'; // lib
+
 
 import {initSchedulePublic} from './scheduling'
 import {initGenerell} from './init';
 import {setSnackbar} from "./myToastr";
+import * as h2Button from "h2-invent-apps";
+import {initAllComponents} from "./confirmation";
 
 $(document).ready(function () {
     initGenerell();
@@ -19,13 +21,19 @@ $(document).ready(function () {
             $(this).addClass('d-none');
         })
     }, 500);
-    initSchedulePublic()
+    initSchedulePublic();
+    if (notificationUrl !== "") {
+        h2Button.initNotification(notificationUrl);
+    }
 
 });
 $(window).on('load', function () {
-    $('[data-mdb-toggle="popover"]').popover({html: true});
+
+
+    initMDB({ Popover });
+    initAllComponents();
     $('[data-mdb-toggle="toastr"]').click(function (e) {
 
-        setSnackbar($(this).data('text'),$(this).data('type'))
+        setSnackbar($(this).data('text'),'',$(this).data('type'))
     });
 });

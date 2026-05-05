@@ -6,6 +6,7 @@ use App\Entity\LobbyWaitungUser;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
+use App\Service\CheckLobbyPermissionService;
 use App\Service\PermissionChangeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -39,10 +40,8 @@ class JoinPublicLobbyTest extends WebTestCase
         $permissionService = self::getContainer()->get(PermissionChangeService::class);
         $permissionService->toggleLobbyModerator($room->getModerator(), $user, $room);
 
-
         $crawler = $client->request('GET', '/room/lobby/moderator/b/' . $room->getUidReal());
         self::assertEquals(500, $client->getResponse()->getStatusCode());
-
 
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
@@ -57,6 +56,10 @@ class JoinPublicLobbyTest extends WebTestCase
         $client->submit($form);
         self::assertSelectorTextContains('.joinPageHeader', 'TestMeeting: 1');
         self::assertEquals($user->getId(), $client->getRequest()->getSession()->get('userId'));
+        $permissionService = self::getContainer()->get(CheckLobbyPermissionService::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local3.de']);
+        self::assertEquals(true, $permissionService->checkPermissions($room,$user));
+
         $client->request('GET', '/room/lobby/moderator/b/' . $room->getUidReal());
         self::assertResponseIsSuccessful();
 
@@ -66,9 +69,11 @@ class JoinPublicLobbyTest extends WebTestCase
 
         $client->request('GET', '/room/lobby/accept/lksdjflkdsjf');
         self::assertResponseIsSuccessful();
+
         $waitingUSer = $waitingUSerRepo->findOneBy(['uid' => 'lksdjflkdsjf']);
         self::assertNull($waitingUSer);
     }
+
     public function testJoin_ConferencewithLobbyDeclineWaitingUser(): void
     {
         $client = static::createClient();

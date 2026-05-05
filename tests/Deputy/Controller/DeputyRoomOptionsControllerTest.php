@@ -129,11 +129,11 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
 
         $this->client->loginUser($deputy);
 
-        $crawler = $this->client->request('GET', '/room/participant/add?room=' . $room->getId());
+        $crawler = $this->client->request('GET', '/room/participant/add/' . $room->getId());
 
         self::assertEquals(1, $crawler->filter('#atendeeList:contains("Test2, 1234, User2, Test2")')->count());
         $this->client->loginUser($manager);
-        $crawler = $this->client->request('GET', '/room/participant/add?room=' . $room->getId());
+        $crawler = $this->client->request('GET', '/room/participant/add/' . $room->getId());
         self::assertEquals(1, $crawler->filter('#atendeeList:contains("Test2, 1234, User2, Test2")')->count());
     }
 }

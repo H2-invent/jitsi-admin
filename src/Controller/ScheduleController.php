@@ -55,9 +55,7 @@ class ScheduleController extends JitsiAdminController
             $parameterBag,);
     }
 
-    /**
-     * @Route("room/schedule/new", name="schedule_admin_new")
-     */
+    #[Route(path: 'room/schedule/new', name: 'schedule_admin_new')]
     public function new(
         RoomGeneratorService $roomGeneratorService,
         Request              $request,
@@ -187,9 +185,7 @@ class ScheduleController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("room/schedule/admin/participants/{id}", name="schedule_admin_participants",methods={"GET"})
-     */
+    #[Route(path: 'room/schedule/admin/participants/{id}', name: 'schedule_admin_participants', methods: ['GET'])]
     public function participants(
         Rooms   $rooms,
         Request $request
@@ -204,9 +200,7 @@ class ScheduleController extends JitsiAdminController
         return $res;
     }
 
-    /**
-     * @Route("room/schedule/admin/{id}", name="schedule_admin",methods={"GET"})
-     */
+    #[Route(path: 'room/schedule/admin/{id}', name: 'schedule_admin', methods: ['GET'])]
     public function index(
         Rooms   $rooms,
         Request $request,
@@ -222,10 +216,24 @@ class ScheduleController extends JitsiAdminController
             ]
         );
     }
+    #[Route(path: 'room/schedule/selectBest/{id}', name: 'schedule_admin_select_best', methods: ['GET'])]
+    public function selectBest(
+        Rooms   $rooms,
+        Request $request,
+    ): Response
+    {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
+            throw new NotFoundHttpException('Room not found');
+        }
+        return $this->render(
+            'schedule/selectBest.html.twig',
+            [
+                'room' => $rooms,
+            ]
+        );
+    }
 
-    /**
-     * @Route("room/schedule/admin/add/{id}", name="schedule_admin_add",methods={"POST"})
-     */
+    #[Route(path: 'room/schedule/admin/add/{id}', name: 'schedule_admin_add', methods: ['POST'])]
     public function add(
         Rooms   $rooms,
         Request $request
@@ -258,9 +266,7 @@ class ScheduleController extends JitsiAdminController
         return new JsonResponse(['error' => false]);
     }
 
-    /**
-     * @Route("room/schedule/admin/remove/{id}", name="schedule_admin_remove",methods={"DELETE"})
-     */
+    #[Route(path: 'room/schedule/admin/remove/{id}', name: 'schedule_admin_remove', methods: ['DELETE'])]
     public function remove(
         SchedulingTime $schedulingTime,
         Request        $request): Response
@@ -283,9 +289,7 @@ class ScheduleController extends JitsiAdminController
         return new JsonResponse(['error' => false]);
     }
 
-    /**
-     * @Route("room/schedule/admin/choose/{id}", name="schedule_admin_choose",methods={"GET"})
-     */
+    #[Route(path: 'room/schedule/admin/choose/{id}', name: 'schedule_admin_choose', methods: ['GET'])]
     public function choose(
         SchedulingTime      $schedulingTime,
         Request             $request,
@@ -306,9 +310,7 @@ class ScheduleController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    /**
-     * @Route("schedule/{scheduleId}/{userId}", name="schedule_public_main", methods={"GET"})
-     */
+    #[Route(path: 'schedule/{scheduleId}/{userId}', name: 'schedule_public_main', methods: ['GET'])]
     public function public(
         #[MapEntity(mapping: ['scheduleId' => 'uid'])]
         Scheduling          $scheduling,
@@ -337,9 +339,7 @@ class ScheduleController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("schedule/vote", name="schedule_public_vote", methods={"POST"})
-     */
+    #[Route(path: 'schedule/vote', name: 'schedule_public_vote', methods: ['POST'])]
     public function vote(
         Request                      $request,
         TranslatorInterface          $translator,
@@ -387,10 +387,11 @@ class ScheduleController extends JitsiAdminController
     #[Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
     public function generateVoteCsv(
         Rooms $room
+
     ): Response
     {
         $votingsAndTimes = $this->getUserVotes($room);
-
+        $user = $room->getUser();
         if (!isset($votingsAndTimes['times']) || count($votingsAndTimes['times']) === 0) {
             $this->addFlash('danger', $this->translator->trans('error.scheduler.noSchedules'));
 
@@ -416,7 +417,6 @@ class ScheduleController extends JitsiAdminController
                 preg_replace('/[[:^print:]]/', '', $room->getName()) . '-' . (new DateTime())->format('d-m-Y_H-i') . '.csv',
             )
         );
-
         return $response;
     }
 
@@ -433,7 +433,19 @@ class ScheduleController extends JitsiAdminController
     private function getUserVotes(Rooms $room): array
     {
         $votings = [];
+        foreach ($room->getUser() as $user) {
+            $userId = $user->getId();
+            $name = implode(' ', [$user->getFirstName(), $user->getLastName()]);
 
+            // Füge den Nutzer zum Array hinzu, wenn er noch nicht erfasst wurde
+            if (!isset($votings['user'][$userId])) {
+                $votings['user'][$userId] = [
+                    'Name' => $name,
+                    'Email' => $user->getEmail(),
+                ];
+
+            }
+        }
         foreach ($room->getSchedulings() as $scheduling) {
             foreach ($scheduling->getSchedulingTimes() as $schedulingTime) {
                 $schedulingTimeString = $schedulingTime->getTime()->format('d-m-Y H:i:s');
@@ -474,7 +486,7 @@ class ScheduleController extends JitsiAdminController
                 if (isset($userVoting[$time])) {
                     $filledUpVoting[$time] = $userVoting[$time];
                 } else {
-                    $filledUpVoting[$time] = 'null';
+                    $filledUpVoting[$time] = '----';
                 }
             }
 

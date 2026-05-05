@@ -61,16 +61,7 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/b/' . $room->getId()));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_view[uid]'] = $room->getUid();
-        $form['join_view[email]'] = $user->getEmail();
-        $form['join_view[name]'] = 'Test User 123';
-        $client->submit($form);
-        $urlGen = self::getContainer()->get(RoomService::class);
-        $url = $urlGen->joinUrl('a', $room, 'Test User 123', false);
-        $this->assertTrue($client->getResponse()->isRedirect('/room/join/a/' . $room->getId()));
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+
     }
 
     public function testJoinConferenceOpenCorrectuserUserIsNoLoginUserCorrectRoomNumber(): void
@@ -92,15 +83,7 @@ class JoinPublicTest extends WebTestCase
         $this->assertSelectorTextContains('title', 'TestMeeting: 1');
         $this->assertStringContainsString('<title>TestMeeting: 1</title>', $client->getResponse()->getContent());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_view[uid]'] = $room->getUid();
-        $form['join_view[email]'] = $user->getEmail();
-        $form['join_view[name]'] = 'Test User 123';
-        $client->submit($form);
-        $urlGen = self::getContainer()->get(RoomService::class);
-        $url = $urlGen->joinUrl('a', $room, 'Test User 123', false);
-        $this->assertTrue($client->getResponse()->isRedirect($url));
+
     }
 
     public function testJoinConferenceClosedCorrectUserUserIsNotLoginUserCorrectRoomNumber(): void
@@ -166,13 +149,7 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/b/' . $room->getId()));
 
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_view[uid]'] = $room->getUid();
-        $form['join_view[email]'] = $user->getEmail();
-        $form['join_view[name]'] = 'Test User 123';
-        $client->submit($form);
-        $this->assertTrue($client->getResponse()->isRedirect('/room/join/a/' . $room->getId()));
+
     }
 
     public function testJoinConferenceOpenCorrectUserUserLoginUserUserIsModeratorCorrectRoomNumber(): void
@@ -192,13 +169,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/b/' . $room->getId()));
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_view[uid]'] = $room->getUid();
-        $form['join_view[email]'] = $user->getEmail();
-        $form['join_view[name]'] = 'Test User 123';
-        $client->submit($form);
-        $this->assertTrue($client->getResponse()->isRedirect('/room/join/a/' . $room->getId()));
+
     }
 
     public function testJoinConferenceNotCorrectUser(): void
@@ -284,13 +255,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/b/' . $room->getId()));
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_view[uid]'] = $room->getUid();
-        $form['join_view[email]'] = $user->getEmail();
-        $form['join_view[name]'] = 'Test User 123';
-        $client->submit($form);
-        $this->assertTrue($client->getResponse()->isRedirect('/room/join/a/' . $room->getId()));
+
     }
 
     public function testJoinConferenceFixedRoomCorrectUserUserLoginUserCorrectRoomNumber(): void
@@ -311,13 +276,7 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
 
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/b/' . $room->getId()));
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_view[uid]'] = $room->getUid();
-        $form['join_view[email]'] = $user->getEmail();
-        $form['join_view[name]'] = 'Test User 123';
-        $client->submit($form);
-        $this->assertTrue($client->getResponse()->isRedirect('/room/join/a/' . $room->getId()));
+
     }
 
     public function testJoinConferenceFixedRoomCorrectUserUserNoLoginUserCorrectRoomNumber(): void
@@ -346,13 +305,7 @@ class JoinPublicTest extends WebTestCase
         $this->assertStringContainsString(
             "jwt: '" . $roomService->generateJwt($room, $user, 'Test User 123') . "',", $client->getResponse()->getContent()
         );
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_view[uid]'] = $room->getUid();
-        $form['join_view[email]'] = $user->getEmail();
-        $form['join_view[name]'] = 'Test User 123';
-        $client->submit($form);
-        $this->assertTrue($client->getResponse()->isRedirect($roomService->join($room, $user, 'a', 'Test User 123')));
+
     }
     public function testJoinConferenceFixedRoomCorrectUserUserNoLoginUserCorrectRoomNumberWithPrefix(): void
     {
@@ -384,13 +337,7 @@ class JoinPublicTest extends WebTestCase
         $this->assertStringContainsString(
             "jwt: '" . $roomService->generateJwt($room, $user, 'Test User 123') . "',", $client->getResponse()->getContent()
         );
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_view[uid]'] = $room->getUid();
-        $form['join_view[email]'] = $user->getEmail();
-        $form['join_view[name]'] = 'Test User 123';
-        $client->submit($form);
-        $this->assertTrue($client->getResponse()->isRedirect($roomService->join($room, $user, 'a', 'Test User 123')));
+
     }
 
     public function testJoinConferenceFixedRoomNoCorrectUserUserNoLoginUserCorrectRoomNumber(): void

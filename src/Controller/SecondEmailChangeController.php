@@ -17,9 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SecondEmailChangeController extends JitsiAdminController
 {
-    /**
-     * @Route("/room/secondEmail/change", name="second_email_change")
-     */
+    #[Route(path: '/room/secondEmail/change', name: 'second_email_change')]
     public function index(Request $request, TranslatorInterface $translator): Response
     {
         $user = $this->getUser();
@@ -33,9 +31,7 @@ class SecondEmailChangeController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/room/secondEmail/save", name="second_email_save")
-     */
+    #[Route(path: '/room/secondEmail/save', name: 'second_email_save')]
     public function new(Request $request, TranslatorInterface $translator, LoggerInterface $logger, ValidatorInterface $validator): Response
     {
         $user = $this->getUser();

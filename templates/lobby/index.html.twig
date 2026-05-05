@@ -5,7 +5,7 @@
 {% block content %}
     <div class="col-12 lobbyCard">
         <div id="jitsiWrapper">
-            <div class="w-100" id="jitsiWindow">
+            <div class="w-100 d-flex d-none" id="jitsiWindow">
                 {% block sidebar %}
                     {% embed('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
                         {% block extension %}
@@ -33,7 +33,8 @@
                         <a class="caretdown btn btn-block btn-primary dropdown-toggle overflow-hidden w-100"
                            type="button"
                            id="selectWebcamDropdown"
-                           data-mdb-toggle="dropdown" aria-haspopup="true"
+                          data-mdb-dropdown-init
+                           aria-haspopup="true"
                            aria-expanded="false"><i class="fa fa-video me-2"></i><span
                                     class=" w-100 text-ellipsis text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
                         </a>
@@ -43,15 +44,16 @@
 
                         <div class="btn-group">
 
-                            <a  type="button" class="btn btn-primary dropdown-toggle caretdown"
-                               data-mdb-toggle="dropdown"
+                            <a type="button" class="btn btn-primary dropdown-toggle caretdown"
+                              data-mdb-dropdown-init
                                data-mdb-reference="parent"
-                               aria-haspopup="true" aria-expanded="false">
+                               aria-haspopup="true"
+                               aria-expanded="false">
                                 <i class="fas fa-microphone"></i>
                             </a>
                             <div class="dropdown-menu">
                                 <div id="audioInputSelect">
-                                    <a  class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                                    <a class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
                                 </div>
                             </div>
                             <a type="button" class="btn btn-primary" id="startEcho"
@@ -64,16 +66,12 @@
                     <div class="dropdown mb-2">
                         <a class="btn btn-lg btn-outline-success btn-rounded" data-mdb-ripple-color="dark"
                            id="dropdownMenu2"
-                           data-mdb-toggle="dropdown" aria-expanded="false">
+                          data-mdb-dropdown-init aria-expanded="false">
                             <i class="fas fa-solid fa-paper-plane"></i> {{ 'lobby.btn.message.to.all'|trans }}
                         </a>
                         {% include('lobby/__lobbyMessageDropdown.html.twig') with {'url':path('lobby_send_message_to_waitinguser_all'),'uid':room.uidReal } %}
                     </div>
-                    <div class="row d-md-none slide-text">
-                        <div class="col-lg-12 text-center">
-                            <p><small>{{ 'Swipen zum zulassen'|trans }}</small></p>
-                        </div>
-                    </div>
+
                     <div id="waitingUserWrapper">
 
                         <div id="waitingUser" class="mb-3 d-flex">
@@ -85,9 +83,9 @@
 
                             </div>
                             <div class="onholdPartcipants ms-1 ms-lg-2">
-                                    {% for cU in room.calloutSessions %}
-                                            {% include 'lobby/__callOutParticipants.html.twig' with {'cU':cU} %}
-                                    {% endfor %}
+                                {% for cU in room.calloutSessions %}
+                                    {% include 'lobby/__callOutParticipants.html.twig' with {'cU':cU} %}
+                                {% endfor %}
 
                             </div>
                         </div>
@@ -116,17 +114,15 @@
                                 {% endif %}
                             {% endif %}
 
-                                <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
-                                   href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}
-                                </a>
-
-
+                            <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
+                               href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}
+                            </a>
 
 
                             <div class="dropdown flex-grow-1" id="selectAtendeeArea" tabindex="-1">
                                 <div class="input-group  w-100">
 
-                                    <div class="form-outline bg-white flex-grow-1">
+                                    <div class="form-outline bg-white flex-grow-1" data-mdb-input-init>
 
                                         <input href="{{ path('search_participant') }}"
                                                type="text"
@@ -149,9 +145,11 @@
                                         <i class="fa fa-user-plus"></i>
                                     </button>
                                 </div>
-                                <div data-mdb-toggle="dropdown"
+                                <div
+                                        data-mdb-dropdown-init
                                      data-mdb-auto-close="false"
-                                     id="searchCallOutParticipantsDropdownTrigger">
+                                     id="searchCallOutParticipantsDropdownTrigger"
+                                >
 
                                 </div>
                                 <div class="dropdown-menu searchCallOutParticipantsDropdown"
@@ -176,9 +174,18 @@
 
 {% endblock %}
 {% block script %}
-    {% include('__checkFirefox.html.twig') with {'room':room} %}
+
     {% if name is defined and name is not null %}
-        <script src='https://{{ room.server.url }}/external_api.js'></script>
+        {% if room.server.liveKitServer %}
+            <script>
+                var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ getLiveKitName(room)  }}?jwt={{ jwtFromRoom(user,room,name) }}&secret={{ generateEncryptedSecret(room) }}';
+                const displayName = '{{ name }}';
+            </script>
+        {% else %}
+            {% include('__checkFirefox.html.twig') with {'room':room} %}
+            <script src='https://{{ room.server.url }}/external_api.js'></script>
+        {% endif %}
+
         <script>
             var hangupQuestion = "{{ 'lobby.endMeeting.ask'|trans }}";
             var endMeetingUrl = "{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}";
@@ -194,7 +201,7 @@
                     prejoinPageEnabled: false,
                     disableBeforeUnloadHandlers: true,
                     {% if server.dynamicBrandingUrl %}
-                    dynamicBrandingUrl:' {{ server.dynamicBrandingUrl }}',
+                    dynamicBrandingUrl: ' {{ server.dynamicBrandingUrl }}',
                     {% endif %}
                     buttonsWithNotifyClick: [
                         'hangup',
@@ -238,13 +245,13 @@
                 'lobby_moderator/'~room.uidReal,
                 'lobby_broadcast_websocket/'~ room.uidReal,
                 'lobby_personal'~room.uidReal~app.user.uid,
-                'whiteboard/'~room.uidReal
+                room.uidReal
             ] %}
             {% else %}
             {% set topics =[
                 'lobby_moderator/'~room.uidReal,
                 'lobby_broadcast_websocket/'~ room.uidReal,
-                'whiteboard/'~room.uidReal
+                room.uidReal
             ] %}
             {% endif %}
             var topic ={{ mercure(topics)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};

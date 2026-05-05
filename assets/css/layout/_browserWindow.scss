@@ -158,18 +158,32 @@
     }
   }
 
-  &:hover > .iframeFrame {
-    height: 33vh !important;
-    -webkit-transition-delay: 0.25s;
-    -moz-transition-delay: 0.25s;
-    -ms-transition-delay: 0.25s;
-    -o-transition-delay: 0.25s;
-    transition-delay: 0.25s;
+  &:hover{
 
+    overflow: initial;
+    .iframeFrame {
+      bottom: 36px;
+      left: 24px;
+      height: 33vh !important;
+      width: 33vh !important;
+      max-width: 80vw !important;
+      -webkit-transition-delay: 0.25s;
+      -moz-transition-delay: 0.25s;
+      -ms-transition-delay: 0.25s;
+      -o-transition-delay: 0.25s;
+      transition-delay: 0.25s;
+      position: absolute!important;
+      left: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: $box-shadow;
+    }
   }
 
   .iframeFrame {
+    position: absolute;
     height: 0 !important;
+    width: 0!important;
     //-webkit-transition-delay: 0s;
     //-moz-transition-delay: 0s;
     //-ms-transition-delay: 0s;
@@ -184,6 +198,7 @@
 
   .pausedFrame {
     position: absolute;
+    z-index: 50;
     top: 0;
     left: 0;
     width: 100%;

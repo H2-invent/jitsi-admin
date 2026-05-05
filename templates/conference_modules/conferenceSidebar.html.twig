@@ -1,27 +1,47 @@
-<div class="conference-sidebar">
+{% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
+
+{% if server is defined and  server is not null and server.logoUrl is not null %}
+    {% set logo_small =  server.logoUrl %}
+{% else %}
+    {% if theme == false %}
+        {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
+    {% else %}
+        {% set logo_small = theme.logo %}
+    {% endif %}
+{% endif %}
+
+
+<div class="conference-sidebar" id="conferenceSidebar">
+    <div class="sidebar-toggle" id="sidebarToggleMobile">
+        <i class="fa fa-caret-right"></i>
+    </div>
     {% if user is defined and user is not null %}
         <script>
             var schowNameInWidgets = "{{ user|nameOfUserNoSymbol }}";
         </script>
     {% endif %}
-
+    <div class="logo">
+        <img src="{{ logo_small }}">
+    </div>
 
     <div class="wrapperIcons" id="wrapperIcons">
 
         {% if room is defined and room is not null %}
-            {% if room.server.disableChat != true %}
+            {% if not room.server.liveKitServer %}
+                {% if room.server.disableChat != true %}
 
-                <div class="wrapper">
-                    <div class=" externalChat conference-icon" id="externalChat">
-                        <i class="fa-regular fa-message"></i>
-                        <div class="filter-dot d-none"></div>
+                    <div class="wrapper">
+                        <div class=" externalChat conference-icon" id="externalChat">
+                            <i class="fa-regular fa-message"></i>
+                            <div class="filter-dot d-none"></div>
+                        </div>
+                        <div class="wrapper-helper">
+                            {{ 'options.chat'|trans }}
+
+
+                        </div>
                     </div>
-                    <div class="wrapper-helper">
-                        {{ 'options.chat'|trans }}
-
-
-                    </div>
-                </div>
+                {% endif %}
             {% endif %}
         {% endif %}
 
@@ -37,11 +57,12 @@
                                     or roomPermissions(app.user,room).moderator == true
                                     or roomPermissions(app.user,room).lobbyModerator == true) %}
                                     data-selfurl="{{ createWhitebophirLink(room,true) }}"
-                                    data-room="whiteboard/{{ room.uidReal }}"
+                                    data-room="{{ room.uidReal }}"
                                     data-url="{{ createWhitebophirLink(room,false) }}"
                                 {% else %}
                                     data-selfurl="{{ createWhitebophirLink(room,false) }}"
                                 {% endif %}
+                             data-roomUid="{{ room.uid }}"
                         >
                             <i class="fa-solid fa-chalkboard"></i>
 
@@ -54,6 +75,23 @@
             {% endif %}
         {% endif %}
 
+        {% if getApplicationProperties('LAF_LOOKYLOOKY_FUNCTION') == 1 %}
+
+            <div class="wrapper">
+                <div class="startExternalApp  startLookyLooky conference-icon d-none"
+                     data-selfurl="{{ getApplicationProperties('LOOKYLOOKY_URL') }}"
+                     data-roomUid="{{ room.uidReal }}"
+                     data-room="{{ room.uid }}"
+                >
+                    <i class="fa-solid fa-file-pdf"></i>
+
+                </div>
+                <div class="wrapper-helper">
+                    {{ 'options.whiteboard'|trans }}
+                </div>
+            </div>
+
+        {% endif %}
         {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
             {% if name is not defined or name is null %}
                 {% set name = 'Meetling' %}
@@ -69,11 +107,12 @@
                                     or roomPermissions(app.user,room).moderator == true
                                     or roomPermissions(app.user,room).lobbyModerator == true) %}
                                     data-selfurl="{{ createEtherpadLink(room,user) }}"
-                                    data-room="whiteboard/{{ room.uidReal }}"
+                                    data-room="{{ room.uidReal }}"
                                     data-url="{{ createEtherpadLink(room) }}"
                                 {% else %}
                                     data-selfurl="{{ createEtherpadLink(room,user) }}"
                                 {% endif %}
+                             data-roomUid="{{ room.uid }}"
                         >
                             <i class="fa-solid fa-clipboard"></i>
                         </div>
@@ -85,7 +124,17 @@
             {% endif %}
         {% endif %}
         {% block extension %}{% endblock %}
-        {% include 'conference_modules/__toggleFilmstripe.html.twig' %}
+        {% if not room.server.liveKitServer %}
+            {% include 'conference_modules/__toggleFilmstripe.html.twig' %}
+        {% endif %}
+        {% if room.server.liveKitServer %}
+            {% include 'conference_modules/__livekit_recording.html.twig' %}
+        {% endif %}
+        <div class="wrapper d-none" id="chatwoot-helper">
+            <div class=" conference-icon">
+                <i class="fa-solid fa-question"></i>
+            </div>
+        </div>
     </div>
 </div>
 

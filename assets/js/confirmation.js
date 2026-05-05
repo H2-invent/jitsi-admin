@@ -1,174 +1,212 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- */
-
-import $ from 'jquery';
-
-global.$ = global.jQuery = $;
-import ('jquery-confirm');
+import Swal from 'sweetalert2'
 import {initSearchUser} from './searchUser'
+import {Popover, Tooltip, Collapse, Dropdown, Input, initMDB} from "mdb-ui-kit";
+import {createIframe} from "./createConference";
+import {setSnackbar} from "./myToastr";
+
 var title = "Bestätigung";
 var cancel = "Abbrechen";
 var ok = "OK";
 
-function initDirectSend() {
-    $(document).on('click', '.directSend', function (e) {
-        var $url = $(this).prop('href');
-        var $targetUrl = $(this).data('url');
-        var target = $(this).data('target');
 
-        e.preventDefault();
-        $.get($url, function (data) {
-            $(target).closest('div').load($targetUrl + ' ' + target, function () {
-                hideTooltip();
-                $('[data-mdb-toggle="popover"]').popover({html: true});
-                $('[data-mdb-toggle="tooltip"]').tooltip('hide');
-                $('.tooltip').remove();
-                $('[data-mdb-toggle="tooltip"]').tooltip();
-            });
-            if (typeof data.snack !== 'undefined') {
-                $('#snackbar').text(data.text).addClass('show');
-            }
+export function initAllComponents() {
+    initInput();
+    initCollapse();
+    initDropdown();
+    initTooltip();
+    initPopover();
+}
 
-        })
+export function initPopover() {
+    initMDB({Popover});
+    const items = document.querySelectorAll('[data-mdb-popover-init]');
+    items.forEach(item => {
+        Popover.getOrCreateInstance(item);
     });
 }
 
-function initconfirmHref() {
+export function initDropdown() {
+    initMDB({Dropdown});
+    const items = document.querySelectorAll('[data-mdb-dropdown-init]');
+    items.forEach(item => {
+        Dropdown.getOrCreateInstance(item);
+    });
+}
 
-    $(document).on('click', '.confirmHref', function (e) {
-        e.preventDefault();
-        var url = $(this).prop('href');
-        var text = $(this).data('text');
-        if (typeof text === 'undefined') {
+export function initCollapse() {
+    initMDB({Collapse});
+    const items = document.querySelectorAll('[data-mdb-collapse-init]');
+    items.forEach(item => {
+        Collapse.getOrCreateInstance(item);
+    });
+}
 
-            text = 'Wollen Sie die Aktion durchführen?'
-        }
-
-        var jc = $.confirm({
-            title: title,
-            content: text,
-            theme: 'material',
-            columnClass: 'col-md-8 col-12 col-lg-6',
-            buttons: {
-                confirm: {
-                    text: ok, // text for button
-                    btnClass: 'btn-outline-danger btn', // class for the button
-                    action: function () {
-                        window.location.href = url;
-                        jc.showLoading(false);
-                        return false;
-                    },
-
-
-                },
-                cancel: {
-                    text: cancel, // text for button
-                    btnClass: 'btn-outline-primary btn', // class for the button
-                },
-            }
-        });
-    })
+export function initInput() {
+    initMDB({Input});
+    const items = document.querySelectorAll('[data-mdb-input-init]');
+    items.forEach(item => {
+        Input.getOrCreateInstance(item);
+    });
 }
 
 
-function initconfirmLoadOpenPopUp() {
+export function initTooltip() {
+    initMDB({Tooltip});
+    const items = document.querySelectorAll('[data-mdb-tooltip-init]');
+    items.forEach(item => {
+        Tooltip.getOrCreateInstance(item);
+    });
+}
 
-    $(document).on('click', '.confirmloadOpenPopUp', function (e) {
+function initDirectSend() {
+    document.addEventListener('click', function (e) {
+        const triggerElement = e.target.closest('.directSend');
 
-        e.preventDefault();
-        var url = $(this).prop('href');
-        var text = $(this).data('text');
-        if (typeof text === 'undefined') {
+        if (triggerElement) {
+            e.preventDefault();
+            var url = triggerElement.href;
+            var target = triggerElement.dataset.target;
+            const targetUrl = triggerElement.dataset.url;
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    if (targetUrl && target){
+                        reloadPartial(targetUrl, target);
+                    }
+                    if (data.snack) {
+                        const snackbar = document.getElementById('snackbar');
+                        snackbar.textContent = data.text;
+                        snackbar.classList.add('show');
+                        setTimeout(() => snackbar.classList.remove('show'), 3000); // Snackbar nach 3 Sekunden entfernen
+                    }
+                });
 
-            text = 'Wollen Sie die Aktion durchführen?'
+
         }
+    });
+}
 
-        $.confirm({
-            title: title,
-            content: text,
-            theme: 'material',
-            columnClass: 'col-md-8 col-12 col-lg-6',
-            buttons: {
-                confirm: {
-                    text: ok, // text for button
-                    btnClass: 'btn-outline-danger btn', // class for the button
-                    action: function () {
-                        const win = window.open('about:blank');
-                        $.get(url, function (data) {
-                            if(data.popups){
-                                data.popups.forEach(function (value,i) {
-                                    win.location.href = value;
-                                })
+
+function initconfirmHref() {
+    document.addEventListener('click', function (e) {
+        const triggerElement = e.target.closest('.confirmHref');
+
+        if (triggerElement) {
+            e.preventDefault();
+            const url = triggerElement.href;
+            const text = triggerElement.dataset.text || 'Wollen Sie die Aktion durchführen?';
+
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'question',
+                backdrop: false,
+                showCancelButton: true,
+                cancelButtonText: cancel,
+                heightAuto: false,
+                customClass: {
+                    confirmButton: 'btn-danger btn',
+                    cancelButton: 'btn-outline-primary btn'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        }
+    });
+}
+
+function initconfirmLoadOpenPopUp() {
+    document.addEventListener('click', function (e) {
+        const triggerElement = e.target.closest('.confirmloadOpenPopUp');
+
+        if (triggerElement) {
+
+            e.preventDefault();
+            const url = triggerElement.href;
+            const text = triggerElement.dataset.text || 'Wollen Sie die Aktion durchführen?';
+
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'question',
+                backdrop: false,
+                showCancelButton: true,
+                cancelButtonText: cancel,
+                heightAuto: false,
+                customClass: {
+                    confirmButton: 'btn-danger btn',
+                    cancelButton: 'btn-outline-primary btn'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const win = window.open('about:blank');
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+
+                            if (data.popups) {
+                                data.popups.forEach(value => win.location.href = value);
                             }
                             window.location.href = data.redirectUrl;
-                        })
-                    },
-
-
-                },
-                cancel: {
-                    text: cancel, // text for button
-                    btnClass: 'btn-outline-primary btn', // class for the button
-                },
-            }
-        });
-    })
+                        });
+                }
+            });
+        }
+    });
 }
 
 function initConfirmDirectSendHref() {
-    $(document).on('click', '.directSendWithConfirm', function (e) {
-        e.preventDefault();
-        var $url = $(this).prop('href');
-        var $targetUrl = $(this).data('url');
-        var target = $(this).data('target');
-        var text = $(this).data('text');
-        if (typeof text === 'undefined') {
-            text = 'Wollen Sie die Aktion durchführen?'
-        }
+    document.addEventListener('click', function (e) {
+        // Prüft die DOM-Hierarchie auf ein Element mit der Klasse `.directSendWithConfirm`
+        const triggerElement = e.target.closest('.directSendWithConfirm');
 
-        $.confirm({
-            title: title,
-            content: text,
-            theme: 'material',
-            columnClass: 'col-md-8 col-12 col-lg-6',
-            buttons: {
-                confirm: {
-                    text: ok, // text for button
-                    btnClass: 'btn-outline-danger btn', // class for the button
-                    action: function () {
-                        $.get($url, function (data) {
-                            $(target).closest('div').load($targetUrl + ' ' + target, function () {
-                                initSearchUser();
-                                hideTooltip();
-                                $('[data-mdb-toggle="popover"]').popover({html: true});
-                                $('[data-mdb-toggle="tooltip"]').tooltip('hide');
-                                $('.tooltip').remove();
-                                $('[data-mdb-toggle="tooltip"]').tooltip();
+        if (triggerElement) {
+            e.preventDefault();
 
-                            });
-                            if (typeof data.snack !== 'undefined') {
-                                $('#snackbar').text(data.snack).addClass('show');
+            const url = triggerElement.href;
+            const text = triggerElement.dataset.text || 'Wollen Sie die Aktion durchführen?';
+
+            const target = triggerElement.dataset.target;
+            const targetUrl = triggerElement.dataset.url;
+            Swal.fire({
+                title: 'Bestätigung', // Hier ggf. den Titel anpassen
+                text: text,
+                icon: 'question',
+                backdrop: false,
+                showCancelButton: true,
+                cancelButtonText: 'Abbrechen', // Übersetzung anpassen
+                heightAuto: false,
+                customClass: {
+                    confirmButton: 'btn-danger btn',
+                    cancelButton: 'btn-outline-primary btn'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(url)
+                        .then(response => response.json()) // Erwartet eine JSON-Antwort
+                        .then(data => {
+                            if (targetUrl && target){
+                                reloadPartial(targetUrl, target);
                             }
-                            $('[data-mdb-toggle="popover"]').popover({html: true});
-                            $('[data-mdb-toggle="tooltip"]').tooltip('hide');
-                            $('.tooltip').remove();
-                            $('[data-mdb-toggle="tooltip"]').tooltip()
-                        })
-                    },
 
-
-                },
-                cancel: {
-                    text: cancel, // text for button
-                    btnClass: 'btn-outline-primary btn', // class for the button
-                },
-            }
-        });
-
+                            if (data.toast){
+                                setSnackbar(data.message,'',data.color,false,'0x00',5000);
+                            }
+                            if (data.snack) {
+                                const snackbar = document.getElementById('snackbar');
+                                snackbar.textContent = data.text;
+                                snackbar.classList.add('show');
+                                setTimeout(() => snackbar.classList.remove('show'), 3000); // Snackbar nach 3 Sekunden entfernen
+                            }
+                        });
+                }
+            });
+        }
     });
 }
+
 
 function initAjaxSend(titleL, cancelL, okL) {
     title = titleL;
@@ -178,9 +216,72 @@ function initAjaxSend(titleL, cancelL, okL) {
     initDirectSend();
     initconfirmHref();
     initconfirmLoadOpenPopUp();
-}
-function hideTooltip() {
-    $('.tooltip').remove();
+    initOpenInMultiframe();
 }
 
-export {initAjaxSend, initDirectSend, initConfirmDirectSendHref, initconfirmHref}
+export function reloadPartial(url, target) {
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            // Erstelle ein temporäres DOM-Element, um die HTML-Antwort zu parsen
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = data;
+
+            // Extrahiere den Inhalt des atendeeList-Elements aus der Antwort
+            const newContent = tempDiv.querySelector(target);
+            if (newContent) {
+                // Aktualisiere den Inhalt von atendeeList im aktuellen DOM
+                const oldContent = document.querySelector(target);
+                oldContent.innerHTML = newContent.innerHTML; // Setze nur den neuen Inhalt
+                initMDB({Collapse, Dropdown, Popover, Tooltip});
+                hideTooltip();
+                initDropdown();
+                initCollapse();
+                initPopover();
+                initTooltip();
+            } else {
+                console.error('Das atendeeList-Element wurde in der Antwort nicht gefunden.');
+            }
+
+
+            if (data.snack) {
+                document.getElementById('snackbar').textContent = data.text;
+                document.getElementById('snackbar').classList.add('show');
+            }
+        });
+}
+
+
+export function initOpenInMultiframe() {
+    document.addEventListener('click', function (e) {
+        const triggerElement = e.target.closest('.loadInMultiframe');
+
+        if (triggerElement) {
+
+            e.preventDefault();
+
+            var url = e.target.href;
+            return fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.popups) {
+                        data.popups.forEach(function (value) {
+                            createIframe(value.url, value.title);
+                        });
+                    }
+                })
+                .catch(() => {
+                    Swal.showValidationMessage('Request failed');
+                });
+        }
+    });
+
+
+};
+
+
+function hideTooltip() {
+    document.querySelectorAll('.tooltip').forEach(el => el.remove());
+}
+
+export {initAjaxSend, initDirectSend, initConfirmDirectSendHref, initconfirmHref};

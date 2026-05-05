@@ -16,7 +16,7 @@ class PublicConferenceService
     {
     }
 
-    public function createNewRoomFromName(string $roomName, Server $server): Rooms
+    public function createNewRoomFromName(string $roomName, ?Server $server = null): Rooms
     {
         $roomname = UtilsHelper::slugify($roomName);
         $uid = md5($server->getUrl() . $roomname);

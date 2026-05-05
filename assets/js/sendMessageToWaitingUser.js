@@ -46,7 +46,7 @@ function sendToServer(url,message,uid) {
     })
         .then((response) => response.json())
         .then((data) => {
-            setSnackbar(data.message,data.error?'danger':'success',false,'0x00',5000);
+            setSnackbar(data.message,'Message',data.error?'danger':'success',false,'0x00',5000);
         })
 
 }

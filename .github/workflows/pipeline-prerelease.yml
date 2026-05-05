@@ -5,89 +5,126 @@ env:
 on:
   push:
     branches:
-      - feature/development
-      - unstable/*
+      - hotfix/*
+      - staging
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: paulhatch/semantic-version@v5.0.2
+        id: version
+        with:
+          tag_prefix: ""
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          change_path: .
+          version_format: "${major}.${minor}.${patch}-${{ github.run_id }}"
+
   artifact:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
+    uses: ./.github/workflows/task-artifact.yml
 
   test:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-test.yml@devops
+    uses: ./.github/workflows/task-test.yml
     needs:
       - artifact
 
-  create_release:
+  release:
     needs:
+      - artifact
+      - version
       - test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y.%m.%d')"
-
-      - uses: actions/download-artifact@v3
-        with:
-          name: artifact_${{github.run_number}}
-
-      - run: unzip -qq artifact_${{github.run_number}}.zip -d artifact
-
-      - name: Write semantic Version in .env.local
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "laF_version=2.0.0-dev"
-          replace: "laF_version=DEV-CI-${{ steps.date.outputs.date }}-${{github.run_number}}"
-          regex: false
-          include: "artifact/.env"
-
-      - name: Archive Release for application
-        uses: thedoctor0/zip-release@0.7.1
-        with:
-          type: 'zip'
-          filename: 'application.zip'
-          exclusions: '*.git* *.github* /*node_modules/* /*nodejs/* /*var/* .editorconfig'
-          directory: artifact
-
-      - name: Archive Release for websocket
-        uses: thedoctor0/zip-release@0.7.1
-        with:
-          type: 'zip'
-          filename: 'websocket.zip'
-          directory: artifact/nodejs
-
-      - name: Create new Release with semantic-version tag
-        uses: ncipollo/release-action@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: true
-          name: DEV-CI-${{ steps.date.outputs.date }}-${{github.run_number}}
-          tag: DEV-CI-${{ steps.date.outputs.date }}-${{github.run_number}}
-          artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
-          artifactContentType: application/zip
-
-  upload_dockerhub_main:
-    needs:
-      - test
-    uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    uses: ./.github/workflows/task-release.yml
     with:
-      reponame: 'h2invent/jitsi-admin-main'
+      version: ${{ needs.version.outputs.version }}
+      prerelease: true
+
+  release_note:
+    uses: ./.github/workflows/task-wiki-release.yml
+    needs:
+      - release
+      - version
+    with:
+      version: ${{ needs.version.outputs.version }}
+
+  dockerhub_application:
+    needs:
+      - version
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
       dockerfile_path: './Dockerfile'
       directory: '.'
-      version: "h2invent/jitsi-admin-main:dev-ci-unstable-${{github.run_number}}"
+      version: ${{ needs.version.outputs.version }}
+      tags: h2invent/jitsi-admin-main:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
 
-  upload_dockerhub_websocket:
+  dockerhub_websocket:
     needs:
+      - version
       - test
-    uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
-      reponame: 'h2invent/jitsi-admin-websocket'
       dockerfile_path: './nodejs/Dockerfile'
       directory: './nodejs'
-      version: "h2invent/jitsi-admin-websocket:dev-ci-unstable-${{github.run_number}}"
+      version: ${{ needs.version.outputs.version }}
+      tags: h2invent/jitsi-admin-websocket:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+
+  docker_prod_core:
+    needs:
+      - version
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './Dockerfile-prod'
+      directory: '.'
+      version: ${{ needs.version.outputs.version }}
+      tags: reg.h2-invent.com/meetling/core:${{ needs.version.outputs.version }}
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+
+  docker_prod_websocket:
+    needs:
+      - version
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './nodejs/Dockerfile-prod'
+      directory: './nodejs'
+      version: ${{ needs.version.outputs.version }}
+      tags: reg.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }}
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+
+  docker_prod_application:
+    needs:
+      - version
+      - test
+      - docker_prod_core
+      - docker_prod_websocket
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './Dockerfile-aio'
+      directory: '.'
+      version: ${{ needs.version.outputs.version }}
+      tags: reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }}
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}

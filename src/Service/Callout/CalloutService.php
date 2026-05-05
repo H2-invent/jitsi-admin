@@ -2,11 +2,13 @@
 
 namespace App\Service\Callout;
 
+use App\Entity\CallerSession;
 use App\Entity\CalloutSession;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Service\adhocmeeting\AdhocMeetingService;
+use App\Service\adhocmeeting\AdhocMeetingWebsocketService;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -14,11 +16,11 @@ use Psr\Log\LoggerInterface;
 class CalloutService
 {
     public function __construct(
-        private EntityManagerInterface     $entityManager,
-        private AdhocMeetingService        $adhocMeetingService,
-        private ThemeService               $themeService,
-        private LoggerInterface            $logger,
-        private LobbyWaitungUserRepository $lobbyWaitungUserRepository,
+        private EntityManagerInterface       $entityManager,
+        private ThemeService                 $themeService,
+        private LobbyWaitungUserRepository   $lobbyWaitungUserRepository,
+        private AdhocMeetingWebsocketService $adhocMeetingWebsocketService,
+        private LoggerInterface              $logger,
     )
     {
     }
@@ -30,8 +32,11 @@ class CalloutService
      * @param User $inviter
      * @return CalloutSession|null
      */
-    public function initCalloutSession(Rooms $rooms, User $user, User $inviter): ?CalloutSession
+    public
+    function initCalloutSession(Rooms $rooms, User $user, User $inviter): ?CalloutSession
     {
+
+        $this->logger->debug('create callout session');
         return $this->createCallout($rooms, $user, $inviter);
     }
 
@@ -42,35 +47,50 @@ class CalloutService
      * @param User $inviter
      * @return CalloutSession|null
      */
-    public function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
+    public
+    function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
     {
         $callout = $this->checkCallout($rooms, $user);
+        $callIn = $this->checkCallIn($rooms, $user);
         if ($inviter === $user) {
+            $this->logger->debug('no inviter found to invite into callout. Leave callout invitation');
+            return null;
+        }
+        if ($callIn) {
+            $this->logger->debug('the invited user has already a calling Session. So it is not allowed to retry a callout');
             return null;
         }
 
         if ($callout) {
+
+            $this->logger->debug('there is already a calloutsession. Change retries und reinvite the callout user');
             if ($callout->getState() > 1) {//calloutsession is on hold
+                $this->logger->debug('The callout session is on hold an it is tried to recall the user');
                 if ($callout->getLeftRetries() > 0) {
+                    $this->logger->debug('The callout session is on hold and there are left retries so we call the user again');
                     $callout->setLeftRetries($callout->getLeftRetries() - 1);
                     $callout->setState(CalloutSession::$INITIATED);
-                    $this->adhocMeetingService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
+                    $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
                     $this->entityManager->persist($callout);
                     $this->entityManager->flush();
                 }
             }
             return $callout;
         }
-
-        $this->adhocMeetingService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
+        $this->logger->debug('Send Callout message to websocket so the called user is invited');
+        $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
 
         if (!$this->isAllowedToBeCalled($user)) {
+            $this->logger->debug('The USer is not allowed to be called');
+
             return null;
         }
-        if ($this->isalreadyInTheConfernce(user: $user)){
+        if ($this->isalreadyInTheConfernce(user: $user,rooms: $rooms)) {
+            $this->logger->debug('The User was already invied in the conference conference');
             return null;
         }
 
+        $this->logger->debug('there is no calloutsession. So we create a new one');
         $callout = new CalloutSession();
         $callout->setUser($user)
             ->setRoom($rooms)
@@ -91,9 +111,23 @@ class CalloutService
      * @param User $user
      * @return CalloutSession|null
      */
-    public function checkCallout(Rooms $rooms, User $user): ?CalloutSession
+    public
+    function checkCallout(Rooms $rooms, User $user): ?CalloutSession
     {
+        $this->logger->debug('check if callout exists');
         return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(['room' => $rooms, 'user' => $user]);
+    }
+
+    /**
+     * checks if a callInSession is running
+     * @param Rooms $rooms
+     * @param User $user
+     * @return CalloutSession|null
+     */
+    public function checkCallIn(Rooms $rooms, User $user): ?CallerSession
+    {
+        $this->logger->debug('check if callin exists');
+        return $this->entityManager->getRepository(CallerSession::class)->findCallerSessionByUserAndRoom($user, $rooms);
     }
 
     /**
@@ -102,7 +136,8 @@ class CalloutService
      * @param User|null $user
      * @return bool
      */
-    public function isAllowedToBeCalled(?User $user): bool
+    public
+    function isAllowedToBeCalled(?User $user): bool
     {
         return $this->getCallerIdForUser($user) !== null;
     }
@@ -112,9 +147,10 @@ class CalloutService
      * @param User|null $user
      * @return bool
      */
-    public function isalreadyInTheConfernce(?User $user): bool
+    public
+    function isalreadyInTheConfernce(?User $user, ?Rooms $rooms): bool
     {
-        $lobbyUser = $this->lobbyWaitungUserRepository->findOneBy(array('user' => $user));
+        $lobbyUser = $this->lobbyWaitungUserRepository->findOneBy(array('user' => $user, 'room'=>$rooms));
         if ($lobbyUser) {
             return true;
         }
@@ -126,7 +162,8 @@ class CalloutService
      * @param User|null $user
      * @return mixed|null
      */
-    public function getCallerIdForUser(?User $user)
+    public
+    function getCallerIdForUser(?User $user)
     {
         if (!$user) {
             return null;
@@ -148,23 +185,4 @@ class CalloutService
         return null;
     }
 
-    public function dialSuccessfull(User $user, Rooms $rooms): bool
-    {
-//        $calloutRepo = $this->entityManager->getRepository(CalloutSession::class);
-//        $calloutSession = $calloutRepo->findOneBy(array('room' => $rooms, 'user' => $user));
-//
-//        if ($calloutSession) {
-//            $calloutSession = $calloutRepo->findCalloutSessionActive($calloutSession->getUid());
-//            if ($calloutSession) {
-//                $this->entityManager->remove($calloutSession);
-//                $this->entityManager->flush();
-//                $this->logger->debug('The Calloutsession was destoyed Successfully');
-//                return true;
-//            }
-//            $this->logger->debug('There is no valid Callout Session which can be destroyed. The Calloutsession is not in the right state');
-//        }else{
-//            $this->logger->debug('There is no calloutsession with this user and room');
-//        }
-//        return false;
-    }
 }

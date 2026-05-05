@@ -68,11 +68,12 @@ class MailerServiceTest extends KernelTestCase
         //$routerService = self::getContainer()->get('router');
         $mailerService = self::getContainer()->get(MailerService::class);
 
-        $mailer = $mailerService->buildTransport($this->server);
-        $this->assertFalse($mailer);
+       $mailerService->buildTransport($this->server);
+        self::assertNull($mailerService->getCustomMailer());
         $this->server->setSmtpHost('localhost');
-        $mailer = $mailerService->buildTransport($this->server);
-        $this->assertNotFalse($mailer);
+        $mailerService->buildTransport($this->server);
+        self::assertNotNull($mailerService->getCustomMailer());
+        self::assertStringContainsString('localhost',$mailerService->getCustomMailer()->getDsn());
     }
 
     public function testSendEmailSenderHasEmail(): void
@@ -87,6 +88,7 @@ class MailerServiceTest extends KernelTestCase
         $this->assertEmailHtmlBodyContains($email, 'TestEmailContent');
         self::assertEmailAddressContains($email, 'from', 'register@local.local');
     }
+
     public function testSendEmailSenderHasEmailNoRoom(): void
     {
         $kernel = self::bootKernel();
@@ -100,6 +102,7 @@ class MailerServiceTest extends KernelTestCase
         self::assertEmailAddressContains($email, 'from', 'register@local.local');
         self::assertEmailAddressContains($email, 'reply-to', 'test@test.de');
     }
+
     public function testSendEmailSenderHasEmailNoRoomNoReply(): void
     {
         $kernel = self::bootKernel();
@@ -112,6 +115,7 @@ class MailerServiceTest extends KernelTestCase
         $this->assertEmailHtmlBodyContains($email, 'TestEmailContent');
         self::assertEmailAddressContains($email, 'from', 'register@local.local');
     }
+
     public function testSendEmailSenderNoEmail(): void
     {
         $kernel = self::bootKernel();
@@ -136,6 +140,7 @@ class MailerServiceTest extends KernelTestCase
         $res = $mailerService->sendEmail($this->userReciever, 'testEmail', 'TestEmailContent', $this->server, $this->userSender->getEmail(), $this->room);
         $this->assertEmailCount(0);
     }
+
     public function testSendEmailRecieverNoEmailhasLDAP(): void
     {
         $kernel = self::bootKernel();
@@ -152,6 +157,7 @@ class MailerServiceTest extends KernelTestCase
         $res = $mailerService->sendEmail($this->userReciever, 'testEmail', 'TestEmailContent', $this->server, $this->userSender->getEmail(), $this->room);
         $this->assertTrue($res);
     }
+
     public function testSendEmailRecieverHasEmailhasLDAP(): void
     {
         $kernel = self::bootKernel();
@@ -170,6 +176,7 @@ class MailerServiceTest extends KernelTestCase
         $this->assertEmailHtmlBodyContains($email, 'TestEmailContent');
         self::assertEmailAddressContains($email, 'from', 'register@local.local');
     }
+
     public function testSendEmailSenderhasCC(): void
     {
         $kernel = self::bootKernel();

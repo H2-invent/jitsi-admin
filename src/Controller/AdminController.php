@@ -14,9 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdminController extends JitsiAdminController
 {
-    /**
-     * @Route("/admin/server/{server}", name="admin_server")
-     */
+    #[Route(path: '/admin/server/{server}', name: 'admin_server')]
     public function server(
         ParameterBagInterface $parameterBag,
         #[MapEntity(id: 'server')] Server $server,
@@ -33,15 +31,7 @@ class AdminController extends JitsiAdminController
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
              return $this->redirectToRoute('dashboard');
         }
-        $tags = null;
-        try {
-            if ($parameterBag->get('enterprise_noExternal') == 0) {
-                $req = $httpClient->request('GET', 'https://api.github.com/repos/H2-invent/jitsi-admin/tags');
-                $tags = json_decode($req->getContent(), true);
-            }
-        } catch (\Exception $exception) {
-            $tags = null;
-        }
+
 
         $chart = $adminService->createChart($server);
         $lastStars = $this->doctrine->getRepository(Star::class)->findBy(['server' => $server], ['createdAt' => 'DESC'], 5);
@@ -58,7 +48,6 @@ class AdminController extends JitsiAdminController
                 'server' => $server,
                 'countPart' => $countPart,
                 'chart' => $chart,
-                'tags' => $tags,
                 'lastAverage' => $average
             ]
         );

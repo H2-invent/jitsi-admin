@@ -29,12 +29,14 @@ class Jwt extends AbstractExtension
         return [
             new TwigFunction('jwtFromRoom', [$this, 'jwtFromRoom']),
             new TwigFunction('urlFromRoom', [$this, 'urlFromRoom']),
+            new TwigFunction('generateEncryptedSecret', [$this, 'generateEncryptedSecret']),
         ];
     }
 
-    public function jwtFromRoom(?User $user, Rooms $rooms, $name, $moderatorExplizit = false)
+    public function jwtFromRoom(?User $user, Rooms $rooms, $name, $moderatorExplizit = false,$noModerator=false, $skipLobby=false,$enableMic = null, $enableCamera=null)
     {
-        return $this->roomService->generateJwt($rooms, $user, $name, $moderatorExplizit);
+
+        return $this->roomService->generateJwt($rooms, $user, $name, $moderatorExplizit, noModerator: $noModerator,skipLobby: $skipLobby,enableMic: $enableMic,enableCamera: $enableCamera);
     }
 
     public function urlFromRoom(?User $user, Rooms $rooms, $name, $t)
@@ -44,5 +46,9 @@ class Jwt extends AbstractExtension
         } else {
             return $this->roomService->joinUrl($t, $rooms, $name, false);
         }
+    }
+    public function generateEncryptedSecret( Rooms $rooms)
+    {
+        return $this->roomService->generateEncryptedSecret($rooms->getServer());
     }
 }

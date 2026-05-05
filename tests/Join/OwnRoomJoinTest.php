@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
+use App\Service\JoinUrlGeneratorService;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -17,9 +18,14 @@ class OwnRoomJoinTest extends WebTestCase
     {
         $client = static::createClient();
         $room = $this->getRoomByName('Room with Start and no Participants list');
+    
+        $room->setStart((new \DateTime())->modify('+2 hours'));
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+    
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $urlGen = $this->getContainer()->get(UrlGeneratorInterface::class);
-
         $url = $urlGen->generate('join_index_no_slug', ['snack' => 'Der Beitritt ist nur von ' . $room->getStart()->modify('-30min')->format('d.m.Y H:i T') . ' bis ' . $room->getEnddate()->format('d.m.Y H:i T') . ' möglich']);
         self::assertTrue($client->getResponse()->isRedirect());
     }
@@ -81,12 +87,7 @@ class OwnRoomJoinTest extends WebTestCase
         $client->submit($form);
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->generate('room_waiting', ['name' => 'Test User 123', 'uid' => $room->getUid(), 'type' => 'b'])));
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_my_room[name]'] = 'Test User 123';
-        $client->submit($form);
-        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->generate('room_waiting', ['name' => 'Test User 123', 'uid' => $room->getUid(), 'type' => 'a'])));
+
     }
     public function test_hasStart_waitingTime_isModerator_no_Lobby(): void
     {
@@ -104,13 +105,9 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
         $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_my_room[name]'] = 'Test User 123';
-        $client->submit($form);
+
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlGenService = self::getContainer()->get(RoomService::class);
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', true)));
-
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -144,15 +141,9 @@ class OwnRoomJoinTest extends WebTestCase
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_my_room[name]'] = 'Test User 123';
-        $client->submit($form);
-        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+
+
         $urlGenService = self::getContainer()->get(RoomService::class);
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', true)));
-
-
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
@@ -235,20 +226,8 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_my_room[name]'] = 'Test User 123';
-        $client->submit($form);
         $urlGenService = self::getContainer()->get(RoomService::class);
-        self::assertResponseIsSuccessful();
         $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
-        $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 1);
-
-        self::assertStringContainsString("var type = 'a';", $client->getResponse()->getContent());
-        self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", $client->getResponse()->getContent());
-        self::assertStringNotContainsString("jwt", $client->getResponse()->getContent());
-
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
@@ -277,21 +256,22 @@ class OwnRoomJoinTest extends WebTestCase
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
-
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
+        $urlGenService = self::getContainer()->get(RoomService::class);
+        $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
-        $urlGenService = self::getContainer()->get(RoomService::class);
+
         self::assertResponseIsSuccessful();
-        $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
         self::assertIsInt(sizeof($lobbyUSer), 1);
         self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
         self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
 //        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
         self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
+        self::assertStringContainsString('room/lobby/start/moderator/b/' . $room->getUidReal(), $client->getResponse()->getContent());
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -329,19 +309,11 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_my_room[name]'] = 'Test User 123';
-        $client->submit($form);
+
         $urlGenService = self::getContainer()->get(RoomService::class);
         self::assertResponseIsSuccessful();
         $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 1);
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -372,13 +344,9 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_my_room[name]'] = 'Test User 123';
-        $client->submit($form);
+
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlGenService = self::getContainer()->get(RoomService::class);
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', true)));
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -390,6 +358,92 @@ class OwnRoomJoinTest extends WebTestCase
 //        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
         self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
     }
+    public function test_hasNoStart_isModerator_NoLobby_with_NamePreset(): void
+    {
+        $client = static::createClient();
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $client->loginUser($user);
+        $room = $this->getRoomByName('This Room has no participants and fixed room');
+        $room->getServer()->setLiveKitServer(true);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+        $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid().'?userName=Testuser');
+
+        self::assertResponseIsSuccessful();
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $urlGenService = self::getContainer()->get(RoomService::class);
+        self::assertStringContainsString( $urlGenService->generateJwt($room, $user, 'Testuser'), $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+    }
+
+    public function test_hasNoStart_isModerator_NoLobby_with_NamePreset_and_Skip_Lobby(): void
+    {
+        $client = static::createClient();
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $client->loginUser($user);
+        $room = $this->getRoomByName('This Room has no participants and fixed room');
+        $room->getServer()->setLiveKitServer(true);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+        $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid().'?userName=Testuser&skipLobby=true');
+
+        self::assertResponseIsSuccessful();
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $urlGenService = self::getContainer()->get(RoomService::class);
+        self::assertStringContainsString( $urlGenService->generateJwt($room, $user, 'Testuser',skipLobby: "true"), $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+    }
+    public function test_hasNoStart_isModerator_NoLobby_with_NamePreset_and_Skip_Lobby_and_enableMic(): void
+    {
+        $client = static::createClient();
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $client->loginUser($user);
+        $room = $this->getRoomByName('This Room has no participants and fixed room');
+        $room->getServer()->setLiveKitServer(true);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+        $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid().'?userName=Testuser&enableMic=true');
+
+        self::assertResponseIsSuccessful();
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $urlGenService = self::getContainer()->get(RoomService::class);
+        self::assertStringContainsString($urlGenService->generateJwt($room, $user, 'Testuser',enableMic: "true"), $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+    }
+    public function test_hasNoStart_isModerator_NoLobby_with_NamePreset_and_Skip_Lobbby_and_enaleCamera(): void
+    {
+        $client = static::createClient();
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $client->loginUser($user);
+        $room = $this->getRoomByName('This Room has no participants and fixed room');
+        $room->getServer()->setLiveKitServer(true);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+        $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid().'?userName=Testuser&enableCamera=true');
+
+        self::assertResponseIsSuccessful();
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $urlGenService = self::getContainer()->get(RoomService::class);
+        self::assertStringContainsString($urlGenService->generateJwt($room, $user, 'Testuser',enableCamera: "true"), $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+    }
+
     public function test_hasNoStart_isModerator_NoLobbyWithPrefix(): void
     {
         $client = static::createClient();
@@ -410,13 +464,9 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_my_room[name]'] = 'Test User 123';
-        $client->submit($form);
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlGenService = self::getContainer()->get(RoomService::class);
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', true)));
+
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -457,13 +507,9 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_my_room[name]'] = 'Test User 123';
-        $client->submit($form);
+
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlGenService = self::getContainer()->get(RoomService::class);
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', false)));
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -493,13 +539,9 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_my_room[name]'] = 'Test User 123';
-        $client->submit($form);
+
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlGenService = self::getContainer()->get(RoomService::class);
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', false)));
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -524,21 +566,11 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
-        $form = $buttonCrawlerNode->form();
-        $form['join_my_room[name]'] = 'Test User 123';
-        $client->submit($form);
+
         $urlGenService = self::getContainer()->get(RoomService::class);
-        self::assertResponseIsSuccessful();
+
         $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 1);
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringNotContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -572,7 +604,7 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
@@ -586,7 +618,7 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
         self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
 
-        self::assertStringContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
+        self::assertStringContainsString('room/lobby/start/moderator/b/' . $room->getUidReal(), $client->getResponse()->getContent());
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -612,7 +644,7 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
-        $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
@@ -622,7 +654,7 @@ class OwnRoomJoinTest extends WebTestCase
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
         self::assertIsInt(sizeof($lobbyUSer), 1);
 
-        self::assertStringContainsString("var type = 'a';", $client->getResponse()->getContent());
+        self::assertStringContainsString("var type = 'b';", $client->getResponse()->getContent());
         self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", $client->getResponse()->getContent());
         self::assertStringContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', $client->getResponse()->getContent());
         self::assertStringNotContainsString("jwt", $client->getResponse()->getContent());

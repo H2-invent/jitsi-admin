@@ -26,16 +26,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OwnRoomController extends JitsiAdminController
 {
-    /**
-     * @Route("/myRoom/start/{uid}", name="own_room_startPage")
-     */
+    #[Route(path: '/myRoom/start/{uid}', name: 'own_room_startPage')]
+    #[Route(path: '/room/myRoom/start/{uid}', name: 'own_room_startPage_protected')]
     public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator, StartMeetingService $startMeetingService): Response
     {
+        $session = $request->getSession();
         $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $uid, 'totalOpenRooms' => true]);
         if (!$rooms) {
             $this->addFlash('danger', $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
             return $this->redirectToRoute('join_index_no_slug');
         }
+
         if (!StartMeetingService::checkTime($rooms)) {
             $startPrint = $rooms->getTimeZone() ? clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getStart();
             $startPrint->modify('-30min');
@@ -53,7 +54,19 @@ class OwnRoomController extends JitsiAdminController
         }
 
         $data = [];
+        if (!$this->getUser() &&  $request->cookies->get('is_loggedIn_user')== 1) { // the user was logged in the past, so we send him to the login page
+
+            if ($session->get('login_attempted')) {// second try
+                $session->remove('login_attempted'); // Zurücksetzen
+                $response = $this->redirectToRoute('own_room_startPage',['uid' => $rooms->getUid()]);
+                $response->headers->clearCookie('is_loggedIn_user');
+                return  $response;
+            }
+            $session->set('login_attempted', true);
+           return $this->redirectToRoute('own_room_startPage_protected',['uid' => $rooms->getUid()]);
+        }
         if ($this->getUser()) {
+            $session->remove('login_attempted'); // Zurücksetzen
             $data['name'] = $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName();
         } elseif ($request->get('name')) {
             $data['name'] = base64_decode($request->get('name'));
@@ -72,17 +85,24 @@ class OwnRoomController extends JitsiAdminController
         $form = $this->createForm(JoinMyRoomType::class, $data);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+        if ($form->isSubmitted() && $form->isValid() || $request->query->has('userName')) {
+            $name = '';
+            if ($request->query->has('userName')) {
+                $name = $request->get('userName');
+            } else {
+                $data = $form->getData();
+                $name = $data['name'];
+            }
+
             $type = 'b';
             if ($form->has('joinApp') && $form->get('joinApp')->isClicked()) {
                 $type = 'a';
             } elseif ($form->has('joinBrowser') && $form->get('joinBrowser')->isClicked()) {
                 $type = 'b';
             }
-            $startMeetingService->setAttribute($rooms, $this->getUser(), $type, $data['name']);
+            $startMeetingService->setAttribute($rooms, $this->getUser(), $type, $name);
 
-            $url = $roomService->joinUrl($type, $rooms, $data['name'], $isModerator);
+            $url = $roomService->joinUrl($type, $rooms, $name, $isModerator);
             //der Raum ist als dauerhaft markiert
             if (!$rooms->getPersistantRoom()) {
                 //Die Lobby ist aktiviert und der Teilnehmer wird direkt in die Lobby überführt.
@@ -102,7 +122,7 @@ class OwnRoomController extends JitsiAdminController
                     if ($this->getUser() === $rooms->getModerator()) {
                         $res = $startMeetingService->roomDefault();
                     } else {
-                        $res = $this->redirectToRoute('room_waiting', ['name' => $data['name'], 'uid' => $rooms->getUid(), 'type' => $type]);
+                        $res = $this->redirectToRoute('room_waiting', ['name' => $name, 'uid' => $rooms->getUid(), 'type' => $type]);
                     }
                 }
             } else {
@@ -125,7 +145,7 @@ class OwnRoomController extends JitsiAdminController
                     $res = $startMeetingService->roomDefault();
                 }
             }
-            $res->headers->setCookie(new Cookie('name', $data['name'], (new \DateTime())->modify('+365 days')));
+            $res->headers->setCookie(new Cookie('name', $name, (new \DateTime())->modify('+365 days')));
             return $res;
         }
 
@@ -139,9 +159,7 @@ class OwnRoomController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/mywaiting/waiting", name="room_waiting")
-     */
+    #[Route(path: '/mywaiting/waiting', name: 'room_waiting')]
     public function waiting(Request $request, StartMeetingService $startMeetingService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $request->get('uid')]);
@@ -164,9 +182,7 @@ class OwnRoomController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/room/enterLink/{uid}", name="room_enter_link")
-     */
+    #[Route(path: '/room/enterLink/{uid}', name: 'room_enter_link')]
     public function link(
         #[MapEntity(mapping: ['uid' => 'uid'])]
         Rooms   $rooms,
@@ -185,9 +201,7 @@ class OwnRoomController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/mywaiting/check/{uid}/{name}/{type}", name="room_waiting_check")
-     */
+    #[Route(path: '/mywaiting/check/{uid}/{name}/{type}', name: 'room_waiting_check')]
     public function checkWaiting(
         #[MapEntity(mapping: ['uid' => 'uid'])]
         Rooms $rooms,

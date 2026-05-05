@@ -12,10 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:user:remove', 'Removes a user by Username')]
 class UserRemoveCommand extends Command
 {
-    protected static $defaultName = 'app:user:remove';
-    protected static $defaultDescription = 'Removes a user by Username';
     private $em;
     private $ldapUserService;
     public function __construct(EntityManagerInterface $entityManager, LdapUserService $ldapUser, string $name = null)

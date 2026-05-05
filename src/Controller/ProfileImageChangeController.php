@@ -33,9 +33,7 @@ class ProfileImageChangeController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    /**
-     * @Route("/room/profileImage/change", name="profile_image_change")
-     */
+    #[Route(path: '/room/profileImage/change', name: 'profile_image_change')]
     public function index(Request $request, TranslatorInterface $translator): Response
     {
         if ($this->themeService->getApplicationProperties('LAF_HIDE_PROFILEPICTURE') === 1){
@@ -52,9 +50,7 @@ class ProfileImageChangeController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/room/profileImage/save", name="profile_image_save")
-     */
+    #[Route(path: '/room/profileImage/save', name: 'profile_image_save')]
     public function new(Request $request, TranslatorInterface $translator, LoggerInterface $logger, ValidatorInterface $validator): Response
     {
         $user = $this->getUser();

@@ -30,11 +30,11 @@ class JoinServiceTest extends KernelTestCase
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
         $roomService = $this->getContainer()->get(RoomService::class);
         $res = $roomService->generateJwt($room, null, 'Test User');
-        self::assertEquals('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJUZXN0IFVzZXIifX0sIm1vZGVyYXRvciI6ZmFsc2V9.xu8nM83-f8W2wOkbw0R_aRlYbWi73PE5ZcVnBqVKb0I', $res);
+        self::assertEquals('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSJ9LCJ1c2VyIjp7Im5hbWUiOiJUZXN0IFVzZXIifX0sIm1vZGVyYXRvciI6ZmFsc2V9.vaqZD7fZ_sOS5ZXoZ8DAcLrSiSxZDpR9NL6dkhJdDZw', $res);
         $res = $roomService->join($room, $room->getModerator(), 'a', 'Test User');
         $slugyfy = UtilsHelper::slugify($room->getName());
-        $this->assertEquals('jitsi-meet://meet.jit.si2/123456781?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJUZXN0IFVzZXIifX0sIm1vZGVyYXRvciI6dHJ1ZX0.hiLi5WUh0mMh972m_6NdPUhk7jQyxUkthVUIs9ZECno#config.subject=%22' . $slugyfy . '%22', $res);
+        $this->assertEquals('jitsi-meet://meet.jit.si2/123456781?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSJ9LCJ1c2VyIjp7Im5hbWUiOiJUZXN0IFVzZXIifX0sIm1vZGVyYXRvciI6dHJ1ZX0.zGVzBr_0plc_fCkK-WnSqxP_rWIz0jX0b-P6joG7vWY#config.subject=%22' . $slugyfy . '%22', $res);
         $res = $roomService->join($room, $room->getModerator(), 'b', 'Test User');
-        $this->assertEquals('https://meet.jit.si2/123456781?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJUZXN0IFVzZXIifX0sIm1vZGVyYXRvciI6dHJ1ZX0.hiLi5WUh0mMh972m_6NdPUhk7jQyxUkthVUIs9ZECno#config.subject=%22' . $slugyfy . '%22', $res);
+        $this->assertEquals('https://meet.jit.si2/123456781?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSJ9LCJ1c2VyIjp7Im5hbWUiOiJUZXN0IFVzZXIifX0sIm1vZGVyYXRvciI6dHJ1ZX0.zGVzBr_0plc_fCkK-WnSqxP_rWIz0jX0b-P6joG7vWY#config.subject=%22' . $slugyfy . '%22', $res);
     }
 }

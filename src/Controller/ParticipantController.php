@@ -7,24 +7,23 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Helper\JitsiAdminController;
+use App\Service\FavoriteService;
 use App\Service\ParticipantSearchService;
+use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\ThemeService;
 use App\Service\UserService;
 use App\UtilsHelper;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ParticipantController extends JitsiAdminController
 {
-    /**
-     * @Route("/room/participant/search", name="search_participant")
-     */
+
+    #[Route(path: '/room/participant/search', name: 'search_participant')]
     public function index(Request $request, ParticipantSearchService $participantSearchService): Response
     {
         $string = $request->get('search');
@@ -42,13 +41,13 @@ class ParticipantController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    /**
-     * @Route("/room/participant/add", name="room_add_user")
-     */
-    public function roomAddUser(Request $request, RoomAddService $roomAddService)
+    #[Route(path: '/room/participant/add/{room}', name: 'room_add_user')]
+    public function roomAddUser(Request $request, RoomAddService $roomAddService, Rooms $room)
     {
         $newMember = [];
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        if (!$room){
+            return $this->redirectToRoute('dashboard');
+        }
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
@@ -61,7 +60,6 @@ class ParticipantController extends JitsiAdminController
             $falseEmail = [];
             $falseEmail = array_merge(
                 $roomAddService->createParticipants($newMembers['member'], $room, $this->getUser()),
-                $roomAddService->createModerators($newMembers['moderator'], $room)
             );
 
             if (sizeof($falseEmail) > 0) {
@@ -79,9 +77,54 @@ class ParticipantController extends JitsiAdminController
         return $this->render('room/attendeeModal.twig', ['form' => $form->createView(), 'title' => $title, 'room' => $room]);
     }
 
-    /**
-     * @Route("/room/participant/past", name="room_past_user")
-     */
+    #[Route(path: '/room/participant/add_single/{room}', name: 'room_add_user_single', methods: "POST")]
+    public function roomAddUserSingle(Request $request, RoomAddService $roomAddService, Rooms $room, RepeaterService $repeaterService): JsonResponse
+    {
+        $invalidMember = [];
+        $validMember=[];
+        $validUser = new ArrayCollection();
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
+            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
+            return new JsonResponse(['error' => true]);
+        }
+
+        $newParticipant = json_decode($request->getContent(),true);
+        if (isset($newParticipant['participant'])){
+            $newParticipant = $newParticipant['participant'];
+            $this->logger->debug('Participants found in cont send to add new participants',$newParticipant);
+        }else{
+            $this->logger->error('No participant entry in request for adding user', $newParticipant);
+            return new JsonResponse(['error' => true]);
+        }
+
+        foreach ($newParticipant as $data) {
+            try {
+                $tmpUSer = $roomAddService->createSingleParticipantAndAddtoRoom($data, $this->getUser(), $room);
+                if ($tmpUSer){
+                    $validUser->add($tmpUSer);
+                }
+                $validMember[] = $data;
+            } catch (\Exception) {
+                $invalidMember[] = $data;
+            }
+
+        }
+        if ($room->getRepeater()) {
+            $this->logger->debug('We add users to a series');
+            //here the users are added to the series. before the users are only added to the prototype room
+            $repeaterService->addUserRepeat($room->getRepeater());
+            try {
+                $repeaterService->sendEMail($room->getRepeater(), 'email/repeaterNew.html.twig', $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt'), ['room' => $room->getRepeater()->getPrototyp()], 'REQUEST', $validUser->toArray());
+            } catch (\Exception $e) {
+                $this->logger->error($e->getMessage());
+            }
+
+        }
+
+        return new JsonResponse(['invalidMember' => $invalidMember,'validMember'=>$validMember]);
+    }
+
+    #[Route(path: '/room/participant/past', name: 'room_past_user')]
     public function roompastUser(Request $request, ThemeService $themeService)
     {
 
@@ -95,25 +138,24 @@ class ParticipantController extends JitsiAdminController
     }
 
 
-    /**
-     * @Route("/room/participant/remove", name="room_user_remove")
-     */
-    public function roomUserRemove(Request $request, UserService $userService, RoomAddService $roomAddService)
+    #[Route(path: '/room/participant/remove', name: 'room_user_remove')]
+    public function roomUserRemove(Request $request, RoomAddService $roomAddService)
     {
 
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
-        $snack = 'Keine Berechtigung';
-        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room) || $user === $this->getUser()) {
-            $snack = $roomAddService->removeUserFromRoom($user, $room);
-        } else {
-            $this->addFlash('danger', $snack);
+        if ($user !== $this->getUser() && !UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
+            $this->addFlash('danger', 'Keine Berechtigung');
+            return $this->redirectToRoute('dashboard');
         }
-        return $this->redirectToRoute('dashboard');
+
+        $roomAddService->removeUserFromRoom($user, $room);
+        return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('Teilnehmer gelöscht'), 'color' => 'success']);
     }
-    /**
-     * @Route("/room/participant/resend", name="room_user_resend")
-     */
+
+
+
+    #[Route(path: '/room/participant/resend', name: 'room_user_resend')]
     public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('room')]);

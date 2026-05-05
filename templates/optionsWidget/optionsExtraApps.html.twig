@@ -22,3 +22,15 @@
                 {{ 'options.meetingNotes'|trans }}</a></li>
     {% endif %}
 {% endif %}
+{% if getApplicationProperties('LAF_LOOKYLOOKY_FUNCTION') == 1 %}
+    {% if room.server.disableEtherpad != true %}
+        <li><a
+                    href="{{ getApplicationProperties('LOOKYLOOKY_URL') }}"
+                    data-roomname="Looky Looky"
+                    data-close="simple"
+                    class="startIframe dropdown-item apps-dropdown-etherpad"
+            >
+                <i class="fa-solid fa-file-pdf"></i>
+                {{ 'options.lookylooky'|trans }}</a></li>
+    {% endif %}
+{% endif %}

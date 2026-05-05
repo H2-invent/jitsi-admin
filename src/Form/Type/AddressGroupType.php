@@ -35,7 +35,7 @@ class AddressGroupType extends AbstractType
 
         $user = $options['user'];
         $builder
-            ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.addressgroupName'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
+            ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.addressgroupName'], 'label' => 'label.addressgroupName', 'required' => true, 'translation_domain' => 'form'])
             ->add(
                 'member',
                 UserLineType::class,

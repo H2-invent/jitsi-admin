@@ -14,10 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:tag:addToAll', 'Add a short description for your command')]
 class TagAddToAllCommand extends Command
 {
-    protected static $defaultName = 'app:tag:addToAll';
-    protected static $defaultDescription = 'Add a short description for your command';
     private EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {

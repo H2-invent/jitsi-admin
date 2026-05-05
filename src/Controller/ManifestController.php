@@ -25,9 +25,7 @@ class ManifestController extends JitsiAdminController
         $this->createHttpsUrl = $createHttpsUrl;
     }
 
-    /**
-     * @Route("/site.webmanifest", name="app_manifest")
-     */
+    #[Route(path: '/site.webmanifest', name: 'app_manifest')]
     public function index(): Response
     {
         $url = '/room/dashboard';

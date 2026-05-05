@@ -12,10 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:email:test', 'This commands sends an email from a choosen server.')]
 class EmailTestCommand extends Command
 {
-    protected static $defaultName = 'app:email:test';
-    protected static $defaultDescription = 'This commands sends an email from a choosen server.';
     private MailerService $mailerService;
     private EntityManagerInterface $em;
     protected function configure(): void

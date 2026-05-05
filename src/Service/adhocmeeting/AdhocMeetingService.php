@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
+use App\Service\Callout\CalloutService;
 use App\Service\Lobby\DirectSendService;
 use App\Service\RoomGeneratorService;
 use App\Service\ThemeService;
@@ -18,34 +19,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdhocMeetingService
 {
-    private EntityManagerInterface $em;
-    private RoomGeneratorService $roomGeneratorService;
-    private ParameterBagInterface $parameterBag;
-    private TranslatorInterface $translator;
-    private DirectSendService $directSendService;
-    private UserService $userService;
-    private UrlGeneratorInterface $urlGen;
-    private $theme;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        RoomGeneratorService   $roomGeneratorService,
-        ParameterBagInterface  $parameterBag,
-        TranslatorInterface    $translator,
-        DirectSendService      $directSendService,
-        UserService            $userService,
-        UrlGeneratorInterface  $urlGenerator,
-        ThemeService           $themeService
+        private EntityManagerInterface       $em,
+        private RoomGeneratorService         $roomGeneratorService,
+        private ParameterBagInterface        $parameterBag,
+        private TranslatorInterface          $translator,
+        private UserService                  $userService,
+        private ThemeService                 $theme,
+        private CalloutService               $calloutService,
+        private AdhocMeetingWebsocketService $adhocMeetingWebsocketService,
     )
     {
-        $this->em = $entityManager;
-        $this->roomGeneratorService = $roomGeneratorService;
-        $this->parameterBag = $parameterBag;
-        $this->translator = $translator;
-        $this->directSendService = $directSendService;
-        $this->userService = $userService;
-        $this->urlGen = $urlGenerator;
-        $this->theme = $themeService;
+
     }
 
     public function createAdhocMeeting(User $creator, User $reciever, Server $server, Tag $tag = null): ?Rooms
@@ -72,30 +57,10 @@ class AdhocMeetingService
         $creator->addRoom($room);
         $this->em->persist($creator);
         $this->em->flush();
-        $this->sendAddhocMeetingWebsocket($reciever, $creator, $room);
         $this->userService->addUser($reciever, $room);
         $this->userService->addUser($creator, $room);
+        $this->calloutService->initCalloutSession($room, $reciever, $creator);
         return $room;
     }
 
-    public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room)
-    {
-        $topic = 'personal/' . $reciever->getUid();
-        $format = '%s<br><a href="%s"  class="btn btn-sm btn-sucess ' . ($this->theme->getApplicationProperties('LAF_USE_MULTIFRAME') === 1 ? 'startIframe' : '') . '" data-roomname = "%s" ><i class="fas fa-phone" ></i > %s </a ><a class="btn btn-sm btn-danger" ><i class="fas fa-phone-slash" ></i ></a > ';
-        $toastText = sprintf(
-            $format,
-            $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]),
-            $this->urlGen->generate('room_join', ['room' => $room->getId(), 't' => 'b']),
-            $room->getSecondaryName() ? : $room->getName(),
-            $this->translator->trans('Hier beitreten'),
-        );
-        $this->directSendService->sendCallAdhockmeeding(
-            $this->translator->trans('addhock.notification.title'),
-            $topic,
-            $toastText,
-            $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]),
-            60000,
-            $room->getUid()
-        );
-    }
 }

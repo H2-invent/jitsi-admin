@@ -1,39 +1,10 @@
-{% set isOpen =  isRoomOpen(room,app.user)%}
-{% if getApplicationProperties('start_dropdown_allow_app') == 1 and getApplicationProperties('start_dropdown_allow_browser') == 1 %}
-    <div class="dropdown d-none d-lg-block ">
-        <button class="caretdown btn btn-primary dropdown-toggle start-dropdown" type="button"
-                id="dropdownMenu1"
-                data-mdb-toggle="dropdown" data-offset="-20,0" aria-haspopup="true"
-                aria-expanded="false">{{ 'Starten'|trans }}
-        </button>
-        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-            <li><a class="dropdown-item {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe start-iframe{% endif %}" data-bordercolor="{{ room.tag?room.tag.backgroundColor:'' }}" data-roomname="{{ room.name }}" {% if isOpen is not null %}data-iframetoast="{{ isOpen }}"{% endif %}
+{% set isOpen =  isRoomOpen(room,app.user) %}
 
-                   href="{{ path('room_join',{'t':'b','room':room.id}) }}" target="_blank">{{ 'Im Browser'|trans }}</a>
-            </li>
-            <li><a class="dropdown-item start-app" title="In der Electron Jitsi Meet App" rel=opener
-                   href="{{ path('room_join',{'t':'a','room':room.id}) }}" target="_blank">{{ 'In der App'|trans }}</a>
-            </li>
-        </ul>
-    </div>
-{% elseif getApplicationProperties('start_dropdown_allow_app') == 1 %}
-    <div class="d-none d-lg-block ">
-        <a class="btn btn-primary start-app"
-           href="{{ path('room_join',{'t':'a','room':room.id}) }}" rel=opener
-           target="_blank">{{ 'Starten'|trans }}</a>
-    </div>
-{% elseif getApplicationProperties('start_dropdown_allow_browser') == 1 %}
-    <div class="d-none d-lg-block {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}start-iframe{% endif %}">
-        <a class="btn btn-primary {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" data-roomname="{{ room.name }}" {% if isOpen is not null %}data-iframetoast="{{ isOpen }}"{% endif %}
-
-           href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
-           target="_blank">{{ 'Starten'|trans }}</a>
-    </div>
-{% endif %}
-
-<div class="d-block d-lg-none {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}start-iframe{% endif %}">
-    <a class="btn btn-primary {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" data-roomname="{{ room.name }}" {% if isOpen is not null %}data-iframetoast="{{ isOpen }}"{% endif %}
+<div class=" {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}start-iframe{% endif %}">
+    <a class="btn btn-primary {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}"
+       data-roomname="{{ room.name }}" {% if isOpen is not null %}data-iframetoast="{{ isOpen }}"{% endif %}
 
        href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
        target="_blank">{{ 'Starten'|trans }}</a>
 </div>
+

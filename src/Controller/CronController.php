@@ -8,17 +8,17 @@ use App\Service\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CronController extends JitsiAdminController
 {
-    /**
-     * @Route("/cron/remember", name="cron_remember")
-     */
+    #[Route(path: '/cron/remember', name: 'cron_remember')]
     public function updateCronAkademie(Request $request, LoggerInterface $logger, UserService $userService, ReminderService $reminderService)
     {
         if ($request->get('token') !== $this->getParameter('cronToken')) {
@@ -40,9 +40,7 @@ class CronController extends JitsiAdminController
         return new JsonResponse($reminderService->sendReminder($filter));
     }
 
-    /**
-     * @Route("/cron/run", name="cron_run")
-     */
+    #[Route(path: '/cron/run', name: 'cron_run')]
     public function updateCronRun(Request $request, LoggerInterface $logger, KernelInterface $kernel)
     {
         if ($request->get('token') !== $this->getParameter('cronToken')) {
@@ -51,7 +49,7 @@ class CronController extends JitsiAdminController
             return new JsonResponse($message);
         }
 
-        try {
+//        try {
             $application = new Application($kernel);
             $application->setAutoExit(false);
 
@@ -63,12 +61,13 @@ class CronController extends JitsiAdminController
             );
 
             // You can use NullOutput() if you don't need the output
-            $output = new NullOutput();
+        $output = new BufferedOutput();
             $application->run($input, $output);
-        } catch (\Exception $exception) {
-            return new JsonResponse(['error' => true, 'message' => $exception->getMessage()]);
-        }
+        $content = $output->fetch();
+//        } catch (\Exception $exception) {
+//            return new JsonResponse(['error' => true, 'message' => $exception->getMessage()]);
+//        }
 
-        return new JsonResponse(['error' => false]);
+        return new Response($content);
     }
 }

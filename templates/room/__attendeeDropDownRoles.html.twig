@@ -10,7 +10,7 @@
 "
        data-target="#atendeeList"
        data-url="{{ path('room_add_user',{'room':room.id}) }}"
-       data-mdb-toggle="tooltip" data-boundary="viewport" title="{{ 'Zum Moderator ernennen'|trans }}"
+       data-mdb-tooltip-init data-boundary="viewport" title="{{ 'Zum Moderator ernennen'|trans }}"
     ><i class="fa fa-crown"></i> {{ 'Moderator'|trans }}</a>
 
 
@@ -27,7 +27,7 @@
            data-target="#atendeeList"
 
            data-url="{{ path('room_add_user',{'room':room.id}) }}"
-           data-mdb-toggle="tooltip" data-boundary="viewport" title="{{ 'Erlauben seinen Desktop zu teilen'|trans }}"
+           data-mdb-tooltip-init data-boundary="viewport" title="{{ 'Erlauben seinen Desktop zu teilen'|trans }}"
         ><i
                     class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}</a>
     {% endif %}
@@ -63,6 +63,6 @@
 
            data-target="#atendeeList"
            data-url="{{ path('room_add_user',{'room':room.id}) }}"
-           data-mdb-toggle="tooltip" data-boundary="viewport" title="{{ 'addParticipants.lobbyModerator.help'|trans }}"
+           data-mdb-tooltip-init data-boundary="viewport" title="{{ 'addParticipants.lobbyModerator.help'|trans }}"
         > <i class="fas fa-couch"></i> {{ 'Lobbymoderator'|trans }}</a>
     {% endif %}

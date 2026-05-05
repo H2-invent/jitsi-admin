@@ -13,4 +13,13 @@ when@prod:
   connect_keycloak_check:
     path: /login/keycloak_login/check
     controller: App\Controller\LoginControllerKeycloak::check
+    schemes:    ['%app.scheme%']
 
+catch_all:
+  path: /{catchall}
+  controller: App\Controller\CatchAllController::redirectToDefault
+  requirements:
+    catchall: .*
+  condition: "env('ENABLE_CATCH_ALL') == 1"
+  defaults:
+    catchall: '' # Fallback-Wert für leere Anfragen

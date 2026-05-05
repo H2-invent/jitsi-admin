@@ -26,7 +26,7 @@ class Rooms
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'rooms')]
     #[Ignore]
     private $user;
-    #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'rooms')]
+    #[ORM\ManyToOne(targetEntity: Server::class, fetch: 'EAGER', inversedBy: 'rooms')]
     #[ORM\JoinColumn(nullable: false)]
     private $server;
     #[ORM\Column(type: 'text')]
@@ -116,7 +116,7 @@ class Rooms
     private $startTimestamp;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $endTimestamp;
-    #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[Ignore]
     private $callerIds;
     #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'rooms')]
@@ -146,6 +146,24 @@ class Rooms
     #[ORM\Column(nullable: true)]
     private ?int $maxUser = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $disableSelfSubscriptionDoubleOptIn = null;
+
+    /**
+     * @var Collection<int, UploadedRecording>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: UploadedRecording::class, orphanRemoval: true)]
+    private Collection $uploadedRecordings;
+
+    /**
+     * @var Collection<int, Recording>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Recording::class, orphanRemoval: true)]
+    private Collection $liveKitRecordings;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $calendly_uri = null;
+
 
     public function __construct()
     {
@@ -161,6 +179,8 @@ class Rooms
         $this->callerIds = new ArrayCollection();
         $this->calloutSessions = new ArrayCollection();
         $this->logs = new ArrayCollection();
+        $this->uploadedRecordings = new ArrayCollection();
+        $this->liveKitRecordings = new ArrayCollection();
     }
 
     public function normalize(string $propertyName): string
@@ -168,19 +188,31 @@ class Rooms
         return 'org_' . $propertyName;
     }
 
-    #[ORM\PreFlush]
-    public function preUpdate()
+
+    public function setUTCTime(): void
     {
-        $timezone = $this->timeZone ? new \DateTimeZone($this->timeZone) : null;
+        $srcTz = $this->timeZone ? new \DateTimeZone($this->timeZone) : null;
+
         if ($this->start) {
-            $dateStart = new \DateTime($this->start->format('Y-m-d H:i:s'), $timezone);
-            $this->startUtc = $dateStart->setTimezone(new \DateTimeZone('utc'));
-            $this->startTimestamp = $dateStart->getTimestamp();
+            $dt = \DateTimeImmutable::createFromFormat(
+                'Y-m-d H:i:s',
+                $this->start->format('Y-m-d H:i:s'),
+                $srcTz ?? $this->start->getTimezone()
+            );
+            $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
+            $this->startUtc = \DateTime::createFromImmutable($utc);
+            $this->startTimestamp = $utc->getTimestamp();
         }
+
         if ($this->enddate) {
-            $dateEnd = new \DateTime($this->enddate->format('Y-m-d H:i:s'), $timezone);
-            $this->endDateUtc = $dateEnd->setTimezone(new \DateTimeZone('utc'));
-            $this->endTimestamp = $dateEnd->getTimestamp();
+            $dt = \DateTimeImmutable::createFromFormat(
+                'Y-m-d H:i:s',
+                $this->enddate->format('Y-m-d H:i:s'),
+                $srcTz ?? $this->enddate->getTimezone()
+            );
+            $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
+            $this->endDateUtc = \DateTime::createFromImmutable($utc);
+            $this->endTimestamp = $utc->getTimestamp();
         }
     }
 
@@ -210,6 +242,7 @@ class Rooms
     public function setStart(?\DateTimeInterface $start): self
     {
         $this->start = $start;
+        $this->setUTCTime();
         return $this;
     }
 
@@ -221,7 +254,7 @@ class Rooms
     public function setEnddate(?\DateTimeInterface $enddate): self
     {
         $this->enddate = $enddate;
-
+        $this->setUTCTime();
         return $this;
     }
 
@@ -694,7 +727,7 @@ class Rooms
     public function setTimeZone(?string $timeZone): self
     {
         $this->timeZone = $timeZone;
-
+        $this->setUTCTime();
         return $this;
     }
 
@@ -735,6 +768,7 @@ class Rooms
     {
         return $this->startUtc ? new \DateTime($this->startUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')) : null;
     }
+
 
     public function setStartUtc(?\DateTimeInterface $startUtc): self
     {
@@ -1053,6 +1087,90 @@ class Rooms
     public function setMaxUser(?int $maxUser): static
     {
         $this->maxUser = $maxUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UploadedRecording>
+     */
+    public function getUploadedRecordings(): Collection
+    {
+        return $this->uploadedRecordings;
+    }
+
+    public function addUploadedRecording(UploadedRecording $uploadedRecording): static
+    {
+        if (!$this->uploadedRecordings->contains($uploadedRecording)) {
+            $this->uploadedRecordings->add($uploadedRecording);
+            $uploadedRecording->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUploadedRecording(UploadedRecording $uploadedRecording): static
+    {
+        if ($this->uploadedRecordings->removeElement($uploadedRecording)) {
+            // set the owning side to null (unless already changed)
+            if ($uploadedRecording->getRoom() === $this) {
+                $uploadedRecording->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isDisableSelfSubscriptionDoubleOptIn(): ?bool
+    {
+        return $this->disableSelfSubscriptionDoubleOptIn;
+    }
+
+    public function setDisableSelfSubscriptionDoubleOptIn(?bool $disableSelfSubscriptionDoubleOptIn): static
+    {
+        $this->disableSelfSubscriptionDoubleOptIn = $disableSelfSubscriptionDoubleOptIn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Recording>
+     */
+    public function getLiveKitRecordings(): Collection
+    {
+        return $this->liveKitRecordings;
+    }
+
+    public function addLiveKitRecording(Recording $liveKitRecording): static
+    {
+        if (!$this->liveKitRecordings->contains($liveKitRecording)) {
+            $this->liveKitRecordings->add($liveKitRecording);
+            $liveKitRecording->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLiveKitRecording(Recording $liveKitRecording): static
+    {
+        if ($this->liveKitRecordings->removeElement($liveKitRecording)) {
+            // set the owning side to null (unless already changed)
+            if ($liveKitRecording->getRoom() === $this) {
+                $liveKitRecording->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCalendlyUri(): ?string
+    {
+        return $this->calendly_uri;
+    }
+
+    public function setCalendlyUri(?string $calendly_uri): static
+    {
+        $this->calendly_uri = $calendly_uri;
 
         return $this;
     }

@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:ConnectAllUserInAdressBook', 'This Command adds all LDAP Users in the Adressbook of each other. This command only works after app:ldap:sync')]
 class ConnectAllUserInAdressBookCommand extends Command
 {
     private $ldapUSerService;
@@ -18,9 +19,6 @@ class ConnectAllUserInAdressBookCommand extends Command
         parent::__construct($name);
         $this->ldapUSerService = $ldapUserService;
     }
-
-    protected static $defaultName = 'app:ldap:ConnectAllUserInAdressBook';
-    protected static $defaultDescription = 'This Command adds all LDAP Users in the Adressbook of each other. This command only works after app:ldap:sync';
 
     protected function configure(): void
     {

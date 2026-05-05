@@ -10,8 +10,10 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
+use App\Repository\ServerRepository;
 use App\Service\analytics\AnalyticsService;
 use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
@@ -36,17 +38,24 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class DashboardController extends JitsiAdminController
 {
-    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private ThemeService $themeService)
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        ParameterBagInterface $parameterBag,
+        private ThemeService $themeService,
+        private ServerRepository $serverRepository,
+    )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
 
     /**
-     * @Route("/room/dashboard", name="dashboard")
      * @param Request $request
      * @return RedirectResponse|Response
      */
+    #[Route(path: '/room/dashboard', name: 'dashboard')]
     public function dashboard(
         Request                   $request,
         ServerUserManagment       $serverUserManagment,
@@ -70,6 +79,7 @@ class DashboardController extends JitsiAdminController
                 ],
             );
         }
+
         $roomsFuture = $this->doctrine->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
 
         $r = [];
@@ -123,6 +133,8 @@ class DashboardController extends JitsiAdminController
                 'action' => $this->generateUrl('second_email_save'),
             ],
         );
+        $publicServer =  $this->serverRepository->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
+
         $form->remove('profilePicture');
         $res = $this->render(
             'dashboard/index.html.twig',
@@ -139,6 +151,7 @@ class DashboardController extends JitsiAdminController
                 'favorite' => $favorites,
                 'timestamp' => $timestamp,
                 'time' => $timer->getDuration(),
+                'publicServer' => $publicServer
             ],
         );
         $analyticsService->sendAnalytics();
@@ -159,7 +172,7 @@ class DashboardController extends JitsiAdminController
         if (!$request->isXmlHttpRequest()) {
             if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
                 $groups = $this->getUser()->getGroups();
-                if (in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
+                if ($groups && in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
                     $this->themeService->checkRemainingDays();
                 }
             } else {
@@ -168,14 +181,22 @@ class DashboardController extends JitsiAdminController
 
 
         }
+        $res->headers->setCookie(
+            Cookie::create(
+                'is_loggedIn_user',
+                1,
+                time() + (2 * 365 * 24 * 60 * 60),
+                '/',      // Path.
+            )
+        );
         return $res;
     }
 
     /**
-     * @Route("/room/dashboard/lazy/{type}/{offset}", name="dashboard_lazy")
      * @param Request $request
      * @return RedirectResponse|Response
      */
+    #[Route(path: '/room/dashboard/lazy/{type}/{offset}', name: 'dashboard_lazy')]
     public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, $type, $offset)
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());

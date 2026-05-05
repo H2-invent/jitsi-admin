@@ -61,10 +61,10 @@ class RepeaterType extends AbstractType
 //                'multiple' => true,
 //                'translation_domain' => 'form'
 //            ])
-            ->add('repeaterDays', NumberType::class, ['label' => false, 'required' => false, 'attr' => ['placeholder' => 'label.repeaterDays'], 'translation_domain' => 'form'])
-            ->add('repeaterWeeks', NumberType::class, ['label' => false, 'required' => false, 'attr' => ['placeholder' => 'label.repeaterWeeks'], 'translation_domain' => 'form'])
-            ->add('repeatMontly', NumberType::class, ['label' => false, 'required' => false, 'attr' => ['placeholder' => 'label.repeatMontly'], 'translation_domain' => 'form'])
-            ->add('repeatYearly', NumberType::class, ['label' => false, 'required' => false, 'attr' => ['placeholder' => 'label.repeatYearly'], 'translation_domain' => 'form'])
+            ->add('repeaterDays', NumberType::class, ['label' => 'label.repeaterDays', 'required' => false, 'attr' => ['placeholder' => 'label.repeaterDays'], 'translation_domain' => 'form'])
+            ->add('repeaterWeeks', NumberType::class, ['label' => 'label.repeaterWeeks', 'required' => false, 'attr' => ['placeholder' => 'label.repeaterWeeks'], 'translation_domain' => 'form'])
+            ->add('repeatMontly', NumberType::class, ['label' => 'label.repeatMontly', 'required' => false, 'attr' => ['placeholder' => 'label.repeatMontly'], 'translation_domain' => 'form'])
+            ->add('repeatYearly', NumberType::class, ['label' => 'label.repeatYearly', 'required' => false, 'attr' => ['placeholder' => 'label.repeatYearly'], 'translation_domain' => 'form'])
             ->add(
                 'repatMonthRelativNumber',
                 ChoiceType::class,
@@ -95,7 +95,7 @@ class RepeaterType extends AbstractType
                     'label' => 'label.montlyRelativeWeekday',
                     'translation_domain' => 'form']
             )
-            ->add('repeatMonthlyRelativeHowOften', NumberType::class, ['label' => false, 'required' => false, 'attr' => ['placeholder' => 'label.repeatMontly'], 'translation_domain' => 'form'])
+            ->add('repeatMonthlyRelativeHowOften', NumberType::class, ['label' => 'label.repeatMontly', 'required' => false, 'attr' => ['placeholder' => 'label.repeatMontly'], 'translation_domain' => 'form'])
             ->add(
                 'repeatYearlyRelativeNumber',
                 ChoiceType::class,
@@ -147,8 +147,8 @@ class RepeaterType extends AbstractType
                     'label' => 'label.montlyRelativeMonth',
                     'translation_domain' => 'form']
             )
-            ->add('repeatYearlyRelativeHowOften', NumberType::class, ['label' => false, 'required' => false, 'attr' => ['placeholder' => 'label.repeatYearly'], 'translation_domain' => 'form'])
-            ->add('repetation', NumberType::class, ['label' => false, 'required' => true, 'attr' => ['placeholder' => 'label.repetation'], 'translation_domain' => 'form'])
+            ->add('repeatYearlyRelativeHowOften', NumberType::class, ['label' => 'label.repeatYearly', 'required' => false, 'attr' => ['placeholder' => 'label.repeatYearly'], 'translation_domain' => 'form'])
+            ->add('repetation', NumberType::class, ['label' => 'label.repetation', 'required' => true, 'attr' => ['placeholder' => 'label.repetation'], 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-outline-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 

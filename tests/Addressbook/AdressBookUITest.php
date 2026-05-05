@@ -72,7 +72,7 @@ class AdressBookUITest extends WebTestCase
                     ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
                 ],
                 'group' => [
-                    ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]
+                    ['name' => 'Testgruppe', 'user' => ['test2@local.de','test@local3.de']]
                 ]
             ],
             json_decode($client->getResponse()->getContent(), true)
@@ -88,7 +88,7 @@ class AdressBookUITest extends WebTestCase
                         ['name' => 'testgruppe', 'id' => 'testgruppe', "nameNoIcon" => "testgruppe", 'roles' => ['participant', 'moderator']]
                     ],
                     'group' => [
-                        ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]
+                        ['name' => 'Testgruppe', 'user' => ['test2@local.de','test@local3.de']]
                     ]
                 ]
             ),
@@ -106,7 +106,7 @@ class AdressBookUITest extends WebTestCase
                     ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
                 ],
                 'group' => [
-                    ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]
+                    ['name' => 'Testgruppe', 'user' => ['test2@local.de','test@local3.de']]
                 ]
             ],
             json_decode($client->getResponse()->getContent(), true)
@@ -122,7 +122,7 @@ class AdressBookUITest extends WebTestCase
                     ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
                 ],
                 'group' => [
-                    ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]
+                    ['name' => 'Testgruppe', 'user' => ['test2@local.de','test@local3.de']]
                 ]
             ],
             json_decode($client->getResponse()->getContent(), true)

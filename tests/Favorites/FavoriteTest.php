@@ -17,6 +17,7 @@ class FavoriteTest extends WebTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         // retrieve the test user
         $testUser = $userRepository->findOneBy(['email' => 'test@local.de']);
+
         $client->loginUser($testUser);
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
@@ -31,13 +32,10 @@ class FavoriteTest extends WebTestCase
             1,
             $crawler->filter('.favorites:contains("TestMeeting: 1")')->count()
         );
+
         $this->assertEquals(
             1,
-            $crawler->filter('.favorites .dropdown-item:contains("In der App")')->count()
-        );
-        $this->assertEquals(
-            1,
-            $crawler->filter('.favorites .dropdown-item:contains("Starten")')->count()
+            $crawler->filter('.favorites .startIframe:contains("Starten")')->count()
         );
 
         $testUser = $userRepository->findOneBy(['email' => 'test@local2.de']);
@@ -118,13 +116,10 @@ class FavoriteTest extends WebTestCase
             1,
             $crawler->filter('.favorites.successBorder')->count()
         );
+
         $this->assertEquals(
             1,
-            $crawler->filter('.favorites .dropdown-item:contains("In der App")')->count()
-        );
-        $this->assertEquals(
-            1,
-            $crawler->filter('.favorites .dropdown-item:contains("Starten")')->count()
+            $crawler->filter('.favorites .startIframe:contains("Starten")')->count()
         );
 
         $testUser = $userRepository->findOneBy(['email' => 'test@local2.de']);

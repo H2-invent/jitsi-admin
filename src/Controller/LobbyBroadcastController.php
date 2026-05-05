@@ -9,16 +9,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LobbyBroadcastController extends JitsiAdminController
 {
-    /**
-     * @Route("/lobby/broadcast/{roomUid}", name="lobby_broadcast_websocket")
-     */
+    #[Route(path: '/lobby/broadcast/{roomUid}', name: 'lobby_broadcast_websocket')]
     public function broadcastWebsocket($roomUid, $userUid): Response
     {
         return new JsonResponse(['error' => false]);
     }
-    /**
-     * @Route("/lobby/participants/{wUUid}", name="lobby_WaitingUser_websocket")
-     */
+    #[Route(path: '/lobby/participants/{wUUid}', name: 'lobby_WaitingUser_websocket')]
     public function waitinUserWebsocket($wUUid): Response
     {
         return new JsonResponse(['error' => false]);

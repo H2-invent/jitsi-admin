@@ -17,17 +17,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StartController extends JitsiAdminController
 {
-    /**
-     * @Route("/room/join/{t}/{room}", name="room_join")
-     */
+    #[Route(path: '/room/join/{t}/{room}', name: 'room_join')]
     public function joinRoom(RoomService $roomService, $room, $t, StartMeetingService $startMeetingService)
     {
         $roomL = $this->doctrine->getRepository(Rooms::class)->find($room);
         return $startMeetingService->startMeeting($roomL, $this->getUser(), $t, $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
     }
-    /**
-     * @Route("/room/checkCors", name="room_check_cors")
-     */
+    #[Route(path: '/room/checkCors', name: 'room_check_cors')]
     public function checkCorsRoom(Request $request, RoomService $roomService)
     {
         $weiterleitung = 'https://' . $request->get('url') . '/testRoom';

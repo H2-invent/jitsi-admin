@@ -3,6 +3,7 @@
 namespace App\Tests\SipCaller;
 
 use App\Repository\RoomsRepository;
+use App\Repository\UserRepository;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerPrepareService;
 use App\Service\caller\CallerSessionService;
@@ -17,8 +18,9 @@ class SipCallerLobbyControllerTest extends WebTestCase
 
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
-        $user = $room->getModerator();
-        $client->loginUser($user);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $client->loginUser($moderator);
         $sessionService = self::getContainer()->get(CallerSessionService::class);
         $callerPinService = self::getContainer()->get(CallerPinService::class);
         $roomService = self::getContainer()->get(RoomService::class);
@@ -44,8 +46,9 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $client = static::createClient();
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
-        $user = $room->getModerator();
-        $client->loginUser($user);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $client->loginUser($moderator);
 
         $sessionService = self::getContainer()->get(CallerSessionService::class);
         $callerPinService = self::getContainer()->get(CallerPinService::class);

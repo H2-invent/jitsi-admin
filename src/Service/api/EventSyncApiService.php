@@ -18,7 +18,7 @@ class EventSyncApiService
         if ($roomStatus){
             return ['status'=>'ROOM_STARTED'];
         }else{
-            return ['status'=>'ROOOM_CLOSED'];
+            return ['status'=>'ROOM_CLOSED'];
         }
     }
 }

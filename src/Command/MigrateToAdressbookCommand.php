@@ -9,9 +9,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:migrateToAdressbook')]
 class MigrateToAdressbookCommand extends Command
 {
-    protected static $defaultName = 'app:migrateToAdressbook';
     protected $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {

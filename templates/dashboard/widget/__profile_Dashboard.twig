@@ -2,14 +2,14 @@
     <div class="profileLine" id="profilLine" data-status="{{ getOnlineStatus(app.user) }}">
         <div class="icons" id="profileIcons">
             <a
-                    data-mdb-toggle="modal"
+                   data-mdb-modal-init
                     data-mdb-target="#sideModalTR"
                     id="toggleProfile"
                     href="#"
             >
                 {{ 'Einstellungen'|trans }} <i class="fa-solid fa-gear"></i></a>
             <a
-                    data-mdb-toggle="modal"
+                   data-mdb-modal-init
                     data-mdb-target="#modalAdressbook"
                     id="toggleAdressbook"
                     href="#"
@@ -63,7 +63,8 @@
                     data-uid="{{ app.user.uid }}"
                     type="button"
                     id="onlineSelector"
-                    data-mdb-toggle="dropdown"
+                   data-mdb-dropdown-init
+                    data-mdb-dropdown-init
                     aria-expanded="false"
             >
                 <span class="statusText">{{ getOnlineStatusString(app.user) }}</span>

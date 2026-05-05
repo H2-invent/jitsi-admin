@@ -207,7 +207,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
      */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): Response
     {
         $targetUrl = $this->router->generate('login_keycloak');
         return new RedirectResponse($targetUrl);

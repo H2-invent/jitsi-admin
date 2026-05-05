@@ -15,6 +15,6 @@ class UserNotInAdressbookException extends \Exception
 
     public function customMessage()
     {
-        echo 'User: {$this->user->getUid()} is not in Adressbook';
+
     }
 }

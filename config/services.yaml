@@ -48,6 +48,9 @@ parameters:
     LAF_HIDE_PROFILEPICTURE: '%env(LAF_HIDE_PROFILEPICTURE)%'
     LAF_DEFAULT_ONLINE_STATUS: '%env(LAF_DEFAULT_ONLINE_STATUS)%'
     LAF_FLOATING_TAG_FORCE_SHOW: '%env(LAF_FLOATING_TAG_FORCE_SHOW)%'
+    LAF_RESEND_SUBSCRIPTION_DOUBLE_OPTIN_EMAIL: '%env(LAF_RESEND_SUBSCRIPTION_DOUBLE_OPTIN_EMAIL)%'
+    LAF_SHOW_CALENDLY: '%env(LAF_SHOW_CALENDLY)%'
+    ALLOW_SERVER_CHANGE_WHEN_DISABLED: '%env(ALLOW_SERVER_CHANGE_WHEN_DISABLED)%'
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'
@@ -71,8 +74,11 @@ parameters:
     LDAP_DEPUTY_GROUP_MEMBERS: '%env(LDAP_DEPUTY_GROUP_MEMBERS)%'
     LDAP_DEPUTY_GROUP_FILTER: '%env(LDAP_DEPUTY_GROUP_FILTER)%'
     LDAP_DISALLOW_PROMOTE: '%env(LDAP_DISALLOW_PROMOTE)%'
+    LDAP_DISALLOW_PROMOTE_DEPUTY: '%env(LDAP_DISALLOW_PROMOTE_DEPUTY)%'
+    LDAP_IS_SIP_VIDEO: '%env(LDAP_IS_SIP_VIDEO)%'
 
     CALLOUT_MAX_RETRIES: '%env(CALLOUT_MAX_RETRIES)%'
+    CALLOUT_WAITING_TIME: '%env(CALLOUT_WAITING_TIME)%'
     strict_username_only: '%env(strict_username_only)%'
     STRICT_EMAIL_SET_ENVELOP_FROM: '%env(STRICT_EMAIL_SET_ENVELOP_FROM)%'
     strict_allow_user_creation: '%env(strict_allow_user_creation)%'
@@ -97,6 +103,7 @@ parameters:
     input_settings_allow_timezone_default: '%env(input_settings_allow_timezone_default)%'
     input_settings_allow_tag: '%env(input_settings_allow_tag)%'
     input_settings_allow_edit_tag: '%env(input_settings_allow_edit_tag)%'
+    INPUT_DISABLE_DOUBLE_OPT_IN: '%env(INPUT_DISABLE_DOUBLE_OPT_IN)%'
     DISALLOW_ALL_EMAILS: '%env(DISALLOW_ALL_EMAILS)%'
     start_dropdown_allow_browser: '%env(start_dropdown_allow_browser)%'
     start_dropdown_allow_app: '%env(start_dropdown_allow_app)%'
@@ -135,14 +142,37 @@ parameters:
     SIP_CONFERENCE_MAPPER_PHONE_NUMEBER_SPEZIAL_FIELD: '%env(SIP_CONFERENCE_MAPPER_PHONE_NUMEBER_SPEZIAL_FIELD)%'
     LAF_SHOW_TAG_TRANSPARENT_BACKGROUND: '%env(LAF_SHOW_TAG_TRANSPARENT_BACKGROUND)%'
     laF_version: '%env(laF_version)%'
+    JITSI_COMPONENT_SELECTOR_PRIVATE_PATH: '%env(JITSI_COMPONENT_SELECTOR_PRIVATE_PATH)%'
+    JITSI_COMPONENT_SELECTOR_PUBLIC_PATH: '%env(JITSI_COMPONENT_SELECTOR_PUBLIC_PATH)%'
+    JITSI_COMPONENT_SELECTOR_JWT_KID: '%env(JITSI_COMPONENT_SELECTOR_JWT_KID)%'
+    LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
+    app.scheme: '%env(APP_SCHEME)%'
+    app.theme_dir: '%kernel.project_dir%/theme'
+
 services:
+
+    gaufrette.recording_fs_filesystem:
+        class: Gaufrette\Filesystem
+        arguments:
+            - '@gaufrette.adapter.recording_storage'
+
+    gaufrette.adapter.recording_storage:
+        class: Gaufrette\Adapter\Local
+        arguments:
+            - '%kernel.project_dir%/data/recording'
+        public: true
+
+    Gaufrette\FilesystemInterface $recordingFilesystem:
+        alias: gaufrette.recording_fs_filesystem
+
     Twig\Extension\StringLoaderExtension:
 
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+        bind:
+            string $themeDir: '%app.theme_dir%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
