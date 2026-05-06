@@ -29,6 +29,7 @@
 * fix api to move room to other server
 * remove langauges which are all over in the project
 * On user room removal, room is now correctly removed from users favorite list
+* Fix dark mode for conference sidebar
 
 # Features, Improvements, and Bug Fixes related to the Livekit Integration
 
