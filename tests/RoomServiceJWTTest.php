@@ -99,7 +99,9 @@ class RoomServiceJWTTest extends KernelTestCase
                         'user' =>
                             array(
                                 'name' => 'Testuser',
-                                'identity' => $payload['context']['user']['identity']
+                                'identity' => $payload['context']['user']['identity'],
+                                'language' => 'de',
+                                'timezone' => 'UTC',
                             ),
                         'room'=>[
                             'name'=>'testRoom'
@@ -128,6 +130,9 @@ class RoomServiceJWTTest extends KernelTestCase
                         'url' => 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg'
 
                     ]
+                ],
+                'theme' => [
+                    'colorScheme' => 'light',
                 ],
 
             ],
@@ -221,6 +226,8 @@ class RoomServiceJWTTest extends KernelTestCase
                             array(
                                 'identity' => $payload['context']['user']['identity'],
                                 'name' => 'Testuser',
+                                'language' => 'de',
+                                'timezone' => 'UTC',
                             ),
                         'room'=>[
                             'name'=>'testRoom'
@@ -232,6 +239,9 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'theme' => [
+                    'colorScheme' => 'light',
+                ],
             ],
             $payload
         );
@@ -301,6 +311,8 @@ class RoomServiceJWTTest extends KernelTestCase
 
                                 'identity' => $payload['context']['user']['identity'],
 
+                                'language' => 'de',
+                                'timezone' => 'UTC',
                             ),
                         'room'=>[
                             'name'=>'testRoom'
@@ -312,6 +324,9 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'theme' => [
+                    'colorScheme' => 'light',
+                ],
             ],
             $payload
         );
@@ -366,6 +381,8 @@ invalidKey
                             array(
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity'],
+                                'language' => 'de',
+                                'timezone' => 'UTC',
                             ),
                         'room'=>[
                             'name'=>'testRoom'
@@ -395,6 +412,9 @@ invalidKey
 
                     ]
 
+                ],
+                'theme' => [
+                    'colorScheme' => 'light',
                 ],
 
             ],
