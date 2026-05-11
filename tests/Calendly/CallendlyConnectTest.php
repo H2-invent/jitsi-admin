@@ -178,6 +178,14 @@ class CallendlyConnectTest extends TestCase
             ->method('request')
             ->willThrowException($this->createMock(ClientExceptionInterface::class));
 
+        // just to suppress str_replace $subject = null deprecation
+        $this->parameterBag
+            ->method('get')
+            ->willReturn('http://localhost');
+        $this->urlGenerator
+            ->method('generate')
+            ->willReturn('/webhook');
+
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Ungültige Anfrage oder Token:');
 
@@ -192,6 +200,14 @@ class CallendlyConnectTest extends TestCase
         $this->httpClient
             ->method('request')
             ->willThrowException($this->createMock(ServerExceptionInterface::class));
+
+        // just to suppress str_replace $subject = null deprecation
+        $this->parameterBag
+            ->method('get')
+            ->willReturn('http://localhost');
+        $this->urlGenerator
+            ->method('generate')
+            ->willReturn('/webhook');
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Fehler beim Aufruf der Calendly-API:');

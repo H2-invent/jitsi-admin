@@ -22,7 +22,7 @@ class CheckThemeValidDateCommand extends Command
     public function __construct(
         private ParameterBagInterface $parameterBag,
         private MailerService         $mailerService,
-        string                        $name = null)
+        ?string                        $name = null)
     {
         parent::__construct($name);
     }

@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class CallerSessionCleanCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, private CallerSessionService $callerSessionService, string $name = null)
+    public function __construct(private EntityManagerInterface $entityManager, private CallerSessionService $callerSessionService, ?string $name = null)
     {
         parent::__construct($name);
     }
