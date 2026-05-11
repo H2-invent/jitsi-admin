@@ -54,7 +54,7 @@ class RoomType extends AbstractType
         $this->entityManager = $entityManager;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $time = (new \DateTime())->getTimestamp();
@@ -250,7 +250,7 @@ class RoomType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
 
         $resolver->setDefaults(

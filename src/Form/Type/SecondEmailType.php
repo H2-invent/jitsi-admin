@@ -23,7 +23,7 @@ class SecondEmailType extends AbstractType
     {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder->add('profilePicture', ImageType::class, ['label' => 'label.profilImage', 'translation_domain' => 'form'])
@@ -37,7 +37,7 @@ class SecondEmailType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

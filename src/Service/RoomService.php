@@ -156,7 +156,7 @@ class RoomService
     }
 
     public
-    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): ?array
+    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, ?User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): ?array
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {

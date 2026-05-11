@@ -22,7 +22,7 @@ class SyncLdapCommand extends Command
 
     public function __construct(
         private LdapService $ldapService,
-        string              $name = null
+        ?string              $name = null
     )
     {
         parent::__construct($name);
