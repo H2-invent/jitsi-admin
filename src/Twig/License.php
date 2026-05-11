@@ -23,7 +23,7 @@ class License extends AbstractExtension
         $this->licenseService = $licenseService;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('validateLicense', [$this, 'validateLicense']),
