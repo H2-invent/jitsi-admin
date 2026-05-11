@@ -200,7 +200,7 @@ class SchedulerType extends AbstractType
             $builder->add('maxUser', NumberType::class, ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']
             ]);
         }
-        $formModifier = function (FormInterface $form, Server $server = null): void {
+        $formModifier = function (FormInterface $form, ?Server $server = null): void {
             $tags = null === $server ? [] : $server->getTag();
             if (count($tags) > 1) {
                 $form->add('tag', EntityType::class, [
