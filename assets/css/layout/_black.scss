@@ -599,7 +599,9 @@ hr {
 
 
   .conference-sidebar {
+    background-color: #0A0A0A;
     .wrapperIcons {
+      color: $black_font-color;
       .wrapper-helper {
         background-color: $black_background;
         color: $black_font-color;

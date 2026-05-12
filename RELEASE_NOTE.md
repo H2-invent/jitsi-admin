@@ -51,9 +51,7 @@
 * Fis Server Statistics
 * Fix open Link with target blank from ifrmae
 * Fix not downloading images from whiteboard
-* 
-## 1.3
-Nothing
+* Fix dark mode for conference sidebar
 
 # Features, Improvements, and Bug Fixes related to the Livekit Integration
 
