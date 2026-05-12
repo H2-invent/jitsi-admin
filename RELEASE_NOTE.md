@@ -49,7 +49,7 @@
 * Fis Server Statistics
 * Fix open Link with target blank from ifrmae
 * Fix not downloading images from whiteboard
-* 
+* Add new room_ui to survey
 ## 1.3
 Nothing
 
