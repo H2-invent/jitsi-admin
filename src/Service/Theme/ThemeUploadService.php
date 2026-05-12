@@ -14,20 +14,17 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class ThemeUploadService
 {
-    private string $cacheDir;
-    private string $themeDir;
-    private string $publicDir;
-
     public function __construct(
         private CheckSignature         $checkSignature,
         private CacheItemPoolInterface $cacheItemPool,
-        #[Autowire(param: 'kernel.project_dir')]
-        string $kernelProjektDir,
+        #[Autowire(param: 'app.theme.cache_dir')]
+        private readonly string $cacheDir,
+        #[Autowire(param: 'app.theme.dir')]
+        private readonly string $themeDir,
+        #[Autowire(param: 'app.theme.public_dir')]
+        private readonly string $publicDir,
     )
     {
-        $this->cacheDir = $kernelProjektDir . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
-        $this->themeDir = $kernelProjektDir . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
-        $this->publicDir = $kernelProjektDir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
     }
 
     public function uploadTheme(string $absoluteFilePathZip): ServiceResult

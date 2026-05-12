@@ -26,7 +26,7 @@ jobs:
           major_pattern: "(MAJOR)"
           minor_pattern: "(MINOR)"
           change_path: .
-          version_format: "${major}.${minor}.${patch}-${increment}"
+          version_format: "${major}.${minor}.${patch}-${{ github.run_id }}"
 
   artifact:
     uses: ./.github/workflows/task-artifact.yml

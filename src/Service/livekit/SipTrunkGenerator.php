@@ -78,14 +78,9 @@ class SipTrunkGenerator
                 'name' => $this->livekitRoomNameGenerator->getLiveKitName($rooms),
                 'numbers' => [
                     $this->sipTrunkNumber
-                ],
-                'include_headers'=>1,
-                'headers_to_attributes'=>[
-                    'X-'
                 ]
             ]
         ];
-
         try {
             $response = $this->sendPostRequest($server, 'twirp/livekit.SIP/CreateSIPInboundTrunk', $payload);
             if (isset($response[self::SIP_TRUNK_ID])) {

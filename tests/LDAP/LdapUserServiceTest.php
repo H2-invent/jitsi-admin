@@ -114,7 +114,8 @@ class LdapUserServiceTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneBy(['username' => 'UnitTest1']);
         $this->assertNotEquals(null, $ldapUserService->checkUserInLdap($user, $ldapConnection));
-        $user->getLdapUserProperties()->setLdapDn('uid=unitTest100,o=unitTest,dc=example,dc=com');
+        $user->getLdapUserProperties()->setLdapDn('uid=unitTest156,o=unitTest,dc=example,dc=com');
+        $user->setUsername('unitTest156');
         $this->assertEquals(null, $ldapUserService->checkUserInLdap($user, $ldapConnection));
 
         $ldapUserService->deleteUser($user);
@@ -331,7 +332,8 @@ class LdapUserServiceTest extends WebTestCase
         $users = $userRepository->findUsersfromLdapService();
         $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES, sizeof($users));
         $user = $userRepository->findOneBy(['username' => 'unitTest1']);
-        $user->getLdapUserProperties()->setLdapDn('uid=unitTest100,o=unitTest,dc=example,dc=com');
+        $user->getLdapUserProperties()->setLdapDn('uid=unitTest10,o=unitTest,dc=example,dc=com');
+        $user->setUsername('invalidLdapUsername');
         $em = static::getContainer()->get(EntityManagerInterface::class);
         $em->persist($user);
         $em->flush();

@@ -35,19 +35,13 @@ class UploadThemeController extends AbstractController
     {
         if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
             $groups = $this->getUser()->getGroups();
-            if (!in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'),
-                $groups
-            )) {
+            if (!$groups || !in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
                 $this->addFlash('danger', 'Permission denied');
 
                 return $this->redirectToRoute('index');
             }
         }
-        $form = $this->createForm(ThemeUploadType::class,
-            null,
-            ['action' => $this->urlGenerator->generate('app_upload_theme_save')]
-        );
-
+        $form = $this->createForm(ThemeUploadType::class, null, ['action' => $this->urlGenerator->generate('app_upload_theme_save')]);
         return $this->render('upload_theme/index.html.twig', [
             'form' => $form->createView(),
         ]);
