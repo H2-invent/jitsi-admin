@@ -151,8 +151,8 @@ parameters:
     API_TOKEN_BEARER_THEME: '%env(API_TOKEN_BEARER_THEME)%'
     app.scheme: '%env(APP_SCHEME)%'
     app.theme.dir: '%kernel.project_dir%/theme'
-    app.theme.cache_dir: '%kernel.project_dir%/var/cache/theme/'
-    app.theme.public_dir: '%kernel.project_dir%/public/theme/'
+    app.theme.cache_dir: '%kernel.project_dir%/var/cache/theme'
+    app.theme.public_dir: '%kernel.project_dir%/public/theme'
 
 services:
     gaufrette.recording_fs_filesystem:

@@ -17,10 +17,10 @@ class ThemeUploadService
     public function __construct(
         private CheckSignature         $checkSignature,
         private CacheItemPoolInterface $cacheItemPool,
-        #[Autowire(param: 'app.theme.cache_dir')]
-        private readonly string $cacheDir,
         #[Autowire(param: 'app.theme.dir')]
         private readonly string $themeDir,
+        #[Autowire(param: 'app.theme.cache_dir')]
+        private readonly string $cacheDir,
         #[Autowire(param: 'app.theme.public_dir')]
         private readonly string $publicDir,
     )
@@ -29,7 +29,7 @@ class ThemeUploadService
 
     public function uploadTheme(string $absoluteFilePathZip): ServiceResult
     {
-        $extractionPath = $this->cacheDir . md5(uniqid());
+        $extractionPath = $this->cacheDir . DIRECTORY_SEPARATOR . md5(uniqid());
         $success = $this->extractZipToPath($absoluteFilePathZip, $extractionPath);
         if (!$success) {
             return ServiceResult::failure(ThemeUploadError::INVALID_ZIP);
@@ -47,7 +47,7 @@ class ThemeUploadService
         }
 
         $themePath = $signatureFile->getPathname();
-        $themeTargetPath = $this->themeDir . $signatureFile->getFilename();
+        $themeTargetPath = $this->themeDir . DIRECTORY_SEPARATOR . $signatureFile->getFilename();
         $this->moveThemeToTargetPathAndRemoveTempFiles($themePath, $themeTargetPath, $extractionPath);
 
         return ServiceResult::success();
@@ -95,7 +95,7 @@ class ThemeUploadService
             if (str_starts_with($dirName, 'theme')) {
                 $dirName = str_replace("theme", '', $dirName);
             }
-            $assetTargetPath = $this->publicDir . $dirName;
+            $assetTargetPath = $this->publicDir . DIRECTORY_SEPARATOR . $dirName;
             $filesystem->remove($assetTargetPath . '/*');
             $filesystem->mirror($assetDir->getPath(), $assetTargetPath);
         }
