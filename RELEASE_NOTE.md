@@ -32,6 +32,8 @@
 * Skip Lobby by URL parameter in public rooms
 * Enable Mic and Camera by URL paramter
 * Upgrade PHP to 8.4 in prod docker
+* Add user preferences (dark/light mode, language, timezone) to JWT 
+
 ### 🐛 Bug Fixes
 * Collapse the Side-Navigation on mobile devices
 * Calendly disconnection fails when token was removed in advance in Calendly
