@@ -2413,6 +2413,30 @@
         <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
         <target state="translated">Enter several e-mail addresses at once</target>
       </trans-unit>
+      <trans-unit id="n2SdnDl" resname="meetling Konferenz">
+        <source>meetling Konferenz</source>
+        <target state="translated">meetling conference</target>
+      </trans-unit>
+      <trans-unit id="uFBYrBR" resname="meetling">
+        <source>meetling</source>
+        <target state="translated">meetling</target>
+      </trans-unit>
+      <trans-unit id="JmOALRn" resname="Sie wurden zu einer Videokonferenz hinzugefügt.">
+        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
+        <target state="translated">You have been added to a videoconference.</target>
+      </trans-unit>
+      <trans-unit id="vhXQ7u." resname="Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.">
+        <source>Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.</source>
+        <target state="translated">Each conference has its own link that you must click to join.</target>
+      </trans-unit>
+      <trans-unit id="Z3Ow33K" resname="Sie wurden zu einer Videokonferenz eingeladen.">
+        <source>Sie wurden zu einer Videokonferenz eingeladen.</source>
+        <target state="translated">You have been invited to a video conference.</target>
+      </trans-unit>
+      <trans-unit id="cWEPkYB" resname="options.lookylooky">
+        <source>options.lookylooky</source>
+        <target state="translated">Secure Document Share</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

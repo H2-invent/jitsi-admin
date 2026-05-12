@@ -58,11 +58,6 @@ class JitsiEventsServiceTest extends KernelTestCase
         ]
     ];
 
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-    }
-
     public function testroomCreatedWebhook(): void
     {
         $kernel = self::bootKernel();

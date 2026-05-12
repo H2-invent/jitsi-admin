@@ -17,17 +17,17 @@
         <source>Konferenz erfolgreich bearbeitet</source>
         <target state="final">La conférence a été modifiée avec succès</target>
       </trans-unit>
-      <trans-unit id="LkZyqGT" resname="Konferenz bearbeiten" approved="yes">
+      <trans-unit id="LkZyqGT" resname="Konferenz bearbeiten">
         <source>Konferenz bearbeiten</source>
-        <target state="final">Modifier la conférence</target>
+        <target state="translated">Éditer la conférence</target>
       </trans-unit>
       <trans-unit id="HAPXOlo" resname="Konferenz erfolgreich erstellt" approved="yes">
         <source>Konferenz erfolgreich erstellt</source>
         <target state="final">Conférence créée avec succès</target>
       </trans-unit>
-      <trans-unit id="HoXvwMv" resname="Neue Konferenz erstellen" approved="yes">
+      <trans-unit id="HoXvwMv" resname="Neue Konferenz erstellen">
         <source>Neue Konferenz erstellen</source>
-        <target state="final">Créer une nouvelle conférence</target>
+        <target state="translated">Créer une nouvelle conférence</target>
       </trans-unit>
       <trans-unit id="ElYkn.a" resname="Fehler, Bitte kontrollieren Sie ihre Daten." approved="yes">
         <source>Fehler, Bitte kontrollieren Sie ihre Daten.</source>
@@ -1017,9 +1017,9 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
         <source>Die Serienvideokonferenz {name} wurde abgesagt.</source>
         <target state="final">La visioconférence récurrente {name} a été annulée.</target>
       </trans-unit>
-      <trans-unit id="kMS4.OC" resname="Alle Serienelement der Serie bearbeiten" approved="yes">
+      <trans-unit id="kMS4.OC" resname="Alle Serienelement der Serie bearbeiten">
         <source>Alle Serienelement der Serie bearbeiten</source>
-        <target state="final">Modifier toutes les occurences de la série</target>
+        <target state="translated">Modifier toutes les occurrences de la série.</target>
       </trans-unit>
       <trans-unit id="CyrT0si" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist" approved="yes">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
@@ -2420,6 +2420,30 @@ Le modérateur a été informé et vous laissera entrer.</target>
       <trans-unit id="p3mIz7q" resname="Mehrere E-Mail-Adressen auf einmal eingeben">
         <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
         <target state="translated">Saisir plusieurs adresses e-mail à la fois</target>
+      </trans-unit>
+      <trans-unit id="n2SdnDl" resname="meetling Konferenz">
+        <source>meetling Konferenz</source>
+        <target state="translated">Conférence meetling</target>
+      </trans-unit>
+      <trans-unit id="uFBYrBR" resname="meetling">
+        <source>meetling</source>
+        <target state="translated">meetling</target>
+      </trans-unit>
+      <trans-unit id="JmOALRn" resname="Sie wurden zu einer Videokonferenz hinzugefügt.">
+        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
+        <target state="translated">Vous avez été ajouté à une visioconférence récurrente.</target>
+      </trans-unit>
+      <trans-unit id="vhXQ7u." resname="Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.">
+        <source>Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.</source>
+        <target state="translated">Chaque conférence dispose de son propre lien sur lequel vous devez cliquer pour y participer.</target>
+      </trans-unit>
+      <trans-unit id="Z3Ow33K" resname="Sie wurden zu einer Videokonferenz eingeladen.">
+        <source>Sie wurden zu einer Videokonferenz eingeladen.</source>
+        <target state="translated">Vous avez été ajouté à une visioconférence récurrente.</target>
+      </trans-unit>
+      <trans-unit id="cWEPkYB" resname="options.lookylooky">
+        <source>options.lookylooky</source>
+        <target state="translated">Partage de document sécurisé</target>
       </trans-unit>
     </body>
   </file>

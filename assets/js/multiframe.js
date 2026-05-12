@@ -66,7 +66,7 @@ export class multiframe {
             </div>
             </div>
             <div class="iframeFrame">
-            <iframe  class="multiframeIframe"  sandbox="allow-same-origin allow-scripts allow-modals"></iframe>
+            <iframe class="multiframeIframe" sandbox="allow-downloads allow-same-origin allow-scripts allow-modals"></iframe>
             </div>
 </div>
     

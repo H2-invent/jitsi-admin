@@ -12,7 +12,7 @@ label.start: Start
 label.dauerKonferenz: Dauer der Konferenz
 label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
 label.speichern: Speichern
-label.allowMaybeOption: '"Vielleicht"-Option anbieten'
+label.allowMaybeOption: '"조건부 참석" 옵션 제공'
 option.15min: 15 Minuten
 option.30min: 30 Minuten
 option.45min: 45 Minuten
@@ -67,7 +67,7 @@ option:
   decembre: Dezember
   user: Im User Claim
   root: Im Root Claim
-lable.serverUrl: Konferenz Server URL
+lable.serverUrl: 컨퍼런스 서버 URL
 label.appId: App-ID
 label.appSecret: App-Secret
 label.scheduleMeeting: Termin vorschlagen
@@ -79,23 +79,23 @@ help:
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
   corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
-  jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
+  jigasiNumberUrl: '전화 접속 번호를 JSON 형식으로 입력하세요. Jigasi의 numbers.json 파일 형식과 동일해야 합니다 (예: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
-  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
-  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
-  allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
-  jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
-  disableFilmstripe: Filmstripe in Jitsi deaktivieren
-  disableChat: Chat in Jitsi deaktivieren und ausblenden
-  disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
-  disableEtherpad: Etherpad während einer Konferenz deaktivieren
-  prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
-  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
-  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
-  livekitMiddlewareUrl: Hier kann eine Url (https://middlewareUrl.com) angegeben werden. Es wird bisher nur die Meetling Middleware unterstützt. Sollten Sie nicht wissen was Sie hier eintragen sollen, einfach leer lassen damit die voreingestellte Middleware verwendet wird. Wenn Sie eine eigene Middleware verwenden wollen wenden Sie sich an info@h2-invent.com
+  disallowFirefox: Firefox 브라우저 사용이 비활성화 되어 있습니다. Firefox 브라우저로 접속하려는 모든 참가자는 자동으로 Chromium 기반 브라우저로 전환됩니다.
+  enforceE2e: 이 Jitsi 서버에서는 모든 회의에 대해 종단 간 암호화가 강제로 적용됩니다.
+  allowIp: 지정된 IP 주소 또는 IP 대역만 회의에 참가할 수 있습니다. IP 대역은 10.10.10.10/24 형식으로 입력해야 하며, 여러 IP 또는 대역은 쉼표로 구분하여 입력할 수 있습니다.
+  jitsiEventSyncUrl: SIP 요청 처리 시 필요한 Jitsi 이벤트 동기화 정보를 보유한 다른 Jitsi 관리자 서버의 기본 URL을 입력할 수 있습니다. 이 기능은 Jitsi-admin 0.77.x 이상의 버전에서만 지원됩니다.
+  disableFilmstripe: Jitsi에서 참가자 미리보기 비활성화
+  disableChat: Jitsi에서 채팅 기능을 비활성화하고 숨기기
+  disableWhiteboard: 회의 중 화이트보드 기능 비활성화
+  disableEtherpad: 회의 중 Etherpad 기능 비활성화
+  prefixRoomUidWithHash: 회의 UID 앞에 서버 슬러그와 서버 ID의 해시가 자동으로 붙습니다. 이를 이용해 nginx 웹서버에서 여러 가상 서버를 구분할 수 있습니다.
+  liveKitServer: 이 서버는 Livekit 서버이며 Livekit API 기능을 사용하도록 설정됩니다.
+  livekitBackgroundImages: 회의 참가자들이 사용할 수 있는 배경 이미지 목록을 JSON 배열로 입력합니다.
+  livekitMiddlewareUrl: '여기에 미들웨어 URL을 입력할 수 있습니다(예: https://middlewareUrl.com). 현재는 Meetling 미들웨어만 지원됩니다. 무엇을 입력해야 할지 모르겠다면 비워 두면 기본 미들웨어가 사용됩니다. 자체 미들웨어 사용을 원하시면 info@h2-invent.com 으로 문의하세요.'
 label:
   beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
+  beitretenBrowser: 참가하기
   serverSmtpHostName: SMTP-Hostname
   serverSmtpHostPort: SMTP-Port
   serverSmtpEncryption: Verschlüsselung
@@ -120,7 +120,7 @@ label:
   subscribe: Anmelden
   vorname: Vorname
   nachname: Nachname
-  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
+  maxParticipants: 최대 참가자 수
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
   weekday: Wochentag
@@ -152,25 +152,25 @@ label:
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
   go: Los gehts!
-  moderator: Organisator auswählen
-  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
-  enforceE2e: Ende zu Ende erzwingen
-  allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
-  maxUser: Maximal Anzahl an Teilnehmenden
-  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
-  disableFilmstripe: Filmstrip deaktivieren
-  disableChat: Chat deaktivieren
-  disableWhiteboard: Whiteboard deaktivieren
-  disableEtherpad: Etherpad deaktivieren
-  prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
-  myName: Mein Name
-  liveKitServer: Ich möchte einen Livekit-Server einrichten
-  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
-  livekitMiddlewareUrl: Livekitmiddleware-Url
-  disableSelfSubscriptionDoubleOptIn: Bei Selbsteinschreibungen keine Double Opt-In E-Mail versenden
-  calendlyToken: Calendly Oauth Token
-  enableRecording: Recording aktiveren
-  calendlyServer: Konferenzserver für Calendly-Konferenzen
+  moderator: 주최자 선택
+  disallowFirefox: 이 Jitsi Meet 서버에서는 Firefox 브라우저가 비활성화되어 있습니다.
+  enforceE2e: 종단 간 암호화 강제 적용
+  allowIp: 회의 참가를 허용할 IP 또는 IP 대역
+  maxUser: 셀프 등록 시 허용되는 최대 신청 수
+  jitsiEventSyncUrl: Jitsi 이벤트 동기화 릴레이 URL
+  disableFilmstripe: 참가자 미리보기 비활성화
+  disableChat: 채팅 비활성화
+  disableWhiteboard: 화이트보드 기능 비활성화
+  disableEtherpad: Etherpad 기능 비활성화
+  prefixRoomUidWithHash: 서버 해시를 룸 UID 앞에 붙이기
+  myName: 내 이름
+  liveKitServer: Livekit 서버를 설정하고 싶습니다.
+  livekitBackgroundImages: JSON 형식의 회의용 배경 이미지
+  livekitMiddlewareUrl: Livekit 미들웨어 URL
+  disableSelfSubscriptionDoubleOptIn: 셀프 등록 시 Double Opt-In 확인 이메일을 보내지 않기
+  calendlyToken: Calendly Oauth 토큰
+  enableRecording: 녹화 기능 활성화
+  calendlyServer: Calendly 회의를 위한 컨퍼런스 서버
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

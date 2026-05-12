@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class NewMemberType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder
@@ -25,7 +25,7 @@ class NewMemberType extends AbstractType
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.teilnehmerSpeichern', 'translation_domain' => 'form']);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [
