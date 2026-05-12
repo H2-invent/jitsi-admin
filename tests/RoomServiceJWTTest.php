@@ -101,7 +101,7 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
-                                'timezone' => 'UTC',
+                                'timezone' => 'Europe/Berlin',
                             ),
                         'room'=>[
                             'name'=>'testRoom'
@@ -227,7 +227,7 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'identity' => $payload['context']['user']['identity'],
                                 'name' => 'Testuser',
                                 'language' => 'de',
-                                'timezone' => 'UTC',
+                                'timezone' => 'Europe/Berlin',
                             ),
                         'room'=>[
                             'name'=>'testRoom'
@@ -312,7 +312,7 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'identity' => $payload['context']['user']['identity'],
 
                                 'language' => 'de',
-                                'timezone' => 'UTC',
+                                'timezone' => 'Europe/Berlin',
                             ),
                         'room'=>[
                             'name'=>'testRoom'
@@ -382,7 +382,7 @@ invalidKey
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
-                                'timezone' => 'UTC',
+                                'timezone' => 'Europe/Berlin',
                             ),
                         'room'=>[
                             'name'=>'testRoom'
