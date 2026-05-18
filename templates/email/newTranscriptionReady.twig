@@ -1,0 +1,29 @@
+{% extends 'email/base.html.twig' %}
+{% block header %}
+    {{ 'transcription.ready.subject'|trans({'{roomName}': room.name}) }}
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center">
+        {{ room.name }}
+    </h4>
+    <b>
+        {{ 'Hallo!'|trans }}
+    </b>
+    <p>
+        {% trans with {'{roomName}': room.name} %}transcription.ready.text{% endtrans %}
+    </p>
+
+    <p>
+        <a href="{{ absolute_url(path('app_transcription_download', {'id': transcription.id})) }}">
+            {{ 'Klicken Sie hier um das Transkript runterzuladen.'|trans }}
+        </a>
+    </p>
+
+    <p>
+        {% if server is defined and server is not null and server.serverEmailBody is not null %}
+            {{ server.serverEmailBody|nl2br }}
+        {% endif %}
+    </p>
+
+{% endblock %}
