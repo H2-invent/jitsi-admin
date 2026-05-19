@@ -153,6 +153,9 @@ parameters:
     app.theme.dir: '%kernel.project_dir%/theme'
     app.theme.cache_dir: '%kernel.project_dir%/var/cache/theme'
     app.theme.public_dir: '%kernel.project_dir%/public/theme'
+    encryption.private_key_path: '%kernel.project_dir%/backend_private.pem'
+    encryption.public_key_path: '%kernel.project_dir%/backend_public.pem'
+    provisioner.schedule.minutes_threshold: '%env(int:PROVISIONER_SCHEDULE_MINUTES_THRESHOLD)%'
 
 services:
     gaufrette.recording_fs_filesystem:
@@ -202,5 +205,15 @@ services:
                     key: '%env(AWS_KEY)%'
                     secret: '%env(AWS_SECRET_KEY)%'
 
+    App\Command\AmqpTestCommand:
+        arguments:
+            $testTransport: '@messenger.transport.test'
 
+    App\Service\RsaEncryptionService:
+        arguments:
+            $privateKeyPath: '%encryption.private_key_path%'
+            $publicKeyPath: '%encryption.public_key_path%'
+
+    App\DependencyInjection\RabbitMqDsnEnvVarProcessor:
+        tags: ['container.env_var_processor']
 

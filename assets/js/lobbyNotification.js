@@ -45,6 +45,8 @@ function masterNotify(data) {
         loadModal(data)
     } else if (data.type === 'redirect') {
         redirect(data);
+    } else if (data.type === 'redirect_local') {
+        redirectLocal(data);
     } else if (data.type === 'snackbar') {
         setSnackbar(data.message,'', data.color, false,'0x00',data.closeAfter)
     }
@@ -72,7 +74,7 @@ function masterNotify(data) {
     } else if (data.type === 'message') {
         addmessage(data);
     } else {
-        console.log()('Error, Please reload the page')
+        console.log('Error, Please reload the page')
     }
 }
 
@@ -161,6 +163,12 @@ function loadModal(data) {
 function redirect(data) {
     setTimeout(function () {
         window.top.location.href = data.url;
+    }, data.timeout)
+}
+
+function redirectLocal(data) {
+    setTimeout(function () {
+        window.location.href = data.url;
     }, data.timeout)
 }
 

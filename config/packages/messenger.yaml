@@ -6,16 +6,51 @@ framework:
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
       async:
-        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
         options:
-          check_delayed_interval: 1000
+          exchange:
+            name: meetling.messages
+          queues:
+            meetling.messages: ~
+      provisioner_request:
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
+        options:
+          exchange:
+            name: meetling.provisioner.request
+          queues:
+            meetling.provisioner.request: ~
+        serializer: messenger.transport.symfony_serializer
+      provisioner_status:
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
+        options:
+          exchange:
+            name: meetling.provisioner.status
+          queues:
+            meetling.provisioner.status: ~
+        serializer: App\Message\Serializer\ProvisionerStatusSerializer
+
+      test:
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
+        options:
+          exchange:
+            name: test
+          queues:
+            test: ~
+
       # failed: 'doctrine://default?queue_name=failed'
       # sync: 'sync://'
+
+    serializer:
+      symfony_serializer:
+        format: json
+        context: { }
 
 
     routing:
       # Route your messages to the transports
-      # 'App\Message\YourMessage': async
-      App\Message\LobbyLeaverMessage: async
-      #App\Message\CustomMailerMessage: async
       #Symfony\Component\Mailer\Messenger\SendEmailMessage:  async
+      App\Message\CustomMailerMessage: async
+      App\Message\LobbyLeaverMessage: async
+      App\Message\TestMessage: test
+      App\Message\Provisioner\ProvisionerStatusMessage: provisioner_status
+      App\Message\Provisioner\ProvisionerRequestMessage: provisioner_request

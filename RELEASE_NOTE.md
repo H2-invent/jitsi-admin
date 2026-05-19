@@ -5,6 +5,7 @@
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 * **New DDEV local development setup**
 * **New Design**
+* **External server provisioning now possible**
 ### Bug Fixes:
 * remove header in sip trunk generation
 * fix ical reply
@@ -18,6 +19,7 @@
 * Add Chatwoot in conferences in sidebar
 * Theme dashboard
 * Rearange logo in conference
+* use RabbitMQ for all Messenger messages
 ## 1.2
 ### 🚀 Features
 * **Improved Side-Navigation in the Conference**:

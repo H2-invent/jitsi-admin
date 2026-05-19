@@ -104,6 +104,10 @@ export function initWebsocket(jwt) {
         }, 2000)
     }
     initAwayTime();
+
+    window.addEventListener('beforeunload', function() {
+        socket.close();
+    });
 }
 
 function handleVisibilityChange() {

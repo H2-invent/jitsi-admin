@@ -93,6 +93,8 @@ help:
   liveKitServer: This server is a Livekit server and is intended to use the Livekit API functionalities
   livekitBackgroundImages: JSON array with background images which can be selected by conference participants as background images during the conference.
   livekitMiddlewareUrl: A URL (https://middlewareUrl.com) can be specified here. So far only the Meetling middleware is supported. If you don't know what to enter here, simply leave it blank so that the default middleware is used. If you want to use your own middleware, contact info@h2-invent.com
+  isProvisioningEnabled: Enable server provisioning for all conferences
+  isAllowedToCloneForAutoscale: Enable server cloning for autoscaling (mandatory for provisioning)
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser
@@ -171,6 +173,8 @@ label:
   calendlyToken: Calendly Oauth Token
   enableRecording: Enable recording
   calendlyServer: Conference server for Calendly conferences
+  isProvisioningEnabled: Enable Provisioner
+  isAllowedToCloneForAutoscale: Enable cloning
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
