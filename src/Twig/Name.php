@@ -26,7 +26,7 @@ class Name extends AbstractExtension
         $this->participantSearchService = $participantSearchService;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('nameOfUser', [$this, 'nameOfUser']),

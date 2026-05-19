@@ -10,7 +10,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 class CreateSummaryTemplateServiceTest extends KernelTestCase
 {
-    private $sampleSvgResult = '';
+    private static $sampleSvgResult = '';
     public static $pdfHeader = '<!DOCTYPE html>
 <html>
 <head>
@@ -185,11 +185,9 @@ class CreateSummaryTemplateServiceTest extends KernelTestCase
 <body>
 ';
 
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
+    public static function setUpBeforeClass(): void
     {
-        parent::__construct($name, $data, $dataName);
-
-        $this->sampleSvgResult = '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . (base64_encode(CreateWhiteboardServiceTest::$sampleSvg)) . '"  style="width: 600px"/>';
+        self::$sampleSvgResult = '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . (base64_encode(CreateWhiteboardServiceTest::$sampleSvg)) . '"  style="width: 600px"/>';
     }
 
     public function testWhiteboardSuccess(): void
@@ -230,7 +228,7 @@ class CreateSummaryTemplateServiceTest extends KernelTestCase
                     '',
                     self::$pdfHeader .
                     sprintf(CreateHeaderServiceTest::$headerHtml, $room->getStart()->format('d.m.Y'), $room->getStart()->format('H:i'), $room->getEnddate()->format('H:i')) .
-                    $this->sampleSvgResult .
+                    self::$sampleSvgResult .
                     CreateEtherpadServiceTest::$samplePadREsult .
                     '
 </body></html>'

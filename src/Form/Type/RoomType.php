@@ -54,13 +54,13 @@ class RoomType extends AbstractType
         $this->entityManager = $entityManager;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $time = (new \DateTime())->getTimestamp();
         $room = $options['data'];
         $during = false;
-        if ($room->getStartTimestamp() && $room->getStartTimestamp() < $time && !$room->getRepeaterProtoype()) {
+        if ($room->getStartTimestamp() && $room->getStartTimestamp() <= $time && !$room->getRepeaterProtoype()) {
             $during = true;
         }
 
@@ -178,7 +178,7 @@ class RoomType extends AbstractType
         }
 
 
-        $formModifier = function (FormInterface $form, Server $server = null): void {
+        $formModifier = function (FormInterface $form, ?Server $server = null): void {
             $tags = null === $server ? [] : $server->getTag();
             if (count($tags) > 1) {
                 $form->add('tag', EntityType::class, [
@@ -250,7 +250,7 @@ class RoomType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
 
         $resolver->setDefaults(

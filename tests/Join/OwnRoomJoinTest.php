@@ -18,9 +18,14 @@ class OwnRoomJoinTest extends WebTestCase
     {
         $client = static::createClient();
         $room = $this->getRoomByName('Room with Start and no Participants list');
+    
+        $room->setStart((new \DateTime())->modify('+2 hours'));
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+    
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $urlGen = $this->getContainer()->get(UrlGeneratorInterface::class);
-
         $url = $urlGen->generate('join_index_no_slug', ['snack' => 'Der Beitritt ist nur von ' . $room->getStart()->modify('-30min')->format('d.m.Y H:i T') . ' bis ' . $room->getEnddate()->format('d.m.Y H:i T') . ' möglich']);
         self::assertTrue($client->getResponse()->isRedirect());
     }

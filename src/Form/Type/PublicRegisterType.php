@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PublicRegisterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder
@@ -28,7 +28,7 @@ class PublicRegisterType extends AbstractType
             ->add('subscribe', SubmitType::class, ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.subscribe', 'translation_domain' => 'form']);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
     }
 }

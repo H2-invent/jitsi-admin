@@ -18,7 +18,6 @@
     "doctrine/doctrine-migrations-bundle": "^3.1",
     "doctrine/orm": "^2.9",
     "dompdf/dompdf": "^2.0",
-    "eluceo/ical": "^2",
     "erusev/parsedown": "^1.7",
     "h2entwicklung/sign-checker": "^0.2",
     "h2invent/i18n-routing-bundle": "^3.2",
@@ -70,7 +69,8 @@
     "twig/intl-extra": "^3.2",
     "twig/markdown-extra": "^3.3",
     "twig/twig": "^3.0",
-    "vich/uploader-bundle": "^2.3"
+    "vich/uploader-bundle": "^2.3",
+     "ext-ldap": "*"
   },
   "require-dev": {
     "dama/doctrine-test-bundle": "^v8.0",

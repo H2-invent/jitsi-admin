@@ -15,7 +15,7 @@ use function GuzzleHttp\Psr7\str;
 
 class CheckIfUserIsAllowdToOrganize extends AbstractExtension
 {
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('isAllowedToOrganize', [$this, 'isAllowedToOrganize'])

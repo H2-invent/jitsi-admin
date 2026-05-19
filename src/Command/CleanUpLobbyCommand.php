@@ -15,7 +15,7 @@ class CleanUpLobbyCommand extends Command
 {
     private $cleanUp;
 
-    public function __construct(CleanupLobbyService $cleanupLobbyService, string $name = null)
+    public function __construct(CleanupLobbyService $cleanupLobbyService, ?string $name = null)
     {
         parent::__construct($name);
         $this->cleanUp = $cleanupLobbyService;
