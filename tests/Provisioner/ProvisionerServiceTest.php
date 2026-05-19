@@ -256,7 +256,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(true) // NOT NULL, should be excluded
+            ->setIsAllowedToCloneForAutoscale(true) // NOT NULL, should be excluded
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -302,7 +302,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(false) // Provisioning disabled, should be excluded
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -348,7 +348,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -394,7 +394,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -441,7 +441,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -488,7 +488,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -551,7 +551,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -614,7 +614,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -677,7 +677,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -724,7 +724,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -787,7 +787,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -840,7 +840,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
         ;
         $room = (new Rooms())
             ->setServer($server)
@@ -896,7 +896,7 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setAppSecret('app_secret')
             ->setJwtModeratorPosition(1)
             ->setIsProvisioningEnabled(true)      // Provisioning enabled
-            ->setAllowedToCloneForAutoscale(null) // Not allowed to clone (is a provisioned server)
+            ->setIsAllowedToCloneForAutoscale(null) // Not allowed to clone (is a provisioned server)
         ;
         $room = (new Rooms())
             ->setServer($server)

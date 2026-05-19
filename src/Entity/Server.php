@@ -955,7 +955,7 @@ class Server
         return $this->isAllowedToCloneForAutoscale;
     }
 
-    public function setAllowedToCloneForAutoscale(?bool $isAllowedToCloneForAutoscale): static
+    public function setIsAllowedToCloneForAutoscale(?bool $isAllowedToCloneForAutoscale): static
     {
         $this->isAllowedToCloneForAutoscale = $isAllowedToCloneForAutoscale;
 

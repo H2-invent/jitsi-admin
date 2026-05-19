@@ -67,7 +67,7 @@ class ServerService
             ->setAppId($appId)
             ->setAppSecret($appSecret)
             ->setUpdatedAt(new \DateTime())
-            ->setAllowedToCloneForAutoscale(null)
+            ->setIsAllowedToCloneForAutoscale(null)
             ->setSlug(urlencode($url))
         ;
         $newServer->getUser()->clear();
