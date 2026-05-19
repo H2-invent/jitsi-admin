@@ -2454,6 +2454,90 @@
         <source>options.lookylooky</source>
         <target>Secure Document Share</target>
       </trans-unit>
+      <trans-unit id="ySnvUZv" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.&#10;Name: {name} &#10;Moderator: {moderator} ">
+        <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
+Name: {name} 
+Moderator: {moderator} </source>
+        <target>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
+Name: {name} 
+Moderator: {moderator} </target>
+      </trans-unit>
+      <trans-unit id="w0B3UQg" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&#10;Konferenz ID: {id} &#10;Ihre E-Mail-Adresse: {email}">
+        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:
+Konferenz ID: {id} 
+Ihre E-Mail-Adresse: {email}</source>
+        <target>Folgende Daten benötigen Sie um der Konferenz beizutreten:
+Konferenz ID: {id} 
+Ihre E-Mail-Adresse: {email}</target>
+      </trans-unit>
+      <trans-unit id="sf9Dapx" resname="Zeit und Datum auswählen">
+        <source>Zeit und Datum auswählen</source>
+        <target>Zeit und Datum auswählen</target>
+      </trans-unit>
+      <trans-unit id="ntQ1lBx" resname="CC-E-Mail">
+        <source>CC-E-Mail</source>
+        <target>CC-E-Mail</target>
+      </trans-unit>
+      <trans-unit id="wF2hSYC" resname="Einladen">
+        <source>Einladen</source>
+        <target>Einladen</target>
+      </trans-unit>
+      <trans-unit id="73BWd7Q" resname="Suchen">
+        <source>Suchen</source>
+        <target>Suchen</target>
+      </trans-unit>
+      <trans-unit id="7hD4Tt9" resname="Eingeladen">
+        <source>Eingeladen</source>
+        <target>Eingeladen</target>
+      </trans-unit>
+      <trans-unit id="OCUWKbn" resname="Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.">
+        <source>Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.</source>
+        <target>Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.</target>
+      </trans-unit>
+      <trans-unit id="P_hpDEL" resname="Termin hinzufügen">
+        <source>Termin hinzufügen</source>
+        <target>Termin hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="8RvSb2d" resname="Übernehmen">
+        <source>Übernehmen</source>
+        <target>Übernehmen</target>
+      </trans-unit>
+      <trans-unit id="CB8hcji" resname="Ergebnisse">
+        <source>Ergebnisse</source>
+        <target>Ergebnisse</target>
+      </trans-unit>
+      <trans-unit id="V0nRUNJ" resname="Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.">
+        <source>Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.</source>
+        <target>Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.</target>
+      </trans-unit>
+      <trans-unit id="hosJvXm" resname="Termin löschen">
+        <source>Termin löschen</source>
+        <target>Termin löschen</target>
+      </trans-unit>
+      <trans-unit id="NVRxBaB" resname="Termin wählen und Konferenz planen">
+        <source>Termin wählen und Konferenz planen</source>
+        <target>Termin wählen und Konferenz planen</target>
+      </trans-unit>
+      <trans-unit id="W9itCKb" resname="Termin">
+        <source>Termin</source>
+        <target>Termin</target>
+      </trans-unit>
+      <trans-unit id="DItqb3E" resname="Termine">
+        <source>Termine</source>
+        <target>Termine</target>
+      </trans-unit>
+      <trans-unit id="PVBIN9w" resname="Planen">
+        <source>Planen</source>
+        <target>Planen</target>
+      </trans-unit>
+      <trans-unit id="aPyOdXY" resname="Sofort">
+        <source>Sofort</source>
+        <target>Sofort</target>
+      </trans-unit>
+      <trans-unit id="iMnx3Yn" resname="Bitte warten Sie. Ihre Konferenz wird bereitgestellt">
+        <source>Bitte warten Sie. Ihre Konferenz wird bereitgestellt</source>
+        <target>Bitte warten Sie. Ihre Konferenz wird bereitgestellt</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
