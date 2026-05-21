@@ -19,7 +19,7 @@ class TagCreateCommand extends Command
 {
     private EntityManagerInterface $em;
 
-    public function __construct(EntityManagerInterface $entityManager, private TagRepository $tagRepository, string $name = null)
+    public function __construct(EntityManagerInterface $entityManager, private TagRepository $tagRepository, ?string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;

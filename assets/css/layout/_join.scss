@@ -151,7 +151,7 @@ strong {
   flex-direction: column;
   height: 100vh;
   justify-content: center;
-  background-color: rgb(10 10 10);
+  background-color: #FAFAFA;
   .sidebar-toggle{
     display: none;
   }
@@ -198,9 +198,7 @@ strong {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: white;
-    border-radius: 6px;
-    box-shadow: $card-box-shadow;
+    color: $contrast-base;
     transition: transform 0.2s ease-in;
     padding: 8px;
 

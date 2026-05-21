@@ -17,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class TagColorCommand extends Command
 {
     private EntityManagerInterface $em;
-    public function __construct(EntityManagerInterface $entityManager, string $name = null)
+    public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;

@@ -27,7 +27,7 @@ class JoinMyRoomType extends AbstractType
         $this->themeService = $themeService;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder
@@ -38,7 +38,7 @@ class JoinMyRoomType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
     }
 }

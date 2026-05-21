@@ -9,7 +9,11 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    {{ encore_entry_link_tags('join') }}
+    {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+        {{ encore_entry_link_tags('joinBlack') }}
+    {% else %}
+        {{ encore_entry_link_tags('join') }}
+    {% endif %}
     {% set theme =  getThemeProperties() %}
     {% if theme is defined and theme != false %}
         <style>

@@ -34,7 +34,7 @@ class InstallerCommand extends Command
     # endregion properties
 
     # region command
-    public function __construct(ParameterBagInterface $parameterBag, string $name = null)
+    public function __construct(ParameterBagInterface $parameterBag, ?string $name = null)
     {
         $this->projectDir = $parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR;
 

@@ -95,7 +95,6 @@ final class TestNotificationController extends AbstractController
             echo 'send caller sound<br>';
             flush();
             sleep(2);
-
             echo 'Fertig.<br>';
             flush();
         });

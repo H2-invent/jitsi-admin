@@ -18,7 +18,7 @@ class PublicConferenceType extends AbstractType
 {
 
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
 
@@ -28,7 +28,7 @@ class PublicConferenceType extends AbstractType
             ->add('submit', SubmitType::class, array('attr' => array('class' => 'btn btn-outline-primary btn-block mt-3'), 'label' => 'label.go', 'translation_domain' => 'form'),);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
     }
 }

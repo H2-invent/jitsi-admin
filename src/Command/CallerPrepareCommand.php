@@ -14,7 +14,7 @@ class CallerPrepareCommand extends Command
 {
     private $em;
     private $callerPrepareService;
-    public function __construct(CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager, string $name = null)
+    public function __construct(CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager, ?string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;
