@@ -69,7 +69,7 @@
         "sass": "^1.32.8",
         "string-to-color": "^2.2.2",
         "sweetalert2": "^11.12.4",
-        "swiper": "^6.6.2",
+        "swiper": "^12.1.2",
         "toastr": "^2.1.4",
         "visibilityjs": "^2.0.2",
         "zingtouch": "^1.0.6"
