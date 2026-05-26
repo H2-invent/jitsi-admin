@@ -149,6 +149,7 @@ parameters:
     JITSI_COMPONENT_SELECTOR_JWT_KID: '%env(JITSI_COMPONENT_SELECTOR_JWT_KID)%'
     LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
     API_TOKEN_BEARER_THEME: '%env(API_TOKEN_BEARER_THEME)%'
+    API_TOKEN_BEARER_TRANSCRIPTION: '%env(API_TOKEN_BEARER_TRANSCRIPTION)%'
     app.scheme: '%env(APP_SCHEME)%'
     app.theme.dir: '%kernel.project_dir%/theme'
     app.theme.cache_dir: '%kernel.project_dir%/var/cache/theme'
