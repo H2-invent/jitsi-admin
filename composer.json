@@ -5,6 +5,7 @@
     "php": " ^8.2",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "ext-ldap": "*",
     "ext-openssl": "*",
     "ext-zip": "*",
     "agence104/livekit-server-sdk": "^1.2",
@@ -21,6 +22,7 @@
     "erusev/parsedown": "^1.7",
     "h2entwicklung/sign-checker": "^0.2",
     "h2invent/i18n-routing-bundle": "^3.2",
+    "itspire/monolog-loki": "*",
     "knplabs/knp-gaufrette-bundle": "^0.9",
     "knpuniversity/oauth2-client-bundle": "^2.5",
     "laminas/laminas-code": "^4.5",
@@ -68,8 +70,7 @@
     "twig/intl-extra": "^3.2",
     "twig/markdown-extra": "^3.3",
     "twig/twig": "^3.0",
-    "vich/uploader-bundle": "^2.3",
-     "ext-ldap": "*"
+    "vich/uploader-bundle": "^2.3"
   },
   "require-dev": {
     "dama/doctrine-test-bundle": "^v8.0",
