@@ -12,6 +12,12 @@ final class TranscriptionController extends AbstractController
     #[Route('/transcription/{id}/download', name: 'app_transcription_download')]
     public function download(Transcription $transcription): Response
     {
+        $user = $this->getUser();
+        $moderator = $transcription->getRoom()?->getModerator();
+        if ($user === null || $moderator === null || $user !== $moderator) {
+            throw $this->createAccessDeniedException('Only moderators are allowed to download room transcriptions.');
+        }
+
         $fileName = "transcription_{$transcription->getRoom()->getName()}_{$transcription->getCreatedAt()->format('y-m-d_H-i-s')}.md";
 
         $response = new Response($transcription->getText());
