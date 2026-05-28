@@ -19,7 +19,6 @@ class ToggleLokiHandlerPass implements CompilerPassInterface
         AsyncLokiHandler::class,
         'monolog.handler.loki_filtered',
         'monolog.handler.loki_healthcheck_filter',
-        'monolog.handler.loki_buffer',
         'monolog.handler.loki_async',
         'monolog.handler.loki',
     ];
