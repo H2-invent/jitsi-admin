@@ -216,7 +216,7 @@ services:
                 entrypoint: '%app.log.loki.uri%'
                 context: []
                 labels:
-                    app: meetling-livekit
+                    app: meetling-jitsi-admin
                     env: '%env(APP_ENV)%'
                     host: '%env(HOSTNAME)%'
                     version: '%laF_version%'
@@ -231,16 +231,10 @@ services:
         arguments:
             $messageBus: '@messenger.bus.default'
 
-    monolog.handler.loki_buffer:
-        class: Monolog\Handler\BufferHandler
-        arguments:
-            $handler: '@monolog.handler.loki_async'
-            $bufferLimit: 200
-
     monolog.handler.loki_healthcheck_filter:
         class: App\Monolog\Handler\ExcludeHealthCheckHandler
         arguments:
-            $handler: '@monolog.handler.loki_buffer'
+            $handler: '@monolog.handler.loki_async'
         tags:
             - { name: monolog.handler, handler: loki_filtered }
 
