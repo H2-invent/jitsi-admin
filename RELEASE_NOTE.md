@@ -49,7 +49,7 @@
 * Fis Server Statistics
 * Fix open Link with target blank from ifrmae
 * Fix not downloading images from whiteboard
-* 
+* Add allow Popups to multiframe iframe
 ## 1.3
 Nothing
 
