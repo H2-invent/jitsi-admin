@@ -31,6 +31,9 @@ jobs:
       - name: Remove node_modules
         run: rm -r node_modules
 
+      - name: Remove auth.json
+        run: rm -f auth.json
+
       - name: Install Node modules for the Websocket
         run: npm install
         working-directory: nodejs/
