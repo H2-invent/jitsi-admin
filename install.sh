@@ -23,7 +23,8 @@ sudo add-apt-repository ppa:ondrej/php
 sudo apt install -y \
     git curl lsb-release ca-certificates apt-transport-https software-properties-common gnupg2 mysql-server \
     nginx nginx-extras\
-    php8.2 php8.2-{bcmath,fpm,xml,mysql,zip,intl,ldap,gd,cli,bz2,curl,mbstring,opcache,soap,cgi,dom,simplexml}
+    php8.2 php8.2-{bcmath,fpm,xml,mysql,zip,intl,ldap,gd,cli,bz2,curl,mbstring,opcache,soap,cgi,dom,simplexml} \
+    composer
 curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
 sudo apt -y install nodejs
 
@@ -44,8 +45,8 @@ git -C /var/www/jitsi-admin reset --hard
 git -C /var/www/jitsi-admin pull
 
 export COMPOSER_ALLOW_SUPERUSER=1
-php composer.phar install --no-interaction
-php composer.phar dump-autoload
+composer install --no-interaction
+composer dump-autoload
 cp -n .env.sample .env.local
 
 sudo mysql -e "CREATE USER 'jitsiadmin'@'localhost' IDENTIFIED  BY 'jitsiadmin';"
