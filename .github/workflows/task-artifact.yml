@@ -20,12 +20,6 @@ jobs:
         with:
           node-version: ${{ vars.NODE_VERSION }}
 
-      - name: Debug Composer Auth
-        run: |
-          cat auth.json || echo "no auth.json found"
-          php composer.phar config --list | grep github
-          env | grep -i composer
-
       - name: Run composer Install
         run: composer install
         
