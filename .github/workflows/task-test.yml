@@ -42,14 +42,9 @@ jobs:
         with:
           php-version: ${{ vars.PHP_VERSION }}
           ini-values: date.timezone ="Europe/Berlin"
-
-      - name: Debug Composer Auth
-        run: |
-          cat auth.json || echo "no auth.json found"
-          php composer.phar config --list | grep github
-          env | grep -i composer
+          tools: composer:v2
 
       - name: Run php test
-        run: php composer.phar test
+        run: composer test
       # endregion phpunit
       # endregion test
