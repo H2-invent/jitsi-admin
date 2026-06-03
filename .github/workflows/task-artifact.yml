@@ -13,6 +13,7 @@ jobs:
         with:
           php-version: ${{ vars.PHP_VERSION }}
           ini-values: date.timezone ="Europe/Berlin"
+          tools: composer:v2
 
       - name: Install NPM Packages
         uses: actions/setup-node@v4
@@ -20,7 +21,7 @@ jobs:
           node-version: ${{ vars.NODE_VERSION }}
 
       - name: Run composer Install
-        run: php composer.phar install
+        run: composer install
         
       - name: Install Node modules
         run: npm install
