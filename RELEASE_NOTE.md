@@ -19,6 +19,7 @@
 * Theme dashboard
 * Rearange logo in conference
 * Add API Endpoint to upload video transcripts
+* Add E2EE to conference setting and JWT 
 
 ## 1.2
 ### 🚀 Features
