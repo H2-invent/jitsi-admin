@@ -170,6 +170,9 @@ class Rooms
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: Transcription::class, orphanRemoval: true)]
     private Collection $transcriptions;
 
+    #[ORM\Column]
+    private bool $isE2EEEnabled = false;
+
 
     public function __construct()
     {
@@ -1208,6 +1211,18 @@ class Rooms
                 $transcription->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isE2EEEnabled(): bool
+    {
+        return $this->isE2EEEnabled;
+    }
+
+    public function setIsE2EEEnabled(bool $isE2EEEnabled): static
+    {
+        $this->isE2EEEnabled = $isE2EEEnabled;
 
         return $this;
     }
