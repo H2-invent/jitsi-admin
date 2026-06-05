@@ -23,6 +23,7 @@ class AmqpTestCommand extends Command
 
     public function __construct(
         private MessageBusInterface $messageBus,
+        #[Target('test')]
         private ReceiverInterface $testTransport,
     )
     {
