@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 namespace DoctrineMigrations;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Migrations\AbstractMigration;
 
 final class Version20260226083925 extends AbstractMigration
@@ -14,32 +14,32 @@ final class Version20260226083925 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $platform = $this->connection->getDatabasePlatform();
+        $exists = (bool) $this->connection->fetchOne(
+            'SELECT COUNT(*) FROM cron_job WHERE name = :name',
+            ['name' => 'provisionerCleanup']
+        );
 
-        if ($platform instanceof PostgreSQLPlatform) {
-            $this->addSql(<<<SQL
-            INSERT INTO cron_job (id, name, command, schedule, description, enabled)
-            SELECT nextval('cron_job_id_seq'), 'provisionerCleanup', 'app:provisioner:cleanup', '* * * * *', 'remove unused provisioned servers', TRUE
-            WHERE NOT EXISTS (
-                SELECT 1 FROM cron_job WHERE name = 'provisionerCleanup'
-            )
-            SQL);
-        } else {
-            $this->addSql(<<<SQL
-            INSERT INTO cron_job (name, command, schedule, description, enabled)
-            SELECT 'provisionerCleanup', 'app:provisioner:cleanup', '* * * * *', 'remove unused provisioned servers', TRUE
-            WHERE NOT EXISTS (
-                SELECT 1 FROM cron_job WHERE name = 'provisionerCleanup'
-            )
-            SQL);
+        if ($exists) {
+            return;
         }
+
+        $data = [
+            'name'        => 'provisionerCleanup',
+            'command'     => 'app:provisioner:cleanup',
+            'schedule'    => '* * * * *',
+            'description' => 'remove unused provisioned servers',
+            'enabled'     => true,
+        ];
+
+        if (str_contains(strtolower(get_class($this->connection->getDatabasePlatform())), 'postgresql')) {
+            $data['id'] = (int) $this->connection->fetchOne("SELECT nextval('cron_job_id_seq')");
+        }
+
+        $this->connection->insert('cron_job', $data, ['enabled' => Types::BOOLEAN]);
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql(<<<SQL
-        DELETE FROM cron_job
-        WHERE name = 'provisionerCleanup'
-        SQL);
+        $this->connection->delete('cron_job', ['name' => 'provisionerCleanup']);
     }
 }
