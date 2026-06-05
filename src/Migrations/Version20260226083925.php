@@ -1,15 +1,10 @@
 <?php
-
 declare(strict_types=1);
-
 namespace DoctrineMigrations;
-
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20260226083925 extends AbstractMigration
 {
     public function getDescription(): string
@@ -19,13 +14,25 @@ final class Version20260226083925 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql(<<<SQL
-        INSERT INTO cron_job (name, command, schedule, description, enabled)
-        SELECT 'provisionerCleanup', 'app:provisioner:cleanup', '* * * * *', 'remove unused provisioned servers', TRUE
-        WHERE NOT EXISTS (
-            SELECT 1 FROM cron_job WHERE name = 'provisionerCleanup'
-        )
-        SQL);
+        $platform = $this->connection->getDatabasePlatform();
+
+        if ($platform instanceof PostgreSQLPlatform) {
+            $this->addSql(<<<SQL
+            INSERT INTO cron_job (id, name, command, schedule, description, enabled)
+            SELECT nextval('cron_job_id_seq'), 'provisionerCleanup', 'app:provisioner:cleanup', '* * * * *', 'remove unused provisioned servers', TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM cron_job WHERE name = 'provisionerCleanup'
+            )
+            SQL);
+        } else {
+            $this->addSql(<<<SQL
+            INSERT INTO cron_job (name, command, schedule, description, enabled)
+            SELECT 'provisionerCleanup', 'app:provisioner:cleanup', '* * * * *', 'remove unused provisioned servers', TRUE
+            WHERE NOT EXISTS (
+                SELECT 1 FROM cron_job WHERE name = 'provisionerCleanup'
+            )
+            SQL);
+        }
     }
 
     public function down(Schema $schema): void
