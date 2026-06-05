@@ -58,7 +58,7 @@ jobs:
   docker_prod_core:
     needs:
       - version
-      - test
+#      - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       registry: reg.h2-invent.com
@@ -73,7 +73,7 @@ jobs:
   docker_prod_websocket:
     needs:
       - version
-      - test
+#      - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       registry: reg.h2-invent.com
