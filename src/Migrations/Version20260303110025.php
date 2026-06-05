@@ -21,7 +21,7 @@ final class Version20260303110025 extends AbstractMigration
     {
         $this->addSql(<<<SQL
         INSERT INTO cron_job (name, command, schedule, description, enabled)
-        SELECT 'provisionerScheduleCheck', 'app:provisioner:schedule-check', '* * * * *', 'provision servers for meetings starting soon', 1
+        SELECT 'provisionerScheduleCheck', 'app:provisioner:schedule-check', '* * * * *', 'provision servers for meetings starting soon', TRUE
         WHERE NOT EXISTS (
             SELECT 1 FROM cron_job WHERE name = 'provisionerScheduleCheck'
         )
