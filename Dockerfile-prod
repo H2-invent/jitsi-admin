@@ -1,4 +1,4 @@
-FROM thecodingmachine/php:8.3-v4-fpm-node22 AS builder
+FROM thecodingmachine/php:8.4-v5-fpm-node22 AS builder
 ARG VERSION=development
 
 ENV PHP_EXTENSION_LDAP=1
