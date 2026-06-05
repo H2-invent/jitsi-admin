@@ -4,6 +4,7 @@ ARG VERSION=development
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
 ENV PHP_EXTENSION_BCMATH=1
+ENV PHP_EXTENSION_AMQP=1
 ENV COMPOSER_MEMORY_LIMIT=-1
 
 COPY . /var/www/html
@@ -73,6 +74,10 @@ RUN echo "" >> /etc/php/active/fpm/conf.d/custom.ini \
     && echo "opcache.max_accelerated_files=32531" >> /etc/php/active/fpm/conf.d/custom.ini \
     && echo "opcache.interned_strings_buffer=32" >> /etc/php/active/fpm/conf.d/custom.ini \
     && echo "opcache.validate_timestamps=0" >> /etc/php/active/fpm/conf.d/custom.ini
+
+RUN apt update \
+    && apt install -y \
+    php8.5-amqp
 
 USER nobody
 
