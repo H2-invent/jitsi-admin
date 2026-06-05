@@ -1,45 +1,45 @@
 <?php
 declare(strict_types=1);
 namespace DoctrineMigrations;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Migrations\AbstractMigration;
 
 final class Version20260303110025 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'inserts the cronjob for provisioner schedule check';
     }
 
     public function up(Schema $schema): void
     {
-        $platform = $this->connection->getDatabasePlatform();
+        $exists = (bool) $this->connection->fetchOne(
+            'SELECT COUNT(*) FROM cron_job WHERE name = :name',
+            ['name' => 'provisionerScheduleCheck']
+        );
 
-        if ($platform instanceof PostgreSQLPlatform) {
-            $this->addSql(<<<SQL
-            INSERT INTO cron_job (id, name, command, schedule, description, enabled)
-            SELECT nextval('cron_job_id_seq'), 'provisionerScheduleCheck', 'app:provisioner:schedule-check', '* * * * *', 'provision servers for meetings starting soon', TRUE
-            WHERE NOT EXISTS (
-                SELECT 1 FROM cron_job WHERE name = 'provisionerScheduleCheck'
-            )
-            SQL);
-        } else {
-            $this->addSql(<<<SQL
-            INSERT INTO cron_job (name, command, schedule, description, enabled)
-            SELECT 'provisionerScheduleCheck', 'app:provisioner:schedule-check', '* * * * *', 'provision servers for meetings starting soon', TRUE
-            WHERE NOT EXISTS (
-                SELECT 1 FROM cron_job WHERE name = 'provisionerScheduleCheck'
-            )
-            SQL);
+        if ($exists) {
+            return;
         }
+
+        $data = [
+            'name'        => 'provisionerScheduleCheck',
+            'command'     => 'app:provisioner:schedule-check',
+            'schedule'    => '* * * * *',
+            'description' => 'provision servers for meetings starting soon',
+            'enabled'     => true,
+        ];
+
+        if (str_contains(strtolower(get_class($this->connection->getDatabasePlatform())), 'postgresql')) {
+            $data['id'] = (int) $this->connection->fetchOne("SELECT nextval('cron_job_id_seq')");
+        }
+
+        $this->connection->insert('cron_job', $data, ['enabled' => Types::BOOLEAN]);
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql(<<<SQL
-        DELETE FROM cron_job
-        WHERE name = 'provisionerScheduleCheck'
-        SQL);
+        $this->connection->delete('cron_job', ['name' => 'provisionerScheduleCheck']);
     }
 }
