@@ -21,7 +21,7 @@ final class Version20260226083925 extends AbstractMigration
     {
         $this->addSql(<<<SQL
         INSERT INTO cron_job (name, command, schedule, description, enabled)
-        SELECT 'provisionerCleanup', 'app:provisioner:cleanup', '* * * * *', 'remove unused provisioned servers', 1
+        SELECT 'provisionerCleanup', 'app:provisioner:cleanup', '* * * * *', 'remove unused provisioned servers', TRUE
         WHERE NOT EXISTS (
             SELECT 1 FROM cron_job WHERE name = 'provisionerCleanup'
         )
