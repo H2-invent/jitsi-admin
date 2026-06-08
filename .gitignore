@@ -1,6 +1,3 @@
-# macOS
-.DS_Store
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -70,6 +67,7 @@ repairLog.txt
 /.phpunit.cache/
 /nodejs/tls_certificate/*.pem
 /templates/dashboard/Landing-Page-master.zip
+.DS_Store
 
 ###> baldinof/roadrunner-bundle ###
 /bin/rr.*
