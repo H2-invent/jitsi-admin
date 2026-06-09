@@ -170,7 +170,7 @@ class Rooms
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: Transcription::class, orphanRemoval: true)]
     private Collection $transcriptions;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'is_e2ee_enabled')]
     private bool $isE2EEEnabled = false;
 
 
