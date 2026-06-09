@@ -143,6 +143,7 @@ label:
   timezone: Timezone
   serverName: Server Name
   lobby: Activate lobby
+  isE2EEEnabled: Enable end-to-end encryption (E2EE)
   secondEmail: CC Email
   profilImage: Profile picture (Shown in Jitsi-Meet meeting)
   corsHeader: CORS- or frame-ancestor header

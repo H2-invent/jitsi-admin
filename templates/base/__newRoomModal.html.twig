@@ -114,6 +114,18 @@
                             </div>
                         </div>
                     {% endif %}
+                    {% if form.isE2EEEnabled is defined %}
+                        <div class="col-lg-12">
+                            <div id="isE2EEEnabled" class="row">
+                                <div class="col-12 d-flex align-items-start with-help">
+                                    {{ form_row(form.isE2EEEnabled) }}
+                                    <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
+                                       data-mdb-content="{{ 'room.new.help.isE2EEEnabled'|trans }}"><i
+                                                class="fa fa-question-circle"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
 
             <hr/>

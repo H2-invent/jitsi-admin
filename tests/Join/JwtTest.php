@@ -35,7 +35,8 @@ class JwtTest extends KernelTestCase
                     'timezone' => 'Europe/Berlin',
                 ],
                 'room'=>[
-                    'name'=>'TestMeeting: 0'
+                    'name'=>'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ]
             ],
             'moderator' => true,
@@ -97,7 +98,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => true,
                 ],
                 'room'=>[
-                    'name'=>'TestMeeting: 0'
+                    'name'=>'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ]
             ],
             'moderator' => true,
@@ -141,7 +143,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => true,
                 ],
                 'room'=>[
-                    'name'=>'TestMeeting: 0'
+                    'name'=>'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ]
             ],
             'moderator' => false,
@@ -185,7 +188,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => false,
                 ],
                 'room'=>[
-                    'name'=>'TestMeeting: 0'
+                    'name'=>'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ]
             ],
             'moderator' => false,
@@ -229,7 +233,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => true,
                 ],
                 'room'=>[
-                    'name'=>'TestMeeting: 0'
+                    'name'=>'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ]
             ],
             'moderator' => true,
@@ -277,7 +282,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => true,
                 ],
                 'room'=>[
-                    'name'=>'TestMeeting: 0'
+                    'name'=>'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ]
             ],
             'moderator' => true,
@@ -325,7 +331,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => false,
                 ],
                 'room'=>[
-                    'name'=>'TestMeeting: 0'
+                    'name'=>'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ]
             ],
             'moderator' => false,
@@ -373,7 +380,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => true,
                 ],
                 'room'=>[
-                    'name'=>'TestMeeting: 0'
+                    'name'=>'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ]
             ],
             'moderator' => false,
@@ -422,7 +430,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => true,
                 ],
                 'room'=>[
-                    'name'=>'TestMeeting: 0'
+                    'name'=>'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ]
             ],
             'moderator' => false,
@@ -473,7 +482,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => true,
                 ],
                 'room' => [
-                    'name' => 'TestMeeting: 0'
+                    'name' => 'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ],
             ],
             'theme' => [
@@ -525,7 +535,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => true,
                 ],
                 'room'=>[
-                    'name'=>'TestMeeting: 0'
+                    'name'=>'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ],
             ],
             'theme' => [
