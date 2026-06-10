@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
@@ -12,6 +13,9 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20260513112108 extends AbstractMigration
 {
+    private const TABLE_NAME = 'transcription';
+    private const FOREIGN_KEY_NAME = 'fk_transcription_rooms';
+
     public function getDescription(): string
     {
         return '';
@@ -19,15 +23,29 @@ final class Version20260513112108 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE transcription (id INT AUTO_INCREMENT NOT NULL, room_id INT NOT NULL, text LONGTEXT NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_329CE98454177093 (room_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE transcription ADD CONSTRAINT FK_329CE98454177093 FOREIGN KEY (room_id) REFERENCES rooms (id)');
+        $table = $schema->createTable(self::TABLE_NAME);
+        $table->addColumn('id', Types::INTEGER)
+            ->setAutoincrement(true)
+            ->setNotnull(true)
+        ;
+        $table->addColumn('room_id', Types::INTEGER)
+            ->setNotnull(true)
+        ;
+        $table->addColumn('text', Types::TEXT)
+            ->setNotnull(true)
+        ;
+        $table->addColumn('created_at', Types::DATETIME_IMMUTABLE)
+            ->setNotnull(true)
+        ;
+        $table->addIndex(['room_id']);
+        $table->addForeignKeyConstraint('rooms', ['room_id'], ['id'], name: self::FOREIGN_KEY_NAME);
+        $table->setPrimaryKey(['id']);
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE transcription DROP FOREIGN KEY FK_329CE98454177093');
-        $this->addSql('DROP TABLE transcription');
+        $table = $schema->getTable(self::TABLE_NAME);
+        $table->removeForeignKey(self::FOREIGN_KEY_NAME);
+        $schema->dropTable(self::TABLE_NAME);
     }
 }
