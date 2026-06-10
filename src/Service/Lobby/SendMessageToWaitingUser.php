@@ -6,7 +6,7 @@ use App\Entity\LobbyWaitungUser;
 use App\Entity\PredefinedLobbyMessages;
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;

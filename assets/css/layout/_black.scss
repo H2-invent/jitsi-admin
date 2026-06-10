@@ -6,26 +6,71 @@ h1, h2, h3, h4, h5, h6 {
   background-color: $black_background;
 }
 
+.main {
+  .border-bottom {
+    border-bottom-color: $black_border-color !important;
+  }
+}
+
 .navigation {
-  background-color: $black_font-color;
+  background-color: $black_background;
+  border-bottom-color: $black_border-color !important;
 
   i {
-    color: $black_background !important;
+    color: $black_font-color !important;
 
   }
 
   a {
-    color: $black_background;
+    color: $black_font-color;
 
     &:hover, &:active {
-      color: lighten($black_background, 10%);
+      color: oklch(70.8% 0 0);
     }
+  }
+
+  .btn[class*="btn-outline-"] {
+    border-color: $black_border-color !important;
+    color: $black_font-color !important;
+    background-color: transparent !important;
+
+    &:hover, &:focus, &:active {
+      border-color: $black_font-color !important;
+      color: white !important;
+    }
+  }
+
+  .profile .profileLine .icons .btn {
+    border-color: $black_border-color !important;
+    color: oklch(60% 0 0) !important;
+
+    i {
+      color: inherit !important;
+    }
+
+    &:hover, &:focus, &:active {
+      border-color: $black_font-color !important;
+    }
+  }
+
+  .profile .profileLine .picture .no-picture {
+    background-color: $black_navbar !important;
+    border: 1px solid oklch(63.5% 0 0);
+    font-size: 1.2em !important;
+  }
+
+  .profile .profileLine .picture img {
+    background-color: $black_navbar !important;
+  }
+
+  .profile .profileLine .picture .dot {
+    border-width: 1px !important;
   }
 }
 
 .card {
-  background-color: $black_navbar;
-  border: solid $black_font-color 1px;
+  background-color: $black_foreground !important;
+  border: solid $black_border-color 1px;
 }
 
 p {
@@ -41,43 +86,60 @@ p {
 }
 
 .navigation {
-  background-color: $black_font-color !important;
+  background-color: $black_background !important;
 
   .custom-control {
     .brightmode {
-      color: black;
+      color: $black_font-color;
     }
 
     label {
-      color: black;
+      color: $black_font-color;
     }
   }
 
   a {
-    color: $black_background;
+    color: $black_font-color;
   }
 }
 
-.nav-mat-tabs .nav-mat-item {
-  color: white;
+.nav-mat-tabs {
+  border-bottom-color: $black_border-color;
+
+  .nav-mat-item.nav-mat-item {
+    color: white;
+
+    &.mat-active {
+      background-color: $black_foreground;
+      color: $black_font-color !important;
+      border-radius: 6px 6px 0 0;
+    }
+
+    &:hover {
+      background: $black_foreground !important;
+      color: $black_font-color !important;
+      border-radius: 6px 6px 0 0;
+    }
+  }
 }
 
 .dropdown-menu {
   background-color: $black_navbar;
-  border: 1px solid $black_font-color;
+  border: 1px solid $black_border-color;
 
 
   .dropdown-item {
-    color: $black_font-color;
+    color: $black_font-color !important;
 
     &[data-toggle="collapse"]:focus {
-      color: white;
+      color: white !important;
       text-decoration: none;
       background-color: inherit;
     }
 
     &:hover {
-      color: $black_background;
+      color: $black_font-color !important;
+      background-color: $black_background;
     }
   }
 }
@@ -85,7 +147,7 @@ p {
 
 .popover {
   background-color: $black_navbar;
-  border: solid 1px $black_font-color;
+  border: solid 1px $black_border-color;
 }
 
 .popover-header {
@@ -97,8 +159,44 @@ p {
   color: $black_font-color;
 }
 
+.accordion {
+  .accordion-item {
+    background-color: $black_navbar;
+    border-color: $black_border-color;
+  }
+
+  .accordion-button {
+    background-color: $black_navbar;
+    color: $black_font-color;
+
+    &::after {
+      filter: invert(1);
+    }
+
+    &:not(.collapsed) {
+      background-color: $black_navbar;
+      color: $black_font-color;
+    }
+  }
+
+  .accordion-body {
+    background-color: $black_navbar;
+    color: $black_font-color;
+  }
+}
+
+.card, .modal, .sidebar {
+  .accordion-body {
+    background-color: $black_navbar;
+  }
+
+  .list-group-item {
+    background-color: $black_background;
+  }
+}
+
 .modal-body, .modal-content {
-  background-color: $black_modal;
+  background-color: $black_foreground !important;
   color: $black_font-color;
 }
 
@@ -106,9 +204,18 @@ label {
   color: $black_font-color;
 }
 
-.form-control, .form-control:read-only {
-  background-color: $black_navbar;
+.form-control, .form-check-input, .form-select, .input-group-text {
+  border-color: $black_border-color !important;
+}
+
+.form-control, .form-control:read-only, .form-select {
+  background-color: $black_background;
   color: $black_font-color;
+
+  &::placeholder {
+    color: $black_font-color !important;
+    opacity: 0.5;
+  }
 }
 
 .form-control:focus {
@@ -118,13 +225,26 @@ label {
 
 
 .modal-header {
-  background-color: $black_modal_header !important;
+  background-color: $black_foreground !important;
   color: $black_font-color;
+  border: 1px solid $black_border-color !important;
+
+  &.light-blue.darken-3 {
+    background-color: $black_foreground !important;
+  }
+}
+
+.modal-body, .modal-content {
+  border-left: 1px solid $black_border-color;
+  border-right: 1px solid $black_border-color;
 }
 
 .modal-footer {
-  //background-color: $black_background;
+  background-color: $black_foreground !important;
   color: $black_font-color;
+  border: 1px solid $black_border-color;
+  border-top: 1px solid $black_border-color;
+
 }
 
 h5 {
@@ -133,20 +253,30 @@ h5 {
 
 .list-group-item {
   background-color: $black_navbar;
-  border-color: $black_font-color;
+  border-color: $black_border-color;
 }
 
 a {
   color: $black_font-color;
 
   &:hover {
-    color: darken($black_font-color, 10%);
+    color: oklch(70.8% 0 0);
     text-decoration: none;
   }
 
   &:active {
-    color: darken($black_font-color, 10%);
+    color: oklch(70.8% 0 0);
     text-decoration: none;
+  }
+}
+
+u a {
+  color: var(--color-button) !important;
+  text-decoration-color: var(--color-button);
+
+  &:hover {
+    color: var(--color-button-hover) !important;
+    text-decoration-color: var(--color-button-hover);
   }
 }
 
@@ -161,7 +291,7 @@ a {
 }
 
 .jconfirm-box {
-  background-color: $black_modal !important;
+  background-color: $black_foreground !important;
   color: $black_font-color !important;
 
   .jconfirm-title-c {
@@ -187,7 +317,7 @@ a {
 }
 
 .jconfirm-box {
-  background-color: $black_modal !important;
+  background-color: $black_foreground !important;
   color: $black_font-color !important;
 
   .jconfirm-title-c {
@@ -253,13 +383,13 @@ a {
 
 
 ::-webkit-scrollbar-thumb {
-  background: #ffffff;
-  border: 0px none #ffffff;
+  background: oklch(45% 0 0);
+  border: 0px none oklch(45% 0 0);
   border-radius: 50px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffffff;
+  background: oklch(60% 0 0);
 }
 
 
@@ -275,7 +405,8 @@ a {
 }
 
 .footer, .joinFooter {
-  background-color: $black_navbar;
+  background-color: $black_background;
+  border-top-color: $black_border-color !important;
 
   .nav-link {
     color: $black_font-color !important;
@@ -284,9 +415,9 @@ a {
 
 
 .btn[class*="btn-outline-"] {
-  border-color: #bababa !important;
-  color: #bababa !important;
-  background-color: inherit;
+  border-color: $black_border-color !important;
+  color: $black_font-color !important;
+  background-color: $black_foreground !important;
   transition: all 0.3s ease-in;
   &:hover{
     border-color: white !important;
@@ -294,10 +425,16 @@ a {
   }
 }
 
+.card, .modal {
+  .btn[class*="btn-outline-"] {
+    background-color: $black_foreground !important;
+  }
+}
+
 
 #col-waitinglist {
   .card {
-    background-color: $black_modal !important;
+    background-color: $black_foreground !important;
   }
 }
 
@@ -311,7 +448,7 @@ a {
 
 
 hr {
-  border-top: 1px solid rgb(211, 211, 211);
+  border-color: oklch(33% 0 0) !important;
 }
 
 .list-group-item {
@@ -320,7 +457,15 @@ hr {
 
 
 .form-outline {
+  .form-notch div {
+    border-color: $black_border-color !important;
+  }
+
   .form-control {
+    &:hover ~ .form-notch div {
+      border-color: var(--color-button) !important;
+    }
+
     &:focus {
       & ~ .form-label {
         color: $black_font-color !important;
@@ -328,22 +473,25 @@ hr {
 
       & ~ .form-notch {
         .form-notch-leading {
-          border-color: $black_font-color !important;
-          box-shadow: -1px 0 0 0 $black_font-color, 0 1px 0 0 $black_font-color, 0 -1px 0 0 $black_font-color !important;
+          border-color: var(--color-button) !important;
+          box-shadow: none !important;
         }
 
-
         .form-notch-middle {
-          border-color: $black_font-color !important;
-          box-shadow: 0 1px 0 0 $black_font-color !important;
+          border-color: var(--color-button) !important;
+          box-shadow: none !important;
           border-top: 1px solid transparent !important;
         }
 
         .form-notch-trailing {
-          border-color: $black_font-color !important;
-          box-shadow: 1px 0 0 0 $black_font-color, 0 -1px 0 0 $black_font-color, 0 1px 0 0 $black_font-color !important;
+          border-color: var(--color-button) !important;
+          box-shadow: none !important;
         }
       }
+    }
+
+    &.active ~ .form-notch .form-notch-middle {
+      border-top: 1px solid transparent !important;
     }
 
     & ~ .form-label {
@@ -351,10 +499,9 @@ hr {
     }
   }
 
-  input[type=text] {
-    &.form-control {
-      background-color: $black_background;
-    }
+  .form-control, .form-select {
+    background-color: $black_background;
+    color: $black_font-color;
   }
 }
 
@@ -374,12 +521,12 @@ hr {
 .calloutsymbol {
   .content {
     background-color: $black_background;
-    border: 1px $black_font-color solid;
+    border: 1px $black_border-color solid;
   }
 
   .ringingsymbol {
     background-color: $black_background;
-    border: 1px $black_font-color solid;
+    border: 1px $black_border-color solid;
   }
 }
 
@@ -404,11 +551,11 @@ hr {
 
 .jitsiadminiframe {
   &.minified {
-    outline: solid 1px $black_font-color !important;
+    outline: solid 1px $black_border-color !important;
   }
 
   &:not(.maximized) {
-    outline: solid 1px $black_font-color
+    outline: solid 1px $black_border-color
   }
 }
 
@@ -434,9 +581,14 @@ hr {
 
   .proTips-wrapper {
     .proTips {
-      background-color: $black_navbar;
+      background-color: $black_navbar !important;
       color: $black_font-color;
-      border-color: $main-color;
+      border-color: $black_border-color !important;
+
+      .hotkey-badge {
+        background-color: $black_background;
+        color: $black_font-color;
+      }
 
       img {
         -webkit-filter: invert(1);
@@ -447,7 +599,9 @@ hr {
 
 
   .conference-sidebar {
+    background-color: #0A0A0A;
     .wrapperIcons {
+      color: $black_font-color;
       .wrapper-helper {
         background-color: $black_background;
         color: $black_font-color;
@@ -486,6 +640,8 @@ hr {
 
 .card {
   &.favorites {
+    background-color: $black_foreground;
+
     .card-background {
       background-color: $cardBackground_dark!important;
     }
@@ -493,5 +649,9 @@ hr {
 }
 
 .swal2-modal{
-  background-color: $black_background!important;;
+  background-color: $black_foreground!important;
+}
+
+.language-dropdown-menue {
+  background-color: $black_navbar;
 }

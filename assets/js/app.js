@@ -2,9 +2,16 @@
  * Welcome to your app's main JavaScript file!
  *
  */
-import '../css/app.scss';
+// Pure CSS imports (bypass sass compiler)
+import '@fortawesome/fontawesome-free/css/all.css';
+import 'mdb-ui-kit/css/mdb.min.css';
+import 'flatpickr/dist/flatpickr.min.css';
+import 'jquery-confirm/css/jquery-confirm.css';
+import 'h2-invent-apps/css/h2-invent-apps.css';
+import 'css-star-rating/css/star-rating.css';
+import '@holema/h2datetimepicker/css/dateTimePicker.css';
 
-//import(/* webpackChunkName: "H2" */ '../css/app.scss');
+import '../css/app.scss';
 import $ from 'jquery';
 
 

@@ -15,7 +15,7 @@ class MigrateServernameCommand extends Command
 {
     private $em;
     private $serverRename;
-    public function __construct(EntityManagerInterface $entityManager, RenameServerService $renameServerService, $name = null)
+    public function __construct(EntityManagerInterface $entityManager, RenameServerService $renameServerService, ?string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;

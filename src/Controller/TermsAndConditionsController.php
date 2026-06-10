@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Helper\JitsiAdminController;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
-use App\Service\ThemeService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\Theme\ThemeService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

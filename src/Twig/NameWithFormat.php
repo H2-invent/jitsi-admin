@@ -20,7 +20,7 @@ class NameWithFormat extends AbstractExtension
         $this->formateName = $formatName;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('nameOfUserwithFormat', [$this, 'nameOfUserwithFormat']),

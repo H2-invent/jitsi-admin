@@ -3,18 +3,34 @@
 namespace App\Controller\api;
 
 use App\Entity\Rooms;
+use App\Helper\BearerTokenAuthHelper;
 use App\Helper\JitsiAdminController;
 use App\Service\api\RoomService;
 use App\Service\InviteService;
 use App\Service\LicenseService;
 use App\Service\UserService;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class APIUserController extends JitsiAdminController
 {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        ParameterBagInterface $parameterBag,
+        private BearerTokenAuthHelper $bearerTokenAuthHelper,
+    )
+    {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+    }
+
     #[Route(path: '/api/v1/getAllEntries', name: 'apiV1_getAllEntries')]
     public function index(): Response
     {
@@ -46,11 +62,8 @@ class APIUserController extends JitsiAdminController
     #[Route(path: '/api/v1/user', name: 'apiV1_roomAddUser', methods: ['POST'])]
     public function addUserToRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, UserService $userService, RoomService $roomService): Response
     {
-
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);
-        $apiKey = $request->headers->get('Authorization');
-        // skip beyond "Bearer "
-        $apiKey = substr($apiKey, 7);
+        $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         if ($room->getServer()->getApiKey() !== $apiKey) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
         }
@@ -61,11 +74,8 @@ class APIUserController extends JitsiAdminController
     #[Route(path: '/api/v1/user', name: 'apiV1_roomDeleteUser', methods: ['DELETE'])]
     public function removeUserFromRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, RoomService $roomService): Response
     {
-
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);
-        $apiKey = $request->headers->get('Authorization');
-        // skip beyond "Bearer "
-        $apiKey = substr($apiKey, 7);
+        $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         if ($room->getServer()->getApiKey() !== $apiKey || !$licenseService->verify($room->getServer())) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
         }

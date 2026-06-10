@@ -17,7 +17,7 @@ class UserRemoveCommand extends Command
 {
     private $em;
     private $ldapUserService;
-    public function __construct(EntityManagerInterface $entityManager, LdapUserService $ldapUser, string $name = null)
+    public function __construct(EntityManagerInterface $entityManager, LdapUserService $ldapUser, ?string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;

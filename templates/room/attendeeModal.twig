@@ -6,15 +6,9 @@
              <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <p>{{ 'Teilnehmerliste'|trans }}
-                {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1  and room.scheduleMeeting != true %}
-                <a target="_blank" href="{{ path('app_download_participants_list',{'room':room.id}) }}">
-                    <i class="fa fa-print"></i>
-                </a>
-            {% endif %}
-            </p>
-            <div class="row mb-2">
-                <div class="col-12">
+            <div class="row g-4">
+                <div class="col-12 col-xl-6">
+                    <h6>{{ 'Einladen'|trans }}</h6>
                     <div class="dropdown " id="selectAtendeeArea" tabindex="-1">
                         <div class="form-outline" data-mdb-input-init>
                             <input
@@ -27,101 +21,125 @@
                                     data-target-url="{{ path('room_add_user_single',{'room': room.id}) }}"
                                     data-reload-url="{{ path('room_add_user',{'room': room.id}) }}"
                             >
-                            <label class="form-label" for="searchUser">{{ 'Teilnehmer suchen'|trans }}</label>
+                            <label class="form-label" for="searchUser">{{ 'Suchen'|trans }}</label>
                         </div>
                         <div
                                 data-mdb-dropdown-init
                                 data-mdb-auto-close="false"
                                 id="searchUserDropdownTrigger">
 
+                        </div>
+                        <div class="dropdown-menu" id="participantUser" style="overflow-x:hidden;">
+                            <a class="dropdown-item defaultSearch" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
+                        </div>
                     </div>
-                    <div class="dropdown-menu" id="participantUser" style="overflow-x:hidden;">
-                        <a class="dropdown-item defaultSearch" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
+                    <hr>
+                    <h6>{{ 'Eingeladen'|trans }}
+                        {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1  and room.scheduleMeeting != true %}
+                            <a target="_blank" href="{{ path('app_download_participants_list',{'room':room.id}) }}">
+                                <i class="fa fa-print"></i>
+                            </a>
+                        {% endif %}
+                    </h6>
+                    <div class="attendeeScroll">
+                        <ul id="atendeeList">
+                            <li class="d-flex flex-row align-items-center">
+                                <div class="d-flex flex-row align-items-center">
+                                    {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and room.scheduleMeeting != true %}
+                                        <a class=" dropdown-toggle" type="button"
+                                           data-mdb-dropdown-init
+                                           data-mdb-auto-close="outside"
+                                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i>
+                                        </a>
+
+                                        <div class="dropdown-menu">
+                                            {% if  sipPinFromRoomAndUser(room,room.moderator) is not null %}
+                                                <a class=" dropdown-item"
+                                                   href="#sipCaller{{ room.moderator.id }}" type="button" data-mdb-collapse-init
+                                                   aria-expanded="false" aria-controls="sipCaller{{ room.moderator.id }}">
+                                                    <i class="fas fa-phone"></i> {{ 'sip.caller.data'|trans }}</a>
+
+                                                <div class="collapse dropdown-item stopCloseDropdown"
+                                                     id="sipCaller{{ room.moderator.id }}">
+                                                    <div class="">
+                                                        <div class="d-flex w-100">
+                                                            <div>
+                                                                {{ 'email.sip.number'|trans }}:
+
+                                                            </div>
+                                                            <div>
+                                                                {% for key,n in getJigasiNumber(room) %}
+                                                                    {% for number in n %}
+                                                                        ({{ key }}) {{ number }}
+                                                                    {% endfor %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                        {{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId }}<br>
+                                                        {{ 'email.sip.pin'|trans }}: {{ sipPinFromRoomAndUser(room,room.moderator).callerId }}
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                    {{ room.moderator|nameOfUser }}
+                                    <span class="small">&nbsp;({{ 'Organisator'|trans }})</span>
+                                </div>
+                            </li>
+                            {% for user in room.user|sort((a, b) => a|nameOfUser <=> b|nameOfUser) %}
+                                {% if user != room.moderator %}
+                                    <li class="d-flex flex-row align-items-center">
+                                        {% include'room/__attendeeDropDown.html.twig' with {'room': room, 'user': user} %}
+                                        <!-- Basic dropdown -->
+
+                                        <!-- Basic dropdown -->
+                                        <span class="profilePic"  style="background-image: url('{% if user.profilePicture is not null %}{{ vich_uploader_asset(user.profilePicture,'documentFile') }}{% else %}{{ asset('build/images/defaultUser.8f87824e.webp') }}{% endif %}')">
+
+                                        </span><span>{{ user|nameOfUser }}</span>
+                                        {% include'room/__attendeeIcons.html.twig' with {'room': room, 'user': user} %}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+
+                        {% if room.waitinglists|length > 0 %}
+
+                            <b>{{ 'Warteliste'|trans }}</b>
+                            <hr>
+                            <ul>
+                                {% for w in room.waitinglists |sort((a, b) => a.createdAt <=> b.createdAt) %}
+                                    <li>{{ w.user.email }}
+                                        <a class="small directSend"
+                                           href="{{ path('accept_waitingList',{'id':w.id}) }}"
+                                           data-text="{{ 'Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen'|trans }}"
+                                           data-target="#atendeeList"
+                                           data-url="{{ path('room_add_user',{'room':room.id}) }}"
+                                        ><i class="fa fa-check"></i>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                     </div>
                 </div>
+
+                <div class="col-12 col-xl-6 {% if laf_addParticipantsNoInput == 1 %}d-none{% endif %}">
+                    <h6>{{ 'Mehrere E-Mail-Adressen auf einmal eingeben'|trans }}</h6>
+                    <p class="small text-black-50 mb-3">{{ 'Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.'|trans }}</p>
+                    {% if form is defined and form is not null %}
+                        {{ form_start(form) }}
+                        {{ form_row(form.member) }}
+                        {{ form_row(form.submit) }}
+                        {{ form_end(form) }}
+                    {% endif %}
+                </div>
             </div>
-            <div class="attendeeScroll">
-                <ul id="atendeeList" class="material-list">
-                    <li class="d-flex flex-row align-items-center">
-                        {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and room.scheduleMeeting != true %}
-                            <a class=" dropdown-toggle" type="button"
-                               data-mdb-dropdown-init
-                               data-mdb-auto-close="outside"
-                               aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i>
-                            </a>
+        </div>
 
-                            <div class="dropdown-menu">
-                                {% if  sipPinFromRoomAndUser(room,room.moderator) is not null %}
-                                    <a class=" dropdown-item"
-                                       href="#sipCaller{{ room.moderator.id }}" type="button" data-mdb-collapse-init
-                                       aria-expanded="false" aria-controls="sipCaller{{ room.moderator.id }}">
-                                        <i class="fas fa-phone"></i> {{ 'sip.caller.data'|trans }}</a>
-
-                                    <div class="collapse dropdown-item stopCloseDropdown"
-                                         id="sipCaller{{ room.moderator.id }}">
-                                        <div class="">
-                                            <div class="d-flex w-100">
-                                                <div>
-                                                    {{ 'email.sip.number'|trans }}:
-
-                                                </div>
-                                                <div>
-                                                    {% for key,n in getJigasiNumber(room) %}
-                                                    {% for number in n %}
-                                                        ({{ key }}) {{ number }}
-                                                        {% endfor %}
-                                                        {% endfor %}
-                                                </div>
-                                            </div>
-                                            {{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId }}<br>
-                                            {{ 'email.sip.pin'|trans }}: {{ sipPinFromRoomAndUser(room,room.moderator).callerId }}
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                        {{ room.moderator|nameOfUser }}
-                        <span class="small">&nbsp;({{ 'Organisator'|trans }})</span></li>
-                    <hr>
-                    {% for user in room.user|sort((a, b) => a|nameOfUser <=> b|nameOfUser) %}
-                        {% if user != room.moderator %}
-                            <li class="d-flex flex-row align-items-center">
-                                {% include'room/__attendeeDropDown.html.twig' with {'room': room, 'user': user} %}
-                                <!-- Basic dropdown -->
-
-                                <!-- Basic dropdown -->
-                                <span class="profilePic"  style="background-image: url('{% if user.profilePicture is not null %}{{ vich_uploader_asset(user.profilePicture,'documentFile') }}{% else %}{{ asset('build/images/defaultUser.8f87824e.webp') }}{% endif %}')">
-
-                                </span><span>{{ user|nameOfUser }}</span>
-                                {% include'room/__attendeeIcons.html.twig' with {'room': room, 'user': user} %}
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-
-                {% if room.waitinglists|length > 0 %}
-
-                    <b>{{ 'Warteliste'|trans }}</b>
-                    <hr>
-                    <ul>
-                        {% for w in room.waitinglists |sort((a, b) => a.createdAt <=> b.createdAt) %}
-                            <li>{{ w.user.email }}
-                                <a class="small directSend"
-                                   href="{{ path('accept_waitingList',{'id':w.id}) }}"
-                                   data-text="{{ 'Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen'|trans }}"
-                                   data-target="#atendeeList"
-                                   data-url="{{ path('room_add_user',{'room':room.id}) }}"
-                                ><i class="fa fa-check"></i>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-
-                {% endif %}
-            </div>
-            <hr>
-            {{ include('room/__addAtendee.twig') }}
+        <div class="modal-footer">
+            <a class="btn btn-outline-danger" data-mdb-dismiss="modal">
+                {{ 'Schließen' | trans }}
+            </a>
         </div>
     </div>
 </div>

@@ -4,20 +4,35 @@ namespace App\Controller\api;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Helper\BearerTokenAuthHelper;
 use App\Helper\JitsiAdminController;
 use App\Service\api\KeycloakService;
 use App\Service\api\RoomService;
 use App\Service\LicenseService;
 use App\Service\ServerUserManagment;
 use App\Service\UserCreatorService;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class APIRoomController extends JitsiAdminController
 {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        ParameterBagInterface $parameterBag,
+        private BearerTokenAuthHelper $bearerTokenAuthHelper,
+    )
+    {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+    }
+
     #[Route(path: '/api/v1/room', name: 'api_room_create', methods: ['POST'])]
     public function index(UserCreatorService $userCreatorService, LicenseService $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
     {
@@ -31,9 +46,7 @@ class APIRoomController extends JitsiAdminController
             $user = $userCreatorService->createUser($email, $email, '', '');
         }
         $serverUrl = $request->get('server');
-        $apiKey = $request->headers->get('Authorization');
-        // skip beyond "Bearer "
-        $apiKey = substr($apiKey, 7);
+        $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         $server = $this->doctrine->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $email, $apiKey);
         if (!$server) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
@@ -64,10 +77,8 @@ class APIRoomController extends JitsiAdminController
 
         if (!$room || $room->getModerator() === null) {
             return new JsonResponse(['error' => true, 'text' => 'Room not found ']);
-        };
-        $apiKey = $request->headers->get('Authorization');
-        // skip beyond "Bearer "
-        $apiKey = substr($apiKey, 7);
+        }
+        $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         if ($room->getServer()->getApiKey() !== $apiKey) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
         }
@@ -91,9 +102,7 @@ class APIRoomController extends JitsiAdminController
         $name = $request->get('name');
         //we are looking for the server with the Email and the ServerUrl
         $serverUrl = $request->get('server');
-        $apiKey = $request->headers->get('Authorization');
-        // skip beyond "Bearer "
-        $apiKey = substr($apiKey, 7);
+        $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         $server = $this->doctrine->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $room->getModerator()->getEmail(), $apiKey);
         //If there is no server, then we take the default server which is accessabl for all jitsi admin users
         if (!$server) {

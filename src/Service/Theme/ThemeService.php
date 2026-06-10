@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Theme;
 
 use App\Entity\Rooms;
-use Doctrine\ORM\EntityManagerInterface;
 use H2Entwicklung\Signature\CheckSignature;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\ItemInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ThemeService
@@ -28,7 +27,10 @@ class ThemeService
         RequestStack                $request,
         ParameterBagInterface       $parameterBag,
         LoggerInterface             $logger,
-        private TranslatorInterface $translator)
+        private TranslatorInterface $translator,
+        #[Autowire(param: 'app.theme.dir')]
+        private readonly string $themeDir,
+    )
     {
         $this->parameterBag = $parameterBag;
         $this->logger = $logger;
@@ -157,6 +159,74 @@ class ThemeService
         } catch (\Exception $exception) {
             return $variable;
         }
+    }
+
+    public function getAllThemes(): array
+    {
+        $finder = (new Finder())
+            ->files()
+            ->in($this->themeDir)
+            ->name('*.json.signed')
+            ->sortByName();
+
+        $themes = [];
+
+        foreach ($finder as $file) {
+            $raw = $file->getContents();
+
+            $data = \json_decode($raw, true);
+            if (!\is_array($data)) {
+                // kaputte Datei -> trotzdem listen, aber markieren
+                $themes[] = [
+                    'filename'   => $file->getFilename(),
+                    'title'      => null,
+                    'validUntil' => null,
+                    'validUntilTs' => null,
+                    'modified'   => (new \DateTimeImmutable())->setTimestamp($file->getMTime()),
+                    'size'       => $file->getSize(),
+                    'error'      => 'Invalid JSON',
+                ];
+                continue;
+            }
+
+            $validUntilStr = $data['entry']['validUntil'] ?? null;
+
+            // robust: validUntil kann fehlen oder Müll sein
+            $validUntil = null;
+            $validUntilTs = null;
+            if (\is_string($validUntilStr) && $validUntilStr !== '') {
+                $dt = \DateTimeImmutable::createFromFormat('Y-m-d', $validUntilStr) ?: null;
+                if ($dt) {
+                    $validUntil = $dt;
+                    $validUntilTs = $dt->getTimestamp();
+                }
+            }
+
+            $themes[] = [
+                'filename'     => $file->getFilename(),
+                'title'        => $data['entry']['title'] ?? null,
+                'primaryColor' => $data['entry']['primaryColor'] ?? null,
+                'signature' => $data['signature']?? null,
+                'validUntil'   => $validUntil,     // DateTimeImmutable|null
+                'validUntilRaw'=> $validUntilStr,  // string|null (falls Format kaputt)
+                'validUntilTs' => $validUntilTs,   // int|null (zum Sortieren)
+                'modified'     => (new \DateTimeImmutable())->setTimestamp($file->getMTime()),
+                'size'         => $file->getSize(),
+                'error'        => null,
+            ];
+        }
+
+        // Optional: nach validUntil sortieren (frühestes zuerst), dann filename
+        usort($themes, static function(array $a, array $b): int {
+            $at = $a['validUntilTs'] ?? PHP_INT_MAX;
+            $bt = $b['validUntilTs'] ?? PHP_INT_MAX;
+            if ($at === $bt) {
+                return ($a['filename'] <=> $b['filename']);
+            }
+            return $at <=> $bt;
+        });
+
+        return $themes;
     }
 
     public function checkRemainingDays(): ?int

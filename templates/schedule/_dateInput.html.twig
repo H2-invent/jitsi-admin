@@ -1,0 +1,16 @@
+<h6>{{ 'Termin hinzufügen'|trans }}</h6>
+
+<div class="input-group mt-3">
+    <input type="date" placeholder="{{ 'Zeit wählen'|trans }}" class="form-control"
+           id="schedulePickr">
+
+    <button id="scheduleAppendBtn"
+            class="btn btn-md btn-outline-primary waves-effect addSchedule"
+            type="button" data-reload="{{ reloadUrl }}"
+            data-url="{{ addUrl }}">{{ 'Übernehmen'|trans }}
+    </button>
+</div>
+
+<p class="small text-black-50">
+    {{ 'Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.'|trans }}
+</p>

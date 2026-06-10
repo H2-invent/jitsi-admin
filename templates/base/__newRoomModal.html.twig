@@ -56,6 +56,7 @@
                                 class="fa fa-question-circle"></i></a>
                 </div>
 
+
                 {% if form.persistantRoom is defined %}
                     <div class="col-12 d-flex align-items-start with-help">
                         {{ form_row(form.persistantRoom) }}
@@ -63,10 +64,12 @@
                            data-mdb-content="{{ 'room.new.help.persistant'|trans }}"><i
                                     class="fa fa-question-circle"></i></a>
                     </div>
+                    <hr/>
                 {% endif %}
 
                 <div class="col-lg-12">
-                    <div id="roomStartForm"">
+                    <div id="roomStartForm">
+                        <p>{{ 'Zeit und Datum auswählen'|trans }}</p>
                         {% if extra is defined and extra is not null %}
                             <p class="text-danger">{{ extra }}</p>
                         {% endif %}
@@ -112,6 +115,9 @@
                         </div>
                     {% endif %}
                 </div>
+
+            <hr/>
+
                 <div class="mb-2">
                     {% if laf_roomsMoreOptionsCollapsed == 1 %}
                     <a  data-mdb-collapse-init class=" caretdown" href="#collapseExample" aria-expanded="false"

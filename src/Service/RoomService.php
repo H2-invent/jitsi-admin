@@ -50,6 +50,7 @@ class RoomService
         private CacheInterface        $cache,
         private HttpClientInterface   $httpClient,
         private SluggerInterface      $slugger,
+        private UserPreferenceProvider $userPreferences,
     )
     {
         $this->identity = time().'_'.ByteString::fromRandom(8);
@@ -156,7 +157,7 @@ class RoomService
     }
 
     public
-    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): ?array
+    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, ?User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): ?array
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
@@ -255,6 +256,9 @@ class RoomService
             }
         }
 
+        $payload['context']['user']['language'] = $this->userPreferences->getLanguage();
+        $payload['context']['user']['timezone'] = $this->userPreferences->getTimezone();
+
         $screen = [
             'screen-sharing' => true,
             'private-message' => true,
@@ -276,6 +280,9 @@ class RoomService
             }
             $payload['context']['features'] = $screen;
         }
+
+        $payload['theme']['colorScheme'] = $this->userPreferences->getColorScheme();
+
         return $payload;
     }
 
