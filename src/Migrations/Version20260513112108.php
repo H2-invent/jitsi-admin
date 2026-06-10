@@ -14,7 +14,7 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20260513112108 extends AbstractMigration
 {
     private const TABLE_NAME = 'transcription';
-    private const FOREIGN_KEY_NAME = 'fk_transcription_rooms';
+    private const FOREIGN_KEY_NAME = 'FK_329CE98454177093';
 
     public function getDescription(): string
     {
