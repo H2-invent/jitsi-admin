@@ -16,6 +16,7 @@ use App\Repository\ServerRepository;
 use App\Service\Lobby\DirectSendService;
 use App\Service\ProvisionerService;
 use App\Service\ServerService;
+use App\Tests\EntityCleanupTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
@@ -27,30 +28,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ProvisionerServiceTest extends KernelTestCase
 {
-    private array $entitiesToCleanup = [];
-
-    protected function tearDown(): void
-    {
-        $entityManager = self::getContainer()->get(EntityManagerInterface::class);
-        // Remove in reverse order to handle dependencies
-        foreach (array_reverse($this->entitiesToCleanup) as $entity) {
-            try {
-                $entityManager->remove($entity);
-            } catch (\Exception $e) {
-                // Entity may already be removed or not managed
-            }
-        }
-        $entityManager->flush();
-        $this->entitiesToCleanup = [];
-
-        parent::tearDown();
-    }
-
-    private function persistAndTrack(EntityManagerInterface $entityManager, object $entity): void
-    {
-        $entityManager->persist($entity);
-        $this->entitiesToCleanup[] = $entity;
-    }
+    use EntityCleanupTrait;
 
     public function testProvisionNewInstance_sendsMessage(): void
     {

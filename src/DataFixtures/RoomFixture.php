@@ -215,6 +215,8 @@ class RoomFixture extends Fixture
         $server->setJwtModeratorPosition(0);
         $server->setLicenseKey('f5c627f7ac98bef45fcfdd5fcade0246');
         $server->setApiKey('TestApi');
+        $server->setIsProvisioningEnabled(true);
+        $server->setIsAllowedToCloneForAutoscale(true);
 
 
         $server->setShowStaticBackgroundColor(false);
