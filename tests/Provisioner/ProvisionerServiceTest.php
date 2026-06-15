@@ -16,7 +16,7 @@ use App\Repository\ServerRepository;
 use App\Service\Lobby\DirectSendService;
 use App\Service\ProvisionerService;
 use App\Service\ServerService;
-use App\Tests\EntityCleanupTrait;
+use App\Tests\TransactionTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
@@ -28,11 +28,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ProvisionerServiceTest extends KernelTestCase
 {
-    use EntityCleanupTrait;
+    use TransactionTrait;
+
+    protected function setUp(): void
+    {
+        self::bootKernel();
+        $this->beginTransaction();
+    }
 
     public function testProvisionNewInstance_sendsMessage(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var RoomsRepository $roomsRepository */
@@ -49,7 +54,6 @@ class ProvisionerServiceTest extends KernelTestCase
 
     public function testProvisionNewInstance_savesOriginalServerId(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var RoomsRepository $roomsRepository */
@@ -63,7 +67,6 @@ class ProvisionerServiceTest extends KernelTestCase
 
     public function testSaveNewServerAndRedirect_savesNewServer(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var RoomsRepository $roomsRepository */
@@ -101,7 +104,6 @@ class ProvisionerServiceTest extends KernelTestCase
 
     public function testSaveNewServerAndRedirect_sendsRedirect(): void
     {
-        self::bootKernel();
         /** @var RoomsRepository $roomsRepository */
         $roomsRepository = self::getContainer()->get(RoomsRepository::class);
         /** @var DirectSendService $directSend */
@@ -147,7 +149,6 @@ class ProvisionerServiceTest extends KernelTestCase
 
     public function testRemoveServerAndRestoreOriginal_restoresOriginal(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var RoomsRepository $roomRepository */
@@ -169,7 +170,6 @@ class ProvisionerServiceTest extends KernelTestCase
 
     public function testRemoveServerAndRestoreOriginal_deletesServer(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var RoomsRepository $roomRepository */
@@ -202,7 +202,6 @@ class ProvisionerServiceTest extends KernelTestCase
 
     public function testRemoveServerAndRestoreOriginal_throwsOnNewRoom(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
 
@@ -218,7 +217,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_excludesServerWithAllowedToClone(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -246,8 +244,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setDuration(60)
             ->setSequence(0)
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -264,7 +262,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_excludesServerWithProvisioningDisabled(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -292,8 +289,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setDuration(60)
             ->setSequence(0)
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -310,7 +307,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_includesPersistentRoom(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -338,8 +334,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setDuration(60)
             ->setSequence(0)
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -356,7 +352,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_includesNonPersistentRoomWithPastEndDate(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -385,8 +380,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setDuration(60)
             ->setSequence(0)
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -403,7 +398,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_excludesNonPersistentRoomWithFutureEndDate(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -432,8 +426,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setDuration(60)
             ->setSequence(0)
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -450,7 +444,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_excludesRoomWithParticipantInRoom(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -493,10 +486,10 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setParticipantName('Test Participant')
             ->setEnteredRoomAt(new \DateTime())
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
-        $this->persistAndTrack($entityManager, $roomStatus);
-        $this->persistAndTrack($entityManager, $participant);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
+        $entityManager->persist($roomStatus);
+        $entityManager->persist($participant);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -513,7 +506,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_includesRoomWithParticipantLeftRoom(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -556,10 +548,10 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setParticipantName('Test Participant')
             ->setEnteredRoomAt(new \DateTime())
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
-        $this->persistAndTrack($entityManager, $roomStatus);
-        $this->persistAndTrack($entityManager, $participant);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
+        $entityManager->persist($roomStatus);
+        $entityManager->persist($participant);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -576,7 +568,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_includesRoomWithDestroyedStatus(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -619,10 +610,10 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setParticipantName('Test Participant')
             ->setEnteredRoomAt(new \DateTime())
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
-        $this->persistAndTrack($entityManager, $roomStatus);
-        $this->persistAndTrack($entityManager, $participant);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
+        $entityManager->persist($roomStatus);
+        $entityManager->persist($participant);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -639,7 +630,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_includesRoomWithNoRecording(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -668,8 +658,8 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setSequence(0)
             // No recording attached
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -686,7 +676,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_includesRoomWithRecordingWithoutUser(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -720,9 +709,9 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setUser(null) // Recording without user
             ->setCreatedAt(new \DateTimeImmutable())
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
-        $this->persistAndTrack($entityManager, $recording);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
+        $entityManager->persist($recording);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -739,7 +728,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_excludesRoomWithActiveRecording(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -783,9 +771,9 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setUser($existingUser) // Active recording with user
             ->setCreatedAt(new \DateTimeImmutable())
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
-        $this->persistAndTrack($entityManager, $recording);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
+        $entityManager->persist($recording);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -802,7 +790,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_includesRoomWithNoParticipantRecords(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -839,9 +826,9 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setUpdatedAt(new \DateTime())
             // No participants added
         ;
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
-        $this->persistAndTrack($entityManager, $roomStatus);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
+        $entityManager->persist($roomStatus);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
@@ -858,7 +845,6 @@ class ProvisionerServiceTest extends KernelTestCase
      */
     public function testCleanupUnusedProvisionedServers_includesRoomWithAllConditionsMet(): void
     {
-        self::bootKernel();
         /** @var ProvisionerService $provisionerService */
         $provisionerService = self::getContainer()->get(ProvisionerService::class);
         /** @var InMemoryTransport $transport */
@@ -903,10 +889,10 @@ class ProvisionerServiceTest extends KernelTestCase
             ->setEnteredRoomAt(new \DateTime())
         ;
         // No recording
-        $this->persistAndTrack($entityManager, $server);
-        $this->persistAndTrack($entityManager, $room);
-        $this->persistAndTrack($entityManager, $roomStatus);
-        $this->persistAndTrack($entityManager, $participant);
+        $entityManager->persist($server);
+        $entityManager->persist($room);
+        $entityManager->persist($roomStatus);
+        $entityManager->persist($participant);
         $entityManager->flush();
 
         $countUnused = $provisionerService->cleanupUnusedProvisionedServers();
