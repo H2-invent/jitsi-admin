@@ -1435,8 +1435,10 @@ a:hover {
   right: 20px;
   white-space: nowrap;
   z-index: 9;
+  pointer-events: none;
 
   .proTips {
+    pointer-events: auto;
     display: none;
     box-shadow: $card-box-shadow !important;
     z-index: 9;
