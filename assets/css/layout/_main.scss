@@ -1228,6 +1228,28 @@ a:hover {
         max-height: none;
         overflow-y: visible;
       }
+
+      .dropdown-divider {
+        height: 0;
+        margin: 6px 0;
+        border: 0;
+        border-top: 1px solid #dee2e6 !important;
+        background-color: transparent;
+        opacity: 1;
+      }
+
+      .dropdown-item.logout {
+        display: flex;
+        align-items: center;
+
+        i {
+          width: 8px;
+          min-width: 8px;
+          margin-right: 12px;
+          text-align: center;
+          font-size: 0.95em;
+        }
+      }
     }
   }
 }
