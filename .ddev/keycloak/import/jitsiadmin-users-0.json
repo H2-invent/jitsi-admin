@@ -23,5 +23,62 @@
     "realmRoles" : [ "default-roles-jitsiadmin" ],
     "notBefore" : 0,
     "groups" : [ "/all" ]
+  }, {
+    "id" : "c1d11111-1111-1111-1111-111111111111",
+    "username" : "device1@hotstandby-test.de",
+    "firstName" : "Device",
+    "lastName" : "One",
+    "email" : "device1@hotstandby-test.de",
+    "emailVerified" : true,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "hotstandby",
+      "temporary" : false
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-jitsiadmin" ],
+    "notBefore" : 0,
+    "groups" : [ "/all" ]
+  }, {
+    "id" : "c1d22222-2222-2222-2222-222222222222",
+    "username" : "device2@hotstandby-test.de",
+    "firstName" : "Device",
+    "lastName" : "Two",
+    "email" : "device2@hotstandby-test.de",
+    "emailVerified" : true,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "hotstandby",
+      "temporary" : false
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-jitsiadmin" ],
+    "notBefore" : 0,
+    "groups" : [ "/all" ]
+  }, {
+    "id" : "c1d33333-3333-3333-3333-333333333333",
+    "username" : "device3@hotstandby-test.de",
+    "firstName" : "Device",
+    "lastName" : "Three",
+    "email" : "device3@hotstandby-test.de",
+    "emailVerified" : true,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "type" : "password",
+      "value" : "hotstandby",
+      "temporary" : false
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-jitsiadmin" ],
+    "notBefore" : 0,
+    "groups" : [ "/all" ]
   } ]
 }

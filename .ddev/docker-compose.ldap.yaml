@@ -1,0 +1,34 @@
+services:
+  ldap:
+    # Opt-in: only starts when COMPOSE_PROFILES=ldap (e.g. `ddev ldap-on` or
+    # `COMPOSE_PROFILES=ldap ddev start`). Without the profile the post-start
+    # hook in config.yaml detects ldap is absent and skips silently.
+    profiles: ["ldap"]
+    container_name: ddev-${DDEV_SITENAME}-ldap
+    hostname: ${DDEV_SITENAME}-ldap
+    image: openmicroscopy/apacheds:latest
+    # The image is amd64-only; force the platform so Apple Silicon can run it
+    # under Rosetta/QEMU emulation. Boot is a few seconds slower, no other impact.
+    platform: linux/amd64
+    restart: unless-stopped
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    expose:
+      - "10389"
+    networks:
+      # The project's LdapType::isValidLdapUrl requires an FQDN (>= one dot).
+      # The default service name `ldap` is rejected; expose `ldap.ddev.local`
+      # as a network alias so ldap_url=ldap://ldap.ddev.local:10389 validates.
+      default:
+        aliases:
+          - ldap.ddev.local
+    x-ddev:
+      describe-info: |
+        LDAP host (from web container): ldap://ldap:10389
+        Admin DN: uid=admin,ou=system
+        Admin password: password (reset from ApacheDS default `secret` by post-start hook)
+        Fixture: tests/LDAP/fixtures/jitsi-admin.ldif (loaded by post-start hook via ldapadd)
+        Reset state: ddev restart  (no data volume = fresh tree every boot)
+        Toggle on:  ddev ldap-on   (or COMPOSE_PROFILES=ldap ddev start)
+        Toggle off: ddev ldap-off  (or unset COMPOSE_PROFILES then ddev restart)

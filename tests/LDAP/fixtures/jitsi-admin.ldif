@@ -1,0 +1,365 @@
+version: 1
+
+# ---------------------------------------------------------------------------
+# Test directory for jitsi-admin LDAP tests.
+# Bind DN: uid=admin,ou=system (ApacheDS default)
+# Mirrors the structure assumed by tests/LDAP/* and .env.test.
+#
+# Naming scheme:
+#   - device<N>@hotstandby-test.de  → three hotstandby devices (cn=hotstandby-a)
+#   - user1 .. user10               → o=testOrg branch (used by sync tests)
+#   - user11 .. user15              → o=unitTest branch (used by UserShowTest)
+#
+# unitTest-branch users carry departmentNumber=99999 (unique across the
+# directory) so UserShowTest can count them with `:contains("99999")` instead
+# of relying on a uid substring.
+# ---------------------------------------------------------------------------
+
+dn: dc=example,dc=com
+objectclass: domain
+objectclass: top
+dc: example
+
+# ---- testOrg branch ----
+dn: o=testOrg,dc=example,dc=com
+objectClass: organization
+objectClass: top
+o: testOrg
+
+dn: o=meinComp,o=testOrg,dc=example,dc=com
+objectClass: organization
+objectClass: top
+o: meinComp
+
+dn: o=meinCompSub,o=meinComp,o=testOrg,dc=example,dc=com
+objectClass: organization
+objectClass: top
+o: meinCompSub
+
+dn: ou=groups,o=testOrg,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+# ---- unitTest branch ----
+dn: o=unitTest,dc=example,dc=com
+objectClass: organization
+objectClass: top
+o: unitTest
+
+dn: o=unitTestSub,o=unitTest,dc=example,dc=com
+objectClass: organization
+objectClass: top
+o: unitTestSub
+
+# ---- Users in testOrg (user1 .. user10) ----
+dn: uid=user1,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: User One
+sn: One
+departmentNumber: 12345
+givenName: User
+mail: user1@example.com
+ou: AA
+telephoneNumber: 0123456789
+uid: user1
+userPassword:: e1NIQTUxMn1zUW56dTd3a1RyZ2tRWkYrMEcxaGk1QUkzUW16dnYwYlhnYzVUS
+ EJxaTdtQXNkZDRYbGwyN0FTYlJ0OWZFeWF2V2k2bTBRUDlCOGxUaGYrckRLeThoZz09
+
+dn: uid=user2,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: User Two
+sn: Two
+departmentNumber: 12346
+givenName: User
+mail: user2@example.com
+ou: AA
+telephoneNumber: 123456
+uid: user2
+userPassword:: e1NIQTUxMn1zUW56dTd3a1RyZ2tRWkYrMEcxaGk1QUkzUW16dnYwYlhnYzVUS
+ EJxaTdtQXNkZDRYbGwyN0FTYlJ0OWZFeWF2V2k2bTBRUDlCOGxUaGYrckRLeThoZz09
+
+dn: uid=user3,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: User Three
+sn: Three
+departmentNumber: 12347
+givenName: User
+mail: user3@example.com
+ou: AA
+telephoneNumber: 00491231234
+uid: user3
+userPassword:: e1NIQTUxMn03aWF3M1VyMzUwbXFHbzdqd1FycGtqOWhpWUIzTGtjL2lCbWwxS
+ lFPRGJKNndZWDRvT0hWK0UrSXZJaC8xbnNVTnpMREJNeGZxYTJPYjFmMUFDaW8vdz09
+
+dn: uid=user4,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: User Four
+sn: Four
+departmentNumber: 12348
+givenName: User
+mail: user4@example.com
+ou: VM
+uid: user4
+userPassword:: e1NIQTUxMn03aWF3M1VyMzUwbXFHbzdqd1FycGtqOWhpWUIzTGtjL2lCbWwxS
+ lFPRGJKNndZWDRvT0hWK0UrSXZJaC8xbnNVTnpMREJNeGZxYTJPYjFmMUFDaW8vdz09
+
+dn: uid=user5,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: User Five
+sn: Five
+departmentNumber: 12349
+givenName: User
+ou: AA
+uid: user5
+userPassword:: e1NIQTUxMn1zUW56dTd3a1RyZ2tRWkYrMEcxaGk1QUkzUW16dnYwYlhnYzVUS
+ EJxaTdtQXNkZDRYbGwyN0FTYlJ0OWZFeWF2V2k2bTBRUDlCOGxUaGYrckRLeThoZz09
+
+dn: uid=user6,o=meinComp,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: User Six
+sn: Six
+departmentNumber: 12350
+givenName: User
+mail: user6@example.com
+ou: AA
+uid: user6
+userPassword:: e1NIQTUxMn03aWF3M1VyMzUwbXFHbzdqd1FycGtqOWhpWUIzTGtjL2lCbWwxS
+ lFPRGJKNndZWDRvT0hWK0UrSXZJaC8xbnNVTnpMREJNeGZxYTJPYjFmMUFDaW8vdz09
+
+dn: uid=user7,o=meinComp,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: User Seven
+sn: Seven
+departmentNumber: 12351
+givenName: User
+mail: user7@example.com
+ou: AA
+uid: user7
+userPassword:: e1NIQTUxMn03aWF3M1VyMzUwbXFHbzdqd1FycGtqOWhpWUIzTGtjL2lCbWwxS
+ lFPRGJKNndZWDRvT0hWK0UrSXZJaC8xbnNVTnpMREJNeGZxYTJPYjFmMUFDaW8vdz09
+
+dn: uid=user8,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: User Eight
+sn: Eight
+departmentNumber: 12352
+givenName: User
+mail: user8@example.com
+ou: AA
+uid: user8
+userPassword:: e1NIQTUxMn03aWF3M1VyMzUwbXFHbzdqa2o5aGlZQjNMa2MvaUJtbDFKUU9EYk
+ o2d1lYNG9PSFYrRStJdkloLzFuc1VOekxEQk14ZnFhMk9iMWYxQUNpby93PT0=
+
+dn: uid=user9,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: User Nine
+sn: Nine
+departmentNumber: 12353
+givenName: User
+mail: user9@example.com
+ou: SV
+telephoneNumber: 012345678912
+uid: user9
+userPassword:: e1NIQTUxMn1zUW56dTd3a1RyZ2tRWkYrMEcxaGk1QUkzUW16dnYwYlhnYzVUS
+ EJxaTdtQXNkZDRYbGwyN0FTYlJ0OWZFeWF2V2k2bTBRUDlCOGxUaGYrckRLeThoZz09
+
+dn: uid=user10,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: User Ten
+sn: Ten
+departmentNumber: 12354
+givenName: User
+mail: user10@example.com
+ou: SV
+telephoneNumber: 0123456789122
+uid: user10
+userPassword:: e1NIQTUxMn1zUW56dTd3a1RyZ2tRWkYrMEcxaGk1QUkzUW16dnYwYlhnYzVUS
+ EJxaTdtQXNkZDRYbGwyN0FTYlJ0OWZFeWF2V2k2bTBRUDlCOGxUaGYrckRLeThoZz09
+
+# ---- Users in unitTest (user11 .. user15) ----
+# sn / givenName / ou / departmentNumber inherited from the original H2-invent
+# fixture (Hase, Maus, Forelle, Reh) so UserShowTest's display-string
+# assertions keep working without modification. UserShowTest's count
+# selector matches the shared `user1` uid prefix.
+dn: uid=user11,o=unitTest,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Maike Maus
+sn: Maus
+departmentNumber: 45689
+givenName: Maike
+mail: user11@example.com
+ou: AA
+telephoneNumber: 012345679
+uid: user11
+userPassword:: e1NIQTUxMn1zUW56dTd3a1RyZ2tRWkYrMEcxaGk1QUkzUW16dnYwYlhnYzVUS
+ EJxaTdtQXNkZDRYbGwyN0FTYlJ0OWZFeWF2V2k2bTBRUDlCOGxUaGYrckRLeThoZz09
+
+dn: uid=user12,o=unitTest,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Hans Hase
+sn: Hase
+departmentNumber: 45689
+givenName: Hans
+mail: user12@example.com
+ou: AA
+telephoneNumber: 9876543210
+uid: user12
+userPassword:: e1NIQTUxMn1zUW56dTd3a1RyZ2tRWkYrMEcxaGk1QUkzUW16dnYwYlhnYzVUS
+ EJxaTdtQXNkZDRYbGwyN0FTYlJ0OWZFeWF2V2k2bTBRUDlCOGxUaGYrckRLeThoZz09
+
+dn: uid=user13,o=unitTest,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Maike Maus
+sn: Maus
+departmentNumber: 45689
+givenName: Maike
+ou: AA
+uid: user13
+userPassword:: e1NIQTUxMn1zUW56dTd3a1RyZ2tRWkYrMEcxaGk1QUkzUW16dnYwYlhnYzVUS
+ EJxaTdtQXNkZDRYbGwyN0FTYlJ0OWZFeWF2V2k2bTBRUDlCOGxUaGYrckRLeThoZz09
+
+dn: uid=user14,o=unitTestSub,o=unitTest,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Frieder Forelle
+sn: Forelle
+departmentNumber: 45689
+givenName: Frieder
+mail: user14@example.com
+ou: AA
+uid: user14
+userPassword:: e1NIQTUxMn1zUW56dTd3a1RyZ2tRWkYrMEcxaGk1QUkzUW16dnYwYlhnYzVUS
+ EJxaTdtQXNkZDRYbGwyN0FTYlJ0OWZFeWF2V2k2bTBRUDlCOGxUaGYrckRLeThoZz09
+
+dn: uid=user15,o=unitTestSub,o=unitTest,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Rainer Reh
+sn: Reh
+givenName: Rainer
+mail: user15@example.com
+uid: user15
+userPassword:: e1NIQTUxMn1zUW56dTd3a1RyZ2tRWkYrMEcxaGk1QUkzUW16dnYwYlhnYzVUS
+ EJxaTdtQXNkZDRYbGwyN0FTYlJ0OWZFeWF2V2k2bTBRUDlCOGxUaGYrckRLeThoZz09
+
+# ---- Hotstandby device users (feature/hotstandby-device) ----
+# uid == email so LDAP-sync's username matches Keycloak's login identifier.
+# All three are members of cn=hotstandby-a so app:ldap:sync sets the same
+# hotstandby_id on all three rows in ldap_user_properties. Password value
+# below is a placeholder; actual login goes through Keycloak.
+dn: uid=device1@hotstandby-test.de,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Device One
+sn: One
+givenName: Device
+mail: device1@hotstandby-test.de
+ou: HS
+uid: device1@hotstandby-test.de
+userPassword: hotstandby
+
+dn: uid=device2@hotstandby-test.de,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Device Two
+sn: Two
+givenName: Device
+mail: device2@hotstandby-test.de
+ou: HS
+uid: device2@hotstandby-test.de
+userPassword: hotstandby
+
+dn: uid=device3@hotstandby-test.de,o=testOrg,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Device Three
+sn: Three
+givenName: Device
+mail: device3@hotstandby-test.de
+ou: HS
+uid: device3@hotstandby-test.de
+userPassword: hotstandby
+
+# ---- Groups ----
+dn: cn=sipVideoUser,dc=example,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: sipVideoUser
+member: uid=user9,o=testOrg,dc=example,dc=com
+member: uid=user10,o=testOrg,dc=example,dc=com
+
+dn: cn=deputyOfUser1,ou=groups,o=testOrg,dc=example,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: deputyOfUser1
+member: uid=user2,o=testOrg,dc=example,dc=com
+member: uid=user3,o=testOrg,dc=example,dc=com
+owner: uid=user1,o=testOrg,dc=example,dc=com
+
+# ---- Hotstandby groups (feature/hotstandby-device) ----
+# LdapUserService::resolveHotstandbyId reads the `member` attribute of each
+# configured group DN to determine membership, so no memberOf overlay/
+# interceptor on the LDAP server is required.
+dn: cn=hotstandby-a,ou=groups,o=testOrg,dc=example,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: hotstandby-a
+member: uid=device1@hotstandby-test.de,o=testOrg,dc=example,dc=com
+member: uid=device2@hotstandby-test.de,o=testOrg,dc=example,dc=com
+member: uid=device3@hotstandby-test.de,o=testOrg,dc=example,dc=com
+
+dn: cn=hotstandby-b,ou=groups,o=testOrg,dc=example,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: hotstandby-b
+member: uid=user2,o=testOrg,dc=example,dc=com

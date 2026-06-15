@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+## Description: Disable the optional LDAP (ApacheDS) container and restart the project
+## Usage: ldap-off
+## Example: "ddev ldap-off"
+## ExecRaw: true
+
+set -e
+
+rm -f "${DDEV_APPROOT}/.ddev/.env"
+echo "LDAP profile disabled. Restarting project..."
+ddev restart

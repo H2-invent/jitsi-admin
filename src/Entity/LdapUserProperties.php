@@ -23,6 +23,10 @@ class LdapUserProperties
     private $rdn;
     #[ORM\Column(type: 'text')]
     private $ldapNumber;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $hotstandbyId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,5 +80,22 @@ class LdapUserProperties
         $this->ldapNumber = $ldapNumber;
 
         return $this;
+    }
+
+    public function getHotstandbyId(): ?string
+    {
+        return $this->hotstandbyId;
+    }
+
+    public function setHotstandbyId(?string $hotstandbyId): static
+    {
+        $this->hotstandbyId = $hotstandbyId;
+
+        return $this;
+    }
+
+    public function isHotstandby(): bool
+    {
+        return $this->hotstandbyId !== null && $this->hotstandbyId !== '';
     }
 }

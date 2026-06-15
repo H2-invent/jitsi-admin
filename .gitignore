@@ -72,3 +72,6 @@ repairLog.txt
 ###> baldinof/roadrunner-bundle ###
 /bin/rr.*
 ###< baldinof/roadrunner-bundle ###
+
+# Per-developer DDEV state (e.g. COMPOSE_PROFILES toggle from ddev ldap-on)
+/.ddev/.env

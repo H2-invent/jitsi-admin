@@ -112,10 +112,10 @@ class LdapUserServiceTest extends WebTestCase
             $this->assertEquals(sizeof($allUSers) - 1, sizeof($data->getAddressbook()));
         }
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneBy(['username' => 'UnitTest1']);
+        $user = $userRepository->findOneBy(['username' => 'user11']);
         $this->assertNotEquals(null, $ldapUserService->checkUserInLdap($user, $ldapConnection));
-        $user->getLdapUserProperties()->setLdapDn('uid=unitTest156,o=unitTest,dc=example,dc=com');
-        $user->setUsername('unitTest156');
+        $user->getLdapUserProperties()->setLdapDn('uid=user-gone-alpha,o=unitTest,dc=example,dc=com');
+        $user->setUsername('user-gone-alpha');
         $this->assertEquals(null, $ldapUserService->checkUserInLdap($user, $ldapConnection));
 
         $ldapUserService->deleteUser($user);
@@ -129,7 +129,7 @@ class LdapUserServiceTest extends WebTestCase
         }
 
         foreach ($allUSerNew as $data) {
-            if ($data->getUsername() === 'unitTestnoSF') {
+            if ($data->getUsername() === 'user15') {
                 $this->assertEquals('', $data->getSpezialProperties()['ou']);
                 $this->assertEquals('', $data->getSpezialProperties()['departmentNumber']);
             } else {
@@ -253,7 +253,7 @@ class LdapUserServiceTest extends WebTestCase
         $serverRepository = static::getContainer()->get(ServerRepository::class);
         $server = $serverRepository->findAll()[0];
 
-        $user = $userRepository->findOneBy(['username' => 'UnitTest1']);
+        $user = $userRepository->findOneBy(['username' => 'user11']);
         $user->addServer($server);
         $em->persist($user);
         $em->flush();
@@ -331,8 +331,8 @@ class LdapUserServiceTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
         $users = $userRepository->findUsersfromLdapService();
         $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES, sizeof($users));
-        $user = $userRepository->findOneBy(['username' => 'unitTest1']);
-        $user->getLdapUserProperties()->setLdapDn('uid=unitTest10,o=unitTest,dc=example,dc=com');
+        $user = $userRepository->findOneBy(['username' => 'user11']);
+        $user->getLdapUserProperties()->setLdapDn('uid=user-gone-beta,o=unitTest,dc=example,dc=com');
         $user->setUsername('invalidLdapUsername');
         $em = static::getContainer()->get(EntityManagerInterface::class);
         $em->persist($user);
@@ -378,8 +378,8 @@ class LdapUserServiceTest extends WebTestCase
         $users = $userRepository->findUsersfromLdapService();
 
         $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES, sizeof($users));
-        $user = $userRepository->findOneBy(['username' => 'unitTest1']);
-        $user->getLdapUserProperties()->setLdapDn('uid=unitTest100,o=unitTest,dc=example,dc=com');
+        $user = $userRepository->findOneBy(['username' => 'user11']);
+        $user->getLdapUserProperties()->setLdapDn('uid=user-gone-gamma,o=unitTest,dc=example,dc=com');
         $em = static::getContainer()->get(EntityManagerInterface::class);
         $em->persist($user);
         $em->flush();

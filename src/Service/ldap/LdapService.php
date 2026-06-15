@@ -37,6 +37,7 @@ class LdapService
     private $LDAP_DEPUTY_GROUP_LEADER;
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     private $LDAP_DEPUTY_GROUP_FILTER;
+    private $LDAP_HOTSTANDBY_GROUP_DN;
 
     private $LDAP_IS_SIP_VIDEO;
 
@@ -73,6 +74,7 @@ class LdapService
             $this->LDAP_DEPUTY_GROUP_MEMBERS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_MEMBERS'));
             $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
             $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_FILTER'));
+            $this->LDAP_HOTSTANDBY_GROUP_DN = explode(';', $this->parameterBag->get('LDAP_HOTSTANDBY_GROUP_DN'));
             $this->LDAP_IS_SIP_VIDEO = explode(';', $this->parameterBag->get('LDAP_IS_SIP_VIDEO'));
             $tmp = explode(';', $this->parameterBag->get('ldap_attribute_mapper'));
             foreach ($tmp as $data) {
@@ -116,6 +118,7 @@ class LdapService
                 $ldap->setLDAPDEPUTYGROUPMEMBERS($this->LDAP_DEPUTY_GROUP_MEMBERS[$count]);
                 $ldap->setLDAPDEPUTYGROUPOBJECTCLASS($this->LDAP_DEPUTY_GROUP_OBJECTCLASS[$count]);
                 $ldap->setLDAPDEPUTYGROUPFILTER($this->LDAP_DEPUTY_GROUP_FILTER[$count] !== '' ? $this->LDAP_DEPUTY_GROUP_FILTER[$count] : null);
+                $ldap->setLDAPHOTSTANDBYGROUPDN($this->parseHotstandbyGroupDns($this->LDAP_HOTSTANDBY_GROUP_DN[$count] ?? ''));
                 try {
                     $ldap->setISSIPVIDEO($this->LDAP_IS_SIP_VIDEO[$count] === 'true');
                 } catch (\Exception $exception) {
@@ -289,5 +292,16 @@ class LdapService
         foreach ($this->ldaps as $data) {
             $this->ldapUserService->syncDeletedUser($data);
         }
+    }
+
+    /**
+     * Parse the per-server hotstandby DN list. Multiple group DNs per server are
+     * separated by `|` (since DNs themselves contain `,`).
+     *
+     * @return string[]
+     */
+    private function parseHotstandbyGroupDns(string $value): array
+    {
+        return array_values(array_filter(array_map('trim', explode('|', $value)), 'strlen'));
     }
 }

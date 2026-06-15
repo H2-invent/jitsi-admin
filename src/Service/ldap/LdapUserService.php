@@ -71,6 +71,20 @@ class LdapUserService
 
             $user->setSpezialProperties($specialField);
 
+            try {
+                $user->getLdapUserProperties()->setHotstandbyId(
+                    $this->resolveHotstandbyId($entry, $ldapType)
+                );
+            } catch (\Exception $hotstandbyException) {
+                // Transient lookup failure — keep the previously persisted value
+                // instead of wiping it. resolveHotstandbyId already logged the
+                // per-group warnings.
+                $this->logger->warning(
+                    'Hotstandby resolution failed; preserving existing hotstandbyId',
+                    ['user' => $entry->getDn(), 'error' => $hotstandbyException->getMessage()],
+                );
+            }
+
             $user->setEmail($email);
             $user->setFirstName($firstName);
             $user->setLastName($lastName);
@@ -290,6 +304,92 @@ class LdapUserService
             }
         }
         return $specialField;
+    }
+
+    /**
+     * Look up each configured hotstandby group on the LDAP server and check
+     * whether the user's DN is in the group's member list. Returns the CN of
+     * the first matching group, or null if the feature is unconfigured, no
+     * connection is available, or no group lists this user.
+     *
+     * Member-lookup (rather than reading `memberOf` from the user entry) keeps
+     * the resolver portable across LDAP servers — ApacheDS, OpenLDAP without
+     * the memberof overlay, etc. — where `memberOf` may not be present.
+     *
+     * @throws \RuntimeException when one or more group lookups fail; the caller
+     *   should preserve the previously persisted hotstandbyId rather than
+     *   silently demoting the user on transient errors.
+     */
+    public function resolveHotstandbyId(Entry $entry, LdapType $ldapType): ?string
+    {
+        $configuredDns = $ldapType->getLDAPHOTSTANDBYGROUPDN();
+        if (empty($configuredDns)) {
+            return null;
+        }
+
+        $ldap = $ldapType->getLdap();
+        if ($ldap === null) {
+            return null;
+        }
+
+        $userDnNormalised = $this->normaliseDn($entry->getDn());
+        $lookupFailed = false;
+
+        foreach ($configuredDns as $groupDn) {
+            try {
+                $collection = $ldap->query($groupDn, '(objectclass=*)', ['scope' => 'base'])->execute();
+                foreach ($collection as $group) {
+                    // Support member (groupOfNames) AND uniqueMember
+                    // (groupOfUniqueNames). Entry::getAttribute is case-
+                    // insensitive in Symfony LDAP, so casing of the schema
+                    // doesn't matter.
+                    $members = array_merge(
+                        $group->getAttribute('member') ?? [],
+                        $group->getAttribute('uniqueMember') ?? [],
+                    );
+                    foreach ($members as $memberDn) {
+                        if ($this->normaliseDn($memberDn) === $userDnNormalised) {
+                            // The group entry's cn attribute is the canonical
+                            // CN; using it side-steps DN-parsing pitfalls
+                            // (escaped commas, multi-valued RDNs, RFC 4514).
+                            $cn = $group->getAttribute('cn')[0] ?? null;
+                            return $cn ?? $groupDn;
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                $lookupFailed = true;
+                $this->logger->warning('Hotstandby group lookup failed', [
+                    'group' => $groupDn,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }
+
+        if ($lookupFailed) {
+            // Don't return null here — that would tell the caller "user is
+            // definitively not a member" and they'd wipe a previously
+            // persisted value. Surface the failure so the caller can keep
+            // the existing state.
+            throw new \RuntimeException('hotstandby lookup failed for one or more configured groups');
+        }
+        return null;
+    }
+
+    /**
+     * Best-effort DN normalisation for membership comparison: lowercase, trim
+     * outer whitespace, and collapse RFC 4514 whitespace around `,` and `=`.
+     * Not a full DN parser — escaped/quoted RDN values are not handled — but
+     * enough to bridge the common cases where the LDIF or directory tooling
+     * inserts spaces.
+     */
+    private function normaliseDn(string $dn): string
+    {
+        return preg_replace(
+            ['/\s*,\s*/', '/\s*=\s*/'],
+            [',', '='],
+            strtolower(trim($dn)),
+        );
     }
 }
 

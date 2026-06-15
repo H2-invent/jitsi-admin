@@ -259,6 +259,11 @@ class RoomService
         $payload['context']['user']['language'] = $this->userPreferences->getLanguage();
         $payload['context']['user']['timezone'] = $this->userPreferences->getTimezone();
 
+        if ($user && $user->getLdapUserProperties() && $user->getLdapUserProperties()->isHotstandby()) {
+            $payload['context']['user']['isHotstandby'] = true;
+            $payload['context']['user']['hotstandbyId'] = $user->getLdapUserProperties()->getHotstandbyId();
+        }
+
         $screen = [
             'screen-sharing' => true,
             'private-message' => true,

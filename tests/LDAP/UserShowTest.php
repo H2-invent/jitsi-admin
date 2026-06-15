@@ -55,7 +55,7 @@ class UserShowTest extends WebTestCase
         //login as the ldap user and test if the name in the adressbook is written correctly
 
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneBy(['username' => 'unitTest1Sub']);
+        $testUser = $userRepository->findOneBy(['username' => 'user14']);
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertResponseIsSuccessful();
@@ -77,7 +77,7 @@ class UserShowTest extends WebTestCase
         );
         $this->assertEquals(
             3,
-            $crawler->filter('.breakWord:contains("unitTest")')->count()
+            $crawler->filter('.breakWord:contains("user1")')->count()
         );
     }
     public function testShowName2(): void
@@ -124,7 +124,7 @@ class UserShowTest extends WebTestCase
         //login as the ldap user and test if the name in the adressbook is written correctly
 
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser2 = $userRepository->findOneBy(['username' => 'unitTest1']);
+        $testUser2 = $userRepository->findOneBy(['username' => 'user11']);
         $client->loginUser($testUser2);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertResponseIsSuccessful();
@@ -146,7 +146,7 @@ class UserShowTest extends WebTestCase
         );
         $this->assertEquals(
             3,
-            $crawler->filter('.breakWord:contains("unitTest")')->count()
+            $crawler->filter('.breakWord:contains("user1")')->count()
         );
     }
     private function getParam()

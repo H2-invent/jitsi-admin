@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+## Description: Enable the optional LDAP (ApacheDS) container and restart the project
+## Usage: ldap-on
+## Example: "ddev ldap-on"
+## ExecRaw: true
+
+set -e
+
+echo "COMPOSE_PROFILES=ldap" > "${DDEV_APPROOT}/.ddev/.env"
+echo "LDAP profile enabled in .ddev/.env. Restarting project..."
+ddev restart

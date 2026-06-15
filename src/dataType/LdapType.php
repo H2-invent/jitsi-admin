@@ -3,6 +3,7 @@
 namespace App\dataType;
 
 use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Ldap\LdapInterface;
 use Symfony\Component\Validator\Constraints\Url;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -15,7 +16,7 @@ class LdapType
     private $url;
     private $userNameAttribute;
     private $serVerId;
-    private Ldap $ldap;
+    private ?LdapInterface $ldap = null;
     private $rdn;
     private $bindDn;
     private $password;
@@ -31,6 +32,7 @@ class LdapType
     private $LDAP_DEPUTY_GROUP_LEADER;
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     private $LDAP_DEPUTY_GROUP_FILTER;
+    private array $LDAP_HOTSTANDBY_GROUP_DN = [];
     private $isHealthy = false;
     private bool $IS_SIP_VIDEO = false;
 
@@ -494,6 +496,20 @@ class LdapType
         $this->IS_SIP_VIDEO = $IS_SIP_VIDEO;
     }
 
+    /**
+     * @return string[] List of group DNs that mark a user as hot-standby
+     */
+    public function getLDAPHOTSTANDBYGROUPDN(): array
+    {
+        return $this->LDAP_HOTSTANDBY_GROUP_DN;
+    }
 
+    /**
+     * @param string[] $LDAP_HOTSTANDBY_GROUP_DN
+     */
+    public function setLDAPHOTSTANDBYGROUPDN(array $LDAP_HOTSTANDBY_GROUP_DN): void
+    {
+        $this->LDAP_HOTSTANDBY_GROUP_DN = $LDAP_HOTSTANDBY_GROUP_DN;
+    }
 
 }

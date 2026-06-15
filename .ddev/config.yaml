@@ -13,9 +13,38 @@ use_dns_when_possible: true
 composer_version: "2"
 web_environment: []
 corepack_enable: false
+webimage_extra_packages: [ldap-utils]
 hooks:
   post-start:
   - exec: cp .ddev/.env.test.local .env.test.local
+  # When the optional `ldap` profile is active, wait for ApacheDS to accept
+  # connections, reset the admin password from the default `secret` to
+  # `password` (matching the existing tests' hardcoded credentials), then
+  # import the test fixture LDIF. No-op when LDAP isn't enabled or when the
+  # fixture is already loaded (idempotent across re-runs).
+  - exec: |
+      if ! getent hosts ldap >/dev/null 2>&1; then
+        exit 0
+      fi
+      for i in $(seq 1 60); do
+        ldapsearch -x -H ldap://ldap.ddev.local:10389 -D "uid=admin,ou=system" -w secret \
+          -b "" -s base "(objectclass=*)" >/dev/null 2>&1 && break
+        sleep 1
+      done
+      if ldapsearch -x -H ldap://ldap.ddev.local:10389 -D "uid=admin,ou=system" -w password \
+           -b "o=testOrg,dc=example,dc=com" -s base dn >/dev/null 2>&1; then
+        exit 0
+      fi
+      ldappasswd -x -H ldap://ldap.ddev.local:10389 -D "uid=admin,ou=system" -w secret \
+        -s password "uid=admin,ou=system"
+      # `-c` keeps adding past errors; exit 68 (LDAP_ALREADY_EXISTS) for the
+      # pre-existing dc=example,dc=com root is expected, anything else fails.
+      ldapadd -x -H ldap://ldap.ddev.local:10389 -D "uid=admin,ou=system" -w password \
+        -c -f /var/www/html/tests/LDAP/fixtures/jitsi-admin.ldif \
+        || [ $? -eq 68 ]
+      # Verify the fixture is in by looking up a known DN; surface real failures.
+      ldapsearch -x -H ldap://ldap.ddev.local:10389 -D "uid=admin,ou=system" -w password \
+        -b "o=testOrg,dc=example,dc=com" -s base dn >/dev/null
 timezone: Europe/Berlin
 
 # Key features of DDEV's config.yaml:
