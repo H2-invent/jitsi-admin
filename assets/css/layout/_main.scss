@@ -718,6 +718,10 @@ strong {
     &.modal-right {
       transform: translateX(50px);
     }
+
+    &.modal-left {
+      transform: translateX(-50px);
+    }
   }
 }
 
@@ -745,6 +749,25 @@ strong {
 
     &.modal-right {
       right: 0;
+
+      @media (min-width: 992px) and (min-width: 992px) {
+        .modal-header {
+          border-radius: 0;
+        }
+
+        .modal-content {
+          border-radius: 0;
+        }
+      }
+
+      .modal-body {
+        overflow-y: auto;
+      }
+    }
+
+    &.modal-left {
+      left: 0;
+      right: auto;
 
       @media (min-width: 992px) and (min-width: 992px) {
         .modal-header {
