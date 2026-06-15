@@ -174,7 +174,8 @@ class RoomService
             "room" => $roomName,
             "context" => [
                 'room'=>[
-                    'name'=>$room->getName()
+                    'name'=>$room->getName(),
+                    'isE2EEEnabled' => $room->isE2EEEnabled(),
 
                 ],
                 'user' => [

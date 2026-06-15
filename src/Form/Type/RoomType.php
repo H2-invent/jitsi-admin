@@ -123,7 +123,8 @@ class RoomType extends AbstractType
                     ]
                 ]
             )
-            ->add('scheduleMeeting', CheckboxType::class, ['required' => false, 'label' => 'label.scheduleMeeting', 'translation_domain' => 'form']);
+            ->add('scheduleMeeting', CheckboxType::class, ['required' => false, 'label' => 'label.scheduleMeeting', 'translation_domain' => 'form'])
+            ->add('isE2EEEnabled', CheckboxType::class, ['required' => false, 'label' => 'label.isE2EEEnabled', 'translation_domain' => 'form']);
 
         if ($this->theme->getApplicationProperties(InputSettings::PERSISTENT_ROOMS) == 1) {
             $this->logger->debug('Add Persistant Rooms to the Form');
