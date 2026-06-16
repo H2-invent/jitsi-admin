@@ -1,0 +1,13 @@
+name: rabbitmq
+repository: ddev/ddev-rabbitmq
+version: 0.2.0
+install_date: "2026-02-02T12:01:24+01:00"
+project_files:
+    - docker-compose.rabbitmq.yaml
+    - config.rabbitmq.yaml
+    - commands/host/rabbitmq
+    - commands/rabbitmq/
+    - rabbitmq/config.yaml
+    - rabbitmq/schema.json
+global_files: []
+removal_actions: []

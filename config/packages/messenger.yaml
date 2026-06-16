@@ -6,31 +6,65 @@ framework:
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
       async:
-        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
         options:
-          check_delayed_interval: 1000
-        retry_strategy:
-          max_retries: 10
-          # milliseconds delay
+          exchange:
+            name: meetling.messages
+          queues:
+            meetling.messages: ~
+        retry_strategy: &retry_strategy
+          max_retries: 5
           delay: 1000
-          # causes the delay to be higher before each retry
-          # e.g. 1 second delay, 10 seconds, 100 seconds
-          multiplier: 10
-          max_delay: 0
-          # applies randomness to the delay that can prevent the thundering herd effect
-          # the value (between 0 and 1.0) is the percentage of 'delay' that will be added/subtracted
+          multiplier: 4
           jitter: 0.1
-          # override all of this with a service that
-          # implements Symfony\Component\Messenger\Retry\RetryStrategyInterface
-          # service: null
-      failed: 'doctrine://default?queue_name=failed' #TODO change to RabbitMQ when merging epic/provisioner
-      # sync: 'sync://'
+
+      provisioner_request:
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
+        options:
+          exchange:
+            name: meetling.provisioner.request
+          queues:
+            meetling.provisioner.request: ~
+        serializer: messenger.transport.symfony_serializer
+        retry_strategy: *retry_strategy
+
+      provisioner_status:
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
+        options:
+          exchange:
+            name: meetling.provisioner.status
+          queues:
+            meetling.provisioner.status: ~
+        serializer: App\Message\Serializer\ProvisionerStatusSerializer
+        retry_strategy: *retry_strategy
+
+      test:
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
+        options:
+          exchange:
+            name: test
+          queues:
+            test: ~
+
+      failed:
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
+        options:
+          exchange:
+            name: meetling.failed
+          queues:
+            meetling.failed: ~
+
+    serializer:
+      symfony_serializer:
+        format: json
+        context: { }
 
 
     routing:
       # Route your messages to the transports
-      # 'App\Message\YourMessage': async
+      App\Message\CustomMailerMessage: async
       App\Message\LobbyLeaverMessage: async
-      App\Message\LokiLogMessage: async #TODO proper retry strategy and rabbitmq
-      #App\Message\CustomMailerMessage: async
-      #Symfony\Component\Mailer\Messenger\SendEmailMessage:  async
+      App\Message\LokiLogMessage: async
+      App\Message\TestMessage: test
+      App\Message\Provisioner\ProvisionerStatusMessage: provisioner_status
+      App\Message\Provisioner\ProvisionerRequestMessage: provisioner_request

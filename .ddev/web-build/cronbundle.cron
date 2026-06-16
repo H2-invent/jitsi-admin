@@ -1,0 +1,1 @@
+* * * * * php /var/www/html/bin/console cron:run

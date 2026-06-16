@@ -9,15 +9,16 @@ use App\Service\PublicConference\PublicConferenceService;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateFastConfernceController extends AbstractController
+class CreateFastConferenceController extends AbstractController
 {
-    private Server $server;
+    private ?Server $server;
 
     public function __construct(
 
@@ -30,10 +31,9 @@ class CreateFastConfernceController extends AbstractController
     )
     {
         $this->server = $this->serverRepository->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
-
     }
 
-    #[Route('/room/create/fast/confernce', name: 'app_create_fast_confernce')]
+    #[Route('/room/create/fast/conference', name: 'app_create_fast_conference')]
     public function index(Request $request): Response
     {
         try {
@@ -44,12 +44,19 @@ class CreateFastConfernceController extends AbstractController
                 $room->setTotalOpenRooms(true);
                 $this->entityManager->persist($room);
                 $this->entityManager->flush();
+
+                if ($this->server->shouldProvisionNewServer()) {
+                    $url = $this->generateUrl('app_provisioner_create', ['uidReal' => $room->getUidReal()]);
+                } else {
+                    $url = $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()]));
+                }
+
                 return new JsonResponse(
                     [
                         'redirectUrl' => $this->generateUrl('dashboard'),
                         'popups' => [
-                            ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()])), 'title' => $room->getName()]
-                        ]
+                            ['url' => $url, 'title' => $room->getName()],
+                        ],
                     ]
                 );
             } else {

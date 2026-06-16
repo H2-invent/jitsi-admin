@@ -4,7 +4,8 @@
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 * **New DDEV local development setup**
-* **New Design (improved)**
+* **New Design**
+* **External server provisioning now possible**
 ### Bug Fixes:
 * remove header in sip trunk generation
 * fix ical reply
@@ -19,6 +20,7 @@
 * Theme dashboard
 * Rearange logo in conference
 * Add API Endpoint to upload video transcripts
+* use RabbitMQ for all Messenger messages
 
 ## 1.2
 ### 🚀 Features

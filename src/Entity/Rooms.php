@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: RoomsRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Index(fields: ['uidReal'], name: 'uid_real_idx')]
 class Rooms
 {
     #[ORM\Id]
@@ -163,6 +164,9 @@ class Rooms
 
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $calendly_uri = null;
+
+    #[ORM\ManyToOne]
+    private ?Server $originalServer = null;
 
     /**
      * @var Collection<int, Transcription>
@@ -1178,6 +1182,18 @@ class Rooms
     public function setCalendlyUri(?string $calendly_uri): static
     {
         $this->calendly_uri = $calendly_uri;
+
+        return $this;
+    }
+
+    public function getOriginalServer(): ?Server
+    {
+        return $this->originalServer;
+    }
+
+    public function setOriginalServer(?Server $originalServer): static
+    {
+        $this->originalServer = $originalServer;
 
         return $this;
     }

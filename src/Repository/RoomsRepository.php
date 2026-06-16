@@ -6,6 +6,8 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Service\TimeZoneService;
+use DateTime;
+use DateTimeZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -60,8 +62,8 @@ class RoomsRepository extends ServiceEntityRepository
     */
     public function findRoomsInFuture(User $user)
     {
-        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = new DateTime('now', $this->timeZoneService->getTimeZone($user));
+        $now->setTimezone(new DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
@@ -84,8 +86,8 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsInPast(User $user, $offset)
     {
-        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = new DateTime('now', $this->timeZoneService->getTimeZone($user));
+        $now->setTimezone(new DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
@@ -110,7 +112,6 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsForUser(User $user)
     {
-        $now = new \DateTime();
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
@@ -132,8 +133,8 @@ class RoomsRepository extends ServiceEntityRepository
     public function findRuningRooms(User $user)
     {
 
-        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = new DateTime('now', $this->timeZoneService->getTimeZone($user));
+        $now->setTimezone(new DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
@@ -157,8 +158,8 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findTodayRooms(User $user)
     {
-        $now = new \DateTime();
-        $midnight = new \DateTime();
+        $now = new DateTime();
+        $midnight = new DateTime();
         $midnight->setTime(23, 59, 59);
         $qb = $this->createQueryBuilder('r');
 
@@ -239,7 +240,7 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsFutureAndPast(User $user, $timeBack)
     {
-        $now = (new \DateTime())->modify($timeBack);
+        $now = (new DateTime())->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
 
@@ -297,15 +298,15 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('server = :server')
             ->andWhere('r.start BETWEEN :now AND :future')
             ->setParameter('server', $server)
-            ->setParameter('now', new \DateTime())
-            ->setParameter('future', new \DateTime("+$minutes minutes"))
+            ->setParameter('now', new DateTime())
+            ->setParameter('future', new DateTime("+$minutes minutes"))
             ->getQuery()
             ->getResult();
     }
 
     public function findRoomsnotInPast()
     {
-        $now = (new \DateTime('now'))->getTimestamp();
+        $now = (new DateTime('now'))->getTimestamp();
         $qb = $this->createQueryBuilder('r');
         return $qb
             ->andWhere(
@@ -368,5 +369,72 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('true', true)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * finds Rooms which are:
+     *    permanent Conferences
+     * OR planned Conference whose endDate has passed
+     * AND all participants left
+     * AND no more recording active
+     *
+     * @return Rooms[]
+     */
+    public function findRoomsWhoseProvisionedServerCanBeDeleted(): array
+    {
+        $qb = $this->createQueryBuilder('room');
+        return $qb
+            ->innerJoin('room.server', 'server')
+            ->leftJoin('room.roomstatuses', 'status')
+            ->leftJoin('status.roomStatusParticipants', 'status_participant')
+            ->leftJoin('room.liveKitRecordings', 'recording')
+            ->andWhere('server.isAllowedToCloneForAutoscale IS NULL')
+            ->andWhere('server.isProvisioningEnabled = true')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'room.persistantRoom = true',
+                    $qb->expr()->andX(
+                        'room.persistantRoom = false',
+                        'room.endDateUtc < :now',
+                    ),
+                ),
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    'status_participant.inRoom IS NULL',
+                    'status_participant.inRoom = false',
+                    'status.destroyed = true',
+                ),
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    'recording.id IS NULL',
+                    'recording.user IS NULL',
+                ),
+            )
+            ->setParameter('now', new DateTime('now', new DateTimeZone('utc')))
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsToProvisionInXMinutes(int $minutes): array
+    {
+        $qb = $this->createQueryBuilder('room');
+        return $qb
+            ->innerJoin('room.server', 'server')
+            ->andWhere('server.isAllowedToCloneForAutoscale = true')
+            ->andWhere('server.isProvisioningEnabled = true')
+            ->andWhere('room.persistantRoom = false')
+            ->andWhere('room.startUtc < :threshold')
+            ->andWhere('room.endDateUtc > :now')
+            ->setParameter('threshold', new DateTime("+ {$minutes} minutes", new DateTimeZone('utc')))
+            ->setParameter('now', new DateTime('now', new DateTimeZone('utc')))
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

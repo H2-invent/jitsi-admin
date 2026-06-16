@@ -158,6 +158,9 @@ parameters:
     app.log.loki.uri: '%env(LOKI_URI)%'
     app.log.loki.client: '%env(LOKI_CLIENT)%'
     app.log.loki.log_level: '%env(LOKI_LOG_LEVEL)%'
+    encryption.private_key_path: '%kernel.project_dir%/backend_private.pem'
+    encryption.public_key_path: '%kernel.project_dir%/backend_public.pem'
+    provisioner.schedule.minutes_threshold: '%env(int:PROVISIONER_SCHEDULE_MINUTES_THRESHOLD)%'
 
 services:
     gaufrette.recording_fs_filesystem:
@@ -237,5 +240,15 @@ services:
             $handler: '@monolog.handler.loki_async'
         tags:
             - { name: monolog.handler, handler: loki_filtered }
+    App\Command\AmqpTestCommand:
+        arguments:
+            $testTransport: '@messenger.transport.test'
 
+    App\Service\RsaEncryptionService:
+        arguments:
+            $privateKeyPath: '%encryption.private_key_path%'
+            $publicKeyPath: '%encryption.public_key_path%'
+
+    App\DependencyInjection\RabbitMqDsnEnvVarProcessor:
+        tags: ['container.env_var_processor']
 

@@ -39,7 +39,7 @@ class ServerAllowToCloneCommand extends Command
         $serverId = $input->getArgument('server');
         $server = $this->serverRepository->find($serverId);
         if ($server){
-           $server->setAllowedToCloneForAutoscale(!$server->isAllowedToCloneForAutoscale());
+           $server->setIsAllowedToCloneForAutoscale(!$server->isAllowedToCloneForAutoscale());
         }
 
        $this->entityManager->persist($server);

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+#ddev-generated
+
+## Description: A host wrapper command for rabbitmq/rabbitmq to enhance the command with "launch" capabilities
+## Usage: rabbitmq
+## Example: ddev rabbitmq
+
+CMD=$1
+
+launch_rabbitmq_gui() {
+    echo "Launching RabbitMQ Management UI..."
+    echo "Login using 'rabbitmq' user and 'rabbitmq' password."
+
+    PROTOCOL="HTTP"
+    if [ "${DDEV_PRIMARY_URL%://*}" != "http" ] && [ -z "${GITPOD_WORKSPACE_ID:-}" ] && [ "${CODESPACES:-}" != "true" ]; then
+      PROTOCOL="HTTPS"
+    fi
+    rabbitmq_port=$(ddev exec "yq '.services.rabbitmq.environment.${PROTOCOL}_EXPOSE | split(\":\")[0]' .ddev/.ddev-docker-compose-full.yaml")
+    ddev launch :$rabbitmq_port
+}
+
+case $CMD in
+  launch)
+    launch_rabbitmq_gui
+    ;;
+  *)
+    if [ "$CMD" = "--help" ] || [ -z "$CMD" ]; then
+        # Output help and display additional information about the "launch" command
+        ddev exec -s rabbitmq /mnt/ddev_config/commands/rabbitmq/rabbitmq --help
+        echo ""
+        echo -e "\033[1mLaunch\033[0m"
+        echo "—————"
+        echo "Launch RabbitMQ Management UI"
+        echo "👉 ddev rabbitmq launch"
+    else
+        # Run the script within service container and pass in all arguments
+        ddev exec -s rabbitmq /mnt/ddev_config/commands/rabbitmq/rabbitmq $@
+    fi
+    ;;
+esac

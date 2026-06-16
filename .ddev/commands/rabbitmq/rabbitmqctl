@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#ddev-generated
+
+## Description: Manage parts of rabbitmq
+## Usage: rabbitmqctl [--node <node>] [--timeout <timeout>] [--longnames] [--quiet] <command> [<command options>]
+## Example: ddev rabbitmqctl --help
+
+rabbitmqctl $@

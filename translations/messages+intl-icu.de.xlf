@@ -2456,18 +2456,18 @@
       </trans-unit>
       <trans-unit id="ySnvUZv" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.&#10;Name: {name} &#10;Moderator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
-Name: {name} 
+Name: {name}
 Moderator: {moderator} </source>
         <target>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
-Name: {name} 
+Name: {name}
 Moderator: {moderator} </target>
       </trans-unit>
       <trans-unit id="w0B3UQg" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&#10;Konferenz ID: {id} &#10;Ihre E-Mail-Adresse: {email}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:
-Konferenz ID: {id} 
+Konferenz ID: {id}
 Ihre E-Mail-Adresse: {email}</source>
         <target>Folgende Daten benötigen Sie um der Konferenz beizutreten:
-Konferenz ID: {id} 
+Konferenz ID: {id}
 Ihre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="dQuQ3zm" resname="transcription.ready.subject">
@@ -2545,6 +2545,10 @@ Ihre E-Mail-Adresse: {email}</target>
       <trans-unit id="aPyOdXY" resname="Sofort">
         <source>Sofort</source>
         <target>Sofort</target>
+      </trans-unit>
+      <trans-unit id="iMnx3Yn" resname="Bitte warten Sie. Ihre Konferenz wird bereitgestellt">
+        <source>Bitte warten Sie. Ihre Konferenz wird bereitgestellt</source>
+        <target>Bitte warten Sie. Ihre Konferenz wird bereitgestellt</target>
       </trans-unit>
     </body>
   </file>
