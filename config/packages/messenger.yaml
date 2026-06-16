@@ -2,7 +2,7 @@ framework:
 
   messenger:
     # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-    # failure_transport: failed
+    failure_transport: failed
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
       async:
@@ -12,6 +12,12 @@ framework:
             name: meetling.messages
           queues:
             meetling.messages: ~
+        retry_strategy: &retry_strategy
+          max_retries: 5
+          delay: 1000
+          multiplier: 4
+          jitter: 0.1
+
       provisioner_request:
         dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
         options:
@@ -20,6 +26,8 @@ framework:
           queues:
             meetling.provisioner.request: ~
         serializer: messenger.transport.symfony_serializer
+        retry_strategy: *retry_strategy
+
       provisioner_status:
         dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
         options:
@@ -28,6 +36,7 @@ framework:
           queues:
             meetling.provisioner.status: ~
         serializer: App\Message\Serializer\ProvisionerStatusSerializer
+        retry_strategy: *retry_strategy
 
       test:
         dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
@@ -37,8 +46,13 @@ framework:
           queues:
             test: ~
 
-      # failed: 'doctrine://default?queue_name=failed'
-      # sync: 'sync://'
+      failed:
+        dsn: '%env(rabbitmq_dsn:RABBITMQ_DSN)%'
+        options:
+          exchange:
+            name: meetling.failed
+          queues:
+            meetling.failed: ~
 
     serializer:
       symfony_serializer:
@@ -48,9 +62,9 @@ framework:
 
     routing:
       # Route your messages to the transports
-      #Symfony\Component\Mailer\Messenger\SendEmailMessage:  async
       App\Message\CustomMailerMessage: async
       App\Message\LobbyLeaverMessage: async
+      App\Message\LokiLogMessage: async
       App\Message\TestMessage: test
       App\Message\Provisioner\ProvisionerStatusMessage: provisioner_status
       App\Message\Provisioner\ProvisionerRequestMessage: provisioner_request

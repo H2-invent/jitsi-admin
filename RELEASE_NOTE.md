@@ -19,7 +19,9 @@
 * Add Chatwoot in conferences in sidebar
 * Theme dashboard
 * Rearange logo in conference
+* Add API Endpoint to upload video transcripts
 * use RabbitMQ for all Messenger messages
+
 ## 1.2
 ### 🚀 Features
 * **Improved Side-Navigation in the Conference**:

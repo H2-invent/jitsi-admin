@@ -1,4 +1,8 @@
 import '../css/startpage.scss';
+import Swiper from 'swiper';
+import { Navigation, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 //import(/* webpackChunkName: "H2" */ '../css/app.scss');
 import $ from 'jquery';
@@ -70,6 +74,7 @@ $('.popup-with-move-anim').magnificPopup({
 
 /* Card Slider - Swiper */
 var cardSlider = new Swiper('.card-slider', {
+    modules: [Navigation, Autoplay],
     autoplay: {
         delay: 4000,
         disableOnInteraction: false

@@ -2456,19 +2456,23 @@
       </trans-unit>
       <trans-unit id="ySnvUZv" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.&#10;Name: {name} &#10;Moderator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
-Name: {name} 
+Name: {name}
 Moderator: {moderator} </source>
         <target>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
-Name: {name} 
+Name: {name}
 Moderator: {moderator} </target>
       </trans-unit>
       <trans-unit id="w0B3UQg" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&#10;Konferenz ID: {id} &#10;Ihre E-Mail-Adresse: {email}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:
-Konferenz ID: {id} 
+Konferenz ID: {id}
 Ihre E-Mail-Adresse: {email}</source>
         <target>Folgende Daten benötigen Sie um der Konferenz beizutreten:
-Konferenz ID: {id} 
+Konferenz ID: {id}
 Ihre E-Mail-Adresse: {email}</target>
+      </trans-unit>
+      <trans-unit id="dQuQ3zm" resname="transcription.ready.subject">
+        <source>transcription.ready.subject</source>
+        <target>Transkript bereit für {roomName}</target>
       </trans-unit>
       <trans-unit id="sf9Dapx" resname="Zeit und Datum auswählen">
         <source>Zeit und Datum auswählen</source>
@@ -2477,6 +2481,14 @@ Ihre E-Mail-Adresse: {email}</target>
       <trans-unit id="ntQ1lBx" resname="CC-E-Mail">
         <source>CC-E-Mail</source>
         <target>CC-E-Mail</target>
+      </trans-unit>
+      <trans-unit id="kHIraMt" resname="transcription.ready.text">
+        <source>transcription.ready.text</source>
+        <target>Die Transkription für {roomName} ist fertig und liegt zum Download bereit.</target>
+      </trans-unit>
+      <trans-unit id="2dzwmpu" resname="Klicken Sie hier um das Transkript runterzuladen.">
+        <source>Klicken Sie hier um das Transkript runterzuladen.</source>
+        <target>Klicken Sie hier um das Transkript runterzuladen.</target>
       </trans-unit>
       <trans-unit id="wF2hSYC" resname="Einladen">
         <source>Einladen</source>

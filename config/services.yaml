@@ -149,10 +149,15 @@ parameters:
     JITSI_COMPONENT_SELECTOR_JWT_KID: '%env(JITSI_COMPONENT_SELECTOR_JWT_KID)%'
     LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
     API_TOKEN_BEARER_THEME: '%env(API_TOKEN_BEARER_THEME)%'
+    API_TOKEN_BEARER_TRANSCRIPTION: '%env(API_TOKEN_BEARER_TRANSCRIPTION)%'
     app.scheme: '%env(APP_SCHEME)%'
     app.theme.dir: '%kernel.project_dir%/theme'
     app.theme.cache_dir: '%kernel.project_dir%/var/cache/theme'
     app.theme.public_dir: '%kernel.project_dir%/public/theme'
+    app.log.loki.enabled: '%env(bool:LOKI_ENABLED)%' # handled by \App\DependencyInjection\Compiler\ToggleLokiHandlerPass
+    app.log.loki.uri: '%env(LOKI_URI)%'
+    app.log.loki.client: '%env(LOKI_CLIENT)%'
+    app.log.loki.log_level: '%env(LOKI_LOG_LEVEL)%'
     encryption.private_key_path: '%kernel.project_dir%/backend_private.pem'
     encryption.public_key_path: '%kernel.project_dir%/backend_public.pem'
     provisioner.schedule.minutes_threshold: '%env(int:PROVISIONER_SCHEDULE_MINUTES_THRESHOLD)%'
@@ -205,6 +210,36 @@ services:
                     key: '%env(AWS_KEY)%'
                     secret: '%env(AWS_SECRET_KEY)%'
 
+    # toggle handled by \App\DependencyInjection\Compiler\ToggleLokiHandlerPass
+    # remember to keep the pass up to date when changing any loki service definitions
+    monolog.handler.loki:
+        class: Itspire\MonologLoki\Handler\LokiHandler
+        arguments:
+            $apiConfig:
+                entrypoint: '%app.log.loki.uri%'
+                context: []
+                labels:
+                    app: meetling-jitsi-admin
+                    env: '%env(APP_ENV)%'
+                    host: '%env(HOSTNAME)%'
+                    version: '%laF_version%'
+                client_name: '%app.log.loki.client%'
+                curl_options:
+                    !php/const CURLOPT_CONNECTTIMEOUT_MS: 200
+                    !php/const CURLOPT_TIMEOUT_MS: 500
+            $bubble: true
+
+    monolog.handler.loki_async:
+        class: App\Monolog\Handler\AsyncLokiHandler
+        arguments:
+            $messageBus: '@messenger.bus.default'
+
+    monolog.handler.loki_healthcheck_filter:
+        class: App\Monolog\Handler\ExcludeHealthCheckHandler
+        arguments:
+            $handler: '@monolog.handler.loki_async'
+        tags:
+            - { name: monolog.handler, handler: loki_filtered }
     App\Command\AmqpTestCommand:
         arguments:
             $testTransport: '@messenger.transport.test'
