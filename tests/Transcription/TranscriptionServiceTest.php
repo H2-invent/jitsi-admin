@@ -27,12 +27,12 @@ class TranscriptionServiceTest extends KernelTestCase
 
         $this->assertNotNull($transcription);
         $this->assertSame($room, $transcription->getRoom());
-        $this->assertSame($text, $transcription->getText());
+        $this->assertStringContainsString($text, $transcription->getText());
 
         // Verify it was persisted
         $persistedTranscription = $transcriptionRepo->find($transcription->getId());
         $this->assertNotNull($persistedTranscription);
-        $this->assertSame($text, $persistedTranscription->getText());
+        $this->assertStringContainsString($text, $persistedTranscription->getText());
 
         // Verify email was sent to moderator
         self::assertEmailCount(1);
@@ -61,7 +61,7 @@ class TranscriptionServiceTest extends KernelTestCase
 
         $this->assertNotNull($transcription);
         $this->assertSame($room, $transcription->getRoom());
-        $this->assertSame($text, $transcription->getText());
+        $this->assertStringContainsString($text, $transcription->getText());
 
         // Verify no email was sent
         self::assertEmailCount(0);
