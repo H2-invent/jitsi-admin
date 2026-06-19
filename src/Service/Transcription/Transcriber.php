@@ -7,7 +7,6 @@ use App\Entity\Server;
 use Generator;
 use GuzzleHttp;
 use OpenAI;
-use Symfony\Component\String\UnicodeString;
 
 class Transcriber
 {
