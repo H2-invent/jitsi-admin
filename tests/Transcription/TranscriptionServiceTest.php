@@ -4,7 +4,7 @@ namespace App\Tests\Transcription;
 
 use App\Repository\RoomsRepository;
 use App\Repository\TranscriptionRepository;
-use App\Service\TranscriptionService;
+use App\Service\Transcription\TranscriptionService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class TranscriptionServiceTest extends KernelTestCase

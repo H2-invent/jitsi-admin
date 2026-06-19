@@ -238,4 +238,6 @@ services:
         tags:
             - { name: monolog.handler, handler: loki_filtered }
 
+    FFMpeg\FFMpeg:
+        factory: ['FFMpeg\FFMpeg', 'create']
 

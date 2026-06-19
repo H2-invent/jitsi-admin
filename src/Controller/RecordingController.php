@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Entity\UploadedRecording;
 use App\Entity\User;
+use App\Message\TranscriptionMessage;
 use App\Repository\RecordingRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UploadedRecordingRepository;
@@ -24,6 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
@@ -45,6 +47,7 @@ class RecordingController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly Environment         $environment,
         private ParameterBagInterface        $parameterBag,
+        private readonly MessageBusInterface $messageBus,
     )
     {
         $this->filesystem = $recordingFilesystem; // Filesystem für die Aufnahmen
@@ -130,6 +133,12 @@ class RecordingController extends AbstractController
             $this->entityManager->persist($uploadedFileEntity);
             $this->entityManager->flush();
             $this->sendEmailAfterUploading($room->getModerator(), $room, $uploadedFileEntity);
+
+            if ($room->getServer()?->isEnableTranscription()) {
+                $this->messageBus->dispatch(
+                    new TranscriptionMessage($uploadedFileEntity->getId())
+                );
+            }
 
             return new JsonResponse(['status' => 'File uploaded successfully']);
         }

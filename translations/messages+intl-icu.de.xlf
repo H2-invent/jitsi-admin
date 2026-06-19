@@ -2546,6 +2546,18 @@ Ihre E-Mail-Adresse: {email}</target>
         <source>Sofort</source>
         <target>Sofort</target>
       </trans-unit>
+      <trans-unit id="oWIBNXX" resname="enterprise.settings.transcription">
+        <source>enterprise.settings.transcription</source>
+        <target>Transkript Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="VitJXBB" resname="transcription.modal.title">
+        <source>transcription.modal.title</source>
+        <target>Transkripte von Videokonferenzen</target>
+      </trans-unit>
+      <trans-unit id="N93tNXa">
+        <source>Transkripte</source>
+        <target>Transkripte</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
