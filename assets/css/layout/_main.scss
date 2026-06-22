@@ -1385,6 +1385,19 @@ a:hover {
   border-radius: 4px;
 }
 
+.form-control-color {
+  padding: 0;
+
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: 5px;
+  }
+
+  &::-moz-color-swatch {
+    border: none;
+    border-radius: 5px;
+  }
+}
 
 .btn-outline-white {
   border-color: white;

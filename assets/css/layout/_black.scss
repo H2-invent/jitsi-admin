@@ -224,6 +224,15 @@ label {
   }
 }
 
+// MDB forces a light disabled-background on read-only inputs via
+// `.form-outline .form-control[readonly]` (specificity 0,3,0), which overrides
+// the rule above. Override it so read-only inputs stay dark in dark mode.
+.form-control[readonly],
+.form-outline .form-control[readonly] {
+  background-color: $black_background !important;
+  color: $black_font-color !important;
+}
+
 .form-control:focus {
   background-color: $black_background_active;
   color: $black_font-color;
