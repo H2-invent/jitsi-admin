@@ -116,7 +116,7 @@
                     {% endif %}
                     {% if form.isE2EEEnabled is defined %}
                         <div class="col-lg-12">
-                            <div id="isE2EEEnabled" class="row">
+                            <div id="isE2EEEnabled" class="{% if serverchoose is not null and serverchoose.isEnforceE2e %}d-none{% endif %} row">
                                 <div class="col-12 d-flex align-items-start with-help">
                                     {{ form_row(form.isE2EEEnabled) }}
                                     <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
