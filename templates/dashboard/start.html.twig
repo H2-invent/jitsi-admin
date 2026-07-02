@@ -94,11 +94,11 @@
                         <svg class="hp-lang-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg>
                     </button>
                     <div class="hp-lang-menu" id="langMenu">
-                        <a class="hp-lang-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'de'})) }}">
-                            <img src="{{ asset('images/locale/de.png') }}" alt="DE" class="hp-lang-flag"> Deutsch
-                        </a>
                         <a class="hp-lang-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'en'})) }}">
                             <img src="{{ asset('images/locale/en.png') }}" alt="EN" class="hp-lang-flag"> English
+                        </a>
+                        <a class="hp-lang-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'de'})) }}">
+                            <img src="{{ asset('images/locale/de.png') }}" alt="DE" class="hp-lang-flag"> Deutsch
                         </a>
                     </div>
                 </div>
