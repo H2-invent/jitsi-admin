@@ -86,8 +86,8 @@
                 </a>
             </div>
             <div class="hp-nav-right">
-                <a class="hp-btn hp-btn-primary hp-btn-sm" href="{{ path('dashboard') }}">{{ 'hp.nav.login'|trans }}</a>
-                <a class="hp-btn hp-btn-outline hp-btn-sm" href="{{ path('register_keycloak') }}">{{ 'hp.nav.register'|trans }}</a>
+                <a class="hp-btn hp-btn-primary hp-btn-sm" href="{{ path('dashboard') }}">{{ 'hp.nav.login'|trans({}, 'homepage') }}</a>
+                <a class="hp-btn hp-btn-outline hp-btn-sm" href="{{ path('register_keycloak') }}">{{ 'hp.nav.register'|trans({}, 'homepage') }}</a>
                 <div class="hp-lang">
                     <button class="hp-lang-toggle" type="button" id="langToggle">
                         <img src="{{ asset('images/locale/' ~ app.request.locale ~ '.png') }}" alt="" class="hp-lang-flag">
@@ -126,7 +126,7 @@
         <!-- Heading -->
         <div class="hp-hero-heading-wrapper">
             <h2 class="hp-hero-heading">
-                {% set words = 'hp.meta.heading'|trans|split(' ') %}
+                {% set words = 'hp.meta.heading'|trans({}, 'homepage')|split(' ') %}
                 {% for word in words %}
                 <span class="hp-hero-word">{{ word }}</span>
                 {% endfor %}
@@ -135,13 +135,13 @@
 
         <!-- Subheading -->
         <p class="hp-hero-subheading">
-            {{ 'hp.hero.subheading'|trans }}
+            {{ 'hp.hero.subheading'|trans({}, 'homepage') }}
         </p>
 
         <!-- CTA Buttons -->
         <div class="hp-hero-cta">
-            <a class="hp-btn hp-btn-primary hp-btn-lg" href="{{ path('dashboard') }}">{{ 'hp.hero.login'|trans }}</a>
-            <a class="hp-btn hp-btn-white hp-btn-lg" href="{{ path('register_keycloak') }}">{{ 'hp.hero.register'|trans }}</a>
+            <a class="hp-btn hp-btn-primary hp-btn-lg" href="{{ path('dashboard') }}">{{ 'hp.hero.login'|trans({}, 'homepage') }}</a>
+            <a class="hp-btn hp-btn-white hp-btn-lg" href="{{ path('register_keycloak') }}">{{ 'hp.hero.register'|trans({}, 'homepage') }}</a>
         </div>
 
         <!-- Screenshot -->
@@ -157,8 +157,8 @@
 <section id="features" class="hp-features">
     <div class="hp-container">
         <div class="hp-section-header">
-            <h2 class="hp-section-heading">{{ 'hp.features.title'|trans }}</h2>
-            <p class="hp-section-subheading">{{ 'hp.features.subtitle'|trans }}</p>
+            <h2 class="hp-section-heading">{{ 'hp.features.title'|trans({}, 'homepage') }}</h2>
+            <p class="hp-section-subheading">{{ 'hp.features.subtitle'|trans({}, 'homepage') }}</p>
         </div>
 
         <div class="hp-features-grid">
@@ -178,8 +178,8 @@
                     </svg>
                 </div>
                 <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.scheduling.title'|trans }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.scheduling.desc'|trans }}</p>
+                    <h5 class="hp-feature-title">{{ 'hp.feature.scheduling.title'|trans({}, 'homepage') }}</h5>
+                    <p class="hp-feature-desc">{{ 'hp.feature.scheduling.desc'|trans({}, 'homepage') }}</p>
                 </div>
             </div>
 
@@ -192,8 +192,8 @@
                     </svg>
                 </div>
                 <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.planning.title'|trans }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.planning.desc'|trans }}</p>
+                    <h5 class="hp-feature-title">{{ 'hp.feature.planning.title'|trans({}, 'homepage') }}</h5>
+                    <p class="hp-feature-desc">{{ 'hp.feature.planning.desc'|trans({}, 'homepage') }}</p>
                 </div>
             </div>
 
@@ -208,8 +208,8 @@
                     </svg>
                 </div>
                 <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.server.title'|trans }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.server.desc'|trans }}</p>
+                    <h5 class="hp-feature-title">{{ 'hp.feature.server.title'|trans({}, 'homepage') }}</h5>
+                    <p class="hp-feature-desc">{{ 'hp.feature.server.desc'|trans({}, 'homepage') }}</p>
                 </div>
             </div>
 
@@ -223,8 +223,8 @@
                     </svg>
                 </div>
                 <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.languages.title'|trans }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.languages.desc'|trans }}</p>
+                    <h5 class="hp-feature-title">{{ 'hp.feature.languages.title'|trans({}, 'homepage') }}</h5>
+                    <p class="hp-feature-desc">{{ 'hp.feature.languages.desc'|trans({}, 'homepage') }}</p>
                 </div>
             </div>
 
@@ -236,8 +236,8 @@
                     </svg>
                 </div>
                 <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.opensource.title'|trans }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.opensource.desc'|trans }}</p>
+                    <h5 class="hp-feature-title">{{ 'hp.feature.opensource.title'|trans({}, 'homepage') }}</h5>
+                    <p class="hp-feature-desc">{{ 'hp.feature.opensource.desc'|trans({}, 'homepage') }}</p>
                 </div>
             </div>
 
@@ -249,8 +249,8 @@
                     </svg>
                 </div>
                 <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.github.title'|trans }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.github.desc'|trans }}</p>
+                    <h5 class="hp-feature-title">{{ 'hp.feature.github.title'|trans({}, 'homepage') }}</h5>
+                    <p class="hp-feature-desc">{{ 'hp.feature.github.desc'|trans({}, 'homepage') }}</p>
                 </div>
             </div>
         </div>
@@ -267,22 +267,22 @@
                         <img src="{{ asset('logo.png') }}" alt="Jitsi Admin" class="hp-footer-logo-img">
                         <span class="hp-footer-logo-text">Jitsi Admin</span>
                     </a>
-                    <p class="hp-footer-tagline">{{ 'hp.footer.tagline'|trans }}</p>
+                    <p class="hp-footer-tagline">{{ 'hp.footer.tagline'|trans({}, 'homepage') }}</p>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="hp-footer-links">
                     <div class="hp-footer-col">
-                        <h6>{{ 'hp.footer.enterprise'|trans }}</h6>
+                        <h6>{{ 'hp.footer.enterprise'|trans({}, 'homepage') }}</h6>
                         <ul>
                             <li><a href="https://jitsi-admin.de" target="_blank" rel="noopener">jitsi-admin.de</a></li>
                             <li><a href="https://meetling.de" target="_blank" rel="noopener">meetling.de</a></li>
                         </ul>
                     </div>
                     <div class="hp-footer-col">
-                        <h6>{{ 'hp.footer.links'|trans }}</h6>
+                        <h6>{{ 'hp.footer.links'|trans({}, 'homepage') }}</h6>
                         <ul>
-                            <li><a href="https://github.com/H2-invent/jitsi-admin" target="_blank" rel="noopener">{{ 'hp.footer.github'|trans }}</a></li>
+                            <li><a href="https://github.com/H2-invent/jitsi-admin" target="_blank" rel="noopener">{{ 'hp.footer.github'|trans({}, 'homepage') }}</a></li>
                             <li><a href="https://h2-invent.com" target="_blank" rel="noopener">H2 Invent</a></li>
                         </ul>
                     </div>
@@ -290,7 +290,7 @@
             </div>
         </div>
         <div class="hp-footer-bottom">
-            <p>{{ 'Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent'|trans|raw }}</p>
+            <p>{{ 'Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent'|trans({}, 'homepage')|raw }}</p>
         </div>
     </div>
 </footer>
