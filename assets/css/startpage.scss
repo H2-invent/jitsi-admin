@@ -145,6 +145,67 @@ a:hover {
   align-items: center;
   gap: 0.75rem;
 }
+.hp-lang {
+  position: relative;
+  display: inline-flex;
+}
+.hp-lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.625rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  border: 1px solid var(--hp-border);
+  border-radius: 0.375rem;
+  background: rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.hp-lang-toggle:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+.hp-lang-flag {
+  width: 20px;
+  height: 14px;
+  border-radius: 0;
+  object-fit: cover;
+}
+.hp-lang-chevron {
+  color: var(--hp-text-muted);
+  flex-shrink: 0;
+}
+.hp-lang-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--hp-border-light);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  min-width: 140px;
+  padding: 0.25rem;
+  z-index: 100;
+}
+.hp-lang-menu.hp-lang-open {
+  display: block;
+}
+.hp-lang-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--hp-text);
+  border-radius: 0.375rem;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.hp-lang-item:hover {
+  background: var(--hp-bg-muted);
+  color: var(--hp-text-heading);
+}
 .hp-nav-toggle {
   display: flex;
   flex-direction: column;
@@ -414,12 +475,21 @@ a:hover {
   background: var(--hp-bg-muted);
   margin: 0.5rem;
   border-radius: 0.75rem;
+  transition: background 0.3s;
+}
+.hp-feature-card:hover .hp-feature-card-visual {
+  background: #eef2ff;
 }
 .hp-feature-icon-svg {
   width: 44px;
   height: 44px;
   color: var(--hp-text-heading);
   opacity: 0.7;
+  transition: opacity 0.3s, color 0.3s;
+}
+.hp-feature-card:hover .hp-feature-icon-svg {
+  opacity: 0.9;
+  color: var(--hp-accent);
 }
 .hp-feature-card-text {
   padding: 1.25rem 1.5rem 1.5rem;
@@ -459,7 +529,7 @@ a:hover {
 /* ---------- Footer ---------- */
 .hp-footer {
   padding: 2.5rem 0 1rem;
-  background: #fff;
+  background: #f9fafb;
   border-top: 1px solid var(--hp-border-light);
   position: relative;
   overflow: hidden;
@@ -514,7 +584,7 @@ a:hover {
   color: var(--hp-text-heading);
 }
 .hp-footer-bottom {
-  margin-top: 3rem;
+  margin-top: 1rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--hp-border-light);
   text-align: center;

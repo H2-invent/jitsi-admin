@@ -88,6 +88,20 @@
             <div class="hp-nav-right">
                 <a class="hp-btn hp-btn-primary hp-btn-sm" href="{{ path('dashboard') }}">Login</a>
                 <a class="hp-btn hp-btn-outline hp-btn-sm" href="{{ path('register_keycloak') }}">Registrieren</a>
+                <div class="hp-lang">
+                    <button class="hp-lang-toggle" type="button" id="langToggle">
+                        <img src="{{ asset('images/locale/' ~ app.request.locale ~ '.png') }}" alt="" class="hp-lang-flag">
+                        <svg class="hp-lang-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg>
+                    </button>
+                    <div class="hp-lang-menu" id="langMenu">
+                        <a class="hp-lang-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'de'})) }}">
+                            <img src="{{ asset('images/locale/de.png') }}" alt="DE" class="hp-lang-flag"> Deutsch
+                        </a>
+                        <a class="hp-lang-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'en'})) }}">
+                            <img src="{{ asset('images/locale/en.png') }}" alt="EN" class="hp-lang-flag"> English
+                        </a>
+                    </div>
+                </div>
             </div>
             <button class="hp-nav-toggle" type="button" id="navToggle">
                 <span></span><span></span><span></span>
@@ -258,13 +272,10 @@
             <div class="col-lg-6">
                 <div class="hp-footer-links">
                     <div class="hp-footer-col">
-                        <h6>Rechtliches</h6>
+                        <h6>Enterprise Solutions</h6>
                         <ul>
-                            <li><a href="{{ imprint }}">Impressum</a></li>
-                            <li><a href="{{ dataPrivacy }}">Datenschutzhinweis</a></li>
-                            {% if matomo_enable == '1' %}
-                            <li><a href="#" data-mdb-modal-init data-mdb-target="#exampleModal">Matomo Opt-out</a></li>
-                            {% endif %}
+                            <li><a href="https://jitsi-admin.de" target="_blank" rel="noopener">jitsi-admin.de</a></li>
+                            <li><a href="https://meetling.de" target="_blank" rel="noopener">meetling.de</a></li>
                         </ul>
                     </div>
                     <div class="hp-footer-col">
