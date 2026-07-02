@@ -78,17 +78,22 @@ a:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 .hp-btn-outline {
-  background: transparent;
-  color: var(--hp-text-muted) !important;
-  border-color: transparent;
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--hp-text-heading) !important;
+  border-color: var(--hp-border);
 }
 .hp-btn-outline:hover {
   color: var(--hp-text-heading) !important;
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(0, 0, 0, 0.08);
 }
 .hp-btn-lg {
   padding: 0.75rem 2rem;
   font-size: 0.9375rem;
+}
+.hp-btn-sm {
+  padding: 0.375rem 0.875rem;
+  font-size: 0.8125rem;
+  border-radius: 0.375rem;
 }
 
 /* ---------- Nav ---------- */
@@ -135,22 +140,6 @@ a:hover {
 .hp-nav-brand-text {
   font-size: 0.9375rem;
 }
-.hp-nav-center {
-  display: none;
-  gap: 0.25rem;
-}
-.hp-nav-link {
-  position: relative;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--hp-text-muted);
-  border-radius: 0.375rem;
-  transition: color 0.2s;
-}
-.hp-nav-link:hover {
-  color: var(--hp-text-heading);
-}
 .hp-nav-right {
   display: none;
   align-items: center;
@@ -174,7 +163,6 @@ a:hover {
   transition: all 0.2s;
 }
 
-.hp-nav-center.hp-nav-open,
 .hp-nav-right.hp-nav-open {
   display: flex;
   flex-direction: column;
@@ -191,16 +179,12 @@ a:hover {
 }
 
 @media (min-width: 992px) {
-  .hp-nav-center {
-    display: flex;
-  }
   .hp-nav-right {
     display: flex;
   }
   .hp-nav-toggle {
     display: none;
   }
-  .hp-nav-center.hp-nav-open,
   .hp-nav-right.hp-nav-open {
     position: static;
     flex-direction: row;
@@ -371,62 +355,6 @@ a:hover {
 @media (min-width: 768px) {
   .hp-grid-bg {
     grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* ---------- Beam Rays ---------- */
-.hp-beam {
-  position: absolute;
-  z-index: 1;
-  height: 3.5rem;
-  width: 1px;
-  border-radius: 999px;
-  background: linear-gradient(to top, #f97316, #eab308, transparent);
-  transform-origin: center center;
-  opacity: 0;
-  pointer-events: none;
-  animation: hpBeamFly 5s ease-in-out infinite;
-}
-.hp-beam-1 {
-  left: 45%;
-  top: 15%;
-  animation-delay: 0s;
-}
-.hp-beam-2 {
-  left: 48%;
-  top: 12%;
-  animation-delay: 1.25s;
-}
-.hp-beam-3 {
-  left: 52%;
-  top: 18%;
-  animation-delay: 2.5s;
-}
-.hp-beam-4 {
-  left: 50%;
-  top: 10%;
-  animation-delay: 3.75s;
-}
-
-@keyframes hpBeamFly {
-  0% {
-    opacity: 0;
-    transform: translateX(100px) translateY(-100px) rotate(135deg);
-  }
-  10% {
-    opacity: 0.5;
-  }
-  35% {
-    opacity: 0.08;
-    transform: translateX(0) translateY(0) rotate(135deg);
-  }
-  55% {
-    opacity: 0;
-    transform: translateX(-100px) translateY(100px) rotate(135deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-100px) translateY(100px) rotate(135deg);
   }
 }
 
