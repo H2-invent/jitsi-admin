@@ -60,6 +60,10 @@
 
 # Features, Improvements, and Bug Fixes related to the Livekit Integration
 
+## 1.3
+* Add allow Popups to multiframe iframe
+
+
 ### 🚀 Feature
 * New start page for registered and unregistered conference participants
 * Force a name for unregistered participants
