@@ -7,13 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
-    <!-- Webpage Title -->
     <title>Jitsi Admin</title>
 
-    <!-- Styles -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap"
-          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     {{ encore_entry_link_tags('startpage') }}
 
@@ -42,7 +40,7 @@
             "mainEntity": {
                 "@type": "Question",
                 "name": "Wie kann ich bei einem Jitsi Server Termine erstellen",
-                "text": "Ich habe einen Jitsi-Meet-Server und möchte eine Konferenz zu einem Zeitpunkt organisieren und sichergehen dass keine anderen Benutzer als die eingeladenen Personen in die Konferenz kommen. Gibt es dazu eine Möglichket bei Jitsi-Meet?",
+                "text": "Ich habe einen Jitsi-Meet-Server und möchte eine Konferenz zu einem Zeitpunkt organisieren und sichergehen dass keine anderen Benutzer als die eingeladenen Personen in die Konferenz kommen. Gibt es dazu eine Möglichkeit bei Jitsi-Meet?",
                 "answerCount": 1,
                 "author": {
                     "@type": "Person",
@@ -50,7 +48,7 @@
                 },
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Mit Jitsi-Admin, einer Open Sorce Software kannst du deinen Jitsi-Server absichern und über das Dashboard jederzeit Termine organisieren. Der Jitsi-Admin lässt sich für jeden Jitsi-Server verwenden und muss dort nur als 'Mein Server hinzugefügt werden.'",
+                    "text": "Mit Jitsi-Admin, einer Open Source Software kannst du deinen Jitsi-Server absichern und über das Dashboard jederzeit Termine organisieren. Der Jitsi-Admin lässt sich für jeden Jitsi-Server verwenden und muss dort nur als 'Mein Server hinzugefügt werden.'",
                     "url": "https://jitsi-admin.de/",
                     "author": {
                         "@type": "person",
@@ -73,621 +71,232 @@
     <meta name="twitter:image" content="{{ absolute_url(asset('logo.png')) }}">
     <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Favicon  -->
     <link rel="icon" href="favicon.ico">
 </head>
-<body data-spy="scroll" data-target=".fixed-top">
+<body class="hp-body">
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg fixed-top navbar-light">
-    <div class="container">
-
-        <!-- Image Logo -->
-        <a class="navbar-brand logo-image" href="/"><img src="logo.png" alt="alternative"></a>
-
-        <button class="navbar-toggler p-0 border-0" type="button" data-mdb-toggle="offcanvas">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#header">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#features">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#details">Details</a>
-                </li>
-
-            </ul>
-        </div> <!-- end of navbar-collapse -->
-    </div> <!-- end of container -->
-</nav> <!-- end of navbar -->
-<!-- end of navigation -->
-
-
-<!-- Header -->
-<header id="header" class="header">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="text-container">
-                    <h1 class="h1-responsive">Online Jitsi Verwaltung</h1>
-                    <p class="p-large">Konferenzen total einfach, sicher, schnell und datenschutzkonform planen und
-                        durchführen</p>
-                    <a class="btn-solid-lg" href="{{ path('dashboard') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
-                    <a class="btn-solid-lg secondary" href="{{ path('register_keycloak') }}"><i
-                                class="far fa-user-circle"></i> Registrieren</a>
-                </div> <!-- end of text-container -->
-            </div> <!-- end of col -->
-            <div class="col-lg-6">
-                <div class="image-container">
-                    <img class="img-fluid" src="images/start/dashboard_home.png" alt="alternative">
-                </div> <!-- end of image-container -->
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</header> <!-- end of header -->
-<!-- end of header -->
-
-
-<!-- Introduction -->
-<div class="basic-1">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <p>Sie nutzen bereits Jitsi Meet und suchen nach einer konfortablen Verwaltung Ihrer Konferenzen.</p>
-            </div> <!-- end of col -->
-            <div class="col-lg-6">
-                <p>Sie suchen nach einer sicheren und datenschutzkonformen online Konferenzlösung.</p>
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-        <div class="row">
-            <div class="col-lg-12">
-                <p><b>Nutzen Sie hierfür Jitsi Admin.</b></p>
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of basic-1 -->
-<!-- end of introduction -->
-
-
-<!-- Statistics -->
-<div class="counter">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-
-                <!-- Counter -->
-                <div id="counter">
-                    <div class="cell">
-                        <div class="counter-value number-count" data-count="{{ user|length }}">1</div>
-                        <p class="counter-info">Benutzer</p>
-                    </div>
-                    <div class="cell">
-                        <div class="counter-value number-count" data-count="{{ server|length }}">1</div>
-                        <p class="counter-info">Server</p>
-                    </div>
-                    <div class="cell">
-                        <div class="counter-value number-count" data-count="{{ rooms|length }}">1</div>
-                        <p class="counter-info">Konferenzen</p>
-                    </div>
-                </div>
-                <!-- end of counter -->
-
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of counter -->
-<!-- end of statistics -->
-
-
-<!-- Features -->
-<div id="features" class="cards-1">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-
-                <!-- Card -->
-                <div class="card">
-                    <div class="card-image">
-                        <img class="img-fluid" src="images/start/calendar.svg" alt="alternative">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Termin finden</h5>
-                        <p>Erstellen Sie eine Terminumfrage und finden Sie den bestmöglichen Termin für Ihre nächste
-                            Konferenz.</p>
-                    </div>
-                </div>
-                <!-- end of card -->
-
-                <!-- Card -->
-                <div class="card">
-                    <div class="card-image">
-                        <img class="img-fluid" src="images/start/videoconference.svg" alt="alternative">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Konferenz planen</h5>
-                        <p>Planen Sie Ihre nächste Konferenz und erstellen Sie eine Teilnehmerliste. Unerwünschte
-                            Teilnehmer haben so keinen Zutritt zu Ihrer Konferenz.</p>
-                    </div>
-                </div>
-                <!-- end of card -->
-
-                <!-- Card -->
-                <div class="card">
-                    <div class="card-image">
-                        <img class="img-fluid" src="images/start/management.svg" alt="alternative">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Server verwalten</h5>
-                        <p>Verwalten Sie schnell und einfach Ihren Jitsi Meet Server bezüglich Berechtigungen, Design
-                            und Funktionen.</p>
-                    </div>
-                </div>
-                <!-- end of card -->
-
-                <!-- Card -->
-                <div class="card">
-                    <div class="card-image">
-                        <img class="img-fluid" src="images/start/languages.svg" alt="alternative">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Sprachen</h5>
-                        <p>Die online Anwendung steht Ihnen aktuell in acht Sprachen zur Verfügung.</p>
-                    </div>
-                </div>
-                <!-- end of card -->
-
-                <!-- Card -->
-                <div class="card">
-                    <div class="card-image">
-                        <img class="img-fluid" src="images/open-source-logo.png" alt="alternative">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Open Source</h5>
-                        <p>Der Jitsi Admin ist Open Source und unter der AGPLv3 lizenziert.</p>
-                    </div>
-                </div>
-                <!-- end of card -->
-
-                <!-- Card -->
-                <a href="https://github.com/H2-invent/jitsi-admin" target="_blank" rel="noopener" referrerpolicy="no-referrer">
-                    <div class="card">
-                        <div class="card-image">
-                            <img class="img-fluid" src="images/start/github_logo.png" alt="alternative">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">GitHub</h5>
-                            <p>Der Source Code wird auf GitHub veröffentlicht und ständig weiterentwickelt.</p>
-                        </div>
-                    </div>
+<nav class="hp-nav">
+    <div class="hp-nav-inner">
+        <div class="hp-nav-container">
+            <div class="hp-nav-left">
+                <a class="hp-nav-brand" href="/">
+                    <img src="{{ asset('logo.png') }}" alt="Jitsi Admin" class="hp-nav-logo">
+                    <span class="hp-nav-brand-text">Jitsi Admin</span>
                 </a>
-                <!-- end of card -->
+            </div>
+            <div class="hp-nav-center">
+                <a href="#features" class="hp-nav-link page-scroll">Features</a>
+            </div>
+            <div class="hp-nav-right">
+                <a class="hp-btn hp-btn-outline" href="{{ path('dashboard') }}">Login</a>
+                <a class="hp-btn hp-btn-primary" href="{{ path('register_keycloak') }}">Registrieren</a>
+            </div>
+            <button class="hp-nav-toggle" type="button" id="navToggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
 
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of cards-1 -->
-<!-- end of features -->
-<!-- Thanks to sponsoredd Servers -->
-<div class="slider-1 bg-gray" style="padding: 0">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="h2-heading">Gespendete kostenfreie Jitsi-Meet Server</h2>
+<!-- Hero Section -->
+<main id="header" class="hp-hero">
+    <div class="hp-hero-inner">
+        <!-- Grid background -->
+        <div class="hp-grid-bg">
+            {% for i in 0..3 %}
+            <div class="hp-grid-col">
+                <div class="hp-grid-line hp-grid-line-left"></div>
+                <div class="hp-grid-line hp-grid-line-right"></div>
+            </div>
+            {% endfor %}
+        </div>
 
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-        <div class="row">
-            <div class="col-lg-12">
+        <!-- Beam rays -->
+        <div class="hp-beam hp-beam-1"></div>
+        <div class="hp-beam hp-beam-2"></div>
+        <div class="hp-beam hp-beam-3"></div>
+        <div class="hp-beam hp-beam-4"></div>
 
-                <!-- Card Slider -->
-                <div class="slider-container">
-                    <div class="swiper card-slider">
-                        <div class="swiper-wrapper" style="align-items: flex-end">
+        <!-- Heading -->
+        <div class="hp-hero-heading-wrapper">
+            <h2 class="hp-hero-heading">
+                <span class="hp-hero-word">Online</span>
+                <span class="hp-hero-word">Jitsi</span>
+                <span class="hp-hero-word">Verwaltung</span>
+            </h2>
+        </div>
 
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-                                <div class="card">
-                                    <div class="card-body" >
-                                        <img class="card-img-top" style="background-color: rgba(0,92,170,1)" src="https://www.buehl.de/images/layout/website/logo.svg">
-                                        <h5 class="card-title"><a href="https://www.buehl.de/willkommen" target="_blank">Stadt Bühl</a></h5>
-                                        <p class="card-text">geplantekonferenz.buehl.digital</p>
-                                    </div>
-                                </div>
-                            </div> <!-- end of swiper-slide -->
-                            <!-- end of slide -->
+        <!-- Subheading -->
+        <p class="hp-hero-subheading">
+            Konferenzen total einfach, sicher, schnell und datenschutzkonform planen und durchführen
+        </p>
 
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img class="card-img-top" src="https://www.offenburg.de/im/img/bShu5FhuJFruaKRD5FD3aG-lWs6dWGYL_8B3_2BG5SDQ50vgbKJLf8OQYSBQfKvI5IruY2rE5R7laIHd5d/f,j/logo_stadt_offenburg_1.jpg">
-                                        <p class="testimonial-author"><a href="https://www.offenburg.de" target="_blank">Stadt Offenburg</a></p>
-                                        <p class="card-text">geplant.connect.offenburg.digital</p>
-                                    </div>
-                                </div>
-                            </div><!-- end of swiper-slide -->
-                            <!-- end of slide -->
+        <!-- CTA Buttons -->
+        <div class="hp-hero-cta">
+            <a class="hp-btn hp-btn-primary hp-btn-lg" href="{{ path('dashboard') }}">Login</a>
+            <a class="hp-btn hp-btn-white hp-btn-lg" href="{{ path('register_keycloak') }}">Registrieren</a>
+        </div>
 
-                            <!-- Slide -->
-                            <!-- end of swiper-slide -->
-                            <!-- end of slide -->
-
-                        </div> <!-- end of swiper-wrapper -->
-
-                        <!-- Add Arrows -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                        <!-- end of add arrows -->
-
-                    </div> <!-- end of swiper-container -->
-                </div> <!-- end of slider-container -->
-                <!-- end of card slider -->
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-        <div class="row mt-4">
-            <div class="col-lg-12">
-                <h5 class="h5-heading text-center"><small>Alle hier genannten Server sind DSGVO konform gehostet</small></h5>
-                <p class="text-center">Wollen Sie uns Ihren Jitsi-Meet Server auch kostenfrei zur Verfügung stellen, kontaktieren Sie uns <a href="mailto:info@h2-invent.com">hier</a> </p>
+        <!-- Screenshot -->
+        <div class="hp-hero-screenshot">
+            <div class="hp-hero-screenshot-inner">
+                <img class="hp-hero-screenshot-img" src="{{ asset('images/start/dashboard_home.png') }}" alt="Jitsi Admin Dashboard">
             </div>
         </div>
-    </div> <!-- end of container -->
-</div> <!-- end of slider-1 -->
-<!-- end of testimonials -->
-<!-- Details 1 -->
-<div id="details" class="basic-2">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="text-container">
-                    <h2>Einfach, sicher, kostenlos</h2>
-                    <p>Mit dem Jitsi Admin können Sie eine Jitsi Meet Konferenz planen oder sofort eine Videotalk
-                        mit Freunden starten.</p>
-                    <b>In nur drei Schritten einen Videotalk planen und starten</b>
-                    <ul class="list-unstyled li-space-lg">
-                        <li class="media">
-                            <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">1. Videotalk planen</div>
-                        </li>
-                        <li class="media">
-                            <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">2. Freunde einladen</div>
-                        </li>
-                        <li class="media">
-                            <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">3. Videotalk starten</div>
-                        </li>
-                    </ul>
-                    <a class="btn-solid-reg popup-with-move-anim" href="#more-feature">Noch mehr Funktionen</a>
-                </div> <!-- end of text-container -->
-            </div> <!-- end of col -->
-            <div class="col-lg-6">
-                <div class="image-container">
-                    <img class="img-fluid" src="images/start/mobile_dark_dashboard.png" alt="alternative">
-                </div> <!-- end of image-container -->
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of basic-2 -->
-<!-- end of details 1 -->
+    </div>
+</main>
 
+<!-- Features Section -->
+<section id="features" class="hp-features">
+    <div class="hp-container">
+        <div class="hp-section-header">
+            <h2 class="hp-section-heading">Konferenzen leicht gemacht</h2>
+            <p class="hp-section-subheading">Planen, verwalten und durchführen — alles an einem Ort.</p>
+        </div>
 
-<!-- Details 2 -->
-<div class="basic-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="image-container">
-                    <img class="img-fluid" src="images/start/laptop_dashboard.png" alt="alternative">
-                </div> <!-- end of image-container -->
-            </div> <!-- end of col -->
-            <div class="col-lg-6">
-                <div class="text-container">
-                    <h2>Für Unternehmen</h2>
-                    <p>Schützen Sie Ihr Unternehmen und Ihr Know-How indem Sie ein eigenes Server Cluster aus Jitsi
-                        Meet und Jitsi Admin betreiben.</p>
-                    <ul class="list-unstyled li-space-lg">
-                        <li class="media">
-                            <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">1. Termin finden</div>
-                        </li>
-                        <li class="media">
-                            <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">2. Konferenz planen</div>
-                        </li>
-                        <li class="media">
-                            <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">3. Teilnehmer einladen</div>
-                        </li>
-                        <li class="media">
-                            <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">4. Konferenz sicher durchführen</div>
-                        </li>
-                    </ul>
-                    <a class="btn-solid-reg popup-with-move-anim" href="#more-feature">Weitere Funktionen</a>
-                    <a class="btn-solid-reg popup-with-move-anim" href="#company-feature">Für Unternehmen</a>
-                </div> <!-- end of text-container -->
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of basic-3 -->
-<!-- end of details 2 -->
+        <div class="hp-features-grid">
+            <!-- Feature 1: Termin finden -->
+            <div class="hp-feature-card">
+                <div class="hp-feature-card-visual">
+                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                        <circle cx="8" cy="15" r="1" fill="currentColor"/>
+                        <circle cx="12" cy="15" r="1" fill="currentColor"/>
+                        <circle cx="16" cy="15" r="1" fill="currentColor"/>
+                        <circle cx="8" cy="19" r="1" fill="currentColor"/>
+                        <circle cx="12" cy="19" r="1" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="hp-feature-card-text">
+                    <h5 class="hp-feature-title">Termin finden</h5>
+                    <p class="hp-feature-desc">Erstellen Sie eine Terminumfrage und finden Sie den bestmöglichen Termin für Ihre nächste Konferenz.</p>
+                </div>
+            </div>
 
+            <!-- Feature 2: Konferenz planen -->
+            <div class="hp-feature-card">
+                <div class="hp-feature-card-visual">
+                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="23 7 16 12 23 17 23 7"/>
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                    </svg>
+                </div>
+                <div class="hp-feature-card-text">
+                    <h5 class="hp-feature-title">Konferenz planen</h5>
+                    <p class="hp-feature-desc">Planen Sie Ihre nächste Konferenz und erstellen Sie eine Teilnehmerliste. Unerwünschte Teilnehmer haben so keinen Zutritt.</p>
+                </div>
+            </div>
 
-<!-- Details Lightbox -->
-<!-- Lightbox -->
-<div id="more-feature" class="lightbox-basic zoom-anim-dialog mfp-hide">
-    <div class="row">
-        <button title="Close (Esc)" type="button" class="mfp-close x-button">×</button>
-        <div class="col-lg-6 d-flex align-items-center">
-            <div class="image-container">
-                <img class="img-fluid" src="images/start/events.jpg" alt="alternative">
-            </div> <!-- end of image-container -->
-        </div> <!-- end of col -->
-        <div class="col-lg-6">
-            <h3>Verwalten</h3>
-            <hr>
-            <p>Sie können jederzeit die Teilnehmerliste verwalten, neue Teilnehmer hinzufügen oder bereits hinzugefügte
-                entfernen.</p>
-            <p>Je nach Konferenz können Sie Ihren Teilnehmern erlauben, den Bildschirm zu teilen und den Chat
-                aktivieren.</p>
-            <h4>Öffentliche Veranstaltungen</h4>
-            <hr>
-            <p>Sie möchten eine öffentliche Konferenz oder ein Webinar veranstalten? Dann können Sie mit dem Jitsi Admin
-                ganz einfach eine Konferenz planen und den Teilnehmern einen Link zum Registrieren schicken.</p>
-            <ul class="list-unstyled li-space-lg">
-                <li class="media">
-                    <i class="fas fa-chevron-right"></i>
-                    <div class="media-body">Nur registrierte Teilnehmer können teilnehmen</div>
-                </li>
-                <li class="media">
-                    <i class="fas fa-chevron-right"></i>
-                    <div class="media-body">Sie können ein maximum Teilnehmer angeben. Danach gibt es eine Warteliste.
-                    </div>
-                </li>
-                <li class="media">
-                    <i class="fas fa-chevron-right"></i>
-                    <div class="media-body">Sie behalten immer die Kontrolle über die Berechtigungen der Teilnehmer.
-                    </div>
-                </li>
-            </ul>
-            <a class="btn-solid-reg mfp-close page-scroll" href="{{ path('register_keycloak') }}">Konferenz starten</a>
-            <button class="btn-outline-reg mfp-close as-button" type="button">Zurück</button>
-        </div> <!-- end of col -->
-    </div> <!-- end of row -->
-</div> <!-- end of lightbox-basic -->
-<!-- end of lightbox -->
-<!-- end of details lightbox -->
+            <!-- Feature 3: Server verwalten -->
+            <div class="hp-feature-card">
+                <div class="hp-feature-card-visual">
+                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+                        <line x1="6" y1="6" x2="6.01" y2="6"/>
+                        <line x1="6" y1="18" x2="6.01" y2="18"/>
+                    </svg>
+                </div>
+                <div class="hp-feature-card-text">
+                    <h5 class="hp-feature-title">Server verwalten</h5>
+                    <p class="hp-feature-desc">Verwalten Sie schnell und einfach Ihren Jitsi Meet Server bezüglich Berechtigungen, Design und Funktionen.</p>
+                </div>
+            </div>
 
-<!-- Details Lightbox -->
-<!-- Lightbox -->
-<div id="company-feature" class="lightbox-basic zoom-anim-dialog mfp-hide">
-    <div class="row">
-        <button title="Close (Esc)" type="button" class="mfp-close x-button">×</button>
-        <div class="col-lg-4  d-flex align-items-center">
-            <div class="image-container ">
-                <img class="img-fluid" src="{{ asset('images/start/jitsi-for-company.jpg') }}" alt="alternative">
-            </div> <!-- end of image-container -->
-        </div> <!-- end of col -->
-        <div class="col-lg-8">
-            <h3>Für Unternehmen</h3>
-            <hr>
-            <p>Sie wollen Ihr Know-How und ihre Firmeninformationen schützen?</p>
-            <p>Sie wollen unabhängig von großen IT-Konzernen die Datenhoheit über Ihre Videokonferenz erhalten?</p>
-            <h4>Ihre eigenen unabhängige Videokonferenlösung.</h4>
-            <hr>
-            <p>Wir betreiben auf <b>Ihren</b> eigenen Servern in <b>Ihrem</b> Rechenzentrum oder <b>Ihrer</b> privaten
-                Cloud <b>Ihre</b> eigene Videokonferenzplattform.
-            </p>
-            <ul class="list-unstyled li-space-lg">
-                <li class="media">
-                    <i class="fas fa-chevron-right"></i>
-                    <div class="media-body">Nahtlose Integration in Ihre IT-Landschaft</div>
-                </li>
-                <li class="media">
-                    <i class="fas fa-chevron-right"></i>
-                    <div class="media-body">Erhalten Sie die Datenhoheit über alle Gespräche, Videokonferenzen und
-                        Screenshares
-                    </div>
-                </li>
-                <li class="media">
-                    <i class="fas fa-chevron-right"></i>
-                    <div class="media-body">Kein Datentransfer in unsichere Drittländer</div>
-                </li>
-                <li class="media">
-                    <i class="fas fa-chevron-right"></i>
-                    <div class="media-body">Voll automatisierte Infrastruktur</div>
-                </li>
-            </ul>
-            <a class="btn-solid-reg mfp-close page-scroll"
-               href="https://h2-invent.com/services/managed-services/jitsi#contact" target="_blank">Anfrage starten</a>
-            <button class="btn-outline-reg mfp-close as-button" type="button">Zurück</button>
-        </div> <!-- end of col -->
-    </div> <!-- end of row -->
-</div> <!-- end of lightbox-basic -->
-<!-- end of lightbox -->
-<!-- end of details lightbox -->
+            <!-- Feature 4: Sprachen -->
+            <div class="hp-feature-card">
+                <div class="hp-feature-card-visual">
+                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                </div>
+                <div class="hp-feature-card-text">
+                    <h5 class="hp-feature-title">Sprachen</h5>
+                    <p class="hp-feature-desc">Die online Anwendung steht Ihnen aktuell in acht Sprachen zur Verfügung.</p>
+                </div>
+            </div>
 
+            <!-- Feature 5: Open Source -->
+            <div class="hp-feature-card">
+                <div class="hp-feature-card-visual">
+                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                </div>
+                <div class="hp-feature-card-text">
+                    <h5 class="hp-feature-title">Open Source</h5>
+                    <p class="hp-feature-desc">Der Jitsi Admin ist Open Source und unter der AGPLv3 lizenziert.</p>
+                </div>
+            </div>
 
-
-<!-- Details 3 -->
-<div class="basic-4">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-5">
-                <div class="text-container">
-                    <h2>Sie betreiben bereits einen eigenen Jitsi Meet Server</h2>
-                    <p>Integrieren Sie Ihren persönlichen Jitsi Meet Server in den Jitsi Admin und verwalten Sie diesen
-                        ganz einfach online.</p>
-                    <p>Die umständliche Verwaltung der Organisatoren über den Terminal ist damit Geschichte.</p>
-                    <a class="btn-solid-reg popup-with-move-anim" href="#own-jitsi-server">Mehr zu der Integration von
-                        Jitsi Meet</a>
-                </div> <!-- end of text-container -->
-            </div> <!-- end of col -->
-            <div class="col-lg-7">
-                <div class="image-container">
-                    <img class="img-fluid" src="images/start/multi_jitsi_server.png" alt="alternative">
-                </div> <!-- end of image-container -->
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of basic-4 -->
-<!-- end of details 3 -->
-
-
-<!-- Details Lightbox -->
-<!-- Lightbox -->
-<div id="own-jitsi-server" class="lightbox-basic zoom-anim-dialog mfp-hide">
-    <div class="row">
-        <button title="Close (Esc)" type="button" class="mfp-close x-button">×</button>
-        <div class="col-lg-4  d-flex align-items-center">
-            <div class="image-container ">
-                <img class="img-fluid" src="{{ asset('images/start/jitsi-for-company.jpg') }}" alt="alternative">
-            </div> <!-- end of image-container -->
-        </div> <!-- end of col -->
-        <div class="col-lg-8">
-            <h3>Aktivieren Sie die Token Authentifizierung</h3>
-            <hr>
-            <p>1. Installieren Sie auf Ihrem Server die jitsi-meet-tokens Erweiterung</p>
-            <p>2. Passen Sie die Prosody Authentifizierung für die Verwendung von JWT Tokens an</p>
-            <p>3. Fügen Sie die AppID und das AppSecret von Ihrem Jitsi Meet Server im Jitsi Admin ein</p>
-            <a class="btn-solid-reg mfp-close page-scroll"
-               href="https://h2-invent.com/services/managed-services/jitsi#contact" target="_blank">Anfrage starten</a>
-            <button class="btn-outline-reg mfp-close as-button" type="button">Zurück</button>
-        </div> <!-- end of col -->
-    </div> <!-- end of row -->
-</div> <!-- end of lightbox-basic -->
-<!-- end of lightbox -->
-<!-- end of details lightbox -->
-
-<!-- Testimonials -->
-<div class="slider-1 bg-gray">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="h2-heading">Users über Jitsi Admin</h2>
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-        <div class="row">
-            <div class="col-lg-12">
-
-                <!-- Card Slider -->
-                <div class="slider-container">
-                    <div class="swiper card-slider">
-                        <div class="swiper-wrapper">
-
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <p class="testimonial-text">Jitsi Admin Enterprise unterstützt uns beim Planen
-                                            und Durchführen von Mitarbeitergesprächen. Mit dem Jitsi Admin können wir
-                                            diese einfach und konfortabel planen und durchführen.</p>
-                                        <p class="testimonial-author">Charlotte B. - Personalabteilung</p>
-                                    </div>
-                                </div>
-                            </div> <!-- end of swiper-slide -->
-                            <!-- end of slide -->
-
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <p class="testimonial-text">Alles super. Wir nutzen Jitsi Admin Enterprise für
-                                            Homeschooling. Die Lehrkräfte und Schüler kommen sehr gut damit klar.</p>
-                                        <p class="testimonial-author">Franz T. - Oberstudiendirektor</p>
-                                    </div>
-                                </div>
-                            </div> <!-- end of swiper-slide -->
-                            <!-- end of slide -->
-
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <p class="testimonial-text">Wir nutzen bereits seit einiger Zeit Jitsi für
-                                            unsere
-                                            Videokonferenzen. Mit Jitsi Admin Enterprise ist die Nutzung noch einfacher
-                                            und die Konferenzen sind noch sicherer.</p>
-                                        <p class="testimonial-author">Sandra M. - Kommunikation</p>
-                                    </div>
-                                </div>
-                            </div> <!-- end of swiper-slide -->
-                            <!-- end of slide -->
-
-                        </div> <!-- end of swiper-wrapper -->
-
-                        <!-- Add Arrows -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                        <!-- end of add arrows -->
-
-                    </div> <!-- end of swiper-container -->
-                </div> <!-- end of slider-container -->
-                <!-- end of card slider -->
-
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of slider-1 -->
-<!-- end of testimonials -->
-
-
-
+            <!-- Feature 6: GitHub -->
+            <div class="hp-feature-card">
+                <div class="hp-feature-card-visual">
+                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                    </svg>
+                </div>
+                <div class="hp-feature-card-text">
+                    <h5 class="hp-feature-title">GitHub</h5>
+                    <p class="hp-feature-desc">Der Source Code wird auf GitHub veröffentlicht und ständig weiterentwickelt.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Footer -->
-<div class="footer">
-    <div class="container">
+<footer class="hp-footer">
+    <div class="hp-container">
         <div class="row">
-            <div class="col-lg-12">
-                <h4>Jitsi Admin ist Ihre online Anwendung zum Planen und Verwalten von Jitsi Meet Konferenzen und
-                    Videotalks.</h4>
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of footer -->
-<!-- end of footer -->
+            <div class="col-lg-6">
+                <div class="hp-footer-brand">
+                    <a class="hp-footer-logo" href="/">
+                        <img src="{{ asset('logo.png') }}" alt="Jitsi Admin" class="hp-footer-logo-img">
+                        <span class="hp-footer-logo-text">Jitsi Admin</span>
+                    </a>
+                    <p class="hp-footer-tagline">Jitsi Admin ist Ihre online Anwendung zum Planen und Verwalten von Jitsi Meet Konferenzen und Videotalks.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hp-footer-links">
+                    <div class="hp-footer-col">
+                        <h6>Rechtliches</h6>
+                        <ul>
+                            <li><a href="{{ imprint }}">Impressum</a></li>
+                            <li><a href="{{ dataPrivacy }}">Datenschutzhinweis</a></li>
+                            {% if matomo_enable == '1' %}
+                            <li><a href="#" data-mdb-modal-init data-mdb-target="#exampleModal">Matomo Opt-out</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="hp-footer-col">
+                        <h6>Links</h6>
+                        <ul>
+                            <li><a href="https://github.com/H2-invent/jitsi-admin" target="_blank" rel="noopener">GitHub</a></li>
+                            <li><a href="https://h2-invent.com" target="_blank" rel="noopener">H2 Invent</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hp-footer-bottom">
+            <p>{{ 'Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent'|trans|raw }}</p>
+        </div>
+    </div>
+</footer>
+
 {{ include('base/__matomoOptOut.html.twig') }}
-
-<!-- Copyright -->
-<div class="copyright">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <ul class="list-unstyled li-space-lg p-small">
-                    <li><a href="{{ imprint }}">Impressum</a></li>
-                    <li><a href="{{ dataPrivacy }}">Datenschutzhinweis</a></li>
-                    {% if matomo_enable == '1' %}
-                        <li>
-                            <!-- Button trigger modal -->
-                            <a href="#"data-mdb-modal-init data-mdb-target="#exampleModal">
-                                Matomo Opt-out
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div> <!-- end of col -->
-            <div class="col-lg-6">
-                <p class="p-small statement"><a  target="_blank" href="https://h2-invent.com">{{ 'Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent'|trans|raw }}</a></p>
-
-
-            </div> <!-- end of col -->
-        </div> <!-- enf of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of copyright -->
-<!-- end of copyright -->
-
 
 <!-- Scripts -->
 <script src="{{ asset('start/js/jquery.min.js') }}"></script>
 <script src="{{ asset('start/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('start/js/jquery.easing.min.js') }}"></script>
-<script src="{{ asset('start/js/swiper-bundle.min.js') }}"></script>
-<script src="{{ asset('start/js/jquery.magnific-popup.js') }}"></script>
-<script src="{{ asset('start/js/scripts.js') }}"></script>
+{{ encore_entry_script_tags('startpage') }}
 </body>
 </html>
