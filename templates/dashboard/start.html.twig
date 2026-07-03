@@ -147,7 +147,7 @@
         <!-- Screenshot -->
         <div class="hp-hero-screenshot">
             <div class="hp-hero-screenshot-inner">
-                <img class="hp-hero-screenshot-img" src="{{ asset('images/start/dashboard_home.png') }}" alt="Jitsi Admin Dashboard">
+                <img class="hp-hero-screenshot-img" src="{{ asset(app.request.locale starts with 'de' ? 'images/start/dashboard_home_de.png' : 'images/start/dashboard_home_en.png') }}" alt="Jitsi Admin Dashboard">
             </div>
         </div>
     </div>
