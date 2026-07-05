@@ -2,10 +2,9 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
 /* ==========================================================================
-   Jitsi Admin Homepage — Aceternity-inspired Bootstrap 4 conversion
+   Jitsi Admin Homepage — Bootstrap-based layout, custom styling only
    ========================================================================== */
 
-/* ---------- CSS Custom Properties ---------- */
 :root {
   --hp-bg: #fafafa;
   --hp-bg-card: #ffffff;
@@ -20,7 +19,6 @@
   --hp-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* ---------- Base ---------- */
 body.hp-body {
   font-family: var(--hp-font);
   color: var(--hp-text);
@@ -97,17 +95,15 @@ a:hover {
 }
 
 /* ---------- Nav ---------- */
-.hp-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  padding: 0.75rem 1rem;
+.hp-nav .container-fluid {
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
-.hp-nav-inner {
-  max-width: 1280px;
-  margin: 0 auto;
+@media (min-width: 1400px) {
+  .hp-nav .container-fluid {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 .hp-nav-container {
   display: flex;
@@ -120,10 +116,6 @@ a:hover {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--hp-border-light);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-.hp-nav-left {
-  display: flex;
-  align-items: center;
 }
 .hp-nav-brand {
   display: flex;
@@ -141,8 +133,6 @@ a:hover {
   font-size: 0.9375rem;
 }
 .hp-nav-right {
-  display: none;
-  align-items: center;
   gap: 0.75rem;
 }
 .hp-lang {
@@ -168,7 +158,6 @@ a:hover {
 .hp-lang-flag {
   width: 20px;
   height: 14px;
-  border-radius: 0;
   object-fit: cover;
 }
 .hp-lang-chevron {
@@ -225,7 +214,7 @@ a:hover {
 }
 
 .hp-nav-right.hp-nav-open {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   position: absolute;
   top: 100%;
@@ -240,12 +229,6 @@ a:hover {
 }
 
 @media (min-width: 992px) {
-  .hp-nav-right {
-    display: flex;
-  }
-  .hp-nav-toggle {
-    display: none;
-  }
   .hp-nav-right.hp-nav-open {
     position: static;
     flex-direction: row;
@@ -262,24 +245,16 @@ a:hover {
 .hp-hero {
   position: relative;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  padding: 5rem 1rem 4rem;
+  padding: 6rem 0 4rem;
   background: var(--hp-bg-muted);
 }
-.hp-hero-inner {
-  position: relative;
+.hp-hero-content {
   z-index: 10;
-  width: 100%;
-  max-width: 960px;
-  text-align: center;
-  padding-top: 3rem;
 }
 .hp-hero-heading-wrapper {
   max-width: 800px;
-  margin: 0 auto 1rem;
+  margin-bottom: 1rem;
 }
 .hp-hero-heading {
   font-size: 2rem;
@@ -309,28 +284,34 @@ a:hover {
 }
 .hp-hero-subheading {
   max-width: 560px;
-  margin: 1rem auto 0;
+  margin-top: 1rem;
+  margin-bottom: 0;
   font-size: 1rem;
   line-height: 1.625;
   color: var(--hp-text-muted);
 }
 .hp-hero-cta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
   gap: 0.75rem;
   margin: 2.5rem 1rem 3rem;
 }
 .hp-hero-screenshot {
   position: relative;
   z-index: 10;
-  max-width: 960px;
-  margin: 0 auto;
   border-radius: 2rem;
   border: 1px solid rgba(0, 0, 0, 0.06);
   background: var(--hp-bg-muted);
   padding: 0.5rem;
+  margin: 0 0.5rem;
+}
+@media (min-width: 768px) {
+  .hp-hero-screenshot {
+    margin: 0 1rem;
+  }
+}
+@media (min-width: 1200px) {
+  .hp-hero-screenshot {
+    margin: 0 2rem;
+  }
 }
 .hp-hero-screenshot-inner {
   border-radius: 1.5rem;
@@ -386,15 +367,7 @@ a:hover {
     transparent
   );
   background-size: 1px 4px;
-  mask-image: linear-gradient(
-    to top,
-    #fff 25%,
-    transparent
-  ), linear-gradient(
-    to bottom,
-    #fff 25%,
-    transparent
-  );
+  mask-image: linear-gradient(to top, #fff 25%, transparent), linear-gradient(to bottom, #fff 25%, transparent);
   mask-composite: exclude;
   -webkit-mask-composite: source-in;
   z-index: 0;
@@ -419,15 +392,8 @@ a:hover {
   }
 }
 
-/* ---------- Sections ---------- */
-.hp-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
+/* ---------- Section Headers ---------- */
 .hp-section-header {
-  text-align: center;
   margin-bottom: 4rem;
 }
 .hp-section-heading {
@@ -441,18 +407,12 @@ a:hover {
   font-size: 1rem;
   color: var(--hp-text-muted);
   max-width: 480px;
-  margin: 0 auto;
 }
 
 /* ---------- Features ---------- */
 .hp-features {
   padding: 5rem 0;
   background: #fff;
-}
-.hp-features-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
 }
 .hp-feature-card {
   background: #fff;
@@ -507,32 +467,11 @@ a:hover {
   margin-bottom: 0;
 }
 
-@media (min-width: 576px) {
-  .hp-features-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (min-width: 992px) {
-  .hp-features-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-
-
-
-
-
-
-
-
 /* ---------- Footer ---------- */
 .hp-footer {
   padding: 2.5rem 0 1rem;
   background: #f9fafb;
   border-top: 1px solid var(--hp-border-light);
-  position: relative;
-  overflow: hidden;
 }
 .hp-footer-brand {
   margin-bottom: 2rem;

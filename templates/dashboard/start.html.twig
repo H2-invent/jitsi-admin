@@ -76,16 +76,16 @@
 <body class="hp-body">
 
 <!-- Navigation -->
-<nav class="hp-nav">
-    <div class="hp-nav-inner">
+<nav class="hp-nav fixed-top">
+    <div class="container-fluid">
         <div class="hp-nav-container">
-            <div class="hp-nav-left">
+            <div class="d-flex align-items-center">
                 <a class="hp-nav-brand" href="/">
                     <img src="{{ asset('logo.png') }}" alt="Jitsi Admin" class="hp-nav-logo">
                     <span class="hp-nav-brand-text">Jitsi Admin</span>
                 </a>
             </div>
-            <div class="hp-nav-right">
+            <div class="hp-nav-right d-none d-lg-flex align-items-center">
                 <a class="hp-btn hp-btn-primary hp-btn-sm" href="{{ path('dashboard') }}">{{ 'hp.nav.login'|trans({}, 'homepage') }}</a>
                 <a class="hp-btn hp-btn-outline hp-btn-sm" href="{{ path('register_keycloak') }}">{{ 'hp.nav.register'|trans({}, 'homepage') }}</a>
                 <div class="hp-lang">
@@ -103,7 +103,7 @@
                     </div>
                 </div>
             </div>
-            <button class="hp-nav-toggle" type="button" id="navToggle">
+            <button class="hp-nav-toggle d-lg-none" type="button" id="navToggle">
                 <span></span><span></span><span></span>
             </button>
         </div>
@@ -111,9 +111,8 @@
 </nav>
 
 <!-- Hero Section -->
-<main id="header" class="hp-hero">
-    <div class="hp-hero-inner">
-        <!-- Grid background -->
+<main id="header" class="hp-hero d-flex align-items-center justify-content-center">
+    <div class="container w-100 position-relative hp-hero-content">
         <div class="hp-grid-bg">
             {% for i in 0..3 %}
             <div class="hp-grid-col">
@@ -123,31 +122,35 @@
             {% endfor %}
         </div>
 
-        <!-- Heading -->
-        <div class="hp-hero-heading-wrapper">
-            <h2 class="hp-hero-heading">
-                {% set words = 'hp.meta.heading'|trans({}, 'homepage')|split(' ') %}
-                {% for word in words %}
-                <span class="hp-hero-word">{{ word }}</span>
-                {% endfor %}
-            </h2>
+        <div class="row justify-content-center text-center">
+            <div class="col-12">
+                <div class="mx-auto hp-hero-heading-wrapper">
+                    <h2 class="hp-hero-heading">
+                        {% set words = 'hp.meta.heading'|trans({}, 'homepage')|split(' ') %}
+                        {% for word in words %}
+                        <span class="hp-hero-word">{{ word }}</span>
+                        {% endfor %}
+                    </h2>
+                </div>
+
+                <p class="hp-hero-subheading mx-auto">
+                    {{ 'hp.hero.subheading'|trans({}, 'homepage') }}
+                </p>
+
+                <div class="hp-hero-cta d-flex flex-wrap align-items-center justify-content-center">
+                    <a class="hp-btn hp-btn-primary hp-btn-lg" href="{{ path('dashboard') }}">{{ 'hp.hero.login'|trans({}, 'homepage') }}</a>
+                    <a class="hp-btn hp-btn-white hp-btn-lg" href="{{ path('register_keycloak') }}">{{ 'hp.hero.register'|trans({}, 'homepage') }}</a>
+                </div>
+            </div>
         </div>
 
-        <!-- Subheading -->
-        <p class="hp-hero-subheading">
-            {{ 'hp.hero.subheading'|trans({}, 'homepage') }}
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="hp-hero-cta">
-            <a class="hp-btn hp-btn-primary hp-btn-lg" href="{{ path('dashboard') }}">{{ 'hp.hero.login'|trans({}, 'homepage') }}</a>
-            <a class="hp-btn hp-btn-white hp-btn-lg" href="{{ path('register_keycloak') }}">{{ 'hp.hero.register'|trans({}, 'homepage') }}</a>
-        </div>
-
-        <!-- Screenshot -->
-        <div class="hp-hero-screenshot">
-            <div class="hp-hero-screenshot-inner">
-                <img class="hp-hero-screenshot-img" src="{{ asset(app.request.locale starts with 'de' ? 'images/start/dashboard_home_de.png' : 'images/start/dashboard_home_en.png') }}" alt="Jitsi Admin Dashboard">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="hp-hero-screenshot">
+                    <div class="hp-hero-screenshot-inner">
+                        <img class="hp-hero-screenshot-img" src="{{ asset(app.request.locale starts with 'de' ? 'images/start/dashboard_home_de.png' : 'images/start/dashboard_home_en.png') }}" alt="Jitsi Admin Dashboard">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -155,102 +158,108 @@
 
 <!-- Features Section -->
 <section id="features" class="hp-features">
-    <div class="hp-container">
-        <div class="hp-section-header">
+    <div class="container-xl">
+        <div class="hp-section-header text-center">
             <h2 class="hp-section-heading">{{ 'hp.features.title'|trans({}, 'homepage') }}</h2>
-            <p class="hp-section-subheading">{{ 'hp.features.subtitle'|trans({}, 'homepage') }}</p>
+            <p class="hp-section-subheading mx-auto">{{ 'hp.features.subtitle'|trans({}, 'homepage') }}</p>
         </div>
 
-        <div class="hp-features-grid">
-            <!-- Feature 1: Termin finden -->
-            <div class="hp-feature-card">
-                <div class="hp-feature-card-visual">
-                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                        <line x1="16" y1="2" x2="16" y2="6"/>
-                        <line x1="8" y1="2" x2="8" y2="6"/>
-                        <line x1="3" y1="10" x2="21" y2="10"/>
-                        <circle cx="8" cy="15" r="1" fill="currentColor"/>
-                        <circle cx="12" cy="15" r="1" fill="currentColor"/>
-                        <circle cx="16" cy="15" r="1" fill="currentColor"/>
-                        <circle cx="8" cy="19" r="1" fill="currentColor"/>
-                        <circle cx="12" cy="19" r="1" fill="currentColor"/>
-                    </svg>
-                </div>
-                <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.scheduling.title'|trans({}, 'homepage') }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.scheduling.desc'|trans({}, 'homepage') }}</p>
-                </div>
-            </div>
-
-            <!-- Feature 2: Konferenz planen -->
-            <div class="hp-feature-card">
-                <div class="hp-feature-card-visual">
-                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="23 7 16 12 23 17 23 7"/>
-                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                    </svg>
-                </div>
-                <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.planning.title'|trans({}, 'homepage') }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.planning.desc'|trans({}, 'homepage') }}</p>
+        <div class="row">
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="hp-feature-card h-100">
+                    <div class="hp-feature-card-visual">
+                        <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                            <circle cx="8" cy="15" r="1" fill="currentColor"/>
+                            <circle cx="12" cy="15" r="1" fill="currentColor"/>
+                            <circle cx="16" cy="15" r="1" fill="currentColor"/>
+                            <circle cx="8" cy="19" r="1" fill="currentColor"/>
+                            <circle cx="12" cy="19" r="1" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="hp-feature-card-text">
+                        <h5 class="hp-feature-title">{{ 'hp.feature.scheduling.title'|trans({}, 'homepage') }}</h5>
+                        <p class="hp-feature-desc">{{ 'hp.feature.scheduling.desc'|trans({}, 'homepage') }}</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Feature 3: Server verwalten -->
-            <div class="hp-feature-card">
-                <div class="hp-feature-card-visual">
-                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
-                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
-                        <line x1="6" y1="6" x2="6.01" y2="6"/>
-                        <line x1="6" y1="18" x2="6.01" y2="18"/>
-                    </svg>
-                </div>
-                <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.server.title'|trans({}, 'homepage') }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.server.desc'|trans({}, 'homepage') }}</p>
-                </div>
-            </div>
-
-            <!-- Feature 4: Sprachen -->
-            <div class="hp-feature-card">
-                <div class="hp-feature-card-visual">
-                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="2" y1="12" x2="22" y2="12"/>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                    </svg>
-                </div>
-                <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.languages.title'|trans({}, 'homepage') }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.languages.desc'|trans({}, 'homepage') }}</p>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="hp-feature-card h-100">
+                    <div class="hp-feature-card-visual">
+                        <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="23 7 16 12 23 17 23 7"/>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                        </svg>
+                    </div>
+                    <div class="hp-feature-card-text">
+                        <h5 class="hp-feature-title">{{ 'hp.feature.planning.title'|trans({}, 'homepage') }}</h5>
+                        <p class="hp-feature-desc">{{ 'hp.feature.planning.desc'|trans({}, 'homepage') }}</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Feature 5: Open Source -->
-            <div class="hp-feature-card">
-                <div class="hp-feature-card-visual">
-                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                    </svg>
-                </div>
-                <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.opensource.title'|trans({}, 'homepage') }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.opensource.desc'|trans({}, 'homepage') }}</p>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="hp-feature-card h-100">
+                    <div class="hp-feature-card-visual">
+                        <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+                            <line x1="6" y1="6" x2="6.01" y2="6"/>
+                            <line x1="6" y1="18" x2="6.01" y2="18"/>
+                        </svg>
+                    </div>
+                    <div class="hp-feature-card-text">
+                        <h5 class="hp-feature-title">{{ 'hp.feature.server.title'|trans({}, 'homepage') }}</h5>
+                        <p class="hp-feature-desc">{{ 'hp.feature.server.desc'|trans({}, 'homepage') }}</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Feature 6: GitHub -->
-            <div class="hp-feature-card">
-                <div class="hp-feature-card-visual">
-                    <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-                    </svg>
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="hp-feature-card h-100">
+                    <div class="hp-feature-card-visual">
+                        <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                    </div>
+                    <div class="hp-feature-card-text">
+                        <h5 class="hp-feature-title">{{ 'hp.feature.languages.title'|trans({}, 'homepage') }}</h5>
+                        <p class="hp-feature-desc">{{ 'hp.feature.languages.desc'|trans({}, 'homepage') }}</p>
+                    </div>
                 </div>
-                <div class="hp-feature-card-text">
-                    <h5 class="hp-feature-title">{{ 'hp.feature.github.title'|trans({}, 'homepage') }}</h5>
-                    <p class="hp-feature-desc">{{ 'hp.feature.github.desc'|trans({}, 'homepage') }}</p>
+            </div>
+
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="hp-feature-card h-100">
+                    <div class="hp-feature-card-visual">
+                        <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </div>
+                    <div class="hp-feature-card-text">
+                        <h5 class="hp-feature-title">{{ 'hp.feature.opensource.title'|trans({}, 'homepage') }}</h5>
+                        <p class="hp-feature-desc">{{ 'hp.feature.opensource.desc'|trans({}, 'homepage') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="hp-feature-card h-100">
+                    <div class="hp-feature-card-visual">
+                        <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                        </svg>
+                    </div>
+                    <div class="hp-feature-card-text">
+                        <h5 class="hp-feature-title">{{ 'hp.feature.github.title'|trans({}, 'homepage') }}</h5>
+                        <p class="hp-feature-desc">{{ 'hp.feature.github.desc'|trans({}, 'homepage') }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -259,7 +268,7 @@
 
 <!-- Footer -->
 <footer class="hp-footer">
-    <div class="hp-container">
+    <div class="container-xl">
         <div class="row">
             <div class="col-lg-6">
                 <div class="hp-footer-brand">
