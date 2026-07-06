@@ -1,6 +1,10 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
-## 1.3
 
+## 1.4
+### Features
+* Documented local DDEV setup
+
+## 1.3
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 * **New DDEV local development setup**
