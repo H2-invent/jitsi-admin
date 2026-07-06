@@ -1,6 +1,11 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
-## 1.3
 
+## 1.4
+### Features
+* Redesigned homepage
+* Converted homepage to use standard bootstrap styles
+
+## 1.3
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 * **New DDEV local development setup**
@@ -10,7 +15,7 @@
 * fix ical reply
 * fix delete LDAP user when removed in LDAP
 ### ⭐ Improvements
-* Join a Videoconference without an camera and microphone
+* Join a Videoconference without a camera and microphone
 * Add Api to change Server of Room to use auto provisioner
 * add @ server to livekit roomname
 * add @ servername to jwt roomname claim
