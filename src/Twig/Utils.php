@@ -29,7 +29,7 @@ class Utils extends AbstractExtension
         $this->licenseService = $licenseService;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('addRepetiveCharacters', [$this, 'addRepetiveCharacters']),
@@ -38,7 +38,7 @@ class Utils extends AbstractExtension
         ];
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('roomIsReadOnly', [$this, 'roomIsReadOnly'])

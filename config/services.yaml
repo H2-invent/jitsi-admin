@@ -124,6 +124,8 @@ parameters:
     WHITEBOARD_SECRET: '%env(WHITEBOARD_SECRET)%'
     WHITEBOARD_URL: '%env(WHITEBOARD_URL)%'
     LAF_WHITEBOARD_FUNCTION: '%env(LAF_WHITEBOARD_FUNCTION)%'
+    LAF_LOOKYLOOKY_FUNCTION: '%env(LAF_LOOKYLOOKY_FUNCTION)%'
+    LOOKYLOOKY_URL: '%env(LOOKYLOOKY_URL)%'
     PUBLIC_SERVER: '%env(PUBLIC_SERVER)%'
     PUBLIC_TEXT_HEADER:  '%env(PUBLIC_TEXT_HEADER)%'
     PUBLIC_TEXT_SUBTITLE:  '%env(PUBLIC_TEXT_SUBTITLE)%'
@@ -146,11 +148,18 @@ parameters:
     JITSI_COMPONENT_SELECTOR_PUBLIC_PATH: '%env(JITSI_COMPONENT_SELECTOR_PUBLIC_PATH)%'
     JITSI_COMPONENT_SELECTOR_JWT_KID: '%env(JITSI_COMPONENT_SELECTOR_JWT_KID)%'
     LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
+    API_TOKEN_BEARER_THEME: '%env(API_TOKEN_BEARER_THEME)%'
+    API_TOKEN_BEARER_TRANSCRIPTION: '%env(API_TOKEN_BEARER_TRANSCRIPTION)%'
     app.scheme: '%env(APP_SCHEME)%'
-    app.theme_dir: '%kernel.project_dir%/theme'
+    app.theme.dir: '%kernel.project_dir%/theme'
+    app.theme.cache_dir: '%kernel.project_dir%/var/cache/theme'
+    app.theme.public_dir: '%kernel.project_dir%/public/theme'
+    app.log.loki.enabled: '%env(bool:LOKI_ENABLED)%' # handled by \App\DependencyInjection\Compiler\ToggleLokiHandlerPass
+    app.log.loki.uri: '%env(LOKI_URI)%'
+    app.log.loki.client: '%env(LOKI_CLIENT)%'
+    app.log.loki.log_level: '%env(LOKI_LOG_LEVEL)%'
 
 services:
-
     gaufrette.recording_fs_filesystem:
         class: Gaufrette\Filesystem
         arguments:
@@ -171,8 +180,7 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        bind:
-            string $themeDir: '%app.theme_dir%'
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -199,5 +207,35 @@ services:
                     key: '%env(AWS_KEY)%'
                     secret: '%env(AWS_SECRET_KEY)%'
 
+    # toggle handled by \App\DependencyInjection\Compiler\ToggleLokiHandlerPass
+    # remember to keep the pass up to date when changing any loki service definitions
+    monolog.handler.loki:
+        class: Itspire\MonologLoki\Handler\LokiHandler
+        arguments:
+            $apiConfig:
+                entrypoint: '%app.log.loki.uri%'
+                context: []
+                labels:
+                    app: meetling-jitsi-admin
+                    env: '%env(APP_ENV)%'
+                    host: '%env(HOSTNAME)%'
+                    version: '%laF_version%'
+                client_name: '%app.log.loki.client%'
+                curl_options:
+                    !php/const CURLOPT_CONNECTTIMEOUT_MS: 200
+                    !php/const CURLOPT_TIMEOUT_MS: 500
+            $bubble: true
+
+    monolog.handler.loki_async:
+        class: App\Monolog\Handler\AsyncLokiHandler
+        arguments:
+            $messageBus: '@messenger.bus.default'
+
+    monolog.handler.loki_healthcheck_filter:
+        class: App\Monolog\Handler\ExcludeHealthCheckHandler
+        arguments:
+            $handler: '@monolog.handler.loki_async'
+        tags:
+            - { name: monolog.handler, handler: loki_filtered }
 
 

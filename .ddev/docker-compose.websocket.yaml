@@ -1,0 +1,21 @@
+services:
+  websocket:
+    container_name: ddev-${DDEV_SITENAME}-websocket
+    hostname: ${DDEV_SITENAME}-websocket
+    build: ../nodejs
+    restart: unless-stopped
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    ports:
+      - "3000"
+    environment:
+      - VIRTUAL_HOST=${DDEV_HOSTNAME}
+      - HTTPS_EXPOSE=3000:3000
+    volumes:
+      - websocket_data:/data
+      - websocket_config:/config
+
+volumes:
+  websocket_data:
+  websocket_config:

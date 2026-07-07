@@ -2454,6 +2454,98 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
         <source>options.lookylooky</source>
         <target state="needs-translation">Secure Document Share</target>
       </trans-unit>
+      <trans-unit id="ySnvUZv" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.&#10;Name: {name} &#10;Moderator: {moderator} ">
+        <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
+Name: {name} 
+Moderator: {moderator} </source>
+        <target state="needs-translation">Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
+Name: {name} 
+Moderator: {moderator} </target>
+      </trans-unit>
+      <trans-unit id="w0B3UQg" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&#10;Konferenz ID: {id} &#10;Ihre E-Mail-Adresse: {email}">
+        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:
+Konferenz ID: {id} 
+Ihre E-Mail-Adresse: {email}</source>
+        <target state="needs-translation">Folgende Daten benötigen Sie um der Konferenz beizutreten:
+Konferenz ID: {id} 
+Ihre E-Mail-Adresse: {email}</target>
+      </trans-unit>
+      <trans-unit id="dQuQ3zm" resname="transcription.ready.subject">
+        <source>transcription.ready.subject</source>
+        <target state="needs-translation">Transkript bereit für {roomName}</target>
+      </trans-unit>
+      <trans-unit id="sf9Dapx" resname="Zeit und Datum auswählen">
+        <source>Zeit und Datum auswählen</source>
+        <target state="needs-translation">Zeit und Datum auswählen</target>
+      </trans-unit>
+      <trans-unit id="ntQ1lBx" resname="CC-E-Mail">
+        <source>CC-E-Mail</source>
+        <target state="needs-translation">CC-E-Mail</target>
+      </trans-unit>
+      <trans-unit id="kHIraMt" resname="transcription.ready.text">
+        <source>transcription.ready.text</source>
+        <target state="needs-translation">Die Transkription für {roomName} ist fertig und liegt zum Download bereit.</target>
+      </trans-unit>
+      <trans-unit id="2dzwmpu" resname="Klicken Sie hier um das Transkript runterzuladen.">
+        <source>Klicken Sie hier um das Transkript runterzuladen.</source>
+        <target state="needs-translation">Klicken Sie hier um das Transkript runterzuladen.</target>
+      </trans-unit>
+      <trans-unit id="wF2hSYC" resname="Einladen">
+        <source>Einladen</source>
+        <target state="needs-translation">Einladen</target>
+      </trans-unit>
+      <trans-unit id="73BWd7Q" resname="Suchen">
+        <source>Suchen</source>
+        <target state="needs-translation">Suchen</target>
+      </trans-unit>
+      <trans-unit id="7hD4Tt9" resname="Eingeladen">
+        <source>Eingeladen</source>
+        <target state="needs-translation">Eingeladen</target>
+      </trans-unit>
+      <trans-unit id="OCUWKbn" resname="Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.">
+        <source>Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.</source>
+        <target state="needs-translation">Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.</target>
+      </trans-unit>
+      <trans-unit id="P_hpDEL" resname="Termin hinzufügen">
+        <source>Termin hinzufügen</source>
+        <target state="needs-translation">Termin hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="8RvSb2d" resname="Übernehmen">
+        <source>Übernehmen</source>
+        <target state="needs-translation">Übernehmen</target>
+      </trans-unit>
+      <trans-unit id="CB8hcji" resname="Ergebnisse">
+        <source>Ergebnisse</source>
+        <target state="needs-translation">Ergebnisse</target>
+      </trans-unit>
+      <trans-unit id="V0nRUNJ" resname="Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.">
+        <source>Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.</source>
+        <target state="needs-translation">Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.</target>
+      </trans-unit>
+      <trans-unit id="hosJvXm" resname="Termin löschen">
+        <source>Termin löschen</source>
+        <target state="needs-translation">Termin löschen</target>
+      </trans-unit>
+      <trans-unit id="NVRxBaB" resname="Termin wählen und Konferenz planen">
+        <source>Termin wählen und Konferenz planen</source>
+        <target state="needs-translation">Termin wählen und Konferenz planen</target>
+      </trans-unit>
+      <trans-unit id="W9itCKb" resname="Termin">
+        <source>Termin</source>
+        <target state="needs-translation">Termin</target>
+      </trans-unit>
+      <trans-unit id="DItqb3E" resname="Termine">
+        <source>Termine</source>
+        <target state="needs-translation">Termine</target>
+      </trans-unit>
+      <trans-unit id="PVBIN9w" resname="Planen">
+        <source>Planen</source>
+        <target state="needs-translation">Planen</target>
+      </trans-unit>
+      <trans-unit id="aPyOdXY" resname="Sofort">
+        <source>Sofort</source>
+        <target state="needs-translation">Sofort</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

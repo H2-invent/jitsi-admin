@@ -282,7 +282,7 @@ class StartMeetingService
         return new NotFoundHttpException('Room not found');
     }
 
-    public static function checkTime(Rooms $room, User $user = null)
+    public static function checkTime(Rooms $room, ?User $user = null)
     {
 
         $now = new \DateTime('now', new \DateTimeZone('utc'));

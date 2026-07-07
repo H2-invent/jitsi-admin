@@ -164,6 +164,12 @@ class Rooms
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $calendly_uri = null;
 
+    /**
+     * @var Collection<int, Transcription>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Transcription::class, orphanRemoval: true)]
+    private Collection $transcriptions;
+
 
     public function __construct()
     {
@@ -181,6 +187,7 @@ class Rooms
         $this->logs = new ArrayCollection();
         $this->uploadedRecordings = new ArrayCollection();
         $this->liveKitRecordings = new ArrayCollection();
+        $this->transcriptions = new ArrayCollection();
     }
 
     public function normalize(string $propertyName): string
@@ -1171,6 +1178,36 @@ class Rooms
     public function setCalendlyUri(?string $calendly_uri): static
     {
         $this->calendly_uri = $calendly_uri;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transcription>
+     */
+    public function getTranscriptions(): Collection
+    {
+        return $this->transcriptions;
+    }
+
+    public function addTranscription(Transcription $transcription): static
+    {
+        if (!$this->transcriptions->contains($transcription)) {
+            $this->transcriptions->add($transcription);
+            $transcription->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTranscription(Transcription $transcription): static
+    {
+        if ($this->transcriptions->removeElement($transcription)) {
+            // set the owning side to null (unless already changed)
+            if ($transcription->getRoom() === $this) {
+                $transcription->setRoom(null);
+            }
+        }
 
         return $this;
     }
