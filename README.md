@@ -269,7 +269,6 @@ After changes run:
 
 <hr/>
 
-
 <h2>Updates</h2>
 
 <ul>
