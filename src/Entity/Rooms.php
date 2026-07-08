@@ -170,6 +170,9 @@ class Rooms
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: Transcription::class, orphanRemoval: true)]
     private Collection $transcriptions;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isFastConference = false;
+
 
     public function __construct()
     {
@@ -1208,6 +1211,18 @@ class Rooms
                 $transcription->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isFastConference(): ?bool
+    {
+        return $this->isFastConference;
+    }
+
+    public function setIsFastConference(?bool $isFastConference): static
+    {
+        $this->isFastConference = $isFastConference;
 
         return $this;
     }

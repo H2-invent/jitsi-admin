@@ -169,6 +169,24 @@ class RecordingController extends AbstractController
         }
     }
 
+    /**
+     * Hacky Route um die Recordings einer Sofortkonferenz runterzuladen
+     * Spätestens wenn die Recordings auch über das Dashboard heruntergeladen werden sollen, sollten wir das auch in den Service auslagern
+     * FIXME
+     */
+    #[Route('/room/recordings/download-fastconference/{id}', name: 'recording_download_fastconference', methods: ['GET'])]
+    public function downloadForFastConference(Rooms $room): Response
+    {
+        // Bei Sofortkonferenzen gehen wir davon aus dass nur ein einzelnes Recording existiert
+        $uploadedRecording = $this->uploadedRecordingRepository->findOneBy(['room' => $room]);
+        if ($uploadedRecording === null) {
+            throw $this->createNotFoundException('Could not find recording');
+        }
+
+        return $this->download($uploadedRecording->getFilename());
+    }
+
+
     #[Route('/room/recordings/remove/{filename}', name: 'recording_remove', methods: ['GET'])]
     public function remove(string $filename): Response
     {
