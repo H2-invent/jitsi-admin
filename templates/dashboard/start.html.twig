@@ -82,28 +82,13 @@
             <div class="d-flex align-items-center">
                 <a class="hp-nav-brand" href="/">
                     <img src="{{ asset('logo.png') }}" alt="Jitsi Admin" class="hp-nav-logo">
-                    <span class="hp-nav-brand-text">Jitsi Admin</span>
                 </a>
             </div>
-            <div class="hp-nav-right d-none d-lg-flex align-items-center">
-                <a class="hp-btn hp-btn-primary hp-btn-sm" href="{{ path('dashboard') }}">{{ 'hp.nav.login'|trans({}, 'homepage') }}</a>
-                <a class="hp-btn hp-btn-outline hp-btn-sm" href="{{ path('register_keycloak') }}">{{ 'hp.nav.register'|trans({}, 'homepage') }}</a>
-                <div class="hp-lang">
-                    <button class="hp-lang-toggle" type="button" id="langToggle">
-                        <img src="{{ asset('images/locale/' ~ app.request.locale ~ '.png') }}" alt="" class="hp-lang-flag">
-                        <svg class="hp-lang-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg>
-                    </button>
-                    <div class="hp-lang-menu" id="langMenu">
-                        <a class="hp-lang-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'en'})) }}">
-                            <img src="{{ asset('images/locale/en.png') }}" alt="EN" class="hp-lang-flag"> English
-                        </a>
-                        <a class="hp-lang-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'de'})) }}">
-                            <img src="{{ asset('images/locale/de.png') }}" alt="DE" class="hp-lang-flag"> Deutsch
-                        </a>
-                    </div>
-                </div>
+            <div class="hp-nav-right d-none d-sm-flex align-items-center">
+                <a class="btn btn-primary btn-sm" href="{{ path('dashboard') }}">{{ 'hp.nav.login'|trans({}, 'homepage') }}</a>
+                <a class="btn btn-outline-primary btn-sm" href="{{ path('register_keycloak') }}">{{ 'hp.nav.register'|trans({}, 'homepage') }}</a>
             </div>
-            <button class="hp-nav-toggle d-lg-none" type="button" id="navToggle">
+            <button class="hp-nav-toggle d-sm-none" type="button" id="navToggle">
                 <span></span><span></span><span></span>
             </button>
         </div>
@@ -111,7 +96,7 @@
 </nav>
 
 <!-- Hero Section -->
-<main id="header" class="hp-hero d-flex align-items-center justify-content-center">
+<main id="header" class="hp-hero d-flex justify-content-center">
     <div class="container w-100 position-relative hp-hero-content">
         <div class="hp-grid-bg">
             {% for i in 0..3 %}
@@ -138,15 +123,15 @@
                 </p>
 
                 <div class="hp-hero-cta d-flex flex-wrap align-items-center justify-content-center">
-                    <a class="hp-btn hp-btn-primary hp-btn-lg" href="{{ path('dashboard') }}">{{ 'hp.hero.login'|trans({}, 'homepage') }}</a>
-                    <a class="hp-btn hp-btn-white hp-btn-lg" href="{{ path('register_keycloak') }}">{{ 'hp.hero.register'|trans({}, 'homepage') }}</a>
+                    <a class="btn btn-primary" href="{{ path('dashboard') }}">{{ 'hp.hero.login'|trans({}, 'homepage') }}</a>
+                    <a class="btn btn-outline-primary" href="{{ path('register_keycloak') }}">{{ 'hp.hero.register'|trans({}, 'homepage') }}</a>
                 </div>
             </div>
         </div>
 
         <div class="row justify-content-center">
             <div class="col-12">
-                <div class="hp-hero-screenshot">
+                <div class="hp-hero-screenshot rounded-lg">
                     <div class="hp-hero-screenshot-inner">
                         <img class="hp-hero-screenshot-img" src="{{ asset(app.request.locale starts with 'de' ? 'images/start/dashboard_home_de.png' : 'images/start/dashboard_home_en.png') }}" alt="Jitsi Admin Dashboard">
                     </div>
@@ -167,7 +152,7 @@
         <div class="row">
             <div class="col-sm-6 col-lg-4 mb-4">
                 <div class="hp-feature-card h-100">
-                    <div class="hp-feature-card-visual">
+                    <div class="hp-feature-card-visual rounded">
                         <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                             <line x1="16" y1="2" x2="16" y2="6"/>
@@ -189,7 +174,7 @@
 
             <div class="col-sm-6 col-lg-4 mb-4">
                 <div class="hp-feature-card h-100">
-                    <div class="hp-feature-card-visual">
+                    <div class="hp-feature-card-visual rounded">
                         <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <polygon points="23 7 16 12 23 17 23 7"/>
                             <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
@@ -204,7 +189,7 @@
 
             <div class="col-sm-6 col-lg-4 mb-4">
                 <div class="hp-feature-card h-100">
-                    <div class="hp-feature-card-visual">
+                    <div class="hp-feature-card-visual rounded">
                         <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
                             <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
@@ -221,7 +206,7 @@
 
             <div class="col-sm-6 col-lg-4 mb-4">
                 <div class="hp-feature-card h-100">
-                    <div class="hp-feature-card-visual">
+                    <div class="hp-feature-card-visual rounded">
                         <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"/>
                             <line x1="2" y1="12" x2="22" y2="12"/>
@@ -237,7 +222,7 @@
 
             <div class="col-sm-6 col-lg-4 mb-4">
                 <div class="hp-feature-card h-100">
-                    <div class="hp-feature-card-visual">
+                    <div class="hp-feature-card-visual rounded">
                         <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                         </svg>
@@ -251,7 +236,7 @@
 
             <div class="col-sm-6 col-lg-4 mb-4">
                 <div class="hp-feature-card h-100">
-                    <div class="hp-feature-card-visual">
+                    <div class="hp-feature-card-visual rounded">
                         <svg class="hp-feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
                         </svg>
@@ -274,9 +259,24 @@
                 <div class="hp-footer-brand">
                     <a class="hp-footer-logo" href="/">
                         <img src="{{ asset('logo.png') }}" alt="Jitsi Admin" class="hp-footer-logo-img">
-                        <span class="hp-footer-logo-text">Jitsi Admin</span>
                     </a>
                     <p class="hp-footer-tagline">{{ 'hp.footer.tagline'|trans({}, 'homepage') }}</p>
+                    <div class="hp-footer-lang">
+                        <div class="hp-lang">
+                            <button class="hp-lang-toggle rounded" type="button" id="langToggle">
+                                <img src="{{ asset('images/locale/' ~ app.request.locale ~ '.png') }}" alt="" class="hp-lang-flag">
+                                <svg class="hp-lang-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg>
+                            </button>
+                            <div class="hp-lang-menu rounded" id="langMenu">
+                                <a class="hp-lang-item rounded" href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'en'})) }}">
+                                    <img src="{{ asset('images/locale/en.png') }}" alt="EN" class="hp-lang-flag"> English
+                                </a>
+                                <a class="hp-lang-item rounded" href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'de'})) }}">
+                                    <img src="{{ asset('images/locale/de.png') }}" alt="DE" class="hp-lang-flag"> Deutsch
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6">
