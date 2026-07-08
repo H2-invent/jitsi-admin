@@ -5,7 +5,7 @@ framework:
     failure_transport: failed
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
-      async:
+      async: &async_config
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
           check_delayed_interval: 1000
@@ -23,6 +23,10 @@ framework:
           # override all of this with a service that
           # implements Symfony\Component\Messenger\Retry\RetryStrategyInterface
           # service: null
+      async_slow:
+        <<: *async_config
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%?queue_name=async_slow'
+
       failed: 'doctrine://default?queue_name=failed' #TODO change to RabbitMQ when merging epic/provisioner
       # sync: 'sync://'
 
@@ -32,6 +36,7 @@ framework:
       # 'App\Message\YourMessage': async
       App\Message\LobbyLeaverMessage: async
       App\Message\LokiLogMessage: async #TODO proper retry strategy and rabbitmq
-      App\Message\TranscriptionMessage: async
+      App\Message\RecordingUploadedMessage: async_slow
+      App\Message\TranscriptionMessage: async_slow
       #App\Message\CustomMailerMessage: async
       #Symfony\Component\Mailer\Messenger\SendEmailMessage:  async
