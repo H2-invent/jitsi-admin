@@ -7,6 +7,7 @@ use App\Entity\RoomsUser;
 use App\Entity\Subscriber;
 use App\Entity\User;
 use App\Entity\Waitinglist;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;

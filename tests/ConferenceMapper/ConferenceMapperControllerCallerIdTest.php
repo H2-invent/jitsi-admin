@@ -43,14 +43,12 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         self::assertEquals(
-            json_encode(
-                [
-                    'state' => 'STARTED',
-                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJVc2VyMiwgVGVzdDIsIHRlc3RAbG9jYWwyLmRlIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.tBl3a2rCTYla8Bxeg3kSxPLenTgnUuZIURHQoxSPvbY',
-                    'room_name' => '123456780@testdomain.com',
-                    "display_name" => "User2, Test2, test@local2.de"
-                ]
-            ),
+            json_encode([
+                'state' => 'STARTED',
+                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCJ9LCJ1c2VyIjp7Im5hbWUiOiJVc2VyMiwgVGVzdDIsIHRlc3RAbG9jYWwyLmRlIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjpmYWxzZSwibG9iYnlNb2RlcmF0b3IiOmZhbHNlLCJ0aGVtZSI6eyJjb2xvclNjaGVtZSI6ImxpZ2h0In19.hMk7SA7yY80H4bO962H_knqnej0exFz6CQDFk_Q_VO4',
+                'room_name' => '123456780@testdomain.com',
+                "display_name" => "User2, Test2, test@local2.de"
+            ], JSON_THROW_ON_ERROR),
             $res
         );
     }
@@ -87,14 +85,12 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         self::assertEquals(
-            json_encode(
-                [
-                    'state' => 'STARTED',
-                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiIwMDk4NzY1NDU1MzI1In19LCJtb2RlcmF0b3IiOmZhbHNlfQ.f_A4MtvIEUJ06FWTmimXbCiEP98JcYrHfYJAabNu29M',
-                    'room_name' => '123456780@testdomain.com',
-                    "display_name" => "0098765455325"
-                ]
-            ),
+            json_encode([
+                'state' => 'STARTED',
+                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCJ9LCJ1c2VyIjp7Im5hbWUiOiIwMDk4NzY1NDU1MzI1IiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjpmYWxzZSwibG9iYnlNb2RlcmF0b3IiOmZhbHNlLCJ0aGVtZSI6eyJjb2xvclNjaGVtZSI6ImxpZ2h0In19.aWQ0_sUgAJ0LHr61HmQjWTeZll_8awla6_Y3I1LXXgE',
+                'room_name' => '123456780@testdomain.com',
+                "display_name" => "0098765455325"
+            ], JSON_THROW_ON_ERROR),
             $res
         );
     }

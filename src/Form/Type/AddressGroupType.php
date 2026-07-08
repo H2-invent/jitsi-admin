@@ -30,12 +30,12 @@ class AddressGroupType extends AbstractType
         $this->participantSearchService = $participantSearchService;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $user = $options['user'];
         $builder
-            ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.addressgroupName'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
+            ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.addressgroupName'], 'label' => 'label.addressgroupName', 'required' => true, 'translation_domain' => 'form'])
             ->add(
                 'member',
                 UserLineType::class,
@@ -68,7 +68,7 @@ class AddressGroupType extends AbstractType
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

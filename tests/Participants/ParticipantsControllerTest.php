@@ -149,7 +149,7 @@ class ParticipantsControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/participant/resend?room=' . $room->getUidReal() . '&user=' . $userToResend->getId());
         self::assertResponseRedirects('/room/dashboard');
         $client->request('GET', '/room/dashboard');
-        self::assertSelectorTextContains('.snackbar', 'Die Einladung wurde erfolgreich versandt.');
+        self::assertSelectorTextContains('.snackbar', 'Der Teilnehmer wurde erfolgreich eingeladen.');
     }
     public function testResendInvitationWrongPermission(): void
     {

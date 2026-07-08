@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+## Description: Run first time setup for Jitsi Admin
+## Usage: setup
+## Example: "ddev setup"
+## ExecRaw: true
+## MutagenSync: true
+
+ddev console cache:clear
+ddev npm install
+ddev npm run dev
+ddev console doctrine:migrations:migrate --no-interaction
+ddev kcctl import

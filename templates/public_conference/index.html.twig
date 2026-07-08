@@ -1,42 +1,32 @@
 {% extends 'join/base.html.twig' %}
 {% block header %}
-    <div>
-        <h1>{{ getApplicationProperties('PUBLIC_TEXT_HEADER') }}</h1>
-        <h4>{{ getApplicationProperties('PUBLIC_TEXT_SUBTITLE') }}</h4>
-    </div>
-
+    {{ getApplicationProperties('PUBLIC_TEXT_HEADER') }}
 {% endblock %}
 {% block content %}
-
-
-    <div class=" col-12 text-center mt-5">
-
+    <div class="text-center">
+        <p class="mb-4">{{ getApplicationProperties('PUBLIC_TEXT_SUBTITLE') }}</p>
         {{ form_start(form) }}
-        {{ form_widget(form.myName) }}
-            {{ form_widget(form.roomName) }}
-            {{ form_widget(form.submit) }}
-
-
+        {% if form.myName is defined %}
+            {{ form_row(form.myName) }}
+        {% endif %}
+        {{ form_row(form.roomName) }}
+        {{ form_widget(form.submit, {attr: {class: 'btn-primary btn-block'}}) }}
         {{ form_end(form) }}
-        <div class="row mt-3">
-            <div class="col-12">
-                <ul class="list-group">
-                    {% for lC in  app.request.cookies.get('LAST_CONFERENCE')|json_decode  %}
-                        <li class="list-group-item"><a href="{{ path('app_public_conference',{'confId':lC}) }}">{{ lC }}</a> </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="col-12">
+        <div class="mt-4">
+            <ul class="list-group">
+                {% for lC in  app.request.cookies.get('LAST_CONFERENCE')|json_decode %}
+                    <li class="list-group-item">
+                        <a href="{{ path('app_public_conference',{'confId':lC}) }}">{{ lC }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="mt-5 bg-light p-4 rounded-1 border">
+            <div>
                 {{ getApplicationProperties('PUBLIC_TEXT_BODY_TEXT')|raw }}
             </div>
-            <a href="{{ path('dashboard') }}" class="btn btn-outline-primary btn-block">{{ 'Login'|trans }}</a>
-
-        </div>
-        <div class="row">
-            <div class="col-12">
-                {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}
-            </div>
+            <a href="{{ path('dashboard') }}" class="btn btn-outline-primary btn-block bg-white mb-3">{{ 'Login'|trans }}</a>
+            {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}
         </div>
     </div>
-
 {% endblock %}

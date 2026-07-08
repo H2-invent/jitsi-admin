@@ -81,7 +81,6 @@ class SipTrunkGenerator
                 ]
             ]
         ];
-
         try {
             $response = $this->sendPostRequest($server, 'twirp/livekit.SIP/CreateSIPInboundTrunk', $payload);
             if (isset($response[self::SIP_TRUNK_ID])) {

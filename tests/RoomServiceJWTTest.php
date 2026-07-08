@@ -99,8 +99,13 @@ class RoomServiceJWTTest extends KernelTestCase
                         'user' =>
                             array(
                                 'name' => 'Testuser',
-                                'identity' => $payload['context']['user']['identity']
+                                'identity' => $payload['context']['user']['identity'],
+                                'language' => 'de',
+                                'timezone' => 'Europe/Berlin',
                             ),
+                        'room'=>[
+                            'name'=>'testRoom'
+                        ]
                     ],
                 'livekit' =>
                     [
@@ -108,6 +113,7 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
                 'backgroundImages'=>[
 
                     [
@@ -125,6 +131,9 @@ class RoomServiceJWTTest extends KernelTestCase
                         'url' => 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg'
 
                     ]
+                ],
+                'theme' => [
+                    'colorScheme' => 'light',
                 ],
 
             ],
@@ -218,7 +227,12 @@ class RoomServiceJWTTest extends KernelTestCase
                             array(
                                 'identity' => $payload['context']['user']['identity'],
                                 'name' => 'Testuser',
+                                'language' => 'de',
+                                'timezone' => 'Europe/Berlin',
                             ),
+                        'room'=>[
+                            'name'=>'testRoom'
+                        ]
                     ],
                 'livekit' =>
                     [
@@ -226,6 +240,10 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
+                'theme' => [
+                    'colorScheme' => 'light',
+                ],
             ],
             $payload
         );
@@ -295,7 +313,12 @@ class RoomServiceJWTTest extends KernelTestCase
 
                                 'identity' => $payload['context']['user']['identity'],
 
+                                'language' => 'de',
+                                'timezone' => 'Europe/Berlin',
                             ),
+                        'room'=>[
+                            'name'=>'testRoom'
+                        ]
                     ],
                 'livekit' =>
                     [
@@ -303,6 +326,10 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
+                'theme' => [
+                    'colorScheme' => 'light',
+                ],
             ],
             $payload
         );
@@ -357,13 +384,19 @@ invalidKey
                             array(
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity'],
+                                'language' => 'de',
+                                'timezone' => 'Europe/Berlin',
                             ),
+                        'room'=>[
+                            'name'=>'testRoom'
+                        ]
                     ],
                 'livekit' =>
                     [
                         "error" => 'Invalid Foreign encryption key'
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
 
                 'backgroundImages'=>[
 
@@ -383,6 +416,9 @@ invalidKey
 
                     ]
 
+                ],
+                'theme' => [
+                    'colorScheme' => 'light',
                 ],
 
             ],

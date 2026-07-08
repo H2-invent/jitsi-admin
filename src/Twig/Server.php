@@ -8,10 +8,8 @@ use App\Entity\MyUser;
 use App\Entity\User;
 use App\Service\MessageService;
 use App\Service\ServerUserManagment;
-use App\Service\ThemeService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-
 use function GuzzleHttp\Psr7\str;
 
 class Server extends AbstractExtension

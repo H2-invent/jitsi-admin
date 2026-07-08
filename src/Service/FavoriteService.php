@@ -35,11 +35,15 @@ class FavoriteService
 
     public function cleanFavorites(User $user)
     {
-        $favs = $user->getFavorites();
+        $favorites = $user->getFavorites();
         $now = (new \DateTime())->setTimezone(new \DateTimeZone('utc'));
-        foreach ($favs as $data) {
-            if ($data->getPersistantRoom() !== true && $data->getScheduleMeeting() !== true && $data->getEndDateUtc() < $now) {
-                $user->removeFavorite($data);
+        foreach ($favorites as $favorite) {
+            if (!$favorite->getUser()->contains($user)
+                || ($favorite->getPersistantRoom() !== true
+                    && $favorite->getScheduleMeeting() !== true
+                    && $favorite->getEndDateUtc() < $now)
+            ) {
+                $user->removeFavorite($favorite);
             }
         }
         $this->em->persist($user);

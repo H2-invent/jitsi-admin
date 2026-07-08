@@ -3,7 +3,9 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     exception_controller: null
-    form_themes: ['bootstrap_4_layout.html.twig','form/ja_theme.html.twig']
+    form_themes:
+        - 'bootstrap_4_layout.html.twig'
+        - 'form/ja_theme.html.twig'
     paths:
         '%kernel.project_dir%/public/mail/css': css
     globals:

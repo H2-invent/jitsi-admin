@@ -2,14 +2,28 @@ framework:
 
   messenger:
     # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-    # failure_transport: failed
+    failure_transport: failed
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
       async:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
           check_delayed_interval: 1000
-      # failed: 'doctrine://default?queue_name=failed'
+        retry_strategy:
+          max_retries: 10
+          # milliseconds delay
+          delay: 1000
+          # causes the delay to be higher before each retry
+          # e.g. 1 second delay, 10 seconds, 100 seconds
+          multiplier: 10
+          max_delay: 0
+          # applies randomness to the delay that can prevent the thundering herd effect
+          # the value (between 0 and 1.0) is the percentage of 'delay' that will be added/subtracted
+          jitter: 0.1
+          # override all of this with a service that
+          # implements Symfony\Component\Messenger\Retry\RetryStrategyInterface
+          # service: null
+      failed: 'doctrine://default?queue_name=failed' #TODO change to RabbitMQ when merging epic/provisioner
       # sync: 'sync://'
 
 
@@ -17,5 +31,6 @@ framework:
       # Route your messages to the transports
       # 'App\Message\YourMessage': async
       App\Message\LobbyLeaverMessage: async
+      App\Message\LokiLogMessage: async #TODO proper retry strategy and rabbitmq
       #App\Message\CustomMailerMessage: async
       #Symfony\Component\Mailer\Messenger\SendEmailMessage:  async

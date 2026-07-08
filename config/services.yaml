@@ -49,6 +49,7 @@ parameters:
     LAF_DEFAULT_ONLINE_STATUS: '%env(LAF_DEFAULT_ONLINE_STATUS)%'
     LAF_FLOATING_TAG_FORCE_SHOW: '%env(LAF_FLOATING_TAG_FORCE_SHOW)%'
     LAF_RESEND_SUBSCRIPTION_DOUBLE_OPTIN_EMAIL: '%env(LAF_RESEND_SUBSCRIPTION_DOUBLE_OPTIN_EMAIL)%'
+    LAF_SHOW_CALENDLY: '%env(LAF_SHOW_CALENDLY)%'
     ALLOW_SERVER_CHANGE_WHEN_DISABLED: '%env(ALLOW_SERVER_CHANGE_WHEN_DISABLED)%'
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
@@ -123,6 +124,8 @@ parameters:
     WHITEBOARD_SECRET: '%env(WHITEBOARD_SECRET)%'
     WHITEBOARD_URL: '%env(WHITEBOARD_URL)%'
     LAF_WHITEBOARD_FUNCTION: '%env(LAF_WHITEBOARD_FUNCTION)%'
+    LAF_LOOKYLOOKY_FUNCTION: '%env(LAF_LOOKYLOOKY_FUNCTION)%'
+    LOOKYLOOKY_URL: '%env(LOOKYLOOKY_URL)%'
     PUBLIC_SERVER: '%env(PUBLIC_SERVER)%'
     PUBLIC_TEXT_HEADER:  '%env(PUBLIC_TEXT_HEADER)%'
     PUBLIC_TEXT_SUBTITLE:  '%env(PUBLIC_TEXT_SUBTITLE)%'
@@ -145,7 +148,16 @@ parameters:
     JITSI_COMPONENT_SELECTOR_PUBLIC_PATH: '%env(JITSI_COMPONENT_SELECTOR_PUBLIC_PATH)%'
     JITSI_COMPONENT_SELECTOR_JWT_KID: '%env(JITSI_COMPONENT_SELECTOR_JWT_KID)%'
     LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
+    API_TOKEN_BEARER_THEME: '%env(API_TOKEN_BEARER_THEME)%'
+    API_TOKEN_BEARER_TRANSCRIPTION: '%env(API_TOKEN_BEARER_TRANSCRIPTION)%'
     app.scheme: '%env(APP_SCHEME)%'
+    app.theme.dir: '%kernel.project_dir%/theme'
+    app.theme.cache_dir: '%kernel.project_dir%/var/cache/theme'
+    app.theme.public_dir: '%kernel.project_dir%/public/theme'
+    app.log.loki.enabled: '%env(bool:LOKI_ENABLED)%' # handled by \App\DependencyInjection\Compiler\ToggleLokiHandlerPass
+    app.log.loki.uri: '%env(LOKI_URI)%'
+    app.log.loki.client: '%env(LOKI_CLIENT)%'
+    app.log.loki.log_level: '%env(LOKI_LOG_LEVEL)%'
 
 services:
     gaufrette.recording_fs_filesystem:
@@ -195,5 +207,35 @@ services:
                     key: '%env(AWS_KEY)%'
                     secret: '%env(AWS_SECRET_KEY)%'
 
+    # toggle handled by \App\DependencyInjection\Compiler\ToggleLokiHandlerPass
+    # remember to keep the pass up to date when changing any loki service definitions
+    monolog.handler.loki:
+        class: Itspire\MonologLoki\Handler\LokiHandler
+        arguments:
+            $apiConfig:
+                entrypoint: '%app.log.loki.uri%'
+                context: []
+                labels:
+                    app: meetling-jitsi-admin
+                    env: '%env(APP_ENV)%'
+                    host: '%env(HOSTNAME)%'
+                    version: '%laF_version%'
+                client_name: '%app.log.loki.client%'
+                curl_options:
+                    !php/const CURLOPT_CONNECTTIMEOUT_MS: 200
+                    !php/const CURLOPT_TIMEOUT_MS: 500
+            $bubble: true
+
+    monolog.handler.loki_async:
+        class: App\Monolog\Handler\AsyncLokiHandler
+        arguments:
+            $messageBus: '@messenger.bus.default'
+
+    monolog.handler.loki_healthcheck_filter:
+        class: App\Monolog\Handler\ExcludeHealthCheckHandler
+        arguments:
+            $handler: '@monolog.handler.loki_async'
+        tags:
+            - { name: monolog.handler, handler: loki_filtered }
 
 

@@ -62,6 +62,21 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
+    public function sendDialog($topic, $header, $text, $type='question', $buttons=[])
+    {
+        $data = [
+            'type' => 'dialog',
+            'header' => $header,
+            'text' => $text,
+            'buttons' => $buttons,
+            'dialogType' => $type
+
+        ];
+
+        $update = new Update($topic, json_encode($data));
+        return $this->publisher->publish($update);
+    }
+
     public function sendMessage($topic, $message, string $from)
     {
         $data = [
@@ -100,6 +115,27 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
+    public function sendBrowserPush($topic, $title,  $pushMessage, $id)
+    {
+        $data = [
+            'type' => 'browserPush',
+            'title' => $title,
+            'pushNotification' => $pushMessage,
+            'messageId' => $id,
+        ];
+        $update = new Update($topic, json_encode($data));
+        return $this->publisher->publish($update);
+    }
+    public function sendPlaySound($topic, $soundName,  $id)
+    {
+        $data = [
+            'type' => 'playSound',
+            'soundName' => $soundName,
+            'messageId' => $id,
+        ];
+        $update = new Update($topic, json_encode($data));
+        return $this->publisher->publish($update);
+    }
     public function sendCleanBrowserNotification($topic, $id)
     {
         $data = [

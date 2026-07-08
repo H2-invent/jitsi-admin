@@ -17,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class LobbyMessageListCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, string $name = null)
+    public function __construct(private EntityManagerInterface $entityManager, ?string $name = null)
     {
         parent::__construct($name);
     }

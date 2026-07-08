@@ -45,15 +45,11 @@
 
                 <div class="buttonHolder buttons mt-lg-2 d-flex align-items-center justify-content-between">
                     <a
-                            data-mdb-tooltip-init
-                            title="{{ 'lobby.participant.tooltip.acccept'|trans }}"
                             class="btn  btn-floating senddirect btn-success "
                             href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
                         <i class="fas fa-user-check"></i>
                     </a>
                     <a
-                            data-mdb-tooltip-init
-                            title="{{ 'lobby.participant.tooltip.decline'|trans }}"
                             class="btn  btn-floating directSendWithConfirm btn-danger "
                             data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
                             href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
@@ -62,8 +58,7 @@
 
 
                     <div class="dropdown dropstart"
-                         data-mdb-tooltip-init
-                         title="{{ 'lobby.participant.tooltip.message'|trans }}"
+
                     >
                         <a class="btn  btn-outline-success btn-floating"
 

@@ -35,6 +35,7 @@ function initconfirmLoadOpenPopUp() {
                         showCancelButton: true,
                         confirmButtonText: ok,
                         cancelButtonText: cancel,
+                        heightAuto: false,
                         customClass: {
                             confirmButton: 'btn btn-outline-danger',
                             cancelButton: 'btn btn-outline-primary',

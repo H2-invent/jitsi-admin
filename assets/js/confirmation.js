@@ -103,6 +103,7 @@ function initconfirmHref() {
                 backdrop: false,
                 showCancelButton: true,
                 cancelButtonText: cancel,
+                heightAuto: false,
                 customClass: {
                     confirmButton: 'btn-danger btn',
                     cancelButton: 'btn-outline-primary btn'
@@ -133,6 +134,7 @@ function initconfirmLoadOpenPopUp() {
                 backdrop: false,
                 showCancelButton: true,
                 cancelButtonText: cancel,
+                heightAuto: false,
                 customClass: {
                     confirmButton: 'btn-danger btn',
                     cancelButton: 'btn-outline-primary btn'
@@ -175,6 +177,7 @@ function initConfirmDirectSendHref() {
                 backdrop: false,
                 showCancelButton: true,
                 cancelButtonText: 'Abbrechen', // Übersetzung anpassen
+                heightAuto: false,
                 customClass: {
                     confirmButton: 'btn-danger btn',
                     cancelButton: 'btn-outline-primary btn'

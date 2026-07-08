@@ -99,6 +99,7 @@ class ToParticipantWebsocketService
     public function sendMessage(LobbyWaitungUser $lobbyWaitungUser, $message, string $from)
     {
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
-        $this->directSend->sendMessage($topic, $message, $from);
+        $this->directSend->sendSnackbar($topic,$message,'red',10000);
+
     }
 }

@@ -1,5 +1,33 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
+## 1.5
 
+#### 🚀 Features:
+### 🐛 Bug Fixes:
+### ⭐ Improvements:
+* Add lobby moderator permission flag to the JWT
+
+
+### Features:
+* **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
+* **New DDEV local development setup**
+* **New Design (improved.)**
+### Bug Fixes:
+* remove header in sip trunk generation
+* fix ical reply
+* fix delete LDAP user when removed in LDAP
+### ⭐ Improvements
+* Join a Videoconference without an camera and microphone
+* Add Api to change Server of Room to use auto provisioner
+* add @ server to livekit roomname
+* add @ servername to jwt roomname claim
+* add relay for events to other middlewares
+* Add Chatwoot in conferences in sidebar
+* Theme dashboard
+* Rearange logo in conference
+* Add API Endpoint to upload video transcripts
+* Room Name includes actual Host URL if there is one, instead of an ENV variable
+
+## 1.2
 ### 🚀 Features
 * **Improved Side-Navigation in the Conference**:
     * Better overview of all Add-Ons during the conference
@@ -12,6 +40,8 @@
 * Set name in public rooms via url
 * Skip Lobby by URL parameter in public rooms
 * Enable Mic and Camera by URL paramter
+* Upgrade PHP to 8.4 in prod docker
+* Add user preferences (dark/light mode, language, timezone) to JWT 
 
 ### 🐛 Bug Fixes
 * Collapse the Side-Navigation on mobile devices
@@ -22,8 +52,23 @@
 * Docker Image failed because of permission Issues. Thanks to @nkiss1980 for reporting the bug
 * Allow to change server when disabled via theme or permissions
 * Fix Docker Image Build to new Base Image 
+* fix api to move room to other server
+* remove langauges which are all over in the project
+* On user room removal, room is now correctly removed from users favorite list
+* Ical not working in google mail
+* escape Agenda corecly
+* Features, Improvements, and Bug Fixes related to the Livekit Integration
+* When edit a conference the agenda field was rendered empty
+* Fis Server Statistics
+* Fix open Link with target blank from ifrmae
+* Fix not downloading images from whiteboard
+* Fix dark mode for conference sidebar
 
 # Features, Improvements, and Bug Fixes related to the Livekit Integration
+
+## 1.3
+* Add allow Popups to multiframe iframe
+
 
 ### 🚀 Feature
 * New start page for registered and unregistered conference participants
@@ -52,3 +97,4 @@
 # Get more information about updates
 * You can use the **Github Notification** via E-Mail to get informed about new features in the next release
 * Sign up for the **Jitsi Admin Mailing-List**, which we send out: [Sign Up](https://lists.h2-invent.com/forms/nfrm_weLJnLY5)
+* Remove DOc Directory

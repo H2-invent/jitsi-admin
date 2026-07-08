@@ -18,17 +18,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PublicRegisterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder
-            ->add('firstName', TextType::class, ['attr' => ['placeholder' => 'label.vorname'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('lastName', TextType::class, ['attr' => ['placeholder' => 'label.nachname'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('email', TextType::class, ['attr' => ['placeholder' => 'label.email'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
+            ->add('firstName', TextType::class, ['attr' => ['placeholder' => 'label.vorname'], 'label' => 'label.vorname', 'required' => true, 'translation_domain' => 'form'])
+            ->add('lastName', TextType::class, ['attr' => ['placeholder' => 'label.nachname'], 'label' => 'label.nachname', 'required' => true, 'translation_domain' => 'form'])
+            ->add('email', TextType::class, ['attr' => ['placeholder' => 'label.email'], 'label' => 'label.email', 'required' => true, 'translation_domain' => 'form'])
             ->add('subscribe', SubmitType::class, ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.subscribe', 'translation_domain' => 'form']);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
     }
 }

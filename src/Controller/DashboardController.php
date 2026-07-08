@@ -10,7 +10,6 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
-use App\Entity\Server;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
 use App\Repository\ServerRepository;
@@ -18,7 +17,7 @@ use App\Service\analytics\AnalyticsService;
 use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -27,7 +26,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -79,6 +77,7 @@ class DashboardController extends JitsiAdminController
                 ],
             );
         }
+
         $roomsFuture = $this->doctrine->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
 
         $r = [];
@@ -171,7 +170,7 @@ class DashboardController extends JitsiAdminController
         if (!$request->isXmlHttpRequest()) {
             if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
                 $groups = $this->getUser()->getGroups();
-                if (in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
+                if ($groups && in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
                     $this->themeService->checkRemainingDays();
                 }
             } else {
@@ -180,6 +179,14 @@ class DashboardController extends JitsiAdminController
 
 
         }
+        $res->headers->setCookie(
+            Cookie::create(
+                'is_loggedIn_user',
+                1,
+                time() + (2 * 365 * 24 * 60 * 60),
+                '/',      // Path.
+            )
+        );
         return $res;
     }
 

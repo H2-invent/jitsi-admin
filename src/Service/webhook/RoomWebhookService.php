@@ -2,14 +2,13 @@
 
 namespace App\Service\webhook;
 
-use App\Entity\CallerSession;
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
 use App\Service\livekit\EgressService;
 use App\Service\Lobby\LobbyUtils;
 use App\Service\Summary\SendSummaryViaEmailService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -45,34 +44,34 @@ class RoomWebhookService
                 case 'muc-room-created':
                     $res = $this->roomCreated(
                         $data['room_name'],
-                        $data['is_breakout'],
-                        isset($data['breakout_room_id']) ? $data['breakout_room_id'] : null,
+                        $data['is_breakout']??null,
+                        $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['created_at']
                     );
                     break;
                 case 'muc-room-destroyed':
                     $res = $this->roomDestroyed(
-                        $data['is_breakout'],
-                        isset($data['breakout_room_id']) ? $data['breakout_room_id'] : null,
+                        $data['is_breakout']??null,
+                        $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['destroyed_at']
                     );
                     break;
                 case 'muc-occupant-joined':
                     $res = $this->roomParticipantJoin(
-                        $data['is_breakout'],
-                        isset($data['breakout_room_id']) ? $data['breakout_room_id'] : null,
+                        $data['is_breakout']??null,
+                        $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['occupant']['occupant_jid'],
                         $data['occupant']['joined_at'],
-                        isset($data['occupant']['name']) ? $data['occupant']['name'] : null
+                        $data['occupant']['name'] ?? null
 
                     );
                     break;
                 case 'muc-occupant-left':
                     $res = $this->roomParticipantLeft(
-                        $data['is_breakout'],
+                        $data['is_breakout']??null,
                         $data['breakout_room_id'] ?? null,
                         $data['occupant']['occupant_jid'],
                         $data['occupant']['left_at'],
@@ -90,7 +89,7 @@ class RoomWebhookService
 
     public function roomCreated(
         string  $roomName,
-        bool    $isBreakout,
+        ?bool    $isBreakout,
         ?string $breakoutRoomId,
         string  $roomJid,
         int     $createdAt
@@ -152,7 +151,7 @@ class RoomWebhookService
 
     public function roomDestroyed(
 
-        bool    $isBreakout,
+        ?bool    $isBreakout,
         ?string $breakoutRoomId,
         string  $roomJid,
         int     $destroyedAt
@@ -224,7 +223,7 @@ class RoomWebhookService
     }
 
     public function roomParticipantJoin(
-        ?bool   $isBreakput,
+        ?bool   $isBreakout,
         ?string $breakoutRoomName,
         string  $roomJId,
         string  $occupantJId,
@@ -234,7 +233,7 @@ class RoomWebhookService
     {
         try {
 
-            if ($isBreakput === true) {
+            if ($isBreakout === true) {
                 $this->logger->debug('This is a breakoutRoom', ['breakout_room_id ' => $breakoutRoomName, 'room_jid' => $roomJId]);
                 return 'Room is a breakout room we don`t join the participant';
             }
@@ -274,7 +273,7 @@ class RoomWebhookService
 
     public function roomParticipantLeft(
 
-        bool    $isBreakout,
+        ?bool    $isBreakout,
         ?string $breakoutRoomId,
         string  $occupantJid,
         int     $leftAt,
@@ -315,7 +314,7 @@ class RoomWebhookService
         return null;
     }
 
-    public function clenRoomStatus(RoomStatus $roomStatus)
+    public function clenRoomStatus(RoomStatus $roomStatus): void
     {
         if (!$roomStatus->getRoom()) {
             foreach ($roomStatus->getRoomStatusParticipants() as $data) {

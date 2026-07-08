@@ -3,6 +3,7 @@
 namespace App\Controller\api;
 
 use App\Entity\Server;
+use App\Helper\BearerTokenAuthHelper;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +19,7 @@ class ServerAPIController extends AbstractController
         private ServerRepository $serverRepository,
         private EntityManagerInterface $entityManager,
         private RoomsRepository $roomsRepository,
+        private BearerTokenAuthHelper $bearerTokenAuthHelper,
     )
     {
     }
@@ -25,10 +27,7 @@ class ServerAPIController extends AbstractController
     #[Route('/api/v1/server/create', name: 'api_server_create',methods: ['POST'])]
     public function index(Request $request): Response
     {
-
-        $apiKey = $request->headers->get('Authorization');
-        // skip beyond "Bearer "
-        $apiKey = substr($apiKey, 7);
+        $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         $server = $this->serverRepository->findOneBy(array('apiKey'=>$apiKey,'isAllowedToCloneForAutoscale'=>true));
         if (!$server) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found. The server mus be allowed to be cloned to autoscale',
@@ -59,10 +58,7 @@ class ServerAPIController extends AbstractController
     #[Route('/api/v1/server/getRooms', name: 'api_server_getRooms',methods: ['GET'])]
     public function getRooms(Request $request): Response
     {
-
-        $apiKey = $request->headers->get('Authorization');
-        // skip beyond "Bearer "
-        $apiKey = substr($apiKey, 7);
+        $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         $server = $this->serverRepository->findOneBy(array('apiKey'=>$apiKey));
         if (!$server) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
@@ -78,6 +74,4 @@ class ServerAPIController extends AbstractController
             'room_ids' => $roomIds
         ]);
     }
-
-
 }

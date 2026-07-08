@@ -116,7 +116,7 @@ class Rooms
     private $startTimestamp;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $endTimestamp;
-    #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist','remove'])]
+    #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[Ignore]
     private $callerIds;
     #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'rooms')]
@@ -164,6 +164,12 @@ class Rooms
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $calendly_uri = null;
 
+    /**
+     * @var Collection<int, Transcription>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Transcription::class, orphanRemoval: true)]
+    private Collection $transcriptions;
+
 
     public function __construct()
     {
@@ -181,6 +187,7 @@ class Rooms
         $this->logs = new ArrayCollection();
         $this->uploadedRecordings = new ArrayCollection();
         $this->liveKitRecordings = new ArrayCollection();
+        $this->transcriptions = new ArrayCollection();
     }
 
     public function normalize(string $propertyName): string
@@ -189,19 +196,30 @@ class Rooms
     }
 
 
-
-    public function setUTCTime()
+    public function setUTCTime(): void
     {
-        $timezone = $this->timeZone ? new \DateTimeZone($this->timeZone) : null;
+        $srcTz = $this->timeZone ? new \DateTimeZone($this->timeZone) : null;
+
         if ($this->start) {
-            $dateStart = new \DateTime($this->start->format('Y-m-d H:i:s'), $timezone);
-            $this->startUtc = $dateStart->setTimezone(new \DateTimeZone('utc'));
-            $this->startTimestamp = $dateStart->getTimestamp();
+            $dt = \DateTimeImmutable::createFromFormat(
+                'Y-m-d H:i:s',
+                $this->start->format('Y-m-d H:i:s'),
+                $srcTz ?? $this->start->getTimezone()
+            );
+            $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
+            $this->startUtc = \DateTime::createFromImmutable($utc);
+            $this->startTimestamp = $utc->getTimestamp();
         }
+
         if ($this->enddate) {
-            $dateEnd = new \DateTime($this->enddate->format('Y-m-d H:i:s'), $timezone);
-            $this->endDateUtc = $dateEnd->setTimezone(new \DateTimeZone('utc'));
-            $this->endTimestamp = $dateEnd->getTimestamp();
+            $dt = \DateTimeImmutable::createFromFormat(
+                'Y-m-d H:i:s',
+                $this->enddate->format('Y-m-d H:i:s'),
+                $srcTz ?? $this->enddate->getTimezone()
+            );
+            $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
+            $this->endDateUtc = \DateTime::createFromImmutable($utc);
+            $this->endTimestamp = $utc->getTimestamp();
         }
     }
 
@@ -758,6 +776,7 @@ class Rooms
         return $this->startUtc ? new \DateTime($this->startUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')) : null;
     }
 
+
     public function setStartUtc(?\DateTimeInterface $startUtc): self
     {
         $this->startUtc = $startUtc;
@@ -1159,6 +1178,36 @@ class Rooms
     public function setCalendlyUri(?string $calendly_uri): static
     {
         $this->calendly_uri = $calendly_uri;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transcription>
+     */
+    public function getTranscriptions(): Collection
+    {
+        return $this->transcriptions;
+    }
+
+    public function addTranscription(Transcription $transcription): static
+    {
+        if (!$this->transcriptions->contains($transcription)) {
+            $this->transcriptions->add($transcription);
+            $transcription->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTranscription(Transcription $transcription): static
+    {
+        if ($this->transcriptions->removeElement($transcription)) {
+            // set the owning side to null (unless already changed)
+            if ($transcription->getRoom() === $this) {
+                $transcription->setRoom(null);
+            }
+        }
 
         return $this;
     }

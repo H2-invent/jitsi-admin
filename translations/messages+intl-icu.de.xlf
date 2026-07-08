@@ -19,7 +19,7 @@
       </trans-unit>
       <trans-unit id="LkZyqGT" resname="Konferenz bearbeiten">
         <source>Konferenz bearbeiten</source>
-        <target state="translated">Bitte Konferenz bearbeiten</target>
+        <target state="translated">Konferenz bearbeiten</target>
       </trans-unit>
       <trans-unit id="HAPXOlo" resname="Konferenz erfolgreich erstellt">
         <source>Konferenz erfolgreich erstellt</source>
@@ -27,7 +27,7 @@
       </trans-unit>
       <trans-unit id="HoXvwMv" resname="Neue Konferenz erstellen">
         <source>Neue Konferenz erstellen</source>
-        <target state="translated">Bitte neue Konferenz erstellen</target>
+        <target state="translated">Neue Konferenz erstellen</target>
       </trans-unit>
       <trans-unit id="ElYkn.a" resname="Fehler, Bitte kontrollieren Sie ihre Daten.">
         <source>Fehler, Bitte kontrollieren Sie ihre Daten.</source>
@@ -1025,7 +1025,7 @@
       </trans-unit>
       <trans-unit id="kMS4.OC" resname="Alle Serienelement der Serie bearbeiten">
         <source>Alle Serienelement der Serie bearbeiten</source>
-        <target state="translated">Bitte bearbeiten Sie alle Serienelemente der Serie.</target>
+        <target state="translated">Bearbeiten Sie alle Serienelemente der Serie.</target>
       </trans-unit>
       <trans-unit id="CyrT0si" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
@@ -1157,7 +1157,7 @@
       </trans-unit>
       <trans-unit id="pZTj_Lm" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="translated">Bitte leiten Sie diesen Link an die Teilnehmenden weiter.</target>
+        <target state="translated">Leiten Sie diesen Link an die Teilnehmenden weiter.</target>
       </trans-unit>
       <trans-unit id="tSRnGXc" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
@@ -1185,7 +1185,7 @@
       </trans-unit>
       <trans-unit id="boEqtE1" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="translated">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">Wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
       </trans-unit>
       <trans-unit id="L5CLtca" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1293,7 +1293,7 @@
       </trans-unit>
       <trans-unit id="5FL2Xdx" resname="room.new.help.lobby">
         <source>room.new.help.lobby</source>
-        <target>Bitte für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
+        <target>Für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
       </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
@@ -1502,7 +1502,7 @@
       </trans-unit>
       <trans-unit id="NrftFQI" resname="participant.resend.invitation.sucess">
         <source>participant.resend.invitation.sucess</source>
-        <target>Die Einladung wurde erfolgreich versandt.</target>
+        <target>Der Teilnehmer wurde erfolgreich eingeladen.</target>
       </trans-unit>
       <trans-unit id="mIUK2UT" resname="secondEmail.help">
         <source>secondEmail.help</source>
@@ -2429,6 +2429,122 @@
       <trans-unit id="p3mIz7q" resname="Mehrere E-Mail-Adressen auf einmal eingeben">
         <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
         <target>Mehrere E-Mail-Adressen auf einmal eingeben</target>
+      </trans-unit>
+      <trans-unit id="n2SdnDl" resname="meetling Konferenz">
+        <source>meetling Konferenz</source>
+        <target>meetling Konferenz</target>
+      </trans-unit>
+      <trans-unit id="uFBYrBR" resname="meetling">
+        <source>meetling</source>
+        <target>meetling</target>
+      </trans-unit>
+      <trans-unit id="JmOALRn" resname="Sie wurden zu einer Videokonferenz hinzugefügt.">
+        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
+        <target>Sie wurden zu einer Videokonferenz hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit id="vhXQ7u." resname="Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.">
+        <source>Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.</source>
+        <target>Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.</target>
+      </trans-unit>
+      <trans-unit id="Z3Ow33K" resname="Sie wurden zu einer Videokonferenz eingeladen.">
+        <source>Sie wurden zu einer Videokonferenz eingeladen.</source>
+        <target>Sie wurden zu einer Videokonferenz eingeladen.</target>
+      </trans-unit>
+      <trans-unit id="cWEPkYB" resname="options.lookylooky">
+        <source>options.lookylooky</source>
+        <target>Secure Document Share</target>
+      </trans-unit>
+      <trans-unit id="ySnvUZv" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.&#10;Name: {name} &#10;Moderator: {moderator} ">
+        <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
+Name: {name} 
+Moderator: {moderator} </source>
+        <target>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
+Name: {name} 
+Moderator: {moderator} </target>
+      </trans-unit>
+      <trans-unit id="w0B3UQg" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&#10;Konferenz ID: {id} &#10;Ihre E-Mail-Adresse: {email}">
+        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:
+Konferenz ID: {id} 
+Ihre E-Mail-Adresse: {email}</source>
+        <target>Folgende Daten benötigen Sie um der Konferenz beizutreten:
+Konferenz ID: {id} 
+Ihre E-Mail-Adresse: {email}</target>
+      </trans-unit>
+      <trans-unit id="dQuQ3zm" resname="transcription.ready.subject">
+        <source>transcription.ready.subject</source>
+        <target>Transkript bereit für {roomName}</target>
+      </trans-unit>
+      <trans-unit id="sf9Dapx" resname="Zeit und Datum auswählen">
+        <source>Zeit und Datum auswählen</source>
+        <target>Zeit und Datum auswählen</target>
+      </trans-unit>
+      <trans-unit id="ntQ1lBx" resname="CC-E-Mail">
+        <source>CC-E-Mail</source>
+        <target>CC-E-Mail</target>
+      </trans-unit>
+      <trans-unit id="kHIraMt" resname="transcription.ready.text">
+        <source>transcription.ready.text</source>
+        <target>Die Transkription für {roomName} ist fertig und liegt zum Download bereit.</target>
+      </trans-unit>
+      <trans-unit id="2dzwmpu" resname="Klicken Sie hier um das Transkript runterzuladen.">
+        <source>Klicken Sie hier um das Transkript runterzuladen.</source>
+        <target>Klicken Sie hier um das Transkript runterzuladen.</target>
+      </trans-unit>
+      <trans-unit id="wF2hSYC" resname="Einladen">
+        <source>Einladen</source>
+        <target>Einladen</target>
+      </trans-unit>
+      <trans-unit id="73BWd7Q" resname="Suchen">
+        <source>Suchen</source>
+        <target>Suchen</target>
+      </trans-unit>
+      <trans-unit id="7hD4Tt9" resname="Eingeladen">
+        <source>Eingeladen</source>
+        <target>Eingeladen</target>
+      </trans-unit>
+      <trans-unit id="OCUWKbn" resname="Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.">
+        <source>Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.</source>
+        <target>Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.</target>
+      </trans-unit>
+      <trans-unit id="P_hpDEL" resname="Termin hinzufügen">
+        <source>Termin hinzufügen</source>
+        <target>Termin hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="8RvSb2d" resname="Übernehmen">
+        <source>Übernehmen</source>
+        <target>Übernehmen</target>
+      </trans-unit>
+      <trans-unit id="CB8hcji" resname="Ergebnisse">
+        <source>Ergebnisse</source>
+        <target>Ergebnisse</target>
+      </trans-unit>
+      <trans-unit id="V0nRUNJ" resname="Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.">
+        <source>Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.</source>
+        <target>Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.</target>
+      </trans-unit>
+      <trans-unit id="hosJvXm" resname="Termin löschen">
+        <source>Termin löschen</source>
+        <target>Termin löschen</target>
+      </trans-unit>
+      <trans-unit id="NVRxBaB" resname="Termin wählen und Konferenz planen">
+        <source>Termin wählen und Konferenz planen</source>
+        <target>Termin wählen und Konferenz planen</target>
+      </trans-unit>
+      <trans-unit id="W9itCKb" resname="Termin">
+        <source>Termin</source>
+        <target>Termin</target>
+      </trans-unit>
+      <trans-unit id="DItqb3E" resname="Termine">
+        <source>Termine</source>
+        <target>Termine</target>
+      </trans-unit>
+      <trans-unit id="PVBIN9w" resname="Planen">
+        <source>Planen</source>
+        <target>Planen</target>
+      </trans-unit>
+      <trans-unit id="aPyOdXY" resname="Sofort">
+        <source>Sofort</source>
+        <target>Sofort</target>
       </trans-unit>
     </body>
   </file>

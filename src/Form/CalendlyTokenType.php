@@ -35,7 +35,7 @@ class CalendlyTokenType extends AbstractType
                     'required' => true,
                 ]
             )
-            ->add('calendly_token', TextareaType::class, ['attr' => ['placeholder' => 'label.calendlyToken'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
+            ->add('calendly_token', TextareaType::class, ['attr' => ['placeholder' => 'label.calendlyToken'], 'label' => 'label.calendlyToken', 'required' => true, 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);;
     }
 

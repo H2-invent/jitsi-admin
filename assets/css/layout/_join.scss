@@ -109,9 +109,10 @@ strong {
   .content {
     border-radius: 18px;
     box-shadow: $card-box-shadow;
+    border: 1px solid $black-border-color;
     position: absolute;
     top: -200%;
-    background-color: #0f172a;
+    background-color: black;
     color: $black_font-color;
     padding: 1.5em;
     transform: translateX(-110%);
@@ -125,10 +126,13 @@ strong {
 
     .close {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: 5px;
+      right: 10px;
       padding: 8px;
       cursor: pointer;
+      i {
+        font-size: 24px;
+      }
     }
 
     p {
@@ -147,7 +151,7 @@ strong {
   flex-direction: column;
   height: 100vh;
   justify-content: center;
-  background-color: $toolbarColor;
+  background-color: #FAFAFA;
   .sidebar-toggle{
     display: none;
   }
@@ -180,11 +184,11 @@ strong {
     }
   }
   .logo{
-    padding-top: 8px;
+    padding: 14px;
     display: flex;
     justify-content: center;
     img{
-      width: 45px;
+      width: 40px;
     }
   }
   .wrapperIcons{
@@ -194,10 +198,9 @@ strong {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: white;
-    border-radius: 6px;
-    box-shadow: $card-box-shadow;
+    color: $contrast-base;
     transition: transform 0.2s ease-in;
+    padding: 8px;
 
     &.show {
       transform: translateX(8px);
@@ -210,8 +213,6 @@ strong {
       border-radius: 6px;
 
       &:hover {
-        background-color: lighten($toolbarColor, 20);
-
         .wrapper-helper {
           width: auto;
           padding: 4px;
@@ -237,7 +238,8 @@ strong {
       position: absolute;
       top: 0;
       left: 120%;
-      background-color: $toolbarColor;
+      background-color: #051a19;
+      border: 1px solid black;
       color: white;
       padding: 4px 0 4px 0;
       overflow: hidden;

@@ -15,7 +15,7 @@ class AddSlugToServerCommand extends Command
 {
     private $em;
     private $serverService;
-    public function __construct(EntityManagerInterface $entityManager, ServerService $serverService, string $name = null)
+    public function __construct(EntityManagerInterface $entityManager, ServerService $serverService, ?string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;

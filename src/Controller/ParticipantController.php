@@ -7,10 +7,11 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Helper\JitsiAdminController;
+use App\Service\FavoriteService;
 use App\Service\ParticipantSearchService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use App\Service\UserService;
 use App\UtilsHelper;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -138,20 +139,18 @@ class ParticipantController extends JitsiAdminController
 
 
     #[Route(path: '/room/participant/remove', name: 'room_user_remove')]
-    public function roomUserRemove(Request $request, UserService $userService, RoomAddService $roomAddService)
+    public function roomUserRemove(Request $request, RoomAddService $roomAddService)
     {
 
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
-        $snack = 'Keine Berechtigung';
-        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room) || $user === $this->getUser()) {
-            $snack = $roomAddService->removeUserFromRoom($user, $room);
-        } else {
-            $this->addFlash('danger', $snack);
-            return  $this->redirectToRoute('dashboard');
+        if ($user !== $this->getUser() && !UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
+            $this->addFlash('danger', 'Keine Berechtigung');
+            return $this->redirectToRoute('dashboard');
         }
-        return new JsonResponse(['error'=>false,'toast'=>true,'message'=>$this->translator->trans('Teilnehmer gelöscht'),'color'=>'success']);
 
+        $roomAddService->removeUserFromRoom($user, $room);
+        return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('Teilnehmer gelöscht'), 'color' => 'success']);
     }
 
 

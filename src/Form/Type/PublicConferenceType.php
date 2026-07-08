@@ -8,10 +8,7 @@
 
 namespace App\Form\Type;
 
-use App\Service\ThemeService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,16 +18,17 @@ class PublicConferenceType extends AbstractType
 {
 
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
+
         $builder
-            ->add('myName', TextType::class, ['attr' => ['placeholder' => 'label.myName'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('roomName', TextType::class, ['attr' => ['class' => 'mt-3','placeholder' => 'label.konferenzName'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
+            ->add('myName', TextType::class, ['attr' => ['placeholder' => 'label.myName'], 'label' => 'label.myName', 'required' => true, 'translation_domain' => 'form'])
+            ->add('roomName', TextType::class, ['attr' => ['class' => 'mt-3','placeholder' => 'label.konferenzName'], 'label' => 'label.konferenzName', 'required' => true, 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, array('attr' => array('class' => 'btn btn-outline-primary btn-block mt-3'), 'label' => 'label.go', 'translation_domain' => 'form'),);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
     }
 }

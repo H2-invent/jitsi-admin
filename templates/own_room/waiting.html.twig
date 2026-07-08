@@ -3,16 +3,8 @@
     {{ room.name }}
 {% endblock %}
 {% block content %}
-
-
-        <b>{{ 'Bitte warten. Die Konferenz ist noch nicht geöffnet'|trans }}</b>
-        <div class="text-center">
-
-        </div>
-        <h3 class="text-center" id="countdown"></h3>
-
-
-
+    <p class="text-center">{{ 'Bitte warten. Die Konferenz ist noch nicht geöffnet'|trans }}</p>
+    <h2 class="text-center bg-light border rounded-2 mx-auto p-4 mt-4" id="countdown" style="width: 200px;"></h2>
 {% endblock %}
 {% block script %}
 

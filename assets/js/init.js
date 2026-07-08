@@ -196,15 +196,56 @@ function initNewModal() {
     initPrettyJson();
     wrapSelect();
     initMDB({Input});
+    initLoadedChart(document.getElementById('loadContentModal'));
 
-    if (document.getElementById("lineChart") !== null) {
-        const ctx = document.getElementById("lineChart").getContext('2d');
-         new Chart(ctx, {
-            type: 'line',
-            data: data,
-            options: options
-        });
+}
+
+function initLoadedChart(container) {
+    const canvas = container.querySelector('#lineChart');
+    const jsonElement = container.querySelector('#lineChartData');
+
+    if (!canvas || !jsonElement) {
+        return;
     }
+
+    let chartData;
+
+    try {
+        chartData = JSON.parse(jsonElement.textContent);
+    } catch (e) {
+        console.error('Ungültige Chart-Daten', e);
+        return;
+    }
+
+    const options = {
+        responsive: true,
+        scales: {
+            yAxes: [
+                {
+                    id: 'A',
+                    type: 'linear',
+                    position: 'left',
+                    ticks: {
+                        min: 0
+                    }
+                },
+                {
+                    id: 'B',
+                    type: 'linear',
+                    position: 'right',
+                    ticks: {
+                        min: 0
+                    }
+                }
+            ]
+        }
+    };
+
+    new Chart(canvas, {
+        type: 'line',
+        data: chartData,
+        options: options
+    });
 }
 
 function initCopytoClipboard() {
@@ -249,7 +290,10 @@ function initProtip() {
     const proTip = document.getElementById('proTip')
 
     if (proTip) {
-        proTip.style.transform = 'translateY(-' + (proTip.querySelector('.first-line').clientHeight + 8 + 8) + 'px)';
+        var totalHeight = proTip.offsetHeight;
+        var firstLineHeight = proTip.querySelector('.first-line').clientHeight;
+        var visiblePart = firstLineHeight + 13 + 10; // padding-top + padding-bottom
+        proTip.style.transform = 'translateY(' + (totalHeight - visiblePart) + 'px)';
     }
 }
 
