@@ -35,13 +35,17 @@
                         {% endif %}
                     </a>
                 </div>
+
                 {% if theme != false %}
-                    <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class=" headerLine">
-                        {{ theme.headerLine }}
-                    </p>
+                    <div class="flex-grow-1">
+                        <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class=" headerLine">
+                            {{ theme.headerLine }}
+                        </p>
+                    </div>
+
                 {% endif %}
                 {% block CTA %}{% endblock %}
-                <div class="fullwidth w-100 d-flex justify-content-end">
+                <div class="d-flex justify-content-end">
                     {% include('dashboard/widget/__profile_Dashboard.twig') %}
                 </div>
             </div>
