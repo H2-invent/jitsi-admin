@@ -132,6 +132,10 @@ class RoomService
         if ($moderatorExplizit === true) {
             $moderator = true;
         }
+        $lobbyModerator = false;
+        if ($room->getModerator() === $user || $roomUser->getLobbyModerator()) {
+            $lobbyModerator = true;
+        }
         $avatar = null;
         if ($user && $user->getProfilePicture()) {
             $avatar = $this->uploaderHelper->asset($user->getProfilePicture(), 'documentFile');
@@ -139,11 +143,11 @@ class RoomService
         if ($avatarUrl) {
             $avatar = $avatarUrl;
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera), $room->getServer()->getAppSecret(), 'HS256');
+        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera,$lobbyModerator), $room->getServer()->getAppSecret(), 'HS256');
     }
 
     public
-    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, ?User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): ?array
+    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, ?User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null, $lobbyModerator=false): ?array
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
@@ -237,8 +241,10 @@ class RoomService
             if ($room->getServer()->getJwtModeratorPosition() == 0) {
                 $this->logger->debug('We add moderator rights to the root claim');
                 $payload['moderator'] = $moderator;
+                $payload['lobbyModerator'] = $lobbyModerator;
             } elseif ($room->getServer()->getJwtModeratorPosition() == 1) {
                 $payload['context']['user']['moderator'] = $moderator;
+                $payload['context']['user']['lobbyModerator'] = $lobbyModerator;
             }
         }
 
