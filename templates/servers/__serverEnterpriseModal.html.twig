@@ -35,12 +35,12 @@
                                 Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.
                             {% endtrans %}
                         </p>
-                        <div class="row">
+                        <div class="row align-items-end">
                             <div class="col-md-6">
                                 {{ form_row(form.smtpHost) }}
                             </div>
                             <div class="col-md-3">
-                                {{ form_row(form.smtpEncryption) }}
+                                {{ form_row(form.smtpEncryption, {'attr': {'class': 'form-select-lg'}}) }}
                             </div>
                             <div class="col-md-3">
                                 {{ form_row(form.smtpPort) }}
