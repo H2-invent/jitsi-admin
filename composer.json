@@ -76,6 +76,7 @@
     "dama/doctrine-test-bundle": "^v8.0",
     "dbrekelmans/bdi": "^1.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
+    "friendsofphp/php-cs-fixer": "^3.95",
     "phpstan/phpstan": "^1.8",
     "phpunit/phpunit": "^9",
     "rector/rector": "^1.0",
@@ -131,6 +132,8 @@
       "@auto-scripts"
     ],
     "phpstan": "vendor/bin/phpstan -c phpstan.neon",
+    "csfixer": "vendor/bin/php-cs-fixer fix -vvv --dry-run --diff",
+    "csfixer-fix": "vendor/bin/php-cs-fixer fix -vvv --diff",
     "db-drop": "php bin/console doctrine:database:drop --force --if-exists",
     "db-create": "php bin/console doctrine:database:create",
     "db-migrate": "php bin/console doctrine:migrations:migrate -n",
