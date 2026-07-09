@@ -3,6 +3,8 @@
 
 #### 🚀 Features:
 ### 🐛 Bug Fixes:
+* Fix duplicate recording API calls
+
 ### ⭐ Improvements:
 * Add lobby moderator permission flag to the JWT
 
