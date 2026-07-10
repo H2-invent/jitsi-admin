@@ -1,4 +1,4 @@
-import { io } from "./websocket.js";
+import { getIO } from "./ioRegistry.mjs";
 import { getOnlineUSer } from "./login.mjs";
 import { AWAY_TIME, DEFAULT_STATE } from "./config.mjs";
 
@@ -40,7 +40,8 @@ class User {
 
     async sendStatus() {
         const onlineUsers = await getOnlineUSer();
-        io.emit('sendOnlineUser', JSON.stringify(onlineUsers));
+        const io = getIO();
+        if (io) io.emit('sendOnlineUser', JSON.stringify(onlineUsers));
         this.sendToAllSockets('sendUserStatus', this.getStatus());
     }
 

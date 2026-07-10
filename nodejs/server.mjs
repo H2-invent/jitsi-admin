@@ -9,6 +9,7 @@ import { Server } from "socket.io";
 import { checkFileContains } from "./checkCertAndKey.js";
 import { websocketState } from "./websocketState.mjs";
 import { loginUser, getOnlineUSer, getUserId } from "./login.mjs";
+import { setIO } from "./ioRegistry.mjs";
 import {
   MERCURE_INTERNAL_URL,
   PORT,
@@ -50,6 +51,9 @@ export const io = new Server(server, {
   }
 });
 
+// Register in global registry so User.mjs can access it without circular import
+setIO(io);
+
 let redis = null;
 
 // Optional: Redis Adapter für Cluster
@@ -64,7 +68,7 @@ if (REDIS_ENABLED) {
     await pubClient.connect();
     await subClient.connect();
 
-    redis = pubClient; // global für Heartbeat
+    redis = pubClient;
     io.adapter(createAdapter(pubClient, subClient));
     console.log(`🔗 Redis-Adapter aktiviert (${REDIS_HOST}:${REDIS_PORT})`);
   } catch (err) {
@@ -106,7 +110,7 @@ io.on("connection", async (socket) => {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// MERCURE Webhook
+// MERCURE Webhook (PHP Backend -> Node.js)
 router.post(MERCURE_INTERNAL_URL, async (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.sendStatus(403);
@@ -117,6 +121,7 @@ router.post(MERCURE_INTERNAL_URL, async (req, res) => {
 
     const data = req.body.data;
     const room = req.body.topic;
+    // io.to(room).emit() geht dank Redis-Adapter an alle Instanzen
     io.to(room).emit("mercure", data);
     res.end("OK");
   });
@@ -131,37 +136,36 @@ server.listen(PORT, () => {
   console.log(`🚀 Server läuft auf Port ${PORT} (${REDIS_ENABLED ? "Cluster" : "Standalone"})`);
 });
 
-// 🔄 Heartbeat: lokale User alle 10 Sekunden erneut in Redis registrieren
+// 🔄 Heartbeat: lokale User alle 10 Sekunden in Redis aktualisieren
 if (REDIS_ENABLED && redis) {
   setInterval(async () => {
     try {
-      const usersFromRedis = {};
-
-      // Alle lokal verbundenen Sockets in Redis registrieren (Heartbeat)
-      for (const socket of io.sockets.sockets.values()) {
+      const sockets = io.sockets.sockets;
+      for (const socket of sockets.values()) {
         const userId = getUserId(socket);
         if (!userId) continue;
 
+        // Bestehenden Eintrag lesen, um counts zu erhalten
+        const existing = await redis.hGet("users", userId);
+        let existingData = {};
+        try {
+          existingData = existing ? JSON.parse(existing) : {};
+        } catch {}
+
         const userData = {
           id: userId,
-          status: socket.decoded?.status === 1 ? 'online' : 'offline',
+          status: existingData.status || (socket.decoded?.status === 1 ? "online" : "offline"),
+          socketsCount: existingData.socketsCount || 1,
+          inMeetingCount: existingData.inMeetingCount || 0,
+          away: existingData.away || false,
+          awayTime: existingData.awayTime || 5,
           updatedAt: Date.now()
         };
 
-        await redis.hset("users", userId, JSON.stringify(userData));
-
-        // Für Testausgabe vorbereiten
-        const status = userData.status;
-        if (!usersFromRedis[status]) usersFromRedis[status] = [];
-        usersFromRedis[status].push(userId);
+        await redis.hSet("users", userId, JSON.stringify(userData));
       }
-
-      // 🌐 Test: globale Userliste ausgeben
-      console.log("🌐 Globale Userliste (Redis + Heartbeat):", usersFromRedis);
-
     } catch (err) {
-      console.error("Fehler beim Heartbeat / globale Userliste:", err.message);
+      console.error("Fehler beim Heartbeat:", err.message);
     }
-  }, 10000); // alle 10 Sekunden
+  }, 10000);
 }
-

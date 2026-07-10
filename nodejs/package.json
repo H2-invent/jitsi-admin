@@ -5,7 +5,10 @@
   "main": "server.mjs",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "WEBSOCKET_SECRET=test-secret-do-not-use-in-production mocha tests/websocket.test.mjs --timeout 15000 --exit",
+    "test:ci": "WEBSOCKET_SECRET=test-secret-do-not-use-in-production mocha tests/websocket.test.mjs --timeout 15000 --exit --reporter dot",
+    "test:cluster": "WEBSOCKET_SECRET=test-cluster-secret-do-not-use-in-production mocha tests/websocket-cluster.test.mjs --timeout 90000 --exit",
+    "test:all": "npm test && npm run test:cluster"
   },
   "author": "H2 invent GmbH",
   "license": "AGPLv3",
@@ -16,5 +19,10 @@
     "socket.io": "^4.5.1",
     "redis": "^5.3.1",
     "@socket.io/redis-adapter": "^8.2.0"
+  },
+  "devDependencies": {
+    "chai": "^5.1.0",
+    "mocha": "^11.1.0",
+    "socket.io-client": "^4.6.1"
   }
 }

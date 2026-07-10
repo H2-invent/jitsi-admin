@@ -1,5 +1,5 @@
+import { getIO } from "./ioRegistry.mjs";
 import {
-    loginUser,
     getOnlineUSer,
     setStatus,
     stillOnline,
@@ -17,10 +17,10 @@ export async function websocketState(event, socket, message) {
 
     switch (event) {
         case 'disconnect':
-            disconnectUser(socket);
+            await disconnectUser(socket);
             setTimeout(async function () {
-                if (checkEmptySockets(socket)) {
-                    io.emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
+                if (await checkEmptySockets(socket)) {
+                    getIO().emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
                     console.log('Send is Offline');
                 }
                 await sendStatus(socket);
@@ -36,24 +36,24 @@ export async function websocketState(event, socket, message) {
             break;
 
         case 'getStatus':
-            io.emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
+            getIO().emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
             break;
 
         case 'getMyStatus':
-            socket.emit('sendUserStatus', getUserStatus(socket));
+            socket.emit('sendUserStatus', await getUserStatus(socket));
             break;
 
         case 'stillOnline':
-            stillOnline(socket);
+            await stillOnline(socket);
             break;
 
         case 'enterMeeting':
-            enterMeeting(socket);
+            await enterMeeting(socket);
             await sendStatus(socket);
             break;
 
         case 'leaveMeeting':
-            leaveMeeting(socket);
+            await leaveMeeting(socket);
             await sendStatus(socket);
             break;
 
@@ -67,7 +67,7 @@ export async function websocketState(event, socket, message) {
             break;
 
         case 'setAwayTime':
-            setAwayTime(socket, message);
+            await setAwayTime(socket, message);
             break;
 
         default:
@@ -79,7 +79,7 @@ export async function websocketState(event, socket, message) {
 
 async function sendStatus(socket) {
     await sendStatusToOwnUSer(socket);
-    io.emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
+    getIO().emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
 }
 
 async function sendStatusToOwnUSer(socket) {
