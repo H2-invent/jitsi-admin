@@ -11,8 +11,13 @@ capabilities, configuration options, internal logic, and testing procedures.
 - [Configuration](#configuration)
 - [TLS &amp; Certificate Handling](#tls--certificate-handling)
 - [Active/Active Clustering with Redis](#activeactive-clustering-with-redis)
+  - [Redis Connection Model](#redis-connection-model)
+  - [Redis Pub/Sub vs Key/Value](#redis-pubsub-vs-keyvalue)
 - [Topic Naming &amp; Subscription](#topic-naming--subscription)
 - [Load Balancers &amp; Sticky Sessions](#load-balancers--sticky-sessions)
+  - [Without a Load Balancer](#without-a-load-balancer) (single instance)
+  - [Multi-Instance Without a Load Balancer](#multi-instance-without-a-load-balancer)
+  - [When to Use a Load Balancer](#when-to-use-a-load-balancer)
 - [Multi-Tab Behavior](#multi-tab-behavior)
 - [Client Reconnect UX](#client-reconnect-ux)
 - [User Presence &amp; Online Status Logic](#user-presence--online-status-logic)
@@ -320,6 +325,92 @@ This keeps `updatedAt` fresh so that:
 users from Redis whose `updatedAt` is older than 2 minutes. This handles orphaned
 entries from crashed instances.
 
+### Redis Connection Model
+
+The system uses **persistent** Redis connections — they are established once at
+process startup and held open for the entire lifetime of the Node.js process.
+There are three connections total:
+
+| Connection | Created In | Lifecycle | Used For |
+|-----------|-----------|-----------|----------|
+| `pubClient` (adapter) | `WebsocketServer.mjs` top-level await | Persistent — process lifetime | Publishes Socket.IO messages to other instances. Also reused for the heartbeat and by `login.mjs` for KV operations |
+| `subClient` (adapter) | `pubClient.duplicate()` | Persistent — process lifetime | Subscribes to Socket.IO messages from other instances (adapter internal) |
+| `login.mjs` client | `login.mjs` top-level await | Persistent — process lifetime | User presence KV operations (`hGet`/`hSet`/`hGetAll`/`hDel`) |
+
+All three connections are created during the top-level module evaluation. The
+`await` on `client.connect()` blocks the server from starting until Redis is
+reachable. Once connected, the connections remain open for the process lifetime.
+The `redis` v5 client has built-in auto-reconnect with exponential backoff —
+if Redis restarts, the connections automatically re-establish.
+
+**There are no on-demand connections** — no "connect when needed, disconnect when
+done" patterns exist anywhere in the code. Every Redis operation calls a method
+on an already-connected, long-lived client. This is the standard pattern for the
+`redis` v5 library and avoids the TCP handshake overhead of opening/closing
+connections on every operation.
+
+**Why persistent instead of on-demand?** The Pub/Sub connection used by the
+adapter MUST be persistent — Redis Pub/Sub requires the subscriber to maintain
+a long-lived connection in `SUBSCRIBE` mode. It is not possible to subscribe,
+receive one message, then disconnect. For the KV operations (`login.mjs`), the
+connection could technically be opened per-operation, but this would add TCP
+handshake latency (~1-5ms to local Redis) to every `hGet`/`hSet` call — which
+happens on every connect, disconnect, status change, meeting enter/leave, and
+heartbeat tick. The persistent approach eliminates this overhead.
+
+### Redis Pub/Sub vs Key/Value — Two Mechanisms, One Redis
+
+The system uses **two different Redis mechanisms** for different purposes:
+
+#### Pub/Sub (used by `@socket.io/redis-adapter`)
+
+```
+Instance A                        Redis Pub/Sub channel              Instance B
+    │                               │                               │
+    │── io.to("room").emit(data)    │                               │
+    │── PUBLISH channel payload ───>│                               │
+    │                               │── PUBLISHED to subscribers ──>│
+    │                               │                               │── deliver to local sockets
+```
+
+This is **ephemeral fire-and-forget messaging** — messages are pushed to all
+subscribers in real time and then discarded. If an instance isn't subscribed at
+the moment a message is published, it misses it (which is fine — if no client
+is connected to that instance, there's no one to deliver to).
+
+The adapter requires **two separate connections** because Redis Pub/Sub changes
+the connection protocol: once in `SUBSCRIBE` mode, a connection can only receive
+messages, not send `PUBLISH` commands. Hence: pubClient (for publishing) and
+subClient (for subscribing), created at `WebsocketServer.mjs` lines 156-162.
+
+#### Key/Value Hash (used by `login.mjs`)
+
+```js
+// These are standard Redis hash commands, not Pub/Sub:
+await redis.hGet("users", userId);       // Read a user's presence
+await redis.hSet("users", userId, JSON); // Write a user's presence
+await redis.hGetAll("users");            // Read ALL users' presence
+await redis.hDel("users", userId);       // Remove a disconnected user
+```
+
+This is **durable state storage** — data persists in the Redis hash until
+explicitly deleted or cleaned up by the stale sweep. Instances read the hash
+to discover users on other instances. Unlike Pub/Sub, the data survives
+instance restarts and can be queried at any time.
+
+#### Why Both Are Needed
+
+| Problem | Solution | Why Pub/Sub alone isn't enough | Why KV alone isn't enough |
+|---------|----------|-------------------------------|---------------------------|
+| "Instance A just called `io.emit()`. Instance B needs to know immediately." | Redis Pub/Sub (adapter) | — | KV requires polling (Instance B would need to constantly `HGETALL` to detect changes — no push notification) |
+| "Instance B just restarted. Who is online right now?" | Redis KV hash (`HGETALL users`) | Pub/Sub is ephemeral — no history, no state. Instance B missed all the `PUBLISH` messages while restarting | — |
+
+Pub/Sub delivers **events** (push-based, ephemeral, immediate). KV delivers
+**state** (pull-based, durable, queryable). The architecture needs both: the
+adapter's Pub/Sub for real-time cross-instance Socket.IO message relay, and
+the `users` hash for cross-instance presence queries that work at any time,
+including after instance restarts.
+
 ---
 
 ## Topic Naming &amp; Subscription
@@ -456,6 +547,57 @@ Browser ──────────────────> Node.js (single 
 - Simpler to deploy and debug
 
 This mode is sufficient for low-traffic deployments or development environments.
+
+### Multi-Instance Without a Load Balancer
+
+It is also possible to run **multiple instances without a load balancer**:
+
+```
+Browser ────── ws://server-a:3000 ──────> Node.js Instance A
+Browser ────── ws://server-b:3000 ──────> Node.js Instance B
+```
+
+In this setup, each browser connects directly to a **specific** WebSocket server
+URL. The browser discovers which server to connect to via the `websocketUrl`
+JavaScript global, which is injected into every page by PHP at page load time
+(from the `MERCURE_PUBLIC_URL` env var via `getUrlforWebsocket()`).
+
+**This works correctly without sticky sessions or a load balancer because:**
+
+- **User state is in Redis** — when User X connects to Instance A, their presence
+  is written to the shared `users` Redis hash. Instance B reads that same hash and
+  knows User X is online even though they are on Instance A.
+- **Socket.IO messages are relayed via the Redis adapter** — if the PHP backend
+  publishes to a room and the HTTP POST arrives at Instance A, the
+  `@socket.io/redis-adapter` fans the `io.to(room).emit()` call out to all
+  instances. Instance B delivers it to any room members connected to Instance B.
+- **Client-to-client events propagate** — if User X on Instance A changes their
+  status, the resulting `io.emit("sendOnlineUser")` reaches all instances via the
+  adapter. User Y on Instance B sees the update immediately.
+
+**There is no concept of a "correct" server for a given user.** The architecture
+is intentionally server-agnostic: all servers read/write the same Redis state,
+so every instance can serve any user. If Instance A goes down, the users on it
+disconnect — but users on Instance B and C are unaffected. A page reload on the
+affected users' browsers (which generates a new page with an updated
+`websocketUrl` pointing to a different instance) brings them back.
+
+**Limitation of the no-LB approach:** The `websocketUrl` is hardcoded per page
+load. If the target instance goes down, the browser's WebSocket stays disconnected
+until the user reloads the page (which regenerates the URL from a fresh PHP render
+that could use a different server list). A load balancer solves this by providing
+a single, stable URL that automatically routes to healthy instances.
+
+### When to Use a Load Balancer
+
+| Scenario | Recommendation |
+|----------|---------------|
+| Single instance | No LB needed |
+| Multi-instance, can hardcode URLs per user group | LB optional — works without one |
+| Multi-instance, need unified URL | **LB recommended** — single `MERCURE_PUBLIC_URL` for all users |
+| Multi-instance, TLS termination | **LB recommended** — handles `wss://` at the edge instead of per-instance certs |
+| Multi-instance, automatic failover on instance crash | **LB required** — routes reconnects to healthy instances |
+| Multi-instance in Docker via Traefik | **LB included** — Traefik is your LB and reverse proxy |
 
 ### With a Load Balancer (Single Instance)
 
