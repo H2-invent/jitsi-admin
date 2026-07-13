@@ -1,5 +1,13 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
+
 ## 1.5
+
+## 1.4
+
+### Features
+* Documented local DDEV setup
+
+## 1.3
 
 #### 🚀 Features:
 ### 🐛 Bug Fixes:
