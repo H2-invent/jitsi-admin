@@ -113,6 +113,7 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
                 'backgroundImages'=>[
 
                     [
@@ -239,6 +240,7 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
                 'theme' => [
                     'colorScheme' => 'light',
                 ],
@@ -324,6 +326,7 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
                 'theme' => [
                     'colorScheme' => 'light',
                 ],
@@ -393,6 +396,7 @@ invalidKey
                         "error" => 'Invalid Foreign encryption key'
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
 
                 'backgroundImages'=>[
 

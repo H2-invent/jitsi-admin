@@ -1,10 +1,22 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
 
+## 1.5
+
 ## 1.4
+
 ### Features
 * Documented local DDEV setup
 
 ## 1.3
+
+#### 🚀 Features:
+### 🐛 Bug Fixes:
+* Fix duplicate recording API calls
+
+### ⭐ Improvements:
+* Add lobby moderator permission flag to the JWT
+
+
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 * **New DDEV local development setup**
