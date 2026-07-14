@@ -6,10 +6,10 @@ document.getElementById('navToggle').addEventListener('click', function() {
   document.querySelector('.hp-nav-right').classList.toggle('hp-nav-open');
 });
 
-/* Language Dropdown */
-$('#langToggle').on('click', function (e) {
+// Language Dropdown
+document.getElementById('langToggle').addEventListener('click', function(e) {
   e.stopPropagation();
-  $('#langMenu').toggleClass('hp-lang-open');
+  document.getElementById('langMenu').classList.toggle('hp-lang-open');
 });
 $(document).on('click', function () {
   $('#langMenu').removeClass('hp-lang-open');
