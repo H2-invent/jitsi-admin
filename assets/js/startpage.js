@@ -1,9 +1,9 @@
 import '../css/startpage.scss';
 import('bootstrap');
 
-/* Mobile Nav Toggle */
-$('#navToggle').on('click', function () {
-  $('.hp-nav-right').toggleClass('hp-nav-open');
+// Mobile Nav Toggle
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.querySelector('.hp-nav-right').classList.toggle('hp-nav-open');
 });
 
 /* Language Dropdown */
