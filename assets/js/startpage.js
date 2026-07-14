@@ -11,6 +11,6 @@ document.getElementById('langToggle').addEventListener('click', function(e) {
   e.stopPropagation();
   document.getElementById('langMenu').classList.toggle('hp-lang-open');
 });
-$(document).on('click', function () {
-  $('#langMenu').removeClass('hp-lang-open');
+document.addEventListener('click', function() {
+  document.getElementById('langMenu').classList.remove('hp-lang-open');
 });
