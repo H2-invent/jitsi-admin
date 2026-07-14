@@ -1,14 +1,18 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
-## 1.5
 
-#### 🚀 Features:
+## 1.5
+### 🚀 Features:
 ### 🐛 Bug Fixes:
 * Fix duplicate recording API calls
 
 ### ⭐ Improvements:
 * Add lobby moderator permission flag to the JWT
+* Redesigned homepage
+
+## 1.4
 
 
+## 1.3
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 * **New DDEV local development setup**
@@ -67,10 +71,6 @@
 * Fix dark mode for conference sidebar
 
 # Features, Improvements, and Bug Fixes related to the Livekit Integration
-
-## 1.3
-* Add allow Popups to multiframe iframe
-
 
 ### 🚀 Feature
 * New start page for registered and unregistered conference participants
