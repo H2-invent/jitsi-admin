@@ -1,7 +1,4 @@
 import '../css/startpage.scss';
-import $ from 'jquery';
-global.$ = global.jQuery = $;
-
 import('bootstrap');
 
 /* Mobile Nav Toggle */
