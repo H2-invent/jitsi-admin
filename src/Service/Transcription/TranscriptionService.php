@@ -21,7 +21,6 @@ class TranscriptionService
         private readonly TranslatorInterface $translator,
         private readonly MediaConverter $mediaConverter,
         private readonly Transcriber $transcriber,
-        private readonly ServerRepository $serverRepository,
     )
     {
     }

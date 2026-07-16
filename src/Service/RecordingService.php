@@ -16,9 +16,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Gaufrette\FilesystemInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Throwable;
 use Twig\Environment;
 
 class RecordingService
@@ -70,15 +72,31 @@ class RecordingService
         $finalPath = "{$tempDir}/final.bin";
         $this->localFilesystem->remove($finalPath);
 
-        // Datei zusammensetzen
-        $chunkPaths = glob("{$tempDir}/chunk_*");
-        if (count($chunkPaths) === 0) {
+        // Chunks suchen
+        $chunks = (new Finder())
+            ->files()
+            ->in($tempDir)
+            ->name('chunk_*')
+            ->sortByName(true)
+        ;
+        if ($chunks->count() === 0) {
             return ServiceResult::failure(RecordingFinalizeError::NO_CHUNKS_FOUND);
         }
 
-        foreach ($chunkPaths as $chunkPath) {
-            $chunkContent = file_get_contents($chunkPath);
-            file_put_contents($finalPath, $chunkContent, FILE_APPEND);
+        // Datei zusammensetzen
+        try {
+            $finalFile = fopen($finalPath, 'ab');
+            foreach ($chunks as $chunk) {
+                $chunkFile = fopen($chunk->getPathname(), 'rb');
+                stream_copy_to_stream($chunkFile, $finalFile);
+                fclose($chunkFile);
+            }
+        } catch (Throwable) {
+            return ServiceResult::failure(RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE);
+        } finally {
+            if (isset($finalFile) && is_resource($finalFile)) {
+                fclose($finalFile);
+            }
         }
 
         // Datei in Gaufrette speichern
@@ -95,7 +113,6 @@ class RecordingService
             ->setCreatedAt(new \DateTimeImmutable())
             ->setType('video/mp4')
         ;
-
         $this->entityManager->persist($uploadedFileEntity);
         $this->entityManager->flush();
 

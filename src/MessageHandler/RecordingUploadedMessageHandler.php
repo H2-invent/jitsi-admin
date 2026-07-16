@@ -7,6 +7,7 @@ use App\Message\RecordingUploadedMessage;
 use App\Service\RecordingService;
 use App\Service\Result\Error\RecordingFinalizeError;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\Exception\RecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[AsMessageHandler]
@@ -27,6 +28,8 @@ class RecordingUploadedMessageHandler
                 case RecordingFinalizeError::NO_CHUNKS_FOUND:
                 case RecordingFinalizeError::NO_RECORDING_FOUND:
                     throw new UnrecoverableMessageHandlingException($result->getErrorType()->value);
+                case RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE:
+                    throw new RecoverableMessageHandlingException($result->getErrorType()->value);
             }
         }
     }
