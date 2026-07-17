@@ -24,13 +24,11 @@ var closeCallbackFkt = null;
 var reloadTimeout = null;
 
 function initNotofication(closeFkt = null) {
-    Push.Permission.request();
     closeCallbackFkt = closeFkt;
 }
 
 function masterNotify(data) {
 
-    Push.Permission.request();
     if (data.type === 'notification') {
         notifymoderator(data)
     }else if (data.type === 'browserPush') {
@@ -174,7 +172,7 @@ function showPush(data) {
             var audio = new Audio(notificationSound);
             audio.play();
             if (document.visibilityState === 'hidden') {
-                Push.create(data.title, {
+                if (Push.Permission.has()) { Push.create(data.title, {
                     body: data.pushNotification,
                     icon: '/favicon.ico',
                     onClick: function (ele) {
@@ -182,6 +180,7 @@ function showPush(data) {
                         this.close();
                     }
                 });
+                }
             }
         }, 2500)
     }, Math.floor(Math.random() * 50) + 50);
@@ -212,7 +211,7 @@ function callAddhock(data) {
                 callersoundplay.currentTime = 0;
             }, data.time)
 
-            Push.create(data.title, {
+            if (Push.Permission.has()) { Push.create(data.title, {
                 body: data.pushMessage,
                 icon: '/favicon.ico',
                 onClick: function (ele) {
@@ -220,6 +219,7 @@ function callAddhock(data) {
                     this.close();
                 }
             });
+                }
 
         }, 5000)
     }, Math.floor(Math.random() * 50) + 50);
