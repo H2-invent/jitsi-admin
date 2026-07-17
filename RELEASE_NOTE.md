@@ -2,6 +2,7 @@
 
 ## 1.5
 ### 🚀 Features:
+* Added Transcription functionality. Uses OpenAI Whisper to transcribe recordings to text
 ### 🐛 Bug Fixes:
 * Fix duplicate recording API calls
 
