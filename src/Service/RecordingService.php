@@ -120,7 +120,7 @@ class RecordingService
 
         $this->localFilesystem->remove($tempDir);
 
-        if ($room->getServer()?->isEnableTranscription()) {
+        if ($room->isEnableTranscription() && $room->getServer()?->isEnableTranscription()) {
             $this->messageBus->dispatch(
                 new TranscriptionMessage($uploadedFileEntity->getId())
             );

@@ -54,6 +54,14 @@ class TranscriptionService
         $this->entityManager->flush();
     }
 
+    public function toggleTranscriptionForRoom(Rooms $room, bool $enabled): void
+    {
+        $room->setEnableTranscription($enabled);
+
+        $this->entityManager->persist($room);
+        $this->entityManager->flush();
+    }
+
     private function sendTranscriptionReadyNotification(Rooms $room, Transcription $transcription): void
     {
         $moderator = $room->getModerator();

@@ -2562,6 +2562,10 @@ Ihre E-Mail-Adresse: {email}</target>
         <source>Transkripte</source>
         <target>Transkripte</target>
       </trans-unit>
+      <trans-unit id="3hdoEuh" resname="recording.toggleTranscription">
+          <source>Transkription aktivieren</source>
+          <target>Transkription aktivieren</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -2,15 +2,7 @@
     <div id="wrapper-recording" class="d-none">
         <div id="startEgress" class="wrapper {% if getRecordingForRoomAndUser(app.user,room) %}d-none{% endif %}">
             <div class="dropdown">
-                <div
-                        class=" conference-icon"
-                        type="button"
-                        href="#"
-                        id="startRecording"
-                        data-mdb-dropdown-init
-                        data-mdb-ripple-init
-                        aria-expanded="false"
-                >
+                <div class=" conference-icon" type="button" href="#" id="startRecording" data-mdb-dropdown-init data-mdb-ripple-init aria-expanded="false">
                     <i class="fa-solid fa-record-vinyl"></i>
                 </div>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -23,6 +15,14 @@
                     <li><a class="dropdown-item startEgress"
                            href="{{ path('app_start_egress',{'template':'grid','uidReal':room.uidReal}) }}">{{ 'recording.startGrid'|trans }}</a>
                     </li>
+                    {% if server.enableTranscription %}
+                    <li>
+                        <label class="dropdown-item toggleTranscription" data-href="{{ path('app_transcription_toggle',{'room':room.id}) }}">
+                            <input type="checkbox" {% if room.enableTranscription %}checked="checked"{% endif %}>
+                            {{ 'recording.toggleTranscription'|trans }}
+                        </label>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="wrapper-helper">
@@ -31,13 +31,28 @@
         </div>
 
         <div class="wrapper {% if not getRecordingForRoomAndUser(app.user,room) %}d-none{% endif %}">
-            <div class=" conference-icon"
-                 data-url="{{ path('app_stop_egress',{'recordingId':'egressId'}) }}"
-                 data-egeressId="{% if getRecordingForRoomAndUser(app.user,room) %}{{ getRecordingForRoomAndUser(app.user,room).recordingId }}{% endif %}"
-                 id="stopEgress"
-            >
-                <i class="fa-solid fa-record-vinyl blinking-red"></i>
+            <div class="dropdown">
+                <div class="conference-icon" type="button" href="#" data-mdb-dropdown-init data-mdb-ripple-init aria-expanded="false">
+                    <i class="fa-solid fa-record-vinyl blinking-red"></i>
+                </div>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% set egressId = getRecordingForRoomAndUser(app.user, room)?.recordingId ?? 'REPLACE' %}
+                    <li>
+                        <a class="dropdown-item stopEgress" id="stopEgress" href="{{ path('app_stop_egress',{'recordingId':egressId}) }}">
+                            {{ 'options.stopRecording'|trans }}
+                        </a>
+                    </li>
+                    {% if server.enableTranscription %}
+                    <li>
+                        <label class="dropdown-item toggleTranscription" data-href="{{ path('app_transcription_toggle',{'room':room.id}) }}">
+                            <input type="checkbox" {% if room.enableTranscription %}checked="checked"{% endif %}>
+                            {{ 'recording.toggleTranscription'|trans }}
+                        </label>
+                    </li>
+                    {% endif %}
+                </ul>
             </div>
+
             <div class="wrapper-helper">
                 {{ 'options.stopRecording'|trans }}
             </div>
