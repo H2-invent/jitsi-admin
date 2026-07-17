@@ -1,0 +1,27 @@
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl " id="atendeeModalScroll">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ 'transcription.modal.title'|trans }}</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="transcriptionModal">
+            <ul class="list-group" id="transcriptionModalContent">
+                {% for transcription in room.transcriptions %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <a target="_blank"
+                           href="{{ path('app_transcription_download',{'id': transcription.id}) }}">
+                            <i class="fa fa-download me-2"></i> {{ transcription.fileName }}
+                        </a>
+                        <a class="directSendWithConfirm"
+                           href="{{ path('app_transcription_remove',{'id':transcription.id}) }}"
+                           data-target="#transcriptionModal"
+                           data-url="{{ path('app_transcription_modal',{'room':room.id}) }}#transcriptionModalContent">
+                            {{ 'Löschen'|trans }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

@@ -15,19 +15,14 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Exceptions\InvalidSSLKeyExeption;
 use App\UtilsHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
-use phpDocumentor\Reflection\Types\This;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Form\FormFactoryInterface;
-
 use Symfony\Component\String\ByteString;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 /**
@@ -37,31 +32,23 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 class RoomService
 {
 
-    private $logger;
-
-    private $uploadHelper;
-    private $baseUrl;
     private $identity;
     public function __construct(
-        UploaderHelper                $uploaderHelper,
-        FormFactoryInterface          $formBuilder,
-        LoggerInterface               $logger,
+        private UploaderHelper $uploaderHelper,
+        private LoggerInterface               $logger,
         private ParameterBagInterface $parameterBag,
         private CacheInterface        $cache,
         private HttpClientInterface   $httpClient,
         private SluggerInterface      $slugger,
         private UserPreferenceProvider $userPreferences,
+        private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
     )
     {
         $this->identity = time().'_'.ByteString::fromRandom(8);
-        $this->logger = $logger;
-        $this->uploadHelper = $uploaderHelper;
-        $this->baseUrl =str_replace('https://','',$this->parameterBag->get('laF_baseUrl')) ;
-        $this->baseUrl = str_replace('http://','',$this->baseUrl);
     }
 
     public
-    function setHttpClient($httpClient): RoomService
+    function setHttpClient($httpClient): self
     {
         $this->httpClient = $httpClient;
         return $this;
@@ -88,7 +75,7 @@ class RoomService
         }
         $avatar = null;
         if ($user && $user->getProfilePicture()) {
-            $avatar = $this->uploadHelper->asset($user->getProfilePicture(), 'documentFile');
+            $avatar = $this->uploaderHelper->asset($user->getProfilePicture(), 'documentFile');
         }
         $url = $this->createUrl($t, $room, $moderator, $user, $userName, $avatar);
         return $url;
@@ -119,10 +106,9 @@ class RoomService
         }
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         $serverUrl = $room->getServer()->getUrl();
-        $serverUrl = str_replace('https://', '', $serverUrl);
-        $serverUrl = str_replace('http://', '', $serverUrl);
+        $serverUrl = str_replace(['https://', 'http://'], '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
-        $roomName = $room->getUid().($room->getServer()->isLiveKitServer()?('@'.$this->baseUrl):'');
+        $roomName = $this->getRoomName($room);
         $url = $jitsi_server_url . '/' . $roomName;
 
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
@@ -146,24 +132,28 @@ class RoomService
         if ($moderatorExplizit === true) {
             $moderator = true;
         }
+        $lobbyModerator = false;
+        if ($room->getModerator() === $user || $roomUser->getLobbyModerator()) {
+            $lobbyModerator = true;
+        }
         $avatar = null;
         if ($user && $user->getProfilePicture()) {
-            $avatar = $this->uploadHelper->asset($user->getProfilePicture(), 'documentFile');
+            $avatar = $this->uploaderHelper->asset($user->getProfilePicture(), 'documentFile');
         }
         if ($avatarUrl) {
             $avatar = $avatarUrl;
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera), $room->getServer()->getAppSecret(), 'HS256');
+        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera,$lobbyModerator), $room->getServer()->getAppSecret(), 'HS256');
     }
 
     public
-    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, ?User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): ?array
+    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, ?User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null, $lobbyModerator=false): ?array
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
             return null;
         }
-        $roomName = $room->getUid().($room->getServer()->isLiveKitServer()?('@'.$this->baseUrl):'');
+        $roomName = $this->getRoomName($room);
 
 
         $payload = [
@@ -238,7 +228,7 @@ class RoomService
         if ($roomUser && !$avatar) {
             $this->logger->debug('profile picure is added to the jwt');
             if ($roomUser->getUser() && $roomUser->getUser()->getProfilePicture()) {
-                $avatar = $this->uploadHelper->asset($roomUser->getUser()->getProfilePicture(), 'documentFile');
+                $avatar = $this->uploaderHelper->asset($roomUser->getUser()->getProfilePicture(), 'documentFile');
             }
         }
         if ($avatar) {
@@ -251,8 +241,10 @@ class RoomService
             if ($room->getServer()->getJwtModeratorPosition() == 0) {
                 $this->logger->debug('We add moderator rights to the root claim');
                 $payload['moderator'] = $moderator;
+                $payload['lobbyModerator'] = $lobbyModerator;
             } elseif ($room->getServer()->getJwtModeratorPosition() == 1) {
                 $payload['context']['user']['moderator'] = $moderator;
+                $payload['context']['user']['lobbyModerator'] = $lobbyModerator;
             }
         }
 
@@ -364,5 +356,12 @@ class RoomService
         return $roomUser;
     }
 
+    public function getRoomName(Rooms $room): string
+    {
+        if ($room->getServer()->isLiveKitServer()) {
+            return $this->livekitRoomNameGenerator->getLiveKitName($room);
+        }
 
+        return $room->getUid();
+    }
 }

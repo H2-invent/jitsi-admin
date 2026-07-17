@@ -35,12 +35,12 @@
                                 Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.
                             {% endtrans %}
                         </p>
-                        <div class="row">
+                        <div class="row align-items-end">
                             <div class="col-md-6">
                                 {{ form_row(form.smtpHost) }}
                             </div>
                             <div class="col-md-3">
-                                {{ form_row(form.smtpEncryption) }}
+                                {{ form_row(form.smtpEncryption, {'attr': {'class': 'form-select-lg'}}) }}
                             </div>
                             <div class="col-md-3">
                                 {{ form_row(form.smtpPort) }}
@@ -76,6 +76,9 @@
                         <h4>{{ 'enterprise.settings.livekit'|trans }}</h4>
                         {{ form_row(form.livekitMiddlewareUrl) }}
                         {{ form_row(form.enableRecording) }}
+                        <h4>{{ 'enterprise.settings.transcription'|trans }}</h4>
+                        {{ form_row(form.apiKeyOpenAI) }}
+                        {{ form_row(form.enableTranscription) }}
                     </div>
                 </div>
 

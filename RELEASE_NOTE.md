@@ -1,10 +1,23 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
-## 1.3
 
+## 1.5
+### 🚀 Features:
+* Added Transcription functionality. Uses OpenAI Whisper to transcribe recordings to text
+### 🐛 Bug Fixes:
+* Fix duplicate recording API calls
+
+### ⭐ Improvements:
+* Add lobby moderator permission flag to the JWT
+* Redesigned homepage
+
+## 1.4
+
+
+## 1.3
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 * **New DDEV local development setup**
-* **New Design**
+* **New Design (improved.)**
 ### Bug Fixes:
 * remove header in sip trunk generation
 * fix ical reply
@@ -19,6 +32,7 @@
 * Theme dashboard
 * Rearange logo in conference
 * Add API Endpoint to upload video transcripts
+* Room Name includes actual Host URL if there is one, instead of an ENV variable
 
 ## 1.2
 ### 🚀 Features

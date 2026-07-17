@@ -39,9 +39,12 @@ class CreateFastConfernceController extends AbstractController
         try {
             if ($this->server) {
                 $room = $this->publicConferenceService->createNewRoomFromName(md5(uniqid()), $this->server);
-                $room->setModerator($this->getUser());
-                $room->setPublic(true);
-                $room->setTotalOpenRooms(true);
+                $room
+                    ->setModerator($this->getUser())
+                    ->setPublic(true)
+                    ->setTotalOpenRooms(true)
+                    ->setIsFastConference(true)
+                ;
                 $this->entityManager->persist($room);
                 $this->entityManager->flush();
                 return new JsonResponse(

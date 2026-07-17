@@ -40,8 +40,13 @@ jobs:
         with:
           php-version: ${{ vars.PHP_VERSION }}
           ini-values: date.timezone ="Europe/Berlin"
+          tools: composer:v2
+
+      - name: Install FFMpeg
+        run: |
+          sudo apt update && sudo apt install ffmpeg -y
 
       - name: Run php test
-        run: php composer.phar test
+        run: composer test
       # endregion phpunit
       # endregion test

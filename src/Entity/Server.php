@@ -164,6 +164,12 @@ class Server
     #[ORM\Column(nullable: true)]
     private ?bool $isAllowedToCloneForAutoscale = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $apiKeyOpenAI = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $enableTranscription = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -955,6 +961,30 @@ class Server
     public function setAllowedToCloneForAutoscale(?bool $isAllowedToCloneForAutoscale): static
     {
         $this->isAllowedToCloneForAutoscale = $isAllowedToCloneForAutoscale;
+
+        return $this;
+    }
+
+    public function getApiKeyOpenAI(): ?string
+    {
+        return $this->apiKeyOpenAI;
+    }
+
+    public function setApiKeyOpenAI(?string $apiKeyOpenAI): static
+    {
+        $this->apiKeyOpenAI = $apiKeyOpenAI;
+
+        return $this;
+    }
+
+    public function isEnableTranscription(): ?bool
+    {
+        return $this->enableTranscription;
+    }
+
+    public function setEnableTranscription(bool $enableTranscription): static
+    {
+        $this->enableTranscription = $enableTranscription;
 
         return $this;
     }

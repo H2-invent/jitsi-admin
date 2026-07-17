@@ -56,6 +56,8 @@ class EnterpriseType extends AbstractType
             ->add('jitsiEventSyncUrl', TextType::class, ['required' => false, 'label' => 'label.jitsiEventSyncUrl', 'help' => 'help.jitsiEventSyncUrl', 'translation_domain' => 'form'])
             ->add('livekitMiddlewareUrl', TextType::class, ['required' => false, 'label' => 'label.livekitMiddlewareUrl', 'help' => 'help.livekitMiddlewareUrl', 'translation_domain' => 'form'])
             ->add('enableRecording', CheckboxType::class, ['required' => false, 'label' => 'label.enableRecording', 'translation_domain' => 'form'])
+            ->add('apiKeyOpenAI', TextType::class, ['required' => false, 'label' => 'label.apiKeyOpenAI', 'translation_domain' => 'form'])
+            ->add('enableTranscription', CheckboxType::class, ['required' => false, 'label' => 'label.enableTranscription', 'translation_domain' => 'form'])
 
             ->add('tag', EntityType::class, [
                 'class' => Tag::class,
