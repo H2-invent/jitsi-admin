@@ -10,10 +10,20 @@
 * Add lobby moderator permission flag to the JWT
 * Redesigned homepage
 
+
 ## 1.4
+
+### Features:
+* **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
+* **New DDEV local development setup**
+* **New Design (improved.)**
+### Bug Fixes:
+* Header shows Theme text
+* theme page is vissible
 
 
 ## 1.3
+
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 * **New DDEV local development setup**
