@@ -3,14 +3,18 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use OpenSSLAsymmetricKey;
+use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\RSA\PrivateKey;
+use phpseclib3\Crypt\RSA\PublicKey;
 
 class RsaEncryptionService
 {
-    private const PADDING = OPENSSL_PKCS1_OAEP_PADDING;
+    private const HASH = 'SHA256';
+    private const PADDING = RSA::ENCRYPTION_OAEP;
 
-    private ?OpenSSLAsymmetricKey $privateKey = null;
-    private ?OpenSSLAsymmetricKey $publicKey = null;
+    private ?PrivateKey $privateKey = null;
+    private ?PublicKey $publicKey = null;
 
     /**
      * $publicKeyPath is nullable because as of now, we don't use public key encryption, only private key decryption
@@ -29,15 +33,15 @@ class RsaEncryptionService
             $this->initPrivateKey();
         }
 
-        $decoded = base64_decode($data);
+        $decoded = base64_decode($data, true);
         if ($decoded === false) {
             throw new \RuntimeException('Could not base64 decode string');
         }
 
-        $decrypted = '';
-        $success = openssl_private_decrypt($decoded, $decrypted, $this->privateKey, self::PADDING);
-        if (!$success || $decrypted === null) {
-            throw new \RuntimeException('Could not decrypt string');
+        try {
+            $decrypted = $this->privateKey->decrypt($decoded);
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('Could not decrypt string', previous: $e);
         }
 
         return $decrypted;
@@ -49,10 +53,10 @@ class RsaEncryptionService
             $this->initPublicKey();
         }
 
-        $encrypted = null;
-        $success = openssl_public_encrypt($data, $encrypted, $this->publicKey, self::PADDING);
-        if (!$success || $encrypted === null) {
-            throw new \RuntimeException('Could not encrypt string');
+        try {
+            $encrypted = $this->publicKey->encrypt($data);
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('Could not encrypt string', 0, $e);
         }
 
         return base64_encode($encrypted);
@@ -65,12 +69,17 @@ class RsaEncryptionService
             throw new \RuntimeException('Could not find and open private key');
         }
 
-        $privateKey = openssl_pkey_get_private($privateKeyContent);
-        if ($privateKey === false) {
-            throw new \RuntimeException('Could not parse private key content');
+        try {
+            /** @var PrivateKey $privateKey */
+            $privateKey = PublicKeyLoader::loadPrivateKey($privateKeyContent);
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('Could not parse private key content', previous: $e);
         }
 
-        $this->privateKey = $privateKey;
+        $this->privateKey = $privateKey
+            ->withPadding(self::PADDING)
+            ->withHash(self::HASH)
+            ->withMGFHash(self::HASH);
     }
 
     public function initPublicKey(): void
@@ -84,11 +93,16 @@ class RsaEncryptionService
             throw new \RuntimeException('Could not find and open public key');
         }
 
-        $publicKey = openssl_pkey_get_public($publicKeyContent);
-        if ($publicKey === false) {
-            throw new \RuntimeException('Could not parse public key content');
+        try {
+            /** @var PublicKey $publicKey */
+            $publicKey = PublicKeyLoader::loadPublicKey($publicKeyContent);
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('Could not parse public key content', previous: $e);
         }
 
-        $this->publicKey = $publicKey;
+        $this->publicKey = $publicKey
+            ->withPadding(self::PADDING)
+            ->withHash(self::HASH)
+            ->withMGFHash(self::HASH);
     }
 }

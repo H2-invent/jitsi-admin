@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class RsaEncryptionServiceTest extends KernelTestCase
 {
     private string $decryptedString = 'test_string';
-    private string $encryptedString = 'iBGSykG49eJNkyLtUSYbBMdSkWZtWXBRQdUwOs6++tSp4gA0Hz/dy7gDv7QGA1q3Fo+suesI3ScHp5/3t8+tCpEXbtLEwBnVBrYis/iDM54xiMSsdPCCpL0nTzhTn3+tGHttzh+19NYVF7Gasyiz9AoVY6iQtphU2+apxc7rSxV/1crVmsBuyKAy2s+je1ashQxdSJEzbs+kKgb8vLQj2J/m2kIPPeH/vGRkMfi4Qyptc7Xs7anmktBog5gKA6WmxEXzbyre3IBjPZU6kp6w2Q2hVLYPLkfBvwafF00VQWFYwbCjh9ZlVPRuMTPXxCqgqMxz5sYDzq4wL4ME6/dvMg==';
+    private string $encryptedString = 'YNKJGoGSq+GLJa/oDgTRlPjyyTIDJdJUc9q4D9y/E3vKomoC5dJsTrLK1Y1x2Yt/k8ETv3rcCL5wnn14xsu+LxT/RKE6pEXPr0hXSFFFh3SEYL94gttubstCUEVw7A5xE8U4vZbuyM6noPPi7FAm3fVTDRTwg4OcuPpQUOcjI4p4OMu6b+6Xzbv/aOGoJ/8/0JMlYvuachX4kYu+tTwkX758GcIBUcLAgeoxxY0UoN3vsyOOspeGtiBO2UoQ0luUC4Ax9cg+fGMAclSFXlDLChcOLG2XqxgjuPJMdl4sfRtC51vGdV5qqt1SKcSISVAw7wHDSpX3w9cwMyUEoAKChA==';
 
     public function testEncryptionDecryptionRoundTrip(): void
     {

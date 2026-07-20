@@ -34,6 +34,7 @@
     "oneup/flysystem-bundle": "^4.3",
     "ozdemirburak/iris": "^3.1",
     "phpdocumentor/reflection-docblock": "^5.2",
+    "phpseclib/phpseclib": "^3.0",
     "stevenmaguire/oauth2-keycloak": "^5.1",
     "symfony/amqp-messenger": "7.2.*",
     "symfony/apache-pack": "^1.0",
