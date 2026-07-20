@@ -40,19 +40,19 @@ function createHttpServer() {
   return http.createServer(app);
 }
 
-const server = createHttpServer();
+export function createIO(server) {
+  const srv = new Server(server, {
+    path: "/ws",
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+    }
+  });
+  setIO(srv);
+  return srv;
+}
 
-export const io = new Server(server, {
-  path: "/ws",
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  }
-});
-
-setIO(io);
-
-async function initRedisAdapter() {
+async function initRedisAdapter(io) {
   if (!REDIS_ENABLED) {
     console.log("⚙️ Redis deaktiviert – Standalone-Modus");
     return null;
@@ -76,9 +76,7 @@ async function initRedisAdapter() {
   }
 }
 
-const redis = await initRedisAdapter();
-
-function setupJwtAuth() {
+function setupJwtAuth(io) {
   io.use((socket, next) => {
     if (socket.handshake.query?.token) {
       jwt.verify(socket.handshake.query.token, WEBSOCKET_SECRET, (err, decoded) => {
@@ -90,7 +88,7 @@ function setupJwtAuth() {
   });
 }
 
-function setupSocketEvents() {
+function setupSocketEvents(io) {
   io.on("connection", async (socket) => {
     const jwtObj = jwt.decode(socket.handshake.query.token);
     if (jwtObj?.rooms) jwtObj.rooms.forEach(room => socket.join(room));
@@ -108,7 +106,7 @@ function setupSocketEvents() {
   });
 }
 
-function setupRoutes() {
+function setupRoutes(io) {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
 
@@ -132,13 +130,13 @@ function setupRoutes() {
   app.use("/", router);
 }
 
-function startServer() {
+function startServer(server) {
   server.listen(PORT, () => {
     console.log(`🚀 Server läuft auf Port ${PORT} (${REDIS_ENABLED ? "Cluster" : "Standalone"})`);
   });
 }
 
-function startHeartbeat() {
+function startHeartbeat(io, redis) {
   if (!REDIS_ENABLED || !redis) return;
   setInterval(async () => {
     try {
@@ -164,8 +162,12 @@ function startHeartbeat() {
   }, 10000);
 }
 
-setupJwtAuth();
-setupSocketEvents();
-setupRoutes();
-startServer();
-startHeartbeat();
+const server = createHttpServer();
+const io = createIO(server);
+const redis = await initRedisAdapter(io);
+
+setupJwtAuth(io);
+setupSocketEvents(io);
+setupRoutes(io);
+startServer(server);
+startHeartbeat(io, redis);
