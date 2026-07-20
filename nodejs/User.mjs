@@ -1,5 +1,5 @@
 import { getIO } from "./ioRegistry.mjs";
-import { getOnlineUSer } from "./login.mjs";
+import { getOnlineUser } from "./login.mjs";
 import { AWAY_TIME, DEFAULT_STATE } from "./config.mjs";
 
 class User {
@@ -39,7 +39,7 @@ class User {
     }
 
     async sendStatus() {
-        const onlineUsers = await getOnlineUSer();
+        const onlineUsers = await getOnlineUser();
         const io = getIO();
         if (io) io.emit('sendOnlineUser', JSON.stringify(onlineUsers));
         this.sendToAllSockets('sendUserStatus', this.getStatus());

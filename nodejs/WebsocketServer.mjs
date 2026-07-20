@@ -56,7 +56,7 @@ import { Server } from "socket.io";
 
 import { checkFileContains } from "./checkCertAndKey.js";
 import { websocketState } from "./websocketState.mjs";
-import { loginUser, getOnlineUSer, getUserId } from "./login.mjs";
+import { loginUser, getOnlineUser, getUserId } from "./login.mjs";
 import { setIO } from "./ioRegistry.mjs";
 import {
   MERCURE_INTERNAL_URL,
@@ -205,7 +205,7 @@ io.on("connection", async (socket) => {
     socket.emit("sendUserTimeAway", user.awayTime ?? 0);
     // Broadcast the updated online user list to ALL connected clients
     // (With Redis adapter, this reaches clients on all instances)
-    io.emit("sendOnlineUser", JSON.stringify(await getOnlineUSer()));
+    io.emit("sendOnlineUser", JSON.stringify(await getOnlineUser()));
   }
 
   // Route disconnect events to websocketState.mjs

@@ -58,7 +58,7 @@ describe("WebSocket Server", function () {
     const { Server } = await import("socket.io");
     const { setIO } = await import("../ioRegistry.mjs");
     const { websocketState } = await import("../websocketState.mjs");
-    const { getOnlineUSer, loginUser } = await import("../login.mjs");
+    const { getOnlineUser, loginUser } = await import("../login.mjs");
 
     httpServer = createServer();
     ioLocal = new Server(httpServer, {
@@ -88,7 +88,7 @@ describe("WebSocket Server", function () {
         user.initUserAway?.();
         socket.emit("sendUserStatus", user.getStatus?.());
         socket.emit("sendUserTimeAway", user.awayTime ?? 0);
-        ioLocal.emit("sendOnlineUser", JSON.stringify(await getOnlineUSer()));
+        ioLocal.emit("sendOnlineUser", JSON.stringify(await getOnlineUser()));
       }
 
       socket.on("disconnect", () => websocketState("disconnect", socket, null));

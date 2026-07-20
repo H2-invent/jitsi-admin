@@ -8,7 +8,7 @@ import { Server } from "socket.io";
 
 import { checkFileContains } from "./checkCertAndKey.js";
 import { websocketState } from "./websocketState.mjs";
-import { loginUser, getOnlineUSer, getUserId } from "./login.mjs";
+import { loginUser, getOnlineUser, getUserId } from "./login.mjs";
 import { setIO } from "./ioRegistry.mjs";
 import {
   MERCURE_INTERNAL_URL,
@@ -99,7 +99,7 @@ io.on("connection", async (socket) => {
     user.initUserAway?.();
     socket.emit("sendUserStatus", user.getStatus?.());
     socket.emit("sendUserTimeAway", user.awayTime ?? 0);
-    io.emit("sendOnlineUser", JSON.stringify(await getOnlineUSer()));
+    io.emit("sendOnlineUser", JSON.stringify(await getOnlineUser()));
   }
 
   socket.on("disconnect", () => websocketState("disconnect", socket, null));

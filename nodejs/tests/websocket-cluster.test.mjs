@@ -79,7 +79,7 @@ async function createServerInstance(port, adapter) {
 
   io.on("connection", async (socket) => {
     const { websocketState } = await import("../websocketState.mjs");
-    const { loginUser, getOnlineUSer } = await import("../login.mjs");
+    const { loginUser, getOnlineUser } = await import("../login.mjs");
     const jwtObj = jwtLib.decode(socket.handshake.query.token);
     if (jwtObj?.rooms) jwtObj.rooms.forEach((room) => socket.join(room));
 
@@ -88,7 +88,7 @@ async function createServerInstance(port, adapter) {
       user.initUserAway?.();
       socket.emit("sendUserStatus", user.getStatus?.());
       socket.emit("sendUserTimeAway", user.awayTime ?? 0);
-      io.emit("sendOnlineUser", JSON.stringify(await getOnlineUSer()));
+      io.emit("sendOnlineUser", JSON.stringify(await getOnlineUser()));
     }
 
     socket.on("disconnect", () => websocketState("disconnect", socket, null));

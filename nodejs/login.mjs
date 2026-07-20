@@ -292,7 +292,7 @@ export async function getStatusForListOfIds(socket, list) {
   socket.emit("giveOnlineStatus", JSON.stringify(res));
 }
 
-export async function getOnlineUSer() {
+export async function getOnlineUser() {
   if (redis) {
     try {
       const all = await redis.hGetAll("users");

@@ -1,6 +1,6 @@
 import { getIO } from "./ioRegistry.mjs";
 import {
-    getOnlineUSer,
+    getOnlineUser,
     setStatus,
     stillOnline,
     enterMeeting,
@@ -20,7 +20,7 @@ export async function websocketState(event, socket, message) {
             await disconnectUser(socket);
             setTimeout(async function () {
                 if (await checkEmptySockets(socket)) {
-                    getIO().emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
+                    getIO().emit('sendOnlineUser', JSON.stringify(await getOnlineUser()));
                     console.log('Send is Offline');
                 }
                 await sendStatus(socket);
@@ -36,7 +36,7 @@ export async function websocketState(event, socket, message) {
             break;
 
         case 'getStatus':
-            getIO().emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
+            getIO().emit('sendOnlineUser', JSON.stringify(await getOnlineUser()));
             break;
 
         case 'getMyStatus':
@@ -79,7 +79,7 @@ export async function websocketState(event, socket, message) {
 
 async function sendStatus(socket) {
     await sendStatusToOwnUSer(socket);
-    getIO().emit('sendOnlineUser', JSON.stringify(await getOnlineUSer()));
+    getIO().emit('sendOnlineUser', JSON.stringify(await getOnlineUser()));
 }
 
 async function sendStatusToOwnUSer(socket) {
