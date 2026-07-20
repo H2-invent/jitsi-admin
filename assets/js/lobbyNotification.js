@@ -172,15 +172,19 @@ function showPush(data) {
             var audio = new Audio(notificationSound);
             audio.play();
             if (document.visibilityState === 'hidden') {
-                if (Push.Permission.has()) { Push.create(data.title, {
-                    body: data.pushNotification,
-                    icon: '/favicon.ico',
-                    onClick: function (ele) {
-                        window.focus();
-                        this.close();
-                    }
-                });
-                }
+                Push.Permission.request(
+                    function () {
+                        Push.create(data.title, {
+                            body: data.pushNotification,
+                            icon: '/favicon.ico',
+                            onClick: function (ele) {
+                                window.focus();
+                                this.close();
+                            }
+                        });
+                    },
+                    function () {}
+                );
             }
         }, 2500)
     }, Math.floor(Math.random() * 50) + 50);
@@ -211,15 +215,19 @@ function callAddhock(data) {
                 callersoundplay.currentTime = 0;
             }, data.time)
 
-            if (Push.Permission.has()) { Push.create(data.title, {
-                body: data.pushMessage,
-                icon: '/favicon.ico',
-                onClick: function (ele) {
-                    window.focus();
-                    this.close();
-                }
-            });
-                }
+            Push.Permission.request(
+                function () {
+                    Push.create(data.title, {
+                        body: data.pushMessage,
+                        icon: '/favicon.ico',
+                        onClick: function (ele) {
+                            window.focus();
+                            this.close();
+                        }
+                    });
+                },
+                function () {}
+            );
 
         }, 5000)
     }, Math.floor(Math.random() * 50) + 50);
