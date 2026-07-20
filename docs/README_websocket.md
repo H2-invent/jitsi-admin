@@ -333,7 +333,7 @@ There are three connections total:
 
 | Connection | Created In | Lifecycle | Used For |
 |-----------|-----------|-----------|----------|
-| `pubClient` (adapter) | `WebsocketServer.mjs` top-level await | Persistent — process lifetime | Publishes Socket.IO messages to other instances. Also reused for the heartbeat and by `login.mjs` for KV operations |
+| `pubClient` (adapter) | `server.mjs` top-level await | Persistent — process lifetime | Publishes Socket.IO messages to other instances. Also reused for the heartbeat and by `login.mjs` for KV operations |
 | `subClient` (adapter) | `pubClient.duplicate()` | Persistent — process lifetime | Subscribes to Socket.IO messages from other instances (adapter internal) |
 | `login.mjs` client | `login.mjs` top-level await | Persistent — process lifetime | User presence KV operations (`hGet`/`hSet`/`hGetAll`/`hDel`) |
 
@@ -381,7 +381,7 @@ is connected to that instance, there's no one to deliver to).
 The adapter requires **two separate connections** because Redis Pub/Sub changes
 the connection protocol: once in `SUBSCRIBE` mode, a connection can only receive
 messages, not send `PUBLISH` commands. Hence: pubClient (for publishing) and
-subClient (for subscribing), created at `WebsocketServer.mjs` lines 156-162.
+subClient (for subscribing), created at `server.mjs` lines 65-66.
 
 #### Key/Value Hash (used by `login.mjs`)
 

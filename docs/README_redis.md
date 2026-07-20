@@ -38,7 +38,7 @@ Redis serves **two distinct purposes** in the WebSocket system:
 | Purpose | Mechanism | Managed By |
 |---------|-----------|------------|
 | **Socket.IO message relay** between instances | `@socket.io/redis-adapter` (Pub/Sub channels) | Adapter internals — invisible to application code |
-| **User presence map** shared across instances | Redis hash key `"users"` | `login.mjs` (reads/writes) + `WebsocketServer.mjs` (heartbeat writes) + stale cleanup (login.mjs) |
+| **User presence map** shared across instances | Redis hash key `"users"` | `login.mjs` (reads/writes) + `server.mjs` (heartbeat writes) + stale cleanup (login.mjs) |
 
 These are independent concerns. The adapter handles cross-instance delivery of
 `io.emit()` and `io.to(room).emit()`. The user presence hash handles cross-instance
@@ -120,7 +120,7 @@ is what enables cross-instance presence queries.
 | `getUserStatus()` | `login.mjs:183-204` | `hGet("users", userId)` | Single user | When the local instance doesn't have the user in memory but needs their status (fallback only) |
 | `checkEmptySockets()` | `login.mjs:207-227` | `hGet("users", userId)` | Single user | 7 seconds after disconnect, to check if all tabs are closed |
 | `getStatusForListOfIds()` | `login.mjs:252-293` | `hGet("users", id)` loop | Multiple users | Browser requests status for specific user IDs via `giveOnlineStatus` event |
-| Heartbeat | `WebsocketServer.mjs:279-308` | `hGet("users", userId)` | Single user (read-modify-write) | Every 10 seconds for each locally-connected socket |
+| Heartbeat | `server.mjs:140-171` | `hGet("users", userId)` | Single user (read-modify-write) | Every 10 seconds for each locally-connected socket |
 
 ### Write Paths
 
@@ -133,7 +133,7 @@ is what enables cross-instance presence queries.
 | `enterMeeting()` | `login.mjs:145-152` | `hSet("users", userId, ...)` | Increments `inMeetingCount` (+1), updates `updatedAt` | User joins a Jitsi meeting |
 | `leaveMeeting()` | `login.mjs:168-176` | `hSet("users", userId, ...)` | Decrements `inMeetingCount` (−1, min 0), updates `updatedAt` | User leaves a Jitsi meeting |
 | `setAwayTime()` | `login.mjs:238-245` | `hSet("users", userId, ...)` | Updates `awayTime`, `updatedAt` | User changes the away timeout value in the UI |
-| Heartbeat | `WebsocketServer.mjs:279-308` | `hSet("users", userId, ...)` | Refreshes entire entry (preserves existing counts written by `login.mjs`), updates `updatedAt` | Every 10s for each socket on this instance |
+| Heartbeat | `server.mjs:140-171` | `hSet("users", userId, ...)` | Refreshes entire entry (preserves existing counts written by `login.mjs`), updates `updatedAt` | Every 10s for each socket on this instance |
 
 ### The Dual-State Pattern
 
@@ -225,7 +225,7 @@ and removed.
 
 ### C. Heartbeat — Prevents Cleanup of Live Users
 
-**File:** `WebsocketServer.mjs:279-308`
+**File:** `server.mjs:140-171`
 
 Every 10 seconds, for every socket connected to the local instance:
 
@@ -261,8 +261,8 @@ The system opens **three** TCP connections to the same Redis server:
 
 | Connection | Created In | Used For |
 |-----------|-----------|----------|
-| `pubClient` | `WebsocketServer.mjs` line 156 | Publishes Socket.IO messages to other instances via the adapter. Also reused as the heartbeat writer and passed to `login.mjs` via the module-level `redis` variable |
-| `subClient` | `pubClient.duplicate()` at line 157 | Subscribes to Socket.IO messages from other instances — internal to the adapter |
+| `pubClient` | `server.mjs` line 65 | Publishes Socket.IO messages to other instances via the adapter. Also reused as the heartbeat writer and passed to `login.mjs` via the module-level `redis` variable |
+| `subClient` | `pubClient.duplicate()` at line 66 | Subscribes to Socket.IO messages from other instances — internal to the adapter |
 | `login.mjs` client | `login.mjs` lines 11-12 | **Separate connection** created at module load time for user presence KV operations (`hGet`/`hSet`/`hGetAll`/`hDel`) |
 
 The `pubClient` and the `login.mjs` client are **two independent connections**.
@@ -295,7 +295,7 @@ the O(N) cost is negligible.
 
 If Redis is unreachable at startup:
 
-1. `WebsocketServer.mjs` (lines 162-164): The adapter initialization fails. The
+1. `server.mjs` (lines 68-71): The adapter initialization fails. The
    `io.adapter()` call is never made. The server logs a warning in German:
    `"Redis-Adapter konnte nicht initialisiert werden, Standalone läuft:"` and
    continues to listen. `redis` remains `null`.
@@ -348,7 +348,7 @@ Complete list of all Redis operations in the application code:
 
 | File | Lines | Operation | Occurs In | Read/Write |
 |------|-------|-----------|-----------|------------|
-| `WebsocketServer.mjs` | 156-172 | Create pub+sub clients, install adapter | Module init (top-level await) | — |
+| `server.mjs` | 60-76 | Create pub+sub clients, install adapter | Module init (top-level await) | — |
 | `login.mjs` | 11-12 | Create client, connect | Module init (top-level await) | — |
 | `login.mjs` | 38 | `hGet("users", userId)` | `loginUser()` | Read |
 | `login.mjs` | 41 | `hSet("users", userId, JSON)` | `loginUser()` | Write |
@@ -371,13 +371,13 @@ Complete list of all Redis operations in the application code:
 | `login.mjs` | 298 | `hGetAll("users")` | `getOnlineUSer()` | Read |
 | `login.mjs` | 354 | `hGetAll("users")` | Stale cleanup interval | Read |
 | `login.mjs` | 361 | `hDel("users", id)` | Stale cleanup interval | Delete |
-| `WebsocketServer.mjs` | 288 | `hGet("users", userId)` | Heartbeat interval | Read |
-| `WebsocketServer.mjs` | 304 | `hSet("users", userId, JSON)` | Heartbeat interval | Write |
+| `server.mjs` | 149 | `hGet("users", userId)` | Heartbeat interval | Read |
+| `server.mjs` | 165 | `hSet("users", userId, JSON)` | Heartbeat interval | Write |
 
 **Summary:**
 
-- **Reads:** 14 call sites (11 in `login.mjs`, 1 in `WebsocketServer.mjs`)
-- **Writes:** 9 call sites (7 in `login.mjs`, 1 in `WebsocketServer.mjs`)
+- **Reads:** 14 call sites (11 in `login.mjs`, 1 in `server.mjs`)
+- **Writes:** 9 call sites (7 in `login.mjs`, 1 in `server.mjs`)
 - **Deletes:** 2 call sites (both in `login.mjs`)
 - **Key used:** `"users"` — the only application-level key
 
