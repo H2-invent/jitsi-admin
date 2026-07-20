@@ -18,6 +18,75 @@ if (REDIS_ENABLED) {
   }
 }
 
+// ── Redis helper functions ──────────────────────────────────────────
+// Each helper is a no-op when Redis is disabled (redis === null).
+// This eliminates the repeated `if (redis) { try { ... } catch { ... } }` pattern.
+
+async function redisGetUser(userId) {
+  if (!redis) return null;
+  try {
+    const raw = await redis.hGet("users", userId);
+    return raw ? JSON.parse(raw) : null;
+  } catch (err) {
+    console.error(`[Redis] Fehler beim Lesen von User ${userId}:`, err.message);
+    return null;
+  }
+}
+
+async function redisSetUser(userId, data) {
+  if (!redis) return;
+  try {
+    data.updatedAt = Date.now();
+    await redis.hSet("users", userId, JSON.stringify(data));
+  } catch (err) {
+    console.error(`[Redis] Fehler beim Schreiben von User ${userId}:`, err.message);
+  }
+}
+
+async function redisDeleteUser(userId) {
+  if (!redis) return;
+  try {
+    await redis.hDel("users", userId);
+  } catch (err) {
+    console.error(`[Redis] Fehler beim Löschen von User ${userId}:`, err.message);
+  }
+}
+
+async function redisGetAllUsers() {
+  if (!redis) return {};
+  try {
+    return await redis.hGetAll("users");
+  } catch (err) {
+    console.error("[Redis] Fehler beim Abrufen aller User:", err.message);
+    return {};
+  }
+}
+
+async function redisUpdateField(userId, updater, createIfMissing = false) {
+  if (!redis) return;
+  try {
+    const existing = await redis.hGet("users", userId);
+    if (!existing && !createIfMissing) return;
+
+    const data = existing ? JSON.parse(existing) : {
+      id: userId,
+      status: "online",
+      socketsCount: 1,
+      inMeetingCount: 0,
+      away: false,
+      awayTime: AWAY_TIME,
+    };
+
+    updater(data);
+    data.updatedAt = Date.now();
+    await redis.hSet("users", userId, JSON.stringify(data));
+  } catch (err) {
+    console.error(`[Redis] Fehler bei redisUpdateField für User ${userId}:`, err.message);
+  }
+}
+
+export { redisGetUser, redisSetUser, redisGetAllUsers };
+
 export async function loginUser(socket) {
   if (jwt.verify(socket.handshake.query.token, WEBSOCKET_SECRET)) {
     const userId = getUserId(socket);
@@ -33,24 +102,16 @@ export async function loginUser(socket) {
     }
 
     // Also persist to Redis for cross-instance presence
-    if (redis) {
-      try {
-        const existing = await redis.hGet("users", userId);
-        const existingData = existing ? JSON.parse(existing) : null;
-        const socketCount = (existingData?.socketsCount || 0) + 1;
-        await redis.hSet("users", userId, JSON.stringify({
-          id: userId,
-          status: initialStatus,
-          socketsCount: socketCount,
-          inMeetingCount: existingData?.inMeetingCount || 0,
-          away: existingData?.away || false,
-          awayTime: existingData?.awayTime || AWAY_TIME,
-          updatedAt: Date.now()
-        }));
-      } catch (err) {
-        console.error(`[Redis] Fehler beim Speichern von User ${userId}:`, err.message);
-      }
-    }
+    const existingData = await redisGetUser(userId);
+    const socketCount = (existingData?.socketsCount || 0) + 1;
+    await redisSetUser(userId, {
+      id: userId,
+      status: initialStatus,
+      socketsCount: socketCount,
+      inMeetingCount: existingData?.inMeetingCount || 0,
+      away: existingData?.away || false,
+      awayTime: existingData?.awayTime || AWAY_TIME
+    });
 
     return getUserFromSocket(socket);
   }
@@ -67,22 +128,14 @@ export async function disconnectUser(socket) {
   }
 
   // Sync to Redis
-  if (redis) {
-    try {
-      const existing = await redis.hGet("users", userId);
-      if (existing) {
-        const data = JSON.parse(existing);
-        const newCount = Math.max((data.socketsCount || 1) - 1, 0);
-        if (newCount === 0) {
-          await redis.hDel("users", userId);
-        } else {
-          data.socketsCount = newCount;
-          data.updatedAt = Date.now();
-          await redis.hSet("users", userId, JSON.stringify(data));
-        }
-      }
-    } catch (err) {
-      console.error(`[Redis] Fehler beim Löschen von User ${userId}:`, err.message);
+  const existing = await redisGetUser(userId);
+  if (existing) {
+    const newCount = Math.max((existing.socketsCount || 1) - 1, 0);
+    if (newCount === 0) {
+      await redisDeleteUser(userId);
+    } else {
+      existing.socketsCount = newCount;
+      await redisSetUser(userId, existing);
     }
   }
 }
@@ -95,20 +148,7 @@ export async function setStatus(socket, status) {
   }
 
   // Sync to Redis
-  if (redis) {
-    try {
-      const existing = await redis.hGet("users", userId);
-      if (existing) {
-        const data = JSON.parse(existing);
-        data.status = status;
-        data.away = false;
-        data.updatedAt = Date.now();
-        await redis.hSet("users", userId, JSON.stringify(data));
-      }
-    } catch (err) {
-      console.error(`[Redis] Fehler beim Setzen des Status von User ${userId}:`, err.message);
-    }
-  }
+  await redisUpdateField(userId, data => { data.status = status; data.away = false; });
 }
 
 export async function stillOnline(socket) {
@@ -119,19 +159,7 @@ export async function stillOnline(socket) {
   }
 
   // Sync to Redis
-  if (redis) {
-    try {
-      const existing = await redis.hGet("users", userId);
-      if (existing) {
-        const data = JSON.parse(existing);
-        data.away = false;
-        data.updatedAt = Date.now();
-        await redis.hSet("users", userId, JSON.stringify(data));
-      }
-    } catch (err) {
-      console.error(`[Redis] Fehler bei stillOnline von User ${userId}:`, err.message);
-    }
-  }
+  await redisUpdateField(userId, data => { data.away = false; });
 }
 
 export async function enterMeeting(socket) {
@@ -142,19 +170,7 @@ export async function enterMeeting(socket) {
   }
 
   // Sync to Redis
-  if (redis) {
-    try {
-      const existing = await redis.hGet("users", userId);
-      if (existing) {
-        const data = JSON.parse(existing);
-        data.inMeetingCount = (data.inMeetingCount || 0) + 1;
-        data.updatedAt = Date.now();
-        await redis.hSet("users", userId, JSON.stringify(data));
-      }
-    } catch (err) {
-      console.error(`[Redis] Fehler bei enterMeeting von User ${userId}:`, err.message);
-    }
-  }
+  await redisUpdateField(userId, data => { data.inMeetingCount = (data.inMeetingCount || 0) + 1; });
 }
 
 export async function leaveMeeting(socket) {
@@ -165,19 +181,7 @@ export async function leaveMeeting(socket) {
   }
 
   // Sync to Redis
-  if (redis) {
-    try {
-      const existing = await redis.hGet("users", userId);
-      if (existing) {
-        const data = JSON.parse(existing);
-        data.inMeetingCount = Math.max((data.inMeetingCount || 0) - 1, 0);
-        data.updatedAt = Date.now();
-        await redis.hSet("users", userId, JSON.stringify(data));
-      }
-    } catch (err) {
-      console.error(`[Redis] Fehler bei leaveMeeting von User ${userId}:`, err.message);
-    }
-  }
+  await redisUpdateField(userId, data => { data.inMeetingCount = Math.max((data.inMeetingCount || 0) - 1, 0); });
 }
 
 export async function getUserStatus(socket) {
@@ -187,19 +191,9 @@ export async function getUserStatus(socket) {
     return user[userId].getStatus();
   }
   // Fall back to Redis if available
-  if (redis) {
-    try {
-      const existing = await redis.hGet("users", userId);
-      if (existing) {
-        const data = JSON.parse(existing);
-        if ((data.socketsCount || 0) === 0) return "offline";
-        if ((data.inMeetingCount || 0) > 0) return "inMeeting";
-        if (data.away) return "away";
-        return data.status || "online";
-      }
-    } catch (err) {
-      console.error(`[Redis] Fehler bei getUserStatus von User ${userId}:`, err.message);
-    }
+  const data = await redisGetUser(userId);
+  if (data) {
+    return getUserStatusFromData(data);
   }
   return "offline";
 }
@@ -211,17 +205,9 @@ export async function checkEmptySockets(socket) {
     return user[userId].checkUserLeftTheApp();
   }
   // Fall back to Redis
-  if (redis) {
-    try {
-      const existing = await redis.hGet("users", userId);
-      if (existing) {
-        const data = JSON.parse(existing);
-        return (data.socketsCount || 0) === 0;
-      }
-      return true;
-    } catch (err) {
-      console.error(`[Redis] Fehler bei checkEmptySockets von User ${userId}:`, err.message);
-    }
+  const data = await redisGetUser(userId);
+  if (data) {
+    return (data.socketsCount || 0) === 0;
   }
   return true;
 }
@@ -234,46 +220,24 @@ export async function setAwayTime(socket, awayTime) {
   }
 
   // Sync to Redis
-  if (redis) {
-    try {
-      const existing = await redis.hGet("users", userId);
-      if (existing) {
-        const data = JSON.parse(existing);
-        data.awayTime = parseInt(awayTime) || AWAY_TIME;
-        data.updatedAt = Date.now();
-        await redis.hSet("users", userId, JSON.stringify(data));
-      }
-    } catch (err) {
-      console.error(`[Redis] Fehler bei setAwayTime von User ${userId}:`, err.message);
-    }
-  }
+  await redisUpdateField(userId, data => { data.awayTime = parseInt(awayTime) || AWAY_TIME; });
 }
 
 export async function getStatusForListOfIds(socket, list) {
   const ids = JSON.parse(list);
   const res = {};
-  if (redis) {
-    try {
-      for (const id of ids) {
-        const existing = await redis.hGet("users", id);
-        if (existing) {
-          const data = JSON.parse(existing);
-          if ((data.socketsCount || 0) === 0) {
-            res[id] = "offline";
-          } else if ((data.inMeetingCount || 0) > 0) {
-            res[id] = "inMeeting";
-          } else if (data.away) {
-            res[id] = "away";
-          } else {
-            res[id] = data.status || "online";
-          }
-        } else {
+  const allRedisUsers = await redisGetAllUsers();
+  if (Object.keys(allRedisUsers).length > 0) {
+    for (const id of ids) {
+      if (allRedisUsers[id]) {
+        try {
+          res[id] = getUserStatusFromData(JSON.parse(allRedisUsers[id]));
+        } catch {
           res[id] = "offline";
         }
+      } else {
+        res[id] = "offline";
       }
-    } catch (err) {
-      console.error("[Redis] Fehler bei getStatusForListOfIds:", err.message);
-      for (const id of ids) res[id] = "offline";
     }
   } else {
     for (const id of ids) {
@@ -293,26 +257,21 @@ export async function getStatusForListOfIds(socket, list) {
 }
 
 export async function getOnlineUser() {
-  if (redis) {
-    try {
-      const all = await redis.hGetAll("users");
-      const result = {};
-      for (const [id, val] of Object.entries(all)) {
-        try {
-          const parsed = JSON.parse(val);
-          const st = getUserStatusFromData(parsed);
-          if (!result[st]) result[st] = [];
-          result[st].push(id);
-        } catch {
-          if (!result.online) result.online = [];
-          result.online.push(id);
-        }
+  const all = await redisGetAllUsers();
+  if (Object.keys(all).length > 0) {
+    const result = {};
+    for (const [id, val] of Object.entries(all)) {
+      try {
+        const parsed = JSON.parse(val);
+        const st = getUserStatusFromData(parsed);
+        if (!result[st]) result[st] = [];
+        result[st].push(id);
+      } catch {
+        if (!result.online) result.online = [];
+        result.online.push(id);
       }
-      return result;
-    } catch (err) {
-      console.error("[Redis] Fehler beim Abrufen der User-Liste:", err.message);
-      return {};
     }
+    return result;
   } else {
     const tmpUser = {};
     for (const prop in user) {
@@ -351,14 +310,15 @@ export function getUserInitialOnlineStatus(socket) {
 if (REDIS_ENABLED && redis) {
   setInterval(async () => {
     try {
-      const all = await redis.hGetAll("users");
+      const all = await redisGetAllUsers();
+      if (Object.keys(all).length === 0) return;
       const now = Date.now();
       const TIMEOUT = 120000;
       for (const [id, val] of Object.entries(all)) {
         try {
           const data = JSON.parse(val);
           if (now - data.updatedAt > TIMEOUT) {
-            await redis.hDel("users", id);
+            await redisDeleteUser(id);
             console.log(`🕐 Stale User ${id} aus Redis entfernt (letztes Update vor ${Math.round((now - data.updatedAt) / 1000)}s)`);
           }
         } catch { /* skip malformed entries */ }

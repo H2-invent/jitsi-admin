@@ -8,7 +8,7 @@ import { Server } from "socket.io";
 
 import { checkFileContains } from "./checkCertAndKey.js";
 import { websocketState } from "./websocketState.mjs";
-import { loginUser, getOnlineUser, getUserId } from "./login.mjs";
+import { loginUser, getOnlineUser, getUserId, redisGetUser, redisSetUser } from "./login.mjs";
 import { setIO } from "./ioRegistry.mjs";
 import {
   MERCURE_INTERNAL_URL,
@@ -145,24 +145,16 @@ if (REDIS_ENABLED && redis) {
         const userId = getUserId(socket);
         if (!userId) continue;
 
-        // Bestehenden Eintrag lesen, um counts zu erhalten
-        const existing = await redis.hGet("users", userId);
-        let existingData = {};
-        try {
-          existingData = existing ? JSON.parse(existing) : {};
-        } catch {}
+        const existingData = (await redisGetUser(userId)) || {};
 
-        const userData = {
+        await redisSetUser(userId, {
           id: userId,
           status: existingData.status || (socket.decoded?.status === 1 ? "online" : "offline"),
           socketsCount: existingData.socketsCount || 1,
           inMeetingCount: existingData.inMeetingCount || 0,
           away: existingData.away || false,
-          awayTime: existingData.awayTime || 5,
-          updatedAt: Date.now()
-        };
-
-        await redis.hSet("users", userId, JSON.stringify(userData));
+          awayTime: existingData.awayTime || 5
+        });
       }
     } catch (err) {
       console.error("Fehler beim Heartbeat:", err.message);
