@@ -32,11 +32,17 @@ class Transcriber
         ;
         $text = '';
         $chunks = [];
+        $firstChunk = true;
         foreach ($audioChunks as $chunk) {
             $chunks[] = $chunk;
             $transcription = $this->transcribeChunk($chunk, $client);
             $transcription = rtrim($transcription); // all chunks have a newline at the end, remove it
+            if ($firstChunk) {
+                $text .= ' '; // add space between chunks so sentences can be split after
+            }
             $text .= $transcription;
+
+            $firstChunk = false;
         }
 
         // every sentence should be a new line or else we have a file with a single line of long text

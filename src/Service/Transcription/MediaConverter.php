@@ -79,6 +79,7 @@ class MediaConverter
         if ($fileSize <= self::MAX_CHUNK_BYTES) {
             // no splitting needed
             yield $mp3FilePath;
+            return;
         }
 
         // calculate approximate chunk duration based on bitrate

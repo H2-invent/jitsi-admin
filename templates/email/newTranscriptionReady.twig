@@ -15,8 +15,10 @@
     </p>
 
     <p>
-        <a href="{{ absolute_url(path('app_transcription_download', {'id': transcription.id})) }}">
-            {{ 'Klicken Sie hier um das Transkript runterzuladen.'|trans }}
+        <a class="text-center" href="{{ laF_baseUrl }}{{ path('app_transcription_download', {'id': transcription.id}) }}">
+            <button href="{{ laF_baseUrl }}{{ path('app_transcription_download', {'id': transcription.id}) }}" class="expanded rounded">
+                {{ 'Download'|trans }}
+            </button>
         </a>
     </p>
 
