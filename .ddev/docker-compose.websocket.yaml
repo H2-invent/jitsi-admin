@@ -12,6 +12,7 @@ services:
     environment:
       - VIRTUAL_HOST=${DDEV_HOSTNAME}
       - HTTPS_EXPOSE=3000:3000
+      - WEBSOCKET_SECRET=${MERCURE_JWT_SECRET:-CHANGEME}
     volumes:
       - websocket_data:/data
       - websocket_config:/config
