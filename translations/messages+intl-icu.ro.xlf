@@ -2484,7 +2484,7 @@ Ihre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="kHIraMt" resname="transcription.ready.text">
         <source>transcription.ready.text</source>
-        <target state="needs-translation">Die Transkription für {roomName} ist fertig und liegt zum Download bereit.</target>
+        <target state="needs-translation">Es wurde eine Transkription zu der Konferenz {roomName} hochgeladen. Sie können die Transkription der Konferenz über die Optionen im Dashboard herunterladen.</target>
       </trans-unit>
       <trans-unit id="2dzwmpu" resname="Klicken Sie hier um das Transkript runterzuladen.">
         <source>Klicken Sie hier um das Transkript runterzuladen.</source>

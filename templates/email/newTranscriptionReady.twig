@@ -7,19 +7,28 @@
     <h4 class="text-center">
         {{ room.name }}
     </h4>
-    <b>
-        {{ 'Hallo!'|trans }}
-    </b>
     <p>
-        {% trans with {'{roomName}': room.name} %}transcription.ready.text{% endtrans %}
+        {% if room.fastConference %}
+            {% trans with {'{roomName}': room.name} %}transcription.ready.text.fastconference{% endtrans %}
+        {% else %}
+            {% trans with {'{roomName}': room.name} %}transcription.ready.text{% endtrans %}
+        {% endif %}
     </p>
 
     <p>
-        <a class="text-center" href="{{ laF_baseUrl }}{{ path('app_transcription_download', {'id': transcription.id}) }}">
-            <button href="{{ laF_baseUrl }}{{ path('app_transcription_download', {'id': transcription.id}) }}" class="expanded rounded">
-                {{ 'Download'|trans }}
-            </button>
-        </a>
+        {% if room.fastConference %}
+            <a class="text-center" href="{{ laF_baseUrl }}{{ path('app_transcription_download', {'id': transcription.id}) }}">
+                <button href="{{ laF_baseUrl }}{{ path('app_transcription_download', {'id': transcription.id}) }}" class="expanded rounded">
+                    {{ 'Download'|trans }}
+                </button>
+            </a>
+        {% else %}
+            <a class="text-center" href="{{ laF_baseUrl }}{{ path('dashboard') }}">
+                <button href="{{ laF_baseUrl }}{{ path('dashboard') }}" class="expanded rounded">
+                    {{ 'Dashboard'|trans }}
+                </button>
+            </a>
+        {% endif %}
     </p>
 
     <p>
