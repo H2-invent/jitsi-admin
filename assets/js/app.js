@@ -148,6 +148,20 @@ $('#modalAdressbook').on('shown.bs.modal', function (e) {
     initalSetUnderline('#modalAdressbook .underline');
 });
 
+// Use escape key to close top-level modal, if no modal is open, do nothing
+document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+
+    const visibleModals = [...document.querySelectorAll('.modal.show')];
+    if (visibleModals.length > 1) {
+        const topModal = visibleModals.reduce((a, b) =>
+            (parseInt(getComputedStyle(a).zIndex) || 0) > (parseInt(getComputedStyle(b).zIndex) || 0) ? a : b
+        );
+        e.stopImmediatePropagation();
+        Modal.getInstance(topModal)?.hide();
+    }
+}, true);
+
 
 
 
