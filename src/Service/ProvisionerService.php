@@ -51,7 +51,7 @@ class ProvisionerService
 
     public function cleanupUnusedProvisionedServers(): int
     {
-        $rooms = $this->roomsRepository->findRoomsWhoseProvisionedServerCanBeDeleted();
+        $rooms = $this->roomsRepository->findRoomsWhoseProvisionedServerCanBeDeleted($this->scheduleMinutesTreshold);
         foreach ($rooms as $room) {
             $this->sendDeleteRequest($room);
         }

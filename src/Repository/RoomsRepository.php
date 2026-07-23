@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Service\TimeZoneService;
+use DateInterval;
 use DateTime;
 use DateTimeZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -380,22 +381,32 @@ class RoomsRepository extends ServiceEntityRepository
      *
      * @return Rooms[]
      */
-    public function findRoomsWhoseProvisionedServerCanBeDeleted(): array
+    public function findRoomsWhoseProvisionedServerCanBeDeleted(int $scheduleMinutesThreshold): array
     {
+        $nowUtc = new DateTime('now', new DateTimeZone('utc'));
+
+        $timeoutThreshold = (new DateTime())->sub(new DateInterval("PT5M")); // 5 min timeout to provision server and connect users
+        $scheduleThreshold = (new DateTime())->sub(new DateInterval("PT{$scheduleMinutesThreshold}M"));
+
         $qb = $this->createQueryBuilder('room');
         return $qb
             ->innerJoin('room.server', 'server')
             ->leftJoin('room.roomstatuses', 'status')
             ->leftJoin('status.roomStatusParticipants', 'status_participant')
             ->leftJoin('room.liveKitRecordings', 'recording')
+
+            ->andWhere('room.originalServer IS NOT NULL')
             ->andWhere('server.isAllowedToCloneForAutoscale IS NULL')
             ->andWhere('server.isProvisioningEnabled = true')
             ->andWhere(
                 $qb->expr()->orX(
-                    'room.persistantRoom = true',
+                    $qb->expr()->andX(
+                        'room.persistantRoom = true',
+                        'room.createdAt < :scheduleThreshold'
+                    ),
                     $qb->expr()->andX(
                         'room.persistantRoom = false',
-                        'room.endDateUtc < :now',
+                        'room.endDateUtc < :nowUtc',
                     ),
                 ),
             )
@@ -412,7 +423,12 @@ class RoomsRepository extends ServiceEntityRepository
                     'recording.user IS NULL',
                 ),
             )
-            ->setParameter('now', new DateTime('now', new DateTimeZone('utc')))
+            ->andWhere(
+                'room.createdAt < :timeoutThreshold'
+            )
+            ->setParameter('nowUtc', $nowUtc)
+            ->setParameter('timeoutThreshold', $timeoutThreshold)
+            ->setParameter('scheduleThreshold', $scheduleThreshold)
             ->getQuery()
             ->getResult()
         ;
@@ -429,6 +445,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('server.isAllowedToCloneForAutoscale = true')
             ->andWhere('server.isProvisioningEnabled = true')
             ->andWhere('room.persistantRoom = false')
+            ->andWhere('room.originalServer IS NULL')
             ->andWhere('room.startUtc < :threshold')
             ->andWhere('room.endDateUtc > :now')
             ->setParameter('threshold', new DateTime("+ {$minutes} minutes", new DateTimeZone('utc')))
