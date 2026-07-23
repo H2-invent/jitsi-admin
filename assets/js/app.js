@@ -19,6 +19,8 @@ global.$ = global.jQuery = $;
 
 import { Dropdown,Popover,Modal,Tooltip,Collapse, initMDB } from "mdb-ui-kit";
 
+import Swal from 'sweetalert2';
+
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr';
@@ -207,3 +209,80 @@ $('.sidebarToggle').click(function () {
     $('.sidebarToggle').toggleClass('d-none');
 
 })
+
+$(document).on('submit', '#addressGroupForm', function (e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const $form = $(this);
+    const $btn = $form.find('button[type=submit]');
+    const originalHtml = $btn.html();
+    $btn.html('<i class="fas fa-spinner fa-spin"></i> ' + originalHtml);
+    $btn.prop('disabled', true);
+
+    fetch($form.attr('action'), {
+        method: 'POST',
+        body: new FormData(this)
+    })
+        .then(response => response.text())
+        .then(html => {
+            const groupsTab = document.getElementById('addressbookContent');
+            if (groupsTab) {
+                const profilePane = groupsTab.querySelector('#profile');
+                if (profilePane) {
+                    profilePane.innerHTML = html;
+                }
+            }
+            const loadContentModal = document.getElementById('loadContentModal');
+            if (loadContentModal) {
+                const instance = Modal.getInstance(loadContentModal);
+                if (instance) instance.hide();
+            }
+            initMDB({ Popover });
+        })
+        .catch(() => {
+            $btn.html(originalHtml);
+            $btn.prop('disabled', false);
+        });
+});
+
+document.addEventListener('click', function (e) {
+    const trigger = e.target.closest('.confirmHref');
+    if (!trigger) return;
+
+    const ajaxUrl = trigger.dataset.ajaxUrl;
+    if (!ajaxUrl) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    const text = trigger.querySelector('i')?.dataset?.text || trigger.querySelector('i')?.getAttribute('data-text') || 'Wollen Sie die Aktion durchführen?';
+
+    Swal.fire({
+        title: 'Bestätigung',
+        text: text,
+        icon: 'question',
+        backdrop: false,
+        showCancelButton: true,
+        cancelButtonText: 'Abbrechen',
+        heightAuto: false,
+        customClass: {
+            confirmButton: 'btn-danger btn',
+            cancelButton: 'btn-outline-primary btn'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(ajaxUrl, { method: 'POST' })
+                .then(response => response.text())
+                .then(html => {
+                    const container = document.getElementById('addressbookContent');
+                    if (container) {
+                        const profilePane = container.querySelector('#profile');
+                        if (profilePane) {
+                            profilePane.innerHTML = html;
+                        }
+                    }
+                    initMDB({ Popover });
+                });
+        }
+    });
+}, true);

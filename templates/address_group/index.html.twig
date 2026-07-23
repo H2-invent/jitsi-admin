@@ -11,7 +11,7 @@
              <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            {{ form_start(form) }}
+            {{ form_start(form, {'attr': {'id': 'addressGroupForm', 'data-ajax': 'true', 'action': path('address_group_new_ajax', {'id': form.vars.value.id ?? ''})}}) }}
             <div class="row d-flex align-items-center textarea">
                 <div class="col-lg-8 ">
                     {{ form_row(form.name) }}

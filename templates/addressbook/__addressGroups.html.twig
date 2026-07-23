@@ -1,30 +1,34 @@
-<ul class="list-group">
-    <a href="{{ path('address_group_new') }}" class="btn-outline-primary btn loadContent me-0">{{ 'Neue Gruppe'|trans }}</a>
+<a href="{{ path('address_group_new') }}" class="btn-outline-primary btn loadContent mb-2" style="width: calc(100% - 40px); margin-left: 20px;">{{ 'Neue Gruppe'|trans }}</a>
+<ul class="list-group list-group-flush">
     {% set name = null %}
     {% for g in app.user.addressGroupLeader|sort((a, b) => a.name|lower <=> b.name|lower) %}
         {% if g.name|first|upper != name %}
-            {{ g.name|first|upper }}
+            {% if name is not null %}</ul></li>{% endif %}
+            <li class="list-group-item border-0 pb-1 fw-bold">{{ g.name|first|upper }}<ul class="list-group mt-1">
             {% set name = g.name|first|upper %}
         {% endif %}
 
-        <li class="list-group-item" style="display: flex; justify-content: space-between">
+        <li class="list-group-item fw-normal" style="display: flex; justify-content: space-between">
             <span class="breakWord">
                 {{ g.name }} ({{ g.member|length }})
 
             </span>
             <span class="noBreak">
-<a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus" data-mdb-html="true"
-   title="{{ 'Mitglieder'|trans }}"
-   data-mdb-content='<ul>{% for m in g.member|sort((a, b) => a|nameOfUser|lower <=> b|nameOfUser|lower) %}<li>{{ m|nameOfUser }}</li>  {% endfor %}</ul>'><i
-            class="fa fa-info-circle"></i></a>
+                <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus" data-mdb-html="true"
+                    title="{{ 'Mitglieder'|trans }}"
+                    data-mdb-content='<ul>{% for m in g.member|sort((a, b) => a|nameOfUser|lower <=> b|nameOfUser|lower) %}<li>{{ m|nameOfUser }}</li>  {% endfor %}</ul>'><i
+                    class="fa fa-info-circle"></i>
+                </a>
                 <a href="{{ path('address_group_new',{'id':g.id}) }}" class="loadContent">
                     <i class="fa fa-edit"></i>
                 </a>
-                                    <a class="confirmHref" href="{{ path('address_group_remove',{'id':g.id}) }}"><i
-                                                class="fa fa-trash text-danger"
-                                                data-text="{{ 'confirm.delete.adressbookGroupUser'|trans }}"></i>
-                                    </a>
+                <a class="confirmHref" href="{{ path('address_group_remove',{'id':g.id}) }}"
+                data-ajax-url="{{ path('address_group_remove_ajax',{'id':g.id}) }}"><i
+                class="fa fa-trash text-danger"
+                data-text="{{ 'confirm.delete.adressbookGroupUser'|trans }}"></i>
+                </a>
             </span>
         </li>
     {% endfor %}
+    </ul></li>
 </ul>
