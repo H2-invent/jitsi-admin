@@ -7,11 +7,14 @@ use App\Entity\Server;
 use Generator;
 use GuzzleHttp;
 use OpenAI;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class Transcriber
 {
     public function __construct(
         private readonly OpenAI\Factory $clientFactory,
+        #[Autowire(param: 'app.transcription.openai.uri')]
+        private readonly string $openApiUri,
     )
     {
     }
@@ -21,15 +24,7 @@ class Transcriber
      */
     public function transcribeAudioChunks(Generator $audioChunks, ?Server $server): array
     {
-        $client = $this->clientFactory
-            ->withApiKey($server->getApiKeyOpenAI())
-            ->withHttpClient(new GuzzleHttp\Client([
-                'connect_timeout' => 0,
-                'read_timeout' => 0,
-                'timeout' => 0,
-            ]))
-            ->make()
-        ;
+        $client = $this->createClient($server);
         $text = '';
         $chunks = [];
         $firstChunk = true;
@@ -50,6 +45,21 @@ class Transcriber
         $text = implode("\n", $sentences);
 
         return [$text, $chunks];
+    }
+
+    private function createClient(?Server $server): OpenAI\Client
+    {
+        return $this->clientFactory
+            ->withApiKey($server->getApiKeyOpenAI())
+            ->withBaseUri($this->openApiUri)
+            ->withHttpClient(new GuzzleHttp\Client([
+                    'connect_timeout' => 0,
+                    'read_timeout' => 0,
+                    'timeout' => 0,
+                ])
+            )
+            ->make()
+        ;
     }
 
     private function transcribeChunk(string $chunkPath, OpenAI\Client $client): string
