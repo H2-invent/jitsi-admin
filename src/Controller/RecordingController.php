@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Entity\UploadedRecording;
 use App\Entity\User;
+use App\Message\TranscriptionMessage;
 use App\Repository\RecordingRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UploadedRecordingRepository;
 use App\Service\MailerService;
+use App\Service\RecordingService;
+use App\Service\Result\Error\RecordingUploadError;
 use Doctrine\ORM\EntityManagerInterface;
 use Gaufrette\FilesystemInterface;
 use Gaufrette\Stream\InMemoryBuffer;
@@ -24,6 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
@@ -41,10 +45,9 @@ class RecordingController extends AbstractController
         private RecordingRepository          $recordingRepository,
         private LoggerInterface              $logger,
         private UploadedRecordingRepository  $uploadedRecordingRepository,
-        private readonly MailerService       $mailer,
-        private readonly TranslatorInterface $translator,
-        private readonly Environment         $environment,
         private ParameterBagInterface        $parameterBag,
+        private readonly MessageBusInterface $messageBus,
+        private readonly RecordingService    $recordingService,
     )
     {
         $this->filesystem = $recordingFilesystem; // Filesystem für die Aufnahmen
@@ -60,7 +63,7 @@ class RecordingController extends AbstractController
         // Überprüfe Bearer-Token
         $authHeader = $request->headers->get('Authorization');
         if (!$authHeader || !$this->isValidBearerToken($authHeader)) {
-            throw new AccessDeniedHttpException('Invalid Bearer Token');
+            throw $this->createAccessDeniedException('Invalid Bearer Token');
         }
 
         // Hole die Konferenz-ID und die Datei
@@ -88,53 +91,23 @@ class RecordingController extends AbstractController
             $this->logger->debug('Recording ID is missing');
             return new JsonResponse(['error' => 'Recording ID is missing'], Response::HTTP_BAD_REQUEST);
         }
-        // Temporäres Verzeichnis für Chunks
-        $tempDir = $this->parameterBag->get('kernel.project_dir') . "/upload_chunks/{$recordingId}/";
-        $this->localFilesystem->mkdir($tempDir);
 
-        // Speichern des aktuellen Chunks
-        $chunkPath = $tempDir . "chunk_{$chunkIndex}";
-        $uploadedFile->move($tempDir, "chunk_{$chunkIndex}");
+        $result = $this->recordingService->saveChunk(
+            (int)$chunkIndex,
+            (int)$totalChunks,
+            $recordingId,
+            $uploadedFile,
+        );
 
-        $uploadedChunks = glob($tempDir . 'chunk_*');
-        if (count($uploadedChunks) == $totalChunks) {
-            // Finalen Dateipfad bestimmen
-            $finalPath = $tempDir . 'final.bin';
-            $this->localFilesystem->remove($finalPath);
-
-            // Datei zusammensetzen
-            foreach (range(0, $totalChunks - 1) as $i) {
-                $chunkContent = file_get_contents($tempDir . "chunk_{$i}");
-                file_put_contents($finalPath, $chunkContent, FILE_APPEND);
+        if ($result->isFailure()) {
+            if ($result->getErrorType() === RecordingUploadError::UPLOAD_INCOMPLETE) {
+                return new JsonResponse(['status' => 'Chunk received']);
             }
 
-            // Temporäre Chunks entfernen
-
-            $room = $this->recordingRepository->findOneBy(['uid' => $recordingId])->getRoom();
-            // Datei in Gaufrette speichern
-            $fileStream = fopen($finalPath, 'r');
-            $fileName = md5(uniqid()) . '.mp4';
-            $fileType = $uploadedFile->getClientMimeType();
-            $this->filesystem->write($fileName, $fileStream);
-            fclose($fileStream);
-            $this->localFilesystem->remove($tempDir);
-            // Datenbankeintrag erstellen
-
-            $uploadedFileEntity = new UploadedRecording();
-            $uploadedFileEntity->setFilename($fileName)
-                ->setDisplayName((new \DateTime())->format('d.m.Y H:i') . '.mp4')
-                ->setRoom($room)
-                ->setCreatedAt(new \DateTimeImmutable())
-                ->setType('video/mp4'); // Beispieltyp
-
-            $this->entityManager->persist($uploadedFileEntity);
-            $this->entityManager->flush();
-            $this->sendEmailAfterUploading($room->getModerator(), $room, $uploadedFileEntity);
-
-            return new JsonResponse(['status' => 'File uploaded successfully']);
+            return new JsonResponse(['error' => $result->getErrorType()->value]);
         }
 
-        return new JsonResponse(['status' => 'Chunk received']);
+        return new JsonResponse(['status' => 'File uploaded successfully']);
     }
 
     #[Route('/room/recordings/modal/{room}', name: 'recording_modal', methods: ['GET'])]
@@ -196,6 +169,24 @@ class RecordingController extends AbstractController
         }
     }
 
+    /**
+     * Hacky Route um die Recordings einer Sofortkonferenz runterzuladen
+     * Spätestens wenn die Recordings auch über das Dashboard heruntergeladen werden sollen, sollten wir das auch in den Service auslagern
+     * FIXME
+     */
+    #[Route('/room/recordings/download-fastconference/{id}', name: 'recording_download_fastconference', methods: ['GET'])]
+    public function downloadForFastConference(Rooms $room): Response
+    {
+        // Bei Sofortkonferenzen gehen wir davon aus dass nur ein einzelnes Recording existiert
+        $uploadedRecording = $this->uploadedRecordingRepository->findOneBy(['room' => $room]);
+        if ($uploadedRecording === null) {
+            throw $this->createNotFoundException('Could not find recording');
+        }
+
+        return $this->download($uploadedRecording->getFilename());
+    }
+
+
     #[Route('/room/recordings/remove/{filename}', name: 'recording_remove', methods: ['GET'])]
     public function remove(string $filename): Response
     {
@@ -249,17 +240,4 @@ class RecordingController extends AbstractController
 
         return $mimeTypeMap[$mimeType] ?? 'bin';  // Standard auf 'bin', falls der MIME-Typ nicht gefunden wird
     }
-
-    private function sendEmailAfterUploading(User $user, Rooms $room, UploadedRecording $uploadedRecording)
-    {
-        $this->mailer->sendEmail(
-            $room->getModerator(),
-            $this->translator->trans('recording.email.subject', ['{name}' => $room->getName()]),
-            $this->environment->render('email/uploadRecording.html.twig', ['room' => $room, 'user' => $user]),
-            $room->getServer(),
-            null,
-            $room
-        );
-    }
-
 }

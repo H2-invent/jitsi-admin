@@ -158,6 +158,7 @@ parameters:
     app.log.loki.uri: '%env(LOKI_URI)%'
     app.log.loki.client: '%env(LOKI_CLIENT)%'
     app.log.loki.log_level: '%env(LOKI_LOG_LEVEL)%'
+    app.transcription.openai.uri: '%env(OPENAI_API_URI)%'
 
 services:
     gaufrette.recording_fs_filesystem:
@@ -239,4 +240,6 @@ services:
         tags:
             - { name: monolog.handler, handler: loki_filtered }
 
+    FFMpeg\FFMpeg:
+        factory: ['FFMpeg\FFMpeg', 'create']
 

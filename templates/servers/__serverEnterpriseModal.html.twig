@@ -76,6 +76,10 @@
                         <h4>{{ 'enterprise.settings.livekit'|trans }}</h4>
                         {{ form_row(form.livekitMiddlewareUrl) }}
                         {{ form_row(form.enableRecording) }}
+                        <h4>{{ 'enterprise.settings.transcription'|trans }}</h4>
+                        {{ form_row(form.transcriptionProvider) }}
+                        {{ form_row(form.apiKeyTranscription) }}
+                        {{ form_row(form.enableTranscription) }}
                     </div>
                 </div>
 

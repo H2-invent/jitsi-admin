@@ -2,14 +2,28 @@
 
 namespace App\Controller;
 
+use App\Entity\Rooms;
 use App\Entity\Transcription;
+use App\Service\Transcription\TranscriptionService;
+use Exception;
+use JsonException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class TranscriptionController extends AbstractController
 {
-    #[Route('/transcription/{id}/download', name: 'app_transcription_download')]
+    public function __construct(
+        private readonly TranscriptionService $transcriptionService,
+        private readonly LoggerInterface $logger,
+    )
+    {
+    }
+
+    #[Route('/room/transcription/{id}/download', name: 'app_transcription_download')]
     public function download(Transcription $transcription): Response
     {
         $user = $this->getUser();
@@ -18,12 +32,63 @@ final class TranscriptionController extends AbstractController
             throw $this->createAccessDeniedException('Only moderators are allowed to download room transcriptions.');
         }
 
-        $fileName = "transcription_{$transcription->getRoom()->getName()}_{$transcription->getCreatedAt()->format('y-m-d_H-i-s')}.md";
+        $fileName = $transcription->getFileName();
 
         $response = new Response($transcription->getText());
         $response->headers->set('Content-Type', 'text/markdown');
         $response->headers->set('Content-Disposition', $response->headers->makeDisposition('attachment', $fileName));
 
         return $response;
+    }
+
+    #[Route('/room/transcription/{id}/remove', name: 'app_transcription_remove', methods: ['GET'])]
+    public function remove(Transcription $transcription): JsonResponse
+    {
+        if ($transcription->getRoom()->getModerator() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Only moderators are allowed to remove room transcriptions.');
+        }
+
+        try {
+            $this->transcriptionService->removeTranscription($transcription);
+        } catch (Exception $e) {
+            $this->logger->error('Error removing file', ['error' => $e->getMessage()]);
+
+            return new JsonResponse(['error' => 'Error removing file: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResponse(['error' => false]);
+    }
+
+
+    #[Route('/room/transcriptions/modal/{room}', name: 'app_transcription_modal', methods: ['GET'])]
+    public function modal(Rooms $room): Response
+    {
+        if ($room->getModerator() !== $this->getUser()) {
+            throw $this->createNotFoundException('Room not found');
+        }
+
+        return $this->render('transcription/modal.html.twig', ['room' => $room]);
+    }
+
+    #[Route('/room/transcriptions/toggle/{room}', name: 'app_transcription_toggle', methods: ['POST'])]
+    public function toggle(Rooms $room, Request $request): JsonResponse
+    {
+        if ($room->getModerator() !== $this->getUser()) {
+            throw $this->createNotFoundException('Room not found');
+        }
+
+        try {
+            $data = json_decode($request->getContent(), true, flags: JSON_THROW_ON_ERROR);
+            $enabled = $data['enabled'] ?? null;
+            if (!is_bool($enabled)) {
+                throw new JsonException();
+            }
+        } catch (JsonException) {
+            return new JsonResponse(['error' => true, 'message' => 'Invalid JSON']);
+        }
+
+        $this->transcriptionService->toggleTranscriptionForRoom($room, $enabled);
+
+        return new JsonResponse(['error' => false]);
     }
 }

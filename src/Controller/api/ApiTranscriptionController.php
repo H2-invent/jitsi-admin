@@ -5,7 +5,7 @@ namespace App\Controller\api;
 
 use App\Helper\BearerTokenAuthHelper;
 use App\Repository\RoomsRepository;
-use App\Service\TranscriptionService;
+use App\Service\Transcription\TranscriptionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -2348,11 +2348,15 @@
       </trans-unit>
       <trans-unit id="nYMq8lL" resname="recording.email.title">
         <source>recording.email.title</source>
-        <target>Es wurde eine Aufnahme für die Videokonferenz hochgladen</target>
+        <target>Es wurde eine Aufnahme für die Videokonferenz hochgeladen</target>
       </trans-unit>
       <trans-unit id="cG2pjfJ" resname="recording.email.body">
         <source>recording.email.body</source>
-        <target>Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
+        <target>Es wurde eine Aufnahme zu der Konferenz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
+      </trans-unit>
+      <trans-unit id="c27mnLJ" resname="recording.email.body.fastconference">
+        <source>recording.email.body.fastconference</source>
+        <target>Es wurde eine Aufnahme zu der Konferenz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über diesen Link herunterladen.</target>
       </trans-unit>
       <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
         <source>recording.startSpeakerOnly</source>
@@ -2484,6 +2488,10 @@ Ihre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="kHIraMt" resname="transcription.ready.text">
         <source>transcription.ready.text</source>
+        <target>Es wurde eine Transkription zu der Konferenz {roomName} hochgeladen. Sie können die Transkription der Konferenz über die Optionen im Dashboard herunterladen.</target>
+      </trans-unit>
+      <trans-unit id="p7mraxT" resname="transcription.ready.text.fastconference">
+        <source>transcription.ready.text</source>
         <target>Die Transkription für {roomName} ist fertig und liegt zum Download bereit.</target>
       </trans-unit>
       <trans-unit id="2dzwmpu" resname="Klicken Sie hier um das Transkript runterzuladen.">
@@ -2545,6 +2553,22 @@ Ihre E-Mail-Adresse: {email}</target>
       <trans-unit id="aPyOdXY" resname="Sofort">
         <source>Sofort</source>
         <target>Sofort</target>
+      </trans-unit>
+      <trans-unit id="oWIBNXX" resname="enterprise.settings.transcription">
+        <source>enterprise.settings.transcription</source>
+        <target>Transkript Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="VitJXBB" resname="transcription.modal.title">
+        <source>transcription.modal.title</source>
+        <target>Transkripte von Videokonferenzen</target>
+      </trans-unit>
+      <trans-unit id="N93tNXa">
+        <source>Transkripte</source>
+        <target>Transkripte</target>
+      </trans-unit>
+      <trans-unit id="3hdoEuh" resname="recording.toggleTranscription">
+          <source>Transkription aktivieren</source>
+          <target>Transkription aktivieren</target>
       </trans-unit>
     </body>
   </file>
