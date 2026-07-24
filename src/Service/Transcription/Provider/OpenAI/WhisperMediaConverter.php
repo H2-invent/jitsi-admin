@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Service\Transcription;
+namespace App\Service\Transcription\Provider\OpenAI;
 
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
@@ -10,7 +10,7 @@ use Gaufrette\FilesystemInterface;
 use Generator;
 use RuntimeException;
 
-class MediaConverter
+class WhisperMediaConverter
 {
     private const MAX_CHUNK_BYTES = 24 * 1024 * 1024; // OpenAI max chunk size is 25MB, we're doing 24 here for safety
     private const AUDIO_KILO_BITRATE = 128;

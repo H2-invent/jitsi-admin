@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ServerRepository;
+use App\Service\Transcription\TranscriptionProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -165,10 +166,13 @@ class Server
     private ?bool $isAllowedToCloneForAutoscale = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $apiKeyOpenAI = null;
+    private ?string $apiKeyTranscription = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $enableTranscription = null;
+
+    #[ORM\Column(nullable: true, enumType: TranscriptionProvider::class)]
+    private ?TranscriptionProvider $transcription_provider = null;
 
     public function __construct()
     {
@@ -965,14 +969,14 @@ class Server
         return $this;
     }
 
-    public function getApiKeyOpenAI(): ?string
+    public function getApiKeyTranscription(): ?string
     {
-        return $this->apiKeyOpenAI;
+        return $this->apiKeyTranscription;
     }
 
-    public function setApiKeyOpenAI(?string $apiKeyOpenAI): static
+    public function setApiKeyTranscription(?string $apiKeyTranscription): static
     {
-        $this->apiKeyOpenAI = $apiKeyOpenAI;
+        $this->apiKeyTranscription = $apiKeyTranscription;
 
         return $this;
     }
@@ -985,6 +989,18 @@ class Server
     public function setEnableTranscription(bool $enableTranscription): static
     {
         $this->enableTranscription = $enableTranscription;
+
+        return $this;
+    }
+
+    public function getTranscriptionProvider(): ?TranscriptionProvider
+    {
+        return $this->transcription_provider;
+    }
+
+    public function setTranscriptionProvider(?TranscriptionProvider $transcription_provider): static
+    {
+        $this->transcription_provider = $transcription_provider;
 
         return $this;
     }

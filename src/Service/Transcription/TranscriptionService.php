@@ -19,18 +19,17 @@ class TranscriptionService
         private readonly MailerService $mailerService,
         private readonly Environment $twig,
         private readonly TranslatorInterface $translator,
-        private readonly MediaConverter $mediaConverter,
-        private readonly Transcriber $transcriber,
+        private readonly TranscriptionProviderInterface $transcriptionProvider,
     )
     {
     }
 
     public function transcribe(UploadedRecording $recording): void
     {
-        $audioChunksGenerator = $this->mediaConverter->yieldMp3ChunksOfRecording($recording->getFilename());
-        [$text, $audioChunks] = $this->transcriber->transcribeAudioChunks($audioChunksGenerator, $recording->getRoom()->getServer());
+        $audioChunksGenerator = $this->transcriptionProvider->yieldAudioChunks($recording->getFilename());
+        [$text, $audioChunks] = $this->transcriptionProvider->transcribeChunks($audioChunksGenerator, $recording->getRoom()->getServer());
         $this->addNewTranscription($recording->getRoom(), $text);
-        $this->mediaConverter->deleteChunks($audioChunks);
+        $this->transcriptionProvider->deleteChunks($audioChunks);
     }
 
     public function addNewTranscription(Rooms $room, string $text): Transcription

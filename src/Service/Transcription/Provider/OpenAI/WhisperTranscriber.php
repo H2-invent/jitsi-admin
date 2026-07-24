@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Service\Transcription;
+namespace App\Service\Transcription\Provider\OpenAI;
 
 use App\Entity\Server;
 use Generator;
@@ -9,7 +9,7 @@ use GuzzleHttp;
 use OpenAI;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-class Transcriber
+class WhisperTranscriber
 {
     public function __construct(
         private readonly OpenAI\Factory $clientFactory,
@@ -50,7 +50,7 @@ class Transcriber
     private function createClient(?Server $server): OpenAI\Client
     {
         return $this->clientFactory
-            ->withApiKey($server->getApiKeyOpenAI())
+            ->withApiKey($server->getApiKeyTranscription())
             ->withBaseUri($this->openApiUri)
             ->withHttpClient(new GuzzleHttp\Client([
                     'connect_timeout' => 0,
