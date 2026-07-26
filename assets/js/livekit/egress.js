@@ -100,6 +100,9 @@ function setupTranscriptionToggle() {
         const checkbox = label.querySelector('input[type="checkbox"]');
         const url = label.dataset.href;
 
+        // keep the dropdown open when toggling the checkbox
+        label.addEventListener('click', (e) => e.stopPropagation());
+
         checkbox.addEventListener('change', async (e) => {
             const isChecked = e.target.checked;
             // keep both checkboxes in sync
