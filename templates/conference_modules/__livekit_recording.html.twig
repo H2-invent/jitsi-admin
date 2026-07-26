@@ -6,6 +6,7 @@
                     <i class="fa-solid fa-record-vinyl"></i>
                 </div>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><h6 class="dropdown-header">{{ 'recording.dropdownTitle'|trans }}</h6></li>
                     <li><a class="dropdown-item startEgress"
                            href="{{ path('app_start_egress',{'template':'single-speaker','uidReal':room.uidReal}) }}">{{ 'recording.startSpeakerOnly'|trans }}</a>
                     </li>
@@ -36,6 +37,7 @@
                     <i class="fa-solid fa-record-vinyl blinking-red"></i>
                 </div>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><h6 class="dropdown-header">{{ 'recording.dropdownTitle'|trans }}</h6></li>
                     {% set egressId = getRecordingForRoomAndUser(app.user, room)?.recordingId ?? 'REPLACE' %}
                     <li>
                         <a class="dropdown-item stopEgress" id="stopEgress" href="{{ path('app_stop_egress',{'recordingId':egressId}) }}">
