@@ -222,4 +222,13 @@ class DashboardController extends JitsiAdminController
 
         return new JsonResponse(['error' => true]);
     }
+
+    #[Route(path: '/room/dashboard/adressbook-fragment', name: 'dashboard_adressbook_fragment')]
+    public function adressbookFragment(ServerUserManagment $serverUserManagment): Response
+    {
+        $servers = $serverUserManagment->getServersFromUser($this->getUser());
+        return $this->render('addressbook/__addressBook.html.twig', [
+            'servers' => $servers,
+        ]);
+    }
 }

@@ -22,18 +22,28 @@ class AddressGroupController extends JitsiAdminController
         $addressgroup->setCreatedAt(new \DateTimeImmutable());
         $addressgroup->setLeader($this->getUser());
         $title = $translator->trans('Neue Kontaktgruppe erstellen');
+        $isEdit = false;
         if ($request->get('id')) {
             $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
             if ($addressgroup->getLeader() !== $this->getUser()) {
                 throw new NotFoundHttpException('Not Found');
             }
             $title = $translator->trans('Kontaktgruppe bearbeiten');
+            $isEdit = true;
         }
         $form = $this->createForm(AddressGroupType::class, $addressgroup, ['user' => $this->getUser()]);
 
         try {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $existingName = $this->doctrine->getRepository(AddressGroup::class)->findOneBy([
+                    'name' => $addressgroup->getName(),
+                    'leader' => $this->getUser(),
+                ]);
+                if ($existingName && (!$isEdit || $existingName->getId() !== $addressgroup->getId())) {
+                    $this->addFlash('danger', $translator->trans('Es existiert bereits eine Gruppe mit diesem Namen.'));
+                    return $this->redirectToRoute('dashboard');
+                }
                 $this->persistAddressGroup($addressgroup, $indexGroupsService);
                 $this->addFlash('success', $translator->trans('Kontaktgruppe erfolgreich angelegt'));
                 return $this->redirectToRoute('dashboard');
@@ -59,17 +69,26 @@ class AddressGroupController extends JitsiAdminController
         $addressgroup = new AddressGroup();
         $addressgroup->setCreatedAt(new \DateTimeImmutable());
         $addressgroup->setLeader($this->getUser());
+        $isEdit = false;
         if ($request->get('id')) {
             $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
             if ($addressgroup->getLeader() !== $this->getUser()) {
                 return new JsonResponse(['error' => 'Not Found'], Response::HTTP_NOT_FOUND);
             }
+            $isEdit = true;
         }
         $form = $this->createForm(AddressGroupType::class, $addressgroup, ['user' => $this->getUser()]);
 
         try {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $existingName = $this->doctrine->getRepository(AddressGroup::class)->findOneBy([
+                    'name' => $addressgroup->getName(),
+                    'leader' => $this->getUser(),
+                ]);
+                if ($existingName && (!$isEdit || $existingName->getId() !== $addressgroup->getId())) {
+                    return new JsonResponse(['error' => $translator->trans('Es existiert bereits eine Gruppe mit diesem Namen.')], Response::HTTP_BAD_REQUEST);
+                }
                 $this->persistAddressGroup($addressgroup, $indexGroupsService);
                 $this->doctrine->getManager()->refresh($this->getUser());
                 return $this->render('addressbook/__addressGroups.html.twig');

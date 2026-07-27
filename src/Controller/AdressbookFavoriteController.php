@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Service\adressbookFavoriteService\AdressbookFavoriteService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -32,5 +33,17 @@ class AdressbookFavoriteController extends AbstractController
         $res = $this->adressbookFavoriteService->userFavorite($this->getUser(), $userToAdd);
         $this->addFlash($res[0], $res[1]);
         return $this->redirectToRoute('dashboard');
+    }
+
+    #[Route('/room/adressbook/favorite-ajax/{userId}', name: 'app_adressbook_favorite_ajax', methods: ['POST'])]
+    public function favoriteAjax($userId): Response
+    {
+        $userToAdd = $this->entityManager->getRepository(User::class)->findOneBy(['uid' => $userId]);
+
+        if (!$userToAdd) {
+            return new JsonResponse(['error' => 'Not Found'], 404);
+        }
+        $this->adressbookFavoriteService->userFavorite($this->getUser(), $userToAdd);
+        return new JsonResponse(['ok' => true]);
     }
 }

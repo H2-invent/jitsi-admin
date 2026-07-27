@@ -22,12 +22,17 @@
             </div>
         {% endif %}
         <div class="d-flex flex-column">
-                   <p class="mb-0">{{ u|nameOfUser }} <small><a
-                                   href="{{ path('app_adressbook_favorite',{'userId':u.uid}) }}"><i
-                                       class="{% if u in app.user.adressbookFavorites %}fa isAddressbookFavorite{% else %}far{% endif %} fa-star"></i> </a></small>  {% if u in app.user.deputy %}
-                       <i
-                               class="ms-2 fa-solid fa-file-contract" data-mdb-tooltip-init
-                               title="{{ 'deputy.text.isDeputy'|trans }}"></i>{% endif %}</p>
+            <p class="mb-0">{{ u|nameOfUser }}
+                <small>
+                    <a href="{{ path('app_adressbook_favorite',{'userId':u.uid}) }}"
+                        data-ajax-url="{{ path('app_adressbook_favorite_ajax',{'userId':u.uid}) }}"><i
+                        class="{% if u in app.user.adressbookFavorites %}fa isAddressbookFavorite{% else %}far{% endif %} fa-star"></i>
+                    </a>
+                </small>
+                {% if u in app.user.deputy %}
+                    <i class="ms-2 fa-solid fa-file-contract" data-mdb-tooltip-init title="{{ 'deputy.text.isDeputy'|trans }}"></i>
+                {% endif %}
+            </p>
         <p class="mb-0"><small>{{ u.username }}</small></p>
         </div>
 
@@ -61,33 +66,37 @@
                 ><i class="fas fa-ellipsis-v"></i></a>
 
                 <ul class="dropdown-menu">
-{% if not userIsDisallowedToMakeDeputy(u) %}
-    <li class="dropdown-item  d-flex">
+                    {% if not userIsDisallowedToMakeDeputy(u) %}
+                        <li class="dropdown-item  d-flex">
                             {% if not deputyIsFromLDAP(app.user,u) %}
-                                <a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %} "
-                                   href="{{ path('app_deputy_add',{'deputyUid':u.uid}) }}">
-                     <i class="fa-solid fa-file-contract"></i>{% if u in app.user.deputy %}{{ 'deputy.remove'|trans }}{% else %}{{ 'deputy.add'|trans }}{% endif %}</a>
-                                <a class="ms-2" tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
-                                   data-mdb-content="{{ 'deputy.help'|trans }}"><i
-                                            class="fa fa-question-circle"></i></a>
-                                {% else %}
+                                 <a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %} "
+                                    href="{{ path('app_deputy_add',{'deputyUid':u.uid}) }}"
+                                    data-ajax-url="{{ path('app_deputy_add_ajax',{'deputyUid':u.uid}) }}">
+                                     <i class="fa-solid fa-file-contract"></i>{% if u in app.user.deputy %}{{ 'deputy.remove'|trans }}{% else %}{{ 'deputy.add'|trans }}{% endif %}
+                                 </a>
+                                <a class="ms-2" tabindex="0" data-mdb-popover-init data-mdb-trigger="focus" data-mdb-content="{{ 'deputy.help'|trans }}">
+                                    <i class="fa fa-question-circle"></i>
+                                </a>
+                            {% else %}
                                 <a class="disabled">
                                      <i class="fa-solid fa-file-contract"></i>{{ 'deputy.fromLdap.disabled'|trans }}
                                 </a>
                                 <a class="ms-2" tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus"
-                                   data-mdb-content="{{ 'deputy.help.ldap'|trans }}"><i
-                                            class="fa fa-question-circle"></i></a>
+                                   data-mdb-content="{{ 'deputy.help.ldap'|trans }}">
+                                    <i class="fa fa-question-circle"></i>
+                                </a>
                             {% endif %}
 
                         </li>
-{% endif %}
+                    {% endif %}
                     {% if theme == false or theme.trashOnAdressBook == true %}
                         <div class="dropdown-divider"></div>
                         <li>
                            <a class=" dropdown-item confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
+                              data-ajax-url="{{ path('adressbook_remove_user_ajax',{'id':u.id}) }}"
                               data-text="{{ 'confirm.delete.adressbookUser'|trans }}">
-                                     <i class="fa fa-trash text-danger"></i>{{ 'Löschen'|trans }}
-                    </a>
+                               <i class="fa fa-trash text-danger"></i>{{ 'Löschen'|trans }}
+                           </a>
                        </li>
                     {% endif %}
                 </ul>

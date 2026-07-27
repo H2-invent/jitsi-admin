@@ -210,40 +210,103 @@ $('.sidebarToggle').click(function () {
 
 })
 
-$(document).on('submit', '#addressGroupForm', function (e) {
+document.addEventListener('submit', function (e) {
+    const form = e.target.closest('#newContactForm');
+    if (!form) return;
+
     e.preventDefault();
     e.stopImmediatePropagation();
-    const $form = $(this);
-    const $btn = $form.find('button[type=submit]');
+
+    const $btn = $(form).find('button[type=submit]');
     const originalHtml = $btn.html();
     $btn.html('<i class="fas fa-spinner fa-spin"></i> ' + originalHtml);
     $btn.prop('disabled', true);
 
-    fetch($form.attr('action'), {
+    fetch(form.dataset.ajaxUrl, {
         method: 'POST',
-        body: new FormData(this)
+        body: new FormData(form)
     })
-        .then(response => response.text())
-        .then(html => {
-            const groupsTab = document.getElementById('addressbookContent');
-            if (groupsTab) {
-                const profilePane = groupsTab.querySelector('#profile');
-                if (profilePane) {
-                    profilePane.innerHTML = html;
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                const loadContentModal = document.getElementById('loadContentModal');
+                if (loadContentModal) {
+                    const instance = Modal.getInstance(loadContentModal);
+                    if (instance) instance.hide();
                 }
+                reloadAddressBookPane();
+            } else if (data.error) {
+                Swal.fire({
+                    title: 'Fehler',
+                    text: data.error,
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3085d6',
+                });
             }
-            const loadContentModal = document.getElementById('loadContentModal');
-            if (loadContentModal) {
-                const instance = Modal.getInstance(loadContentModal);
-                if (instance) instance.hide();
-            }
-            initMDB({ Popover });
         })
-        .catch(() => {
+        .catch(() => {})
+        .finally(() => {
             $btn.html(originalHtml);
             $btn.prop('disabled', false);
         });
-});
+}, true);
+
+document.addEventListener('submit', function (e) {
+    const form = e.target.closest('#addressGroupForm');
+    if (!form) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    const $btn = $(form).find('button[type=submit]');
+    const originalText = $btn.text();
+    $btn.html('<i class="fas fa-spinner fa-spin"></i> ' + originalText);
+    $btn.prop('disabled', true);
+
+    fetch(form.getAttribute('action'), {
+        method: 'POST',
+        body: new FormData(form)
+    })
+        .then(response => {
+            const contentType = response.headers.get('content-type') || '';
+            if (contentType.includes('application/json')) {
+                return response.json().then(data => ({ json: data }));
+            }
+            return response.text().then(html => ({ html }));
+        })
+        .then(result => {
+            if (result.json) {
+                Swal.fire({
+                    title: 'Fehler',
+                    text: result.json.error || 'Ein Fehler ist aufgetreten.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3085d6',
+                    allowOutsideClick: false,
+                });
+            } else if (result.html) {
+                const groupsTab = document.getElementById('addressbookContent');
+                if (groupsTab) {
+                    const profilePane = groupsTab.querySelector('#profile');
+                    if (profilePane) {
+                        profilePane.innerHTML = result.html;
+                    }
+                }
+                const loadContentModal = document.getElementById('loadContentModal');
+                if (loadContentModal) {
+                    const instance = Modal.getInstance(loadContentModal);
+                    if (instance) instance.hide();
+                }
+                initMDB({ Popover });
+            }
+        })
+        .catch(() => {})
+        .finally(() => {
+            $btn.html(originalText);
+            $btn.prop('disabled', false);
+        });
+}, true);
 
 document.addEventListener('click', function (e) {
     const trigger = e.target.closest('.confirmHref');
@@ -272,17 +335,79 @@ document.addEventListener('click', function (e) {
     }).then((result) => {
         if (result.isConfirmed) {
             fetch(ajaxUrl, { method: 'POST' })
-                .then(response => response.text())
-                .then(html => {
-                    const container = document.getElementById('addressbookContent');
-                    if (container) {
-                        const profilePane = container.querySelector('#profile');
-                        if (profilePane) {
-                            profilePane.innerHTML = html;
-                        }
+                .then(() => {
+                    if (ajaxUrl.includes('adressbook') || ajaxUrl.includes('app_deputy_add_ajax') || ajaxUrl.includes('app_adressbook_favorite_ajax')) {
+                        reloadAddressBookPane();
+                    } else {
+                        // Group delete — reload groups tab
+                        fetch(ajaxUrl, { method: 'POST' })
+                            .then(response => response.text())
+                            .then(html => {
+                                const container = document.getElementById('addressbookContent');
+                                if (container) {
+                                    const profilePane = container.querySelector('#profile');
+                                    if (profilePane) {
+                                        profilePane.innerHTML = html;
+                                    }
+                                }
+                                initMDB({ Popover });
+                            });
                     }
-                    initMDB({ Popover });
                 });
         }
     });
 }, true);
+
+document.addEventListener('click', function (e) {
+    const link = e.target.closest('a[data-ajax-url]');
+    if (!link) return;
+
+    const ajaxUrl = link.dataset.ajaxUrl;
+    if (!ajaxUrl) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    if (link.classList.contains('confirmHref')) return;
+
+    const linkIcon = link.querySelector('i');
+    if (linkIcon) {
+        const originalClass = linkIcon.className;
+        linkIcon.className = 'fas fa-spinner fa-spin';
+        fetch(ajaxUrl, { method: 'POST' })
+            .then(() => reloadAddressBookPane())
+            .finally(() => {});
+    }
+});
+
+function reloadAddressBookPane() {
+    fetch('/room/dashboard/adressbook-fragment')
+        .then(response => response.text())
+        .then(html => {
+            const currentHome = document.getElementById('home');
+            if (currentHome) {
+                // Dispose old MDB instances before replacing DOM
+                currentHome.querySelectorAll('[data-mdb-dropdown-init]').forEach(el => {
+                    Dropdown.getInstance(el)?.dispose();
+                });
+                currentHome.querySelectorAll('[data-mdb-popover-init]').forEach(el => {
+                    Popover.getInstance(el)?.dispose();
+                });
+                currentHome.querySelectorAll('[data-mdb-tooltip-init]').forEach(el => {
+                    Tooltip.getInstance(el)?.dispose();
+                });
+
+                currentHome.innerHTML = html;
+                initListSearch();
+                currentHome.querySelectorAll('[data-mdb-dropdown-init]').forEach(element => {
+                    Dropdown.getOrCreateInstance(element);
+                });
+                currentHome.querySelectorAll('[data-mdb-popover-init]').forEach(element => {
+                    Popover.getOrCreateInstance(element);
+                });
+                currentHome.querySelectorAll('[data-mdb-tooltip-init]').forEach(element => {
+                    Tooltip.getOrCreateInstance(element);
+                });
+            }
+        });
+}
