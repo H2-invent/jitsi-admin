@@ -2538,11 +2538,47 @@ Ihre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="PVBIN9w" resname="Planen">
         <source>Planen</source>
-        <target state="needs-translation">Planen</target>
+        <target state="translated">Planejar</target>
       </trans-unit>
       <trans-unit id="aPyOdXY" resname="Sofort">
         <source>Sofort</source>
         <target state="needs-translation">Sofort</target>
+      </trans-unit>
+      <trans-unit id="newContact" resname="Neuer Kontakt">
+        <source>Neuer Kontakt</source>
+        <target state="translated">Novo contato</target>
+      </trans-unit>
+      <trans-unit id="emailAddress" resname="E-Mail-Adresse">
+        <source>E-Mail-Adresse</source>
+        <target state="translated">Endereço de e-mail</target>
+      </trans-unit>
+      <trans-unit id="groupNameExists" resname="Es existiert bereits eine Gruppe mit diesem Namen.">
+        <source>Es existiert bereits eine Gruppe mit diesem Namen.</source>
+        <target state="translated">Já existe um grupo com este nome.</target>
+      </trans-unit>
+      <trans-unit id="enterEmail" resname="Bitte geben Sie eine E-Mail-Adresse ein.">
+        <source>Bitte geben Sie eine E-Mail-Adresse ein.</source>
+        <target state="translated">Por favor, insira um endereço de e-mail.</target>
+      </trans-unit>
+      <trans-unit id="enterValidEmail" resname="Bitte geben Sie eine gültige E-Mail-Adresse ein.">
+        <source>Bitte geben Sie eine gültige E-Mail-Adresse ein.</source>
+        <target state="translated">Por favor, insira um endereço de e-mail válido.</target>
+      </trans-unit>
+      <trans-unit id="cannotAddSelf" resname="Sie können sich nicht selbst hinzufügen.">
+        <source>Sie können sich nicht selbst hinzufügen.</source>
+        <target state="translated">Você não pode adicionar a si mesmo.</target>
+      </trans-unit>
+      <trans-unit id="contactAlreadyExists" resname="Der Kontakt ist bereits im Adressbuch.">
+        <source>Der Kontakt ist bereits im Adressbuch.</source>
+        <target state="translated">Este contato já está na lista de endereços.</target>
+      </trans-unit>
+      <trans-unit id="userNotFoundByEmail" resname="Kein Benutzer mit dieser E-Mail-Adresse gefunden.">
+        <source>Kein Benutzer mit dieser E-Mail-Adresse gefunden.</source>
+        <target state="translated">Nenhum usuário encontrado com este endereço de e-mail.</target>
+      </trans-unit>
+      <trans-unit id="notFound" resname="Nicht gefunden">
+        <source>Nicht gefunden</source>
+        <target state="translated">Não encontrado</target>
       </trans-unit>
     </body>
   </file>

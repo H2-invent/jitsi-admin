@@ -36,12 +36,12 @@ class AdressbookFavoriteController extends AbstractController
     }
 
     #[Route('/room/adressbook/favorite-ajax/{userId}', name: 'app_adressbook_favorite_ajax', methods: ['POST'])]
-    public function favoriteAjax($userId): Response
+    public function favoriteAjax(TranslatorInterface $translator, $userId): Response
     {
         $userToAdd = $this->entityManager->getRepository(User::class)->findOneBy(['uid' => $userId]);
 
         if (!$userToAdd) {
-            return new JsonResponse(['error' => 'Not Found'], 404);
+            return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], 404);
         }
         $this->adressbookFavoriteService->userFavorite($this->getUser(), $userToAdd);
         return new JsonResponse(['ok' => true]);

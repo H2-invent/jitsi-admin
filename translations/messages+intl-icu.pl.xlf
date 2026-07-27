@@ -2536,7 +2536,7 @@ Ihre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="PVBIN9w" resname="Planen">
         <source>Planen</source>
-        <target state="needs-translation">Planen</target>
+        <target state="translated">Planować</target>
       </trans-unit>
       <trans-unit id="aPyOdXY" resname="Sofort">
         <source>Sofort</source>

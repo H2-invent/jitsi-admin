@@ -26,7 +26,7 @@ class AddressGroupController extends JitsiAdminController
         if ($request->get('id')) {
             $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
             if ($addressgroup->getLeader() !== $this->getUser()) {
-                throw new NotFoundHttpException('Not Found');
+            throw new NotFoundHttpException($translator->trans('Nicht gefunden'));
             }
             $title = $translator->trans('Kontaktgruppe bearbeiten');
             $isEdit = true;
@@ -73,7 +73,7 @@ class AddressGroupController extends JitsiAdminController
         if ($request->get('id')) {
             $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
             if ($addressgroup->getLeader() !== $this->getUser()) {
-                return new JsonResponse(['error' => 'Not Found'], Response::HTTP_NOT_FOUND);
+                return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], Response::HTTP_NOT_FOUND);
             }
             $isEdit = true;
         }
@@ -109,7 +109,7 @@ class AddressGroupController extends JitsiAdminController
     {
         $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
         if (!$addressgroup || $addressgroup->getLeader() != $this->getUser()) {
-            throw new NotFoundHttpException('Not Found');
+            throw new NotFoundHttpException($translator->trans('Nicht gefunden'));
         }
         $em = $this->doctrine->getManager();
         $em->remove($addressgroup);
@@ -123,7 +123,7 @@ class AddressGroupController extends JitsiAdminController
     {
         $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
         if (!$addressgroup || $addressgroup->getLeader() != $this->getUser()) {
-            return new JsonResponse(['error' => 'Not Found'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], Response::HTTP_NOT_FOUND);
         }
         $em = $this->doctrine->getManager();
         $em->remove($addressgroup);

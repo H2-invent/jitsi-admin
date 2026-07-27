@@ -46,11 +46,11 @@ class AdressbookController extends JitsiAdminController
     }
 
     #[Route(path: '/room/adressbook/remove-ajax', name: 'adressbook_remove_user_ajax', methods: ['POST'])]
-    public function removeAjax(Request $request): Response
+    public function removeAjax(Request $request, TranslatorInterface $translator): Response
     {
         $user = $this->doctrine->getRepository(User::class)->find($request->get('id'));
         if (!$user) {
-            return new JsonResponse(['error' => 'Not Found'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], Response::HTTP_NOT_FOUND);
         }
         $myUser = $this->getUser();
         $myUser->removeAddressbook($user);

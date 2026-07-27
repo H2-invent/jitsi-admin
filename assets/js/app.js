@@ -21,6 +21,8 @@ import { Dropdown,Popover,Modal,Tooltip,Collapse, initMDB } from "mdb-ui-kit";
 
 import Swal from 'sweetalert2';
 
+import {trans, ADDRESSBOOKERRORTITLE, ADDRESSBOOKERRORDEFAULT, ADDRESSBOOKCONFIRMTITLE, ADDRESSBOOKCONFIRMTEXT, ADDRESSBOOKCONFIRMCANCEL} from '../translator.js';
+
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr';
@@ -237,7 +239,7 @@ document.addEventListener('submit', function (e) {
                 reloadAddressBookPane();
             } else if (data.error) {
                 Swal.fire({
-                    title: 'Fehler',
+                    title: trans(ADDRESSBOOKERRORTITLE, {}, 'ux_message'),
                     text: data.error,
                     icon: 'error',
                     confirmButtonText: 'OK',
@@ -278,8 +280,8 @@ document.addEventListener('submit', function (e) {
         .then(result => {
             if (result.json) {
                 Swal.fire({
-                    title: 'Fehler',
-                    text: result.json.error || 'Ein Fehler ist aufgetreten.',
+                    title: trans(ADDRESSBOOKERRORTITLE, {}, 'ux_message'),
+                    text: result.json.error || trans(ADDRESSBOOKERRORDEFAULT, {}, 'ux_message'),
                     icon: 'error',
                     confirmButtonText: 'OK',
                     confirmButtonColor: '#3085d6',
@@ -318,15 +320,15 @@ document.addEventListener('click', function (e) {
     e.preventDefault();
     e.stopImmediatePropagation();
 
-    const text = trigger.querySelector('i')?.dataset?.text || trigger.querySelector('i')?.getAttribute('data-text') || 'Wollen Sie die Aktion durchführen?';
+    const text = trigger.querySelector('i')?.dataset?.text || trigger.querySelector('i')?.getAttribute('data-text') || trans(ADDRESSBOOKCONFIRMTEXT, {}, 'ux_message');
 
     Swal.fire({
-        title: 'Bestätigung',
+        title: trans(ADDRESSBOOKCONFIRMTITLE, {}, 'ux_message'),
         text: text,
         icon: 'question',
         backdrop: false,
         showCancelButton: true,
-        cancelButtonText: 'Abbrechen',
+        cancelButtonText: trans(ADDRESSBOOKCONFIRMCANCEL, {}, 'ux_message'),
         heightAuto: false,
         customClass: {
             confirmButton: 'btn-danger btn',

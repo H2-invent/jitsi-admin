@@ -1,1 +1,7 @@
 email_send_invitation: Einladung wurde erfolgreich an {email} versendet.
+ADDRESSBOOK_ERROR_TITLE: 错误
+ADDRESSBOOK_ERROR_DEFAULT: 发生了一个错误。
+ADDRESSBOOK_CONFIRM_TITLE: 确认
+ADDRESSBOOK_CONFIRM_TEXT: 您确定要继续吗？
+ADDRESSBOOK_CONFIRM_CANCEL: 取消
+ADDRESSBOOK_CONFIRM_OK: 确定

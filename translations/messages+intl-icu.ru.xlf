@@ -2537,11 +2537,47 @@ Ihre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="PVBIN9w" resname="Planen">
         <source>Planen</source>
-        <target state="needs-translation">Planen</target>
+        <target state="translated">Планировать</target>
       </trans-unit>
       <trans-unit id="aPyOdXY" resname="Sofort">
         <source>Sofort</source>
         <target state="needs-translation">Sofort</target>
+      </trans-unit>
+      <trans-unit id="newContact" resname="Neuer Kontakt">
+        <source>Neuer Kontakt</source>
+        <target state="translated">Новый контакт</target>
+      </trans-unit>
+      <trans-unit id="emailAddress" resname="E-Mail-Adresse">
+        <source>E-Mail-Adresse</source>
+        <target state="translated">Адрес электронной почты</target>
+      </trans-unit>
+      <trans-unit id="groupNameExists" resname="Es existiert bereits eine Gruppe mit diesem Namen.">
+        <source>Es existiert bereits eine Gruppe mit diesem Namen.</source>
+        <target state="translated">Группа с таким названием уже существует.</target>
+      </trans-unit>
+      <trans-unit id="enterEmail" resname="Bitte geben Sie eine E-Mail-Adresse ein.">
+        <source>Bitte geben Sie eine E-Mail-Adresse ein.</source>
+        <target state="translated">Пожалуйста, введите адрес электронной почты.</target>
+      </trans-unit>
+      <trans-unit id="enterValidEmail" resname="Bitte geben Sie eine gültige E-Mail-Adresse ein.">
+        <source>Bitte geben Sie eine gültige E-Mail-Adresse ein.</source>
+        <target state="translated">Пожалуйста, введите действительный адрес электронной почты.</target>
+      </trans-unit>
+      <trans-unit id="cannotAddSelf" resname="Sie können sich nicht selbst hinzufügen.">
+        <source>Sie können sich nicht selbst hinzufügen.</source>
+        <target state="translated">Вы не можете добавить сами себя.</target>
+      </trans-unit>
+      <trans-unit id="contactAlreadyExists" resname="Der Kontakt ist bereits im Adressbuch.">
+        <source>Der Kontakt ist bereits im Adressbuch.</source>
+        <target state="translated">Этот контакт уже есть в адресной книге.</target>
+      </trans-unit>
+      <trans-unit id="userNotFoundByEmail" resname="Kein Benutzer mit dieser E-Mail-Adresse gefunden.">
+        <source>Kein Benutzer mit dieser E-Mail-Adresse gefunden.</source>
+        <target state="translated">Пользователь с таким адресом электронной почты не найден.</target>
+      </trans-unit>
+      <trans-unit id="notFound" resname="Nicht gefunden">
+        <source>Nicht gefunden</source>
+        <target state="translated">Не найдено</target>
       </trans-unit>
     </body>
   </file>
