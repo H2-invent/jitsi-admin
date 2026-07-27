@@ -26,10 +26,9 @@
         <testsuite name="Development">
             <directory>tests</directory>
             <exclude>tests/LDAP/</exclude>
-            <exclude>tests/Browser</exclude>
         </testsuite>
         <testsuite name="Browser">
-            <directory>tests/Browser</directory>
+            <directory>testsBrowser</directory>
         </testsuite>
     </testsuites>
 

@@ -11,8 +11,13 @@
 ###> symfony/phpunit-bridge ###
 .phpunit
 .phpunit.result.cache
-/phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> pest ###
+/testsBrowser/Screenshots/
+/pest.xml
+/.pest/
+###< pest ###
 
 *.Halite.key*
 *.idea/*
