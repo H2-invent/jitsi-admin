@@ -212,6 +212,10 @@ $('.sidebarToggle').click(function () {
 
 })
 
+// Capture-phase submit handler for #newContactForm.
+// Using capture phase (third arg `true`) so this fires before jQuery event handlers,
+// preventing initNewModal's generic $('form').submit() spinner handler from also running.
+// stopImmediatePropagation() ensures no other submit handlers fire on this event.
 document.addEventListener('submit', function (e) {
     const form = e.target.closest('#newContactForm');
     if (!form) return;
@@ -249,11 +253,17 @@ document.addEventListener('submit', function (e) {
         })
         .catch(() => {})
         .finally(() => {
+            // Always restore button state — prevents leftover spinner
             $btn.html(originalHtml);
             $btn.prop('disabled', false);
         });
 }, true);
 
+// Capture-phase submit handler for #addressGroupForm.
+// Same pattern as #newContactForm above: capture phase + stopImmediatePropagation
+// prevents initNewModal's $('form').submit() from duplicating the spinner.
+// Response can be JSON (error) or HTML (rendered groups list fragment);
+// Content-Type header is checked to determine the response type.
 document.addEventListener('submit', function (e) {
     const form = e.target.closest('#addressGroupForm');
     if (!form) return;
@@ -310,6 +320,10 @@ document.addEventListener('submit', function (e) {
         });
 }, true);
 
+// Capture-phase click handler for confirmHref links with data-ajax-url.
+// Fires before confirmation.js's initconfirmHref() handler (which does a full page redirect).
+// stopImmediatePropagation() prevents the legacy handler from running on Ajax-enabled links.
+// Links without data-ajax-url still fall through to the legacy handler.
 document.addEventListener('click', function (e) {
     const trigger = e.target.closest('.confirmHref');
     if (!trigger) return;
@@ -338,10 +352,11 @@ document.addEventListener('click', function (e) {
         if (result.isConfirmed) {
             fetch(ajaxUrl, { method: 'POST' })
                 .then(() => {
+                    // Address book entries (favorite/deputy/delete) → reload full address book pane.
+                    // Group delete → reload the groups tab only.
                     if (ajaxUrl.includes('adressbook') || ajaxUrl.includes('app_deputy_add_ajax') || ajaxUrl.includes('app_adressbook_favorite_ajax')) {
                         reloadAddressBookPane();
                     } else {
-                        // Group delete — reload groups tab
                         fetch(ajaxUrl, { method: 'POST' })
                             .then(response => response.text())
                             .then(html => {
@@ -360,6 +375,10 @@ document.addEventListener('click', function (e) {
     });
 }, true);
 
+// Inline Ajax handler for non-confirmation address book actions (favorite toggle, deputy toggle).
+// These links have data-ajax-url but are NOT .confirmHref (handled separately above).
+// After the Ajax POST completes, the entire address book pane is reloaded from the server
+// because the action may change ordering, favorite status, or deputy status across multiple entries.
 document.addEventListener('click', function (e) {
     const link = e.target.closest('a[data-ajax-url]');
     if (!link) return;
@@ -382,13 +401,28 @@ document.addEventListener('click', function (e) {
     }
 });
 
+// Reloads the address book tab pane (#home) with fresh server-rendered HTML.
+//
+// The address book pane is replaced wholesale because actions like favorite/deputy toggle
+// or contact deletion can affect the ordering, grouping, and cross-entry relationships
+// (favorites section, deputy badges, contact grouping by first letter).
+//
+// Before DOM replacement, all existing MDB component instances (Dropdown, Popover, Tooltip)
+// are explicitly disposed. This is critical: without disposal, orphaned MDB instances hold
+// references to DOM nodes that no longer exist, causing downstream interactions
+// (e.g., clicking the filter dropdown icon) to hang for several seconds while MDB's
+// internal state tries to reconcile stale references.
+//
+// After replacement, each component type is explicitly re-initialized via getOrCreateInstance()
+// scoped to the new content. Using initMDB() alone is insufficient: MDB only performs global
+// component initialization once per page load, so dynamically inserted elements with
+// data-mdb-* attributes would remain uninitialized.
 function reloadAddressBookPane() {
     fetch('/room/dashboard/adressbook-fragment')
         .then(response => response.text())
         .then(html => {
             const currentHome = document.getElementById('home');
             if (currentHome) {
-                // Dispose old MDB instances before replacing DOM
                 currentHome.querySelectorAll('[data-mdb-dropdown-init]').forEach(el => {
                     Dropdown.getInstance(el)?.dispose();
                 });
