@@ -68,6 +68,7 @@
 * Fis Server Statistics
 * Fix open Link with target blank from ifrmae
 * Fix not downloading images from whiteboard
+* Add allow Popups to multiframe iframe
 * Fix dark mode for conference sidebar
 
 # Features, Improvements, and Bug Fixes related to the Livekit Integration
