@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+## Description: Run first time setup of ngrok with a domain
+## Usage: setup-ngrok
+## Example: "ddev setup-ngrok metameric-norbert-nourishable.ngrok-free.dev"
+## ExecRaw: true
+## MutagenSync: true
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: ddev setup-ngrok <domain>"
+    exit 1
+fi
+
+DOMAIN=$1
+
+if grep -q '^laF_baseUrl=' .env.local; then
+  sed -i "s|^laF_baseUrl=.*|laF_baseUrl=\"https://${DOMAIN}\"|" .env.local
+else
+  echo "laF_baseUrl=\"https://${DOMAIN}\"" >> .env.local
+fi
+
+if grep -q '^ngrok_args:' .ddev/config.local.yaml; then
+  sed -i "s|^ngrok_args:.*|ngrok_args: --domain ${DOMAIN}|" .ddev/config.local.yaml
+else
+  echo "ngrok_args: --domain ${DOMAIN}" >> .ddev/config.local.yaml
+fi
+

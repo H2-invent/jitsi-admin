@@ -40,7 +40,7 @@
 
 
                     <a class="btn btn-outline-primary dropdown-toggle btn-sm {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" data-roomname="{{ room.name }}"
-                       href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" target="_blank">{{ 'Starten'|trans }}</a>
+                       href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" target="_blank"><i class="fas fa-play me-1"></i> {{ 'Starten'|trans }}</a>
 
             </div>
         {% else %}

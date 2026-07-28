@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Helper\JitsiAdminController;
 use App\Service\CreateHttpsUrl;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Psr\Log\LoggerInterface;

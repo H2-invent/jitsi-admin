@@ -24,7 +24,7 @@ class Jwt extends AbstractExtension
         $this->roomService = $roomService;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('jwtFromRoom', [$this, 'jwtFromRoom']),

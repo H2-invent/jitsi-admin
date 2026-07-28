@@ -1,0 +1,23 @@
+/*#ddev-generated*/
+
+#kc-header-wrapper {
+    display: inline-block;
+    background: url(../img/ddev.svg) no-repeat center center;
+    background-size: 50px 50px;
+    padding: 120px 0 0;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: normal;
+}
+
+.login-pf-page-header {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.login-pf body {
+    background: url("../img/keycloak-bg.png") no-repeat center center fixed;
+    height: 100%;
+}

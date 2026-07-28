@@ -3,10 +3,7 @@
 namespace App\Helper;
 
 use App\Entity\Rooms;
-use App\Service\ThemeService;
-use App\Service\Whiteboard\WhiteboardJwtService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UidHelper
 {

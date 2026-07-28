@@ -31,12 +31,17 @@ class JwtTest extends KernelTestCase
             'context' => [
                 'user' => [
                     'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'room'=>[
                     'name'=>'TestMeeting: 0'
                 ]
             ],
             'moderator' => true,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
@@ -84,6 +89,8 @@ class JwtTest extends KernelTestCase
             'context' => [
                 'user' => [
                     'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -94,6 +101,9 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => true,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
@@ -123,6 +133,8 @@ class JwtTest extends KernelTestCase
             'context' => [
                 'user' => [
                     'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -133,6 +145,9 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => false,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, null, 'Test User');
@@ -162,6 +177,8 @@ class JwtTest extends KernelTestCase
             'context' => [
                 'user' => [
                     'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'features' => [
                     'screen-sharing' => false,
@@ -172,6 +189,9 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => false,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, null, 'Test User');
@@ -201,6 +221,8 @@ class JwtTest extends KernelTestCase
             'context' => [
                 'user' => [
                     'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -211,6 +233,9 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => true,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
@@ -244,6 +269,8 @@ class JwtTest extends KernelTestCase
             'context' => [
                 'user' => [
                     'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -254,6 +281,9 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => true,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
@@ -287,6 +317,8 @@ class JwtTest extends KernelTestCase
             'context' => [
                 'user' => [
                     'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -297,6 +329,9 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => false,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
@@ -330,6 +365,8 @@ class JwtTest extends KernelTestCase
             'context' => [
                 'user' => [
                     'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'features' => [
                     'screen-sharing' => false,
@@ -340,6 +377,9 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => false,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
@@ -374,6 +414,8 @@ class JwtTest extends KernelTestCase
             'context' => [
                 'user' => [
                     'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -384,6 +426,9 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => false,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
@@ -420,14 +465,19 @@ class JwtTest extends KernelTestCase
                 'user' => [
                     'name' => 'Test User',
                     'moderator' => false,
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'features' => [
                     'screen-sharing' => true,
                     'private-message' => true,
                 ],
-                'room'=>[
-                    'name'=>'TestMeeting: 0'
-                ]
+                'room' => [
+                    'name' => 'TestMeeting: 0'
+                ],
+            ],
+            'theme' => [
+                'colorScheme' => 'light',
             ],
 
         ];
@@ -466,7 +516,9 @@ class JwtTest extends KernelTestCase
                 'user' => [
                     'name' => 'Test User',
                     'moderator' => false,
-                    'avatar' => 'https://image.de'
+                    'avatar' => 'https://image.de',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -474,9 +526,11 @@ class JwtTest extends KernelTestCase
                 ],
                 'room'=>[
                     'name'=>'TestMeeting: 0'
-                ]
+                ],
             ],
-
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User', 'https://image.de');

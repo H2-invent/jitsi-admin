@@ -1,0 +1,27 @@
+{
+  "realm" : "jitsiadmin",
+  "users" : [ {
+    "id" : "7ae5a161-7699-4ae6-864c-d6bafb3ff62e",
+    "username" : "jitsi@admin.de",
+    "firstName" : "Jitsi",
+    "lastName" : "Admin",
+    "email" : "jitsi@admin.de",
+    "emailVerified" : true,
+    "createdTimestamp" : 1762771485404,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "ab983cd0-7375-42aa-82ec-50632b1e6cdb",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1762771506368,
+      "secretData" : "{\"value\":\"Btj62IT+OBSn3yG8A9UYmyuO6l2FulKtv52zf/++WD4=\",\"salt\":\"jFFNP2wGAFfPXD0jkxSacg==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-jitsiadmin" ],
+    "notBefore" : 0,
+    "groups" : [ "/all" ]
+  } ]
+}

@@ -7,10 +7,9 @@ use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
 use App\Repository\TagRepository;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use App\Util\InputSettings;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -201,7 +200,7 @@ class SchedulerType extends AbstractType
             $builder->add('maxUser', NumberType::class, ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']
             ]);
         }
-        $formModifier = function (FormInterface $form, Server $server = null): void {
+        $formModifier = function (FormInterface $form, ?Server $server = null): void {
             $tags = null === $server ? [] : $server->getTag();
             if (count($tags) > 1) {
                 $form->add('tag', EntityType::class, [

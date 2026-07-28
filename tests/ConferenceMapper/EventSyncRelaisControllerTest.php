@@ -49,10 +49,9 @@ class EventSyncRelaisControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         self::assertEquals(
-            '{"state":"STARTED","jwt":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoidGVzdHVpZDEyMzQiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlJvb20gVG9tb3Jyb3cifSwidXNlciI6eyJuYW1lIjoiVXNlciwgVGVzdCwgdGVzdEBsb2NhbC5kZSJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.KblCCcUE8oakNdMFnBgXFZRjaZjBs82ssg7PT8OoYfA","room_name":"testuid1234@test.prosody.com","display_name":"User, Test, test@local.de"}'
-            , $client->getResponse()->getContent()
+            '{"state":"STARTED","jwt":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoidGVzdHVpZDEyMzQiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlJvb20gVG9tb3Jyb3cifSwidXNlciI6eyJuYW1lIjoiVXNlciwgVGVzdCwgdGVzdEBsb2NhbC5kZSIsImxhbmd1YWdlIjoiZGUiLCJ0aW1lem9uZSI6IkV1cm9wZS9CZXJsaW4ifX0sIm1vZGVyYXRvciI6ZmFsc2UsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.JaRc_olluH7IYqPEkF95IsQaKYllcnGefrha3ZpMptg","room_name":"testuid1234@test.prosody.com","display_name":"User, Test, test@local.de"}',
+            $client->getResponse()->getContent()
         );
-
     }
 
     public function testRoomClosed(): void

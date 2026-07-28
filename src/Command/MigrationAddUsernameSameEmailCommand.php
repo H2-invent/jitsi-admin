@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MigrationAddUsernameSameEmailCommand extends Command
 {
     protected $em;
-    public function __construct(EntityManagerInterface $entityManager, $name = null)
+    public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
     {
         $this->em = $entityManager;
         parent::__construct($name);

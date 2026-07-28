@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints\File;
 
 class ThemeUploadType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $builder
@@ -51,7 +51,7 @@ class ThemeUploadType extends AbstractType
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'Upload theme', 'translation_domain' => 'form']);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

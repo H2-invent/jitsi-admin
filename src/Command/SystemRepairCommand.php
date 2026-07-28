@@ -27,7 +27,7 @@ class SystemRepairCommand extends Command
         private LdapUserService $ldapUserService,
         EntityManagerInterface $entityManager,
         private CacheItemPoolInterface $cacheItemPool,
-        string $name = null)
+        ?string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo --------------Schutdown Apache------------------------------------------
+echo --------------Shutdown Apache------------------------------------------
 #service apache2 stop
 
 APP=/var/www/html
@@ -17,7 +17,7 @@ echo --------------------------------------------------------------------------
 php $APP/bin/console cache:clear
 php $APP/bin/console cache:warmup
 echo --------------------------------------------------------------------------
-echo -----------------------Updated the Jitsi-Admin correct--------------------
+echo -----------------Updated the Jitsi-Admin correctly------------------------
 echo --------------------------------------------------------------------------
 
 

@@ -2,49 +2,23 @@
 
 namespace App\Controller;
 
-use App\Entity\Log;
 use App\Entity\Rooms;
-use App\Entity\RoomsUser;
-use App\Entity\Scheduling;
 use App\Entity\Server;
-use App\Entity\User;
-use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
 use App\Helper\JitsiAdminController;
 use App\Service\NewRoomService;
-use App\Service\PermissionChangeService;
 use App\Service\RemoveRoomService;
 use App\Service\RepeaterService;
-use App\Service\RoomAddService;
 use App\Service\RoomCheckService;
 use App\Service\RoomGeneratorService;
 use App\Service\SchedulingService;
-use App\Service\ServerService;
 use App\Service\ServerUserManagment;
-use App\Service\ThemeService;
 use App\Service\UserService;
-use App\Service\InviteService;
-
-use App\Service\RoomService;
 use App\UtilsHelper;
-use phpDocumentor\Reflection\Types\False_;
-use phpDocumentor\Reflection\Types\This;
-
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

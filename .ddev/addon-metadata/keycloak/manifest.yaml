@@ -1,0 +1,12 @@
+name: keycloak
+repository: b13/ddev-keycloak
+version: 0.0.2
+install_date: "2025-11-06T15:49:08+01:00"
+project_files:
+    - docker-compose.keycloak.yaml
+    - keycloak/import/
+    - keycloak/themes/
+    - commands/keycloak/kc
+    - commands/host/kcctl
+global_files: []
+removal_actions: []

@@ -6,7 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Service\RoomService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Psr\Log\LoggerInterface;

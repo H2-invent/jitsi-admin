@@ -46,3 +46,10 @@
 {% block password_widget %}
     {{ block('text_widget') }}
 {% endblock %}
+
+{# Color picker without the form-outline wrapper/border #}
+{% block color_widget %}
+    {% set type = type|default('color') %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control form-control-color')|trim}) %}
+    {{ block('form_widget_simple') }}
+{% endblock %}

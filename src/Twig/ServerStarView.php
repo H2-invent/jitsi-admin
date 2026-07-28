@@ -11,7 +11,7 @@ use function GuzzleHttp\Psr7\str;
 
 class ServerStarView extends AbstractExtension
 {
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('showAverageStar', [$this, 'showAverageStar']),

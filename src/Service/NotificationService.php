@@ -89,7 +89,7 @@ class NotificationService
         return $this->ics->toString();
     }
 
-    function sendNotification($content, $subject, User $user, Server $server, Rooms $rooms = null, $attachement = []): bool
+    function sendNotification($content, $subject, User $user, Server $server, ?Rooms $rooms = null, $attachement = []): bool
     {
         return $this->mailer->sendEmail(
             $user,

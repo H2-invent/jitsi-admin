@@ -19,7 +19,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class SendSummaryCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, private SendSummaryViaEmailService $sendSummaryViaEmailService, string $name = null)
+    public function __construct(private EntityManagerInterface $entityManager, private SendSummaryViaEmailService $sendSummaryViaEmailService, ?string $name = null)
     {
         parent::__construct($name);
     }

@@ -23,7 +23,7 @@ class EmailTestCommand extends Command
             ->addArgument('serverId', InputArgument::OPTIONAL, 'Server ID from where the amil should be send')
             ->addArgument('email', InputArgument::OPTIONAL, 'Email to where the email schoueld be sent');
     }
-    public function __construct(EntityManagerInterface $entityManager, MailerService $mailerService, string $name = null)
+    public function __construct(EntityManagerInterface $entityManager, MailerService $mailerService, ?string $name = null)
     {
         parent::__construct($name);
         $this->mailerService = $mailerService;

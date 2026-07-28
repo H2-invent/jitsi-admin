@@ -28,7 +28,7 @@ class RoomsInFuture extends AbstractExtension
         $this->em = $entityManager;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('roomsinFuture', [$this, 'roomsinFuture']),

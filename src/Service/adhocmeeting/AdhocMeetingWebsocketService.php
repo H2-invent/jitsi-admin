@@ -5,7 +5,7 @@ namespace App\Service\adhocmeeting;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\Lobby\DirectSendService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;

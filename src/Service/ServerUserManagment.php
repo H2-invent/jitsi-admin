@@ -5,10 +5,10 @@ namespace App\Service;
 use App\Entity\EmailDomainsToServers;
 use App\Entity\KeycloakGroupsToServers;
 use App\Entity\Rooms;
-use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 

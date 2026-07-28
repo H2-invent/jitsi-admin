@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ConnectAllUserInAdressBookCommand extends Command
 {
     private $ldapUSerService;
-    public function __construct(LdapUserService $ldapUserService, string $name = null)
+    public function __construct(LdapUserService $ldapUserService, ?string $name = null)
     {
         parent::__construct($name);
         $this->ldapUSerService = $ldapUserService;

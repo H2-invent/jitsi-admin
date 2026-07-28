@@ -5,7 +5,7 @@ namespace App\Service\analytics;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

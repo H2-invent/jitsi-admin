@@ -758,7 +758,7 @@ class Server
     {
         $data = $this->tag->toArray();
         usort($data, function (Tag $a, Tag $b) {
-            return $a->getPriority() > $b->getPriority();
+            return $a->getPriority() <=> $b->getPriority();
         });
         $res = [];
         foreach ($data as $datum) {

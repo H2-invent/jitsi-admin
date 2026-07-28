@@ -1,0 +1,61 @@
+name: Create Development
+env:
+  GITHUB_TOKEN: ${{ secrets.token }}
+
+on:
+  push:
+    branches:
+      - feature/development
+
+jobs:
+
+  artifact:
+    uses: ./.github/workflows/task-artifact.yml
+
+  test:
+    uses: ./.github/workflows/task-test.yml
+    needs:
+      - artifact
+
+  docker_prod_core:
+    needs:
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './Dockerfile-prod'
+      directory: '.'
+      version: dev
+      tags: reg.h2-invent.com/meetling/core:dev
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+
+  docker_prod_application:
+    needs:
+      - test
+      - docker_prod_core
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './Dockerfile-aio'
+      directory: '.'
+      version: dev
+      tags: reg.h2-invent.com/meetling/application:dev
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+
+  docker_prod_websocket:
+    needs:
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './nodejs/Dockerfile-prod'
+      directory: './nodejs'
+      version: dev
+      tags: reg.h2-invent.com/meetling/websocket:dev
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}

@@ -2,7 +2,6 @@ import $ from 'jquery';
 import {Popover, Modal, Input, initMDB} from "mdb-ui-kit";
 
 global.$ = global.jQuery = $;
-import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
@@ -34,7 +33,6 @@ import {
 
 function initGenerell() {
     checkFirefox();
-    Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
     initStartIframe();
@@ -290,7 +288,10 @@ function initProtip() {
     const proTip = document.getElementById('proTip')
 
     if (proTip) {
-        proTip.style.transform = 'translateY(-' + (proTip.querySelector('.first-line').clientHeight + 8 + 8) + 'px)';
+        var totalHeight = proTip.offsetHeight;
+        var firstLineHeight = proTip.querySelector('.first-line').clientHeight;
+        var visiblePart = firstLineHeight + 13 + 10; // padding-top + padding-bottom
+        proTip.style.transform = 'translateY(' + (totalHeight - visiblePart) + 'px)';
     }
 }
 

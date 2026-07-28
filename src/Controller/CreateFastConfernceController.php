@@ -6,7 +6,7 @@ use App\Entity\Server;
 use App\Repository\ServerRepository;
 use App\Service\CreateHttpsUrl;
 use App\Service\PublicConference\PublicConferenceService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

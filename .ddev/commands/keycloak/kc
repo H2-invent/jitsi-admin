@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#ddev-generated
+
+## Description: Manage parts of keycloak
+## Usage: kc COMMAND OPTIONS
+##        where COMMAND is one of: build, start, start-dev, export, import, show-config, tools
+## Example: ddev kc --help
+
+/opt/keycloak/bin/kc.sh $@

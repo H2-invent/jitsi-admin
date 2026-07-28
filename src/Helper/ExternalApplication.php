@@ -3,7 +3,7 @@
 namespace App\Helper;
 
 use App\Entity\Rooms;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use App\Service\Whiteboard\WhiteboardJwtService;
 
 class ExternalApplication

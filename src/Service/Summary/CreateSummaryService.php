@@ -3,7 +3,7 @@
 namespace App\Service\Summary;
 
 use App\Entity\Rooms;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use App\Service\Whiteboard\WhiteboardJwtService;
 use Dompdf\Dompdf;
 use Dompdf\Options;

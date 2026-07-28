@@ -2,20 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Form\Type\PublicConferenceType;
 use App\Helper\JitsiAdminController;
 use App\Service\PublicConference\PublicConferenceService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use App\Service\webhook\RoomStatusFrontendService;
 use App\UtilsHelper;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;

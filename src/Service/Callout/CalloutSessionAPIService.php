@@ -4,7 +4,7 @@ namespace App\Service\Callout;
 
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

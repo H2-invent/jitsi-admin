@@ -14,7 +14,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
 use App\Helper\JitsiAdminController;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

@@ -1,8 +1,22 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
+## 1.4
+
+### Features:
+* **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
+* **New DDEV local development setup**
+* **New Design (improved.)**
+### Bug Fixes:
+* Header shows Theme text
+* theme page is vissible
+
+
+# Features, Improvements, and Bug Fixes in Jitsi Admin
 ## 1.3
 
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
+* **New DDEV local development setup**
+* **New Design (improved.)**
 ### Bug Fixes:
 * remove header in sip trunk generation
 * fix ical reply
@@ -16,6 +30,9 @@
 * Add Chatwoot in conferences in sidebar
 * Theme dashboard
 * Rearange logo in conference
+* Add API Endpoint to upload video transcripts
+* Room Name includes actual Host URL if there is one, instead of an ENV variable
+
 ## 1.2
 ### 🚀 Features
 * **Improved Side-Navigation in the Conference**:
@@ -30,6 +47,8 @@
 * Skip Lobby by URL parameter in public rooms
 * Enable Mic and Camera by URL paramter
 * Upgrade PHP to 8.4 in prod docker
+* Add user preferences (dark/light mode, language, timezone) to JWT 
+
 ### 🐛 Bug Fixes
 * Collapse the Side-Navigation on mobile devices
 * Calendly disconnection fails when token was removed in advance in Calendly
@@ -50,10 +69,14 @@
 * Fix open Link with target blank from ifrmae
 * Fix not downloading images from whiteboard
 * Add allow Popups to multiframe iframe
-## 1.3
-Nothing
+* Fix dark mode for conference sidebar
 
-## 1.2
+# Features, Improvements, and Bug Fixes related to the Livekit Integration
+
+## 1.3
+* Add allow Popups to multiframe iframe
+
+
 ### 🚀 Feature
 * New start page for registered and unregistered conference participants
 * Force a name for unregistered participants

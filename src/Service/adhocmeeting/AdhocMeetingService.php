@@ -7,14 +7,12 @@ use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
 use App\Service\Callout\CalloutService;
-use App\Service\Lobby\DirectSendService;
 use App\Service\RoomGeneratorService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use App\Service\TimeZoneService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdhocMeetingService
@@ -33,7 +31,7 @@ class AdhocMeetingService
 
     }
 
-    public function createAdhocMeeting(User $creator, User $reciever, Server $server, Tag $tag = null): ?Rooms
+    public function createAdhocMeeting(User $creator, User $reciever, Server $server, ?Tag $tag = null): ?Rooms
     {
         $room = $this->roomGeneratorService->createRoom($creator, $server);
         if ($tag) {
