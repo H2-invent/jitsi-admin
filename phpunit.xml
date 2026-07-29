@@ -5,7 +5,6 @@
          backupGlobals="false"
          colors="true"
          bootstrap="tests/bootstrap.php"
-         convertDeprecationsToExceptions="false"
          testdox="true"
 >
     <php>
@@ -32,13 +31,14 @@
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="true">
+    <source>
         <include>
             <directory suffix=".php">src</directory>
         </include>
-    </coverage>
+    </source>
+    <coverage/>
 
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
+    <extensions>
+        <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+    </extensions>
 </phpunit>

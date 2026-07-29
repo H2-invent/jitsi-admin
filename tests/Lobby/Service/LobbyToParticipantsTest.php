@@ -8,6 +8,8 @@ use App\Repository\UserRepository;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToParticipantWebsocketService;
 use Doctrine\ORM\EntityManagerInterface;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
@@ -20,11 +22,15 @@ class LobbyToParticipantsTest extends KernelTestCase
         $kernel = self::bootKernel();
 
         $this->assertSame('test', $kernel->getEnvironment());
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
+        $appSecret = $room->getServer()->getAppSecret();
+
         $directSend = $this->getContainer()->get(DirectSendService::class);
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
+            function (Update $update) use ($appSecret): string {
                 if (strpos($update->getData(), 'snackbar') > 0) {
                     self::assertEquals(
                         json_encode([
@@ -36,14 +42,17 @@ class LobbyToParticipantsTest extends KernelTestCase
                         $update->getData());
                 }
                 if (strpos($update->getData(), 'jitsi-meet') > 0) {
-                    self::assertEquals(
-                        json_encode([
-                            'type' => 'redirect',
-                            'url' => 'jitsi-meet://meet.jit.si2/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkifSwidXNlciI6eyJuYW1lIjoiVGVzdDIgVXNlcjIiLCJsYW5ndWFnZSI6ImRlIiwidGltZXpvbmUiOiJFdXJvcGUvQmVybGluIn19LCJtb2RlcmF0b3IiOmZhbHNlLCJsb2JieU1vZGVyYXRvciI6ZmFsc2UsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.DGQLcUJKpcCHZT9xTPZq0wqCxF-jm91Fc4g1h3CdX3E#config.subject=%22this_is_a_room_with_lobby%22',
-                            'timeout' => 5000,
-                        ], JSON_THROW_ON_ERROR),
-                        $update->getData()
-                    );
+                    $data = json_decode($update->getData(), true, 512, JSON_THROW_ON_ERROR);
+                    self::assertEquals('redirect', $data['type']);
+                    self::assertStringContainsString('jitsi-meet://meet.jit.si2/12313231ghjgfdsdf?jwt=', $data['url']);
+                    self::assertStringContainsString('#config.subject=%22this_is_a_room_with_lobby%22', $data['url']);
+                    self::assertEquals(5000, $data['timeout']);
+
+                    preg_match('/jwt=([^#]+)/', $data['url'], $matches);
+                    $jwt = $matches[1];
+                    $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
+                    self::assertEquals('12313231ghjgfdsdf', $decoded->room);
+                    self::assertEquals('Test2 User2', $decoded->context->user->name);
                 }
                 return 'id';
             }
@@ -51,9 +60,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $directSend->setMercurePublisher($hub);
         $lobbyToParticipant = self::getContainer()->get(ToParticipantWebsocketService::class);
         $lobbyToParticipant->setDirectSend($directSend);
-        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
-        $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
         $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $lobbyUser = new LobbyWaitungUser();
         $lobbyUser->setType('a');
@@ -150,17 +157,14 @@ class LobbyToParticipantsTest extends KernelTestCase
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
+            function (Update $update) use ($room): string {
                 if (strpos($update->getData(), 'newJitsi') > 0) {
-                    self::assertEquals(
-                        [
-                            'type' => "newJitsi",
-                            'options' => [
-                                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkifSwidXNlciI6eyJuYW1lIjoiVGVzdDIgVXNlcjIiLCJsYW5ndWFnZSI6ImRlIiwidGltZXpvbmUiOiJFdXJvcGUvQmVybGluIn19LCJtb2RlcmF0b3IiOmZhbHNlLCJsb2JieU1vZGVyYXRvciI6ZmFsc2UsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.DGQLcUJKpcCHZT9xTPZq0wqCxF-jm91Fc4g1h3CdX3E',
-                            ],
-                        ],
-                        json_decode($update->getData(), true, 512, JSON_THROW_ON_ERROR)
-                    );
+                    $data = json_decode($update->getData(), true, 512, JSON_THROW_ON_ERROR);
+                    self::assertEquals('newJitsi', $data['type']);
+                    self::assertArrayHasKey('jwt', $data['options']);
+                    $decoded = JWT::decode($data['options']['jwt'], new Key($room->getServer()->getAppSecret(), 'HS256'));
+                    self::assertEquals('12313231ghjgfdsdf', $decoded->room);
+                    self::assertEquals('Test2 User2', $decoded->context->user->name);
                 }
                 if (strpos($update->getData(), 'snackbar') > 0) {
                     self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success","closeAfter":2000}', $update->getData());
@@ -204,17 +208,14 @@ class LobbyToParticipantsTest extends KernelTestCase
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
+            function (Update $update) use ($room): string {
                 if (strpos($update->getData(), 'newJitsi') > 0) {
-                    self::assertEquals(
-                        [
-                            'type' => "newJitsi",
-                            'options' => [
-                                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkifSwidXNlciI6eyJuYW1lIjoiVGVzdDIgVXNlcjIiLCJsYW5ndWFnZSI6ImRlIiwidGltZXpvbmUiOiJFdXJvcGUvQmVybGluIn19LCJtb2RlcmF0b3IiOmZhbHNlLCJsb2JieU1vZGVyYXRvciI6ZmFsc2UsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.DGQLcUJKpcCHZT9xTPZq0wqCxF-jm91Fc4g1h3CdX3E',
-                            ],
-                        ],
-                        json_decode($update->getData(), true, 512, JSON_THROW_ON_ERROR)
-                    );
+                    $data = json_decode($update->getData(), true, 512, JSON_THROW_ON_ERROR);
+                    self::assertEquals('newJitsi', $data['type']);
+                    self::assertArrayHasKey('jwt', $data['options']);
+                    $decoded = JWT::decode($data['options']['jwt'], new Key($room->getServer()->getAppSecret(), 'HS256'));
+                    self::assertEquals('12313231ghjgfdsdf', $decoded->room);
+                    self::assertEquals('Test2 User2', $decoded->context->user->name);
                 }
                 if (strpos($update->getData(), 'snackbar') > 0) {
                     self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success","closeAfter":2000}', $update->getData());

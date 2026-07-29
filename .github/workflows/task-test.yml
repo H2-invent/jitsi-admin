@@ -46,3 +46,58 @@ jobs:
         run: composer test
       # endregion phpunit
       # endregion test
+
+  run_browser_tests:
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+
+    steps:
+      - name: MySQL start
+        run: |
+          sudo /etc/init.d/mysql start
+          sudo mysql --user=root --password=root -e "CREATE USER 'jitsiadmintest'@'localhost' IDENTIFIED  BY 'password';"
+          sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON jitsiadmintest.* TO 'jitsiadmintest'@'localhost';"
+          sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;"
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: artifact_${{github.run_number}}
+
+      - name: Unzip Artifact
+        run: unzip -qq artifact_${{github.run_number}}.zip -d .
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ vars.PHP_VERSION }}
+          ini-values: date.timezone ="Europe/Berlin"
+          tools: composer:v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Prepare test database
+        run: |
+          php bin/console doctrine:database:create --env=test
+          php bin/console doctrine:migrations:migrate -n --env=test
+          php bin/console doctrine:fixtures:load -n --env=test
+
+      - name: Run browser tests (homepage only, no Keycloak)
+        run: vendor/bin/pest testsBrowser/HomepageTest.php
+        env:
+          APP_ENV: test
+          DATABASE_URL: mysql://jitsiadmintest:password@127.0.0.1:3306/jitsiadmintest

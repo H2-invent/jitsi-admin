@@ -15,7 +15,7 @@ class CallerSession
     #[ORM\Column(type: 'text')]
     private $sessionId;
     #[ORM\OneToOne(targetEntity: LobbyWaitungUser::class, inversedBy: 'callerSession', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private $lobbyWaitingUser;
     #[ORM\Column(type: 'datetime')]
     private $createdAt;

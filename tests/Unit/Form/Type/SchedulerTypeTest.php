@@ -82,9 +82,7 @@ class SchedulerTypeTest extends KernelTestCase
         $this->subject->buildForm($formBuilder, $options);
     }
 
-    /**
-     * @dataProvider provideForConfigureOptions
-     */
+    #[DataProvider('provideForConfigureOptions')]
     public function testConfigureOptions(
         int   $allowMaybeOptionDefault,
         bool  $isEdit,

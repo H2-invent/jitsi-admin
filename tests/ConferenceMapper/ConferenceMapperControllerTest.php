@@ -5,6 +5,8 @@ namespace App\Tests\ConferenceMapper;
 use App\Entity\RoomStatus;
 use App\Repository\CallerRoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ConferenceMapperControllerTest extends WebTestCase
@@ -78,14 +80,23 @@ class ConferenceMapperControllerTest extends WebTestCase
         $res = $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
 
-        self::assertEquals(
-            json_encode([
-                'state' => 'STARTED',
-                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCJ9LCJ1c2VyIjp7Im5hbWUiOiIxMjM0NTYyMjU1NjYiLCJsYW5ndWFnZSI6ImRlIiwidGltZXpvbmUiOiJFdXJvcGUvQmVybGluIn19LCJtb2RlcmF0b3IiOmZhbHNlLCJsb2JieU1vZGVyYXRvciI6ZmFsc2UsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.OTAHd8Oa6v9zm-6RQRyBMNThFzmGb1kJxaqkzHMsjco',
-                'room_name' => '123456780@testdomain.com',
-                "display_name" => "123456225566"
-            ], JSON_THROW_ON_ERROR),
-            $res
-        );
+        $result = json_decode($res, true, 512, JSON_THROW_ON_ERROR);
+        self::assertEquals('STARTED', $result['state']);
+        self::assertEquals('123456780@testdomain.com', $result['room_name']);
+        self::assertEquals('123456225566', $result['display_name']);
+
+        // Verify JWT payload (signature will differ due to appSecret change)
+        $decoded = JWT::decode($result['jwt'], new Key($callerRoom->getRoom()->getServer()->getAppSecret(), 'HS256'));
+        $expectedSubset = [
+            'aud' => 'jitsi_admin',
+            'iss' => 'jitsiId',
+            'sub' => 'meet.jit.si2',
+            'room' => '123456780',
+            'moderator' => false,
+            'lobbyModerator' => false,
+        ];
+        foreach ($expectedSubset as $key => $val) {
+            self::assertEquals($val, $decoded->$key, "JWT payload key '$key' mismatch");
+        }
     }
 }

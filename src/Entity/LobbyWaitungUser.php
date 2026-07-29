@@ -28,7 +28,6 @@ class LobbyWaitungUser
     #[ORM\Column(type: 'text')]
     private $showName;
     #[ORM\OneToOne(targetEntity: CallerSession::class, mappedBy: 'lobbyWaitingUser', cascade: ['persist'])]
-    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private $callerSession;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $closeBrowser;

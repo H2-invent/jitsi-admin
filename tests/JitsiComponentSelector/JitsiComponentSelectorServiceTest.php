@@ -255,7 +255,7 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
         $server = new Server();
         $server->setUrl('testurl.de')
             ->setAppId('testId')
-            ->setAppSecret('mySecret');
+            ->setAppSecret('mySecretmySecretmySecretmySecretmySecret');
         $room->setServer($server);
 
         $user = new User();

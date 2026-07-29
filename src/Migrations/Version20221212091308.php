@@ -19,7 +19,7 @@ final class Version20221212091308 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('CREATE SEQUENCE deputy_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
             $this->addSql('CREATE TABLE deputy (id INT NOT NULL, deputy_id INT NOT NULL, manager_id INT NOT NULL, is_from_ldap BOOLEAN DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
@@ -35,7 +35,7 @@ final class Version20221212091308 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this down() migration is auto-generated, please modify it to your needs
 
             $this->addSql('DROP SEQUENCE deputy_id_seq CASCADE');
