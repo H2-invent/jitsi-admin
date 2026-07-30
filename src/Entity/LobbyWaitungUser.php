@@ -102,14 +102,22 @@ class LobbyWaitungUser
     {
         return $this->callerSession;
     }
-    public function setCallerSession(CallerSession $callerSession): self
+    public function setCallerSession(?CallerSession $callerSession): self
     {
-        // set the owning side of the relation if necessary
-        if ($callerSession->getLobbyWaitingUser() !== $this) {
-            $callerSession->setLobbyWaitingUser($this);
+        if ($this->callerSession === $callerSession) {
+            return $this;
         }
 
+        $previousCallerSession = $this->callerSession;
         $this->callerSession = $callerSession;
+
+        if ($previousCallerSession?->getLobbyWaitingUser() === $this) {
+            $previousCallerSession->setLobbyWaitingUser(null);
+        }
+
+        if ($callerSession !== null && $callerSession->getLobbyWaitingUser() !== $this) {
+            $callerSession->setLobbyWaitingUser($this);
+        }
 
         return $this;
     }

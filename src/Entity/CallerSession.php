@@ -60,7 +60,20 @@ class CallerSession
     }
     public function setLobbyWaitingUser(?LobbyWaitungUser $lobbyWaitingUser): self
     {
+        if ($this->lobbyWaitingUser === $lobbyWaitingUser) {
+            return $this;
+        }
+
+        $previousLobbyWaitingUser = $this->lobbyWaitingUser;
         $this->lobbyWaitingUser = $lobbyWaitingUser;
+
+        if ($previousLobbyWaitingUser?->getCallerSession() === $this) {
+            $previousLobbyWaitingUser->setCallerSession(null);
+        }
+
+        if ($lobbyWaitingUser !== null && $lobbyWaitingUser->getCallerSession() !== $this) {
+            $lobbyWaitingUser->setCallerSession($this);
+        }
 
         return $this;
     }

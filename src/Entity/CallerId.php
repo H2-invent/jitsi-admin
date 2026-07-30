@@ -75,7 +75,20 @@ class CallerId
     }
     public function setCallerSession(?CallerSession $callerSession): self
     {
+        if ($this->callerSession === $callerSession) {
+            return $this;
+        }
+
+        $previousCallerSession = $this->callerSession;
         $this->callerSession = $callerSession;
+
+        if ($previousCallerSession?->getCaller() === $this) {
+            $previousCallerSession->setCaller(null);
+        }
+
+        if ($callerSession !== null && $callerSession->getCaller() !== $this) {
+            $callerSession->setCaller($this);
+        }
 
         return $this;
     }
