@@ -41,7 +41,7 @@ class JitsiComponentSelectorPublicKeyController extends AbstractController
         }
         $publicKey = '';
         try {
-            $publicKey = file_get_contents($this->publicKeyPath.$keyfile);
+            $publicKey = @file_get_contents($this->publicKeyPath.$keyfile);
             if ($publicKey === false) {
                 throw new NotFoundHttpException('This function is not activated.');
             }

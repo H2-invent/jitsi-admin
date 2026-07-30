@@ -15,11 +15,11 @@ class LiveKitUrlGeneratorTwigExtensionTest extends KernelTestCase
         $roomUid = 'room123';
         $expectedResult = 'room123@domain.test';
 
-        $roomMock = $this->createMock(Rooms::class);
+        $roomMock = $this->createStub(Rooms::class);
         $roomMock->method('getUid')->willReturn($roomUid);
 
-        $generatorMock = $this->createMock(LivekitRoomNameGenerator::class);
-        $generatorMock->method('getLiveKitName')->with($roomMock)->willReturn($expectedResult);
+        $generatorMock = $this->createStub(LivekitRoomNameGenerator::class);
+        $generatorMock->method('getLiveKitName')->willReturn($expectedResult);
 
         $runtime = new LivekitUrlRuntime($generatorMock);
 

@@ -72,7 +72,7 @@ class CreateHttpsUrl
             return $url;
         }
         try {
-            $protokoll = $protokoll['scheme'];
+            $protokoll = $protokoll['scheme'] ?? null;
             if ($protokoll) {
                 return $this->replaceProtocol(url: $url, newProtocol: $protokoll);
             }

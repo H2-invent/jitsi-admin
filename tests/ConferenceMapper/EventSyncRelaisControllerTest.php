@@ -20,11 +20,11 @@ class EventSyncRelaisControllerTest extends WebTestCase
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApi']);
 
-        $httpClientMock = $this->createMock(HttpClientInterface::class);
+        $httpClientMock = $this->createStub(HttpClientInterface::class);
 
 
         // Beispiel Response
-        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
         $responseMock->method('toArray')->willReturn(['status' => 'ROOM_STARTED']);
 
         // Konfiguriere den HttpClientMock, um die Response zurückzugeben
@@ -67,11 +67,11 @@ class EventSyncRelaisControllerTest extends WebTestCase
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApi']);
 
-        $httpClientMock = $this->createMock(HttpClientInterface::class);
+        $httpClientMock = $this->createStub(HttpClientInterface::class);
 
 
         // Beispiel Response
-        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
         $responseMock->method('toArray')->willReturn(['status' => 'ROOM_ClOSED']);
 
         // Konfiguriere den HttpClientMock, um die Response zurückzugeben
