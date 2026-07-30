@@ -8,10 +8,12 @@ use App\Service\livekit\SipTrunkGenerator;
 use App\Service\LivekitRoomNameGenerator;
 use Firebase\JWT\JWT;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class SipTrunkGeneratorTest extends TestCase
 {
     private $httpClient;
