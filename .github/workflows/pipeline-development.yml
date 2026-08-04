@@ -26,7 +26,9 @@ jobs:
       dockerfile_path: './Dockerfile-prod'
       directory: '.'
       version: dev
-      tags: reg.h2-invent.com/meetling/core:dev
+      tags: |
+        reg.h2-invent.com/meetling/core:dev.${{ github.run_id }}
+        reg.h2-invent.com/meetling/core:dev
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
@@ -41,7 +43,9 @@ jobs:
       dockerfile_path: './Dockerfile-aio'
       directory: '.'
       version: dev
-      tags: reg.h2-invent.com/meetling/application:dev
+      tags: |
+        reg.h2-invent.com/meetling/application:dev.${{ github.run_id }}
+        reg.h2-invent.com/meetling/application:dev
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
@@ -55,7 +59,9 @@ jobs:
       dockerfile_path: './nodejs/Dockerfile-prod'
       directory: './nodejs'
       version: dev
-      tags: reg.h2-invent.com/meetling/websocket:dev
+      tags: |
+        reg.h2-invent.com/meetling/websocket:dev.${{ github.run_id }},
+        reg.h2-invent.com/meetling/websocket:dev
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
