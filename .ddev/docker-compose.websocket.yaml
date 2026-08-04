@@ -17,7 +17,6 @@ services:
       - WEBSOCKET_SECRET=${MERCURE_JWT_SECRET:-CHANGEME}
     links:
       - redis:ddev-${DDEV_SITENAME}-redis
-      - WEBSOCKET_SECRET=${MERCURE_JWT_SECRET:-CHANGEME}
     volumes:
       - websocket_data:/data
       - websocket_config:/config
