@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/theme', name: 'app_theme_')]
+#[Route('/room/theme', name: 'app_theme_')]
 class ThemeController extends AbstractController
 {
     public function __construct(

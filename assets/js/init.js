@@ -2,7 +2,6 @@ import $ from 'jquery';
 import {Popover, Modal, Input, initMDB} from "mdb-ui-kit";
 
 global.$ = global.jQuery = $;
-import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
@@ -34,7 +33,6 @@ import {
 
 function initGenerell() {
     checkFirefox();
-    Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
     initStartIframe();
