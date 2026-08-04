@@ -22,7 +22,10 @@ jobs:
 
       - name: Run composer Install
         run: composer install
-        
+
+      - name: Warmup Symfony cache
+        run: php bin/console cache:warmup
+
       - name: Install Node modules
         run: npm install
 
