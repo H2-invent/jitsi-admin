@@ -8,6 +8,24 @@ on:
       - feature/development
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: paulhatch/semantic-version@v5.0.2
+        id: version
+        with:
+          tag_prefix: ""
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          change_path: .
+          version_format: "${major}.${minor}.${patch}-${{ github.run_id }}"
 
   artifact:
     uses: ./.github/workflows/task-artifact.yml
@@ -15,10 +33,12 @@ jobs:
   test:
     uses: ./.github/workflows/task-test.yml
     needs:
+      - version
       - artifact
 
   docker_prod_core:
     needs:
+      - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
@@ -27,7 +47,7 @@ jobs:
       directory: '.'
       version: dev
       tags: |
-        reg.h2-invent.com/meetling/core:dev.${{ github.run_id }}
+        reg.h2-invent.com/meetling/core:${{ needs.version.outputs.version }}
         reg.h2-invent.com/meetling/core:dev
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
@@ -35,6 +55,7 @@ jobs:
 
   docker_prod_application:
     needs:
+      - version
       - test
       - docker_prod_core
     uses: ./.github/workflows/task-upload-docker-hub.yml
@@ -44,7 +65,7 @@ jobs:
       directory: '.'
       version: dev
       tags: |
-        reg.h2-invent.com/meetling/application:dev.${{ github.run_id }}
+        reg.h2-invent.com/meetling/application:dev.${{ needs.version.outputs.version }}
         reg.h2-invent.com/meetling/application:dev
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
@@ -52,6 +73,7 @@ jobs:
 
   docker_prod_websocket:
     needs:
+      - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
@@ -60,7 +82,7 @@ jobs:
       directory: './nodejs'
       version: dev
       tags: |
-        reg.h2-invent.com/meetling/websocket:dev.${{ github.run_id }},
+        reg.h2-invent.com/meetling/websocket:dev.${{ needs.version.outputs.version }}
         reg.h2-invent.com/meetling/websocket:dev
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
