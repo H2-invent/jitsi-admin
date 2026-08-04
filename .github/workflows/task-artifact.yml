@@ -5,6 +5,8 @@ on: workflow_call
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: sqlite:///%kernel.project_dir%/var/dummy.db
     steps:
       - uses: actions/checkout@v4
 
