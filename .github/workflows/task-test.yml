@@ -39,7 +39,7 @@ jobs:
       - name: Update PHP Version and tools
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ vars.PHP_VERSION }}
+          php-version: '8.2'
           ini-values: date.timezone ="Europe/Berlin"
           tools: composer:v2
 
