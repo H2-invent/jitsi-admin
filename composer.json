@@ -176,16 +176,16 @@
     ],
     "test": [
       "@test-prepare",
-      " php vendor/bin/pest --testsuite=Development"
+      "php vendor/bin/phpunit --testsuite=Development"
     ],
     "test-browser": "php vendor/bin/pest tests/Browser",
     "test-repeater": [
       "@test-prepare",
-      " php vendor/bin/pest --testsuite=onlyRepeater"
+      " php vendor/bin/phpunit --testsuite=onlyRepeater"
     ],
     "test-complete": [
       "@test-prepare",
-      " php vendor/bin/pest --testsuite=Complete"
+      " php vendor/bin/phpunit --testsuite=Complete"
     ],
     "test-complete-parallel": "./runTestsParallel.sh --force --testsuite Complete",
     "test-complete-parallel-reusedb": "./runTestsParallel.sh --testsuite Complete",
