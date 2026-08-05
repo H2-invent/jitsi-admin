@@ -8,7 +8,7 @@ jobs:
     env:
       DATABASE_URL: sqlite:///%kernel.project_dir%/var/dummy.db
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Update PHP Version and tools
         uses: shivammathur/setup-php@v2
@@ -17,10 +17,10 @@ jobs:
           ini-values: date.timezone ="Europe/Berlin"
           tools: composer:v2
 
-      - name: Install NPM Packages
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ vars.NODE_VERSION }}
+       - name: Install NPM Packages
+         uses: actions/setup-node@v5
+         with:
+           node-version: ${{ vars.NODE_VERSION }}
 
       - name: Run composer Install
         run: composer install
@@ -46,7 +46,7 @@ jobs:
           args: zip -qq -r artifact_${{github.run_number}}.zip .
 
       - name: Upload articats
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: artifact_${{github.run_number}}
           path: artifact_${{github.run_number}}.zip
