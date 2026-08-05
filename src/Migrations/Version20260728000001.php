@@ -30,6 +30,7 @@ final class Version20260728000001 extends AbstractMigration
 
     private function migrateColumn(string $table, string $column): void
     {
+        // need to use raw SQL for this because the ORM layer would already deserialize the column
         $rows = $this->connection->executeQuery(
             sprintf('SELECT id, `%s` FROM %s WHERE `%s` IS NOT NULL', $column, $table, $column)
         )->fetchAllAssociative();
@@ -42,6 +43,7 @@ final class Version20260728000001 extends AbstractMigration
             $unserialized = @unserialize($value);
             if ($unserialized !== false || $value === 'b:0;') {
                 $json = json_encode($unserialized, JSON_UNESCAPED_UNICODE);
+                // same here: need to use raw SQL for this because the ORM layer would serialize the column
                 $this->connection->executeStatement(
                     sprintf('UPDATE %s SET `%s` = :json WHERE id = :id', $table, $column),
                     ['json' => $json, 'id' => $row['id']]
@@ -52,6 +54,7 @@ final class Version20260728000001 extends AbstractMigration
 
     private function reverseMigrateColumn(string $table, string $column): void
     {
+        // need to use raw SQL for this because the ORM layer would already deserialize the column
         $rows = $this->connection->executeQuery(
             sprintf('SELECT id, `%s` FROM %s WHERE `%s` IS NOT NULL', $column, $table, $column)
         )->fetchAllAssociative();
@@ -64,6 +67,7 @@ final class Version20260728000001 extends AbstractMigration
             $decoded = json_decode($value, true);
             if ($decoded !== null || $value === 'null') {
                 $serialized = serialize($decoded);
+                // same here: need to use raw SQL for this because the ORM layer would serialize the column
                 $this->connection->executeStatement(
                     sprintf('UPDATE %s SET `%s` = :serialized WHERE id = :id', $table, $column),
                     ['serialized' => $serialized, 'id' => $row['id']]
