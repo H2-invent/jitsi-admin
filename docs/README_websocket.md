@@ -168,6 +168,8 @@ environment variables.
 | `REDIS_ENABLED` | (empty, `false`) | Set to `"true"` to enable active/active clustering via Redis |
 | `REDIS_HOST` | `redis` | Redis server hostname |
 | `REDIS_PORT` | `6379` | Redis server port |
+| `REDIS_USER` | (empty) | Redis username (optional, typically `default` or empty) |
+| `REDIS_PASSWORD` | (empty) | Redis password (optional, required for password-protected Redis instances) |
 
 ### PHP Side Settings (`.env`)
 
@@ -195,11 +197,13 @@ PORT=3000
 REDIS_ENABLED=true
 REDIS_HOST=redis
 REDIS_PORT=6379
+# Optional: Redis authentication
+# REDIS_USER=default
+# REDIS_PASSWORD=my-redis-password
 ```
 
-The Redis client will connect to `redis://${REDIS_HOST}:${REDIS_PORT}`. The `@socket.io/redis-adapter`
-takes two separate Redis connections (pubClient + subClient) for cross-instance
-Socket.IO communication.
+The Redis client will connect to `redis://${REDIS_HOST}:${REDIS_PORT}`. If `REDIS_PASSWORD`
+is set, the client will authenticate using the password (and optionally `REDIS_USER`).
 
 ---
 

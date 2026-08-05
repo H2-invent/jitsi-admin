@@ -337,6 +337,13 @@ REDIS_ENABLED="true" + connected → cluster mode, full cross-instance features
 REDIS_ENABLED="true" + failed    → standalone mode with warning in console
 ```
 
+### Authentication
+
+Redis password-based authentication is supported via the `REDIS_USER` and `REDIS_PASSWORD`
+environment variables. When `REDIS_PASSWORD` is set, all Redis connections will
+authenticate using the provided password (and optional `REDIS_USER`). If unset,
+connections proceed without authentication.
+
 In standalone mode, all 12 unit tests pass. The 8 cluster tests require a running
 Redis instance (auto-detected or Docker-spawned by the test helper).
 

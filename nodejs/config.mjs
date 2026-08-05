@@ -10,3 +10,5 @@ export var CERT_FILE = process.env.CERT_FILE || "./tls_certificate/cert.pem";
 export var REDIS_ENABLED = process.env.REDIS_ENABLED === "true";
 export var REDIS_HOST = process.env.REDIS_HOST || "redis";
 export var REDIS_PORT = process.env.REDIS_PORT || 6379;
+export var REDIS_USER = process.env.REDIS_USER || "";
+export var REDIS_PASSWORD = process.env.REDIS_PASSWORD || "";

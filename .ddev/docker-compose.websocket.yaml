@@ -14,6 +14,8 @@ services:
       - HTTPS_EXPOSE=3000:3000
       - REDIS_ENABLED=true
       - REDIS_HOST=redis
+      - REDIS_USER=${REDIS_USER:-}
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
       - WEBSOCKET_SECRET=${MERCURE_JWT_SECRET:-CHANGEME}
     links:
       - redis:ddev-${DDEV_SITENAME}-redis

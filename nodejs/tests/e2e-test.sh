@@ -84,6 +84,16 @@ else
   fi
 fi
 
+# Append Redis auth credentials if password is set
+REDIS_AUTH=""
+if [ -n "${REDIS_PASSWORD:-}" ]; then
+  REDIS_AUTH="-a ${REDIS_PASSWORD}"
+  if [ -n "${REDIS_USER:-}" ]; then
+    REDIS_AUTH="--user ${REDIS_USER} -a ${REDIS_PASSWORD}"
+  fi
+fi
+REDIS_CMD="${REDIS_CMD} ${REDIS_AUTH}"
+
 echo "==========================================="
 echo " jitsi-admin WebSocket E2E Test"
 echo " Target: $WS_URL"

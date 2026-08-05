@@ -4,6 +4,7 @@ services:
     image: redis:7-alpine
     hostname: ${DDEV_SITENAME}-redis
     restart: "no"
+    command: redis-server --requirepass ${REDIS_PASSWORD:-}
     volumes:
       - redis:/data
     labels:

@@ -18,7 +18,9 @@ import {
   CERT_FILE,
   REDIS_ENABLED,
   REDIS_HOST,
-  REDIS_PORT
+  REDIS_PORT,
+  REDIS_USER,
+  REDIS_PASSWORD
 } from "./config.mjs";
 
 const app = express();
@@ -61,7 +63,12 @@ async function initRedisAdapter(io) {
     const { createAdapter } = await import("@socket.io/redis-adapter");
     const { createClient } = await import("redis");
 
-    const pubClient = createClient({ url: `redis://${REDIS_HOST}:${REDIS_PORT}` });
+    const redisOpts = { url: `redis://${REDIS_HOST}:${REDIS_PORT}` };
+    if (REDIS_PASSWORD) {
+      redisOpts.password = REDIS_PASSWORD;
+      if (REDIS_USER) redisOpts.username = REDIS_USER;
+    }
+    const pubClient = createClient(redisOpts);
     const subClient = pubClient.duplicate();
 
     await pubClient.connect();

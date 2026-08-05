@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "./User.mjs";
-import { WEBSOCKET_SECRET, REDIS_ENABLED, REDIS_HOST, REDIS_PORT, AWAY_TIME } from "./config.mjs";
+import { WEBSOCKET_SECRET, REDIS_ENABLED, REDIS_HOST, REDIS_PORT, REDIS_USER, REDIS_PASSWORD, AWAY_TIME } from "./config.mjs";
 
 let redis = null;
 let user = {};
@@ -9,7 +9,12 @@ let user = {};
 if (REDIS_ENABLED) {
   try {
     const { createClient } = await import("redis");
-    redis = createClient({ url: `redis://${REDIS_HOST}:${REDIS_PORT}` });
+    const redisOpts = { url: `redis://${REDIS_HOST}:${REDIS_PORT}` };
+    if (REDIS_PASSWORD) {
+      redisOpts.password = REDIS_PASSWORD;
+      if (REDIS_USER) redisOpts.username = REDIS_USER;
+    }
+    redis = createClient(redisOpts);
     await redis.connect();
     console.log("🔗 Redis-Client verbunden für globale User-Liste");
   } catch (err) {

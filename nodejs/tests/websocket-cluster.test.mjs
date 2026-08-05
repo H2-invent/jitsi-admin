@@ -146,7 +146,12 @@ describe("WebSocket Cluster (Active/Active)", function () {
     // Create Redis adapter
     const { createAdapter } = await import("@socket.io/redis-adapter");
     const { createClient } = await import("redis");
-    const adapterPub = createClient({ url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}` });
+    const adapterRedisOpts = { url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}` };
+    if (process.env.REDIS_PASSWORD) {
+      adapterRedisOpts.password = process.env.REDIS_PASSWORD;
+      if (process.env.REDIS_USER) adapterRedisOpts.username = process.env.REDIS_USER;
+    }
+    const adapterPub = createClient(adapterRedisOpts);
     const adapterSub = adapterPub.duplicate();
     await adapterPub.connect();
     await adapterSub.connect();

@@ -17,7 +17,12 @@ export async function startRedis() {
 
   for (const url of urls) {
     try {
-      const client = createClient({ url, socket: { connectTimeout: 2000 } });
+      const opts = { url, socket: { connectTimeout: 2000 } };
+      if (process.env.REDIS_PASSWORD) {
+        opts.password = process.env.REDIS_PASSWORD;
+        if (process.env.REDIS_USER) opts.username = process.env.REDIS_USER;
+      }
+      const client = createClient(opts);
       await client.connect();
       await client.ping();
       containerId = null;
