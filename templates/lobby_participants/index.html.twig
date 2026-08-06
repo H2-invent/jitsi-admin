@@ -4,6 +4,9 @@
 
     {{ room.name }}
 {% endblock %}
+{% block mainRow %}
+<div class="col-lg-10 col-md-12">
+{% endblock %}
 {% block content %}
 
     <div class=" col-12 ">
@@ -84,21 +87,23 @@
                         </ul>
                     </div>
                     <div class="col-lg-4">
-                        <div class="btn-group w-100">
-                            <a type="button"
-                               class="btn btn-primary dropdown-toggle caretdown px-3 d-flex align-items-center"
+                        <div class="btn-group btn-primary echo-test-control w-100" role="group">
+                            <a class="caretdown btn btn-primary dropdown-toggle d-flex align-items-center pe-lg-0 echo-test-input"
+                               type="button"
+                               id="selectAudioInputDropdown"
                                data-mdb-dropdown-init
-                              data-mdb-dropdown-init
                                data-mdb-reference="parent"
-                               aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-microphone"></i>
+                               aria-haspopup="true"
+                               aria-expanded="false"
+                               aria-label="{{ 'lobby.echo.input'|trans }}"
+                               title="{{ 'lobby.echo.input'|trans }}"><i class="fas fa-microphone flex-shrink-0 me-lg-2"></i>
                             </a>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" aria-labelledby="selectAudioInputDropdown">
                                 <div id="audioInputSelect">
                                     <a class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
                                 </div>
                             </div>
-                            <a type="button" class="btn btn-primary text-nowrap" id="startEcho"
+                            <a type="button" class="btn btn-primary text-ellipsis ps-lg-0 echo-test-action" id="startEcho"
                                data-texton="{{ 'lobby.start.echo'|trans }}"
                                data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
 
