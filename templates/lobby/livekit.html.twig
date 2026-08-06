@@ -43,24 +43,24 @@
                         </ul>
 
 
-                        <div class="btn-group">
-
-                            <a  type="button" class="btn btn-primary dropdown-toggle caretdown"
-                              data-mdb-dropdown-init
-                                data-mdb-dropdown-init
-                               data-mdb-reference="parent"
-                               aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-microphone"></i>
-                            </a>
-                            <div class="dropdown-menu">
-                                <div id="audioInputSelect">
-                                    <a  class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
-                                </div>
+                        <a  type="button" class="btn btn-primary dropdown-toggle caretdown btn-truncate w-100"
+                          data-mdb-dropdown-init
+                            data-mdb-dropdown-init
+                           data-mdb-reference="parent"
+                           aria-haspopup="true"
+                           aria-expanded="false"
+                           title="{{ 'lobby.echo.input'|trans }}">
+                            <i class="fas fa-microphone me-2"></i>{{ 'lobby.echo.input'|trans }}
+                        </a>
+                        <div class="dropdown-menu">
+                            <div id="audioInputSelect">
+                                <a  class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
                             </div>
-                            <a type="button" class="btn btn-primary" id="startEcho"
-                               data-texton="{{ 'lobby.start.echo'|trans }}"
-                               data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
                         </div>
+                        <a type="button" class="btn btn-primary btn-truncate w-100" id="startEcho"
+                           data-texton="{{ 'lobby.start.echo'|trans }}"
+                           data-textoff="{{ 'lobby.stop.echo'|trans }}"
+                           title="{{ 'lobby.start.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-6" id="col-waitinglist">

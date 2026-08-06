@@ -304,8 +304,16 @@ body {
   margin-left: 0;
   margin-right: 0;
 
-  .caretdown {
-    max-width: max-content;
+  .btn-truncate {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &.caretdown:before {
+      margin-right: 0;
+    }
   }
 }
 
