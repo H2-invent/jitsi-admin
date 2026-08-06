@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31c6bd99b23c4b806008530d2cc814fb",
+    "content-hash": "6d44ff5cd11c756b57ad7a6717ea7c2f",
     "packages": [
         {
             "name": "agence104/livekit-server-sdk",
@@ -362,6 +362,65 @@
             "time": "2024-03-03T17:55:15+00:00"
         },
         {
+            "name": "brick/math",
+            "version": "0.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brick/math.git",
+                "reference": "82944324d1c1bdb2c2618e89978d4e2ad78d69ad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brick/math/zipball/82944324d1c1bdb2c2618e89978d4e2ad78d69ad",
+                "reference": "82944324d1c1bdb2c2618e89978d4e2ad78d69ad",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "2.1.22",
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brick\\Math\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Arbitrary-precision arithmetic library",
+            "keywords": [
+                "Arbitrary-precision",
+                "BigInteger",
+                "BigRational",
+                "arithmetic",
+                "bigdecimal",
+                "bignum",
+                "bignumber",
+                "brick",
+                "decimal",
+                "integer",
+                "math",
+                "mathematics",
+                "rational"
+            ],
+            "support": {
+                "issues": "https://github.com/brick/math/issues",
+                "source": "https://github.com/brick/math/tree/0.18.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/BenMorel",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-06-14T18:21:03+00:00"
+        },
+        {
             "name": "composer/package-versions-deprecated",
             "version": "1.11.99.5",
             "source": {
@@ -550,6 +609,70 @@
                 "source": "https://github.com/Cron/Symfony-Bundle/tree/3.1.1"
             },
             "time": "2024-04-27T23:22:26+00:00"
+        },
+        {
+            "name": "czproject/git-php",
+            "version": "v4.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/czproject/git-php.git",
+                "reference": "1f1ecc92aea9ee31120f4f5b759f5aa947420b0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/czproject/git-php/zipball/1f1ecc92aea9ee31120f4f5b759f5aa947420b0a",
+                "reference": "1f1ecc92aea9ee31120f4f5b759f5aa947420b0a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "8.0 - 8.5"
+            },
+            "require-dev": {
+                "nette/tester": "^2.5"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Pecha",
+                    "email": "janpecha@email.cz"
+                }
+            ],
+            "description": "Library for work with Git repository in PHP.",
+            "keywords": [
+                "git"
+            ],
+            "support": {
+                "issues": "https://github.com/czproject/git-php/issues",
+                "source": "https://github.com/czproject/git-php/tree/v4.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/janpecha",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.janpecha.cz/donate/git-php/",
+                    "type": "other"
+                },
+                {
+                    "url": "https://donate.stripe.com/7sIcO2a9maTSg2A9AA",
+                    "type": "stripe"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/czproject",
+                    "type": "thanks.dev"
+                }
+            ],
+            "time": "2025-11-10T07:24:07+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -3022,6 +3145,46 @@
             "time": "2023-12-18T09:53:43+00:00"
         },
         {
+            "name": "knplabs/php-json-schema",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/php-json-schema.git",
+                "reference": "97a06f0124e958eba8c76d011bdf3f5e72a9af20"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/php-json-schema/zipball/97a06f0124e958eba8c76d011bdf3f5e72a9af20",
+                "reference": "97a06f0124e958eba8c76d011bdf3f5e72a9af20",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "KnpLabs\\JsonSchema\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Knp Labs",
+                    "email": "hello@knplabs.com"
+                }
+            ],
+            "description": "PHP json-schema implementation",
+            "support": {
+                "issues": "https://github.com/KnpLabs/php-json-schema/issues",
+                "source": "https://github.com/KnpLabs/php-json-schema/tree/v0.1.0"
+            },
+            "time": "2022-10-31T10:01:54+00:00"
+        },
+        {
             "name": "knpuniversity/oauth2-client-bundle",
             "version": "v2.18.3",
             "source": {
@@ -3659,6 +3822,51 @@
                 "source": "https://github.com/liip/LiipImagineBundle/tree/2.13.3"
             },
             "time": "2024-12-12T09:38:23+00:00"
+        },
+        {
+            "name": "logiscape/mcp-sdk-php",
+            "version": "v1.7.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/logiscape/mcp-sdk-php.git",
+                "reference": "8a54f753360c7319e06a412928f48ef9990cb8f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/logiscape/mcp-sdk-php/zipball/8a54f753360c7319e06a412928f48ef9990cb8f5",
+                "reference": "8a54f753360c7319e06a412928f48ef9990cb8f5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=8.1",
+                "psr/log": "^2.0 ||^3.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.0"
+            },
+            "suggest": {
+                "ext-pcntl": "For better process handling in CLI environments",
+                "monolog/monolog": "^3.0 - For debugging and logging capabilities"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mcp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Model Context Protocol SDK for PHP",
+            "support": {
+                "issues": "https://github.com/logiscape/mcp-sdk-php/issues",
+                "source": "https://github.com/logiscape/mcp-sdk-php/tree/v1.7.5"
+            },
+            "time": "2026-07-28T03:32:24+00:00"
         },
         {
             "name": "lorenzo/pinky",
@@ -4535,6 +4743,72 @@
                 "source": "https://github.com/ozdemirburak/iris/tree/3.1.1"
             },
             "time": "2023-02-22T23:12:10+00:00"
+        },
+        {
+            "name": "partitech/php-mistral",
+            "version": "v0.1.29",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/partITech/php-mistral.git",
+                "reference": "38793749f1b2b218cfcbb355484f5f9c0064fd58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/partITech/php-mistral/zipball/38793749f1b2b218cfcbb355484f5f9c0064fd58",
+                "reference": "38793749f1b2b218cfcbb355484f5f9c0064fd58",
+                "shasum": ""
+            },
+            "require": {
+                "czproject/git-php": "^4.4",
+                "ext-fileinfo": "*",
+                "ext-zip": "*",
+                "knplabs/php-json-schema": "^0.1.0",
+                "logiscape/mcp-sdk-php": "^1.1",
+                "monolog/monolog": "^3.5",
+                "nyholm/psr7": "^1.8",
+                "php": ">=8.2",
+                "php-http/discovery": "^1.20",
+                "php-http/multipart-stream-builder": "^1.4",
+                "psr/http-client": "^1.0",
+                "psr/http-client-implementation": "^1.0",
+                "psr/http-factory-implementation": "^1.0",
+                "ramsey/uuid": "^4.7",
+                "symfony/mime": "^6.3 || ^7.0"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "ext-posix": "*",
+                "guzzlehttp/guzzle": "^7.9",
+                "php-http/curl-client": "^2.3",
+                "php-http/message": "^1.16",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^9.6",
+                "symfony/dotenv": "^6.3 || ^7.0",
+                "symfony/http-client": "^6.3 || ^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "exclude-from-classmap": [
+                    "/tests/",
+                    "/vendor/phpunit/",
+                    "/vendor/symfony/dotenv/"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "Partitech\\PhpMistral\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Connect to Mistral | Anthropic | Xai | Hugging Face | LamaC++ | Vllm | Ollama",
+            "support": {
+                "issues": "https://github.com/partITech/php-mistral/issues",
+                "source": "https://github.com/partITech/php-mistral/tree/v0.1.29"
+            },
+            "time": "2026-05-05T08:27:21+00:00"
         },
         {
             "name": "phenx/php-font-lib",
@@ -5637,6 +5911,160 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "ramsey/collection",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ramsey/collection.git",
+                "reference": "344572933ad0181accbf4ba763e85a0306a8c5e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/collection/zipball/344572933ad0181accbf4ba763e85a0306a8c5e2",
+                "reference": "344572933ad0181accbf4ba763e85a0306a8c5e2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "captainhook/plugin-composer": "^5.3",
+                "ergebnis/composer-normalize": "^2.45",
+                "fakerphp/faker": "^1.24",
+                "hamcrest/hamcrest-php": "^2.0",
+                "jangregor/phpstan-prophecy": "^2.1",
+                "mockery/mockery": "^1.6",
+                "php-parallel-lint/php-console-highlighter": "^1.0",
+                "php-parallel-lint/php-parallel-lint": "^1.4",
+                "phpspec/prophecy-phpunit": "^2.3",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-mockery": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "ramsey/coding-standard": "^2.3",
+                "ramsey/conventional-commits": "^1.6",
+                "roave/security-advisories": "dev-latest"
+            },
+            "type": "library",
+            "extra": {
+                "captainhook": {
+                    "force-install": true
+                },
+                "ramsey/conventional-commits": {
+                    "configFile": "conventional-commits.json"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ramsey\\Collection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Ramsey",
+                    "email": "ben@benramsey.com",
+                    "homepage": "https://benramsey.com"
+                }
+            ],
+            "description": "A PHP library for representing and manipulating collections.",
+            "keywords": [
+                "array",
+                "collection",
+                "hash",
+                "map",
+                "queue",
+                "set"
+            ],
+            "support": {
+                "issues": "https://github.com/ramsey/collection/issues",
+                "source": "https://github.com/ramsey/collection/tree/2.1.1"
+            },
+            "time": "2025-03-22T05:38:12+00:00"
+        },
+        {
+            "name": "ramsey/uuid",
+            "version": "4.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ramsey/uuid.git",
+                "reference": "1df15849d00943a67d677dc9cfd80795f038c9f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/1df15849d00943a67d677dc9cfd80795f038c9f8",
+                "reference": "1df15849d00943a67d677dc9cfd80795f038c9f8",
+                "shasum": ""
+            },
+            "require": {
+                "brick/math": ">=0.8.16 <=0.18",
+                "php": "^8.0",
+                "ramsey/collection": "^1.2 || ^2.0"
+            },
+            "replace": {
+                "rhumsaa/uuid": "self.version"
+            },
+            "require-dev": {
+                "captainhook/captainhook": "^5.25",
+                "captainhook/plugin-composer": "^5.3",
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+                "ergebnis/composer-normalize": "^2.47",
+                "mockery/mockery": "^1.6",
+                "paragonie/random-lib": "^2",
+                "php-mock/php-mock": "^2.6",
+                "php-mock/php-mock-mockery": "^1.5",
+                "php-parallel-lint/php-parallel-lint": "^1.4.0",
+                "phpbench/phpbench": "^1.2.14",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-mockery": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.6",
+                "slevomat/coding-standard": "^8.18",
+                "squizlabs/php_codesniffer": "^3.13"
+            },
+            "suggest": {
+                "ext-bcmath": "Enables faster math with arbitrary-precision integers using BCMath.",
+                "ext-gmp": "Enables faster math with arbitrary-precision integers using GMP.",
+                "ext-uuid": "Enables the use of PeclUuidTimeGenerator and PeclUuidRandomGenerator.",
+                "paragonie/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
+                "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
+            },
+            "type": "library",
+            "extra": {
+                "captainhook": {
+                    "force-install": true
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Ramsey\\Uuid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A PHP library for generating and working with universally unique identifiers (UUIDs).",
+            "keywords": [
+                "guid",
+                "identifier",
+                "uuid"
+            ],
+            "support": {
+                "issues": "https://github.com/ramsey/uuid/issues",
+                "source": "https://github.com/ramsey/uuid/tree/4.9.3"
+            },
+            "time": "2026-06-18T03:57:49+00:00"
         },
         {
             "name": "roadrunner-php/roadrunner-api-dto",

@@ -159,6 +159,7 @@ parameters:
     app.log.loki.client: '%env(LOKI_CLIENT)%'
     app.log.loki.log_level: '%env(LOKI_LOG_LEVEL)%'
     app.transcription.openai.uri: '%env(OPENAI_API_URI)%'
+    app.transcription.mistral.uri: '%env(MISTRAL_API_URI)%'
 
 services:
     gaufrette.recording_fs_filesystem:

@@ -6,7 +6,7 @@ namespace App\Service\Transcription;
 use App\Entity\Rooms;
 use App\Entity\Transcription;
 use App\Entity\UploadedRecording;
-use App\Repository\ServerRepository;
+use App\Repository\RoomStatusParticipantRepository;
 use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -19,18 +19,21 @@ class TranscriptionService
         private readonly MailerService $mailerService,
         private readonly Environment $twig,
         private readonly TranslatorInterface $translator,
-        private readonly MediaConverter $mediaConverter,
-        private readonly Transcriber $transcriber,
+        private readonly TranscriptionProviderResolver $transcriptionProviderResolver,
+        private readonly RoomStatusParticipantRepository $participantRepository,
     )
     {
     }
 
     public function transcribe(UploadedRecording $recording): void
     {
-        $audioChunksGenerator = $this->mediaConverter->yieldMp3ChunksOfRecording($recording->getFilename());
-        [$text, $audioChunks] = $this->transcriber->transcribeAudioChunks($audioChunksGenerator, $recording->getRoom()->getServer());
+        $server = $recording->getRoom()->getServer();
+        $transcriptionProvider = $this->transcriptionProviderResolver->resolve($server);
+
+        $audioChunksGenerator = $transcriptionProvider->yieldAudioChunks($recording->getFilename());
+        [$text, $audioChunks] = $transcriptionProvider->transcribeChunks($audioChunksGenerator, $server);
         $this->addNewTranscription($recording->getRoom(), $text);
-        $this->mediaConverter->deleteChunks($audioChunks);
+        $transcriptionProvider->deleteChunks($audioChunks);
     }
 
     public function addNewTranscription(Rooms $room, string $text): Transcription
@@ -95,10 +98,21 @@ class TranscriptionService
             $agenda .= "\n";
         }
 
+        $participantEntities = $this->participantRepository->findParticipantsByRoom($room);
+        $participants = '';
+        if (count($participantEntities) > 0) {
+            $participantNames = array_map(static fn($participant) => '-' . $participant->getParticipantName(), $participantEntities);
+            $participantNamesFormatted = implode("\n", $participantNames);
+
+            $participants = "Participants:\n\n {$participantNamesFormatted}";
+        }
+
         return <<<HEADER
         # {$name}
         
         {$date}{$agenda}
+        
+        {$participants}
         ---
 
 

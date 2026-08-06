@@ -175,7 +175,8 @@ label:
   enableRecording: Recording aktiveren
   calendlyServer: Konferenzserver für Calendly-Konferenzen
   enableTranscription: Transkription aktivieren
-  apiKeyOpenAI: OpenAI Api Key für die Transkription
+  apiKeyTranscription: Api Key für die Transkription
+  transcriptionProvider: Transkription Anbieter
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
