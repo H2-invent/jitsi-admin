@@ -9,6 +9,7 @@
 * remove header in sip trunk generation
 * fix ical reply
 * fix delete LDAP user when removed in LDAP
+* Fix getting default paramter for mic and camera from theme properties and push them into JWT
 ### ⭐ Improvements
 * Join a Videoconference without an camera and microphone
 * Add Api to change Server of Room to use auto provisioner
