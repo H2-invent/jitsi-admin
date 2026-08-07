@@ -18,39 +18,88 @@ The tests run against a live DDEV environment with real Keycloak OIDC authentica
 
 1. DDEV must be running: `ddev start`
 2. The Keycloak service must be up (included in the DDEV compose setup)
-3. The `db` database must have migrations applied and server data populated
+3. Composer and npm dependencies must be installed. The normal project setup
+   installs the Playwright npm package, but deliberately does not download any
+   browser executables.
+4. The `db` database must have migrations applied and server data populated:
 
 ```bash
 ddev exec php bin/console doctrine:migrations:migrate --no-interaction
 ```
 
-4. Playwright browsers must be installed inside the DDEV web container:
+## Optional Playwright Browser Components
+
+Browser components are **not installed by default**. This applies to normal
+local setup, `ddev start`, and the GitHub Actions artifact build.
+
+There are two separate parts to the browser-test setup:
+
+- The `playwright` npm package contains the Node.js command-line tool and the
+  code used by Pest. It is installed with the project's other JavaScript
+  dependencies by `npm install`.
+- The browser components are the much larger Chromium executables, including
+  Chromium Headless Shell, plus operating-system libraries needed to run them.
+  These are installed separately and only when requested.
+
+Most developers do not run the end-to-end browser suite on every installation.
+Leaving the browser components out keeps the initial setup and DDEV startup
+quicker, avoids downloading and storing several hundred megabytes, and keeps CI
+jobs smaller. GitHub CI currently builds assets and runs the non-browser test
+suites, so it explicitly sets `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1` and does not
+install Chromium.
+
+### Install inside DDEV (recommended)
+
+After an initial installation without browser components, run:
 
 ```bash
-ddev exec npx playwright install --with-deps chromium
+ddev exec npm run playwright:install
 ```
 
-   **Important:** Playwright browser binaries are stored in the container's
-   ephemeral filesystem (`~/.cache/ms-playwright/`). They are lost on every
-   `ddev restart` or `ddev start` (unless the directory is persisted via a
-   volume). After any container restart, you must reinstall:
+`npm run playwright:install` executes the project script defined in
+`package.json`. It uses the Playwright version already installed by the project;
+you do not need to install npm or Playwright globally. The command installs the
+Linux system libraries required by Chromium, full Chromium for headed tests,
+and Chromium Headless Shell for the default headless tests.
 
-   ```bash
-   ddev exec npx playwright install --with-deps chromium
-   ```
+For a completely new checkout, the relevant sequence is:
 
-   To automate this, add a post-start hook in `.ddev/config.yaml`:
+```bash
+ddev start
+ddev exec npm install
+ddev exec npm run playwright:install
+```
 
-   ```yaml
-   hooks:
-     post-start:
-     - exec: cp .ddev/.env.test.local .env.test.local
-     - exec: npx playwright install --with-deps chromium
-   ```
+Check which browser components are installed with:
 
-   This runs the install automatically after every `ddev start` or `ddev restart`,
-   ensuring the browsers are always available. Note that this adds ~30 seconds to
-   container startup time on the first run after a fresh build.
+```bash
+ddev exec npm run playwright:list
+```
+
+Playwright stores the downloaded files in its cache inside the DDEV web
+container. Re-run `ddev exec npm run playwright:install` after the web container
+is deleted or rebuilt, after updating the Playwright npm package, or whenever a
+test reports that its expected browser executable is missing. Installing the
+browsers on the host does not install them inside DDEV; the two environments
+have separate caches.
+
+### Install on the host instead
+
+Only use this option when running Pest directly on the host rather than with
+`ddev exec`:
+
+```bash
+npm install
+npm run playwright:install
+```
+
+The second command may request administrator privileges on Linux because it
+also installs Chromium's operating-system packages. DDEV is recommended because
+it keeps these packages inside the development container.
+
+The `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD` setting prevents implicit downloads
+during dependency installation. It does not block the explicit
+`playwright:install` command above.
 
 ## Running Tests
 
@@ -132,8 +181,8 @@ forwarding or virtual framebuffer needed.
 
 - PHP 8.3+ with the `sockets` extension
 - Composer dependencies installed: `composer install`
-- Node.js with Playwright npm package: `npm install`
-- Playwright browsers installed: `npx playwright install --with-deps chromium`
+- Node.js dependencies, including the Playwright npm package: `npm install`
+- Playwright browser components installed on demand: `npm run playwright:install`
 - DDEV must be running (`ddev start`) — tests make real HTTP requests to
   `https://jitsi-admin.ddev.site`
 
@@ -266,6 +315,7 @@ This tests the actual Keycloak integration end-to-end — no mocks, no session i
 |------------------------|----------|-------------------------------------|-----------------------------|
 | `PLAYWRIGHT_HEADED`    | (unset)  | Set to `true` for visible browser   | `.env.local` (host),        |
 |                        |          |                                     | `.ddev/.env.web` (container) |
+| `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD` | `1` in DDEV and CI | Prevent browser downloads during dependency installation | `.ddev/config.yaml`, GitHub Actions |
 
 ## Debugging
 
@@ -294,12 +344,22 @@ Playwright::trace();
 Reinstall matching browser binaries:
 
 ```bash
-ddev exec npx playwright install --with-deps chromium
+ddev exec npm run playwright:install
 ```
 
-This also occurs after `ddev restart` because the browser binaries are not
-persisted in the container's ephemeral filesystem. Using the post-start hook
-described in the Prerequisites section eliminates this issue.
+This can occur after updating the Playwright npm package or rebuilding the DDEV
+web container because each Playwright release expects specific browser builds.
+
+**Browser executable is missing:**
+The optional browser components have not been installed in the environment
+where Pest is running. For DDEV, run:
+
+```bash
+ddev exec npm run playwright:install
+```
+
+For tests run directly on the host, run `npm run playwright:install` on the
+host instead.
 
 **500 errors on page load:**
 Ensure the dev database has the schema and server data:

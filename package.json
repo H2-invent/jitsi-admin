@@ -23,6 +23,8 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress",
+        "playwright:install": "playwright install --with-deps chromium",
+        "playwright:list": "playwright install --list",
         "start-ws": "node --env-file=.env.local nodejs"
     },
     "dependencies": {

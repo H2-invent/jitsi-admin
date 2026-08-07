@@ -11,12 +11,12 @@ database:
     version: "10.11"
 use_dns_when_possible: true
 composer_version: "2"
-web_environment: []
+web_environment:
+  - PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 corepack_enable: false
 hooks:
   post-start:
   - exec: cp .ddev/.env.test.local .env.test.local
-  - exec: npx playwright install --with-deps chromium
 host_db_port: "59999"
 timezone: Europe/Berlin
 
