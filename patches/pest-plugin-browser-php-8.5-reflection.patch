@@ -1,0 +1,11 @@
+diff --git a/src/Execution.php b/src/Execution.php
+--- a/src/Execution.php
++++ b/src/Execution.php
+@@ -172,6 +172,6 @@ final class Execution
+         $property = $reflector->getProperty('count');
+ 
+         // @phpstan-ignore-next-line
+-        $property->setValue(Assert::class, $originalCount);
++        $property->setValue(null, $originalCount);
+     }
+ }

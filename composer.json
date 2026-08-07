@@ -90,8 +90,9 @@
     "twig/twig": "^3.0",
     "vich/uploader-bundle": "^2.9"
   },
-    "require-dev": {
+  "require-dev": {
     "brianium/paratest": "^7.20",
+    "cweagans/composer-patches": "^2.0",
     "dama/doctrine-test-bundle": "^v8.0-dev",
     "doctrine/doctrine-fixtures-bundle": "^4.3",
     "pestphp/pest": "^4.0",
@@ -115,6 +116,7 @@
     },
     "sort-packages": true,
     "allow-plugins": {
+      "cweagans/composer-patches": true,
       "symfony/flex": true,
       "symfony/runtime": true,
       "php-http/discovery": true,
@@ -196,6 +198,11 @@
     "symfony/symfony": "*"
   },
   "extra": {
+    "patches": {
+      "pestphp/pest-plugin-browser": {
+        "Fix PHP 8.5 ReflectionProperty::setValue() deprecation": "patches/pest-plugin-browser-php-8.5-reflection.patch"
+      }
+    },
     "symfony": {
       "allow-contrib": false
     }

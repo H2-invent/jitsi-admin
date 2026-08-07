@@ -17,6 +17,9 @@ uses(Browsable::class)->in('../testsBrowser');
 uses()->beforeAll(function (): void {
     if (! Plugin::$booted) {
         Plugin::$booted = true;
+        if ((getenv('PLAYWRIGHT_HEADED') ?: $_ENV['PLAYWRIGHT_HEADED'] ?? '') === 'true') {
+            Playwright::headed();
+        }
         ServerManager::instance()->playwright()->start();
         Screenshot::cleanup();
     }
