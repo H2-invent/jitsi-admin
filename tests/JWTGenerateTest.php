@@ -28,10 +28,7 @@ final class JWTGenerateTest extends TestCase
 
     private ThemeService&MockObject $themeService;
     private RoomService $roomService;
-    public static function setUpBeforeClass(): void
-    {
-        BypassFinals::enable();
-    }
+
     protected function setUp(): void
     {
 
