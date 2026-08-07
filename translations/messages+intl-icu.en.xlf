@@ -819,7 +819,9 @@
       </trans-unit>
       <trans-unit id="0RNV0ke" resname="dashboard.noconference">
         <source>dashboard.noconference</source>
-        <target state="translated"><![CDATA[No conferences available. Create a new conference <u><a href="{url}" class="loadContent">here</a></u>.]]></target>
+        <target state="translated"><![CDATA[No conferences available. Create 
+                            <u><a href="{url}" class="loadContent">here</a></u>
+                            a new conference.]]></target>
       </trans-unit>
       <trans-unit id="OZ5F22." resname="Hinzugefügt zur Warteliste">
         <source>Hinzugefügt zur Warteliste</source>
@@ -2335,6 +2337,10 @@
         <source>recording.email.body</source>
         <target state="translated">A recording of the conference {name} has been uploaded. You can download the recording of the conference via the options in the dashboard.</target>
       </trans-unit>
+      <trans-unit id="c27mnLJ" resname="recording.email.body.fastconference">
+        <source>recording.email.body.fastconference</source>
+        <target state="needs-translation">Es wurde eine Aufnahme zu der Konferenz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über diesen Link herunterladen.</target>
+      </trans-unit>
       <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
         <source>recording.startSpeakerOnly</source>
         <target state="translated">Speaker only</target>
@@ -2439,21 +2445,21 @@
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
 Name: {name} 
 Moderator: {moderator} </source>
-        <target state="needs-translation">Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
-Name: {name} 
-Moderator: {moderator} </target>
+        <target state="translated">You can easily join the video conference by clicking the link below.
+Name: {name}
+Moderator: {moderator}</target>
       </trans-unit>
       <trans-unit id="w0B3UQg" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&#10;Konferenz ID: {id} &#10;Ihre E-Mail-Adresse: {email}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:
 Konferenz ID: {id} 
 Ihre E-Mail-Adresse: {email}</source>
-        <target state="needs-translation">Folgende Daten benötigen Sie um der Konferenz beizutreten:
-Konferenz ID: {id} 
-Ihre E-Mail-Adresse: {email}</target>
+        <target state="translated">You'll need the following information to join the conference:
+Conference ID: {id}
+Your email address: {email}</target>
       </trans-unit>
       <trans-unit id="dQuQ3zm" resname="transcription.ready.subject">
         <source>transcription.ready.subject</source>
-        <target state="needs-translation">Transkript bereit für {roomName}</target>
+        <target state="translated">Transcript ready for {roomName}</target>
       </trans-unit>
       <trans-unit id="sf9Dapx" resname="Zeit und Datum auswählen">
         <source>Zeit und Datum auswählen</source>
@@ -2467,65 +2473,89 @@ Ihre E-Mail-Adresse: {email}</target>
         <source>transcription.ready.text</source>
         <target state="needs-translation">Es wurde eine Transkription zu der Konferenz {roomName} hochgeladen. Sie können die Transkription der Konferenz über die Optionen im Dashboard herunterladen.</target>
       </trans-unit>
+      <trans-unit id="p7mraxT" resname="transcription.ready.text.fastconference">
+        <source>transcription.ready.text</source>
+        <target state="translated">The transcript for {roomName} is complete and available for download.</target>
+      </trans-unit>
       <trans-unit id="2dzwmpu" resname="Klicken Sie hier um das Transkript runterzuladen.">
         <source>Klicken Sie hier um das Transkript runterzuladen.</source>
-        <target state="needs-translation">Klicken Sie hier um das Transkript runterzuladen.</target>
+        <target state="translated">Click here to download the transcript.</target>
       </trans-unit>
       <trans-unit id="wF2hSYC" resname="Einladen">
         <source>Einladen</source>
-        <target state="needs-translation">Einladen</target>
+        <target state="translated">Invite</target>
       </trans-unit>
       <trans-unit id="73BWd7Q" resname="Suchen">
         <source>Suchen</source>
-        <target state="needs-translation">Suchen</target>
+        <target state="translated">Search</target>
       </trans-unit>
       <trans-unit id="7hD4Tt9" resname="Eingeladen">
         <source>Eingeladen</source>
-        <target state="needs-translation">Eingeladen</target>
+        <target state="translated">invited</target>
       </trans-unit>
       <trans-unit id="OCUWKbn" resname="Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.">
         <source>Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.</source>
-        <target state="needs-translation">Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.</target>
+        <target state="translated">Enter the email addresses of the participants you want to invite.</target>
       </trans-unit>
       <trans-unit id="P_hpDEL" resname="Termin hinzufügen">
         <source>Termin hinzufügen</source>
-        <target state="needs-translation">Termin hinzufügen</target>
+        <target state="translated">Add Event</target>
       </trans-unit>
       <trans-unit id="8RvSb2d" resname="Übernehmen">
         <source>Übernehmen</source>
-        <target state="needs-translation">Übernehmen</target>
+        <target state="translated">Apply</target>
       </trans-unit>
       <trans-unit id="CB8hcji" resname="Ergebnisse">
         <source>Ergebnisse</source>
-        <target state="needs-translation">Ergebnisse</target>
+        <target state="translated">Results</target>
       </trans-unit>
       <trans-unit id="V0nRUNJ" resname="Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.">
         <source>Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.</source>
-        <target state="needs-translation">Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.</target>
+        <target state="translated">Here you can see the participants' voting results. Select the appropriate date to schedule a conference.</target>
       </trans-unit>
       <trans-unit id="hosJvXm" resname="Termin löschen">
         <source>Termin löschen</source>
-        <target state="needs-translation">Termin löschen</target>
+        <target state="translated">Delete event</target>
       </trans-unit>
       <trans-unit id="NVRxBaB" resname="Termin wählen und Konferenz planen">
         <source>Termin wählen und Konferenz planen</source>
-        <target state="needs-translation">Termin wählen und Konferenz planen</target>
+        <target state="translated">Select a date and schedule a Conference</target>
       </trans-unit>
       <trans-unit id="W9itCKb" resname="Termin">
         <source>Termin</source>
-        <target state="needs-translation">Termin</target>
+        <target state="translated">Date</target>
       </trans-unit>
       <trans-unit id="DItqb3E" resname="Termine">
         <source>Termine</source>
-        <target state="needs-translation">Termine</target>
+        <target state="translated">Dates</target>
       </trans-unit>
       <trans-unit id="PVBIN9w" resname="Planen">
         <source>Planen</source>
-        <target state="needs-translation">Planen</target>
+        <target state="translated">Schedule</target>
       </trans-unit>
       <trans-unit id="aPyOdXY" resname="Sofort">
         <source>Sofort</source>
-        <target state="needs-translation">Sofort</target>
+        <target state="translated">Immediately</target>
+      </trans-unit>
+      <trans-unit id="oWIBNXX" resname="enterprise.settings.transcription">
+        <source>enterprise.settings.transcription</source>
+        <target state="needs-translation">Transkript Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="VitJXBB" resname="transcription.modal.title">
+        <source>transcription.modal.title</source>
+        <target state="needs-translation">Transkripte von Videokonferenzen</target>
+      </trans-unit>
+      <trans-unit id="N93tNXa">
+        <source>Transkripte</source>
+        <target state="needs-translation">Transkripte</target>
+      </trans-unit>
+      <trans-unit id="3hdoEuh" resname="recording.toggleTranscription">
+        <source>Transkription aktivieren</source>
+        <target state="needs-translation">Transkription aktivieren</target>
+      </trans-unit>
+      <trans-unit id="7kpQmRw" resname="recording.dropdownTitle">
+        <source>Recording</source>
+        <target state="needs-translation">Recording</target>
       </trans-unit>
     </body>
   </file>
