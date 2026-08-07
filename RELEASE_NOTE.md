@@ -1,5 +1,4 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
-
 ## 1.5
 ### 🚀 Features:
 * Added Transcription functionality. Uses OpenAI Whisper to transcribe recordings to text
@@ -12,8 +11,16 @@
 
 ## 1.4
 
+### Features:
+* **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
+* **New DDEV local development setup**
+* **New Design (improved.)**
+### Bug Fixes:
+* Header shows Theme text
+* theme page is vissible
 
 ## 1.3
+
 ### Features:
 * **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
 * **New DDEV local development setup**
@@ -69,6 +76,7 @@
 * Fis Server Statistics
 * Fix open Link with target blank from ifrmae
 * Fix not downloading images from whiteboard
+* Add allow Popups to multiframe iframe
 * Fix dark mode for conference sidebar
 
 # Features, Improvements, and Bug Fixes related to the Livekit Integration
