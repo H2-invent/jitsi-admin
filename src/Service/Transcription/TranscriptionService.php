@@ -98,7 +98,7 @@ class TranscriptionService
             $agenda .= "\n";
         }
 
-        $participantEntities = $this->participantRepository->findParticipantsByRoom($room);
+        $participantEntities = $this->participantRepository->findUniqueParticipantsByRoom($room);
         $participants = '';
         if (count($participantEntities) > 0) {
             $participantNames = array_map(static fn($participant) => '-' . $participant->getParticipantName(), $participantEntities);

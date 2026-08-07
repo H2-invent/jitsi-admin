@@ -113,12 +113,13 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
     /**
      * @return RoomStatusParticipant[]
      */
-    public function findParticipantsByRoom(Rooms $room): array
+    public function findUniqueParticipantsByRoom(Rooms $room): array
     {
         return $this->createQueryBuilder('participant')
             ->innerJoin('participant.roomStatus', 'roomStatus')
             ->innerJoin('roomStatus.room', 'room')
             ->andWhere('room = :room')
+            ->groupBy('participant.participantId')
             ->setParameter('room', $room)
             ->getQuery()
             ->getResult()
