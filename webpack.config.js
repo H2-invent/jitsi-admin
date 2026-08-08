@@ -65,7 +65,7 @@ Encore
     // allow legacy applications to use $/jQuery as a global variable
     .autoProvidejQuery()
     .enableSourceMaps(!Encore.isProduction())
-    .enableVersioning(false)
+    .enableVersioning(Encore.isProduction())
 
     .configureBabel(function(babelConfig) {
         babelConfig.plugins.push("@babel/plugin-proposal-class-properties");
