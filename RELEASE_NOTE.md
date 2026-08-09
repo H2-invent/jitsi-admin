@@ -1,5 +1,4 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
-
 ## 1.4
 
 ### Features:
