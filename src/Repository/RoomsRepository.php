@@ -101,7 +101,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
-            ->orderBy('r.start', 'DESC')
+            ->orderBy('r.startUtc', 'DESC')
             ->setMaxResults($this->amountperLayz)
             ->setFirstResult($this->amountperLayz * $offset)
             ->getQuery()
@@ -124,7 +124,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('user', $user)
-            ->orderBy('r.start', 'ASC')
+            ->orderBy('r.startUtc', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -150,15 +150,15 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
-            ->orderBy('r.start', 'ASC')
+            ->orderBy('r.startUtc', 'ASC')
             ->getQuery()
             ->getResult();
     }
 
     public function findTodayRooms(User $user)
     {
-        $now = new \DateTime();
-        $midnight = new \DateTime();
+        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        $midnight = new \DateTime('now', new \DateTimeZone('utc'));
         $midnight->setTime(23, 59, 59);
         $qb = $this->createQueryBuilder('r');
 
@@ -176,11 +176,11 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->between('r.enddate', ':now', ':midnight'),
-                    $qb->expr()->between('r.start', ':now', ':midnight'),
+                    $qb->expr()->between('r.endDateUtc', ':now', ':midnight'),
+                    $qb->expr()->between('r.startUtc', ':now', ':midnight'),
                     $qb->expr()->andX(
-                        $qb->expr()->gte('r.enddate', ':midnight'),
-                        $qb->expr()->lte('r.start', ':now')
+                        $qb->expr()->gte('r.endDateUtc', ':midnight'),
+                        $qb->expr()->lte('r.startUtc', ':now')
                     )
                 )
             )
@@ -239,17 +239,17 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsFutureAndPast(User $user, $timeBack)
     {
-        $now = (new \DateTime())->modify($timeBack);
+        $now = (new \DateTime('now', new \DateTimeZone('utc')))->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
 
             ->andWhere('user = :user')
-            ->andWhere('r.enddate > :now')
+            ->andWhere('r.endDateUtc > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
-            ->orderBy('r.start', 'ASC')
+            ->orderBy('r.startUtc', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -264,9 +264,9 @@ class RoomsRepository extends ServiceEntityRepository
                 )
             )
             ->setParameter('user', $user)
-            ->addSelect('CASE WHEN r.start IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
-            ->addOrderBy('list_order_is_null', 'DESC') // always ASC
-            ->addOrderBy('r.start', 'ASC') //DESC or ASC
+            ->addSelect('CASE WHEN r.startUtc IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
+            ->addOrderBy('list_order_is_null', 'DESC')
+            ->addOrderBy('r.startUtc', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -295,10 +295,10 @@ class RoomsRepository extends ServiceEntityRepository
 
         return $qb->leftJoin('r.server', 'server')
             ->andWhere('server = :server')
-            ->andWhere('r.start BETWEEN :now AND :future')
+            ->andWhere('r.startUtc BETWEEN :now AND :future')
             ->setParameter('server', $server)
-            ->setParameter('now', new \DateTime())
-            ->setParameter('future', new \DateTime("+$minutes minutes"))
+            ->setParameter('now', new \DateTime('now', new \DateTimeZone('utc')))
+            ->setParameter('future', new \DateTime("+$minutes minutes", new \DateTimeZone('utc')))
             ->getQuery()
             ->getResult();
     }
