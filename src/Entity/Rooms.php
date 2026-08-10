@@ -209,6 +209,9 @@ class Rooms
             $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
             $this->startUtc = \DateTime::createFromImmutable($utc);
             $this->startTimestamp = $utc->getTimestamp();
+        } else {
+            $this->startUtc = null;
+            $this->startTimestamp = null;
         }
 
         if ($this->enddate) {
@@ -220,6 +223,9 @@ class Rooms
             $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
             $this->endDateUtc = \DateTime::createFromImmutable($utc);
             $this->endTimestamp = $utc->getTimestamp();
+        } else {
+            $this->endDateUtc = null;
+            $this->endTimestamp = null;
         }
     }
 

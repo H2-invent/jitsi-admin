@@ -88,11 +88,7 @@ class RoomController extends JitsiAdminController
                 }
                 if ($room->getPersistantRoom()) {
                     $room->setStart(null);
-                    $room->setStartUtc(null);
-                    $room->setStartTimestamp(null);
                     $room->setEnddate(null);
-                    $room->setEndDateUtc(null);
-                    $room->setEndTimestamp(null);
                 }
                 if (!in_array($room->getTag(), $room->getServer()->getTag()->toArray())) {
                     $room->setTag(null);
@@ -180,11 +176,7 @@ class RoomController extends JitsiAdminController
         $edit = true;
         $roomNew = clone $roomOld;
         $roomNew->setStart(null);
-        $roomNew->setStartUtc(null);
-        $roomNew->setStartTimestamp(null);
         $roomNew->setEnddate(null);
-        $roomNew->setEndDateUtc(null);
-        $roomNew->setEndTimestamp(null);
         $roomNew = $roomGeneratorService->createCallerId($roomNew);
         // here we clean all the scheduls from the old room
         foreach ($roomNew->getSchedulings() as $data) {
