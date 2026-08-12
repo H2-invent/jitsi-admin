@@ -1,4 +1,8 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
+## 1.6
+* Removed matomo dependency
+
+
 ## 1.5
 ### 🚀 Features:
 ### 🐛 Bug Fixes:
