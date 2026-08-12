@@ -44,7 +44,7 @@
                         <h5><b>{{ 'Teilnehmer'|trans }}</b></h5>
                         <ul class="list-group overflow-y-scroll border-none">
                             {% set inRoom= [] %}
-                            {% for u in RoomStatusOccupats(room) |sort((a, b) => a.participantName <=> b.participantName) %}
+                            {% for u in roomOccupants |sort((a, b) => a.participantName <=> b.participantName) %}
                                 {% set inRoom = inRoom|merge([u.participantName]) %}
                                 <li class="list-group-item lobbyPart d-flex justify-content-between pe-2"
                                     data-status="online"><p class="part-text">{{ u.participantName }}</p>

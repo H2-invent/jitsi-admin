@@ -103,44 +103,66 @@ class RoomStatusFrontendService
             return [];
         }
         $qb = $this->em->getRepository(RoomStatus::class)->createQueryBuilder('rs');
-        $statuses = $qb->select(
-                    'IDENTITY(rs.room) as roomId',
-                    'rs.destroyed',
-                    'rs.destroyedAt',
-                    'room.startUtc as roomStartUtc'
-                )
-            ->innerJoin('rs.room', 'room')
+
+        $active = $qb->select('DISTINCT IDENTITY(rs.room) as roomId')
             ->where($qb->expr()->in('rs.room', ':roomIds'))
+            ->andWhere($qb->expr()->isNull('rs.destroyed'))
             ->setParameter('roomIds', $roomIds)
             ->getQuery()
             ->getResult();
 
-        $roomStatuses = [];
-        foreach ($statuses as $row) {
-            $roomStatuses[$row['roomId']][] = $row;
+        $roomsWithActiveStatus = [];
+        foreach ($active as $row) {
+            $roomsWithActiveStatus[$row['roomId']] = true;
+        }
+
+        $destroyed = $this->em->getRepository(RoomStatus::class)->createQueryBuilder('rs2')
+            ->select(
+                'IDENTITY(rs2.room) as roomId',
+                'MAX(rs2.destroyedAt) as latestDestroyedAt'
+            )
+            ->innerJoin('rs2.room', 'room')
+            ->where('rs2.room IN (:roomIds)')
+            ->andWhere('rs2.destroyed = true')
+            ->groupBy('rs2.room')
+            ->setParameter('roomIds', $roomIds)
+            ->getQuery()
+            ->getResult();
+
+        $destroyedRoomIds = [];
+        $latestDestroyedMap = [];
+        foreach ($destroyed as $row) {
+            $destroyedRoomIds[] = $row['roomId'];
+            $latestDestroyedMap[$row['roomId']] = $row['latestDestroyedAt'];
+        }
+
+        $roomStarts = [];
+        if (!empty($destroyedRoomIds)) {
+            $startResults = $this->em->getRepository(RoomStatus::class)->createQueryBuilder('rs3')
+                ->select('room2.id as roomId', 'room2.startUtc')
+                ->innerJoin('rs3.room', 'room2')
+                ->where('rs3.room IN (:roomIds)')
+                ->setParameter('roomIds', $destroyedRoomIds)
+                ->setMaxResults(count($destroyedRoomIds))
+                ->getQuery()
+                ->getResult();
+            foreach ($startResults as $row) {
+                if (!isset($roomStarts[$row['roomId']])) {
+                    $roomStarts[$row['roomId']] = $row['startUtc'];
+                }
+            }
         }
 
         $result = [];
-        foreach ($roomStatuses as $roomId => $rows) {
-            $allDestroyed = true;
-            foreach ($rows as $row) {
-                if ($row['destroyed'] !== true) {
-                    $allDestroyed = false;
-                    break;
-                }
-            }
-            if (!$allDestroyed) {
+        foreach ($roomIds as $roomId) {
+            if (isset($roomsWithActiveStatus[$roomId])) {
                 $result[$roomId] = false;
                 continue;
             }
-            $hasValidClose = false;
-            foreach ($rows as $row) {
-                if ($row['destroyedAt'] && $row['roomStartUtc'] && $row['destroyedAt'] > $row['roomStartUtc']) {
-                    $hasValidClose = true;
-                    break;
-                }
+            if (!isset($latestDestroyedMap[$roomId]) || !isset($roomStarts[$roomId])) {
+                continue;
             }
-            $result[$roomId] = $hasValidClose;
+            $result[$roomId] = $latestDestroyedMap[$roomId] > $roomStarts[$roomId];
         }
         return $result;
     }

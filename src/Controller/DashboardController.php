@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
+use App\Repository\SchedulingTimeUserRepository;
 use App\Repository\ServerRepository;
 use App\Service\analytics\AnalyticsService;
 use App\Service\DashboardService;
@@ -81,14 +82,15 @@ class DashboardController extends JitsiAdminController
      */
     #[Route(path: '/room/dashboard', name: 'dashboard')]
     public function dashboard(
-        Request                   $request,
-        ServerUserManagment       $serverUserManagment,
-        ParameterBagInterface     $parameterBag,
-        FavoriteService           $favoriteService,
-        TermsAndConditionsService $termsAndConditionsService,
-        AnalyticsService          $analyticsService,
-        RoomStatusFrontendService $roomStatusFrontendService,
-        DashboardService          $dashboardService,
+        Request                      $request,
+        ServerUserManagment          $serverUserManagment,
+        ParameterBagInterface        $parameterBag,
+        FavoriteService              $favoriteService,
+        TermsAndConditionsService    $termsAndConditionsService,
+        AnalyticsService             $analyticsService,
+        RoomStatusFrontendService    $roomStatusFrontendService,
+        DashboardService             $dashboardService,
+        SchedulingTimeUserRepository $schedulingTimeUserRepository,
     ): Response
     {
         if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
@@ -136,6 +138,18 @@ class DashboardController extends JitsiAdminController
         $roomStatusOccupantsMap = $roomStatusFrontendService->getRoomOccupantsMap(array_unique($roomIds));
         $roomStatusClosedMap = $roomStatusFrontendService->getRoomClosedStatusMap(array_unique($roomIds));
 
+        $allDisplayedRooms = array_merge($allRooms, $roomsPast, $favorites);
+        $roomClosedForStartMap = $dashboardService->getRoomClosedForStartMap(
+            $allDisplayedRooms,
+            $this->getUser(),
+            $roomStatusOpenMap
+        );
+
+        $scheduleUserHasVotedMap = $schedulingTimeUserRepository->findVotesForUserAndRooms(
+            $this->getUser(),
+            array_unique($roomIds)
+        );
+
         $timer = $stopwatch->stop('dashboard');
         if ($request->get('snack')) {
             if ($request->get('color')) {
@@ -171,6 +185,8 @@ class DashboardController extends JitsiAdminController
                 'roomStatusOpenMap' => $roomStatusOpenMap,
                 'roomStatusOccupantsMap' => $roomStatusOccupantsMap,
                 'roomStatusClosedMap' => $roomStatusClosedMap,
+                'roomClosedMapForStart' => $roomClosedForStartMap,
+                'scheduleUserHasVotedMap' => $scheduleUserHasVotedMap,
                 'timestamp' => $timestamp,
                 'time' => $timer->getDuration(),
                 'publicServer' => $publicServer

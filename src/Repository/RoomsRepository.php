@@ -293,8 +293,9 @@ class RoomsRepository extends ServiceEntityRepository
             ->addSelect('uploadedRecordings')
             ->addSelect('repeaterProtoype')
             ->addSelect('participants')
+            ->addSelect('moderatorDeputies')
             ->addSelect('CASE WHEN r.startUtc IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
-             ->addSelect('CASE WHEN r.persistantRoom = true THEN 1 WHEN r.scheduleMeeting = true THEN 2 ELSE 0 END as HIDDEN list_order_category')
+            ->addSelect('CASE WHEN r.persistantRoom = true THEN 1 WHEN r.scheduleMeeting = true THEN 2 ELSE 0 END as HIDDEN list_order_category')
             ->leftJoin('r.user', 'participants')
             ->innerJoin('r.server', 'server')
             ->leftJoin('r.tag', 'tag')
@@ -305,8 +306,8 @@ class RoomsRepository extends ServiceEntityRepository
             ->leftJoin('r.schedulings', 'schedulings')
             ->leftJoin('r.uploadedRecordings', 'uploadedRecordings')
             ->leftJoin('r.repeaterProtoype', 'repeaterProtoype')
-            ->leftJoin('moderator.managerElement', 'managerelement')
-            ->leftJoin('managerelement.deputy', 'deputy');
+            ->leftJoin('moderator.managerElement', 'moderatorDeputies')
+            ->leftJoin('moderatorDeputies.deputy', 'deputy');
 
         return $qb
             ->andWhere(

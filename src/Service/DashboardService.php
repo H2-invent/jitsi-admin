@@ -59,4 +59,34 @@ class DashboardService
             'roomIds'          => $roomIds,
         ];
     }
+
+    public function getRoomClosedForStartMap(array $rooms, User $user, array $roomStatusOpenMap): array
+    {
+        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        $result = [];
+        foreach ($rooms as $room) {
+            if (isset($roomStatusOpenMap[$room->getId()])) {
+                continue;
+            }
+            if ($room->getPersistantRoom()) {
+                continue;
+            }
+            if ($user === $room->getModerator()) {
+                continue;
+            }
+            $start = $room->getStartUtc();
+            $end = $room->getEndDateUtc();
+            if ($start && $end) {
+                $startWindow = (clone $start)->modify('-30min');
+                if ($startWindow > $now || $end < $now) {
+                    $result[$room->getId()] = sprintf(
+                        'Der Beitritt ist nur von %s bis %s möglich',
+                        $room->getStartwithTimeZone($user)->modify('-30min')->format('d.m.Y H:i'),
+                        $room->getEndwithTimeZone($user)->format('d.m.Y H:i')
+                    );
+                }
+            }
+        }
+        return $result;
+    }
 }
