@@ -14,10 +14,12 @@ use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
 use App\Repository\ServerRepository;
 use App\Service\analytics\AnalyticsService;
+use App\Service\DashboardService;
 use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\Theme\ThemeService;
+use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -48,6 +50,30 @@ class DashboardController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
+    private function initializeUserFields(): void
+    {
+        $user = $this->getUser();
+        $em = $this->doctrine->getManager();
+        $changed = false;
+
+        if (!$user->getUid()) {
+            $user->setUid(md5(uniqid()));
+            $changed = true;
+        }
+        if (!$user->getOwnRoomUid()) {
+            $user->setOwnRoomUid(md5(uniqid()));
+            $changed = true;
+        }
+        if (!$user->getTimezone()) {
+            $user->setTimezone(date_default_timezone_get());
+            $changed = true;
+        }
+
+        if ($changed) {
+            $em->persist($user);
+            $em->flush();
+        }
+    }
 
     /**
      * @param Request $request
@@ -61,6 +87,8 @@ class DashboardController extends JitsiAdminController
         FavoriteService           $favoriteService,
         TermsAndConditionsService $termsAndConditionsService,
         AnalyticsService          $analyticsService,
+        RoomStatusFrontendService $roomStatusFrontendService,
+        DashboardService          $dashboardService,
     ): Response
     {
         if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
@@ -78,44 +106,36 @@ class DashboardController extends JitsiAdminController
             );
         }
 
-        $roomsFuture = $this->doctrine->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
-
-        $r = [];
-        $future = [];
-        foreach ($roomsFuture as $data) {
-            $future[$data->getStartwithTimeZone($this->getUser())->format('Ymd')][] = $data;
-        }
-
-        $em = $this->doctrine->getManager();
-        if (!$this->getUser()->getUid()) {
-            $user = $this->getUser();
-            $user->setUid(md5(uniqid()));
-
-            $em->persist($user);
-            $em->flush();
-        }
-        if (!$this->getUser()->getOwnRoomUid()) {
-            $user = $this->getUser();
-            $user->setOwnRoomUid(md5(uniqid()));
-
-            $em->persist($user);
-            $em->flush();
-        }
-        if (!$this->getUser()->getTimezone()) {
-            $user = $this->getUser();
-            $user->setTimezone(date_default_timezone_get());
-            $em->persist($user);
-            $em->flush();
-        }
+        $this->initializeUserFields();
         $favoriteService->cleanFavorites($this->getUser());
+
+        $allRooms = $this->doctrine->getRepository(Rooms::class)->findRoomsForDashboard($this->getUser());
+        [
+            'roomsFuture'     => $roomsFuture,
+            'roomsNow'        => $roomsNow,
+            'roomsToday'      => $roomsToday,
+            'persistantRooms' => $persistantRooms,
+            'scheduledRooms'  => $scheduledRooms,
+            'roomIds'         => $roomIds,
+        ] = $dashboardService->categorizeRooms($allRooms, $this->getUser());
+
         $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), 0);
-        $roomsNow = $this->doctrine->getRepository(Rooms::class)->findRuningRooms($this->getUser());
-        $roomsToday = $this->doctrine->getRepository(Rooms::class)->findTodayRooms($this->getUser());
-        $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser(), 0);
+        foreach ($roomsPast as $room) {
+            $roomIds[] = $room->getId();
+        }
+
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
         $tomorrow = (clone $today)->modify('+1day');
         $favorites = $this->doctrine->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
+        foreach ($favorites as $room) {
+            $roomIds[] = $room->getId();
+        }
+
+        $roomStatusOpenMap = $roomStatusFrontendService->getRoomCreatedStatusMap(array_unique($roomIds));
+        $roomStatusOccupantsMap = $roomStatusFrontendService->getRoomOccupantsMap(array_unique($roomIds));
+        $roomStatusClosedMap = $roomStatusFrontendService->getRoomClosedStatusMap(array_unique($roomIds));
+
         $timer = $stopwatch->stop('dashboard');
         if ($request->get('snack')) {
             if ($request->get('color')) {
@@ -131,14 +151,14 @@ class DashboardController extends JitsiAdminController
                 'action' => $this->generateUrl('second_email_save'),
             ],
         );
-        $publicServer =  $this->serverRepository->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
+        $publicServer = $this->serverRepository->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
 
         $form->remove('profilePicture');
         $res = $this->render(
             'dashboard/index.html.twig',
             [
                 'secondEmailForm' => $form->createView(),
-                'roomsFuture' => $future,
+                'roomsFuture' => $roomsFuture,
                 'roomsPast' => $roomsPast,
                 'runningRooms' => $roomsNow,
                 'persistantRooms' => $persistantRooms,
@@ -147,6 +167,10 @@ class DashboardController extends JitsiAdminController
                 'today' => $today,
                 'tomorrow' => $tomorrow,
                 'favorite' => $favorites,
+                'scheduledRooms' => $scheduledRooms,
+                'roomStatusOpenMap' => $roomStatusOpenMap,
+                'roomStatusOccupantsMap' => $roomStatusOccupantsMap,
+                'roomStatusClosedMap' => $roomStatusClosedMap,
                 'timestamp' => $timestamp,
                 'time' => $timer->getDuration(),
                 'publicServer' => $publicServer
@@ -160,10 +184,10 @@ class DashboardController extends JitsiAdminController
                     'DARK_MODE',
                     1,
                     time() + (2 * 365 * 24 * 60 * 60),
-                    '/',      // Path.
-                    null,     // Domain.
-                    false,    // Xmit secure https.
-                    false     // HttpOnly Flag
+                    '/',       // Path.
+                    null,    // Domain.
+                    false,   // Xmit secure https.
+                    false   // HttpOnly Flag
                 )
             );
         }
@@ -184,7 +208,7 @@ class DashboardController extends JitsiAdminController
                 'is_loggedIn_user',
                 1,
                 time() + (2 * 365 * 24 * 60 * 60),
-                '/',      // Path.
+                '/',  // Path.
             )
         );
         return $res;

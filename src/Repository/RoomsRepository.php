@@ -87,12 +87,26 @@ class RoomsRepository extends ServiceEntityRepository
         $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
-        return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement', 'managerelement')
+        return $qb->select('r')
+            ->addSelect('server')
+            ->addSelect('tag')
+            ->addSelect('moderator')
+            ->addSelect('creator')
+            ->addSelect('callerRoom')
+            ->addSelect('uploadedRecordings')
+            ->addSelect('participants')
+            ->innerJoin('r.user', 'participants')
+            ->innerJoin('r.server', 'server')
+            ->leftJoin('r.tag', 'tag')
+            ->leftJoin('r.moderator', 'moderator')
+            ->leftJoin('r.creator', 'creator')
+            ->leftJoin('r.callerRoom', 'callerRoom')
+            ->leftJoin('r.uploadedRecordings', 'uploadedRecordings')
+            ->leftJoin('moderator.managerElement', 'managerelement')
             ->leftJoin('managerelement.deputy', 'deputy')
             ->andWhere(
                 $qb->expr()->orX(
-                    'user = :user',
+                    'participants = :user',
                     'deputy = :user'
                 )
             )
@@ -179,8 +193,8 @@ class RoomsRepository extends ServiceEntityRepository
                     $qb->expr()->between('r.endDateUtc', ':now', ':midnight'),
                     $qb->expr()->between('r.startUtc', ':now', ':midnight'),
                     $qb->expr()->andX(
-                        $qb->expr()->gte('r.endDateUtc', ':midnight'),
-                        $qb->expr()->lte('r.startUtc', ':now')
+                        $qb->expr()->gte('r.endDateUtc', ':now'),
+                        $qb->expr()->lte('r.startUtc', ':midnight')
                     )
                 )
             )
@@ -214,8 +228,8 @@ class RoomsRepository extends ServiceEntityRepository
     }
 
      /**
-      * @return Rooms[] Returns an array of Rooms objects
-      */
+       * @return Rooms[] Returns an array of Rooms objects
+       */
     public function getMyPersistantRooms(User $user, $offset)
     {
         $qb = $this->createQueryBuilder('rooms');
@@ -233,7 +247,9 @@ class RoomsRepository extends ServiceEntityRepository
                 )
             )
             ->setParameter('user', $user)
-            ->andWhere('rooms.persistantRoom = true');
+            ->andWhere('rooms.persistantRoom = true')
+            ->setMaxResults($this->amountperLayz)
+            ->setFirstResult($this->amountperLayz * $offset);
         return $qb->getQuery()->getResult();
     }
 
@@ -242,8 +258,14 @@ class RoomsRepository extends ServiceEntityRepository
         $now = (new \DateTime('now', new \DateTimeZone('utc')))->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-
-            ->andWhere('user = :user')
+            ->leftJoin('user.managerElement', 'managerelement')
+            ->leftJoin('managerelement.deputy', 'deputy')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                    'deputy = :user'
+                )
+            )
             ->andWhere('r.endDateUtc > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
@@ -254,17 +276,80 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findRoomsForDashboard(User $user)
+    {
+        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
+        $now->setTimezone(new \DateTimeZone('utc'));
+
+        $qb = $this->createQueryBuilder('r');
+        $qb->select('r')
+            ->addSelect('server')
+            ->addSelect('tag')
+            ->addSelect('moderator')
+            ->addSelect('creator')
+            ->addSelect('repeater')
+            ->addSelect('callerRoom')
+            ->addSelect('schedulings')
+            ->addSelect('uploadedRecordings')
+            ->addSelect('repeaterProtoype')
+            ->addSelect('participants')
+            ->addSelect('CASE WHEN r.startUtc IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
+            ->addSelect('CASE WHEN r.persistantRoom = true THEN 1 WHEN r.scheduleMeeting = true THEN 2 ELSE 0 END as HIDDEN list_order_category')
+            ->innerJoin('r.user', 'participants')
+            ->innerJoin('r.server', 'server')
+            ->leftJoin('r.tag', 'tag')
+            ->leftJoin('r.moderator', 'moderator')
+            ->leftJoin('r.creator', 'creator')
+            ->leftJoin('r.repeater', 'repeater')
+            ->leftJoin('r.callerRoom', 'callerRoom')
+            ->leftJoin('r.schedulings', 'schedulings')
+            ->leftJoin('r.uploadedRecordings', 'uploadedRecordings')
+            ->leftJoin('r.repeaterProtoype', 'repeaterProtoype')
+            ->leftJoin('moderator.managerElement', 'managerelement')
+            ->leftJoin('managerelement.deputy', 'deputy');
+
+        return $qb
+            ->andWhere(
+                $qb->expr()->orX(
+                    'participants = :user',
+                    'deputy = :user'
+                )
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    'r.endDateUtc > :now',
+                    'r.persistantRoom = true'
+                )
+            )
+            ->setParameter('now', $now)
+            ->setParameter('user', $user)
+            ->addOrderBy('list_order_category', 'ASC')
+            ->addOrderBy('list_order_is_null', 'DESC')
+            ->addOrderBy('r.startUtc', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findFavoriteRooms(User $user)
     {
         $qb = $this->createQueryBuilder('r');
-        return $qb->innerJoin('r.favoriteUsers', 'user')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user',
-                )
-            )
-            ->setParameter('user', $user)
+        return $qb->select('r')
+            ->addSelect('server')
+            ->addSelect('tag')
+            ->addSelect('moderator')
+            ->addSelect('creator')
+            ->addSelect('callerRoom')
+            ->addSelect('uploadedRecordings')
             ->addSelect('CASE WHEN r.startUtc IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
+            ->innerJoin('r.favoriteUsers', 'favUser')
+            ->innerJoin('r.server', 'server')
+            ->leftJoin('r.tag', 'tag')
+            ->leftJoin('r.moderator', 'moderator')
+            ->leftJoin('r.creator', 'creator')
+            ->leftJoin('r.callerRoom', 'callerRoom')
+            ->leftJoin('r.uploadedRecordings', 'uploadedRecordings')
+            ->andWhere('favUser = :user')
+            ->setParameter('user', $user)
             ->addOrderBy('list_order_is_null', 'DESC')
             ->addOrderBy('r.startUtc', 'ASC')
             ->getQuery()
