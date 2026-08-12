@@ -95,7 +95,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->addSelect('callerRoom')
             ->addSelect('uploadedRecordings')
             ->addSelect('participants')
-            ->innerJoin('r.user', 'participants')
+            ->leftJoin('r.user', 'participants')
             ->innerJoin('r.server', 'server')
             ->leftJoin('r.tag', 'tag')
             ->leftJoin('r.moderator', 'moderator')
@@ -294,8 +294,8 @@ class RoomsRepository extends ServiceEntityRepository
             ->addSelect('repeaterProtoype')
             ->addSelect('participants')
             ->addSelect('CASE WHEN r.startUtc IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
-            ->addSelect('CASE WHEN r.persistantRoom = true THEN 1 WHEN r.scheduleMeeting = true THEN 2 ELSE 0 END as HIDDEN list_order_category')
-            ->innerJoin('r.user', 'participants')
+             ->addSelect('CASE WHEN r.persistantRoom = true THEN 1 WHEN r.scheduleMeeting = true THEN 2 ELSE 0 END as HIDDEN list_order_category')
+            ->leftJoin('r.user', 'participants')
             ->innerJoin('r.server', 'server')
             ->leftJoin('r.tag', 'tag')
             ->leftJoin('r.moderator', 'moderator')
@@ -312,13 +312,29 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere(
                 $qb->expr()->orX(
                     'participants = :user',
-                    'deputy = :user'
+                    $qb->expr()->andX(
+                        'deputy = :user',
+                        $qb->expr()->orX(
+                            'r.creator != r.moderator',
+                            $qb->expr()->andX(
+                                $qb->expr()->orX(
+                                    $qb->expr()->isNull('r.persistantRoom'),
+                                    'r.persistantRoom = false'
+                                ),
+                                $qb->expr()->orX(
+                                    $qb->expr()->isNull('r.scheduleMeeting'),
+                                    'r.scheduleMeeting = false'
+                                )
+                            )
+                        )
+                    )
                 )
             )
             ->andWhere(
                 $qb->expr()->orX(
                     'r.endDateUtc > :now',
-                    'r.persistantRoom = true'
+                    'r.persistantRoom = true',
+                    'r.scheduleMeeting = true'
                 )
             )
             ->setParameter('now', $now)
