@@ -2,7 +2,9 @@
 
 namespace App\Tests\Dashboard;
 
+use App\Entity\Rooms;
 use App\Entity\RoomStatus;
+use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use App\Service\webhook\RoomStatusFrontendService;
@@ -287,5 +289,217 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
         $this->assertArrayNotHasKey($yesterdayRoom->getId(), $createdMap);
         $this->assertArrayNotHasKey($yesterdayRoom->getId(), $occupantsMap);
         $this->assertArrayNotHasKey($yesterdayRoom->getId(), $closedMap);
+    }
+
+    private function createRoom(EntityManagerInterface $em, string $name, ?\DateTimeInterface $start = null): Rooms
+    {
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => $name]);
+        if ($room === null) {
+            $userRepo = $this->getContainer()->get(UserRepository::class);
+            $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+            $server = $user->getServers()->toArray()[0];
+            $room = new Rooms();
+            $room->setName($name)
+                ->setTimeZone('Europe/Berlin')
+                ->setModerator($user)
+                ->setCreator($user)
+                ->setDuration(60)
+                ->setSequence(0)
+                ->setUid(md5(uniqid($name, true)))
+                ->setUidReal(md5(uniqid($name, true)))
+                ->setServer($server);
+            if ($start !== null) {
+                $room->setStart($start);
+                $room->setEnddate((clone $start)->modify('+60min'));
+            }
+            $em->persist($room);
+            $em->flush();
+        }
+        return $room;
+    }
+
+    private function createStatus(EntityManagerInterface $em, Rooms $room, string $jitsiId, ?bool $destroyed, ?\DateTimeInterface $destroyedAt = null, ?\DateTimeInterface $roomCreatedAt = null): RoomStatus
+    {
+        $status = new RoomStatus();
+        $status->setCreated(true)
+            ->setRoom($room)
+            ->setJitsiRoomId($jitsiId)
+            ->setDestroyed($destroyed)
+            ->setDestroyedAt($destroyedAt)
+            ->setRoomCreatedAt($roomCreatedAt ?? new \DateTime())
+            ->setUpdatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTime());
+        $em->persist($status);
+        return $status;
+    }
+
+    public function testGetRoomClosedStatusMapActiveStatusReturnsFalse(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'ClosedMapActiveRoom', new \DateTime('-2 hours'));
+
+        $this->createStatus($em, $room, 'active-only@test.de', null);
+        $em->flush();
+
+        $result = $service->getRoomClosedStatusMap([$room->getId()]);
+
+        $this->assertArrayHasKey($room->getId(), $result);
+        $this->assertFalse($result[$room->getId()], 'Room with an active (non-destroyed) status must not be closed');
+    }
+
+    public function testGetRoomClosedStatusMapDestroyedAfterStartReturnsTrue(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'ClosedMapDestroyedAfter', new \DateTime('-3 hours'));
+
+        $this->createStatus($em, $room, 'destroyed-after@test.de', true, new \DateTime('-1 hour'), new \DateTime('-3 hours'));
+        $em->flush();
+
+        $result = $service->getRoomClosedStatusMap([$room->getId()]);
+
+        $this->assertArrayHasKey($room->getId(), $result);
+        $this->assertTrue($result[$room->getId()], 'Room destroyed after it started must be closed');
+    }
+
+    public function testGetRoomClosedStatusMapDestroyedBeforeStartReturnsFalse(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'ClosedMapDestroyedBefore', new \DateTime('+2 hours'));
+
+        $this->createStatus($em, $room, 'destroyed-before@test.de', true, new \DateTime('-1 hour'), new \DateTime('-1 hour'));
+        $em->flush();
+
+        $result = $service->getRoomClosedStatusMap([$room->getId()]);
+
+        $this->assertArrayHasKey($room->getId(), $result);
+        $this->assertFalse($result[$room->getId()], 'Room destroyed BEFORE it started must not be considered closed');
+    }
+
+    public function testGetRoomClosedStatusMapNoStatusAbsent(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'ClosedMapNoStatus', new \DateTime('-2 hours'));
+
+        $result = $service->getRoomClosedStatusMap([$room->getId()]);
+
+        $this->assertArrayNotHasKey($room->getId(), $result, 'Room with no status must be absent from the closed map');
+    }
+
+    public function testGetRoomClosedStatusMapMixedActiveAndDestroyedReturnsFalse(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'ClosedMapMixed', new \DateTime('-4 hours'));
+
+        $this->createStatus($em, $room, 'mixed-1@test.de', true, new \DateTime('-2 hours'), new \DateTime('-4 hours'));
+        $this->createStatus($em, $room, 'mixed-2@test.de', null, null, new \DateTime('-1 hour'));
+        $em->flush();
+
+        $result = $service->getRoomClosedStatusMap([$room->getId()]);
+
+        $this->assertArrayHasKey($room->getId(), $result);
+        $this->assertFalse($result[$room->getId()], 'Room with one active and one destroyed status must not be closed');
+    }
+
+    public function testGetRoomClosedStatusMapMultipleDestroyedAfterStartReturnsTrue(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'ClosedMapMultipleDestroyed', new \DateTime('-6 hours'));
+
+        $this->createStatus($em, $room, 'multi-1@test.de', true, new \DateTime('-5 hours'), new \DateTime('-6 hours'));
+        $this->createStatus($em, $room, 'multi-2@test.de', true, new \DateTime('-1 hour'), new \DateTime('-2 hours'));
+        $em->flush();
+
+        $result = $service->getRoomClosedStatusMap([$room->getId()]);
+
+        $this->assertArrayHasKey($room->getId(), $result);
+        $this->assertTrue($result[$room->getId()], 'Room with all destroyed statuses (latest after start) must be closed');
+    }
+
+    public function testGetRoomClosedStatusMapDestroyedAtNullReturnsFalse(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'ClosedMapDestroyedAtNull', new \DateTime('-2 hours'));
+
+        $this->createStatus($em, $room, 'nn-destroyed@test.de', true, null, new \DateTime('-2 hours'));
+        $em->flush();
+
+        $result = $service->getRoomClosedStatusMap([$room->getId()]);
+
+        $this->assertArrayNotHasKey($room->getId(), $result, 'Room with destroyed=true but no destroyedAt must be absent');
+    }
+
+    public function testGetRoomClosedStatusMapBatchOfDifferentStates(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+
+        $activeRoom = $this->createRoom($em, 'BatchActiveRoom', new \DateTime('-1 hour'));
+        $this->createStatus($em, $activeRoom, 'batch-active@test.de', null);
+        $em->flush();
+
+        $closedRoom = $this->createRoom($em, 'BatchClosedRoom', new \DateTime('-3 hours'));
+        $this->createStatus($em, $closedRoom, 'batch-closed@test.de', true, new \DateTime('-1 hour'), new \DateTime('-3 hours'));
+        $em->flush();
+
+        $emptyRoom = $this->createRoom($em, 'BatchEmptyRoom', new \DateTime('-2 hours'));
+
+        $result = $service->getRoomClosedStatusMap([$activeRoom->getId(), $closedRoom->getId(), $emptyRoom->getId()]);
+
+        $this->assertArrayHasKey($activeRoom->getId(), $result);
+        $this->assertFalse($result[$activeRoom->getId()]);
+        $this->assertArrayHasKey($closedRoom->getId(), $result);
+        $this->assertTrue($result[$closedRoom->getId()]);
+        $this->assertArrayNotHasKey($emptyRoom->getId(), $result);
+    }
+
+    public function testGetRoomClosedStatusMapNullDestroyedTreatedAsActive(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'ClosedMapNullDestroyed', new \DateTime('-2 hours'));
+
+        // destroyed explicitly NULL (not true) => still active
+        $this->createStatus($em, $room, 'null-destroyed@test.de', null, null, new \DateTime('-2 hours'));
+        $em->flush();
+
+        $result = $service->getRoomClosedStatusMap([$room->getId()]);
+
+        $this->assertArrayHasKey($room->getId(), $result);
+        $this->assertFalse($result[$room->getId()], 'destroyed=NULL means active, room must not be closed');
     }
 }

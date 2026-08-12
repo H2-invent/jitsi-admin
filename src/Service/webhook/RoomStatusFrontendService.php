@@ -162,7 +162,13 @@ class RoomStatusFrontendService
             if (!isset($latestDestroyedMap[$roomId]) || !isset($roomStarts[$roomId])) {
                 continue;
             }
-            $result[$roomId] = $latestDestroyedMap[$roomId] > $roomStarts[$roomId];
+            $destroyedTs = $latestDestroyedMap[$roomId] instanceof \DateTimeInterface
+                ? $latestDestroyedMap[$roomId]->getTimestamp()
+                : strtotime((string) $latestDestroyedMap[$roomId]);
+            $startTs = $roomStarts[$roomId] instanceof \DateTimeInterface
+                ? $roomStarts[$roomId]->getTimestamp()
+                : strtotime((string) $roomStarts[$roomId]);
+            $result[$roomId] = $destroyedTs > $startTs;
         }
         return $result;
     }
