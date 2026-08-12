@@ -19,24 +19,13 @@ final class Version20260810200006 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql(
-            sprintf(
-                'CREATE INDEX %s ON %s (%s(128))',
-                self::INDEX_NAME,
-                self::TABLE_NAME,
-                'keycloak_group'
-            )
-        );
+        $table = $schema->getTable(self::TABLE_NAME);
+        $table->addIndex(['keycloak_group'], self::INDEX_NAME);
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql(
-            sprintf(
-                'DROP INDEX %s ON %s',
-                self::INDEX_NAME,
-                self::TABLE_NAME
-            )
-        );
+        $table = $schema->getTable(self::TABLE_NAME);
+        $table->dropIndex(self::INDEX_NAME);
     }
 }
