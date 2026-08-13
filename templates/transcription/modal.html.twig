@@ -16,6 +16,7 @@
                         <a class="directSendWithConfirm"
                            href="{{ path('app_transcription_remove',{'id':transcription.id}) }}"
                            data-target="#transcriptionModal"
+                           data-method="POST"
                            data-url="{{ path('app_transcription_modal',{'room':room.id}) }}#transcriptionModalContent">
                             {{ 'Löschen'|trans }}
                         </a>

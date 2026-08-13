@@ -187,7 +187,7 @@ class RecordingController extends AbstractController
     }
 
 
-    #[Route('/room/recordings/remove/{filename}', name: 'recording_remove', methods: ['GET'])]
+    #[Route('/room/recordings/remove/{filename}', name: 'recording_remove', methods: ['POST'])]
     public function remove(string $filename): Response
     {
         try {

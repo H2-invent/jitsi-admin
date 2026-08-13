@@ -41,7 +41,7 @@ final class TranscriptionController extends AbstractController
         return $response;
     }
 
-    #[Route('/room/transcription/{id}/remove', name: 'app_transcription_remove', methods: ['GET'])]
+    #[Route('/room/transcription/{id}/remove', name: 'app_transcription_remove', methods: ['POST'])]
     public function remove(Transcription $transcription): JsonResponse
     {
         if ($transcription->getRoom()->getModerator() !== $this->getUser()) {
@@ -64,7 +64,7 @@ final class TranscriptionController extends AbstractController
     public function modal(Rooms $room): Response
     {
         if ($room->getModerator() !== $this->getUser()) {
-            throw $this->createNotFoundException('Room not found');
+            throw $this->createAccessDeniedException('Only moderators are allowed to show room transcriptions.');
         }
 
         return $this->render('transcription/modal.html.twig', ['room' => $room]);
@@ -74,7 +74,7 @@ final class TranscriptionController extends AbstractController
     public function toggle(Rooms $room, Request $request): JsonResponse
     {
         if ($room->getModerator() !== $this->getUser()) {
-            throw $this->createNotFoundException('Room not found');
+            throw $this->createAccessDeniedException('Only moderators are allowed to toggle room transcriptions.');
         }
 
         try {
