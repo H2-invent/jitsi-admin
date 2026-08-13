@@ -1,4 +1,8 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
+## 1.7
+### 🐛 Bug Fixes:
+* Prevent server change for active meetings rooms
+
 ## 1.6
 * Removed matomo dependency
 
