@@ -1502,6 +1502,7 @@ a:hover {
   .proTips {
     pointer-events: auto;
     display: none;
+    opacity: 0;
     box-shadow: $card-box-shadow !important;
     z-index: 9;
     @media only screen and (min-width: $breakpointMenue) {
