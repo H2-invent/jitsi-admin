@@ -12,6 +12,7 @@
 ### ⭐ Improvements:
 * Add lobby moderator permission flag to the JWT
 * Redesigned homepage
+* Rooms in the past can now still be joined as long as there's still a participant in the room
 
 ## 1.4
 
