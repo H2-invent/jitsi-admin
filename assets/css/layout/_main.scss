@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /* ---------------------------------------------------
     Body Config
 ----------------------------------------------------- */
@@ -34,11 +36,11 @@ a {
   color: $contrast-dark;
 
   &:hover {
-    color: lighten($contrast-dark, 15%);
+    color: color.adjust($contrast-dark, $lightness: 15%);
   }
 
   &:active {
-    color: lighten($contrast-dark, 5%);
+    color: color.adjust($contrast-dark, $lightness: 5%);
   }
 
   &:focus {
@@ -616,7 +618,7 @@ strong {
 }
 
 .bg-online {
-  background-color: scale-color($online, $lightness: 90%);
+  background-color: color.scale($online, $lightness: 90%);
   border: $online 2px solid;
   color: black;
 
@@ -627,7 +629,7 @@ strong {
 }
 
 .bg-away {
-  background-color: scale-color($away, $lightness: 90%);
+  background-color: color.scale($away, $lightness: 90%);
   border: $away 2px solid;
   color: black;
 }
@@ -1111,14 +1113,14 @@ a:hover {
   color: #A10808;
 
   &:hover {
-    color: lighten(#A10808, 10%);
+    color: color.adjust(#A10808, $lightness: 10%);
   }
 
   &[class*='btn-outline'] {
     border-color: #A10808;
 
     &:hover {
-      border-color: lighten(#A10808, 10%);
+      border-color: color.adjust(#A10808, $lightness: 10%);
     }
   }
 }
@@ -1714,12 +1716,12 @@ a:hover {
   border-radius: 6px;
 
   &.awayBorder {
-    background-color: scale-color($warning-color, $lightness: 90%);
+    background-color: color.scale($warning-color, $lightness: 90%);
     border-width: 2px !important;
   }
 
   &.olineBorder {
-    background-color: scale-color($success-color, $lightness: 90%);
+    background-color: color.scale($success-color, $lightness: 90%);
     border-width: 2px !important;
   }
 }
