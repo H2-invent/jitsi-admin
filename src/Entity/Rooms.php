@@ -173,8 +173,8 @@ class Rooms
     #[ORM\Column(nullable: true)]
     private ?bool $isFastConference = false;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $enableTranscription = false;
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $enableTranscription = false;
 
 
     public function __construct()
@@ -1230,12 +1230,12 @@ class Rooms
         return $this;
     }
 
-    public function isEnableTranscription(): ?bool
+    public function isEnableTranscription(): bool
     {
         return $this->enableTranscription;
     }
 
-    public function setEnableTranscription(?bool $enableTranscription): static
+    public function setEnableTranscription(bool $enableTranscription): static
     {
         $this->enableTranscription = $enableTranscription;
 
