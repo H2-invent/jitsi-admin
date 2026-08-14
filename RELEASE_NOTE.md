@@ -1,6 +1,7 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
 ## 1.6
 * Removed matomo dependency
+* Fixed npm build deprecation warnings
 
 
 ## 1.5
