@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d44ff5cd11c756b57ad7a6717ea7c2f",
+    "content-hash": "7e16e20cbd4292d6ccd8abaaa1d89623",
     "packages": [
         {
             "name": "agence104/livekit-server-sdk",
@@ -2299,12 +2299,12 @@
             "version": "v6.11.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/firebase/php-jwt.git",
+                "url": "https://github.com/googleapis/php-jwt.git",
                 "reference": "8f718f4dfc9c5d5f0c994cdfd103921b43592712"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/8f718f4dfc9c5d5f0c994cdfd103921b43592712",
+                "url": "https://api.github.com/repos/googleapis/php-jwt/zipball/8f718f4dfc9c5d5f0c994cdfd103921b43592712",
                 "reference": "8f718f4dfc9c5d5f0c994cdfd103921b43592712",
                 "shasum": ""
             },
@@ -3989,75 +3989,6 @@
             "time": "2024-03-31T07:05:07+00:00"
         },
         {
-            "name": "matomo/device-detector",
-            "version": "6.4.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "aa4586d495a7f59029d46d976f160b13eb769bb0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/aa4586d495a7f59029d46d976f160b13eb769bb0",
-                "reference": "aa4586d495a7f59029d46d976f160b13eb769bb0",
-                "shasum": ""
-            },
-            "require": {
-                "mustangostang/spyc": "*",
-                "php": "^7.2|^8.0"
-            },
-            "replace": {
-                "piwik/device-detector": "self.version"
-            },
-            "require-dev": {
-                "matthiasmullie/scrapbook": "^1.4.7",
-                "mayflower/mo4-coding-standard": "^v9.0.0",
-                "phpstan/phpstan": "^1.10.44",
-                "phpunit/phpunit": "^8.5.8",
-                "psr/cache": "^1.0.1",
-                "psr/simple-cache": "^1.0.1",
-                "symfony/yaml": "^5.1.7"
-            },
-            "suggest": {
-                "doctrine/cache": "Can directly be used for caching purpose",
-                "ext-yaml": "Necessary for using the Pecl YAML parser"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DeviceDetector\\": ""
-                },
-                "exclude-from-classmap": [
-                    "Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "The Matomo Team",
-                    "email": "hello@matomo.org",
-                    "homepage": "https://matomo.org/team/"
-                }
-            ],
-            "description": "The Universal Device Detection library, that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, media players, mobile apps, feed readers, libraries, etc), operating systems, devices, brands and models.",
-            "homepage": "https://matomo.org",
-            "keywords": [
-                "devicedetection",
-                "parser",
-                "useragent"
-            ],
-            "support": {
-                "forum": "https://forum.matomo.org/",
-                "issues": "https://github.com/matomo-org/device-detector/issues",
-                "source": "https://github.com/matomo-org/matomo",
-                "wiki": "https://dev.matomo.org/"
-            },
-            "time": "2025-01-17T09:59:39+00:00"
-        },
-        {
             "name": "monolog/monolog",
             "version": "3.8.1",
             "source": {
@@ -4225,60 +4156,6 @@
                 "source": "https://github.com/jmespath/jmespath.php/tree/2.8.0"
             },
             "time": "2024-09-04T18:46:31+00:00"
-        },
-        {
-            "name": "mustangostang/spyc",
-            "version": "0.6.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mustangostang/spyc.git",
-                "reference": "4627c838b16550b666d15aeae1e5289dd5b77da0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mustangostang/spyc/zipball/4627c838b16550b666d15aeae1e5289dd5b77da0",
-                "reference": "4627c838b16550b666d15aeae1e5289dd5b77da0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.3.*@dev"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.5.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "Spyc.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "mustangostang",
-                    "email": "vlad.andersen@gmail.com"
-                }
-            ],
-            "description": "A simple YAML loader/dumper class for PHP",
-            "homepage": "https://github.com/mustangostang/spyc/",
-            "keywords": [
-                "spyc",
-                "yaml",
-                "yml"
-            ],
-            "support": {
-                "issues": "https://github.com/mustangostang/spyc/issues",
-                "source": "https://github.com/mustangostang/spyc/tree/0.6.3"
-            },
-            "time": "2019-09-10T13:16:29+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
