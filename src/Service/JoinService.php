@@ -56,59 +56,49 @@ class JoinService
     {
         $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
-        if ($room && in_array($user,$room->getUser()->toArray())) {
 
-            if ($appAllowed && $appKlicked) {
-                $type = 'a';
-            } elseif ($browerAllowed && $browserKlicked) {
-                $type = 'b';
-            }
-            $start = null;
-            $now =  new \DateTime('now', new \DateTimeZone('utc'));
-            $endDate = null;
-            if(!$room->getPersistantRoom()){
-
-                $start = (clone $room->getStartUtc())->modify('-30min');
-                $endDate = clone $room->getEndDateUtc();
-
-                $startPrint = $room->getTimeZone()?clone ($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
-                $startPrint->modify('-30min');
-                $endPrint = $room->getTimeZone()?$room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getEnddate();
-
-            }
-
-            if (
-                ($start && $start < $now && $endDate > $now)
-                || UtilsHelper::isAllowedToOrganizeRoom($user,$room)
-                || $room->getPersistantRoom()
-                || $user->getKeycloakId()
-            ) {
-                if($user->getKeycloakId()){
-                    return new RedirectResponse($this->urlGenerator->generate('room_join',array('room'=>$room->getId(),'t'=>$type)));
-                }else{
-                    if ($this->session->getCurrentRequest()){
-                        $this->session->getCurrentRequest()->getSession()->set('userId',$user->getId());
-                    }
-
-                    return $this->startService->startMeeting($room, $user, $type,$search['name']);
-                }
-
-            } else {
-                try {
-                    $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
-                        array(
-                            '{from}' => $startPrint->format('d.m.Y H:i T'),
-                            '{to}' => $endPrint->format('d.m.Y H:i T')
-                        )
-                    );
-                    $color = 'danger';
-                } catch (\Exception $exception) {
-
-                }
-            }
-        }else{
+        if (!$room || !in_array($user, $room->getUser()->toArray())) {
             $snack = $this->translator->trans('Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
             $color = 'danger';
+            return null;
+        }
+
+        if ($appAllowed && $appKlicked) {
+            $type = 'a';
+        } elseif ($browerAllowed && $browserKlicked) {
+            $type = 'b';
+        } else {
+            $type = null;
+        }
+
+        if (
+            $this->startService->checkTime($room, $user)
+            || UtilsHelper::isAllowedToOrganizeRoom($user, $room)
+            || $user->getKeycloakId()
+        ) {
+            if ($user->getKeycloakId()) {
+                return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
+            }
+
+            if ($this->session->getCurrentRequest()) {
+                $this->session->getCurrentRequest()->getSession()->set('userId', $user->getId());
+            }
+
+            return $this->startService->startMeeting($room, $user, $type, $search['name']);
+        }
+
+        try {
+            $startPrint = $room->getTimeZone() ? clone($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getStart();
+            $startPrint->modify('-30min');
+            $endPrint = $room->getTimeZone() ? $room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getEnddate();
+
+            $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich', [
+                '{from}' => $startPrint->format('d.m.Y H:i T'),
+                '{to}' => $endPrint->format('d.m.Y H:i T')
+            ]);
+            $color = 'danger';
+
+        } catch (\Exception) {
         }
 
         return null;

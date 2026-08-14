@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Repository\RoomStatusParticipantRepository;
 use App\Service\Jigasi\JigasiService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\webhook\RoomStatusFrontendService;
@@ -62,20 +63,20 @@ class StartMeetingService
 
 
     public function __construct(
-        private RequestStack              $flashBag,
-        LoggerInterface                   $logger,
-        ToModeratorWebsocketService       $toModeratorWebsocketService,
-        Environment                       $environment,
-        RoomService                       $roomService,
-        EntityManagerInterface            $entityManager,
-        UrlGeneratorInterface             $urlGenerator,
-        ParameterBagInterface             $parameterBag,
-        TranslatorInterface               $translator,
-        JigasiService                     $jigasiService,
-        private RoomStatusFrontendService $roomStatusFrontendService,
-        private CheckIPService            $checkIPService,
-        private CheckMaxUserService       $checkMaxUserService,
-
+        private RequestStack                    $flashBag,
+        LoggerInterface                         $logger,
+        ToModeratorWebsocketService             $toModeratorWebsocketService,
+        Environment                             $environment,
+        RoomService                             $roomService,
+        EntityManagerInterface                  $entityManager,
+        UrlGeneratorInterface                   $urlGenerator,
+        ParameterBagInterface                   $parameterBag,
+        TranslatorInterface                     $translator,
+        JigasiService                           $jigasiService,
+        private RoomStatusFrontendService       $roomStatusFrontendService,
+        private CheckIPService                  $checkIPService,
+        private CheckMaxUserService             $checkMaxUserService,
+        private RoomStatusParticipantRepository $participantRepository,
     )
     {
         $this->roomService = $roomService;
@@ -119,7 +120,7 @@ class StartMeetingService
         $this->jigasiService->pingJigasi($room);
         if ($room && (in_array($user, $room->getUser()->toarray())|| $this->room->getModerator() === $user)) {
             $this->url = $this->roomService->join($room, $user, $t, $name);
-            if (!self::checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
+            if (!$this->checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
                 $this->logger->debug('This room is closed by time restrictions');
                 return $this->RoomClosed();
             }
@@ -134,9 +135,9 @@ class StartMeetingService
         return $this->roomNotFound();
     }
 
-    public function IsAlloedToEnter(Rooms $room, User $user): ?string
+    public function isAllowedToEnter(Rooms $room, User $user): ?string
     {
-        if (!self::checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
+        if (!$this->checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
             return $this->buildClosedString($room);
         }
         return null;
@@ -282,19 +283,27 @@ class StartMeetingService
         return new NotFoundHttpException('Room not found');
     }
 
-    public static function checkTime(Rooms $room, ?User $user = null)
+    public function checkTime(Rooms $room, ?User $user = null): bool
     {
-
-        $now = new \DateTime('now', new \DateTimeZone('utc'));
-        $start = null;
-        $endDate = null;
-        if (!$room->getPersistantRoom()) {
-            $start = (clone $room->getStartUtc())->modify('-30min');
-            $endDate = clone $room->getEndDateUtc();
+        if ($room->getPersistantRoom()) {
+            return true;
         }
 
+        $userId = $user?->getId();
+        $moderatorId = $room->getModerator()?->getId();
+        if ($userId !== null && $moderatorId !== null && $userId === $moderatorId) {
+            return true;
+        }
 
-        if (($room->getPersistantRoom() || $start < $now && $endDate > $now) || $user === $room->getModerator()) {
+        $usersInRoom = $this->participantRepository->findOccupantsOfRoom($room);
+        if (count($usersInRoom) > 0) {
+            return true;
+        }
+
+        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        $start = (clone $room->getStartUtc())->modify('-30min');
+        $endDate = clone $room->getEndDateUtc();
+        if ($start < $now && $endDate > $now) {
             return true;
         }
 

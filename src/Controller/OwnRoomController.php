@@ -11,10 +11,13 @@ use App\Helper\JitsiAdminController;
 use App\Service\RoomService;
 use App\Service\StartMeetingService;
 use App\UtilsHelper;
+use Doctrine\Persistence\ManagerRegistry;
 use Firebase\JWT\JWT;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,6 +29,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OwnRoomController extends JitsiAdminController
 {
+    public function __construct(
+        ManagerRegistry                      $managerRegistry,
+        TranslatorInterface                  $translator,
+        LoggerInterface                      $logger,
+        ParameterBagInterface                $parameterBag,
+        private readonly StartMeetingService $startMeetingService,
+    )
+    {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+    }
+
     #[Route(path: '/myRoom/start/{uid}', name: 'own_room_startPage')]
     #[Route(path: '/room/myRoom/start/{uid}', name: 'own_room_startPage_protected')]
     public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator, StartMeetingService $startMeetingService): Response
@@ -37,7 +51,7 @@ class OwnRoomController extends JitsiAdminController
             return $this->redirectToRoute('join_index_no_slug');
         }
 
-        if (!StartMeetingService::checkTime($rooms)) {
+        if (!$this->startMeetingService->checkTime($rooms)) {
             $startPrint = $rooms->getTimeZone() ? clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getStart();
             $startPrint->modify('-30min');
             $endPrint = $rooms->getTimeZone() ? $rooms->getEndDateUtc()->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getEnddate();
