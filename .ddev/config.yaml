@@ -13,9 +13,6 @@ use_dns_when_possible: true
 composer_version: "2"
 web_environment: []
 corepack_enable: false
-hooks:
-  post-start:
-  - exec: cp .ddev/.env.test.local .env.test.local
 timezone: Europe/Berlin
 
 # Key features of DDEV's config.yaml:
