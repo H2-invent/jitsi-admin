@@ -40,11 +40,11 @@ class WebsocketJwt extends AbstractExtension
     public function getUrlforWebsocket()
     {
         $path = $this->parameterBag->get('MERCURE_PUBLIC_URL');
-        if (strpos($path, 'https')) {
-            str_replace('https', 'wss', $path);
+        if (str_contains($path, 'https')) {
+            $path = str_replace('https', 'wss', $path);
         } else {
-            str_replace('http', 'ws', $path);
+            $path = str_replace('http', 'ws', $path);
         }
-        return $this->parameterBag->get('MERCURE_PUBLIC_URL');
+        return $path;
     }
 }

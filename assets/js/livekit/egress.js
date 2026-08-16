@@ -1,6 +1,10 @@
-const startEgress = document.querySelectorAll('.startEgress');
-const stopEgress = document.getElementById('stopEgress');
-let egressID = null;
+// Inits Click-Events and shows recording icons
+export function initRecording() {
+    setupStartEgress();
+    setupStopEgress();
+    document.getElementById('wrapper-recording').classList.remove('d-none');
+}
+
 // Click-Events für alle Elemente mit der Klasse 'startEgress'
 export function setupStartEgress() {
     const startRecordingButtons = document.querySelectorAll('.startEgress');
