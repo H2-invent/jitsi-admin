@@ -12,7 +12,7 @@ label.start: Iniciar
 label.dauerKonferenz: Duración de la conferencia
 label.nurRegistriertenutzer: Sólo los usuarios registrados pueden unirse a la conferencia.
 label.speichern: Guardar
-label.allowMaybeOption: '"Vielleicht"-Option anbieten'
+label.allowMaybeOption: 'Ofrecer la opción «con reserva»'
 option.15min: 15 minutos
 option.30min: 30 minutos
 option.45min: 45 minutos
@@ -67,7 +67,7 @@ option:
   decembre: Diciembre
   user: Reclamación de usuario
   root: Reclamación de administrador
-lable.serverUrl: Konferenz Server URL
+lable.serverUrl: URL del servidor de conferencias
 label.appId: Id de aplicacion
 label.appSecret: Secreto de la aplicacion
 label.scheduleMeeting: Consensuar una conferencia
@@ -90,9 +90,9 @@ help:
   disableWhiteboard: Deshabilitar la pizarra durante una conferencia
   disableEtherpad: Deshabilitar la pizarra durante una conferencia
   prefixRoomUidWithHash: El identificador único de la conferencia tiene el prefijo slug del servidor y el ID del servidor como hash. Esto se puede utilizar para distinguir entre diferentes servidores en el servidor web nginx.
-  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
-  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
-  livekitMiddlewareUrl: Hier kann eine Url (https://middlewareUrl.com) angegeben werden. Es wird bisher nur die Meetling Middleware unterstützt. Sollten Sie nicht wissen was Sie hier eintragen sollen, einfach leer lassen damit die voreingestellte Middleware verwendet wird. Wenn Sie eine eigene Middleware verwenden wollen wenden Sie sich an info@h2-invent.com
+  liveKitServer: Este servidor es un servidor Livekit y está diseñado para utilizar las funcionalidades de la API de Livekit
+  livekitBackgroundImages: Array con imágenes de fondo en formato JSON que los participantes de una conferencia pueden seleccionar como fondo durante la misma.
+  livekitMiddlewareUrl: Aquí se puede introducir una URL (https://middlewareUrl.com). Por el momento, solo es compatible con el middleware de Meetling. Si no sabe qué debe introducir aquí, déjelo en blanco para que se utilice el middleware predeterminado. Si desea utilizar su propio middleware, póngase en contacto con info@h2-invent.com
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse utilizando el navegador
@@ -163,14 +163,14 @@ label:
   disableWhiteboard: Habilitar pizarra
   disableEtherpad: Desactivar Etherpad
   prefixRoomUidWithHash: Identificador único de sala con prefijo hash del servidor
-  myName: Mein Name
-  liveKitServer: Ich möchte einen Livekit-Server einrichten
-  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
-  livekitMiddlewareUrl: Livekitmiddleware-Url
+  myName: Mi nombre
+  liveKitServer: Me gustaría configurar un servidor Livekit
+  livekitBackgroundImages: Imágenes de fondo para la conferencia en formato JSON
+  livekitMiddlewareUrl: Url de Livekit Middleware
   disableSelfSubscriptionDoubleOptIn: No envíar un correo electrónico de doble confirmación, "double opt-in", para los autorregistros
-  calendlyToken: Calendly Oauth Token
-  enableRecording: Recording aktiveren
-  calendlyServer: Konferenzserver für Calendly-Konferenzen
+  calendlyToken: Token Oauth de Calendly
+  enableRecording: Activar la grabación
+  calendlyServer: Servidor de conferencias para las reuniones de Calendly
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
