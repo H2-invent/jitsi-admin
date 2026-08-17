@@ -742,7 +742,7 @@
       </trans-unit>
       <trans-unit id="I8wtD50" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target state="needs-translation">Unter Vorbehalt</target>
+        <target state="translated">Condicional</target>
       </trans-unit>
       <trans-unit id="UN_yfpB" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
@@ -888,7 +888,7 @@
       </trans-unit>
       <trans-unit id="rdg4qib" resname="Hier beitreten">
         <source>Hier beitreten</source>
-        <target state="needs-translation">Hier beitreten</target>
+        <target state="translated">Únete aquí</target>
       </trans-unit>
       <trans-unit id="2VnBhfW" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
@@ -1360,11 +1360,11 @@
       </trans-unit>
       <trans-unit id="1akOrlW" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="needs-translation">Alle Wartenden zulassen</target>
+        <target state="translated">Admite a todos los que están en la sala de espera</target>
       </trans-unit>
       <trans-unit id="KpxABb6" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target state="needs-translation">Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.</target>
+        <target state="translated">Todas las personas que esperaban fueron admitidas con éxito en la conferencia</target>
       </trans-unit>
       <trans-unit id="JwocwOM" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
@@ -1761,7 +1761,7 @@
       </trans-unit>
       <trans-unit id="R5gnTbc" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
-        <target state="needs-translation">Abwesend anzeigen nach</target>
+        <target state="translated">Mostrar como ausente después de</target>
       </trans-unit>
       <trans-unit id="yqzy2pq" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
@@ -1777,19 +1777,19 @@
       </trans-unit>
       <trans-unit id="atGRmKn" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
-        <target state="needs-translation">{name} hat nicht abgenommen</target>
+        <target state="translated">{name} no ha salido</target>
       </trans-unit>
       <trans-unit id="pRMPsMB" resname="callout.message.occupied">
         <source>callout.message.occupied</source>
-        <target state="needs-translation">Der Anschluss von {name} ist besetzt.</target>
+        <target state="translated">La línea de {name} está ocupada.</target>
       </trans-unit>
       <trans-unit id="GXTkaQa" resname="callout.message.later">
         <source>callout.message.later</source>
-        <target state="needs-translation">{name} wird später der Konferenz beitreten.</target>
+        <target state="translated">{name} se unirá a la conferencia más tarde</target>
       </trans-unit>
       <trans-unit id="cRo7nH0" resname="callout.message.refuse">
         <source>callout.message.refuse</source>
-        <target state="needs-translation">{name} hat abgelehnt.</target>
+        <target state="translated">{name} ha declinado.</target>
       </trans-unit>
       <trans-unit id="4Ifc3ZM" resname="callout.message.error">
         <source>callout.message.error</source>
@@ -1821,7 +1821,7 @@
       </trans-unit>
       <trans-unit id="mSSJ9ZF" resname="public.invite.moreApps">
         <source>public.invite.moreApps</source>
-        <target state="needs-translation">Einladung zur Konferenz teilen</target>
+        <target state="translated">Compartir invitación a la conferencia</target>
       </trans-unit>
       <trans-unit id="wll_aF8" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
         <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
@@ -1957,59 +1957,59 @@
       </trans-unit>
       <trans-unit id="qqr4YP9" resname="deputy.message.added">
         <source>deputy.message.added</source>
-        <target state="needs-translation">Vertreter erfolgreich hinzugefügt.</target>
+        <target state="translated">Se ha añadido correctamente al contacto</target>
       </trans-unit>
       <trans-unit id="XEgKY6O" resname="deputy.message.removed">
         <source>deputy.message.removed</source>
-        <target state="needs-translation">Vertreter erfolgreich entfernt.</target>
+        <target state="translated">Se ha eliminado al contacto</target>
       </trans-unit>
       <trans-unit id="ZyMWXfm" resname="deputy.remove">
         <source>deputy.remove</source>
-        <target state="needs-translation">Als Vertreter entfernen</target>
+        <target state="translated">Eliminar contacto</target>
       </trans-unit>
       <trans-unit id="nxp9EKG" resname="deputy.add">
         <source>deputy.add</source>
-        <target state="needs-translation">Als Vertreter hinzufügen</target>
+        <target state="translated">Añadir contacto</target>
       </trans-unit>
       <trans-unit id="zY8xDlJ" resname="deputy.help">
         <source>deputy.help</source>
-        <target state="needs-translation">Sie können diesem Benutzer erlauben, Konferenzen für Sie zu erstellen, diese zu bearbeiten und Teilnehmende zu diesen Konferenzen einzuladen. ACHTUNG! Ein Vertreter nimmt nicht automatisch an einer von ihm geplanten Konferenz Teil, sondern muss separate vom Organisator eingeladen werden.</target>
+        <target state="translated">Puede permitir que este usuario cree conferencias en su nombre, las modifique e invite a participantes a dichas conferencias. ¡ATENCIÓN! Un representante no participa automáticamente en una conferencia que haya programado, sino que debe ser invitado por separado por el organizador.</target>
       </trans-unit>
       <trans-unit id="4pdBQbm" resname="deputy.text.isDeputy">
         <source>deputy.text.isDeputy</source>
-        <target state="needs-translation">Ist Vertreter</target>
+        <target state="translated">Es un representante</target>
       </trans-unit>
       <trans-unit id="3Iv9MoO" resname="room.new.help.server">
         <source>room.new.help.server</source>
-        <target state="needs-translation">Wählen Sie den Server aus, über welchen Sie die Konferenz abhalten wollen.</target>
+        <target state="translated">Seleccione el servidor a través del cual desea celebrar la conferencia.</target>
       </trans-unit>
       <trans-unit id="waqIPk4" resname="room.new.help.manager">
         <source>room.new.help.manager</source>
-        <target state="needs-translation">Sie sind als Vertreter/in eingetragen. Wählen Sie aus, ob Sie die Konferenz für Sie oder den Vertretenen erstellen wollen.</target>
+        <target state="translated">Está registrado como representante. Seleccione si desea crear la conferencia para usted o para la persona a la que representa.</target>
       </trans-unit>
       <trans-unit id="cIcZdHn" resname="Private Konferenz">
         <source>Private Konferenz</source>
-        <target state="needs-translation">Private Konferenz</target>
+        <target state="translated">Conferencia privad</target>
       </trans-unit>
       <trans-unit id="q.hF5v3" resname="log.modal.header">
         <source>log.modal.header</source>
-        <target state="needs-translation">Änderungshistorie</target>
+        <target state="translated">Historial de modificaciones</target>
       </trans-unit>
       <trans-unit id="dCyRSCY" resname="log.new.object">
         <source>log.new.object</source>
-        <target state="needs-translation">Nach der Änderung</target>
+        <target state="translated">Tras la modificación</target>
       </trans-unit>
       <trans-unit id="uMFePQL" resname="log.old.object">
         <source>log.old.object</source>
-        <target state="needs-translation">Vor der Änderung</target>
+        <target state="translated">Antes de la modificación</target>
       </trans-unit>
       <trans-unit id="Y3a7ITS" resname="room.creator.text">
         <source>room.creator.text</source>
-        <target state="needs-translation">Erstellt von</target>
+        <target state="translated">Creado por</target>
       </trans-unit>
       <trans-unit id="H47wSvb" resname="custom.more">
         <source>custom.more</source>
-        <target state="needs-translation">Mehr</target>
+        <target state="translated">Más</target>
       </trans-unit>
       <trans-unit id="6K54T3J" resname="room.new.help.name">
         <source>room.new.help.name</source>
