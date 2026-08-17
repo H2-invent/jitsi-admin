@@ -1,13 +1,10 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
-## 1.6
-* Removed matomo dependency
-* Centered footer
-
 
 ## 1.5
 ### 🚀 Features:
 ### 🐛 Bug Fixes:
 * Fix duplicate recording API calls
+* Centered footer
 
 ### ⭐ Improvements:
 * Add lobby moderator permission flag to the JWT
