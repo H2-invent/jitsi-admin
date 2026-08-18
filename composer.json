@@ -94,8 +94,6 @@
     "brianium/paratest": "^7.20",
     "dama/doctrine-test-bundle": "^v8.0-dev",
     "doctrine/doctrine-fixtures-bundle": "^4.3",
-    "pestphp/pest": "^4.0",
-    "pestphp/pest-plugin-browser": "^4.0",
     "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^12.0",
     "rector/rector": "^2.0",
@@ -117,10 +115,7 @@
     "allow-plugins": {
       "symfony/flex": true,
       "symfony/runtime": true,
-      "php-http/discovery": true,
-      "pestphp/pest-plugin": true,
-      "pestphp/pest-plugin-mutate": true,
-      "pestphp/pest-plugin-browser": true
+      "php-http/discovery": true
     },
     "policy": {
     }
@@ -178,7 +173,6 @@
       "@test-prepare",
       "php vendor/bin/phpunit --testsuite=Development"
     ],
-    "test-browser": "php vendor/bin/pest tests/Browser",
     "test-repeater": [
       "@test-prepare",
       " php vendor/bin/phpunit --testsuite=onlyRepeater"

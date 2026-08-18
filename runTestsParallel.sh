@@ -4,7 +4,7 @@ set -e
 FORCE=false
 PROCESSES=8
 TESTSUITE="Development"
-VALID_TESTSUITES=("onlyRepeater" "Complete" "Development" "Browser")
+VALID_TESTSUITES=("onlyRepeater" "Complete" "Development")
 
 usage() {
     echo "Usage: $0 [-f] [-p <2-16>] [-t <name>]"

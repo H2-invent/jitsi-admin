@@ -26,9 +26,6 @@
             <directory>tests</directory>
             <exclude>tests/LDAP/</exclude>
         </testsuite>
-        <testsuite name="Browser">
-            <directory>testsBrowser</directory>
-        </testsuite>
     </testsuites>
 
     <source>

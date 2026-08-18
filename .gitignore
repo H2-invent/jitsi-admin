@@ -13,12 +13,6 @@
 .phpunit.result.cache
 ###< symfony/phpunit-bridge ###
 
-###> pest ###
-/testsBrowser/Screenshots/
-/pest.xml
-/.pest/
-###< pest ###
-
 *.Halite.key*
 *.idea/*
 */public/uploads/*

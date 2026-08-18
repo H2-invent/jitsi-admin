@@ -1,6 +1,0 @@
-#!/bin/bash
-## Description: Run Pest browser tests
-## Usage: ddev browser-test [pest args]
-## Example: ddev browser-test testsBrowser/HomepageTest.php
-
-vendor/bin/pest ${@:-testsBrowser}

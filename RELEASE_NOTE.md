@@ -1,9 +1,6 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
 
 ## 1.6
-### 🚀 Features:
-* Initial version of Pest-based browser tests
- 
 ### ⭐ Improvements:
 * Upgrade to Symfony 7.4
 
