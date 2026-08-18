@@ -1,4 +1,5 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
+
 ## 1.4
 
 ### Features:
@@ -9,9 +10,8 @@
 * Header shows Theme text
 * theme page is vissible
 * Fix button layout/rendering in all lobby instances
+* Centered footer (1.4.6)
 
-
-# Features, Improvements, and Bug Fixes in Jitsi Admin
 ## 1.3
 
 ### Features:
