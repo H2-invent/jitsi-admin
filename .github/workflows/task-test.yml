@@ -44,9 +44,6 @@ jobs:
           tools: composer:v2
 
       - name: Run php test
-        run: |
-          php bin/console doctrine:migrations:migrate -n --env=test
-          php bin/console doctrine:fixtures:load -n --env=test
-          php vendor/bin/phpunit --testsuite=Development
+        run: composer test
       # endregion phpunit
       # endregion test
