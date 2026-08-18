@@ -39,8 +39,6 @@ class NewRoomService
 
     public function newRoomService(Request $request, User $myUser): Rooms|Response
     {
-
-
         $servers = $this->serverUserManagment->getServersFromUser($myUser);
 
         $id = $request->get('id') ?? null;
@@ -83,11 +81,6 @@ class NewRoomService
             $tmp = $this->serverRepository->find($request->get('serverfake'));
             if ($tmp) {
                 $room->setServer($tmp);
-                //if ($tmp->getTag()->count() > 0) {
-                    //$room->setTag($tmp->getTag()->first());
-                //} else {
-                    //$room->setTag(null);
-                //}
             }
         }
         return $room;
