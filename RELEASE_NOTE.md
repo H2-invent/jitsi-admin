@@ -1,15 +1,5 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
 
-## 1.5
-### 🚀 Features:
-### 🐛 Bug Fixes:
-* Fix duplicate recording API calls
-* Centered footer
-
-### ⭐ Improvements:
-* Add lobby moderator permission flag to the JWT
-* Redesigned homepage
-
 ## 1.4
 
 ### Features:
@@ -20,6 +10,7 @@
 * Header shows Theme text
 * theme page is vissible
 * Fix button layout/rendering in all lobby instances
+* Centered footer (1.4.6)
 
 ## 1.3
 
