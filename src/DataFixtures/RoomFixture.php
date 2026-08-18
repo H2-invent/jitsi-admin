@@ -39,7 +39,7 @@ class RoomFixture extends Fixture
         $user->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
         $user->setUsername('test@local.de');
         $user->setCreatedAt(new \DateTime());
-        $user->setIndexer('test@local.de test@local.de test user test1 1234 0123456789');
+        $user->setIndexer('test@local.de test@local.de test user 1234 test1 0123456789');
         $manager->persist($user);
 
 
@@ -56,7 +56,7 @@ class RoomFixture extends Fixture
         $user2->setUid('kljlsdkjflkjddfgslfjsdlkjsdflkj');
         $user2->setUsername('test2@local.de');
         $user2->setCreatedAt(new \DateTime());
-        $user2->setIndexer('test@local2.de test@local2.de test2 user2 test2 1234 9876543210');
+        $user2->setIndexer('test@local2.de test@local2.de test2 user2 1234 test2 9876543210');
         $manager->persist($user2);
 
 
@@ -73,7 +73,7 @@ class RoomFixture extends Fixture
         $userLDAP->setUid('kljlsdkjflkjxcvvxcxcvddfgslfjsdlkjsdflkj');
         $userLDAP->setUsername('ldapUser@local.de');
         $userLDAP->setCreatedAt(new \DateTime());
-        $userLDAP->setIndexer('ldapuser@local.de ldapuser@local.de ldapuser ldap aa 45689 987654321012');
+        $userLDAP->setIndexer('ldapuser@local.de ldapuser@local.de ldapuser ldap 45689 aa 987654321012');
         $manager->persist($userLDAP);
         $ldapUserProperty = new LdapUserProperties();
         $ldapUserProperty->setUser($userLDAP);
@@ -118,7 +118,7 @@ class RoomFixture extends Fixture
         $user5->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
         $user5->setUsername('test@australia.de');
         $user5->setCreatedAt(new \DateTime());
-        $user5->setIndexer('test@australia.de test@australia.de test user test1 1234 0123456789');
+        $user5->setIndexer('test@australia.de test@australia.de test user 1234 test1 0123456789');
         $manager->persist($user5);
 
         $user6 = new \App\Entity\User();
@@ -133,7 +133,7 @@ class RoomFixture extends Fixture
         $user6->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
         $user6->setUsername('test@noTimeZone.de');
         $user6->setCreatedAt(new \DateTime());
-        $user6->setIndexer('test@noTimeZone.de test@noTimeZone.de test user test1 1234 0123456789');
+        $user6->setIndexer('test@noTimeZone.de test@noTimeZone.de test user 1234 test1 0123456789');
         $manager->persist($user6);
 
         $user->addAddressbook($user2);
