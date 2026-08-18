@@ -18,7 +18,7 @@ class CalendlyWebhookApiControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->callendlyConnectMock = $this->createMock(CallendlyConnect::class);
+        $this->callendlyConnectMock = $this->createStub(CallendlyConnect::class);
         $this->testuser=( self::getContainer()->get(UserRepository::class))->findOneBy(['email' => 'test@local.de']);
         self::getContainer()->set(CallendlyConnect::class, $this->callendlyConnectMock);
     }
