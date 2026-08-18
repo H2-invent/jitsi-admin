@@ -68,6 +68,7 @@ Encore
     .enableSassLoader((options) => {
         const path = require('path');
         const fs = require('fs');
+        const { pathToFileURL, fileURLToPath } = require('url');
 
         // sass-loader 13's built-in modern importer is only a stub (its
         // `canonicalize` always returns null), so we provide our own importer
@@ -106,6 +107,15 @@ Encore
 
         options.api = 'modern';
         options.sassOptions = Object.assign({}, options.sassOptions, {
+            // Encore sets the legacy key `outputStyle: 'expanded'` (see
+            // @symfony/webpack-encore/lib/loaders/sass.js); the modern API reads
+            // `style` and would otherwise take sass-loader's `compressed`
+            // production default, minifying before cssnano and turning
+            // `"\f00d"` escapes into raw UTF-8.
+            style: 'expanded',
+            // Replaces `sourceMapContents`, which Encore only gets from the
+            // legacy API; without it dev source maps lose the original SCSS.
+            sourceMapIncludeSources: true,
             // `@import` is deprecated (removed in Dart Sass 3.0), but the app
             // depends on its global scoping: `mbd.scss` chains dozens of
             // mdb-ui-kit/bootstrap partials that share variables/mixins
@@ -124,13 +134,13 @@ Encore
                     // so Sass falls through to its default resolution.
                     canonicalize(url) {
                         const resolved = resolveTilde(url);
-                        return resolved ? new URL('file://' + resolved) : null;
+                        return resolved ? pathToFileURL(resolved) : null;
                     },
                     // Read the resolved file and tell Sass which syntax to
                     // parse: indented for `.sass`, plain CSS for `.css`, and
                     // scss otherwise.
                     load(canonicalUrl) {
-                        const filePath = canonicalUrl.pathname;
+                        const filePath = fileURLToPath(canonicalUrl);
                         const ext = path.extname(filePath);
                         const syntax = ext === '.sass' ? 'indented' : ext === '.css' ? 'css' : 'scss';
                         return {
