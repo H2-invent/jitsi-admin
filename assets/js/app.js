@@ -21,7 +21,7 @@ import { Dropdown,Popover,Modal,Tooltip,Collapse, initMDB } from "mdb-ui-kit";
 
 import Swal from 'sweetalert2';
 
-import {trans, ADDRESSBOOKERRORTITLE, ADDRESSBOOKERRORDEFAULT, ADDRESSBOOKCONFIRMTITLE, ADDRESSBOOKCONFIRMTEXT, ADDRESSBOOKCONFIRMCANCEL} from '../translator.js';
+import {trans, ADDRESSBOOKERRORTITLE, ADDRESSBOOKERRORDEFAULT} from '../translator.js';
 
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
@@ -32,7 +32,7 @@ import {initScheduling} from './scheduling';
 import * as Toastr from 'toastr';
 import {initCopytoClipboard, initGenerell, initNewModal} from './init';
 import {initKeycloakGroups} from './keyCloakGroupsInit';
-import {initAddressGroupSearch, initListSearch} from './addressGroup';
+import {initAddressGroupSearch, initListSearch, reloadAddressBookPane} from './addressGroup';
 import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
@@ -334,63 +334,8 @@ $('#loadContentModal').on('submit', '#addressGroupForm', function (e) {
         });
 });
 
-// Capture-phase click handler for confirmHref links with data-ajax-url.
-// Fires before confirmation.js's initconfirmHref() handler (which does a full page redirect).
-// stopImmediatePropagation() prevents the legacy handler from running on Ajax-enabled links.
-// Links without data-ajax-url still fall through to the legacy handler.
-document.addEventListener('click', function (e) {
-    const trigger = e.target.closest('.confirmHref');
-    if (!trigger) return;
-
-    const ajaxUrl = trigger.dataset.ajaxUrl;
-    if (!ajaxUrl) return;
-
-    e.preventDefault();
-    e.stopImmediatePropagation();
-
-    const text = trigger.querySelector('i')?.dataset?.text || trigger.querySelector('i')?.getAttribute('data-text') || trans(ADDRESSBOOKCONFIRMTEXT, {}, 'ux_message');
-
-    Swal.fire({
-        title: trans(ADDRESSBOOKCONFIRMTITLE, {}, 'ux_message'),
-        text: text,
-        icon: 'question',
-        backdrop: false,
-        showCancelButton: true,
-        cancelButtonText: trans(ADDRESSBOOKCONFIRMCANCEL, {}, 'ux_message'),
-        heightAuto: false,
-        customClass: {
-            confirmButton: 'btn-danger btn',
-            cancelButton: 'btn-outline-primary btn'
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            fetch(ajaxUrl, { method: 'POST' })
-                .then(() => {
-                    // Address book entries (favorite/deputy/delete) → reload full address book pane.
-                    // Group delete → reload the groups tab only.
-                    if (ajaxUrl.includes('adressbook') || ajaxUrl.includes('app_deputy_add_ajax') || ajaxUrl.includes('app_adressbook_favorite_ajax')) {
-                        reloadAddressBookPane();
-                    } else {
-                        fetch(ajaxUrl, { method: 'POST' })
-                            .then(response => response.text())
-                            .then(html => {
-                                const container = document.getElementById('addressbookContent');
-                                if (container) {
-                                    const profilePane = container.querySelector('#profile');
-                                    if (profilePane) {
-                                        profilePane.innerHTML = html;
-                                    }
-                                }
-                                initMDB({ Popover });
-                            });
-                    }
-                });
-        }
-    });
-}, true);
-
 // Inline Ajax handler for non-confirmation address book actions (favorite toggle, deputy toggle).
-// These links have data-ajax-url but are NOT .confirmHref (handled separately above).
+// These links have data-ajax-url but are NOT .confirmHref (handled by confirmation.js).
 // After the Ajax POST completes, the entire address book pane is reloaded from the server
 // because the action may change ordering, favorite status, or deputy status across multiple entries.
 document.addEventListener('click', function (e) {
@@ -414,50 +359,3 @@ document.addEventListener('click', function (e) {
             .finally(() => {});
     }
 });
-
-// Reloads the address book tab pane (#home) with fresh server-rendered HTML.
-//
-// The address book pane is replaced wholesale because actions like favorite/deputy toggle
-// or contact deletion can affect the ordering, grouping, and cross-entry relationships
-// (favorites section, deputy badges, contact grouping by first letter).
-//
-// Before DOM replacement, all existing MDB component instances (Dropdown, Popover, Tooltip)
-// are explicitly disposed. This is critical: without disposal, orphaned MDB instances hold
-// references to DOM nodes that no longer exist, causing downstream interactions
-// (e.g., clicking the filter dropdown icon) to hang for several seconds while MDB's
-// internal state tries to reconcile stale references.
-//
-// After replacement, each component type is explicitly re-initialized via getOrCreateInstance()
-// scoped to the new content. Using initMDB() alone is insufficient: MDB only performs global
-// component initialization once per page load, so dynamically inserted elements with
-// data-mdb-* attributes would remain uninitialized.
-function reloadAddressBookPane() {
-    fetch('/room/dashboard/adressbook-fragment')
-        .then(response => response.text())
-        .then(html => {
-            const currentHome = document.getElementById('home');
-            if (currentHome) {
-                currentHome.querySelectorAll('[data-mdb-dropdown-init]').forEach(el => {
-                    Dropdown.getInstance(el)?.dispose();
-                });
-                currentHome.querySelectorAll('[data-mdb-popover-init]').forEach(el => {
-                    Popover.getInstance(el)?.dispose();
-                });
-                currentHome.querySelectorAll('[data-mdb-tooltip-init]').forEach(el => {
-                    Tooltip.getInstance(el)?.dispose();
-                });
-
-                currentHome.innerHTML = html;
-                initListSearch();
-                currentHome.querySelectorAll('[data-mdb-dropdown-init]').forEach(element => {
-                    Dropdown.getOrCreateInstance(element);
-                });
-                currentHome.querySelectorAll('[data-mdb-popover-init]').forEach(element => {
-                    Popover.getOrCreateInstance(element);
-                });
-                currentHome.querySelectorAll('[data-mdb-tooltip-init]').forEach(element => {
-                    Tooltip.getOrCreateInstance(element);
-                });
-            }
-        });
-}

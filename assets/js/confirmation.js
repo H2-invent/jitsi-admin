@@ -3,6 +3,8 @@ import {initSearchUser} from './searchUser'
 import {Popover, Tooltip, Collapse, Dropdown, Input, initMDB} from "mdb-ui-kit";
 import {createIframe} from "./createConference";
 import {setSnackbar} from "./myToastr";
+import {trans, ADDRESSBOOKERRORTITLE, ADDRESSBOOKCONFIRMTITLE, ADDRESSBOOKCONFIRMTEXT, ADDRESSBOOKCONFIRMCANCEL} from '../translator.js';
+import {reloadAddressBookPane} from './addressGroup';
 
 var title = "Bestätigung";
 var cancel = "Abbrechen";
@@ -91,30 +93,84 @@ function initconfirmHref() {
     document.addEventListener('click', function (e) {
         const triggerElement = e.target.closest('.confirmHref');
 
-        if (triggerElement) {
-            e.preventDefault();
-            const url = triggerElement.href;
-            const text = triggerElement.dataset.text || 'Wollen Sie die Aktion durchführen?';
-
-            Swal.fire({
-                title: title,
-                text: text,
-                icon: 'question',
-                backdrop: false,
-                showCancelButton: true,
-                cancelButtonText: cancel,
-                heightAuto: false,
-                customClass: {
-                    confirmButton: 'btn-danger btn',
-                    cancelButton: 'btn-outline-primary btn'
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = url;
-                }
-            });
+        if (!triggerElement) {
+            return;
         }
+
+        e.preventDefault();
+
+        const url = triggerElement.href;
+        const ajaxUrl = triggerElement.dataset.ajaxUrl;
+
+        // The confirm text can live on the link itself (data-text) or, for some
+        // address book actions, on an inner icon.
+        const text = triggerElement.dataset.text
+            || triggerElement.querySelector('i')?.dataset?.text
+            || (ajaxUrl ? trans(ADDRESSBOOKCONFIRMTEXT, {}, 'ux_message') : 'Wollen Sie die Aktion durchführen?');
+
+        Swal.fire({
+            title: ajaxUrl ? trans(ADDRESSBOOKCONFIRMTITLE, {}, 'ux_message') : title,
+            text: text,
+            icon: 'question',
+            backdrop: false,
+            showCancelButton: true,
+            cancelButtonText: ajaxUrl ? trans(ADDRESSBOOKCONFIRMCANCEL, {}, 'ux_message') : cancel,
+            heightAuto: false,
+            customClass: {
+                confirmButton: 'btn-danger btn',
+                cancelButton: 'btn-outline-primary btn'
+            }
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                return;
+            }
+
+            if (ajaxUrl) {
+                confirmHrefAjax(ajaxUrl);
+            } else {
+                window.location.href = url;
+            }
+        });
     });
+}
+
+// Executes the confirmed AJAX action for a .confirmHref link carrying data-ajax-url.
+// The response type decides the follow-up: JSON (e.g. remove contact) triggers a reload
+// of the address book pane, HTML (e.g. remove group) replaces the groups tab content.
+function confirmHrefAjax(ajaxUrl) {
+    fetch(ajaxUrl, { method: 'POST' })
+        .then(response => {
+            const contentType = response.headers.get('content-type') || '';
+            if (contentType.includes('application/json')) {
+                return response.json().then(data => ({ json: data }));
+            }
+            return response.text().then(html => ({ html }));
+        })
+        .then(result => {
+            if (result.json) {
+                if (result.json.error) {
+                    Swal.fire({
+                        title: trans(ADDRESSBOOKERRORTITLE, {}, 'ux_message'),
+                        text: result.json.error,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#3085d6',
+                    });
+                } else {
+                    reloadAddressBookPane();
+                }
+            } else if (result.html) {
+                const container = document.getElementById('addressbookContent');
+                if (container) {
+                    const profilePane = container.querySelector('#profile');
+                    if (profilePane) {
+                        profilePane.innerHTML = result.html;
+                    }
+                }
+                initMDB({ Popover });
+            }
+        })
+        .catch(() => {});
 }
 
 function initconfirmLoadOpenPopUp() {
