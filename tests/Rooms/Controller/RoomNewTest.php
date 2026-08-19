@@ -2,12 +2,17 @@
 
 namespace App\Tests\Rooms\Controller;
 
+use App\Entity\Rooms;
+use App\Entity\RoomStatus;
+use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
 use App\Entity\Tag;
 use App\Repository\RoomsRepository;
+use App\Repository\ServerRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -414,5 +419,123 @@ class RoomNewTest extends WebTestCase
         );
         self::assertEquals('198273987321', $room->getName());
         self::assertEquals('this is an agenda for this meeting', $room->getAgenda());
+    }
+
+    private function createRoomWithStatus(): Rooms
+    {
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $serverRepository = static::getContainer()->get(ServerRepository::class);
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $server = $serverRepository->findOneBy(['url' => 'meet.jit.si2']);
+
+        $room = new Rooms();
+        $room->setName('ServerLockTestRoom')
+            ->setServer($server)
+            ->setModerator($testUser)
+            ->setCreator($testUser)
+            ->addUser($testUser)
+            ->setUid(uniqid())
+            ->setUidReal(uniqid())
+            ->setUidModerator(md5(uniqid()))
+            ->setUidParticipant(md5(uniqid()))
+            ->setSequence(0)
+            ->setDuration(60)
+            ->setStart(new \DateTime())
+            ->setEnddate((new \DateTime())->modify('+60min'))
+            ->setScheduleMeeting(false)
+            ->setTimeZone('Europe/Berlin')
+            ->setSlug('test');
+        $em->persist($room);
+        $em->flush();
+
+        $status = new RoomStatus();
+        $status->setRoom($room)
+            ->setCreatedAt(new \DateTime())
+            ->setJitsiRoomId('test-running-room')
+            ->setCreated(true)
+            ->setRoomCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $em->persist($status);
+        $em->flush();
+
+        $participant = new RoomStatusParticipant();
+        $participant->setRoomStatus($status)
+            ->setParticipantId('participant-1')
+            ->setParticipantName('Participant One')
+            ->setEnteredRoomAt(new \DateTime())
+            ->setInRoom(true);
+        $em->persist($participant);
+        $em->flush();
+
+        return $room;
+    }
+
+    public function testEditServerNotDisabledWithoutParticipants(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
+
+        $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+        $crawler = $client->request('GET', $urlGenerator->generate('room_new', ['id' => $room->getId()]));
+        self::assertResponseIsSuccessful();
+
+        $serverNode = $crawler->filter('.fakeserver')->first();
+        self::assertCount(1, $serverNode);
+        self::assertNull($serverNode->attr('disabled'));
+    }
+
+    public function testEditServerDisabledWithParticipants(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $room = $this->createRoomWithStatus();
+
+        $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+        $crawler = $client->request('GET', $urlGenerator->generate('room_new', ['id' => $room->getId()]));
+        self::assertResponseIsSuccessful();
+
+        $serverNode = $crawler->filter('.fakeserver')->first();
+        self::assertCount(1, $serverNode);
+        self::assertEquals('disabled', $serverNode->attr('disabled'));
+    }
+
+    public function testEditServerChangeBlockedWhenParticipantsInRoom(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $room = $this->createRoomWithStatus();
+        $originalServer = $room->getServer();
+
+        $serverRepo = static::getContainer()->get(ServerRepository::class);
+        $otherServer = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
+        self::assertNotNull($otherServer);
+        self::assertNotEquals($originalServer->getId(), $otherServer->getId());
+
+        $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+        $url = $urlGenerator->generate('room_new', ['id' => $room->getId()]);
+
+        $crawler = $client->request('GET', $url);
+        self::assertResponseIsSuccessful();
+        $form = $crawler->selectButton('Speichern')->form();
+
+        $values = $form->getPhpValues();
+        $values['room']['server'] = (string) $otherServer->getId();
+
+        $client->request('POST', $url, $values);
+
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $roomAfter = $roomRepo->find($room->getId());
+        self::assertEquals($originalServer->getId(), $roomAfter->getServer()->getId());
     }
 }
