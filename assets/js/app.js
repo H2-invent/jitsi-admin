@@ -232,16 +232,15 @@ $('.sidebarToggle').click(function () {
 
 })
 
-// Capture-phase submit handler for #newContactForm.
-// Using capture phase (third arg `true`) so this fires before jQuery event handlers,
-// preventing initNewModal's generic $('form').submit() spinner handler from also running.
-// stopImmediatePropagation() ensures no other submit handlers fire on this event.
-document.addEventListener('submit', function (e) {
-    const form = e.target.closest('#newContactForm');
-    if (!form) return;
-
+// Ajax submit handler for #newContactForm.
+// Delegated on #loadContentModal (where the form is rendered) instead of a
+// document-level capture listener, so it only runs for submits of this form and
+// keeps working with dynamically injected modal content. initNewModal's generic
+// $('form').submit() skips forms marked with data-ajax-url, so no duplicate spinner
+// occurs and capture-phase stopImmediatePropagation() is no longer needed.
+$('#loadContentModal').on('submit', '#newContactForm', function (e) {
     e.preventDefault();
-    e.stopImmediatePropagation();
+    const form = this;
 
     const $btn = $(form).find('button[type=submit]');
     const originalHtml = $btn.html();
@@ -277,19 +276,14 @@ document.addEventListener('submit', function (e) {
             $btn.html(originalHtml);
             $btn.prop('disabled', false);
         });
-}, true);
+});
 
-// Capture-phase submit handler for #addressGroupForm.
-// Same pattern as #newContactForm above: capture phase + stopImmediatePropagation
-// prevents initNewModal's $('form').submit() from duplicating the spinner.
-// Response can be JSON (error) or HTML (rendered groups list fragment);
-// Content-Type header is checked to determine the response type.
-document.addEventListener('submit', function (e) {
-    const form = e.target.closest('#addressGroupForm');
-    if (!form) return;
-
+// Ajax submit handler for #addressGroupForm.
+// Same delegated pattern as #newContactForm. Response can be JSON (error) or HTML
+// (rendered groups list fragment); Content-Type header determines the response type.
+$('#loadContentModal').on('submit', '#addressGroupForm', function (e) {
     e.preventDefault();
-    e.stopImmediatePropagation();
+    const form = this;
 
     const $btn = $(form).find('button[type=submit]');
     const originalText = $btn.text();
@@ -338,7 +332,7 @@ document.addEventListener('submit', function (e) {
             $btn.html(originalText);
             $btn.prop('disabled', false);
         });
-}, true);
+});
 
 // Capture-phase click handler for confirmHref links with data-ajax-url.
 // Fires before confirmation.js's initconfirmHref() handler (which does a full page redirect).
