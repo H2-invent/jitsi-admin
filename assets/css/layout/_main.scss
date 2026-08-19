@@ -1502,7 +1502,7 @@ a:hover {
   .proTips {
     pointer-events: auto;
     display: none;
-    opacity: 0;
+    visibility: hidden;
     box-shadow: $card-box-shadow !important;
     z-index: 9;
     @media only screen and (min-width: $breakpointMenue) {
@@ -1524,6 +1524,19 @@ a:hover {
 
     .first-line {
       transition: all ease-in 0.2s;
+    }
+
+    // Applied on load to collapse the bubble without flashing open/closed.
+    // Disables the transition so the initial translateY does not animate,
+    // and reveals the bubble once its collapsed position has been applied.
+    &.proTips-collapsed {
+      transition: none;
+    }
+
+    // Set once the collapsed position has been applied, keeps the bubble
+    // visible and restores the hover transition.
+    &.proTips-initialized {
+      visibility: visible;
     }
 
     &:hover {

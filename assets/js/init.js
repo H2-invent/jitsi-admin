@@ -291,15 +291,15 @@ function initProtip() {
         var totalHeight = proTip.offsetHeight;
         var firstLineHeight = proTip.querySelector('.first-line').clientHeight;
         var visiblePart = firstLineHeight + 13 + 10; // padding-top + padding-bottom
-        // Disable the transition while collapsing so the bubble does not
-        // flash expanded before sliding up.
-        proTip.style.transition = 'none';
+        // Disable the transition while collapsing and reveal the bubble so it
+        // appears already minimized without flashing open/closed.
+        proTip.classList.add('proTips-collapsed');
         proTip.style.transform = 'translateY(' + (totalHeight - visiblePart) + 'px)';
-        proTip.style.opacity = '1';
         // Re-enable the transition on the next frame so the hover animation works.
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-                proTip.style.transition = '';
+                proTip.classList.remove('proTips-collapsed');
+                proTip.classList.add('proTips-initialized');
             });
         });
     }
