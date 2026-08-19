@@ -152,8 +152,15 @@ $('#modalAdressbook').on('shown.bs.modal', function (e) {
     initalSetUnderline('#modalAdressbook .underline');
 });
 
-// Use escape key to close top-level modal, if no modal is open, do nothing
-document.addEventListener('keydown', function (e) {
+// Close the topmost modal on Escape when multiple modals are stacked.
+// The keydown listener is attached only while at least one modal is open (tracked
+// via shown/hidden events), so it adds no per-keystroke overhead when no modal is
+// open. A capture-phase listener is used so it can intercept the keydown before it
+// reaches MDB's per-modal handler, and stopImmediatePropagation() prevents an
+// underlying modal (e.g. the address book slide-in) from also closing.
+let openModalCount = 0;
+
+const closeTopModalOnEscape = (e) => {
     if (e.key !== 'Escape') return;
 
     const visibleModals = [...document.querySelectorAll('.modal.show')];
@@ -164,7 +171,20 @@ document.addEventListener('keydown', function (e) {
         e.stopImmediatePropagation();
         Modal.getInstance(topModal)?.hide();
     }
-}, true);
+};
+
+document.addEventListener('shown.bs.modal', () => {
+    if (++openModalCount === 1) {
+        document.addEventListener('keydown', closeTopModalOnEscape, true);
+    }
+});
+
+document.addEventListener('hidden.bs.modal', () => {
+    if (--openModalCount <= 0) {
+        openModalCount = 0;
+        document.removeEventListener('keydown', closeTopModalOnEscape, true);
+    }
+});
 
 
 
