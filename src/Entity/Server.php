@@ -168,8 +168,8 @@ class Server
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $apiKeyTranscription = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $enableTranscription = null;
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $enableTranscription = false;
 
     #[ORM\Column(nullable: true, enumType: TranscriptionProvider::class)]
     private ?TranscriptionProvider $transcription_provider = null;
