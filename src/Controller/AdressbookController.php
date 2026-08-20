@@ -80,7 +80,7 @@ class AdressbookController extends JitsiAdminController
         }
 
         $contact = $this->doctrine->getRepository(User::class)->findOneBy(['email' => $email]);
-        if (!$contact && $this->parameterBag->get('strict_allow_user_creation') == 1) {
+        if (!$contact && $this->userCreatorService->doAllowUserCreation()) {
             $contact = $this->userCreatorService->createUser($email, $email, '', '');
         }
 

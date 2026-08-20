@@ -7,7 +7,6 @@ use App\Entity\MyUser;
 use App\Entity\User;
 use App\Service\CreateHttpsUrl;
 use App\Service\IndexUserService;
-use App\Service\Theme\ThemeService;
 use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -39,14 +38,12 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     private $router;
     private $tokenStorage;
     private $userManager;
-    private $paramterBag;
+    private $parameterBag;
     private $userCreatorService;
     private $indexer;
     private $logger;
-    private ThemeService $themeService;
 
     public function __construct(
-        ThemeService                  $themeService,
         LoggerInterface               $logger,
         IndexUserService              $indexUserService,
         UserCreatorService            $userCreatorService,
@@ -63,11 +60,10 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
         $this->em = $em;
         $this->router = $router;
         $this->tokenStorage = $tokenStorage;
-        $this->paramterBag = $parameterBag;
+        $this->parameterBag = $parameterBag;
         $this->userCreatorService = $userCreatorService;
         $this->indexer = $indexUserService;
         $this->logger = $logger;
-        $this->themeService = $themeService;
     }
 
     public function supports(Request $request): bool
@@ -159,7 +155,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
                     }
 
                     // the user never logged in with this email adress neither keycloak
-                    if ($this->paramterBag->get('strict_allow_user_creation') == 1) {
+                    if ($this->userCreatorService->doAllowUserCreation()) {
                         // if the creation of a user is allowed from the security policies
                         if (!$username) {
                             $username = $email;
