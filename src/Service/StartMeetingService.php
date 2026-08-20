@@ -120,7 +120,7 @@ class StartMeetingService
         $this->jigasiService->pingJigasi($room);
         if ($room && (in_array($user, $room->getUser()->toarray())|| $this->room->getModerator() === $user)) {
             $this->url = $this->roomService->join($room, $user, $t, $name);
-            if (!$this->checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
+            if (!$this->isAllowedToStartMeeting($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
                 $this->logger->debug('This room is closed by time restrictions');
                 return $this->RoomClosed();
             }
@@ -137,7 +137,7 @@ class StartMeetingService
 
     public function isAllowedToEnter(Rooms $room, User $user): ?string
     {
-        if (!$this->checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
+        if (!$this->isAllowedToStartMeeting($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
             return $this->buildClosedString($room);
         }
         return null;
@@ -283,7 +283,7 @@ class StartMeetingService
         return new NotFoundHttpException('Room not found');
     }
 
-    public function checkTime(Rooms $room, ?User $user = null): bool
+    public function isAllowedToStartMeeting(Rooms $room, ?User $user = null): bool
     {
         if ($room->getPersistantRoom()) {
             return true;
@@ -295,8 +295,7 @@ class StartMeetingService
             return true;
         }
 
-        $usersInRoom = $this->participantRepository->findOccupantsOfRoom($room);
-        if (count($usersInRoom) > 0) {
+        if ($this->participantRepository->countOccupantsOfRoom($room) > 0) {
             return true;
         }
 

@@ -45,16 +45,16 @@ class OwnRoomController extends JitsiAdminController
     public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator, StartMeetingService $startMeetingService): Response
     {
         $session = $request->getSession();
-        $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $uid, 'totalOpenRooms' => true]);
-        if (!$rooms) {
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $uid, 'totalOpenRooms' => true]);
+        if (!$room) {
             $this->addFlash('danger', $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
             return $this->redirectToRoute('join_index_no_slug');
         }
 
-        if (!$this->startMeetingService->checkTime($rooms)) {
-            $startPrint = $rooms->getTimeZone() ? clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getStart();
+        if (!$this->startMeetingService->isAllowedToStartMeeting($room)) {
+            $startPrint = $room->getTimeZone() ? clone ($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getStart();
             $startPrint->modify('-30min');
-            $endPrint = $rooms->getTimeZone() ? $rooms->getEndDateUtc()->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getEnddate();
+            $endPrint = $room->getTimeZone() ? $room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getEnddate();
             $snack = $translator->trans(
                 'Der Beitritt ist nur von {from} bis {to} möglich',
                 [
@@ -72,12 +72,12 @@ class OwnRoomController extends JitsiAdminController
 
             if ($session->get('login_attempted')) {// second try
                 $session->remove('login_attempted'); // Zurücksetzen
-                $response = $this->redirectToRoute('own_room_startPage',['uid' => $rooms->getUid()]);
+                $response = $this->redirectToRoute('own_room_startPage',['uid' => $room->getUid()]);
                 $response->headers->clearCookie('is_loggedIn_user');
                 return  $response;
             }
             $session->set('login_attempted', true);
-           return $this->redirectToRoute('own_room_startPage_protected',['uid' => $rooms->getUid()]);
+           return $this->redirectToRoute('own_room_startPage_protected',['uid' => $room->getUid()]);
         }
         if ($this->getUser()) {
             $session->remove('login_attempted'); // Zurücksetzen
@@ -92,7 +92,7 @@ class OwnRoomController extends JitsiAdminController
         }
 
         $isModerator = false;
-        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             $isModerator = true;
         }
 
@@ -114,15 +114,15 @@ class OwnRoomController extends JitsiAdminController
             } elseif ($form->has('joinBrowser') && $form->get('joinBrowser')->isClicked()) {
                 $type = 'b';
             }
-            $startMeetingService->setAttribute($rooms, $this->getUser(), $type, $name);
+            $startMeetingService->setAttribute($room, $this->getUser(), $type, $name);
 
-            $url = $roomService->joinUrl($type, $rooms, $name, $isModerator);
+            $url = $roomService->joinUrl($type, $room, $name, $isModerator);
             //der Raum ist als dauerhaft markiert
-            if (!$rooms->getPersistantRoom()) {
+            if (!$room->getPersistantRoom()) {
                 //Die Lobby ist aktiviert und der Teilnehmer wird direkt in die Lobby überführt.
                 // Der teilnehmer muss in der Lobby von einem Lobbymoderator in die Konferenz überführt werden
-                if ($rooms->getLobby()) {
-                    if ($this->getUser() && UtilsHelper::isAllowedToOrganizeLobby($this->getUser(), $rooms)) {
+                if ($room->getLobby()) {
+                    if ($this->getUser() && UtilsHelper::isAllowedToOrganizeLobby($this->getUser(), $room)) {
                         $res = $startMeetingService->createLobbyModeratorResponse();
                     } else {
                         $wui = null;
@@ -133,16 +133,16 @@ class OwnRoomController extends JitsiAdminController
                         $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTime())->modify('+6 hours')));
                     }
                 } else {
-                    if ($this->getUser() === $rooms->getModerator()) {
+                    if ($this->getUser() === $room->getModerator()) {
                         $res = $startMeetingService->roomDefault();
                     } else {
-                        $res = $this->redirectToRoute('room_waiting', ['name' => $name, 'uid' => $rooms->getUid(), 'type' => $type]);
+                        $res = $this->redirectToRoute('room_waiting', ['name' => $name, 'uid' => $room->getUid(), 'type' => $type]);
                     }
                 }
             } else {
                 //Der Raum hat die Lobby aktiviert
-                if ($rooms->getLobby()) {
-                    if ($this->getUser() && UtilsHelper::isAllowedToOrganizeLobby($this->getUser(), $rooms)) {
+                if ($room->getLobby()) {
+                    if ($this->getUser() && UtilsHelper::isAllowedToOrganizeLobby($this->getUser(), $room)) {
                         $res = $startMeetingService->createLobbyModeratorResponse();
                     } else {
                         $wui = null;
@@ -166,8 +166,8 @@ class OwnRoomController extends JitsiAdminController
         return $this->render(
             'own_room/index.html.twig',
             [
-                'room' => $rooms,
-                'server' => $rooms->getServer(),
+                'room' => $room,
+                'server' => $room->getServer(),
                 'form' => $form->createView()
             ]
         );

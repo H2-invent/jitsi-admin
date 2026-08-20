@@ -167,7 +167,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRuningRooms(User $user)
+    public function findRunningRooms(User $user)
     {
         $now = new \DateTime('now', TimeZoneService::getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));

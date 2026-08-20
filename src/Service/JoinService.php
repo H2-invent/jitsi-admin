@@ -72,7 +72,7 @@ class JoinService
         }
 
         if (
-            $this->startService->checkTime($room, $user)
+            $this->startService->isAllowedToStartMeeting($room, $user)
             || UtilsHelper::isAllowedToOrganizeRoom($user, $room)
             || $user->getKeycloakId()
         ) {
