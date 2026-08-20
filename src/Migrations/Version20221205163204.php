@@ -19,7 +19,7 @@ final class Version20221205163204 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE log ADD user_id INT DEFAULT NULL');
             $this->addSql('ALTER TABLE log ADD CONSTRAINT FK_8F3F68C5A76ED395 FOREIGN KEY (user_id) REFERENCES fos_user (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -29,7 +29,7 @@ final class Version20221205163204 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('CREATE SCHEMA public');
             $this->addSql('ALTER TABLE log DROP CONSTRAINT FK_8F3F68C5A76ED395');

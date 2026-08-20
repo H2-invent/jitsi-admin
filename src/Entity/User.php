@@ -59,7 +59,7 @@ class User extends BaseUser
     private $roomsAttributes;
     #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'user')]
     private $subscribers;
-    #[ORM\Column(type: 'array', nullable: true, name: 'keycloakGroup')]
+    #[ORM\Column(type: 'json', nullable: true, name: 'keycloakGroup')]
     private $groups = [];
     #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'user')]
     private $schedulingTimeUsers;
@@ -85,7 +85,7 @@ class User extends BaseUser
     private $ldapUserProperties;
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $timeZone;
-    #[ORM\Column(type: 'array', nullable: true)]
+    #[ORM\Column(type: 'json', nullable: true)]
     private $spezialProperties = [];
     #[ORM\ManyToMany(targetEntity: Rooms::class, inversedBy: 'favoriteUsers')]
     private $favorites;
@@ -131,7 +131,6 @@ class User extends BaseUser
     private Collection $AdressbookFavorites;
 
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'AdressbookFavorites')]
-    #[ORM\JoinTable(name: 'addressbook_favorites')]
     private Collection $isAdressbookFavoriteFrom;
 
     #[ORM\OneToMany(mappedBy: 'createdFrom', targetEntity: SchedulingTime::class)]

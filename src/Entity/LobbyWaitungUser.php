@@ -28,7 +28,6 @@ class LobbyWaitungUser
     #[ORM\Column(type: 'text')]
     private $showName;
     #[ORM\OneToOne(targetEntity: CallerSession::class, mappedBy: 'lobbyWaitingUser', cascade: ['persist'])]
-    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private $callerSession;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $closeBrowser;
@@ -103,14 +102,22 @@ class LobbyWaitungUser
     {
         return $this->callerSession;
     }
-    public function setCallerSession(CallerSession $callerSession): self
+    public function setCallerSession(?CallerSession $callerSession): self
     {
-        // set the owning side of the relation if necessary
-        if ($callerSession->getLobbyWaitingUser() !== $this) {
-            $callerSession->setLobbyWaitingUser($this);
+        if ($this->callerSession === $callerSession) {
+            return $this;
         }
 
+        $previousCallerSession = $this->callerSession;
         $this->callerSession = $callerSession;
+
+        if ($previousCallerSession?->getLobbyWaitingUser() === $this) {
+            $previousCallerSession->setLobbyWaitingUser(null);
+        }
+
+        if ($callerSession !== null && $callerSession->getLobbyWaitingUser() !== $this) {
+            $callerSession->setLobbyWaitingUser($this);
+        }
 
         return $this;
     }

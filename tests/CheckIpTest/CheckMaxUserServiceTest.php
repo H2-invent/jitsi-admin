@@ -18,7 +18,7 @@ class CheckMaxUserServiceTest extends KernelTestCase
         $room = new Rooms();
         $room->setMaxUser(2);
 
-        $frontendService = $this->createMock(RoomStatusFrontendService::class);
+        $frontendService = $this->createStub(RoomStatusFrontendService::class);
         $frontendService
             ->method('numberOfOccupants')
             ->willReturn([
@@ -42,7 +42,7 @@ class CheckMaxUserServiceTest extends KernelTestCase
         $room = new Rooms();
         $room->setMaxUser(2);
 
-        $frontendService = $this->createMock(RoomStatusFrontendService::class);
+        $frontendService = $this->createStub(RoomStatusFrontendService::class);
         $frontendService
             ->method('numberOfOccupants')
             ->willReturn([]);

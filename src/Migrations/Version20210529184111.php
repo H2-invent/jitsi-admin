@@ -19,7 +19,7 @@ final class Version20210529184111 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === false) {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE `repeat` ADD repat_month_relativ_number INT DEFAULT NULL, ADD repat_month_relativ_weekday INT DEFAULT NULL');
         }
@@ -27,7 +27,7 @@ final class Version20210529184111 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === false) {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE `repeat` DROP repat_month_relativ_number, DROP repat_month_relativ_weekday');
         }

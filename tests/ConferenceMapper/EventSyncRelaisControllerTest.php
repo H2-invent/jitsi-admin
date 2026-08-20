@@ -8,6 +8,8 @@ use App\Entity\Server;
 use App\Repository\RoomsRepository;
 use App\Service\api\ConferenceMapperService;
 use Doctrine\ORM\EntityManagerInterface;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -18,11 +20,11 @@ class EventSyncRelaisControllerTest extends WebTestCase
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApi']);
 
-        $httpClientMock = $this->createMock(HttpClientInterface::class);
+        $httpClientMock = $this->createStub(HttpClientInterface::class);
 
 
         // Beispiel Response
-        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
         $responseMock->method('toArray')->willReturn(['status' => 'ROOM_STARTED']);
 
         // Konfiguriere den HttpClientMock, um die Response zurückzugeben
@@ -48,21 +50,28 @@ class EventSyncRelaisControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/api/v1/conferenceMapper?confid=555555&callerid=12345678',);
 
         $this->assertResponseIsSuccessful();
-        self::assertEquals(
-            '{"state":"STARTED","jwt":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoidGVzdHVpZDEyMzQiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlJvb20gVG9tb3Jyb3cifSwidXNlciI6eyJuYW1lIjoiVXNlciwgVGVzdCwgdGVzdEBsb2NhbC5kZSIsImxhbmd1YWdlIjoiZGUiLCJ0aW1lem9uZSI6IkV1cm9wZS9CZXJsaW4ifX0sIm1vZGVyYXRvciI6ZmFsc2UsImxvYmJ5TW9kZXJhdG9yIjpmYWxzZSwidGhlbWUiOnsiY29sb3JTY2hlbWUiOiJsaWdodCJ9fQ.y3QmQEbUn-sFZcS48thrupOVWjTOzlonzuCWHoKym1o","room_name":"testuid1234@test.prosody.com","display_name":"User, Test, test@local.de"}',
-            $client->getResponse()->getContent()
-        );
+        $result = json_decode($client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        self::assertEquals('STARTED', $result['state']);
+        self::assertEquals('testuid1234@test.prosody.com', $result['room_name']);
+        self::assertEquals('User, Test, test@local.de', $result['display_name']);
+
+        $decoded = JWT::decode($result['jwt'], new Key($room->getServer()->getAppSecret(), 'HS256'));
+        self::assertEquals('jitsi_admin', $decoded->aud);
+        self::assertEquals('jitsiId', $decoded->iss);
+        self::assertEquals('meet.jit.si2', $decoded->sub);
+        self::assertEquals('testuid1234', $decoded->room);
+        self::assertEquals('Room Tomorrow', $decoded->context->room->name);
     }
 
     public function testRoomClosed(): void
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApi']);
 
-        $httpClientMock = $this->createMock(HttpClientInterface::class);
+        $httpClientMock = $this->createStub(HttpClientInterface::class);
 
 
         // Beispiel Response
-        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
         $responseMock->method('toArray')->willReturn(['status' => 'ROOM_ClOSED']);
 
         // Konfiguriere den HttpClientMock, um die Response zurückzugeben

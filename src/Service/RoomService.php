@@ -317,8 +317,8 @@ class RoomService
             if (!empty($publicKey)) {
                 $this->logger->debug('Public KEy fetched. the secret is ow encrypted', ['public key' => $publicKey]);
                 try {
-                    openssl_public_encrypt($secret, $encryptedSecret, $publicKey);
-                    if ($encryptedSecret === false) {
+                    @openssl_public_encrypt($secret, $encryptedSecret, $publicKey);
+                    if ($encryptedSecret === false || $encryptedSecret === null) {
                         $this->logger->error('Encryption Faild', ['error' => openssl_error_string()]);
                         throw new \Exception("Encryption of secret failed");
                     }

@@ -7,6 +7,12 @@
 * Removed matomo dependency
 
 
+## 1.6
+### ⭐ Improvements:
+* Upgrade to Symfony 7.4
+
+
+
 ## 1.5
 ### 🚀 Features:
 ### 🐛 Bug Fixes:

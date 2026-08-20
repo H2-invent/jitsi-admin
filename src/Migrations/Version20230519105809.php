@@ -33,7 +33,7 @@ final class Version20230519105809 extends AbstractMigration
     public function postUp(Schema $schema): void
     {
         parent::postUp($schema);
-        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === false) {
             $this->connection->createQueryBuilder()
                 ->insert(self::TABLE_NAME, 'c')
                 ->values(
@@ -57,7 +57,7 @@ final class Version20230519105809 extends AbstractMigration
     public function postDown(Schema $schema): void
     {
         parent::postDown($schema);
-        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === false) {
             $this->connection->createQueryBuilder()
                 ->delete(self::TABLE_NAME,)
                 ->where('name =:name')

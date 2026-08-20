@@ -116,16 +116,23 @@ class CallerSessionService
         $this->loggger->debug('We start to destroy the caller session', ['sessionID' => $callerSession->getSessionId()]);
         try {
             $lobbyWaitungUser = $callerSession->getLobbyWaitingUser();
+
             if ($lobbyWaitungUser) {
                 $this->loggger->debug('There is a Lobbyuser. we send a refres to the lobbymoderator', ['room' => $lobbyWaitungUser->getRoom()->getId()]);
                 $this->toModerator->refreshLobby($lobbyWaitungUser);
                 $this->toModerator->participantLeftLobby($lobbyWaitungUser);
-                $this->em->remove($lobbyWaitungUser);
+                $callerSession->setLobbyWaitingUser(null);
             }
 
             $this->loggger->debug('The Callersession is destroyed', ['room' => $callerSession->getSessionId()]);
-            $callerId = $callerSession->getCaller();
-            $callerId->setCallerSession(null);
+            $callerSession->setCaller(null);
+
+            // Flush the owning-side FK changes before deleting referenced rows.
+            $this->em->flush();
+
+            if ($lobbyWaitungUser) {
+                $this->em->remove($lobbyWaitungUser);
+            }
             $this->em->remove($callerSession);
             $this->em->flush();
         } catch (\Exception $exception) {

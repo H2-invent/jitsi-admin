@@ -186,6 +186,7 @@ class RoomType extends AbstractType
                     'class' => Tag::class,
                     'choice_label' => 'title',
                     'choices' => $tags,
+                    'choice_loader' => null,
                     'required' => true,
                     'label' => 'label.tag',
                     'translation_domain' => 'form'
