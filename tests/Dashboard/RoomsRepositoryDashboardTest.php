@@ -4,6 +4,8 @@ namespace App\Tests\Dashboard;
 
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Logging\DebugStack;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class RoomsRepositoryDashboardTest extends KernelTestCase
@@ -256,5 +258,83 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
         $this->assertTrue($fixedRoomFound);
         $this->assertTrue($fixedRoomNoParticipantsFound);
         $this->assertTrue($fixedRoomLobbyFound);
+    }
+
+    public function testFindRoomsInPastDoesNotLazyLoadRepeater(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        [$rooms, $fetchQueries, $accessQueries] = $this->captureRepeaterQueries(
+            fn () => $roomRepo->findRoomsInPast($user, 0)
+        );
+
+        $this->assertNotEmpty($rooms);
+        $this->assertNotEmpty($fetchQueries, 'The SQL logger must capture the main query');
+        $this->assertCount(0, $this->repeatLazyLoadQueries($fetchQueries), 'findRoomsInPast() must fetch-join repeater/repeaterProtoype');
+        $this->assertCount(0, $this->repeatLazyLoadQueries($accessQueries), 'Accessing repeater/repeaterProtoype must not trigger lazy loads');
+    }
+
+    public function testFindFavoriteRoomsDoesNotLazyLoadRepeater(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
+        $user->addFavorite($room);
+        $em->persist($user);
+        $em->flush();
+
+        [$favorites, $fetchQueries, $accessQueries] = $this->captureRepeaterQueries(
+            fn () => $roomRepo->findFavoriteRooms($user)
+        );
+
+        $this->assertNotEmpty($favorites);
+        $this->assertNotEmpty($fetchQueries, 'The SQL logger must capture the main query');
+        $this->assertCount(0, $this->repeatLazyLoadQueries($fetchQueries), 'findFavoriteRooms() must fetch-join repeater/repeaterProtoype');
+        $this->assertCount(0, $this->repeatLazyLoadQueries($accessQueries), 'Accessing repeater/repeaterProtoype must not trigger lazy loads');
+    }
+
+    private function captureRepeaterQueries(callable $fetch): array
+    {
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $config = $em->getConnection()->getConfiguration();
+        $previous = $config->getSQLLogger();
+
+        $stack = new DebugStack();
+        $config->setSQLLogger($stack);
+
+        try {
+            $rooms = $fetch();
+            $fetchQueries = $stack->queries;
+
+            $stack->queries = [];
+            foreach ($rooms as $room) {
+                $room->getRepeater();
+                $room->getRepeaterProtoype();
+            }
+            $accessQueries = $stack->queries;
+        } finally {
+            $config->setSQLLogger($previous);
+        }
+
+        return [$rooms, $fetchQueries, $accessQueries];
+    }
+
+    private function repeatLazyLoadQueries(array $queries): array
+    {
+        return array_values(array_filter(
+            $queries,
+            static fn (array $query): bool => (bool) preg_match('/FROM\s+`repeat`\s+/', $query['sql'])
+        ));
     }
 }
