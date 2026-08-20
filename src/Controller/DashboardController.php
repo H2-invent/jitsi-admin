@@ -134,9 +134,11 @@ class DashboardController extends JitsiAdminController
             $roomIds[] = $room->getId();
         }
 
-        $roomStatusOpenMap = $roomStatusFrontendService->getRoomCreatedStatusMap(array_unique($roomIds));
-        $roomStatusOccupantsMap = $roomStatusFrontendService->getRoomOccupantsMap(array_unique($roomIds));
-        $roomStatusClosedMap = $roomStatusFrontendService->getRoomClosedStatusMap(array_unique($roomIds));
+        $uniqueRoomIds = array_unique($roomIds);
+        $roomStatusOpenMap = $roomStatusFrontendService->getRoomCreatedStatusMap($uniqueRoomIds);
+        $roomStatusOccupantsMap = $roomStatusFrontendService->getRoomOccupantsMap($uniqueRoomIds);
+        $roomStatusClosedMap = $roomStatusFrontendService->getRoomClosedStatusMap($uniqueRoomIds);
+        $roomHasStatusMap = $roomStatusFrontendService->getRoomHasStatusMap($uniqueRoomIds);
 
         $allDisplayedRooms = array_merge($allRooms, $roomsPast, $favorites);
         $roomClosedForStartMap = $dashboardService->getRoomClosedForStartMap(
@@ -185,6 +187,7 @@ class DashboardController extends JitsiAdminController
                 'roomStatusOpenMap' => $roomStatusOpenMap,
                 'roomStatusOccupantsMap' => $roomStatusOccupantsMap,
                 'roomStatusClosedMap' => $roomStatusClosedMap,
+                'roomHasStatusMap' => $roomHasStatusMap,
                 'roomClosedMapForStart' => $roomClosedForStartMap,
                 'scheduleUserHasVotedMap' => $scheduleUserHasVotedMap,
                 'timestamp' => $timestamp,

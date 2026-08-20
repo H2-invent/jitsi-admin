@@ -38,7 +38,7 @@
 {% endif %}
 
 {% if dropdown_settings_generate_report == 1 %}
-    <li><a class="dropdown-item loadContent {% if room.roomstatuses|length == 0 %}disabled{% endif %}"
+    <li><a class="dropdown-item loadContent {% if roomHasStatusMap[room.id] is not defined %}disabled{% endif %}"
            href="{{ path('app_report_create',{'id':room.id}) }}">
             <i class="fa-solid fa-timeline"></i>
             {{ 'report.dropdown.item'|trans }}</a>

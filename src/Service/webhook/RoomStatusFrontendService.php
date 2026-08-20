@@ -55,6 +55,25 @@ class RoomStatusFrontendService
         return false;
     }
 
+    public function getRoomHasStatusMap(array $roomIds): array
+    {
+        if (empty($roomIds)) {
+            return [];
+        }
+        $qb = $this->em->getRepository(RoomStatus::class)->createQueryBuilder('rs');
+        $statuses = $qb->select('DISTINCT IDENTITY(rs.room) as roomId')
+            ->where($qb->expr()->in('rs.room', ':roomIds'))
+            ->setParameter('roomIds', $roomIds)
+            ->getQuery()
+            ->getResult();
+
+        $result = [];
+        foreach ($statuses as $status) {
+            $result[$status['roomId']] = true;
+        }
+        return $result;
+    }
+
     public function getRoomCreatedStatusMap(array $roomIds): array
     {
         if (empty($roomIds)) {

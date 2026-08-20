@@ -502,4 +502,105 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
         $this->assertArrayHasKey($room->getId(), $result);
         $this->assertFalse($result[$room->getId()], 'destroyed=NULL means active, room must not be closed');
     }
+
+    public function testGetRoomHasStatusMapWithActiveRoom(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'HasStatusActiveRoom', new \DateTime('-1 hour'));
+
+        $this->createStatus($em, $room, 'has-active@test.de', null);
+        $em->flush();
+
+        $result = $service->getRoomHasStatusMap([$room->getId()]);
+
+        $this->assertArrayHasKey($room->getId(), $result);
+        $this->assertTrue($result[$room->getId()]);
+    }
+
+    public function testGetRoomHasStatusMapWithDestroyedRoom(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'HasStatusDestroyedRoom', new \DateTime('-3 hours'));
+
+        $this->createStatus($em, $room, 'has-destroyed@test.de', true, new \DateTime('-1 hour'), new \DateTime('-3 hours'));
+        $em->flush();
+
+        $result = $service->getRoomHasStatusMap([$room->getId()]);
+
+        $this->assertArrayHasKey($room->getId(), $result);
+        $this->assertTrue($result[$room->getId()]);
+    }
+
+    public function testGetRoomHasStatusMapWithRoomWithoutStatus(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+        $room = $this->createRoom($em, 'HasStatusEmptyRoom', new \DateTime('-2 hours'));
+
+        $result = $service->getRoomHasStatusMap([$room->getId()]);
+
+        $this->assertArrayNotHasKey($room->getId(), $result);
+    }
+
+    public function testGetRoomHasStatusMapWithEmptyArray(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+
+        $result = $service->getRoomHasStatusMap([]);
+
+        $this->assertEmpty($result);
+    }
+
+    public function testGetRoomHasStatusMapWithNonExistentRoom(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+
+        $result = $service->getRoomHasStatusMap([-1]);
+
+        $this->assertEmpty($result);
+    }
+
+    public function testGetRoomHasStatusMapBatchOfDifferentStates(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $service = $this->getContainer()->get(RoomStatusFrontendService::class);
+
+        $activeRoom = $this->createRoom($em, 'HasStatusBatchActive', new \DateTime('-1 hour'));
+        $this->createStatus($em, $activeRoom, 'has-batch-active@test.de', null);
+        $em->flush();
+
+        $destroyedRoom = $this->createRoom($em, 'HasStatusBatchDestroyed', new \DateTime('-3 hours'));
+        $this->createStatus($em, $destroyedRoom, 'has-batch-destroyed@test.de', true, new \DateTime('-1 hour'), new \DateTime('-3 hours'));
+        $em->flush();
+
+        $emptyRoom = $this->createRoom($em, 'HasStatusBatchEmpty', new \DateTime('-2 hours'));
+
+        $result = $service->getRoomHasStatusMap([$activeRoom->getId(), $destroyedRoom->getId(), $emptyRoom->getId()]);
+
+        $this->assertArrayHasKey($activeRoom->getId(), $result);
+        $this->assertTrue($result[$activeRoom->getId()]);
+        $this->assertArrayHasKey($destroyedRoom->getId(), $result);
+        $this->assertTrue($result[$destroyedRoom->getId()]);
+        $this->assertArrayNotHasKey($emptyRoom->getId(), $result);
+    }
 }
