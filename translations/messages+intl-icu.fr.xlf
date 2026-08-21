@@ -2573,6 +2573,10 @@ Ihre E-Mail-Adresse: {email}</target>
         <source>Nicht gefunden</source>
         <target state="translated">Introuvable</target>
       </trans-unit>
+      <trans-unit id="RoomCannotBeChangedDuringSession" resname="Die Konferenz kann während einer laufenden Sitzung nicht geändert werden">
+        <source>Die Konferenz kann während einer laufenden Sitzung nicht geändert werden</source>
+        <target state="translated">La conférence ne peut pas être modifiée pendant une session en cours.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

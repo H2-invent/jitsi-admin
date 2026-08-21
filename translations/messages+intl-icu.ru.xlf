@@ -2579,6 +2579,10 @@ Ihre E-Mail-Adresse: {email}</target>
         <source>Nicht gefunden</source>
         <target state="translated">Не найдено</target>
       </trans-unit>
+      <trans-unit id="RoomCannotBeChangedDuringSession" resname="Die Konferenz kann während einer laufenden Sitzung nicht geändert werden">
+        <source>Die Konferenz kann während einer laufenden Sitzung nicht geändert werden</source>
+        <target state="translated">Конференцию нельзя изменить во время текущего сеанса.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

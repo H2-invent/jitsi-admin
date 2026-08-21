@@ -2580,6 +2580,10 @@ Ihre E-Mail-Adresse: {email}</target>
         <source>Nicht gefunden</source>
         <target state="translated">Não encontrado</target>
       </trans-unit>
+      <trans-unit id="RoomCannotBeChangedDuringSession" resname="Die Konferenz kann während einer laufenden Sitzung nicht geändert werden">
+        <source>Die Konferenz kann während einer laufenden Sitzung nicht geändert werden</source>
+        <target state="translated">A conferência não pode ser alterada durante uma sessão em andamento.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
