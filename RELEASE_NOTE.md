@@ -1,7 +1,4 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
-## 1.6
-* Removed matomo dependency
-
 
 ## 1.5
 ### 🚀 Features:
@@ -22,6 +19,8 @@
 ### Bug Fixes:
 * Header shows Theme text
 * theme page is vissible
+* Fix button layout/rendering in all lobby instances
+* Centered footer (1.4.6)
 
 ## 1.3
 
@@ -33,6 +32,7 @@
 * remove header in sip trunk generation
 * fix ical reply
 * fix delete LDAP user when removed in LDAP
+* Fix getting default paramter for mic and camera from theme properties and push them into JWT
 ### ⭐ Improvements
 * Join a Videoconference without an camera and microphone
 * Add Api to change Server of Room to use auto provisioner
