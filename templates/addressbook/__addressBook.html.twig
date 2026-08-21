@@ -17,7 +17,9 @@
     </div>
 
     <div class="textarea">
-        <a href="{{ path('adressbook_new_contact') }}" class="btn-outline-primary btn loadContent w-100 mb-2">{{ 'Neuer Kontakt'|trans }}</a>
+        {% if doAllowUserCreation %}
+            <a href="{{ path('adressbook_new_contact') }}" class="btn-outline-primary btn loadContent w-100 mb-2">{{ 'Neuer Kontakt'|trans }}</a>
+        {% endif %}
         {% if theme is not defined %}{% set theme = getThemeProperties() %}{% endif %}
         <div class="topbar">
             <div class="form-grou mt-2 mb-2">

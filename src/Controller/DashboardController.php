@@ -18,6 +18,7 @@ use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\Theme\ThemeService;
+use App\Service\UserCreatorService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -43,6 +44,7 @@ class DashboardController extends JitsiAdminController
         ParameterBagInterface $parameterBag,
         private ThemeService $themeService,
         private ServerRepository $serverRepository,
+        private UserCreatorService $userCreatorService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -149,7 +151,8 @@ class DashboardController extends JitsiAdminController
                 'favorite' => $favorites,
                 'timestamp' => $timestamp,
                 'time' => $timer->getDuration(),
-                'publicServer' => $publicServer
+                'publicServer' => $publicServer,
+                'doAllowUserCreation' => $this->userCreatorService->doAllowUserCreation(),
             ],
         );
         $analyticsService->sendAnalytics();
