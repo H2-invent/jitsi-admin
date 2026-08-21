@@ -1668,6 +1668,10 @@
         <source>Wollen Sie die Konferenz wirklich verlassen?</source>
         <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
       </trans-unit>
+      <trans-unit id="RoomCannotBeChangedDuringSession" resname="Die Konferenz kann während einer laufenden Sitzung nicht geändert werden">
+        <source>Die Konferenz kann während einer laufenden Sitzung nicht geändert werden</source>
+        <target state="translated">Η διάσκεψη δεν μπορεί να αλλάξει κατά τη διάρκεια μιας ενεργής συνεδρίας.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

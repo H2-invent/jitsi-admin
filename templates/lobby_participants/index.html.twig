@@ -4,12 +4,15 @@
 
     {{ room.name }}
 {% endblock %}
+{% block mainRow %}
+<div class="col-lg-10 col-md-12">
+{% endblock %}
 {% block content %}
 
     <div class=" col-12 ">
         <div class="row d-flex justify-content-center mb-3" id="webcamRow">
 
-            <div class="col-lg-6 col-xl-7 position-relative overflow-y-scroll" id="webcamCol">
+            <div class="col-lg-6 col-xl-7 position-relative overflow-y-auto" id="webcamCol">
                 <div class="messageContainer"></div>
                 <div class="card webcamArea" id="webcamArea">
                     <div class="accessAllowed d-none">
@@ -69,36 +72,38 @@
         </div>
         <div class="row ">
             <div class="col-12 d-flex flex-column flex-md-row justify-content-around">
-                <div class="row">
+                <div class="row lobbyDeviceButtons">
                     <div class="col-lg-4">
-                        <a class="caretdown btn btn-primary  overflow-hidden dropdown-toggle d-flex align-items-md-center w-100"
+                        <a class="caretdown btn btn-primary  overflow-hidden dropdown-toggle d-flex align-items-center w-100"
                            type="button"
                            id="selectWebcamDropdown"
                           data-mdb-dropdown-init
                            data-mdb-dropdown-init
                            aria-haspopup="true"
-                           aria-expanded="false"><i class="me-2 fa fa-video"></i><span
+                           aria-expanded="false"><i class="me-2 fa fa-video fa-fw"></i><span
                                     class="  w-100 text-ellipsis  text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
                         </a>
                         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
                         </ul>
                     </div>
                     <div class="col-lg-4">
-                        <div class="btn-group w-100">
-                            <a type="button"
-                               class="btn btn-primary dropdown-toggle caretdown px-3 d-flex align-items-center"
+                        <div class="btn-group btn-primary echo-test-control w-100" role="group">
+                            <a class="caretdown btn btn-primary dropdown-toggle d-flex align-items-center pe-lg-0 echo-test-input"
+                               type="button"
+                               id="selectAudioInputDropdown"
                                data-mdb-dropdown-init
-                              data-mdb-dropdown-init
                                data-mdb-reference="parent"
-                               aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-microphone"></i>
+                               aria-haspopup="true"
+                               aria-expanded="false"
+                               aria-label="{{ 'lobby.echo.input'|trans }}"
+                               title="{{ 'lobby.echo.input'|trans }}"><i class="fas fa-microphone fa-fw flex-shrink-0 me-2"></i>
                             </a>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" aria-labelledby="selectAudioInputDropdown">
                                 <div id="audioInputSelect">
                                     <a class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
                                 </div>
                             </div>
-                            <a type="button" class="btn btn-primary text-nowrap" id="startEcho"
+                            <a type="button" class="btn btn-primary text-ellipsis ps-lg-0 echo-test-action" id="startEcho"
                                data-texton="{{ 'lobby.start.echo'|trans }}"
                                data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
 
