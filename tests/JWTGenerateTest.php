@@ -169,8 +169,11 @@ final class JWTGenerateTest extends TestCase
             true,
         );
 
+        $expected = $this->expectedPayload();
+        $expected['lobbyModerator'] = true;
+
         self::assertSame(
-            JWT::encode($this->expectedPayload(), self::APP_SECRET, 'HS256'),
+            JWT::encode($expected, self::APP_SECRET, 'HS256'),
             $jwt,
         );
     }
@@ -220,10 +223,10 @@ final class JWTGenerateTest extends TestCase
                 'isCameraEnabled' => false,
             ],
             'moderator' => true,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'dark',
             ],
         ];
     }
 }
-
