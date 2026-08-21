@@ -303,9 +303,59 @@ body {
 .btn-group {
   margin-left: 0;
   margin-right: 0;
+}
 
-  .caretdown {
-    max-width: max-content;
+.btn-truncate {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &.caretdown:before {
+    margin-right: 0;
+  }
+}
+
+.lobbyDeviceButtons {
+  .btn,
+  .btn-group {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.echo-test-control {
+  color: white !important;
+  position: relative;
+
+  > .btn {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    color: inherit !important;
+    margin: 0;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: transparent !important;
+      border-color: transparent !important;
+      box-shadow: none !important;
+      color: inherit !important;
+    }
+  }
+
+  .echo-test-input {
+    flex: 0 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .echo-test-action {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
   }
 }
 
@@ -585,7 +635,3 @@ body {
     cursor: pointer;
   }
 }
-
-
-
-
