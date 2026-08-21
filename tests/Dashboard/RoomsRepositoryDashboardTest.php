@@ -2,6 +2,7 @@
 
 namespace App\Tests\Dashboard;
 
+use App\Entity\Rooms;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Logging\DebugStack;
@@ -336,5 +337,140 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
             $queries,
             static fn (array $query): bool => (bool) preg_match('/FROM\s+`repeat`\s+/', $query['sql'])
         ));
+    }
+
+    public function testFindRoomsForDashboardDoesNotLazyLoadTemplateCollections(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        [$rooms, $fetchQueries, $accessQueries] = $this->captureCollectionQueries(
+            fn () => $roomRepo->findRoomsForDashboard($user)
+        );
+
+        $this->assertNotEmpty($rooms);
+        $this->assertNotEmpty($fetchQueries, 'The SQL logger must capture the main query');
+        $this->assertCount(0, $accessQueries, 'findRoomsForDashboard() must pre-load all template-accessed collections');
+    }
+
+    public function testFindRoomsInPastDoesNotLazyLoadTemplateCollections(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        [$rooms, $fetchQueries, $accessQueries] = $this->captureCollectionQueries(
+            fn () => $roomRepo->findRoomsInPast($user, 0)
+        );
+
+        $this->assertNotEmpty($rooms);
+        $this->assertNotEmpty($fetchQueries, 'The SQL logger must capture the main query');
+        $this->assertCount(0, $accessQueries, 'findRoomsInPast() must pre-load all template-accessed collections');
+    }
+
+    public function testFindFavoriteRoomsDoesNotLazyLoadTemplateCollections(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
+        $user->addFavorite($room);
+        $em->persist($user);
+        $em->flush();
+
+        [$favorites, $fetchQueries, $accessQueries] = $this->captureCollectionQueries(
+            fn () => $roomRepo->findFavoriteRooms($user)
+        );
+
+        $this->assertNotEmpty($favorites);
+        $this->assertNotEmpty($fetchQueries, 'The SQL logger must capture the main query');
+        $this->assertCount(0, $accessQueries, 'findFavoriteRooms() must pre-load all template-accessed collections');
+    }
+
+    public function testFindRoomsForDashboardMainQueryHasNoToManyFetchJoins(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        [$rooms, $fetchQueries] = $this->captureCollectionQueries(
+            fn () => $roomRepo->findRoomsForDashboard($user)
+        );
+
+        $this->assertNotEmpty($rooms);
+        $mainSql = $this->mainDashboardQuery($fetchQueries);
+        $this->assertNotNull($mainSql, 'The main dashboard query must be captured by the SQL logger');
+
+        // To-many associations must not be fetch-joined in the main query (that would cause a
+        // cartesian product / row explosion). They are loaded via separate IN queries instead.
+        $this->assertStringNotContainsString('LEFT JOIN rooms_user', $mainSql);
+        $this->assertStringNotContainsString('LEFT JOIN scheduling', $mainSql);
+        $this->assertStringNotContainsString('LEFT JOIN uploaded_recording', $mainSql);
+        $this->assertStringNotContainsString('LEFT JOIN deputy', $mainSql);
+    }
+
+    /**
+     * Fetches rooms while counting SQL queries, then accesses every to-many / inverse
+     * association that the dashboard templates touch and counts the additional queries.
+     *
+     * @return array{0: Rooms[], 1: array, 2: array} [rooms, fetchQueries, accessQueries]
+     */
+    private function captureCollectionQueries(callable $fetch): array
+    {
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $config = $em->getConnection()->getConfiguration();
+        $previous = $config->getSQLLogger();
+
+        $stack = new DebugStack();
+        $config->setSQLLogger($stack);
+
+        try {
+            $rooms = $fetch();
+            $fetchQueries = $stack->queries;
+
+            $stack->queries = [];
+            foreach ($rooms as $room) {
+                $room->getUser()->count();
+                $room->getSchedulings()->count();
+                $room->getUploadedRecordings()->count();
+                $room->getRepeater();
+                $room->getRepeaterProtoype();
+                $room->getCallerRoom();
+                if ($room->getModerator()) {
+                    $room->getModerator()->getDeputy()->toArray();
+                }
+            }
+            $accessQueries = $stack->queries;
+        } finally {
+            $config->setSQLLogger($previous);
+        }
+
+        return [$rooms, $fetchQueries, $accessQueries];
+    }
+
+    private function mainDashboardQuery(array $queries): ?string
+    {
+        foreach ($queries as $query) {
+            if (str_contains($query['sql'], 'CASE WHEN r0_.start_utc IS NULL')) {
+                return $query['sql'];
+            }
+        }
+
+        return null;
     }
 }
