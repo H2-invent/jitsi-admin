@@ -3,6 +3,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.token }}
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'hotfix/**'
