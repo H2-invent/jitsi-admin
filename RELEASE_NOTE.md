@@ -1,7 +1,4 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
-## 1.6
-* Removed matomo dependency
-
 
 ## 1.5
 ### 🚀 Features:
@@ -11,6 +8,7 @@
 ### ⭐ Improvements:
 * Add lobby moderator permission flag to the JWT
 * Redesigned homepage
+* Fix appointment modal
 
 ## 1.4
 
