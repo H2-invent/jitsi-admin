@@ -128,14 +128,14 @@ class RoomService
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
         $moderator = false;
-        if ($room->getModerator() === $user || $roomUser->getModerator()) {
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getModerator()) {
             $moderator = true;
         }
         if ($moderatorExplizit === true) {
             $moderator = true;
         }
         $lobbyModerator = false;
-        if ($room->getModerator() === $user || $roomUser->getLobbyModerator()) {
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getLobbyModerator()) {
             $lobbyModerator = true;
         }
         $avatar = null;
