@@ -9,6 +9,7 @@
 ### ⭐ Improvements:
 * Add lobby moderator permission flag to the JWT
 * Redesigned homepage
+* Fix appointment modal
 
 ## 1.4
 
