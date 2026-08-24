@@ -2593,6 +2593,7 @@ Ihre E-Mail-Adresse: {email}</target>
       <trans-unit id="RoomCannotBeChangedDuringSession" resname="Die Konferenz kann während einer laufenden Sitzung nicht geändert werden">
         <source>Die Konferenz kann während einer laufenden Sitzung nicht geändert werden</source>
         <target state="translated">Die Konferenz kann während einer laufenden Sitzung nicht geändert werden.</target>
+      </trans-unit>
       <trans-unit id="oWIBNXX" resname="enterprise.settings.transcription">
         <source>enterprise.settings.transcription</source>
         <target>Transkript Einstellungen</target>
