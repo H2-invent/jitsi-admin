@@ -83,7 +83,7 @@ class SetupInitialService
             ->setLivekitMiddlewareUrl($data['middleware'])
             ->setJwtModeratorPosition(0)
             ->setAdministrator($user)
-            ->addUser($user);
+            ->addUser($user)
         ;
         $this->entityManager->persist($server);
         $this->entityManager->flush();
