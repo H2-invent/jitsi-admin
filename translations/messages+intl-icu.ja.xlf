@@ -2348,6 +2348,10 @@
         <source>recording.email.body</source>
         <target state="translated">会議 {name} の録画がアップロードされました。ダッシュボードのオプションを使用して、会議の録画をダウンロードできます。</target>
       </trans-unit>
+      <trans-unit id="c27mnLJ" resname="recording.email.body.fastconference">
+        <source>recording.email.body.fastconference</source>
+        <target state="needs-translation">Es wurde eine Aufnahme zu der Konferenz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über diesen Link herunterladen.</target>
+      </trans-unit>
       <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
         <source>recording.startSpeakerOnly</source>
         <target state="translated">スピーカーのみ </target>
@@ -2478,6 +2482,10 @@ Ihre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="kHIraMt" resname="transcription.ready.text">
         <source>transcription.ready.text</source>
+        <target state="needs-translation">Es wurde eine Transkription zu der Konferenz {roomName} hochgeladen. Sie können die Transkription der Konferenz über die Optionen im Dashboard herunterladen.</target>
+      </trans-unit>
+      <trans-unit id="p7mraxT" resname="transcription.ready.text.fastconference">
+        <source>transcription.ready.text</source>
         <target state="needs-translation">Die Transkription für {roomName} ist fertig und liegt zum Download bereit.</target>
       </trans-unit>
       <trans-unit id="2dzwmpu" resname="Klicken Sie hier um das Transkript runterzuladen.">
@@ -2539,6 +2547,66 @@ Ihre E-Mail-Adresse: {email}</target>
       <trans-unit id="aPyOdXY" resname="Sofort">
         <source>Sofort</source>
         <target state="needs-translation">Sofort</target>
+      </trans-unit>
+      <trans-unit id="newContact" resname="Neuer Kontakt">
+        <source>Neuer Kontakt</source>
+        <target state="needs-translation">Neuer Kontakt</target>
+      </trans-unit>
+      <trans-unit id="emailAddress" resname="E-Mail-Adresse">
+        <source>E-Mail-Adresse</source>
+        <target state="translated">メールアドレス</target>
+      </trans-unit>
+      <trans-unit id="groupNameExists" resname="Es existiert bereits eine Gruppe mit diesem Namen.">
+        <source>Es existiert bereits eine Gruppe mit diesem Namen.</source>
+        <target state="needs-translation">Es existiert bereits eine Gruppe mit diesem Namen.</target>
+      </trans-unit>
+      <trans-unit id="enterEmail" resname="Bitte geben Sie eine E-Mail-Adresse ein.">
+        <source>Bitte geben Sie eine E-Mail-Adresse ein.</source>
+        <target state="needs-translation">Bitte geben Sie eine E-Mail-Adresse ein.</target>
+      </trans-unit>
+      <trans-unit id="enterValidEmail" resname="Bitte geben Sie eine gültige E-Mail-Adresse ein.">
+        <source>Bitte geben Sie eine gültige E-Mail-Adresse ein.</source>
+        <target state="needs-translation">Bitte geben Sie eine gültige E-Mail-Adresse ein.</target>
+      </trans-unit>
+      <trans-unit id="cannotAddSelf" resname="Sie können sich nicht selbst hinzufügen.">
+        <source>Sie können sich nicht selbst hinzufügen.</source>
+        <target state="needs-translation">Sie können sich nicht selbst hinzufügen.</target>
+      </trans-unit>
+      <trans-unit id="contactAlreadyExists" resname="Der Kontakt ist bereits im Adressbuch.">
+        <source>Der Kontakt ist bereits im Adressbuch.</source>
+        <target state="needs-translation">Der Kontakt ist bereits im Adressbuch.</target>
+      </trans-unit>
+      <trans-unit id="userNotFoundByEmail" resname="Kein Benutzer mit dieser E-Mail-Adresse gefunden.">
+        <source>Kein Benutzer mit dieser E-Mail-Adresse gefunden.</source>
+        <target state="needs-translation">Kein Benutzer mit dieser E-Mail-Adresse gefunden.</target>
+      </trans-unit>
+      <trans-unit id="notFound" resname="Nicht gefunden">
+        <source>Nicht gefunden</source>
+        <target state="needs-translation">Nicht gefunden</target>
+      </trans-unit>
+      <trans-unit id="RoomCannotBeChangedDuringSession" resname="Die Konferenz kann während einer laufenden Sitzung nicht geändert werden">
+        <source>Die Konferenz kann während einer laufenden Sitzung nicht geändert werden</source>
+        <target state="needs-translation">Die Konferenz kann während einer laufenden Sitzung nicht geändert werden.</target>
+      </trans-unit>
+      <trans-unit id="oWIBNXX" resname="enterprise.settings.transcription">
+        <source>enterprise.settings.transcription</source>
+        <target state="needs-translation">Transkript Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="VitJXBB" resname="transcription.modal.title">
+        <source>transcription.modal.title</source>
+        <target state="needs-translation">Transkripte von Videokonferenzen</target>
+      </trans-unit>
+      <trans-unit id="N93tNXa">
+        <source>Transkripte</source>
+        <target state="needs-translation">Transkripte</target>
+      </trans-unit>
+      <trans-unit id="3hdoEuh" resname="recording.toggleTranscription">
+        <source>Transkription aktivieren</source>
+        <target state="needs-translation">Transkription aktivieren</target>
+      </trans-unit>
+      <trans-unit id="7kpQmRw" resname="recording.dropdownTitle">
+        <source>Recording</source>
+        <target state="needs-translation">Recording</target>
       </trans-unit>
     </body>
   </file>
