@@ -71,5 +71,9 @@
         "toastr": "^2.1.4",
         "visibilityjs": "^2.0.2",
         "zingtouch": "^1.0.6"
+    },
+    "allowScripts": {
+        "@parcel/watcher@2.5.6": true,
+        "core-js@3.49.0": true
     }
 }
