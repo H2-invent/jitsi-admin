@@ -224,6 +224,8 @@ function initConfirmDirectSendHref() {
             const url = triggerElement.href;
             const text = triggerElement.dataset.text || 'Wollen Sie die Aktion durchführen?';
 
+            const method = triggerElement.dataset.method || 'GET';
+
             const target = triggerElement.dataset.target;
             const targetUrl = triggerElement.dataset.url;
             Swal.fire({
@@ -240,7 +242,7 @@ function initConfirmDirectSendHref() {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(url)
+                    fetch(url, { method })
                         .then(response => response.json()) // Erwartet eine JSON-Antwort
                         .then(data => {
                             if (targetUrl && target){

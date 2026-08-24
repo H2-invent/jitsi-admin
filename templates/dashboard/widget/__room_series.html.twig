@@ -44,6 +44,14 @@
             {{ 'report.dropdown.item'|trans }}</a>
     </li>
 {% endif %}
+
+{% if room.transcriptions|length > 0 %}
+    <li><a href="{{ path('app_transcription_modal',{'room': room.id}) }}"
+           class="dropdown-item loadContent">
+            <i class="fa-solid fa-file-lines"></i>
+            {{ 'Transkripte'|trans }}</a></li>
+{% endif %}
+
   {% if getApplicationProperties('DROPDOWN_SETTINGS_SEND_PROTOCOLL') == 1 %}
       <li>
           <a href="{{ path('app_send_summary',{'id':room.id}) }}"
