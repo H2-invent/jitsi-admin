@@ -12,6 +12,7 @@
 ### 🐛 Bug Fixes:
 * Fix duplicate recording API calls
 * Fix button layout/rendering in all lobby instances
+* Fix incorrect address book contact name display
 
 ### ⭐ Improvements:
 * Add lobby moderator permission flag to the JWT
