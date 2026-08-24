@@ -34,6 +34,7 @@
 * Rearange logo in conference
 * Add API Endpoint to upload video transcripts
 * Room Name includes actual Host URL if there is one, instead of an ENV variable
+* Fix inital import commmand to add user to newly created server
 
 ## 1.2
 ### 🚀 Features
