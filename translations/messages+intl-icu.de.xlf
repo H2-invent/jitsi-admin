@@ -2554,6 +2554,46 @@ Ihre E-Mail-Adresse: {email}</target>
         <source>Sofort</source>
         <target>Sofort</target>
       </trans-unit>
+      <trans-unit id="newContact" resname="Neuer Kontakt">
+        <source>Neuer Kontakt</source>
+        <target>Neuer Kontakt</target>
+      </trans-unit>
+      <trans-unit id="emailAddress" resname="E-Mail-Adresse">
+        <source>E-Mail-Adresse</source>
+        <target>E-Mail-Adresse</target>
+      </trans-unit>
+      <trans-unit id="groupNameExists" resname="Es existiert bereits eine Gruppe mit diesem Namen.">
+        <source>Es existiert bereits eine Gruppe mit diesem Namen.</source>
+        <target>Es existiert bereits eine Gruppe mit diesem Namen.</target>
+      </trans-unit>
+      <trans-unit id="enterEmail" resname="Bitte geben Sie eine E-Mail-Adresse ein.">
+        <source>Bitte geben Sie eine E-Mail-Adresse ein.</source>
+        <target>Bitte geben Sie eine E-Mail-Adresse ein.</target>
+      </trans-unit>
+      <trans-unit id="enterValidEmail" resname="Bitte geben Sie eine gültige E-Mail-Adresse ein.">
+        <source>Bitte geben Sie eine gültige E-Mail-Adresse ein.</source>
+        <target>Bitte geben Sie eine gültige E-Mail-Adresse ein.</target>
+      </trans-unit>
+      <trans-unit id="cannotAddSelf" resname="Sie können sich nicht selbst hinzufügen.">
+        <source>Sie können sich nicht selbst hinzufügen.</source>
+        <target>Sie können sich nicht selbst hinzufügen.</target>
+      </trans-unit>
+      <trans-unit id="contactAlreadyExists" resname="Der Kontakt ist bereits im Adressbuch.">
+        <source>Der Kontakt ist bereits im Adressbuch.</source>
+        <target>Der Kontakt ist bereits im Adressbuch.</target>
+      </trans-unit>
+      <trans-unit id="userNotFoundByEmail" resname="Kein Benutzer mit dieser E-Mail-Adresse gefunden.">
+        <source>Kein Benutzer mit dieser E-Mail-Adresse gefunden.</source>
+        <target>Kein Benutzer mit dieser E-Mail-Adresse gefunden.</target>
+      </trans-unit>
+      <trans-unit id="notFound" resname="Nicht gefunden">
+        <source>Nicht gefunden</source>
+        <target>Nicht gefunden</target>
+      </trans-unit>
+      <trans-unit id="RoomCannotBeChangedDuringSession" resname="Die Konferenz kann während einer laufenden Sitzung nicht geändert werden">
+        <source>Die Konferenz kann während einer laufenden Sitzung nicht geändert werden</source>
+        <target state="translated">Die Konferenz kann während einer laufenden Sitzung nicht geändert werden.</target>
+      </trans-unit>
       <trans-unit id="oWIBNXX" resname="enterprise.settings.transcription">
         <source>enterprise.settings.transcription</source>
         <target>Transkript Einstellungen</target>

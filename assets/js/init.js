@@ -170,6 +170,13 @@ function initNewModal() {
     initdateTimePicker('.flatpickr');
     initNewRoomModal();
     $('form').submit(function () {
+        // Skip AJAX forms (marked with data-ajax-url or data-ajax); they handle
+        // their own submit UX (spinner + fetch) via delegated handlers, so running
+        // this generic spinner would produce a duplicate spinner.
+        if (this.dataset.ajaxUrl || this.dataset.ajax) {
+            return;
+        }
+
         const btn = $(this).find('button[type=submit]');
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled", true)

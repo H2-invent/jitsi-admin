@@ -112,7 +112,7 @@ class ThemeService
     {
         $theme = $this->getTheme();
         if ($theme) {
-                return $theme[$property] ?? null;
+            return $theme[$property] ?? null;
         }
         return null;
     }

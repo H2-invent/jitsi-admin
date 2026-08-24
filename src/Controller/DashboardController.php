@@ -20,6 +20,7 @@ use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\Theme\ThemeService;
+use App\Service\UserCreatorService;
 use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -46,6 +47,7 @@ class DashboardController extends JitsiAdminController
         ParameterBagInterface $parameterBag,
         private ThemeService $themeService,
         private ServerRepository $serverRepository,
+        private UserCreatorService $userCreatorService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -192,7 +194,8 @@ class DashboardController extends JitsiAdminController
                 'scheduleUserHasVotedMap' => $scheduleUserHasVotedMap,
                 'timestamp' => $timestamp,
                 'time' => $timer->getDuration(),
-                'publicServer' => $publicServer
+                'publicServer' => $publicServer,
+                'doAllowUserCreation' => $this->userCreatorService->doAllowUserCreation(),
             ],
         );
         $analyticsService->sendAnalytics();
@@ -264,5 +267,14 @@ class DashboardController extends JitsiAdminController
         }
 
         return new JsonResponse(['error' => true]);
+    }
+
+    #[Route(path: '/room/dashboard/adressbook-fragment', name: 'dashboard_adressbook_fragment')]
+    public function adressbookFragment(ServerUserManagment $serverUserManagment): Response
+    {
+        $servers = $serverUserManagment->getServersFromUser($this->getUser());
+        return $this->render('addressbook/__addressBook.html.twig', [
+            'servers' => $servers,
+        ]);
     }
 }
