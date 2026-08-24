@@ -1,110 +1,14 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
 
 ## 1.5
-
-## 1.4
-
-### Features
+### 🚀 Features:
 * Documented local DDEV setup
 
-## 1.3
-
-#### 🚀 Features:
 ### 🐛 Bug Fixes:
 * Fix duplicate recording API calls
+* Fix button layout/rendering in all lobby instances
 
 ### ⭐ Improvements:
 * Add lobby moderator permission flag to the JWT
-
-
-### Features:
-* **LookyLooky** The great new document sharing tool [LookyLooky GIthub Repo](https://github.com/H2-invent/lookylooky)
-* **New DDEV local development setup**
-* **New Design (improved.)**
-### Bug Fixes:
-* remove header in sip trunk generation
-* fix ical reply
-* fix delete LDAP user when removed in LDAP
-### ⭐ Improvements
-* Join a Videoconference without an camera and microphone
-* Add Api to change Server of Room to use auto provisioner
-* add @ server to livekit roomname
-* add @ servername to jwt roomname claim
-* add relay for events to other middlewares
-* Add Chatwoot in conferences in sidebar
-* Theme dashboard
-* Rearange logo in conference
-* Add API Endpoint to upload video transcripts
-* Room Name includes actual Host URL if there is one, instead of an ENV variable
-
-## 1.2
-### 🚀 Features
-* **Improved Side-Navigation in the Conference**:
-    * Better overview of all Add-Ons during the conference
-    * New invitation Modal inside the conference
-
-### ⭐ Improvements
-* Invite Participants faster with the new invitation modal from the new sidenavigation inside the conference
-* Improve the Livekit Phone Number Mapping into the video conference
-* New Docker Registry deployment
-* Set name in public rooms via url
-* Skip Lobby by URL parameter in public rooms
-* Enable Mic and Camera by URL paramter
-* Upgrade PHP to 8.4 in prod docker
-* Add user preferences (dark/light mode, language, timezone) to JWT 
-
-### 🐛 Bug Fixes
-* Collapse the Side-Navigation on mobile devices
-* Calendly disconnection fails when token was removed in advance in Calendly
-* Open invitation modal in open conferences only on moderators
-* Remove min-height 100vh from joinpage so it fits on mobile devices
-* Remove Auto TLS in Mailer DSN in SMTP server
-* Docker Image failed because of permission Issues. Thanks to @nkiss1980 for reporting the bug
-* Allow to change server when disabled via theme or permissions
-* Fix Docker Image Build to new Base Image 
-* fix api to move room to other server
-* remove langauges which are all over in the project
-* On user room removal, room is now correctly removed from users favorite list
-* Ical not working in google mail
-* escape Agenda corecly
-* Features, Improvements, and Bug Fixes related to the Livekit Integration
-* When edit a conference the agenda field was rendered empty
-* Fis Server Statistics
-* Fix open Link with target blank from ifrmae
-* Fix not downloading images from whiteboard
-* Fix dark mode for conference sidebar
-
-# Features, Improvements, and Bug Fixes related to the Livekit Integration
-
-## 1.3
-* Add allow Popups to multiframe iframe
-
-
-### 🚀 Feature
-* New start page for registered and unregistered conference participants
-* Force a name for unregistered participants
-* Preselection of camera, microphone, and background
-* New device recognition
-* Add Helm chart for deploying meetling on kubernetes with the new Docker Core Image --> [Helm Chart](https://reg.h2-invent.com/harbor/projects/16/repositories/meetling/artifacts-tab)
-
-### ⭐ Improvements
-* Join a Videoconference without an camera and microphone
-* Add Api to change Server of Room to use auto provisioner
-* add @ server to livekit roomname
-* add @ servername to jwt roomname claim
-* add relay for events to other middlewares
-* Add Chatwoot in conferences in sidebar
-
-### 🐛 Bug Fixes
-* Fix new Lobby for Multiple Users
-* Fix extra html not blocking other js
-* Fix smtp error when email address is incorrect. This email shows now the reason why an email was not send
-
-# Changes in the Managed Service
-* All Livekit Server Conferences will run on the new Middleware
-* Existing sponsored Jitsi Server will be moved to Livekit
-
-# Get more information about updates
-* You can use the **Github Notification** via E-Mail to get informed about new features in the next release
-* Sign up for the **Jitsi Admin Mailing-List**, which we send out: [Sign Up](https://lists.h2-invent.com/forms/nfrm_weLJnLY5)
-* Remove DOc Directory
+* Redesigned homepage
+* Fix appointment modal

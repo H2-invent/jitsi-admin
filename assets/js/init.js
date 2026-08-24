@@ -2,7 +2,6 @@ import $ from 'jquery';
 import {Popover, Modal, Input, initMDB} from "mdb-ui-kit";
 
 global.$ = global.jQuery = $;
-import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
@@ -34,7 +33,6 @@ import {
 
 function initGenerell() {
     checkFirefox();
-    Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
     initStartIframe();
@@ -293,7 +291,17 @@ function initProtip() {
         var totalHeight = proTip.offsetHeight;
         var firstLineHeight = proTip.querySelector('.first-line').clientHeight;
         var visiblePart = firstLineHeight + 13 + 10; // padding-top + padding-bottom
+        // Disable the transition while collapsing and reveal the bubble so it
+        // appears already minimized without flashing open/closed.
+        proTip.classList.add('proTips-collapsed');
         proTip.style.transform = 'translateY(' + (totalHeight - visiblePart) + 'px)';
+        // Re-enable the transition on the next frame so the hover animation works.
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                proTip.classList.remove('proTips-collapsed');
+                proTip.classList.add('proTips-initialized');
+            });
+        });
     }
 }
 

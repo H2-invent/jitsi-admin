@@ -235,6 +235,7 @@ services:
         class: App\Monolog\Handler\ExcludeHealthCheckHandler
         arguments:
             $handler: '@monolog.handler.loki_async'
+            $minLevelOrList: '%app.log.loki.log_level%'
         tags:
             - { name: monolog.handler, handler: loki_filtered }
 
