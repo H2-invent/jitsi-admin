@@ -14,6 +14,7 @@ use App\Service\RoomGeneratorService;
 use App\Service\SchedulingService;
 use App\Service\ServerUserManagment;
 use App\Service\UserService;
+use App\Service\webhook\RoomStatusFrontendService;
 use App\UtilsHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,15 +29,16 @@ class RoomController extends JitsiAdminController
 
     #[Route(path: '/room/new', name: 'room_new')]
     public function newRoom(
-        RoomGeneratorService $roomGeneratorService,
-        SchedulingService    $schedulingService,
-        Request              $request,
-        UserService          $userService,
-        TranslatorInterface  $translator,
-        ServerUserManagment  $serverUserManagment,
-        RoomCheckService     $roomCheckService,
-        SerializerInterface  $serializer,
-        NewRoomService       $newRoomService,
+        RoomGeneratorService      $roomGeneratorService,
+        SchedulingService         $schedulingService,
+        Request                   $request,
+        UserService               $userService,
+        TranslatorInterface       $translator,
+        ServerUserManagment       $serverUserManagment,
+        RoomCheckService          $roomCheckService,
+        SerializerInterface       $serializer,
+        NewRoomService            $newRoomService,
+        RoomStatusFrontendService $roomStatusFrontendService,
     )
     {
         $room = $newRoomService->newRoomService(request: $request,myUser: $this->getUser());
@@ -52,10 +54,16 @@ class RoomController extends JitsiAdminController
 
         $roomold = clone $room;
 
+        $serverDisabled = false;
+        if ($edit) {
+            $serverDisabled = count($roomStatusFrontendService->numberOfOccupants($room)) > 0;
+        }
+
         $form = $this->createForm(RoomType::class,
             $room, [
                 'user' => $this->getUser(),
                 'server' => $servers,
+                'serverDisabled' => $serverDisabled,
                 'action' => $this->generateUrl('room_new',
                     [
                         'id' => $room->getId()]
@@ -81,6 +89,13 @@ class RoomController extends JitsiAdminController
 
                 $room = $form->getData();
 
+                if ($edit && $room->getServer() !== $roomold->getServer()) {
+                    $activeParticipants = $roomStatusFrontendService->numberOfOccupants($roomold);
+                    if (count($activeParticipants) > 0) {
+                        return new JsonResponse(array('error' => true, 'messages' => [$translator->trans('Die Konferenz kann während einer laufenden Sitzung nicht geändert werden')]));
+                    }
+                }
+
                 $error = array();
                 $room = $roomCheckService->checkRoom($room, $error);
                 if (sizeof($error) > 0) {
@@ -88,11 +103,7 @@ class RoomController extends JitsiAdminController
                 }
                 if ($room->getPersistantRoom()) {
                     $room->setStart(null);
-                    $room->setStartUtc(null);
-                    $room->setStartTimestamp(null);
                     $room->setEnddate(null);
-                    $room->setEndDateUtc(null);
-                    $room->setEndTimestamp(null);
                 }
                 if (!in_array($room->getTag(), $room->getServer()->getTag()->toArray())) {
                     $room->setTag(null);
@@ -180,11 +191,7 @@ class RoomController extends JitsiAdminController
         $edit = true;
         $roomNew = clone $roomOld;
         $roomNew->setStart(null);
-        $roomNew->setStartUtc(null);
-        $roomNew->setStartTimestamp(null);
         $roomNew->setEnddate(null);
-        $roomNew->setEndDateUtc(null);
-        $roomNew->setEndTimestamp(null);
         $roomNew = $roomGeneratorService->createCallerId($roomNew);
         // here we clean all the scheduls from the old room
         foreach ($roomNew->getSchedulings() as $data) {
