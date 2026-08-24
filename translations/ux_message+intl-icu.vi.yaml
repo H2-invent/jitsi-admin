@@ -1,7 +1,0 @@
-email_send_invitation: Einladung wurde erfolgreich an {email} versendet.
-ADDRESSBOOK_ERROR_TITLE: Lỗi
-ADDRESSBOOK_ERROR_DEFAULT: Đã xảy ra lỗi.
-ADDRESSBOOK_CONFIRM_TITLE: Xác nhận
-ADDRESSBOOK_CONFIRM_TEXT: Bạn có chắc chắn muốn tiếp tục không?
-ADDRESSBOOK_CONFIRM_CANCEL: Hủy
-ADDRESSBOOK_CONFIRM_OK: OK

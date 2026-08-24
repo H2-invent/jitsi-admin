@@ -1,7 +1,0 @@
-email_send_invitation: L'invitation a été envoyée avec succès à {email}.
-ADDRESSBOOK_ERROR_TITLE: Erreur
-ADDRESSBOOK_ERROR_DEFAULT: Une erreur est survenue.
-ADDRESSBOOK_CONFIRM_TITLE: Confirmation
-ADDRESSBOOK_CONFIRM_TEXT: Voulez-vous vraiment continuer ?
-ADDRESSBOOK_CONFIRM_CANCEL: Annuler
-ADDRESSBOOK_CONFIRM_OK: OK

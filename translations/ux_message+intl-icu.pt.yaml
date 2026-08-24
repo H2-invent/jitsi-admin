@@ -1,7 +1,0 @@
-email_send_invitation: Einladung wurde erfolgreich an {email} versendet.
-ADDRESSBOOK_ERROR_TITLE: Erro
-ADDRESSBOOK_ERROR_DEFAULT: Ocorreu um erro.
-ADDRESSBOOK_CONFIRM_TITLE: Confirmação
-ADDRESSBOOK_CONFIRM_TEXT: Tem certeza de que deseja continuar?
-ADDRESSBOOK_CONFIRM_CANCEL: Cancelar
-ADDRESSBOOK_CONFIRM_OK: OK

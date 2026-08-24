@@ -1,7 +1,0 @@
-email_send_invitation: Einladung wurde erfolgreich an {email} versendet.
-ADDRESSBOOK_ERROR_TITLE: Ошибка
-ADDRESSBOOK_ERROR_DEFAULT: Произошла ошибка.
-ADDRESSBOOK_CONFIRM_TITLE: Подтверждение
-ADDRESSBOOK_CONFIRM_TEXT: Вы уверены, что хотите продолжить?
-ADDRESSBOOK_CONFIRM_CANCEL: Отмена
-ADDRESSBOOK_CONFIRM_OK: OK
