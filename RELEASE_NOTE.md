@@ -2,6 +2,8 @@
 
 ## 1.5
 ### 🚀 Features:
+* Documented local DDEV setup
+
 ### 🐛 Bug Fixes:
 * Fix duplicate recording API calls
 * Fix button layout/rendering in all lobby instances
