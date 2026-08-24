@@ -9,7 +9,8 @@
 * Fix duplicate recording API calls
 * Fix button layout/rendering in all lobby instances
 
-⭐ Improvements:
+### ⭐ Improvements:
+* Performance increase in Dashboard page loading time
 * Add lobby moderator permission flag to the JWT
 * Redesigned homepage
 * Fix appointment modal

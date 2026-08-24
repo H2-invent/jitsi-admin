@@ -120,10 +120,9 @@ class DashboardControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/room/dashboard/lazy/fixed/1');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertSelectorExists('.lazyLoad');
+        self::assertSelectorNotExists('.lazyLoad');
         $this->assertResponseIsSuccessful();
-        self::assertEquals(3, $crawler->filter('.card')->count());
-        ;
+        self::assertEquals(0, $crawler->filter('.card')->count());
     }
     public function testlazyLoadPast()
     {

@@ -15,7 +15,7 @@ class KeycloakGroupsToServers
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'keycloakGroups', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private $server;
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 255)]
     private $keycloakGroup;
     public function getId(): ?int
     {
