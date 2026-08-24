@@ -14,6 +14,7 @@ use App\Entity\RoomsUser;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Exceptions\InvalidSSLKeyExeption;
+use App\Service\Theme\ThemeService;
 use App\UtilsHelper;
 use Firebase\JWT\JWT;
 use Psr\Log\LoggerInterface;
@@ -42,6 +43,7 @@ class RoomService
         private SluggerInterface      $slugger,
         private UserPreferenceProvider $userPreferences,
         private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
+        private ThemeService $themeService
     )
     {
         $this->identity = time().'_'.ByteString::fromRandom(8);
@@ -70,7 +72,7 @@ class RoomService
 
 
         $moderator = false;
-        if ($room->getModerator() === $user || $roomUser->getModerator()) {
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getModerator()) {
             $moderator = true;
         }
         $avatar = null;
@@ -126,14 +128,14 @@ class RoomService
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
         $moderator = false;
-        if ($room->getModerator() === $user || $roomUser->getModerator()) {
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getModerator()) {
             $moderator = true;
         }
         if ($moderatorExplizit === true) {
             $moderator = true;
         }
         $lobbyModerator = false;
-        if ($room->getModerator() === $user || $roomUser->getLobbyModerator()) {
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getLobbyModerator()) {
             $lobbyModerator = true;
         }
         $avatar = null;
@@ -179,9 +181,19 @@ class RoomService
         }
         if ($enableMic!== null){
             $payload['settings']['isMicrophoneEnabled'] = $enableMic==='true';
+        }else{
+            $themeMicrophoneEnabled = $this->themeService->getThemeProperty('isMicrophoneEnabled');
+            if ($themeMicrophoneEnabled !== null){
+                $payload['settings']['isMicrophoneEnabled'] = filter_var($themeMicrophoneEnabled, FILTER_VALIDATE_BOOLEAN);
+            }
         }
         if ($enableCamera!== null){
             $payload['settings']['isCameraEnabled'] = $enableCamera==='true';
+        }else{
+            $themeCameraEnabled = $this->themeService->getThemeProperty('isCameraEnabled');
+            if ($themeCameraEnabled !== null){
+                $payload['settings']['isCameraEnabled'] = filter_var($themeCameraEnabled, FILTER_VALIDATE_BOOLEAN);
+            }
         }
         if ($userName === 'Meetling' && $server->isLiveKitServer()){
            $payload['context']['user']['name'] = '';

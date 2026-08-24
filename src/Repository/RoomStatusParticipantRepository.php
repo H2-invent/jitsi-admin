@@ -109,4 +109,26 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return RoomStatusParticipant[]
+     */
+    public function findUniqueParticipantsByRoom(Rooms $room): array
+    {
+        // Subquery to get one ID per unique participantId
+        $subQuery = $this->createQueryBuilder('participant2')
+            ->select('MIN(participant2.id)')
+            ->innerJoin('participant2.roomStatus', 'status2')
+            ->innerJoin('status2.room', 'room2')
+            ->andWhere('room2 = :room')
+            ->groupBy('participant2.participantId')
+            ->getDQL();
+
+        return $this->createQueryBuilder('participant')
+            ->andWhere('participant.id IN (' . $subQuery . ')')
+            ->setParameter('room', $room)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

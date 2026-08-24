@@ -1,0 +1,26 @@
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md">
+    <div class="modal-content">
+        <div class="modal-header light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ 'Neuer Kontakt'|trans }}</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form id="newContactForm" data-ajax-url="{{ path('adressbook_add_user_ajax') }}">
+                <div class="row d-flex align-items-center textarea">
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <input type="email" name="email" id="newContactEmail" class="form-control" placeholder="{{ 'E-Mail-Adresse'|trans }}" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <button type="submit" class="btn btn-primary btn-sm">{{ 'label.speichern'|trans([], 'form') }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-group { margin-bottom: 0; }
+</style>

@@ -1,10 +1,10 @@
 <div class="col-md-2">
     <span class="badge badge-danger" {% if theme %} style="background-color: {{ theme.colorBadgeSeries }} !important;" {% endif %}>{{ 'Private Konferenz'|trans }}</span>
 
-    {% if RoomStatusOpen(room) == true %}
+    {% if roomStatusOpenMap[room.id] is defined %}
         <div class="occupant">
             <div class="number">
-                <small>{{ 'status.inconference.number'|trans( {'{number}' : RoomStatusOccupats(room)|length}) }}</small>
+                <small>{{ 'status.inconference.number'|trans( {'{number}' : roomStatusOccupantsMap[room.id]|default([])|length}) }}</small>
             </div>
             <div class="text">
                 {{ 'status.inconference'|trans }}
@@ -12,7 +12,7 @@
 
         </div>
     {% endif %}
-    {% if RoomStatusClosed(room) == true %}
+    {% if roomStatusClosedMap[room.id] is defined %}
         <div class="occupant text-danger">
             <div class="text">
                 {{ 'status.finished'|trans }}
