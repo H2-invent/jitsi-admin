@@ -4,11 +4,8 @@ env:
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'hotfix/**'
-      - 'bugfix/**'
   pull_request:
+    types: [opened, reopened, edited, closed]
     branches:
       - main
       - master
