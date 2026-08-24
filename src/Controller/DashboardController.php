@@ -109,7 +109,7 @@ class DashboardController extends JitsiAdminController
         }
         $favoriteService->cleanFavorites($this->getUser());
         $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), 0);
-        $roomsNow = $this->doctrine->getRepository(Rooms::class)->findRuningRooms($this->getUser());
+        $roomsNow = $this->doctrine->getRepository(Rooms::class)->findRunningRooms($this->getUser());
         $roomsToday = $this->doctrine->getRepository(Rooms::class)->findTodayRooms($this->getUser());
         $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser(), 0);
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
