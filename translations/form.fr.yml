@@ -171,6 +171,9 @@ label:
   calendlyToken: Token Oauth Calendly
   enableRecording: Activer l'enregistrement
   calendlyServer: Serveur de conférence pour les conférences Calendly
+  enableTranscription: Transkription aktivieren
+  apiKeyTranscription: Api Key für die Transkription
+  transcriptionProvider: Transkription Anbieter
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
