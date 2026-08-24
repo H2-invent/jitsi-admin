@@ -1,0 +1,183 @@
+label.konferenzId: ID de conferencia
+label.email: Dirección de correo electrónico
+label.name: Su nombre
+label.teilnehmerEmailhinzufuegen: Inserte las direcciones de correo electrónico de los nuevos participantes
+label.teilnehmerSpeichern: Enviar correo electrónico de invitación
+label.emailModerator: Inserte la dirección de correo electrónico del organizador
+help.emailTextfeld: Se pueden agregar varias direcciones de correo electrónico a la vez. Cada dirección de correo electrónico debe escribirse en una nueva línea.
+label.organisatorhinzufuegen: Agregar organizador
+label.serverKonferenz: Servidor Jitsi Meet
+label.konferenzName: Nombre de la conferencia
+label.start: Iniciar
+label.dauerKonferenz: Duración de la conferencia
+label.nurRegistriertenutzer: Sólo los usuarios registrados pueden unirse a la conferencia.
+label.speichern: Guardar
+label.allowMaybeOption: 'Ofrecer la opción «con reserva»'
+option.15min: 15 minutos
+option.30min: 30 minutos
+option.45min: 45 minutos
+option.60min: 1 hora
+option.75min: 1:15 Horas
+option.90min: 1:30 Horas
+option.105min: 1:45 Horas
+option.120min: 2 horas
+option.150min: 2:30 Horas
+option.180min: 3 Horas
+option.210min: 3:30 Horas
+option.240min: 4 horas
+option.270min: 4:30 Horas
+option.300min: 5 Horas
+option.330min: 5:30 Horas
+option.360min: 6 Horas
+option.390min: 6:30 Horas
+option.420min: 7 Horas
+option.450min: 7:30 Horas
+option.480min: 8 horas
+option:
+  monday: Lunes
+  tuesday: Martes
+  wednesday: Miércoles
+  thursday: Jueves
+  friday: Viernes
+  saturday: Sábado
+  sunday: Domingo
+  weekly: Semanal
+  daily: Diaria
+  montly: Mensual
+  yearly: Anual
+  montlyRelative: Relativamente mensual
+  yearlyRelative: Relativamente anual
+  first: Primero
+  second: Segundo
+  third: Tercero
+  fourth: Cuarto
+  fifth: Quinto
+  last: Último
+  january: Enero
+  february: Febrero
+  march: Marzo
+  april: Abril
+  may: Mayo
+  june: Junio
+  july: Julio
+  august: Agosto
+  septembre: Septiembre
+  octobre: Octubre
+  novembre: Noviembre
+  decembre: Diciembre
+  user: Reclamación de usuario
+  root: Reclamación de administrador
+lable.serverUrl: URL del servidor de conferencias
+label.appId: Id de aplicacion
+label.appSecret: Secreto de la aplicacion
+label.scheduleMeeting: Consensuar una conferencia
+help:
+  serverUrl: Acceder sin "https://" (ej. meet.jit.si)
+  featureEnalbeByJwt: El plugin "Enable Feature By JWT" debe estar activado en el servidor Jitsi-Meet. De otra forma, el token JWT no será reconocido correctamente ni procesado por el servidor
+  teilnehmerEmailhinzufuegenModerator: Se pueden agregar varias direcciones de correo electrónico a la vez. Cada dirección de correo electrónico debe escribirse en una nueva línea.
+  serverName: Introduzca aquí el nombre del servidor. Esto se muestra a los participantes.
+  secondEmail: Todos los correos electrónicos deben enviarse a estas direcciones, además de a su dirección de correo electrónico estándar (separadas por comas).
+  corsHeader: Si se configura un encabezado CORS o frame-ancestor que no hace referencia a esta URL, entonces no es posible usar la API de Jitsi-iFrame. Esto conlleva la pérdida de algunas funciones.
+  jigasiApiUrl: Inserte la API de Jigasi aquí, que se puede usar para recuperar el pin de la conferencia. Esta generalmente termina con "ConferenceMapper".
+  jigasiNumberUrl: 'Introduzca aquí el número de acceso telefónico en formato JSON, como se hace en Jigasi en “numbers.json”.'
+  jigasiProsodyDomain: Inserte el dominio de Prosody aquí. Por lo general, sigue el patrón "conference.domain.topdomain".
+  disallowFirefox: El navegador Firefox está deshabilitado. Todos los participantes que quieran unirse con un navegador Firefox serán redirigidos a un navegador basado en Chromium.
+  enforceE2e: La seguridad del cifrado de extremo a extremo se aplica en cada conferencia en este servidor Jitsi.
+  allowIp: Solo la dirección IP o los rangos de IP especificados pueden unirse a la conferencia. Los rangos de IP deben especificarse en la notación 10.10.10.10/24. Se pueden ingresar múltiples IP o rangos separados por comas.
+  jitsiEventSyncUrl: Aquí puede especificar otro administrador de Jitsi que haya guardado las sincronizaciones de eventos de Jitsi correspondientes para solicitudes SIP. Sólo es necesario especificar la URL base. Esta función requiere la versión Jitsi-admin >0.77.x
+  disableFilmstripe: Desactivar el vídeo en Jitsi
+  disableChat: Desactivar y ocultar chat en Jitsi
+  disableWhiteboard: Deshabilitar la pizarra durante una conferencia
+  disableEtherpad: Deshabilitar la pizarra durante una conferencia
+  prefixRoomUidWithHash: El identificador único de la conferencia tiene el prefijo slug del servidor y el ID del servidor como hash. Esto se puede utilizar para distinguir entre diferentes servidores en el servidor web nginx.
+  liveKitServer: Este servidor es un servidor Livekit y está diseñado para utilizar las funcionalidades de la API de Livekit
+  livekitBackgroundImages: Array con imágenes de fondo en formato JSON que los participantes de una conferencia pueden seleccionar como fondo durante la misma.
+  livekitMiddlewareUrl: Aquí se puede introducir una URL (https://middlewareUrl.com). Por el momento, solo es compatible con el middleware de Meetling. Si no sabe qué debe introducir aquí, déjelo en blanco para que se utilice el middleware predeterminado. Si desea utilizar su propio middleware, póngase en contacto con info@h2-invent.com
+label:
+  beitretenApp: Unirse utilizando la aplicación Elektron
+  beitretenBrowser: Unirse utilizando el navegador
+  serverSmtpHostName: Servidor SMTP
+  serverSmtpHostPort: Puerto SMTP
+  serverSmtpEncryption: Encriptado
+  serverSmtpUsername: Usuario SMTP
+  serverSmtpPassword: Contraseña SMTP
+  serverSmtpSenderEmail: Email del remitente
+  serverSmtpSenderName: Nombre del remitente
+  serverLintLogo: Enlace al logo
+  serverPrivacyPolicy: Aviso de privacidad para este servidor
+  serverEmailHeader: Encabezamiento individual para el email
+  serverEmailBody: Contenido individual para el email
+  serverLicenseKey: Ingrese la clave de licencia de Jitsi-Admin
+  apiKey: Api_Key para este servidor
+  agenda: Agenda abreviada para esta reunión (Markdown)
+  staticBackgroundColor: Mostrar un color fijo en vez de imágenes en la pantalla de unión
+  schowStaticBackgroundColor: Mostrar un color fijo en vez de imágenes en la pantalla de unión
+  featureEnalbeByJwt: El plugin "Enable Feature By JWT" está activado en este servidor
+  dissallowScreenshareGlobal: Sólo el moderador puede compartir la pantalla
+  dissallowPrivateMessage: Sólo el moderador puede enviar mensajes privados a otros participantes
+  puplicRoom: Activar enlaces con registro previo
+  showRoomOnJoinpage: Mostrar conferencia en la página de unión
+  subscribe: Iniciar sesión
+  vorname: Nombre
+  nachname: Apellido
+  maxParticipants: Permitir número máximo de participantes
+  waitinglist: Activar la lista de espera
+  teilnehmerEmailhinzufuegenModerator: Ingrese la dirección de correo electrónico de los nuevos Moderadores
+  weekday: Día de la semana
+  repetation: Termina después de x fechas
+  repeatType: Patrón de periodicidad
+  repeaterDays: Repetir después de X días
+  repeaterWeeks: Repetir después de X semanas
+  repeatMontly: Repetir después de X meses
+  repeatYearly: Repetir después de X años
+  montlyRelativeNumber: Cuantos dias de la semana en el mes
+  montlyRelativeWeekday: Día de la semana
+  montlyRelativeMonth: Mes
+  repeaterRemoved: Edite sólo este elemento, no la serie completa
+  persistantRoom: Esta conferencia no tiene fecha y siempre está disponible
+  totalOpenRooms: Únase con un enlace simple. Esto desactiva la lista de participantes.
+  totalOpenRoomsOpenTime: Hora de apertura de la sala
+  addressgroupName: Nombre de Grupo
+  addressgroupMember: Miembros del grupo
+  jwtModeratorPosition: Posición de moderador en el token JWT
+  timezone: Zona horaria
+  serverName: Nombre del servidor
+  lobby: Activar sala de espera
+  secondEmail: CC Correo Electrónico
+  profilImage: Imagen de perfil (se mostrará en la conferencia de Jitsi-Meet)
+  corsHeader: Encabezado CORS o encabezado frame-ancestor
+  tag: Categoría
+  serverBackgroundImage: Estadísticas previas de la página de unión
+  jigasiApiUrl: URL de Jigasi ConferenceMapper
+  jigasiNumberUrl: Números de acceso Jigasi en formato JSON
+  jigasiProsodyDomain: Dominio de Prosodi Jigasi
+  go: '¡Comencemos!'
+  moderator: Seleccionar organizador
+  disallowFirefox: Firefox está deshabilitado en el servidor de Jitsi Meet
+  enforceE2e: Forzar de extremo a extremo
+  allowIp: IP o rango de IP que pueden unirse a la conferencia
+  maxUser: Número máximo de participantes
+  jitsiEventSyncUrl: URL de retrasmisión de eventos de Jitsi
+  disableFilmstripe: Desactivar imágen
+  disableChat: Desactivar Etherpad
+  disableWhiteboard: Habilitar pizarra
+  disableEtherpad: Desactivar Etherpad
+  prefixRoomUidWithHash: Identificador único de sala con prefijo hash del servidor
+  myName: Mi nombre
+  liveKitServer: Me gustaría configurar un servidor Livekit
+  livekitBackgroundImages: Imágenes de fondo para la conferencia en formato JSON
+  livekitMiddlewareUrl: Url de Livekit Middleware
+  disableSelfSubscriptionDoubleOptIn: No envíar un correo electrónico de doble confirmación, "double opt-in", para los autorregistros
+  calendlyToken: Token Oauth de Calendly
+  enableRecording: Activar la grabación
+  calendlyServer: Servidor de conferencias para las reuniones de Calendly
+  enableTranscription: Transkription aktivieren
+  apiKeyTranscription: Api Key für die Transkription
+  transcriptionProvider: Transkription Anbieter
+choice:
+  tls: STARTTLS/TLS
+  ssl: SSL
+  none: Ningúno
+placeholder:
+  maxParticipants: Ninguna limitación
+  chooseTime: Seleccione fecha y hora
