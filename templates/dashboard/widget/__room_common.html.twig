@@ -23,6 +23,12 @@
             {{ 'Aufnahmen'|trans }}</a></li>
 {% endif %}
 
+{% if room.transcriptions|length > 0 %}
+    <li><a href="{{ path('app_transcription_modal',{'room': room.id}) }}"
+           class="dropdown-item loadContent">
+            <i class="fa-solid fa-file-lines"></i>
+            {{ 'Transkripte'|trans }}</a></li>
+{% endif %}
 
 {% if dropdown_settings_common_duplicate == 1 %}
     <li><a href="{{ path('room_clone',{'room':room.id}) }}"

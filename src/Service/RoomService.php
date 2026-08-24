@@ -14,6 +14,7 @@ use App\Entity\RoomsUser;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Exceptions\InvalidSSLKeyExeption;
+use App\Service\Theme\ThemeService;
 use App\UtilsHelper;
 use Firebase\JWT\JWT;
 use Psr\Log\LoggerInterface;
@@ -42,6 +43,7 @@ class RoomService
         private SluggerInterface      $slugger,
         private UserPreferenceProvider $userPreferences,
         private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
+        private ThemeService $themeService
     )
     {
         $this->identity = time().'_'.ByteString::fromRandom(8);
@@ -126,14 +128,14 @@ class RoomService
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
         $moderator = false;
-        if ($room->getModerator() === $user || $roomUser->getModerator()) {
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getModerator()) {
             $moderator = true;
         }
         if ($moderatorExplizit === true) {
             $moderator = true;
         }
         $lobbyModerator = false;
-        if ($room->getModerator() === $user || $roomUser->getLobbyModerator()) {
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getLobbyModerator()) {
             $lobbyModerator = true;
         }
         $avatar = null;
@@ -179,9 +181,17 @@ class RoomService
         }
         if ($enableMic!== null){
             $payload['settings']['isMicrophoneEnabled'] = $enableMic==='true';
+        }else{
+            if ($this->themeService->getThemeProperty('isMicrophoneEnabled')){
+                $payload['settings']['isMicrophoneEnabled'] = $this->themeService->getThemeProperty('isMicrophoneEnabled')==='true';
+            }
         }
         if ($enableCamera!== null){
             $payload['settings']['isCameraEnabled'] = $enableCamera==='true';
+        }else{
+            if ($this->themeService->getThemeProperty('isCameraEnabled')){
+                $payload['settings']['isCameraEnabled'] = $this->themeService->getThemeProperty('isCameraEnabled')==='true';
+            }
         }
         if ($userName === 'Meetling' && $server->isLiveKitServer()){
            $payload['context']['user']['name'] = '';
