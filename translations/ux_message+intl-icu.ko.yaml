@@ -1,0 +1,7 @@
+email_send_invitation: 초대장이 {email} 주소로 성공적으로 발송되었습니다.
+ADDRESSBOOK_ERROR_TITLE: Fehler
+ADDRESSBOOK_ERROR_DEFAULT: Ein Fehler ist aufgetreten.
+ADDRESSBOOK_CONFIRM_TITLE: Bestätigung
+ADDRESSBOOK_CONFIRM_TEXT: Wollen Sie die Aktion durchführen?
+ADDRESSBOOK_CONFIRM_CANCEL: Abbrechen
+ADDRESSBOOK_CONFIRM_OK: OK
