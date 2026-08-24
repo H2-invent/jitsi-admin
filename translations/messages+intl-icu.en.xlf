@@ -819,9 +819,7 @@
       </trans-unit>
       <trans-unit id="0RNV0ke" resname="dashboard.noconference">
         <source>dashboard.noconference</source>
-        <target state="translated"><![CDATA[No conferences available. Create 
-                            <u><a href="{url}" class="loadContent">here</a></u>
-                            a new conference.]]></target>
+        <target state="translated"><![CDATA[No conferences available. Create a new conference <u><a href="{url}" class="loadContent">here</a></u>.]]></target>
       </trans-unit>
       <trans-unit id="OZ5F22." resname="Hinzugefügt zur Warteliste">
         <source>Hinzugefügt zur Warteliste</source>
@@ -2467,7 +2465,7 @@ Ihre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="kHIraMt" resname="transcription.ready.text">
         <source>transcription.ready.text</source>
-        <target state="needs-translation">Die Transkription für {roomName} ist fertig und liegt zum Download bereit.</target>
+        <target state="needs-translation">Es wurde eine Transkription zu der Konferenz {roomName} hochgeladen. Sie können die Transkription der Konferenz über die Optionen im Dashboard herunterladen.</target>
       </trans-unit>
       <trans-unit id="2dzwmpu" resname="Klicken Sie hier um das Transkript runterzuladen.">
         <source>Klicken Sie hier um das Transkript runterzuladen.</source>
