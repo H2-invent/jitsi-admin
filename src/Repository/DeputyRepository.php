@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Deputy;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,28 +40,21 @@ class DeputyRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Deputy[] Returns an array of Deputy objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('d.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Returns all Deputy relations for the given manager, indexed by the deputy user id.
+     *
+     * @return array<int, Deputy>
+     */
+    public function findForManager(User $manager): array
+    {
+        $result = [];
+        foreach ($this->findBy(['manager' => $manager]) as $dep) {
+            $deputy = $dep->getDeputy();
+            if ($deputy !== null) {
+                $result[$deputy->getId()] = $dep;
+            }
+        }
 
-//    public function findOneBySomeField($value): ?Deputy
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $result;
+    }
 }

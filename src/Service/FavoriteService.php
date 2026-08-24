@@ -37,6 +37,7 @@ class FavoriteService
     {
         $favorites = $user->getFavorites();
         $now = (new \DateTime())->setTimezone(new \DateTimeZone('utc'));
+        $changed = false;
         foreach ($favorites as $favorite) {
             if (!$favorite->getUser()->contains($user)
                 || ($favorite->getPersistantRoom() !== true
@@ -44,10 +45,13 @@ class FavoriteService
                     && $favorite->getEndDateUtc() < $now)
             ) {
                 $user->removeFavorite($favorite);
+                $changed = true;
             }
         }
-        $this->em->persist($user);
-        $this->em->flush();
+        if ($changed) {
+            $this->em->persist($user);
+            $this->em->flush();
+        }
     }
 
     public function sendMe()

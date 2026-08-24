@@ -2527,6 +2527,10 @@ Ihre E-Mail-Adresse: {email}</target>
         <source>Sofort</source>
         <target state="needs-translation">Sofort</target>
       </trans-unit>
+      <trans-unit id="RoomCannotBeChangedDuringSession" resname="Die Konferenz kann während einer laufenden Sitzung nicht geändert werden">
+        <source>Die Konferenz kann während einer laufenden Sitzung nicht geändert werden</source>
+        <target state="translated">The conference cannot be changed during a running session.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
