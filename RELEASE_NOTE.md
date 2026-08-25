@@ -10,7 +10,8 @@
 * Fix duplicate recording API calls
 * Fix button layout/rendering in all lobby instances
 * Fix incorrect address book contact name display
-* Fix incorrect height of lobby overlay
+* Fix display webcam preview
+* Fix broken render of address book panel after Ajax contact addition
 
 ### ⭐ Improvements:
 * Performance increase in Dashboard page loading time
