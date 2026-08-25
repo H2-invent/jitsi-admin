@@ -162,17 +162,6 @@ parameters:
     app.transcription.mistral.uri: '%env(MISTRAL_API_URI)%'
 
 services:
-    gaufrette.recording_fs_filesystem:
-        class: Gaufrette\Filesystem
-        arguments:
-            - '@gaufrette.adapter.recording_storage'
-
-    gaufrette.adapter.recording_storage:
-        class: Gaufrette\Adapter\Local
-        arguments:
-            - '%kernel.project_dir%/data/recording'
-        public: true
-
     Gaufrette\FilesystemInterface $recordingFilesystem:
         alias: gaufrette.recording_fs_filesystem
 
