@@ -14,7 +14,3 @@ label instead so it's left out of the changelog entirely.
 ```changelog
 
 ```
-
-## Testing
-
-<!-- How did you verify this change? -->
