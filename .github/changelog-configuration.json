@@ -30,7 +30,7 @@
     "order": "ASC",
     "on_property": "mergedAt"
   },
-  "template": "#{{CHANGELOG}}\n\n#{{UNCATEGORIZED}}\n\n**Full Changelog**: #{{RELEASE_DIFF}}\n\n👥 Contributors: #{{CONTRIBUTORS}}",
+  "template": "#{{CHANGELOG}}\n\n#{{UNCATEGORIZED}}\n\n**Full Changelog**: #{{RELEASE_DIFF}}",
   "pr_template": "- #{{CHANGELOG_ENTRY}} (##{{NUMBER}})",
   "custom_placeholders": [
     {

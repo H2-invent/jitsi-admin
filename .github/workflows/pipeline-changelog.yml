@@ -6,6 +6,7 @@ on:
     branches:
       - master
       - feature/development
+      - release/*
       - unstable/*
       - hotfix/*
 
