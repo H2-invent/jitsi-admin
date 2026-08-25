@@ -33,8 +33,8 @@ export function setupStartEgress() {
 
                     console.log('Aufnahme erfolgreich gestartet:', data);
 
-                    // Egress-ID im Stop-Element setzen
-                    const stopEgressUrl = stopEgressElement.getAttribute('href').replace('REPLACE', data.recordingId);
+                    // Erstelle Stop Url aus Template mit neuer Recording ID
+                    const stopEgressUrl = stopEgressElement.dataset.hrefTemplate.replace('REPLACE', data.recordingId);
                     stopEgressElement.setAttribute('href', stopEgressUrl);
 
                     // Stop-Element sichtbar machen

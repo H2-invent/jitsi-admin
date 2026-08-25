@@ -40,7 +40,7 @@
                     <li><h6 class="dropdown-header">{{ 'recording.dropdownTitle'|trans }}</h6></li>
                     {% set egressId = getRecordingForRoomAndUser(app.user, room)?.recordingId ?? 'REPLACE' %}
                     <li>
-                        <a class="dropdown-item stopEgress" id="stopEgress" href="{{ path('app_stop_egress',{'recordingId':egressId}) }}">
+                        <a class="dropdown-item stopEgress" id="stopEgress" href="{{ path('app_stop_egress',{'recordingId': egressId}) }}" data-href-template="{{ path('app_stop_egress',{'recordingId': 'REPLACE'}) }}">
                             {{ 'options.stopRecording'|trans }}
                         </a>
                     </li>
