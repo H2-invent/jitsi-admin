@@ -12,9 +12,11 @@ knp_gaufrette:
         local_adapter:
             local:
                 directory: '%kernel.project_dir%/public/uploads/images'
+                create: true
         recording_storage:
             local:
                 directory: '%kernel.project_dir%/data/recording' # Nicht öffentlich zugänglich
+                create: true
 
 
     filesystems:
