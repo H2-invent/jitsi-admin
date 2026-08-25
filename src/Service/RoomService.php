@@ -72,7 +72,7 @@ class RoomService
 
 
         $moderator = false;
-        if ($room->getModerator() === $user || $roomUser->getModerator()) {
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getModerator()) {
             $moderator = true;
         }
         $avatar = null;
@@ -128,11 +128,15 @@ class RoomService
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
         $moderator = false;
-        if ($room->getModerator() === $user || $roomUser->getModerator()) {
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getModerator()) {
             $moderator = true;
         }
         if ($moderatorExplizit === true) {
             $moderator = true;
+        }
+        $lobbyModerator = false;
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getLobbyModerator()) {
+            $lobbyModerator = true;
         }
         $avatar = null;
         if ($user && $user->getProfilePicture()) {
@@ -141,11 +145,11 @@ class RoomService
         if ($avatarUrl) {
             $avatar = $avatarUrl;
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera), $room->getServer()->getAppSecret(), 'HS256');
+        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera,$lobbyModerator), $room->getServer()->getAppSecret(), 'HS256');
     }
 
     public
-    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, ?User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): ?array
+    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, ?User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null, $lobbyModerator=false): ?array
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
@@ -178,15 +182,17 @@ class RoomService
         if ($enableMic!== null){
             $payload['settings']['isMicrophoneEnabled'] = $enableMic==='true';
         }else{
-            if ($this->themeService->getThemeProperty('isMicrophoneEnabled')){
-                $payload['settings']['isMicrophoneEnabled'] = $this->themeService->getThemeProperty('isMicrophoneEnabled')==='true';
+            $themeMicrophoneEnabled = $this->themeService->getThemeProperty('isMicrophoneEnabled');
+            if ($themeMicrophoneEnabled !== null){
+                $payload['settings']['isMicrophoneEnabled'] = filter_var($themeMicrophoneEnabled, FILTER_VALIDATE_BOOLEAN);
             }
         }
         if ($enableCamera!== null){
             $payload['settings']['isCameraEnabled'] = $enableCamera==='true';
         }else{
-            if ($this->themeService->getThemeProperty('isCameraEnabled')){
-                $payload['settings']['isCameraEnabled'] = $this->themeService->getThemeProperty('isCameraEnabled')==='true';
+            $themeCameraEnabled = $this->themeService->getThemeProperty('isCameraEnabled');
+            if ($themeCameraEnabled !== null){
+                $payload['settings']['isCameraEnabled'] = filter_var($themeCameraEnabled, FILTER_VALIDATE_BOOLEAN);
             }
         }
         if ($userName === 'Meetling' && $server->isLiveKitServer()){
@@ -247,8 +253,10 @@ class RoomService
             if ($room->getServer()->getJwtModeratorPosition() == 0) {
                 $this->logger->debug('We add moderator rights to the root claim');
                 $payload['moderator'] = $moderator;
+                $payload['lobbyModerator'] = $lobbyModerator;
             } elseif ($room->getServer()->getJwtModeratorPosition() == 1) {
                 $payload['context']['user']['moderator'] = $moderator;
+                $payload['context']['user']['lobbyModerator'] = $lobbyModerator;
             }
         }
 

@@ -62,7 +62,7 @@ final class JWTGenerateTest extends TestCase
         [$room, $server] = $this->createRoomAndServer();
 
         $this->themeService
-            ->expects(self::exactly(4))
+            ->expects(self::exactly(2))
             ->method('getThemeProperty')
             ->willReturnMap([
                 ['isMicrophoneEnabled', 'true'],
@@ -155,7 +155,7 @@ final class JWTGenerateTest extends TestCase
         [$room] = $this->createRoomAndServer();
 
         $this->themeService
-            ->expects(self::exactly(4))
+            ->expects(self::exactly(2))
             ->method('getThemeProperty')
             ->willReturnMap([
                 ['isMicrophoneEnabled', 'true'],
@@ -220,10 +220,10 @@ final class JWTGenerateTest extends TestCase
                 'isCameraEnabled' => false,
             ],
             'moderator' => true,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'dark',
             ],
         ];
     }
 }
-

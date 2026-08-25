@@ -303,17 +303,25 @@ body {
 .btn-group {
   margin-left: 0;
   margin-right: 0;
+}
 
-  .btn-truncate {
-    flex: 1 1 0;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.btn-truncate {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
-    &.caretdown:before {
-      margin-right: 0;
-    }
+  &.caretdown:before {
+    margin-right: 0;
+  }
+}
+
+.lobbyDeviceButtons {
+  .btn,
+  .btn-group {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

@@ -28,13 +28,13 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="d-grid">
+                    <div class="d-grid lobbyDeviceButtons">
                         <a class="caretdown btn btn-block btn-primary dropdown-toggle overflow-hidden w-100"
                            type="button"
                            id="selectWebcamDropdown"
                           data-mdb-dropdown-init
                            aria-haspopup="true"
-                           aria-expanded="false"><i class="fa fa-video me-2"></i><span
+                           aria-expanded="false"><i class="fa fa-video fa-fw me-2"></i><span
                                     class=" w-100 text-ellipsis text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
                         </a>
                         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
@@ -44,11 +44,11 @@
                         <a class="caretdown btn btn-block btn-primary dropdown-toggle overflow-hidden w-100"
                            type="button"
                            data-mdb-dropdown-init
-                            data-mdb-reference="parent"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            title="{{ 'lobby.echo.input'|trans }}"><i class="fas fa-microphone me-2"></i><span
-                                     class="w-100 text-ellipsis text-center">{{ 'lobby.echo.input'|trans }}</span>
+                           data-mdb-reference="parent"
+                           aria-haspopup="true"
+                           aria-expanded="false"
+                           title="{{ 'lobby.echo.input'|trans }}"><i class="fas fa-microphone fa-fw me-2"></i><span
+                                    class="w-100 text-ellipsis text-center">{{ 'lobby.echo.input'|trans }}</span>
                         </a>
                         <div class="dropdown-menu">
                             <div id="audioInputSelect">

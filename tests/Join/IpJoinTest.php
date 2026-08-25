@@ -63,7 +63,7 @@ class IpJoinTest extends WebTestCase
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertStringContainsString('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSJ9LCJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjp0cnVlLCJ0aGVtZSI6eyJjb2xvclNjaGVtZSI6ImxpZ2h0In19.xXcjDRArc4QE5QBD7DI3BUrUialbn8DnvsREDJvFFG0', $client->getResponse()->getContent());
+        self::assertStringContainsString('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSJ9LCJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjp0cnVlLCJsb2JieU1vZGVyYXRvciI6dHJ1ZSwidGhlbWUiOnsiY29sb3JTY2hlbWUiOiJsaWdodCJ9fQ.f2UD-YE6RugHXjCOfJ8X-7BmBI8ElMGzBZP0ox4gAUU', $client->getResponse()->getContent());
     }
 
     public function testEnoughSpaceInConference(): void
@@ -82,6 +82,6 @@ class IpJoinTest extends WebTestCase
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertStringContainsString('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSJ9LCJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjp0cnVlLCJ0aGVtZSI6eyJjb2xvclNjaGVtZSI6ImxpZ2h0In19.xXcjDRArc4QE5QBD7DI3BUrUialbn8DnvsREDJvFFG0', $client->getResponse()->getContent());
+        self::assertStringContainsString('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSJ9LCJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjp0cnVlLCJsb2JieU1vZGVyYXRvciI6dHJ1ZSwidGhlbWUiOnsiY29sb3JTY2hlbWUiOiJsaWdodCJ9fQ.f2UD-YE6RugHXjCOfJ8X-7BmBI8ElMGzBZP0ox4gAUU', $client->getResponse()->getContent());
     }
 }
