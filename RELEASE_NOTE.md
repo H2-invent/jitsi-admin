@@ -10,6 +10,7 @@
 * Fix duplicate recording API calls
 * Fix button layout/rendering in all lobby instances
 * Fix incorrect address book contact name display
+* Fix broken render of address book panel after Ajax contact addition
 
 ### ⭐ Improvements:
 * Performance increase in Dashboard page loading time

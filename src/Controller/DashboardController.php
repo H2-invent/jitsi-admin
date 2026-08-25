@@ -275,6 +275,7 @@ class DashboardController extends JitsiAdminController
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         return $this->render('addressbook/__addressBook.html.twig', [
             'servers' => $servers,
+            'doAllowUserCreation' => $this->userCreatorService->doAllowUserCreation(),
         ]);
     }
 }
