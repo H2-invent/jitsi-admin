@@ -1,32 +1,3 @@
-knp_gaufrette:
-    stream_wrapper: ~
-    adapters:
-        document_adapter:
-            aws_s3:
-                service_id: ct_file_store.s3
-                bucket_name: '%env(AWS_BUCKET_NAME)%'
-                detect_content_type: true
-                options:
-                    create: true
-                    directory: profile
-        local_adapter:
-            local:
-                directory: '%kernel.project_dir%/public/uploads/images'
-                create: true
-        recording_storage:
-            local:
-                directory: '%kernel.project_dir%/data/recording' # Nicht öffentlich zugänglich
-                create: true
-
-
-    filesystems:
-        document_fs:
-            #adapter: document_adapter
-            adapter: local_adapter
-        recording_fs:
-            adapter: recording_storage
-
-
 vich_uploader:
     db_driver: orm
     storage: gaufrette
@@ -41,6 +12,3 @@ vich_uploader:
             delete_on_update: true
             delete_on_remove: true
             namer: vich_uploader.namer_uniqid
-
-
-
