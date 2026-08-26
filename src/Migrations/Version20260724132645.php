@@ -29,7 +29,12 @@ final class Version20260724132645 extends AbstractMigration
             ->setDefault(null)
         ;
 
-        $this->addSql('ALTER TABLE server RENAME COLUMN api_key_open_ai TO api_key_transcription');
+        $platform = $this->connection->getDatabasePlatform();
+        if ($platform instanceof PostgreSQLPlatform) {
+            $this->addSql('ALTER TABLE server RENAME COLUMN api_key_open_ai TO api_key_transcription');
+        } elseif ($platform instanceof MySQLPlatform) {
+            $this->addSql('ALTER TABLE server CHANGE api_key_open_ai api_key_transcription VARCHAR(255) DEFAULT NULL');
+        }
     }
 
     public function down(Schema $schema): void
@@ -38,6 +43,11 @@ final class Version20260724132645 extends AbstractMigration
             ->dropColumn('transcription_provider')
         ;
 
-        $this->addSql('ALTER TABLE server RENAME COLUMN api_key_transcription TO api_key_open_ai');
+        $platform = $this->connection->getDatabasePlatform();
+        if ($platform instanceof PostgreSQLPlatform) {
+            $this->addSql('ALTER TABLE server RENAME COLUMN api_key_transcription TO api_key_open_ai');
+        } elseif ($platform instanceof MySQLPlatform) {
+            $this->addSql('ALTER TABLE server CHANGE api_key_transcription api_key_open_ai VARCHAR(255) DEFAULT NULL');
+        }
     }
 }
