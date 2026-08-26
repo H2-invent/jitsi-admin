@@ -217,7 +217,7 @@ function addInteractions(ele) {
       listeners: {
         start: (event) => {
           dragactive = true;
-          event.originalEvent.stopPropagation();
+          event.stopPropagation();
           if (event.target.classList.contains("minified")) {
             return null;
           }
