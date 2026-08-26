@@ -3,7 +3,6 @@
 ## 1.5
 ### 🚀 Features:
 * Added Transcription functionality. Uses OpenAI Whisper to transcribe recordings to text
-* Documented local DDEV setup
 
 ### 🐛 Bug Fixes:
 * Prevent server change for active meetings rooms
