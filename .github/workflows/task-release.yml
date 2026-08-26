@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/download-artifact@v4
         with:
@@ -43,6 +45,16 @@ jobs:
           filename: 'websocket.zip'
           directory: artifact/nodejs
 
+      - name: Build changelog
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v6
+        with:
+          configuration: .github/changelog-configuration.json
+          ignorePreReleases: true
+          toTag: ${{ github.sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create new Release with semantic-version tag
         uses: ncipollo/release-action@v1
         id: create_release
@@ -53,4 +65,4 @@ jobs:
           tag: ${{ inputs.version }}
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
           artifactContentType: application/zip
-          bodyFile: RELEASE_NOTE.md
+          body: ${{ steps.build_changelog.outputs.changelog }}
