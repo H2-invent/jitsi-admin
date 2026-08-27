@@ -15,3 +15,4 @@
 * Redesigned homepage
 * Fix appointment modal
 * Adressbook refactoring
+* Change Drag and Drop Lib back to inteact js because it is more robust
