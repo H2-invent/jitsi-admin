@@ -79,7 +79,6 @@ addEventListener('load', function () {
 $(document).ready(function () {
 
     initTabs('.nav-mat-tabs');
-    attach('.btn', ['waves-effect']);
     attach('.nav-item', ['waves-effect']);
     init();
 
@@ -345,10 +344,10 @@ document.addEventListener('click', function (e) {
     const ajaxUrl = link.dataset.ajaxUrl;
     if (!ajaxUrl) return;
 
+    if (link.classList.contains('confirmHref')) return;
+
     e.preventDefault();
     e.stopImmediatePropagation();
-
-    if (link.classList.contains('confirmHref')) return;
 
     const linkIcon = link.querySelector('i');
     if (linkIcon) {

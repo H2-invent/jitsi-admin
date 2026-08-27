@@ -1,13 +1,9 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
 
-## 1.5
+## 1.6
 ### 🚀 Features:
-* Added Transcription functionality. Uses OpenAI Whisper to transcribe recordings to text
 
 ### 🐛 Bug Fixes:
-* Prevent server change for active meetings rooms
-* Fix duplicate recording API calls
-* Fix button layout/rendering in all lobby instances
 
 ### ⭐ Improvements:
 * Performance increase in Dashboard page loading time
@@ -16,3 +12,4 @@
 * Fix appointment modal
 * Adressbook refactoring
 * Change Drag and Drop Lib back to inteact js because it is more robust
+
