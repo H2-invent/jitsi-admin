@@ -23,6 +23,9 @@
       "rules": [
         { "pattern": "^(refactor|l10n_release)/", "on_property": "branch", "flags": "i" }
       ]
+    },
+    {
+      "title": "### 📦 Other"
     }
   ],
   "ignore_labels": ["no changelog"],
@@ -30,7 +33,7 @@
     "order": "ASC",
     "on_property": "mergedAt"
   },
-  "template": "#{{CHANGELOG}}\n\n#{{UNCATEGORIZED}}\n\n**Full Changelog**: #{{RELEASE_DIFF}}",
+  "template": "#{{CHANGELOG}}\n\n**Full Changelog**: #{{RELEASE_DIFF}}",
   "pr_template": "- #{{CHANGELOG_ENTRY}} (##{{NUMBER}})",
   "custom_placeholders": [
     {
@@ -40,7 +43,7 @@
         "pattern": "[\\s\\S]*?```changelog\\s*\\r?\\n([\\s\\S]*?)\\r?\\n```[\\s\\S]*",
         "target": "$1",
         "flags": "i",
-        "on_empty": "_(no changelog entry provided — see PR title: #{{TITLE}})_"
+        "on_empty": "_(details pending)_"
       }
     }
   ],

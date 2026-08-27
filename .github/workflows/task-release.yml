@@ -55,6 +55,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Compute major.minor version
+        id: version_heading
+        run: |
+          echo "major_minor=$(echo '${{ inputs.version }}' | cut -d. -f1-2)" >> "$GITHUB_OUTPUT"
+
       - name: Create new Release with semantic-version tag
         uses: ncipollo/release-action@v1
         id: create_release
@@ -65,4 +70,9 @@ jobs:
           tag: ${{ inputs.version }}
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
           artifactContentType: application/zip
-          body: ${{ steps.build_changelog.outputs.changelog }}
+          body: |
+            # Features, Improvements, and Bug Fixes in Jitsi Admin
+
+            ## ${{ steps.version_heading.outputs.major_minor }}
+
+            ${{ steps.build_changelog.outputs.changelog }}
