@@ -8,6 +8,7 @@
 * Prevent server change for active meetings rooms
 * Fix duplicate recording API calls
 * Fix button layout/rendering in all lobby instances
+* Fixed npm build deprecation warnings
 
 ### ⭐ Improvements:
 * Performance increase in Dashboard page loading time

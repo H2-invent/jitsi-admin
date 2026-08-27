@@ -1,3 +1,5 @@
+@use "sass:color";
+
 h1, h2, h3, h4, h5, h6 {
   color: white;
 }
@@ -631,23 +633,23 @@ hr {
 }
 
 .bg-online {
-  background-color: scale-color($online, $lightness: -90%);
+  background-color: color.scale($online, $lightness: -90%);
   color: $black_font-color!important;
 
 }
 
 .bg-away {
-  background-color: scale-color($away, $lightness: -90%);
+  background-color: color.scale($away, $lightness: -90%);
   color: $black_font-color!important;
 }
 
 .card {
   &.awayBorder{
-    background-color: scale-color($away, $lightness: -90%);
+    background-color: color.scale($away, $lightness: -90%);
     border-width: 2px!important;
   }
   &.olineBorder{
-    background-color: scale-color($online, $lightness: -90%);
+    background-color: color.scale($online, $lightness: -90%);
     border-width: 2px!important;
   }
 }
