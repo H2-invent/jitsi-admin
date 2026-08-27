@@ -45,15 +45,40 @@ jobs:
           filename: 'websocket.zip'
           directory: artifact/nodejs
 
+      - name: Resolve last stable release
+        id: last_stable_release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              const { data: release } = await github.rest.repos.getLatestRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+              core.setOutput('tag', release.tag_name);
+            } catch (error) {
+              if (error.status === 404) {
+                core.info('No previous stable release found; falling back to auto-resolution.');
+                core.setOutput('tag', '');
+              } else {
+                throw error;
+              }
+            }
+
       - name: Build changelog
         id: build_changelog
         uses: mikepenz/release-changelog-builder-action@v6
         with:
           configuration: .github/changelog-configuration.json
-          ignorePreReleases: true
+          fromTag: ${{ steps.last_stable_release.outputs.tag }}
           toTag: ${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute major.minor version
+        id: version_heading
+        run: |
+          echo "major_minor=$(echo '${{ inputs.version }}' | cut -d. -f1-2)" >> "$GITHUB_OUTPUT"
 
       - name: Create new Release with semantic-version tag
         uses: ncipollo/release-action@v1
@@ -65,4 +90,9 @@ jobs:
           tag: ${{ inputs.version }}
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
           artifactContentType: application/zip
-          body: ${{ steps.build_changelog.outputs.changelog }}
+          body: |
+            # Features, Improvements, and Bug Fixes in Jitsi Admin
+
+            ## ${{ steps.version_heading.outputs.major_minor }}
+
+            ${{ steps.build_changelog.outputs.changelog }}
