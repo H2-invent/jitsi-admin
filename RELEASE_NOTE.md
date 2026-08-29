@@ -9,6 +9,7 @@
 * Fix duplicate recording API calls
 * Fix button layout/rendering in all lobby instances
 * fix multiframe not showing absolute
+* FIx not opening multiframe when moderator opens multiframe
 
 ### ⭐ Improvements:
 * Performance increase in Dashboard page loading time
