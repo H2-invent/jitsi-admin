@@ -1,0 +1,50 @@
+{
+  "categories": [
+    {
+      "title": "### 🚀 Features",
+      "labels": ["feature"],
+      "exclude_labels": ["bugfix", "improvement"],
+      "rules": [
+        { "pattern": "^feature/", "on_property": "branch", "flags": "i" }
+      ]
+    },
+    {
+      "title": "### 🐛 Bug Fixes",
+      "labels": ["bugfix"],
+      "exclude_labels": ["feature", "improvement"],
+      "rules": [
+        { "pattern": "^(bugfix|hotfix)/", "on_property": "branch", "flags": "i" }
+      ]
+    },
+    {
+      "title": "### ⭐ Improvements",
+      "labels": ["improvement"],
+      "exclude_labels": ["feature", "bugfix"],
+      "rules": [
+        { "pattern": "^(refactor|l10n_release)/", "on_property": "branch", "flags": "i" }
+      ]
+    }
+  ],
+  "ignore_labels": ["no changelog"],
+  "sort": {
+    "order": "ASC",
+    "on_property": "mergedAt"
+  },
+  "template": "#{{CHANGELOG}}\n\n#{{UNCATEGORIZED}}\n\n**Full Changelog**: #{{RELEASE_DIFF}}",
+  "pr_template": "- #{{CHANGELOG_ENTRY}} (##{{NUMBER}})",
+  "custom_placeholders": [
+    {
+      "name": "CHANGELOG_ENTRY",
+      "source": "BODY",
+      "transformer": {
+        "pattern": "[\\s\\S]*?```changelog\\s*\\r?\\n([\\s\\S]*?)\\r?\\n```[\\s\\S]*",
+        "target": "$1",
+        "flags": "i",
+        "on_empty": "_(no changelog entry provided — see PR title: #{{TITLE}})_"
+      }
+    }
+  ],
+  "empty_template": "- no changes",
+  "trim_values": true,
+  "max_pull_requests": 200
+}
