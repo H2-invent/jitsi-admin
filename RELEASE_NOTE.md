@@ -6,4 +6,10 @@
 ### 🐛 Bug Fixes:
 
 ### ⭐ Improvements:
+* Performance increase in Dashboard page loading time
+* Add lobby moderator permission flag to the JWT
+* Redesigned homepage
+* Fix appointment modal
+* Adressbook refactoring
+* Change Drag and Drop Lib back to inteact js because it is more robust
 
