@@ -12,6 +12,7 @@
 * Fix display webcam preview
 * Fix broken render of address book panel after Ajax contact addition
 * fix multiframe not showing absolute
+* FIx not opening multiframe when moderator opens multiframe
 
 
 ### ⭐ Improvements:
