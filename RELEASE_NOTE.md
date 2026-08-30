@@ -3,6 +3,7 @@
 ## 1.5
 ### 🚀 Features:
 * Added Transcription functionality. Uses OpenAI Whisper to transcribe recordings to text
+* Switch Dashboard to use lazy loading to improve page load time
 
 ### 🐛 Bug Fixes:
 * Prevent server change for active meetings rooms
