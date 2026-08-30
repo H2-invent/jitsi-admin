@@ -1,15 +1,14 @@
-name: Create Staging Release
+name: Create Hotfix Build
+
 env:
   GITHUB_TOKEN: ${{ secrets.token }}
 
 on:
-  workflow_dispatch:
   pull_request:
-    types: [opened, reopened, edited, closed]
+    types: [opened, reopened, edited]
     branches:
-      - main
-      - master
-      - 'release/**'
+      - 'main'
+      - 'master'
 
 jobs:
   version:
@@ -31,6 +30,17 @@ jobs:
           change_path: .
           version_format: "${major}.${minor}.${patch}-${{ github.run_id }}"
 
+      - name: Write summary
+        run: |
+          {
+            echo "### Version Info"
+            echo ""
+            echo "| Feld | Wert |"
+            echo "|------|------|"
+            echo "| Version | \`${{ steps.version.outputs.version }}\` |"
+            echo "| Run ID | \`${{ github.run_id }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   artifact:
     uses: ./.github/workflows/task-artifact.yml
 
@@ -38,16 +48,6 @@ jobs:
     uses: ./.github/workflows/task-test.yml
     needs:
       - artifact
-
-  release:
-    needs:
-      - artifact
-      - version
-      - test
-    uses: ./.github/workflows/task-release.yml
-    with:
-      version: ${{ needs.version.outputs.version }}
-      prerelease: true
 
   docker_core:
     needs:
@@ -59,7 +59,7 @@ jobs:
       dockerfile_path: './Dockerfile-prod'
       directory: '.'
       version: ${{ needs.version.outputs.version }}
-      tags: reg.h2-invent.com/meetling/core:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/core:staging
+      tags: reg.h2-invent.com/meetling/core:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
@@ -74,7 +74,7 @@ jobs:
       dockerfile_path: './nodejs/Dockerfile-prod'
       directory: './nodejs'
       version: ${{ needs.version.outputs.version }}
-      tags: reg.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/websocket:staging
+      tags: reg.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }}
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
