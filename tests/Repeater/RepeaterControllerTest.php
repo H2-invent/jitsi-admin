@@ -25,8 +25,6 @@ class RepeaterControllerTest extends WebTestCase
         $form['repeater[repeaterDays]'] = 1;
         $form['repeater[repetation]'] = 10;
         $client->submit($form);
-
-
         self::assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
 
         $crawler = $client->request('GET', '/room/dashboard');
@@ -52,7 +50,9 @@ class RepeaterControllerTest extends WebTestCase
             }
         }
         $crawler = $client->request('GET', '/room/dashboard');
-        self::assertEquals(10, $crawler->filter('.h5-responsive:contains("TestMeeting: 0")')->count());
+        self::assertResponseIsSuccessful();
+        $allCards = $this->loadAllFutureTabCards($client);
+        self::assertEquals(10, $allCards->filter('.h5-responsive:contains("TestMeeting: 0")')->count());
 
         //Edit the prototype to change all Rooms
         $crawler = $client->request('GET', '/room/repeater/edit/room?id=' . $rooms[5]->getId() . '&type=all');
@@ -113,5 +113,49 @@ class RepeaterControllerTest extends WebTestCase
         foreach ($rooms as $data) {
             self::assertEquals(0, sizeof($data->getUser()));
         }
+    }
+
+    /**
+     * Renders the Future Conferences tab and follows every lazy-load target until the list
+     * is exhausted, returning a Crawler over all loaded room cards.
+     *
+     * The dashboard now only renders the first page per tab; the remaining conferences are
+     * loaded lazily on scroll. This helper reproduces that behaviour so assertions can count
+     * cards across all pages instead of only the initial one.
+     */
+    private function loadAllFutureTabCards(\Symfony\Bundle\FrameworkBundle\KernelBrowser $client): \Symfony\Component\DomCrawler\Crawler
+    {
+        $crawler = $client->request('GET', '/room/dashboard');
+        $html = $crawler->filter('#ex1-tabs-1')->html();
+
+        $visited = [];
+        $urls = [];
+        $crawler->filter('#ex1-tabs-1 .lazyLoad')->each(function ($node) use (&$urls) {
+            $target = $node->attr('data-target');
+            if ($target) {
+                $urls[] = $target;
+            }
+        });
+
+        while (!empty($urls)) {
+            $url = array_shift($urls);
+            if (in_array($url, $visited, true)) {
+                continue;
+            }
+            $visited[] = $url;
+
+            $crawler = $client->request('GET', $url);
+            if ($client->getResponse()->getStatusCode() === 200) {
+                $html .= $crawler->html();
+                $crawler->filter('.lazyLoad')->each(function ($node) use (&$urls) {
+                    $target = $node->attr('data-target');
+                    if ($target) {
+                        $urls[] = $target;
+                    }
+                });
+            }
+        }
+
+        return new \Symfony\Component\DomCrawler\Crawler($html);
     }
 }
