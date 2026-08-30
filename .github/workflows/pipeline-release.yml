@@ -1,4 +1,4 @@
-name: Create Staging Release
+name: Create Release Build
 env:
   GITHUB_TOKEN: ${{ secrets.token }}
 
@@ -7,8 +7,6 @@ on:
   pull_request:
     types: [opened, reopened, edited, closed]
     branches:
-      - main
-      - master
       - 'release/**'
 
 jobs:
