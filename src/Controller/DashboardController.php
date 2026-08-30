@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
+use App\Repository\RoomsRepository;
 use App\Repository\SchedulingTimeUserRepository;
 use App\Repository\ServerRepository;
 use App\Service\analytics\AnalyticsService;
@@ -113,25 +114,49 @@ class DashboardController extends JitsiAdminController
         $this->initializeUserFields();
         $favoriteService->cleanFavorites($this->getUser());
 
-        $allRooms = $this->doctrine->getRepository(Rooms::class)->findRoomsForDashboard($this->getUser());
-        [
-            'roomsFuture'     => $roomsFuture,
-            'roomsNow'        => $roomsNow,
-            'roomsToday'      => $roomsToday,
-            'persistantRooms' => $persistantRooms,
-            'scheduledRooms'  => $scheduledRooms,
-            'roomIds'         => $roomIds,
-        ] = $dashboardService->categorizeRooms($allRooms, $this->getUser());
+        $user = $this->getUser();
+        $roomRepo = $this->doctrine->getRepository(Rooms::class);
+        $pageSize = RoomsRepository::getPageSize();
 
-        $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), 0);
-        foreach ($roomsPast as $room) {
-            $roomIds[] = $room->getId();
+        // Every list on the dashboard is loaded page by page (and extended lazily on scroll)
+        // so that both load time and memory usage stay constant no matter how many rooms
+        // exist in the database.
+        $futureRooms = $roomRepo->findRoomsInFuture($user, null);
+        $futureHasMore = count($futureRooms) > $pageSize;
+        $futureRooms = array_slice($futureRooms, 0, $pageSize);
+        $roomsFuture = $this->groupRoomsByDay($futureRooms, $user);
+        $futureLastRoomId = $roomsFuture ? $this->lastRoomId(end($roomsFuture)) : null;
+        $futureLastDate = $roomsFuture ? array_key_last($roomsFuture) : null;
+
+        $scheduledRooms = $roomRepo->findScheduledRooms($user, null);
+        $scheduledHasMore = count($scheduledRooms) > $pageSize;
+        $scheduledRooms = array_slice($scheduledRooms, 0, $pageSize);
+        $scheduledLastRoomId = $this->lastRoomId($scheduledRooms);
+
+        $persistantRooms = $roomRepo->getMyPersistantRooms($user, null);
+        $persistantHasMore = count($persistantRooms) > $pageSize;
+        $persistantRooms = array_slice($persistantRooms, 0, $pageSize);
+        $persistantLastRoomId = $this->lastRoomId($persistantRooms);
+
+        $roomsPast = $roomRepo->findRoomsInPast($user, null);
+        $pastHasMore = count($roomsPast) > $pageSize;
+        $roomsPast = array_slice($roomsPast, 0, $pageSize);
+        $pastLastRoomId = $this->lastRoomId($roomsPast);
+
+        $roomsNow = $roomRepo->findRuningRooms($user);
+        $roomsToday = $roomRepo->findTodayRooms($user);
+
+        $roomIds = [];
+        foreach ([$futureRooms, $scheduledRooms, $persistantRooms, $roomsPast, $roomsNow] as $rooms) {
+            foreach ($rooms as $room) {
+                $roomIds[] = $room->getId();
+            }
         }
 
-        $servers = $serverUserManagment->getServersFromUser($this->getUser());
-        $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
+        $servers = $serverUserManagment->getServersFromUser($user);
+        $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($user->getTimeZone()));
         $tomorrow = (clone $today)->modify('+1day');
-        $favorites = $this->doctrine->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
+        $favorites = $roomRepo->findFavoriteRooms($user);
         foreach ($favorites as $room) {
             $roomIds[] = $room->getId();
         }
@@ -142,15 +167,15 @@ class DashboardController extends JitsiAdminController
         $roomStatusClosedMap = $roomStatusFrontendService->getRoomClosedStatusMap($uniqueRoomIds);
         $roomHasStatusMap = $roomStatusFrontendService->getRoomHasStatusMap($uniqueRoomIds);
 
-        $allDisplayedRooms = array_merge($allRooms, $roomsPast, $favorites);
+        $allDisplayedRooms = array_merge($futureRooms, $scheduledRooms, $persistantRooms, $roomsPast, $favorites);
         $roomClosedForStartMap = $dashboardService->getRoomClosedForStartMap(
             $allDisplayedRooms,
-            $this->getUser(),
+            $user,
             $roomStatusOpenMap
         );
 
         $scheduleUserHasVotedMap = $schedulingTimeUserRepository->findVotesForUserAndRooms(
-            $this->getUser(),
+            $user,
             array_unique($roomIds)
         );
 
@@ -177,15 +202,24 @@ class DashboardController extends JitsiAdminController
             [
                 'secondEmailForm' => $form->createView(),
                 'roomsFuture' => $roomsFuture,
+                'futureHasMore' => $futureHasMore,
+                'futureLastRoomId' => $futureLastRoomId,
+                'futureLastDate' => $futureLastDate,
                 'roomsPast' => $roomsPast,
+                'pastHasMore' => $pastHasMore,
+                'pastLastRoomId' => $pastLastRoomId,
                 'runningRooms' => $roomsNow,
                 'persistantRooms' => $persistantRooms,
+                'persistantHasMore' => $persistantHasMore,
+                'persistantLastRoomId' => $persistantLastRoomId,
                 'todayRooms' => $roomsToday,
                 'servers' => $servers,
                 'today' => $today,
                 'tomorrow' => $tomorrow,
                 'favorite' => $favorites,
                 'scheduledRooms' => $scheduledRooms,
+                'scheduledHasMore' => $scheduledHasMore,
+                'scheduledLastRoomId' => $scheduledLastRoomId,
                 'roomStatusOpenMap' => $roomStatusOpenMap,
                 'roomStatusOccupantsMap' => $roomStatusOccupantsMap,
                 'roomStatusClosedMap' => $roomStatusClosedMap,
@@ -240,33 +274,165 @@ class DashboardController extends JitsiAdminController
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    #[Route(path: '/room/dashboard/lazy/{type}/{offset}', name: 'dashboard_lazy')]
-    public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, $type, $offset)
-    {
-        $servers = $serverUserManagment->getServersFromUser($this->getUser());
+    #[Route(
+        path: '/room/dashboard/lazy/{type}/{lastRoomId}',
+        name: 'dashboard_lazy',
+        requirements: ['lastRoomId' => '\d+'],
+        defaults: ['lastRoomId' => 0]
+    )]
+    public function dashboardLayzLoad(
+        Request                     $request,
+        ServerUserManagment         $serverUserManagment,
+        DashboardService            $dashboardService,
+        RoomStatusFrontendService   $roomStatusFrontendService,
+        SchedulingTimeUserRepository $schedulingTimeUserRepository,
+        $type,
+        $lastRoomId = 0
+    ) {
+        $user = $this->getUser();
+        $roomRepo = $this->doctrine->getRepository(Rooms::class);
+        $pageSize = RoomsRepository::getPageSize();
+        $cursor = $lastRoomId > 0 ? (int)$lastRoomId : null;
+
+        if ($type === 'future') {
+            $rooms = $roomRepo->findRoomsInFuture($user, $cursor);
+            $hasMore = count($rooms) > $pageSize;
+            $rooms = array_slice($rooms, 0, $pageSize);
+            $roomsFuture = $this->groupRoomsByDay($rooms, $user);
+            $lastId = $roomsFuture ? $this->lastRoomId(end($roomsFuture)) : null;
+            $lastDate = $roomsFuture ? array_key_last($roomsFuture) : null;
+
+            return $this->render('dashboard/__lazyFuture.html.twig', array_merge(
+                $this->buildLazyContext($rooms, $serverUserManagment, $dashboardService, $roomStatusFrontendService, $schedulingTimeUserRepository),
+                [
+                    'roomsFuture' => $roomsFuture,
+                    'futureHasMore' => $hasMore,
+                    'futureLastRoomId' => $lastId,
+                    'futureLastDate' => $lastDate,
+                    'lastDate' => $request->query->get('lastDate'),
+                    'today' => (new \DateTime('now'))->setTimezone(new \DateTimeZone($user->getTimeZone())),
+                    'tomorrow' => (new \DateTime('now'))->setTimezone(new \DateTimeZone($user->getTimeZone()))->modify('+1day'),
+                ]
+            ));
+        }
+
+        if ($type === 'scheduled') {
+            $rooms = $roomRepo->findScheduledRooms($user, $cursor);
+            $hasMore = count($rooms) > $pageSize;
+            $rooms = array_slice($rooms, 0, $pageSize);
+            $lastId = $this->lastRoomId($rooms);
+
+            return $this->render('dashboard/__lazyScheduled.html.twig', array_merge(
+                $this->buildLazyContext($rooms, $serverUserManagment, $dashboardService, $roomStatusFrontendService, $schedulingTimeUserRepository),
+                [
+                    'scheduledRooms' => $rooms,
+                    'scheduledHasMore' => $hasMore,
+                    'scheduledLastRoomId' => $lastId,
+                    'lastSection' => $request->query->get('lastSection') === '1',
+                ]
+            ));
+        }
+
         if ($type === 'fixed') {
-            $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser(), $offset);
-            return $this->render(
-                'dashboard/__lazyFixed.html.twig',
+            $rooms = $roomRepo->getMyPersistantRooms($user, $cursor);
+            $hasMore = count($rooms) > $pageSize;
+            $rooms = array_slice($rooms, 0, $pageSize);
+            $lastId = $this->lastRoomId($rooms);
+
+            return $this->render('dashboard/__lazyFixed.html.twig', array_merge(
+                $this->buildLazyContext($rooms, $serverUserManagment, $dashboardService, $roomStatusFrontendService, $schedulingTimeUserRepository),
                 [
-                    'persistantRooms' => $persistantRooms,
-                    'servers' => $servers,
-                    'offset' => $offset
+                    'persistantRooms' => $rooms,
+                    'persistantHasMore' => $hasMore,
+                    'persistantLastRoomId' => $lastId,
                 ]
-            );
-        } elseif ($type === 'past') {
-            $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), $offset);
-            return $this->render(
-                'dashboard/__lazyPast.html.twig',
+            ));
+        }
+
+        if ($type === 'past') {
+            $rooms = $roomRepo->findRoomsInPast($user, $cursor);
+            $hasMore = count($rooms) > $pageSize;
+            $rooms = array_slice($rooms, 0, $pageSize);
+            $lastId = $this->lastRoomId($rooms);
+
+            return $this->render('dashboard/__lazyPast.html.twig', array_merge(
+                $this->buildLazyContext($rooms, $serverUserManagment, $dashboardService, $roomStatusFrontendService, $schedulingTimeUserRepository),
                 [
-                    'roomsPast' => $roomsPast,
-                    'servers' => $servers,
-                    'offset' => $offset
+                    'roomsPast' => $rooms,
+                    'pastHasMore' => $hasMore,
+                    'pastLastRoomId' => $lastId,
                 ]
-            );
+            ));
         }
 
         return new JsonResponse(['error' => true]);
+    }
+
+    /**
+     * Groups rooms by the day they start (in the user's timezone), sorted ascending.
+     *
+     * @param Rooms[] $rooms
+     * @return array<string, Rooms[]>
+     */
+    private function groupRoomsByDay(array $rooms, \App\Entity\User $user): array
+    {
+        $grouped = [];
+        foreach ($rooms as $room) {
+            if (!$room->getStartUtc()) {
+                continue;
+            }
+            $grouped[$room->getStartwithTimeZone($user)->format('Ymd')][] = $room;
+        }
+        ksort($grouped);
+
+        return $grouped;
+    }
+
+    /**
+     * Returns the id of the last room in the array, or null for an empty array.
+     *
+     * @param Rooms[] $rooms
+     */
+    private function lastRoomId(array $rooms): ?int
+    {
+        $rooms = array_values($rooms);
+        $last = end($rooms);
+
+        return $last ? $last->getId() : null;
+    }
+
+    /**
+     * Builds the shared template context (status maps, vote map, servers) for a lazily
+     * loaded page of rooms. All queries are bounded by the number of rooms in $rooms.
+     *
+     * @param Rooms[] $rooms
+     */
+    private function buildLazyContext(
+        array                       $rooms,
+        ServerUserManagment         $serverUserManagment,
+        DashboardService            $dashboardService,
+        RoomStatusFrontendService   $roomStatusFrontendService,
+        SchedulingTimeUserRepository $schedulingTimeUserRepository
+    ): array {
+        $roomIds = array_values(array_unique(array_map(static fn(Rooms $room) => $room->getId(), $rooms)));
+
+        $roomStatusOpenMap = $roomStatusFrontendService->getRoomCreatedStatusMap($roomIds);
+        $roomStatusOccupantsMap = $roomStatusFrontendService->getRoomOccupantsMap($roomIds);
+        $roomStatusClosedMap = $roomStatusFrontendService->getRoomClosedStatusMap($roomIds);
+        $roomHasStatusMap = $roomStatusFrontendService->getRoomHasStatusMap($roomIds);
+        $roomClosedMapForStart = $dashboardService->getRoomClosedForStartMap($rooms, $this->getUser(), $roomStatusOpenMap);
+        $scheduleUserHasVotedMap = $schedulingTimeUserRepository->findVotesForUserAndRooms($this->getUser(), $roomIds);
+
+        return [
+            'servers' => $serverUserManagment->getServersFromUser($this->getUser()),
+            'timestamp' => (new \DateTime())->getTimestamp(),
+            'roomStatusOpenMap' => $roomStatusOpenMap,
+            'roomStatusOccupantsMap' => $roomStatusOccupantsMap,
+            'roomStatusClosedMap' => $roomStatusClosedMap,
+            'roomHasStatusMap' => $roomHasStatusMap,
+            'roomClosedMapForStart' => $roomClosedMapForStart,
+            'scheduleUserHasVotedMap' => $scheduleUserHasVotedMap,
+        ];
     }
 
     #[Route(path: '/room/dashboard/adressbook-fragment', name: 'dashboard_adressbook_fragment')]

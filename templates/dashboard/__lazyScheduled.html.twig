@@ -1,0 +1,11 @@
+{% set theme =  getThemeProperties()  %}
+{% for r in scheduledRooms %}
+    {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
+{% endfor %}
+{% if scheduledHasMore and scheduledLastRoomId %}
+    <div class="lazyLoad" data-target="{{ path('dashboard_lazy',{'type':'scheduled','lastRoomId':scheduledLastRoomId,'lastSection':lastSection is defined and lastSection ? '1' : '0'}) }}">
+        <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
+    </div>
+{% elseif scheduledRooms|length > 0 and lastSection is defined and lastSection %}
+    {% include 'dashboard/__noConferencesCard.html.twig' %}
+{% endif %}

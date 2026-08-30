@@ -7,11 +7,9 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Orx;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-
-use function Doctrine\ORM\QueryBuilder;
-use function PHPUnit\Framework\returnArgument;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 /**
  * @method Rooms|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,13 +19,19 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
  */
 class RoomsRepository extends ServiceEntityRepository
 {
+    private const PAGE_SIZE = 10;
+
     private $timeZoneService;
-    private $amountperLayz = 8;
 
     public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
         $this->timeZoneService = $timeZoneService;
+    }
+
+    public static function getPageSize(): int
+    {
+        return self::PAGE_SIZE;
     }
 
     // /**
@@ -58,36 +62,22 @@ class RoomsRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findRoomsInFuture(User $user)
+    /**
+     * Returns a bounded page of upcoming, non-scheduled, non-persistent rooms ordered by
+     * start time ascending. Supports keyset (seek) pagination: pass the id of the last room
+     * of the previously loaded page to load the next page without a slow OFFSET scan.
+     *
+     * The result may contain up to PAGE_SIZE + 1 rooms so callers can detect whether a next
+     * page exists (count > PAGE_SIZE) without issuing an extra count query.
+     *
+     * @return Rooms[]
+     */
+    public function findRoomsInFuture(User $user, ?int $lastRoomId = null): array
     {
         $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
-        return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement', 'managerelement')
-            ->leftJoin('managerelement.deputy', 'deputy')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user',
-                    'deputy = :user'
-                )
-            )
-            ->andWhere('r.endDateUtc > :now')
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
-            ->setParameter('now', $now)
-            ->setParameter('user', $user)
-            ->orderBy('r.startUtc', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findRoomsInPast(User $user, $offset)
-    {
-        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
-        $qb = $this->createQueryBuilder('r');
-        $rooms = $qb->select('r')
+        $qb->select('r')
             ->addSelect('server')
             ->addSelect('tag')
             ->addSelect('moderator')
@@ -102,30 +92,117 @@ class RoomsRepository extends ServiceEntityRepository
             ->leftJoin('r.repeater', 'repeater')
             ->leftJoin('r.callerRoom', 'callerRoom')
             ->leftJoin('r.repeaterProtoype', 'repeaterProtoype')
-            ->andWhere(
-                $qb->expr()->orX(
-                    ':user MEMBER OF r.user',
-                    $qb->expr()->exists(
-                        $this->createQueryBuilder('r_dep')
-                            ->select('1')
-                            ->join('r_dep.moderator', 'm_dep')
-                            ->join('m_dep.managerElement', 'me_dep')
-                            ->join('me_dep.deputy', 'd_dep')
-                            ->where('r_dep = r')
-                            ->andWhere('d_dep = :user')
-                    )
-                )
-            )
+            ->andWhere($this->memberOrDeputyIdCondition($qb, 'r', $this->dashboardDeputyRestriction($qb)))
+            ->andWhere('r.startUtc IS NOT NULL')
+            ->andWhere('r.endDateUtc > :now')
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
+            ->setParameter('now', $now)
+            ->setParameter('user', $user)
+            ->addOrderBy('r.startUtc', 'ASC')
+            ->addOrderBy('r.id', 'ASC')
+            ->setMaxResults(self::PAGE_SIZE + 1);
+
+        $this->applyAscendingSeekCondition($qb, $lastRoomId);
+
+        $rooms = $qb->getQuery()->getResult();
+
+        $this->loadDashboardCollections($rooms);
+
+        return $rooms;
+    }
+
+    /**
+     * Returns a bounded page of past (non-scheduled, non-persistent) rooms ordered by start
+     * time descending. Supports keyset (seek) pagination via $lastRoomId.
+     *
+     * The result may contain up to PAGE_SIZE + 1 rooms so callers can detect whether a next
+     * page exists (count > PAGE_SIZE) without issuing an extra count query.
+     *
+     * @return Rooms[]
+     */
+    public function findRoomsInPast(User $user, ?int $lastRoomId = null): array
+    {
+        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
+        $now->setTimezone(new \DateTimeZone('utc'));
+
+        $cursor = $this->resolveCursorRoom($lastRoomId);
+
+        $qb = $this->createQueryBuilder('r');
+        $qb->select('r')
+            ->addSelect('server')
+            ->addSelect('tag')
+            ->addSelect('moderator')
+            ->addSelect('creator')
+            ->addSelect('repeater')
+            ->addSelect('callerRoom')
+            ->addSelect('repeaterProtoype')
+            ->innerJoin('r.server', 'server')
+            ->leftJoin('r.tag', 'tag')
+            ->leftJoin('r.moderator', 'moderator')
+            ->leftJoin('r.creator', 'creator')
+            ->leftJoin('r.repeater', 'repeater')
+            ->leftJoin('r.callerRoom', 'callerRoom')
+            ->leftJoin('r.repeaterProtoype', 'repeaterProtoype')
+            ->andWhere($this->memberOrDeputyIdCondition($qb, 'r'))
             ->andWhere('r.endDateUtc < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
-            ->orderBy('r.startUtc', 'DESC')
-            ->setMaxResults($this->amountperLayz)
-            ->setFirstResult($this->amountperLayz * $offset)
-            ->getQuery()
-            ->getResult();
+            ->addOrderBy('r.startUtc', 'DESC')
+            ->addOrderBy('r.id', 'DESC')
+            ->setMaxResults(self::PAGE_SIZE + 1);
+
+        $this->applyDescendingSeekCondition($qb, $cursor);
+
+        $rooms = $qb->getQuery()->getResult();
+
+        $this->loadDashboardCollections($rooms);
+
+        return $rooms;
+    }
+
+    /**
+     * Returns a bounded page of rooms that are used as schedulers (scheduleMeeting = true).
+     * Supports keyset (seek) pagination via $lastRoomId.
+     *
+     * The result may contain up to PAGE_SIZE + 1 rooms so callers can detect whether a next
+     * page exists (count > PAGE_SIZE) without issuing an extra count query.
+     *
+     * @return Rooms[]
+     */
+    public function findScheduledRooms(User $user, ?int $lastRoomId = null): array
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->select('r')
+            ->addSelect('server')
+            ->addSelect('tag')
+            ->addSelect('moderator')
+            ->addSelect('creator')
+            ->addSelect('repeater')
+            ->addSelect('callerRoom')
+            ->addSelect('repeaterProtoype')
+            ->innerJoin('r.server', 'server')
+            ->leftJoin('r.tag', 'tag')
+            ->leftJoin('r.moderator', 'moderator')
+            ->leftJoin('r.creator', 'creator')
+            ->leftJoin('r.repeater', 'repeater')
+            ->leftJoin('r.callerRoom', 'callerRoom')
+            ->leftJoin('r.repeaterProtoype', 'repeaterProtoype')
+            ->andWhere($this->memberOrDeputyIdCondition($qb, 'r', $this->dashboardDeputyRestriction($qb)))
+            ->andWhere('r.scheduleMeeting = true')
+            ->setParameter('user', $user)
+            ->addOrderBy('r.id', 'DESC')
+            ->setMaxResults(self::PAGE_SIZE + 1);
+
+        // Newest schedulers first (id DESC), so keyset pagination simply seeks on the id.
+        if ($lastRoomId !== null && $lastRoomId > 0) {
+            $qb->andWhere('r.id < :lastId')
+                ->setParameter('lastId', $lastRoomId);
+        }
+
+        $rooms = $qb->getQuery()->getResult();
 
         $this->loadDashboardCollections($rooms);
 
@@ -159,15 +236,7 @@ class RoomsRepository extends ServiceEntityRepository
         $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
-        return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement', 'managerelement')
-            ->leftJoin('managerelement.deputy', 'deputy')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user',
-                    'deputy = :user'
-                )
-            )
+        return $qb->andWhere($this->memberOrDeputyIdCondition($qb, 'r'))
             ->andWhere('r.endDateUtc > :now')
             ->andWhere('r.startUtc < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
@@ -175,6 +244,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.startUtc', 'ASC')
+            ->setMaxResults(50)
             ->getQuery()
             ->getResult();
     }
@@ -187,15 +257,7 @@ class RoomsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('r');
 
         return $qb
-            ->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement', 'managerelement')
-            ->leftJoin('managerelement.deputy', 'deputy')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user',
-                    'deputy = :user'
-                )
-            )
+            ->andWhere($this->memberOrDeputyIdCondition($qb, 'r'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->andWhere(
@@ -211,6 +273,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('now', $now)
             ->setParameter('midnight', $midnight)
             ->setParameter('user', $user)
+            ->setMaxResults(50)
             ->getQuery()
             ->getResult();
     }
@@ -240,27 +303,40 @@ class RoomsRepository extends ServiceEntityRepository
      /**
        * @return Rooms[] Returns an array of Rooms objects
        */
-    public function getMyPersistantRooms(User $user, $offset)
+    public function getMyPersistantRooms(User $user, ?int $lastRoomId = null): array
     {
         $qb = $this->createQueryBuilder('rooms');
-        $qb->innerJoin('rooms.user', 'user')
+        $qb->select('rooms')
+            ->addSelect('server')
+            ->addSelect('tag')
+            ->addSelect('moderator')
+            ->addSelect('creator')
+            ->addSelect('repeater')
+            ->addSelect('callerRoom')
+            ->addSelect('repeaterProtoype')
+            ->innerJoin('rooms.server', 'server')
+            ->leftJoin('rooms.tag', 'tag')
             ->leftJoin('rooms.moderator', 'moderator')
-            ->leftJoin('moderator.managerElement', 'managerelement')
-            ->leftJoin('managerelement.deputy', 'deputy')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user',
-                    $qb->expr()->andX(
-                        'deputy = :user',
-                        'rooms.creator != rooms.moderator'
-                    )
-                )
-            )
+            ->leftJoin('rooms.creator', 'creator')
+            ->leftJoin('rooms.repeater', 'repeater')
+            ->leftJoin('rooms.callerRoom', 'callerRoom')
+            ->leftJoin('rooms.repeaterProtoype', 'repeaterProtoype')
+            ->andWhere($this->memberOrDeputyIdCondition($qb, 'rooms', ['r_d.creator != r_d.moderator']))
             ->setParameter('user', $user)
             ->andWhere('rooms.persistantRoom = true')
-            ->setMaxResults($this->amountperLayz)
-            ->setFirstResult($this->amountperLayz * $offset);
-        return $qb->getQuery()->getResult();
+            ->addOrderBy('rooms.id', 'ASC')
+            ->setMaxResults(self::PAGE_SIZE + 1);
+
+        if ($lastRoomId !== null && $lastRoomId > 0) {
+            $qb->andWhere('rooms.id > :lastId')
+                ->setParameter('lastId', $lastRoomId);
+        }
+
+        $rooms = $qb->getQuery()->getResult();
+
+        $this->loadDashboardCollections($rooms);
+
+        return $rooms;
     }
 
     public function findRoomsFutureAndPast(User $user, $timeBack)
@@ -311,35 +387,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->leftJoin('r.repeaterProtoype', 'repeaterProtoype');
 
         $rooms = $qb
-            ->andWhere(
-                $qb->expr()->orX(
-                    ':user MEMBER OF r.user',
-                    $qb->expr()->andX(
-                        $qb->expr()->exists(
-                            $this->createQueryBuilder('r_dep')
-                                ->select('1')
-                                ->join('r_dep.moderator', 'm_dep')
-                                ->join('m_dep.managerElement', 'me_dep')
-                                ->join('me_dep.deputy', 'd_dep')
-                                ->where('r_dep = r')
-                                ->andWhere('d_dep = :user')
-                        ),
-                        $qb->expr()->orX(
-                            'r.creator != r.moderator',
-                            $qb->expr()->andX(
-                                $qb->expr()->orX(
-                                    $qb->expr()->isNull('r.persistantRoom'),
-                                    'r.persistantRoom = false'
-                                ),
-                                $qb->expr()->orX(
-                                    $qb->expr()->isNull('r.scheduleMeeting'),
-                                    'r.scheduleMeeting = false'
-                                )
-                            )
-                        )
-                    )
-                )
-            )
+            ->andWhere($this->memberOrDeputyIdCondition($qb, 'r', $this->dashboardDeputyRestriction($qb)))
             ->andWhere(
                 $qb->expr()->orX(
                     'r.endDateUtc > :now',
@@ -383,12 +431,143 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->addOrderBy('list_order_is_null', 'DESC')
             ->addOrderBy('r.startUtc', 'ASC')
+            ->setMaxResults(100)
             ->getQuery()
             ->getResult();
 
         $this->loadDashboardCollections($rooms);
 
         return $rooms;
+    }
+
+    /**
+     * Expression that matches every room the given user may access on the dashboard: either
+     * as an invited participant (r.id IN rooms the user is invited to) or as a deputy of the
+     * room's moderator (r.id IN rooms of moderators the user deputizes for).
+     *
+     * The IN (subquery) form is deliberately used instead of a correlated EXISTS: MySQL can
+     * materialize the (small) set of the user's room ids once and then drive the outer query
+     * through its primary key, keeping the main table access small regardless of the total
+     * number of rooms. A correlated EXISTS would force the outer query to scan and sort a
+     * large part of the rooms table just to find the first page.
+     *
+     * @param array $deputyRestrictions DQL fragments (referencing the alias r_d) restricting
+     *                                  the rooms a deputy may see (e.g. creator != moderator)
+     */
+    private function memberOrDeputyIdCondition(QueryBuilder $qb, string $alias, array $deputyRestrictions = []): Orx
+    {
+        return $qb->expr()->orX(
+            $qb->expr()->in($alias . '.id', $this->participantRoomIdsSubquery()->getDQL()),
+            $qb->expr()->in($alias . '.id', $this->deputyRoomIdsSubquery($deputyRestrictions)->getDQL())
+        );
+    }
+
+    /**
+     * DQL subquery returning the ids of all rooms the user is invited to as a participant.
+     */
+    private function participantRoomIdsSubquery(): QueryBuilder
+    {
+        return $this->createQueryBuilder('r_p')
+            ->select('r_p.id')
+            ->join('r_p.user', 'u_p')
+            ->where('u_p = :user');
+    }
+
+    /**
+     * DQL subquery returning the ids of all rooms whose moderator the user deputizes for.
+     *
+     * @param array $extraConditions DQL fragments (referencing the alias r_d)
+     */
+    private function deputyRoomIdsSubquery(array $extraConditions = []): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('r_d')
+            ->select('r_d.id')
+            ->join('r_d.moderator', 'm_d')
+            ->join('m_d.managerElement', 'me_d')
+            ->join('me_d.deputy', 'd_d')
+            ->where('d_d = :user');
+
+        foreach ($extraConditions as $condition) {
+            $qb->andWhere($condition);
+        }
+
+        return $qb;
+    }
+
+    /**
+     * Restriction applied to deputy-visible rooms on the main dashboard (future + scheduled):
+     * the room was not created by the moderator themselves, unless it is a regular meeting.
+     */
+    private function dashboardDeputyRestriction(QueryBuilder $qb): array
+    {
+        return [
+            $qb->expr()->orX(
+                'r_d.creator != r_d.moderator',
+                $qb->expr()->andX(
+                    $qb->expr()->orX($qb->expr()->isNull('r_d.persistantRoom'), 'r_d.persistantRoom = false'),
+                    $qb->expr()->orX($qb->expr()->isNull('r_d.scheduleMeeting'), 'r_d.scheduleMeeting = false')
+                )
+            ),
+        ];
+    }
+
+    private function resolveCursorRoom(?int $lastRoomId): ?Rooms
+    {
+        if ($lastRoomId === null || $lastRoomId <= 0) {
+            return null;
+        }
+
+        return $this->find($lastRoomId);
+    }
+
+    /**
+     * Applies the keyset (seek) condition for ascending pagination ordered by
+     * (startUtc ASC, id ASC).
+     */
+    private function applyAscendingSeekCondition(QueryBuilder $qb, ?int $lastRoomId): void
+    {
+        $cursor = $this->resolveCursorRoom($lastRoomId);
+        if (!$cursor) {
+            return;
+        }
+
+        $qb->andWhere(
+            $qb->expr()->orX(
+                'r.startUtc > :lastStart',
+                $qb->expr()->andX('r.startUtc = :lastStart', 'r.id > :lastId')
+            )
+        )
+            ->setParameter('lastStart', $cursor->getStartUtc())
+            ->setParameter('lastId', $cursor->getId());
+    }
+
+    /**
+     * Applies the keyset (seek) condition for descending pagination ordered by
+     * (startUtc DESC, id DESC).
+     */
+    private function applyDescendingSeekCondition(QueryBuilder $qb, ?Rooms $cursor): void
+    {
+        if (!$cursor) {
+            return;
+        }
+
+        if ($cursor->getStartUtc() === null) {
+            // Null-start rooms sort last in DESC order; continue through them by id.
+            $qb->andWhere('r.startUtc IS NULL')
+                ->andWhere('r.id < :lastId')
+                ->setParameter('lastId', $cursor->getId());
+
+            return;
+        }
+
+        $qb->andWhere(
+            $qb->expr()->orX(
+                'r.startUtc < :lastStart',
+                $qb->expr()->andX('r.startUtc = :lastStart', 'r.id < :lastId')
+            )
+        )
+            ->setParameter('lastStart', $cursor->getStartUtc())
+            ->setParameter('lastId', $cursor->getId());
     }
 
     /**
@@ -437,11 +616,13 @@ class RoomsRepository extends ServiceEntityRepository
         $ids = array_values(array_unique(array_map(static fn(Rooms $room) => $room->getId(), $rooms)));
         $em = $this->getEntityManager();
 
-        // participants (r.user, ManyToMany)
+        // participants (r.user, ManyToMany) - ldapUserProperties is joined explicitly because
+        // Doctrine does not apply eager joins to entities hydrated through a to-many fetch join.
         $em->createQueryBuilder()
-            ->select('r', 'u')
+            ->select('r', 'u', 'l')
             ->from(Rooms::class, 'r')
             ->leftJoin('r.user', 'u')
+            ->leftJoin('u.ldapUserProperties', 'l')
             ->where('r.id IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()
@@ -462,6 +643,16 @@ class RoomsRepository extends ServiceEntityRepository
             ->select('r', 'rec')
             ->from(Rooms::class, 'r')
             ->leftJoin('r.uploadedRecordings', 'rec')
+            ->where('r.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+
+        // transcriptions (OneToMany)
+        $em->createQueryBuilder()
+            ->select('r', 'tr')
+            ->from(Rooms::class, 'r')
+            ->leftJoin('r.transcriptions', 'tr')
             ->where('r.id IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()

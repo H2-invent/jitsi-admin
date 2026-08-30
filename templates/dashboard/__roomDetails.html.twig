@@ -57,7 +57,7 @@
 
 
 
-    {% if app.user == room.scheduleMeeting %}
+    {% if app.user == room.scheduleMeeting and (isAllowedToOrganize(room,app.user) or room.schedulings|length > 0) %}
         <a
                 {% if isAllowedToOrganize(room,app.user) %}
                     class="loadContent"

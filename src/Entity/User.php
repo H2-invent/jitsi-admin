@@ -81,7 +81,7 @@ class User extends BaseUser
     private $AddressGroupLeader;
     #[ORM\ManyToMany(targetEntity: AddressGroup::class, mappedBy: 'member')]
     private $AddressGroupMember;
-    #[ORM\OneToOne(targetEntity: LdapUserProperties::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: LdapUserProperties::class, mappedBy: 'user', cascade: ['persist', 'remove'], fetch: 'EAGER')]
     private $ldapUserProperties;
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $timeZone;

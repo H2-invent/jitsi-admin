@@ -45,6 +45,7 @@
             </div>
         {% else %}
             <div class="test">
+                {% if isAllowedToOrganize(room,app.user) or room.schedulings|length > 0 %}
                 <a
                         {% if isAllowedToOrganize(room,app.user) %}
                             class="loadContent btn btn-outline-primary dropdown-toggle btn-sm"
@@ -54,6 +55,7 @@
                             href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}" target="_blank"
                         {% endif %}
                 ><i class="fa fa-calendar"></i></a>
+                {% endif %}
             </div>
         {% endif %}
     </div>

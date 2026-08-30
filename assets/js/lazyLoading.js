@@ -15,6 +15,7 @@ function initLazyElemt(element){
                 fetch(entry.target.dataset.target)
                     .then(response =>response.text())
                     .then(function (data) {
+                        window.dashboardLazyLoaded = true;
                         var parent = entry.target.parentNode;
                         parent. insertAdjacentHTML('beforeend', data);
                         entry.target.remove();
