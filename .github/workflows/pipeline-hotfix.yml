@@ -30,6 +30,17 @@ jobs:
           change_path: .
           version_format: "${major}.${minor}.${patch}-${{ github.run_id }}"
 
+      - name: Write summary
+        run: |
+          {
+            echo "### Version Info"
+            echo ""
+            echo "| Feld | Wert |"
+            echo "|------|------|"
+            echo "| Version | \`${{ steps.version.outputs.version }}\` |"
+            echo "| Run ID | \`${{ github.run_id }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   artifact:
     uses: ./.github/workflows/task-artifact.yml
 
