@@ -2,6 +2,9 @@
 
 namespace App\Service\analytics;
 
+use App\Entity\Rooms;
+use App\Entity\Server;
+use App\Entity\User;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -25,22 +28,46 @@ class AnalyticsService
     {
         $em = $this->entityManager;
         $res = ['data' => 'jitsi-admin'];
-        $res['rooms'] = (int)$em->createQuery('SELECT COUNT(r) FROM App\Entity\Rooms r')->getSingleScalarResult();
-        $res['users'] = (int)$em->createQuery('SELECT COUNT(u) FROM App\Entity\User u')->getSingleScalarResult();
-        $res['kcUser'] = (int)$em->createQuery('SELECT COUNT(u) FROM App\Entity\User u WHERE u.keycloakId IS NOT NULL')->getSingleScalarResult();
-        $res['openRooms'] = (int)$em->createQuery('SELECT COUNT(r) FROM App\Entity\Rooms r WHERE r.totalOpenRooms = true')->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(r.id)')->from(Rooms::class, 'r');
+        $res['rooms'] = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(u.id)')->from(User::class, 'u');
+        $res['users'] = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(u.id)')->from(User::class, 'u')->where($qb->expr()->isNotNull('u.keycloakId'));
+        $res['kcUser'] = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(r.id)')->from(Rooms::class, 'r')->where('r.totalOpenRooms = true');
+        $res['openRooms'] = (int)$qb->getQuery()->getSingleScalarResult();
+
         $res['jitsiadmin_version'] = $this->parameterBag->get('laF_version');
 
-        $urls = $em->createQuery('SELECT DISTINCT r.hostUrl FROM App\Entity\Rooms r WHERE r.hostUrl IS NOT NULL')->getSingleColumnResult();
-        $res['urls'] = array_values(array_filter($urls));
-        $average = $em->getConnection()->fetchOne(
-            'SELECT AVG(cnt) FROM (SELECT COUNT(*) AS cnt FROM rooms_user GROUP BY rooms_id HAVING COUNT(*) > 0) t'
-        );
+        $qb = $em->createQueryBuilder();
+        $qb->select('DISTINCT r.hostUrl')->from(Rooms::class, 'r')->where($qb->expr()->isNotNull('r.hostUrl'));
+        $res['urls'] = array_values(array_filter($qb->getQuery()->getSingleColumnResult()));
 
-        $res['average_room_size'] = $average !== false ? (float)$average : 0;
-        $res['servers_amount'] = (int)$em->createQuery('SELECT COUNT(s) FROM App\Entity\Server s')->getSingleScalarResult();
-        $serverUrl = $em->createQuery('SELECT s.url FROM App\Entity\Server s')->getSingleColumnResult();
-        $res['server_url'] = array_values(array_filter($serverUrl));
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(u.id)')->from(Rooms::class, 'r')->innerJoin('r.user', 'u');
+        $totalParticipants = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(DISTINCT r.id)')->from(Rooms::class, 'r')->innerJoin('r.user', 'u');
+        $roomsWithParticipants = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $res['average_room_size'] = $roomsWithParticipants > 0 ? $totalParticipants / $roomsWithParticipants : 0;
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(s.id)')->from(Server::class, 's');
+        $res['servers_amount'] = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('s.url')->from(Server::class, 's');
+        $res['server_url'] = array_values(array_filter($qb->getQuery()->getSingleColumnResult()));
 
         $theme = $this->themeService->showAllThemes();
         if ($theme) {
