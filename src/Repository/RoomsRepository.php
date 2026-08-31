@@ -570,6 +570,24 @@ class RoomsRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * @return array<int, array{roomId: int, start: \DateTimeInterface, participantCount: int|string}>
+     */
+    public function findRoomsWithUserCountForServer(Server $server): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r.id AS roomId', 'r.start AS start', 'COUNT(u.id) AS participantCount')
+            ->leftJoin('r.user', 'u')
+            ->where('r.server = :server')
+            ->andWhere('r.start IS NOT NULL')
+            ->andWhere('r.repeaterProtoype IS NULL')
+            ->andWhere('r.scheduleMeeting IS NULL OR r.scheduleMeeting != true')
+            ->groupBy('r.id, r.start')
+            ->setParameter('server', $server)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findActualConferenceForServerByStatus(Server $server)
     {
         $qb = $this->createQueryBuilder('r');
