@@ -23,23 +23,24 @@ class AdminController extends JitsiAdminController
         HttpClientInterface $httpClient,
         TranslatorInterface $translator)
     {
-        $countPart = $this->doctrine->getRepository(Rooms::class)->countUsersForServer($server);
-
         if (!in_array($this->getUser(), $server->getUser()->toArray())) {
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
              return $this->redirectToRoute('dashboard');
         }
 
 
+        $countPart = $this->doctrine->getRepository(Rooms::class)->countUsersForServer($server);
         $chart = $adminService->createChart($server);
         $lastStars = $this->doctrine->getRepository(Star::class)->findBy(['server' => $server], ['createdAt' => 'DESC'], 5);
         $average = 0;
+
         foreach ($lastStars as $data) {
             $average += $data->getStar();
         }
         if (sizeof($lastStars) > 0) {
             $average = $average / sizeof($lastStars);
         }
+
         return $this->render(
             'admin/modalChart.html.twig',
             [
