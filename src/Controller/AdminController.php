@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\Star;
 use App\Helper\JitsiAdminController;
@@ -22,10 +23,7 @@ class AdminController extends JitsiAdminController
         HttpClientInterface $httpClient,
         TranslatorInterface $translator)
     {
-        $countPart = 0;
-        foreach ($server->getRooms() as $room) {
-            $countPart = $countPart + count($room->getUser());
-        }
+        $countPart = $this->doctrine->getRepository(Rooms::class)->countUsersForServer($server);
 
         if (!in_array($this->getUser(), $server->getUser()->toArray())) {
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));

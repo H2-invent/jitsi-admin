@@ -559,6 +559,17 @@ class RoomsRepository extends ServiceEntityRepository
      * @return Rooms[] Returns an array of Rooms objects
      */
 
+    public function countUsersForServer(Server $server): int
+    {
+        return (int) $this->createQueryBuilder('r')
+            ->select('COUNT(u.id)')
+            ->innerJoin('r.user', 'u')
+            ->where('r.server = :server')
+            ->setParameter('server', $server)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function findActualConferenceForServerByStatus(Server $server)
     {
         $qb = $this->createQueryBuilder('r');
