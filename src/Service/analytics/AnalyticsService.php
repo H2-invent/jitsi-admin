@@ -41,6 +41,7 @@ class AnalyticsService
         $res['servers_amount'] = (int)$em->createQuery('SELECT COUNT(s) FROM App\Entity\Server s')->getSingleScalarResult();
         $serverUrl = $em->createQuery('SELECT s.url FROM App\Entity\Server s')->getSingleColumnResult();
         $res['server_url'] = array_values(array_filter($serverUrl));
+
         $theme = $this->themeService->showAllThemes();
         if ($theme) {
             $res['theme'] = $theme;
