@@ -191,4 +191,64 @@ class DashboardControllerTest extends WebTestCase
         self::assertEquals(0, $crawler->filter('.card')->count());
         self::assertSelectorNotExists('.lazyLoad');
     }
+
+    public function testOccupantsEndpointReturnsRunningRoom()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $runningRoom = $roomRepo->findOneBy(['name' => 'Running Room']);
+        $this->assertNotNull($runningRoom);
+
+        $client->request('GET', '/room/dashboard/occupants?roomIds=' . $runningRoom->getId());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey((string)$runningRoom->getId(), $data);
+        $this->assertTrue($data[(string)$runningRoom->getId()]['open']);
+        $this->assertGreaterThan(0, $data[(string)$runningRoom->getId()]['count']);
+        $this->assertContains('in der Konferenz', $data[(string)$runningRoom->getId()]['names']);
+    }
+
+    public function testOccupantsEndpointExcludesInvisibleRoom()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $noRightRoom = $roomRepo->findOneBy(['name' => 'No Right']);
+        $this->assertNotNull($noRightRoom);
+
+        $client->request('GET', '/room/dashboard/occupants?roomIds=' . $noRightRoom->getId());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertArrayNotHasKey((string)$noRightRoom->getId(), $data);
+    }
+
+    public function testOccupantsEndpointIgnoresInvalidIds()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $client->request('GET', '/room/dashboard/occupants?roomIds=abc,0,-1');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertIsArray($data);
+        $this->assertEmpty($data);
+    }
 }

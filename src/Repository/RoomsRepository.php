@@ -408,6 +408,33 @@ class RoomsRepository extends ServiceEntityRepository
         return $rooms;
     }
 
+    /**
+     * Returns the rooms from $roomIds that the given user is allowed to see on the dashboard:
+     * either as an invited participant or as a deputy of the room's moderator.
+     *
+     * @return Rooms[]
+     */
+    public function findRoomsByIdsForUser(User $user, array $roomIds): array
+    {
+        $roomIds = array_values(
+            array_unique(
+                array_map('intval', $roomIds)
+            )
+        );
+        if (empty($roomIds)) {
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder('r');
+        return $qb
+            ->andWhere($this->memberOrDeputyIdCondition($qb, 'r'))
+            ->andWhere('r.id IN (:roomIds)')
+            ->setParameter('user', $user)
+            ->setParameter('roomIds', $roomIds)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findFavoriteRooms(User $user)
     {
         $qb = $this->createQueryBuilder('r');

@@ -17,14 +17,6 @@ function initLazyLoads($container) {
 }
 
 function refreshDashboard() {
-    // Once the user has lazy-loaded additional conferences, the full dashboard refresh is
-    // skipped entirely: it would reset the loaded pages/scroll position and re-fetch the
-    // whole page (including every image) just to update content the user is no longer
-    // looking at.
-    if (window.dashboardLazyLoaded === true) {
-        return;
-    }
-
     var $id1 = '#ex1-tabs-1';
     var $id2 = '#ex1-tabs-2';
     var $id3 = '#ex1-tabs-3';
@@ -42,6 +34,23 @@ function refreshDashboard() {
         // it contains (e.g. profile pictures in the address book) are not re-downloaded.
         var $doc = $(data);
         var $openDropdown = $('.dropdown-menu.show');
+
+        // The favorites sidebar is always kept fresh, even after lazy loading has started:
+        // it has no lazy-loaded children and no scroll-position dependency, so replacing
+        // its HTML is safe and the refresh does not disturb the loaded conference pages.
+        if ($($id4).contents().text() !== $doc.find($id4).contents().text()) {
+            console.log('1.10');
+            $($id4).html($doc.find($id4).contents());
+        }
+        initAllComponents();
+
+        // Once the user has lazy-loaded additional conferences, the tab-body refresh is
+        // skipped entirely: it would reset the loaded pages/scroll position and re-fetch
+        // the whole page (including every image) just to update content the user is no
+        // longer looking at.
+        if (window.dashboardLazyLoaded === true) {
+            return;
+        }
 
         if ($openDropdown.length === 0) {
             if ($($id1).contents().text() !== $doc.find($id1).contents().text()) {
@@ -61,13 +70,6 @@ function refreshDashboard() {
                 initStartIframe();
                 initLazyLoads($($id3));
             }
-            if ($($id4).contents().text() !== $doc.find($id4).contents().text()) {
-                console.log('1.10');
-                $($id4).html($doc.find($id4).contents());
-            }
-
-            initAllComponents();
-
         }
         $('#actualTime').html($doc.find('#actualTime').contents());
     });

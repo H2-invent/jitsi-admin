@@ -609,4 +609,64 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
         $this->assertNotEmpty($fetchQueries, 'The SQL logger must capture the main query');
         $this->assertCount(0, $accessQueries, 'findRoomsInFuture() must pre-load all template-accessed collections');
     }
+
+    public function testFindRoomsByIdsForUserReturnsOnlyVisibleRooms(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $this->assertNotNull($user);
+
+        $visibleRoom = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $invisibleRoom = $roomRepo->findOneBy(['name' => 'No Right']);
+        $this->assertNotNull($visibleRoom);
+        $this->assertNotNull($invisibleRoom);
+
+        $rooms = $roomRepo->findRoomsByIdsForUser($user, [$visibleRoom->getId(), $invisibleRoom->getId()]);
+
+        $resultIds = array_map(fn(Rooms $r) => $r->getId(), $rooms);
+        $this->assertContains($visibleRoom->getId(), $resultIds);
+        $this->assertNotContains($invisibleRoom->getId(), $resultIds, 'The "No Right" room must not be visible to test@local.de');
+    }
+
+    public function testFindRoomsByIdsForUserIgnoresInvalidIds(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $this->assertNotNull($user);
+
+        $this->assertSame([], $roomRepo->findRoomsByIdsForUser($user, []));
+        $this->assertSame([], $roomRepo->findRoomsByIdsForUser($user, ['abc', 0, -1]));
+    }
+
+    public function testFindRoomsByIdsForUserReturnsAllRequestedVisibleRooms(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $this->assertNotNull($user);
+
+        $roomA = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $roomB = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
+        $this->assertNotNull($roomA);
+        $this->assertNotNull($roomB);
+
+        $rooms = $roomRepo->findRoomsByIdsForUser($user, [$roomA->getId(), $roomB->getId()]);
+
+        $resultIds = array_map(fn(Rooms $r) => $r->getId(), $rooms);
+        sort($resultIds);
+        $expectedIds = [$roomA->getId(), $roomB->getId()];
+        sort($expectedIds);
+        $this->assertSame($expectedIds, $resultIds);
+    }
 }

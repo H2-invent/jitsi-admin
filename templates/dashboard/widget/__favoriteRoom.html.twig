@@ -8,8 +8,7 @@
                 <a href="{{ path('room_favorite_toogle',{'uid':room.uidReal}) }}"><i class="fa fa-star"></i> </a>
             </small>
         </h6>
-        {% if roomStatusOpenMap[r.id] is not defined %}
-        <p><small>
+        <p data-room-id="{{ r.id }}" class="occupant-alternate {% if roomStatusOpenMap[r.id] is defined %}d-none{% endif %}"><small>
                 {% if room.persistantRoom != true and room.scheduleMeeting != true %}
                     {{ room.getStartwithTimeZone(app.user)|date('d.m.Y H:i') }}
                 {% endif %}
@@ -20,19 +19,14 @@
                     {{ 'fixed.Room.name'|trans }}
                 {% endif %}
             </small></p>
-        {% endif %}
-        {% if roomStatusOpenMap[r.id] is defined %}
-
-                <div class="occupant">
-                    <div class="number">
-                        <small>{{ 'status.inconference.number'|trans( {'{number}' : roomStatusOccupantsMap[r.id]|default([])|length}) }}</small>
-                    </div>
-                    <div class="text">
-                    <small>{{ 'status.inconference'|trans }}</small>
-                    </div>
-                </div>
-
-        {% endif %}
+        <div class="occupant {% if roomStatusOpenMap[r.id] is not defined %}d-none{% endif %}" data-room-id="{{ r.id }}">
+            <div class="number">
+                <small>{{ 'status.inconference.number'|trans( {'{number}' : roomStatusOccupantsMap[r.id]|default([])|length}) }}</small>
+            </div>
+            <div class="text">
+                <small>{{ 'status.inconference'|trans }}</small>
+            </div>
+        </div>
 
 
         {% if room.scheduleMeeting != true %}

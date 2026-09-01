@@ -435,6 +435,49 @@ class DashboardController extends JitsiAdminController
         ];
     }
 
+    /**
+     * Returns the live conference status (open/closed and current participant names/count)
+     * for the given room ids. Used by the dashboard's polling so the occupant count can be
+     * updated without re-rendering the whole page. Only rooms the user can see are returned.
+     */
+    #[Route(path: '/room/dashboard/occupants', name: 'dashboard_occupants')]
+    public function dashboardOccupants(Request $request, RoomStatusFrontendService $roomStatusFrontendService): JsonResponse
+    {
+        $user = $this->getUser();
+        $roomIds = explode(',', (string)$request->query->get('roomIds', ''));
+        $roomIds = array_values(
+            array_unique(
+                array_filter(
+                    array_map('intval', $roomIds), static fn(int $id) => $id > 0
+                )
+            )
+        );
+        if (!$user || empty($roomIds)) {
+            return $this->json([]);
+        }
+
+        $roomIds = array_slice($roomIds, 0, 200);
+        $visibleRooms = $this->doctrine->getRepository(Rooms::class)->findRoomsByIdsForUser($user, $roomIds);
+        $visibleIds = array_values(array_unique(array_map(static fn(Rooms $room) => $room->getId(), $visibleRooms)));
+        if (empty($visibleIds)) {
+            return $this->json([]);
+        }
+
+        $openMap = $roomStatusFrontendService->getRoomCreatedStatusMap($visibleIds);
+        $occupantsMap = $roomStatusFrontendService->getRoomOccupantsMap($visibleIds);
+
+        $result = [];
+        foreach ($visibleIds as $id) {
+            $names = $occupantsMap[$id] ?? [];
+            $result[(string)$id] = [
+                'open' => isset($openMap[$id]),
+                'count' => count($names),
+                'names' => array_values($names),
+            ];
+        }
+        return $this->json($result);
+    }
+
     #[Route(path: '/room/dashboard/adressbook-fragment', name: 'dashboard_adressbook_fragment')]
     public function adressbookFragment(ServerUserManagment $serverUserManagment): Response
     {

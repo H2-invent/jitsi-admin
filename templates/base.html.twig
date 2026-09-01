@@ -163,6 +163,8 @@
     var bbbUrl = "{{ getApplicationProperties('laf_bbb_Url') }}";
     var refreshDashboardTime = {{ laf_refreshTimeDashboard }};
     var refreshDashboardUrl = '{{ path('dashboard') }}';
+    var occupantPollingUrl = '{{ path('dashboard_occupants') }}';
+    var occupantPollingTime = 5000;
     var confirmTitle = "{{ 'confirm.title'|trans }}";
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
     var confirmOk = "{{ 'confirm.ok'|trans }}";
