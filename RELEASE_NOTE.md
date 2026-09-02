@@ -14,7 +14,6 @@
 * fix multiframe not showing absolute
 * FIx not opening multiframe when moderator opens multiframe
 
-
 ### ⭐ Improvements:
 * Performance increase in Dashboard page loading time
 * Add lobby moderator permission flag to the JWT
