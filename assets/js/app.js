@@ -35,6 +35,7 @@ import {initKeycloakGroups} from './keyCloakGroupsInit';
 import {initAddressGroupSearch, initListSearch, reloadAddressBookPane} from './addressGroup';
 import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
+import {initOccupantPolling} from './occupantPolling';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
@@ -100,6 +101,9 @@ $(document).ready(function () {
     initGenerell();
 
     initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
+    if (typeof occupantPollingUrl !== 'undefined' && occupantPollingUrl) {
+        initOccupantPolling(occupantPollingUrl, occupantPollingTime);
+    }
     initListSearch();
     initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 

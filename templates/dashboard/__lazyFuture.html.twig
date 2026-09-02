@@ -1,0 +1,17 @@
+{% set theme =  getThemeProperties()  %}
+{% set locale =  app.request.locale %}
+{% for key, date in roomsFuture %}
+    {% if not (loop.first and lastDate is defined and lastDate == key) %}
+        {% include 'dashboard/__dateHeader.html.twig' with {'date':date} %}
+    {% endif %}
+    {% for room in date %}
+        {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
+    {% endfor %}
+{% endfor %}
+{% if futureHasMore and futureLastRoomId %}
+    <div class="lazyLoad" data-target="{{ path('dashboard_lazy',{'type':'future','lastRoomId':futureLastRoomId,'lastDate':futureLastDate}) }}">
+        <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
+    </div>
+{% elseif roomsFuture|length > 0 %}
+    {% include 'dashboard/__noConferencesCard.html.twig' %}
+{% endif %}

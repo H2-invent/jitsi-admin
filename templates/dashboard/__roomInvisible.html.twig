@@ -1,17 +1,15 @@
 <div class="col-md-2">
     <span class="badge badge-danger" {% if theme %} style="background-color: {{ theme.colorBadgeSeries }} !important;" {% endif %}>{{ 'Private Konferenz'|trans }}</span>
 
-    {% if roomStatusOpenMap[room.id] is defined %}
-        <div class="occupant">
-            <div class="number">
-                <small>{{ 'status.inconference.number'|trans( {'{number}' : roomStatusOccupantsMap[room.id]|default([])|length}) }}</small>
-            </div>
-            <div class="text">
-                {{ 'status.inconference'|trans }}
-            </div>
-
+    <div class="occupant {% if roomStatusOpenMap[room.id] is not defined %}d-none{% endif %}" data-room-id="{{ room.id }}">
+        <div class="number">
+            <small>{{ 'status.inconference.number'|trans( {'{number}' : roomStatusOccupantsMap[room.id]|default([])|length}) }}</small>
         </div>
-    {% endif %}
+        <div class="text">
+            {{ 'status.inconference'|trans }}
+        </div>
+
+    </div>
     {% if roomStatusClosedMap[room.id] is defined %}
         <div class="occupant text-danger">
             <div class="text">

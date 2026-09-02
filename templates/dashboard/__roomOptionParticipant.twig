@@ -16,7 +16,7 @@
         {% if  isAllowedToOrganize(room,app.user) and scheduleUserHasVotedMap[room.id] is defined %}  
             <a href="{{ path('schedule_admin_select_best',{'id':room.id}) }}"
                class=" btn btn-outline-primary participant-shedule loadContent"><i class="fa-regular fa-calendar-check me-2"></i> {{ 'scheduler.transform'|trans }}</a>
-        {% else %}
+        {% elseif room.schedulings|length > 0 %}
             <a class=" btn btn-outline-primary participant-shedule"
                href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}"
                target="_blank">

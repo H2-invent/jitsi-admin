@@ -93,15 +93,19 @@
                     {% for r in scheduledRooms %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                     {% endfor %}
+                    {% if scheduledHasMore and scheduledLastRoomId %}
+                        <div class="lazyLoad mb-3"
+                             data-target="{{ path('dashboard_lazy',{'type':'scheduled','lastRoomId':scheduledLastRoomId,'lastSection':roomsFuture|length == 0 ? '1' : '0'}) }}">
+                            <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
+                        </div>
+                    {% elseif roomsFuture |length == 0 %}
+                        {% include 'dashboard/__noConferencesCard.html.twig' %}
+                    {% endif %}
                 {% endif %}
 
-                {% if  roomsFuture |length == 0 %}
-                    <div class="card card-body mb-3">
-                        <p class="text-center mb-0">
-                            {% trans with {'{url}':path('room_new')} %}dashboard.noconference{% endtrans %}
-                        </p>
-                    </div>
-                {% elseif todayRooms |length == 0 %}
+                {% if  roomsFuture |length == 0 and scheduledRooms |length == 0 %}
+                    {% include 'dashboard/__noConferencesCard.html.twig' %}
+                {% elseif roomsFuture |length > 0 and todayRooms |length == 0 %}
                     <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Heute'|trans }} </h4>
                     <div class="card card-body mb-3">
                         <p class="text-center mb-0">{{ 'Heute steht keine Jitsi Meet Konferenz an.'|trans }}</p>
@@ -109,20 +113,19 @@
                 {% endif %}
                 {% set locale =  app.request.locale %}
                 {% for date in roomsFuture %}
-                    <h4 style="padding-top: 16px" class="day h5-responsive pl-xl-3">
-                        {% if today|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
-                            {{ 'Heute'|trans }}
-                        {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
-                            {{ 'Morgen'|trans }}
-                        {% else %}
-                            {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null) }},
-                            {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=null) }}
-                        {% endif %}
-                    </h4>
+                    {% include 'dashboard/__dateHeader.html.twig' with {'date':date} %}
                     {% for room in date %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
                     {% endfor %}
                 {% endfor %}
+                {% if futureHasMore and futureLastRoomId %}
+                    <div class="lazyLoad mb-3"
+                         data-target="{{ path('dashboard_lazy',{'type':'future','lastRoomId':futureLastRoomId,'lastDate':futureLastDate}) }}">
+                        <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
+                    </div>
+                {% elseif roomsFuture |length > 0 %}
+                    {% include 'dashboard/__noConferencesCard.html.twig' %}
+                {% endif %}
 
 
             </div>
@@ -139,10 +142,13 @@
                         {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
                     {% endfor %}
                 </div>
-                <div class="lazyLoad mb-3" data-target="{{ path('dashboard_lazy',{'type':'past','offset':1}) }}">
+                {% if pastHasMore and pastLastRoomId %}
+                    <div class="lazyLoad mb-3"
+                         data-target="{{ path('dashboard_lazy',{'type':'past','lastRoomId':pastLastRoomId}) }}">
 
-                    <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
-                </div>
+                        <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <div class="tab-content-watch">
@@ -152,6 +158,12 @@
                     {% for r in persistantRooms %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                     {% endfor %}
+                    {% if persistantHasMore and persistantLastRoomId %}
+                        <div class="lazyLoad mb-3"
+                             data-target="{{ path('dashboard_lazy',{'type':'fixed','lastRoomId':persistantLastRoomId}) }}">
+                            <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
+                        </div>
+                    {% endif %}
                 {% else %}
                     <div class="card card-body mb-3">
                         <p class="text-center mb-0">

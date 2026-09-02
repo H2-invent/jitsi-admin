@@ -15,7 +15,7 @@ class UidHelper
 
     public function getUid(Rooms $rooms): string
     {
-        $ui = $rooms->getUidReal();
+        $ui = $rooms->getUidReal() ?? $rooms->getUid();
         if ($rooms->getRepeater()) {
             if (!$rooms->getRepeater()->getUid()) {
                 $rep = $rooms->getRepeater();

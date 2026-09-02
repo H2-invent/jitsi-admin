@@ -48,14 +48,14 @@ class DeputyTwig extends AbstractExtension
 
     public function userIsDisallowedToMakeDeputy(User $user): bool
     {
-        if (!$user->getLdapUserProperties()) {
+        // User::ldapUserProperties is fetched eagerly, so this access does not trigger a
+        // lazy-load query per user.
+        $ldapNumber = $user->getLdapUserProperties()?->getLdapNumber();
+        if ($ldapNumber === null) {
             return false;
         }
 
-        if (in_array($user->getLdapUserProperties()->getLdapNumber(), json_decode($this->parameterBag->get('LDAP_DISALLOW_PROMOTE_DEPUTY')))){
-           return  true;
-        }
-        return  false;
+        return in_array($ldapNumber, json_decode($this->parameterBag->get('LDAP_DISALLOW_PROMOTE_DEPUTY')));
     }
 
 }

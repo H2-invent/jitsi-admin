@@ -2,6 +2,7 @@
 
 namespace App\Tests\Dashboard;
 
+use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -88,7 +89,11 @@ class DashboardControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
-        self::assertEquals(69, $crawler->filter('p:contains("Server: Server with License")')->count());
+        // The dashboard only renders the first page of each tab, so the number of cards is
+        // bounded by the page size instead of the total number of rooms.
+        $maxCards = 3 * RoomsRepository::getPageSize();
+        $this->assertGreaterThan(0, $crawler->filter('p:contains("Server: Server with License")')->count());
+        $this->assertLessThanOrEqual($maxCards, $crawler->filter('p:contains("Server: Server with License")')->count());
     }
     public function testservernameinnoForeignServerConferenceCard()
     {
@@ -110,20 +115,15 @@ class DashboardControllerTest extends WebTestCase
         $testUser = $userRepository->findOneByUsername('test@local.de');
         $client->loginUser($testUser);
 
+        // The fixture contains only 3 fixed rooms, so the first page shows all of them and
+        // no further lazy-load target is rendered.
         $crawler = $client->request('GET', '/room/dashboard/lazy/fixed/0');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertSelectorExists('.lazyLoad');
         $this->assertResponseIsSuccessful();
-
         self::assertEquals(3, $crawler->filter('.card')->count());
-
-
-        $crawler = $client->request('GET', '/room/dashboard/lazy/fixed/1');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertSelectorNotExists('.lazyLoad');
-        $this->assertResponseIsSuccessful();
-        self::assertEquals(0, $crawler->filter('.card')->count());
     }
+
     public function testlazyLoadPast()
     {
         $client = static::createClient();
@@ -132,19 +132,123 @@ class DashboardControllerTest extends WebTestCase
         $testUser = $userRepository->findOneByUsername('test@local.de');
         $client->loginUser($testUser);
 
+        // The fixture contains exactly one past room for this user, so the first page shows
+        // it without a further lazy-load target.
         $crawler = $client->request('GET', '/room/dashboard/lazy/past/0');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertSelectorExists('.lazyLoad');
         $this->assertResponseIsSuccessful();
-
         self::assertEquals(1, $crawler->filter('.card')->count());
-
-
-        $crawler = $client->request('GET', '/room/dashboard/lazy/past/1');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertSelectorNotExists('.lazyLoad');
+    }
+
+    public function testlazyLoadFuture()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $crawler = $client->request('GET', '/room/dashboard/lazy/future/0');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+        self::assertEquals(RoomsRepository::getPageSize(), $crawler->filter('.card')->count());
+        self::assertSelectorExists('.lazyLoad');
+    }
+
+    public function testlazyLoadScheduled()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $crawler = $client->request('GET', '/room/dashboard/lazy/scheduled/0');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+        self::assertEquals(RoomsRepository::getPageSize(), $crawler->filter('.card')->count());
+        self::assertSelectorExists('.lazyLoad');
+    }
+
+    public function testlazyLoadPastWithExhaustedCursorReturnsNoCards()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $lastPastRoom = $roomRepo->findRoomsInPast($testUser, null);
+        $lastPastRoom = array_slice($lastPastRoom, 0, RoomsRepository::getPageSize());
+        $lastPastRoom = end($lastPastRoom);
+        $this->assertNotFalse($lastPastRoom);
+
+        // Requesting the page after the last known past room must not render new cards.
+        $crawler = $client->request('GET', '/room/dashboard/lazy/past/' . $lastPastRoom->getId());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
         self::assertEquals(0, $crawler->filter('.card')->count());
-        ;
+        self::assertSelectorNotExists('.lazyLoad');
+    }
+
+    public function testOccupantsEndpointReturnsRunningRoom()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $runningRoom = $roomRepo->findOneBy(['name' => 'Running Room']);
+        $this->assertNotNull($runningRoom);
+
+        $client->request('GET', '/room/dashboard/occupants?roomIds=' . $runningRoom->getId());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey((string)$runningRoom->getId(), $data);
+        $this->assertTrue($data[(string)$runningRoom->getId()]['open']);
+        $this->assertGreaterThan(0, $data[(string)$runningRoom->getId()]['count']);
+        $this->assertContains('in der Konferenz', $data[(string)$runningRoom->getId()]['names']);
+    }
+
+    public function testOccupantsEndpointExcludesInvisibleRoom()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $noRightRoom = $roomRepo->findOneBy(['name' => 'No Right']);
+        $this->assertNotNull($noRightRoom);
+
+        $client->request('GET', '/room/dashboard/occupants?roomIds=' . $noRightRoom->getId());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertArrayNotHasKey((string)$noRightRoom->getId(), $data);
+    }
+
+    public function testOccupantsEndpointIgnoresInvalidIds()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $client->request('GET', '/room/dashboard/occupants?roomIds=abc,0,-1');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertIsArray($data);
+        $this->assertEmpty($data);
     }
 }

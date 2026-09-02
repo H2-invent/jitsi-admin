@@ -121,14 +121,18 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
 
-        $page0 = $roomRepo->findRoomsInPast($user, 0);
-        $page1 = $roomRepo->findRoomsInPast($user, 1);
+        $page0 = $roomRepo->findRoomsInPast($user, null);
+        $pageSize = RoomsRepository::getPageSize();
+        $this->assertLessThanOrEqual($pageSize + 1, count($page0));
 
-        $this->assertLessThanOrEqual(8, count($page0));
+        $sliced = array_slice($page0, 0, $pageSize);
+        if (count($sliced) > 0) {
+            $lastRoom = end($sliced);
+            $page1 = $roomRepo->findRoomsInPast($user, $lastRoom->getId());
+            $this->assertLessThanOrEqual($pageSize + 1, count($page1));
 
-        if (count($page0) > 0 && count($page1) > 0) {
-            $ids0 = array_map(fn($r) => $r->getId(), $page0);
-            $ids1 = array_map(fn($r) => $r->getId(), $page1);
+            $ids0 = array_map(fn($r) => $r->getId(), $sliced);
+            $ids1 = array_map(fn($r) => $r->getId(), array_slice($page1, 0, $pageSize));
             $this->assertEmpty(array_intersect($ids0, $ids1));
         }
     }
@@ -448,11 +452,19 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
                 $room->getUser()->count();
                 $room->getSchedulings()->count();
                 $room->getUploadedRecordings()->count();
+                $room->getTranscriptions()->count();
                 $room->getRepeater();
                 $room->getRepeaterProtoype();
                 $room->getCallerRoom();
+                foreach ($room->getUser() as $user) {
+                    $user->getLdapUserProperties();
+                }
                 if ($room->getModerator()) {
                     $room->getModerator()->getDeputy()->toArray();
+                    $room->getModerator()->getLdapUserProperties();
+                }
+                if ($room->getCreator()) {
+                    $room->getCreator()->getLdapUserProperties();
                 }
             }
             $accessQueries = $stack->queries;
@@ -472,5 +484,189 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
         }
 
         return null;
+    }
+
+    public function testFindRoomsInFutureReturnsBoundedPage(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        $rooms = $roomRepo->findRoomsInFuture($user, null);
+
+        $this->assertNotEmpty($rooms);
+        $this->assertLessThanOrEqual(RoomsRepository::getPageSize() + 1, count($rooms));
+        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        foreach ($rooms as $room) {
+            $this->assertNotNull($room->getEndDateUtc());
+            $this->assertGreaterThan($now->getTimestamp(), $room->getEndDateUtc()->getTimestamp());
+            $this->assertNotTrue($room->getPersistantRoom());
+            $this->assertNotTrue($room->getScheduleMeeting());
+        }
+    }
+
+    public function testFindRoomsInFutureKeysetPaginationHasNoOverlap(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        $pageSize = RoomsRepository::getPageSize();
+        $page0 = array_slice($roomRepo->findRoomsInFuture($user, null), 0, $pageSize);
+        $this->assertCount($pageSize, $page0);
+
+        $lastRoom = end($page0);
+        $page1 = array_slice($roomRepo->findRoomsInFuture($user, $lastRoom->getId()), 0, $pageSize);
+        $this->assertNotEmpty($page1);
+
+        $ids0 = array_map(fn($r) => $r->getId(), $page0);
+        $ids1 = array_map(fn($r) => $r->getId(), $page1);
+        $this->assertEmpty(array_intersect($ids0, $ids1));
+    }
+
+    public function testFindScheduledRoomsReturnsBoundedPage(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        $rooms = $roomRepo->findScheduledRooms($user, null);
+
+        $this->assertNotEmpty($rooms);
+        $this->assertLessThanOrEqual(RoomsRepository::getPageSize() + 1, count($rooms));
+        foreach ($rooms as $room) {
+            $this->assertTrue($room->getScheduleMeeting());
+        }
+    }
+
+    public function testFindScheduledRoomsKeysetPaginationHasNoOverlap(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        $pageSize = RoomsRepository::getPageSize();
+        $page0 = array_slice($roomRepo->findScheduledRooms($user, null), 0, $pageSize);
+        $this->assertCount($pageSize, $page0);
+
+        $lastRoom = end($page0);
+        $page1 = array_slice($roomRepo->findScheduledRooms($user, $lastRoom->getId()), 0, $pageSize);
+        $this->assertNotEmpty($page1);
+
+        $ids0 = array_map(fn($r) => $r->getId(), $page0);
+        $ids1 = array_map(fn($r) => $r->getId(), $page1);
+        $this->assertEmpty(array_intersect($ids0, $ids1));
+    }
+
+    public function testGetMyPersistantRoomsReturnsBoundedPageAndPreloadsCollections(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        [$rooms, $fetchQueries, $accessQueries] = $this->captureCollectionQueries(
+            fn () => $roomRepo->getMyPersistantRooms($user, null)
+        );
+
+        $this->assertNotEmpty($rooms);
+        $this->assertLessThanOrEqual(RoomsRepository::getPageSize() + 1, count($rooms));
+        foreach ($rooms as $room) {
+            $this->assertTrue($room->getPersistantRoom());
+        }
+        $this->assertNotEmpty($fetchQueries, 'The SQL logger must capture the main query');
+        $this->assertCount(0, $accessQueries, 'getMyPersistantRooms() must pre-load all template-accessed collections');
+    }
+
+    public function testFindRoomsInFuturePreloadsTranscriptions(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+
+        [$rooms, $fetchQueries, $accessQueries] = $this->captureCollectionQueries(
+            fn () => $roomRepo->findRoomsInFuture($user, null)
+        );
+
+        $this->assertNotEmpty($rooms);
+        $this->assertNotEmpty($fetchQueries, 'The SQL logger must capture the main query');
+        $this->assertCount(0, $accessQueries, 'findRoomsInFuture() must pre-load all template-accessed collections');
+    }
+
+    public function testFindRoomsByIdsForUserReturnsOnlyVisibleRooms(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $this->assertNotNull($user);
+
+        $visibleRoom = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $invisibleRoom = $roomRepo->findOneBy(['name' => 'No Right']);
+        $this->assertNotNull($visibleRoom);
+        $this->assertNotNull($invisibleRoom);
+
+        $rooms = $roomRepo->findRoomsByIdsForUser($user, [$visibleRoom->getId(), $invisibleRoom->getId()]);
+
+        $resultIds = array_map(fn(Rooms $r) => $r->getId(), $rooms);
+        $this->assertContains($visibleRoom->getId(), $resultIds);
+        $this->assertNotContains($invisibleRoom->getId(), $resultIds, 'The "No Right" room must not be visible to test@local.de');
+    }
+
+    public function testFindRoomsByIdsForUserIgnoresInvalidIds(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $this->assertNotNull($user);
+
+        $this->assertSame([], $roomRepo->findRoomsByIdsForUser($user, []));
+        $this->assertSame([], $roomRepo->findRoomsByIdsForUser($user, ['abc', 0, -1]));
+    }
+
+    public function testFindRoomsByIdsForUserReturnsAllRequestedVisibleRooms(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $this->assertNotNull($user);
+
+        $roomA = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $roomB = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
+        $this->assertNotNull($roomA);
+        $this->assertNotNull($roomB);
+
+        $rooms = $roomRepo->findRoomsByIdsForUser($user, [$roomA->getId(), $roomB->getId()]);
+
+        $resultIds = array_map(fn(Rooms $r) => $r->getId(), $rooms);
+        sort($resultIds);
+        $expectedIds = [$roomA->getId(), $roomB->getId()];
+        sort($expectedIds);
+        $this->assertSame($expectedIds, $resultIds);
     }
 }

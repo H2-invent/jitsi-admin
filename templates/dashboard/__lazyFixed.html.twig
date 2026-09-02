@@ -2,6 +2,8 @@
 {% for r in persistantRooms %}
     {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
 {% endfor %}
-{% if persistantRooms|length > 0 %}
-    <div class="lazyLoad" data-target="{{ path('dashboard_lazy',{'type':'fixed','offset':offset+1}) }}"></div>
+{% if persistantHasMore and persistantLastRoomId %}
+    <div class="lazyLoad" data-target="{{ path('dashboard_lazy',{'type':'fixed','lastRoomId':persistantLastRoomId}) }}">
+        <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
+    </div>
 {% endif %}
