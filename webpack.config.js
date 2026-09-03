@@ -20,6 +20,7 @@ Encore
     //.enableSingleRuntimeChunk()
     .disableSingleRuntimeChunk()
     .addEntry('app', './assets/js/app.js')
+    .addEntry('dashboard', './assets/react/dashboard/index.js')
     .addEntry('join', './assets/js/join.js')
     .addEntry('joinBlack', './assets/js/joinBlack.js')
     .addEntry('black', './assets/js/black.js')
@@ -64,6 +65,7 @@ Encore
 
     // allow legacy applications to use $/jQuery as a global variable
     .autoProvidejQuery()
+    .enableReactPreset()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
 

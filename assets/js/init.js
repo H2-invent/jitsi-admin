@@ -6,7 +6,6 @@ import {initDarkmodeSwitch} from './switchDarkmode'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
 import {initPrettyJson} from './jsonBeautifier';
-import {initLayzLoading} from './lazyLoading'
 import hotkeys from 'hotkeys-js';
 import {inIframe} from "./moderatorIframe";
 import {initScheduling} from "./scheduling";
@@ -34,7 +33,6 @@ import {
 function initGenerell() {
     checkFirefox();
     initDarkmodeSwitch();
-    initLayzLoading();
     initStartIframe();
     initProtip();
     wrapSelect();

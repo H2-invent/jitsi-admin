@@ -9,29 +9,24 @@
 
 namespace App\Controller;
 
-use App\Entity\Rooms;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
-use App\Repository\SchedulingTimeUserRepository;
 use App\Repository\ServerRepository;
 use App\Service\analytics\AnalyticsService;
-use App\Service\DashboardService;
+use App\Service\Dashboard\DashboardViewService;
 use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\Theme\ThemeService;
 use App\Service\UserCreatorService;
-use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -90,16 +85,12 @@ class DashboardController extends JitsiAdminController
         FavoriteService              $favoriteService,
         TermsAndConditionsService    $termsAndConditionsService,
         AnalyticsService             $analyticsService,
-        RoomStatusFrontendService    $roomStatusFrontendService,
-        DashboardService             $dashboardService,
-        SchedulingTimeUserRepository $schedulingTimeUserRepository,
+        DashboardViewService         $dashboardViewService,
     ): Response
     {
         if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
             return $this->redirectToRoute('app_terms_and_conditions');
         }
-        $stopwatch = new Stopwatch();
-        $start = $stopwatch->start('dashboard');
         if ($request->get('join_room') && $request->get('type')) {
             return $this->redirectToRoute(
                 'room_join',
@@ -113,55 +104,16 @@ class DashboardController extends JitsiAdminController
         $this->initializeUserFields();
         $favoriteService->cleanFavorites($this->getUser());
 
-        $allRooms = $this->doctrine->getRepository(Rooms::class)->findRoomsForDashboard($this->getUser());
-        [
-            'roomsFuture'     => $roomsFuture,
-            'roomsNow'        => $roomsNow,
-            'roomsToday'      => $roomsToday,
-            'persistantRooms' => $persistantRooms,
-            'scheduledRooms'  => $scheduledRooms,
-            'roomIds'         => $roomIds,
-        ] = $dashboardService->categorizeRooms($allRooms, $this->getUser());
+        // The complete dashboard dataset (rooms, status maps, capabilities, urls,
+        // translated labels, feature flags) is serialised by the view service and
+        // bootstrapped into the Twig shell as JSON. React hydrates from it.
+        $dashboardState = $dashboardViewService->buildInitialState($this->getUser());
 
-        $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), 0);
-        foreach ($roomsPast as $room) {
-            $roomIds[] = $room->getId();
-        }
-
-        $servers = $serverUserManagment->getServersFromUser($this->getUser());
-        $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
-        $tomorrow = (clone $today)->modify('+1day');
-        $favorites = $this->doctrine->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
-        foreach ($favorites as $room) {
-            $roomIds[] = $room->getId();
-        }
-
-        $uniqueRoomIds = array_unique($roomIds);
-        $roomStatusOpenMap = $roomStatusFrontendService->getRoomCreatedStatusMap($uniqueRoomIds);
-        $roomStatusOccupantsMap = $roomStatusFrontendService->getRoomOccupantsMap($uniqueRoomIds);
-        $roomStatusClosedMap = $roomStatusFrontendService->getRoomClosedStatusMap($uniqueRoomIds);
-        $roomHasStatusMap = $roomStatusFrontendService->getRoomHasStatusMap($uniqueRoomIds);
-
-        $allDisplayedRooms = array_merge($allRooms, $roomsPast, $favorites);
-        $roomClosedForStartMap = $dashboardService->getRoomClosedForStartMap(
-            $allDisplayedRooms,
-            $this->getUser(),
-            $roomStatusOpenMap
-        );
-
-        $scheduleUserHasVotedMap = $schedulingTimeUserRepository->findVotesForUserAndRooms(
-            $this->getUser(),
-            array_unique($roomIds)
-        );
-
-        $timer = $stopwatch->stop('dashboard');
         if ($request->get('snack')) {
             if ($request->get('color')) {
                 $this->addFlash($request->get('color'), $request->get('snack'));
             }
         }
-        $date = new \DateTime();
-        $timestamp = $date->getTimestamp();
         $form = $this->createForm(
             SecondEmailType::class,
             $this->getUser(),
@@ -169,33 +121,18 @@ class DashboardController extends JitsiAdminController
                 'action' => $this->generateUrl('second_email_save'),
             ],
         );
+        $form->remove('profilePicture');
+        $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $publicServer = $this->serverRepository->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
 
-        $form->remove('profilePicture');
         $res = $this->render(
             'dashboard/index.html.twig',
             [
                 'secondEmailForm' => $form->createView(),
-                'roomsFuture' => $roomsFuture,
-                'roomsPast' => $roomsPast,
-                'runningRooms' => $roomsNow,
-                'persistantRooms' => $persistantRooms,
-                'todayRooms' => $roomsToday,
                 'servers' => $servers,
-                'today' => $today,
-                'tomorrow' => $tomorrow,
-                'favorite' => $favorites,
-                'scheduledRooms' => $scheduledRooms,
-                'roomStatusOpenMap' => $roomStatusOpenMap,
-                'roomStatusOccupantsMap' => $roomStatusOccupantsMap,
-                'roomStatusClosedMap' => $roomStatusClosedMap,
-                'roomHasStatusMap' => $roomHasStatusMap,
-                'roomClosedMapForStart' => $roomClosedForStartMap,
-                'scheduleUserHasVotedMap' => $scheduleUserHasVotedMap,
-                'timestamp' => $timestamp,
-                'time' => $timer->getDuration(),
                 'publicServer' => $publicServer,
                 'doAllowUserCreation' => $this->userCreatorService->doAllowUserCreation(),
+                'dashboardState' => $dashboardState,
             ],
         );
         $analyticsService->sendAnalytics();
@@ -234,39 +171,6 @@ class DashboardController extends JitsiAdminController
             )
         );
         return $res;
-    }
-
-    /**
-     * @param Request $request
-     * @return RedirectResponse|Response
-     */
-    #[Route(path: '/room/dashboard/lazy/{type}/{offset}', name: 'dashboard_lazy')]
-    public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, $type, $offset)
-    {
-        $servers = $serverUserManagment->getServersFromUser($this->getUser());
-        if ($type === 'fixed') {
-            $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser(), $offset);
-            return $this->render(
-                'dashboard/__lazyFixed.html.twig',
-                [
-                    'persistantRooms' => $persistantRooms,
-                    'servers' => $servers,
-                    'offset' => $offset
-                ]
-            );
-        } elseif ($type === 'past') {
-            $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), $offset);
-            return $this->render(
-                'dashboard/__lazyPast.html.twig',
-                [
-                    'roomsPast' => $roomsPast,
-                    'servers' => $servers,
-                    'offset' => $offset
-                ]
-            );
-        }
-
-        return new JsonResponse(['error' => true]);
     }
 
     #[Route(path: '/room/dashboard/adressbook-fragment', name: 'dashboard_adressbook_fragment')]

@@ -100,20 +100,22 @@
                 </div>
                 <div class="container">
                     <div class="content mt-4">
-                        <div class="sidebarToggle d-none">
-                            <i class="fa fa-times fa-2x"></i>
-                        </div>
-                        <div class="sidebarToggle">
-                            <i class="far fa-star fa-2x"></i>
-                        </div>
-                        <div class="sidebar" id="sidebar">
-                            <div class="sidebarContent">
-                                {% block sidebar %}{% endblock %}
+                        {% block pageContent %}
+                            <div class="sidebarToggle d-none">
+                                <i class="fa fa-times fa-2x"></i>
                             </div>
-                        </div>
-                        <div class="body">
-                            {% block body %}{% endblock %}
-                        </div>
+                            <div class="sidebarToggle">
+                                <i class="far fa-star fa-2x"></i>
+                            </div>
+                            <div class="sidebar" id="sidebar">
+                                <div class="sidebarContent">
+                                    {% block sidebar %}{% endblock %}
+                                </div>
+                            </div>
+                            <div class="body">
+                                {% block body %}{% endblock %}
+                            </div>
+                        {% endblock %}
                     </div>
                 </div>
             </div>
@@ -161,8 +163,6 @@
     var moreFeatureUrl = '{{ path('more_features') }}';
     var notificationUrl = "{{ laf_notificationUrl }}";
     var bbbUrl = "{{ getApplicationProperties('laf_bbb_Url') }}";
-    var refreshDashboardTime = {{ laf_refreshTimeDashboard }};
-    var refreshDashboardUrl = '{{ path('dashboard') }}';
     var confirmTitle = "{{ 'confirm.title'|trans }}";
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
     var confirmOk = "{{ 'confirm.ok'|trans }}";

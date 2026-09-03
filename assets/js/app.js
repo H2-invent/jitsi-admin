@@ -19,6 +19,12 @@ global.$ = global.jQuery = $;
 
 import { Dropdown,Popover,Modal,Tooltip,Collapse, initMDB } from "mdb-ui-kit";
 
+// Expose a single MDB singleton to other entry points (the React dashboard). The React
+// bundle must not import mdb-ui-kit itself, otherwise the component data-api handlers
+// (e.g. the document-level dropdown toggling) would be registered twice and dropdowns
+// would open and immediately close again.
+global.mdb = window.mdb = { Dropdown, Popover, Modal, Tooltip, Collapse };
+
 import Swal from 'sweetalert2';
 
 import {trans, ADDRESSBOOKERRORTITLE, ADDRESSBOOKERRORDEFAULT} from '../translator.js';
@@ -34,7 +40,6 @@ import {initCopytoClipboard, initGenerell, initNewModal} from './init';
 import {initKeycloakGroups} from './keyCloakGroupsInit';
 import {initAddressGroupSearch, initListSearch, reloadAddressBookPane} from './addressGroup';
 import {initSearchUser} from './searchUser';
-import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
@@ -99,7 +104,6 @@ $(document).ready(function () {
     }
     initGenerell();
 
-    initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
     initListSearch();
     initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
