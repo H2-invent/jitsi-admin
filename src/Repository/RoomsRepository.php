@@ -264,22 +264,27 @@ class RoomsRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findRoomsFutureAndPast(User $user, $timeBack)
+    public function findRoomsFutureAndPast(User $user, string $timeBack)
     {
         $now = (new \DateTime('now', new \DateTimeZone('utc')))->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
-        return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement', 'managerelement')
-            ->leftJoin('managerelement.deputy', 'deputy')
+
+        return $qb
+            ->innerJoin('r.user', 'user')
+            ->andWhere('user = :user')
+            ->andWhere('r.endDateUtc > :now')
             ->andWhere(
                 $qb->expr()->orX(
-                    'user = :user',
-                    'deputy = :user'
+                    $qb->expr()->isNull('r.scheduleMeeting'),
+                    'r.scheduleMeeting = false'
                 )
             )
-            ->andWhere('r.endDateUtc > :now')
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('r.persistantRoom'),
+                    'r.persistantRoom = false'
+                )
+            )
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.startUtc', 'ASC')
