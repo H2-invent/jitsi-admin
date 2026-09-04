@@ -26,41 +26,51 @@ class AnalyticsService
 
     public function gatherInformations(): array
     {
-        $average = 0;
-        $averageCounter = 0;
+        $em = $this->entityManager;
         $res = ['data' => 'jitsi-admin'];
-        $rooms = $this->entityManager->getRepository(Rooms::class)->findAll();
-        $res['rooms'] = count($rooms);
-        $users = $this->entityManager->getRepository(User::class)->findAll();
-        $res['users'] = count($users);
-        $usersKC = $this->entityManager->getRepository(User::class)->findUsersWithKC();
-        $res['kcUser'] = count($usersKC);
-        $res['jitsiadmin_version'] = $this->parameterBag->get('laF_version');
-        $openRooms = $this->entityManager->getRepository(Rooms::class)->findBy(['totalOpenRooms' => true]);
-        $res['openRooms'] = count($openRooms);
-        $url = [];
-        foreach ($rooms as $data) {
-            if (!in_array($data->getHostUrl(), $url)) {
-                $url[] = $data->getHostUrl();
-            }
-            if (count($data->getUser()) > 0) {
-                $average += count($data->getUser());
-                $averageCounter++;
-            }
 
-        }
-        $average = $averageCounter!=0?($average / $averageCounter):0;
-        $res['average_room_size'] = $average;
-        $res['urls'] = $url;
-        $server = $this->entityManager->getRepository(Server::class)->findAll();
-        $res['servers_amount'] = count($server);
-        $serverArr = [];
-        foreach ($server as $data2) {
-            $serverArr[] = $data2->getUrl();
-        }
-        $res['server_url'] = $serverArr;
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(r.id)')->from(Rooms::class, 'r');
+        $res['rooms'] = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(u.id)')->from(User::class, 'u');
+        $res['users'] = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(u.id)')->from(User::class, 'u')->where($qb->expr()->isNotNull('u.keycloakId'));
+        $res['kcUser'] = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(r.id)')->from(Rooms::class, 'r')->where('r.totalOpenRooms = true');
+        $res['openRooms'] = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $res['jitsiadmin_version'] = $this->parameterBag->get('laF_version');
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('DISTINCT r.hostUrl')->from(Rooms::class, 'r')->where($qb->expr()->isNotNull('r.hostUrl'));
+        $res['urls'] = array_values(array_filter($qb->getQuery()->getSingleColumnResult()));
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(u.id)')->from(Rooms::class, 'r')->innerJoin('r.user', 'u');
+        $totalParticipants = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(DISTINCT r.id)')->from(Rooms::class, 'r')->innerJoin('r.user', 'u');
+        $roomsWithParticipants = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $res['average_room_size'] = $roomsWithParticipants > 0 ? $totalParticipants / $roomsWithParticipants : 0;
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(s.id)')->from(Server::class, 's');
+        $res['servers_amount'] = (int)$qb->getQuery()->getSingleScalarResult();
+
+        $qb = $em->createQueryBuilder();
+        $qb->select('s.url')->from(Server::class, 's');
+        $res['server_url'] = array_values(array_filter($qb->getQuery()->getSingleColumnResult()));
+
         $theme = $this->themeService->showAllThemes();
-        if ($theme){
+        if ($theme) {
             $res['theme'] = $theme;
         }
 

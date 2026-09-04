@@ -44,8 +44,13 @@ function initGenerell() {
     if (window.innerWidth < 768) {
         document.body.classList.add("in-smartPhone");
     }
-    openBlankTarget(blankTarget);
-    initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
+    if (typeof blankTarget !== 'undefined'){
+        openBlankTarget(blankTarget);
+    }
+    if (typeof confirmTitle !== 'undefined'){
+        initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
+    }
+
     hotkeys('1', function () {
         $('#ex1-tab-1-tab').trigger('click');
     });
@@ -73,7 +78,8 @@ function initGenerell() {
         $('#profile-tab').trigger('click');
     });
     hotkeys('n', function () {
-        $('#createNewConference').trigger('click');
+        document.getElementById('createNewConference').click();
+
     });
     initWebsocket(websocketTopics);
     initLoadContent();
