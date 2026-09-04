@@ -12,7 +12,10 @@
 * Fix display webcam preview
 * Fix broken render of address book panel after Ajax contact addition
 * fix multiframe not showing absolute
-* FIx not opening multiframe when moderator opens multiframe
+* Fix not opening multiframe when moderator opens multiframe
+* Fix Phone Modal to be able to close
+* Fix sorting for conferences without date
+* Fix Showing Closed and 1 participant in conference
 
 ### ⭐ Improvements:
 * Performance increase in Dashboard page loading time
