@@ -21,7 +21,12 @@
                 <div class="tab-content" id="addressbookContent" data-swipe="#addressbookTab">
                     <div class="tab-content-watch mat-active">
                         <div class="tab-pane fade show mat-active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            {{ include('addressbook/__addressBook.html.twig') }}
+                            {% if app.request.get('_route') == 'dashboard' and addressbookState is defined %}
+                                <div id="addressbook-root" class="h-100"></div>
+                                <script id="addressbook-state" type="application/json">{{ addressbookState|json_encode(constant('JSON_HEX_TAG') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_QUOT'))|raw }}</script>
+                            {% else %}
+                                {{ include('addressbook/__addressBook.html.twig') }}
+                            {% endif %}
                         </div>
                     </div>
                     <div class="tab-content-watch">

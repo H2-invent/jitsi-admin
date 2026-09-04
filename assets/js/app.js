@@ -341,9 +341,14 @@ $('#loadContentModal').on('submit', '#addressGroupForm', function (e) {
 // These links have data-ajax-url but are NOT .confirmHref (handled by confirmation.js).
 // After the Ajax POST completes, the entire address book pane is reloaded from the server
 // because the action may change ordering, favorite status, or deputy status across multiple entries.
+//
+// The React address book (#addressbook-root, on the dashboard) owns its own DOM and state and
+// must not be reloaded from a server-rendered fragment. Its entries do not carry data-ajax-url,
+// but guard explicitly so the fragment reload never runs inside the React pane.
 document.addEventListener('click', function (e) {
     const link = e.target.closest('a[data-ajax-url]');
     if (!link) return;
+    if (link.closest('#addressbook-root')) return;
 
     const ajaxUrl = link.dataset.ajaxUrl;
     if (!ajaxUrl) return;

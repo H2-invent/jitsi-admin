@@ -13,6 +13,7 @@ use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
 use App\Repository\ServerRepository;
 use App\Service\analytics\AnalyticsService;
+use App\Service\Dashboard\AddressBookViewService;
 use App\Service\Dashboard\DashboardViewService;
 use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
@@ -86,6 +87,7 @@ class DashboardController extends JitsiAdminController
         TermsAndConditionsService    $termsAndConditionsService,
         AnalyticsService             $analyticsService,
         DashboardViewService         $dashboardViewService,
+        AddressBookViewService       $addressBookViewService,
     ): Response
     {
         if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
@@ -133,6 +135,7 @@ class DashboardController extends JitsiAdminController
                 'publicServer' => $publicServer,
                 'doAllowUserCreation' => $this->userCreatorService->doAllowUserCreation(),
                 'dashboardState' => $dashboardState,
+                'addressbookState' => $addressBookViewService->buildState($this->getUser()),
             ],
         );
         $analyticsService->sendAnalytics();
