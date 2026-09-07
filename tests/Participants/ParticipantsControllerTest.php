@@ -135,6 +135,36 @@ class ParticipantsControllerTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, $room->getUser()->count());
     }
+    public function testRemoveParticpantNonExistentUser(): void
+    {
+        $client = static::createClient();
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        self::assertEquals(3, $room->getUser()->count());
+        $organizer = $room->getModerator();
+        $client->loginUser($organizer);
+
+        $client->request('GET', '/room/participant/remove?room=' . $room->getId() . '&user=999999999');
+        self::assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        self::assertArrayHasKey('error', $response);
+        self::assertFalse($response['error']);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        self::assertEquals(3, $room->getUser()->count());
+    }
+    public function testRemoveParticpantNonExistentUserNoPermission(): void
+    {
+        $client = static::createClient();
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $user = $room->getUser()[2];
+        $client->loginUser($user);
+
+        $client->request('GET', '/room/participant/remove?room=' . $room->getId() . '&user=999999999');
+        self::assertResponseRedirects('/room/dashboard');
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        self::assertEquals(3, $room->getUser()->count());
+    }
     public function testResendInvitation(): void
     {
         $client = static::createClient();

@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { toggleFavorite } from './api/dashboardApi';
 import useDashboardStatus from './hooks/useDashboardStatus';
 import FavoriteSidebar from './components/FavoriteSidebar';
@@ -11,12 +11,42 @@ export default function DashboardPage({ initialState }) {
     const [favorites, setFavorites] = useState(() => (initialState ? initialState.favorites || [] : []));
     const [favoritePending, setFavoritePending] = useState(null);
     const [favoriteError, setFavoriteError] = useState(null);
+    // The room lists are kept in state so that deleted conferences can be removed
+    // from the dashboard without reloading the page.
+    const [rooms, setRooms] = useState(() => (initialState ? initialState.rooms : null));
     // Only the future conferences currently near the viewport are polled for occupant
     // status (see FuturePane). This keeps the occupants request small and targeted.
     const [pollRoomIds, setPollRoomIds] = useState([]);
 
     const config = useMemo(() => (initialState ? initialState.config : null), [initialState]);
-    const rooms = initialState ? initialState.rooms : null;
+
+    useEffect(() => {
+        function handleRoomRemoved(e) {
+            const id = Number(e.detail && e.detail.id);
+            if (!Number.isInteger(id) || id <= 0) {
+                return;
+            }
+            setRooms((prev) => {
+                if (!prev) {
+                    return prev;
+                }
+                const scheduled = (prev.scheduled || []).filter((r) => r && r.id !== id);
+                const fixed = (prev.fixed || []).filter((r) => r && r.id !== id);
+                const future = (prev.future || [])
+                    .map((group) => ({ ...group, rooms: (group.rooms || []).filter((r) => r && r.id !== id) }))
+                    .filter((group) => (group.rooms || []).length > 0);
+                if (scheduled.length === (prev.scheduled || []).length
+                    && fixed.length === (prev.fixed || []).length
+                    && future.length === (prev.future || []).length) {
+                    return prev;
+                }
+                return { ...prev, scheduled, future, fixed };
+            });
+            setFavorites((prev) => prev.filter((r) => r && r.id !== id));
+        }
+        window.addEventListener('dashboard-room-removed', handleRoomRemoved);
+        return () => window.removeEventListener('dashboard-room-removed', handleRoomRemoved);
+    }, []);
     const initialStatus = useMemo(
         () =>
             initialState && initialState.status

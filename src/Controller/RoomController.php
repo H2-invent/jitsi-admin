@@ -165,6 +165,7 @@ class RoomController extends JitsiAdminController
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $color = 'danger';
         $snack = 'Keine Berechtigung';
+        $success = false;
         if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             if ($room->getRepeater()) {
                 $repeater = $room->getRepeater();
@@ -174,10 +175,16 @@ class RoomController extends JitsiAdminController
             if ($removeRoomService->deleteRoom($room)) {
                 $snack = $this->translator->trans('Konferenz gelöscht');
                 $color = 'success';
+                $success = true;
             } else {
                 $snack = $this->translator->trans('Fehler, Bitte Laden Sie die Seite neu');
             }
         }
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(['error' => !$success, 'toast' => true, 'message' => $snack, 'color' => $color]);
+        }
+
         $this->addFlash($color, $snack);
         return $this->redirectToRoute('dashboard');
     }

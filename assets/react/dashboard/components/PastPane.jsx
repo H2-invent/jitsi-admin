@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import usePastRooms from '../hooks/usePastRooms';
 import { DashboardConfigContext } from '../DashboardPage';
 import PastRoomCard from './PastRoomCard';
@@ -10,13 +10,24 @@ export default function PastPane({ rooms, status, favoriteIds, favoritePending }
     const tr = config.translations;
     const past = rooms.past || { rooms: [], hasMore: false, nextOffset: 1 };
 
-    const { rooms: pastRooms, hasMore, loading, error, sentinelRef, retry } = usePastRooms({
+    const { rooms: pastRooms, hasMore, loading, error, sentinelRef, retry, removeRoom } = usePastRooms({
         url: config.urls.pastRooms,
         initialRooms: past.rooms,
         initialHasMore: past.hasMore,
         initialNextOffset: past.nextOffset,
         enabled: true,
     });
+
+    useEffect(() => {
+        function handleRoomRemoved(e) {
+            const id = Number(e.detail && e.detail.id);
+            if (Number.isInteger(id) && id > 0) {
+                removeRoom(id);
+            }
+        }
+        window.addEventListener('dashboard-room-removed', handleRoomRemoved);
+        return () => window.removeEventListener('dashboard-room-removed', handleRoomRemoved);
+    }, [removeRoom]);
 
     if (pastRooms.length === 0 && !hasMore) {
         return (

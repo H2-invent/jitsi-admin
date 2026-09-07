@@ -150,6 +150,10 @@ class ParticipantController extends JitsiAdminController
             return $this->redirectToRoute('dashboard');
         }
 
+        if ($user === null) {
+            return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('Teilnehmer gelöscht'), 'color' => 'success']);
+        }
+
         $roomAddService->removeUserFromRoom($user, $room);
         return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('Teilnehmer gelöscht'), 'color' => 'success']);
     }

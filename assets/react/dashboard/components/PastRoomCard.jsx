@@ -16,7 +16,11 @@ const PastRoomCard = memo(function PastRoomCard({ room, open, closed, occupantNa
     }, []);
 
     return (
-        <div ref={cardRef} className="card card-body mb-1 text-lg-start text-center mb-3">
+        <div
+            ref={cardRef}
+            className="card card-body mb-1 text-lg-start text-center mb-3"
+            data-room-id={room.id}
+        >
             <div className="row">
                 {room.readOnly ? (
                     <ReadonlyColumn room={room} tr={tr} open={open} closed={closed} occupantNames={occupantNames} />
@@ -40,7 +44,7 @@ const PastRoomCard = memo(function PastRoomCard({ room, open, closed, occupantNa
                             ) : (
                                 room.actions.leave && (
                                     <a
-                                        className="btn btn-outline-default btn-darkred confirmHref"
+                                        className="btn btn-outline-default btn-darkred confirmHref dashboardRoomDelete"
                                         href={room.actions.leave.href}
                                         data-text={room.actions.leave.confirmText}
                                     >

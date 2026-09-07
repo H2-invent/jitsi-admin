@@ -127,11 +127,57 @@ function initconfirmHref() {
 
             if (ajaxUrl) {
                 confirmHrefAjax(ajaxUrl);
+            } else if (triggerElement.classList.contains('dashboardRoomDelete')) {
+                // Deleting a conference from the dashboard must not leave the page:
+                // execute the delete via ajax and let React drop the card from the DOM.
+                roomDeleteViaAjax(url, triggerElement);
             } else {
                 window.location.href = url;
             }
         });
     });
+}
+
+function getRoomIdFromTrigger(triggerElement) {
+    const card = triggerElement.closest('[data-room-id]');
+    if (!card) {
+        return null;
+    }
+    const id = Number(card.getAttribute('data-room-id'));
+    return Number.isInteger(id) && id > 0 ? id : null;
+}
+
+function removeDashboardRoomCard(triggerElement) {
+    const roomId = getRoomIdFromTrigger(triggerElement);
+    if (roomId === null) {
+        return;
+    }
+    window.dispatchEvent(new CustomEvent('dashboard-room-removed', { detail: { id: roomId } }));
+}
+
+function roomDeleteViaAjax(url, triggerElement) {
+    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(response => {
+            const contentType = response.headers.get('content-type') || '';
+            return contentType.includes('application/json') ? response.json() : null;
+        })
+        .then(data => {
+            if (!data) {
+                // The endpoint answered with a redirect/HTML (e.g. permission denied):
+                // fall back to a normal navigation so the request is still performed.
+                window.location.href = url;
+                return;
+            }
+            if (data.toast && data.message) {
+                setSnackbar(data.message, '', data.error ? 'danger' : (data.color || 'success'), false, '0x00', 5000);
+            }
+            if (!data.error) {
+                removeDashboardRoomCard(triggerElement);
+            }
+        })
+        .catch(() => {
+            window.location.href = url;
+        });
 }
 
 // Executes the confirmed AJAX action for a .confirmHref link carrying data-ajax-url.

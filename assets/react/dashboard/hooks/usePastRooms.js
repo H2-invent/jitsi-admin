@@ -84,6 +84,10 @@ export default function usePastRooms({ url, initialRooms, initialHasMore, initia
         return () => observer.disconnect();
     }, [sentinel, enabled, loadMore]);
 
+    const removeRoom = useCallback((id) => {
+        setRooms((prevRooms) => prevRooms.filter((room) => room && room.id !== id));
+    }, []);
+
     const retry = useCallback(() => {
         loadMore();
     }, [loadMore]);
@@ -95,5 +99,6 @@ export default function usePastRooms({ url, initialRooms, initialHasMore, initia
         error,
         sentinelRef: setSentinel,
         retry,
+        removeRoom,
     };
 }

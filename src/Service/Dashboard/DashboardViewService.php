@@ -533,7 +533,7 @@ class DashboardViewService
                     null,
                     $this->url('room_user_remove', ['room' => $id, 'user' => $user->getId()]),
                     'fa-solid fa-trash',
-                    ['directSendWithConfirm', 'btn-darkred'],
+                    ['confirmHref', 'btn-darkred', 'dashboardRoomDelete'],
                     null,
                     null,
                     $this->t('confirmDeleteRoom')
@@ -827,7 +827,7 @@ class DashboardViewService
             );
         }
         if ((int) ($s['dropdown_settings_common_delete'] ?? 0) === 1) {
-            $items[] = $this->deleteItem($room, $id, $now);
+            $items[] = $this->deleteItem($room, $id, $now, $ctx['user']);
         }
         return $items;
     }
@@ -895,7 +895,7 @@ class DashboardViewService
             );
         }
         if ((int) ($s['dropdown_settings_series_delete_one'] ?? 0) === 1) {
-            $items[] = $this->deleteItem($room, $id, $now);
+            $items[] = $this->deleteItem($room, $id, $now, $ctx['user']);
         }
         if ((int) ($s['dropdown_settings_series_delete'] ?? 0) === 1 && $repeater) {
             $items[] = $this->anchor(
@@ -941,7 +941,7 @@ class DashboardViewService
                 $this->t('delete'),
                 $this->url('room_remove', ['room' => $id]),
                 'fa fa-trash',
-                ['confirmHref'],
+                ['confirmHref', 'dashboardRoomDelete'],
                 null,
                 null,
                 $this->t('confirmDeleteRoom')
@@ -950,7 +950,7 @@ class DashboardViewService
         return $items;
     }
 
-    private function deleteItem(Rooms $room, int $id, int $now): array
+    private function deleteItem(Rooms $room, int $id, int $now, User $user): array
     {
         if ((bool) $room->getPersistantRoom() || ($room->getEnddate() !== null && $room->getEndTimestamp() > $now)) {
             return $this->anchor(
@@ -958,7 +958,7 @@ class DashboardViewService
                 $this->t('delete'),
                 $this->url('room_remove', ['room' => $id]),
                 'fa fa-trash',
-                ['confirmHref'],
+                ['confirmHref', 'dashboardRoomDelete'],
                 null,
                 null,
                 $this->t('confirmDeleteRoom')
@@ -967,9 +967,9 @@ class DashboardViewService
         return $this->anchor(
             'leave',
             $this->t('delete'),
-            $this->url('room_user_remove', ['room' => $id, 'user' => $this->requestStack->getCurrentRequest()?->getUser()?->getId()]),
+            $this->url('room_user_remove', ['room' => $id, 'user' => $user->getId()]),
             'fa fa-trash',
-            ['confirmHref'],
+            ['confirmHref', 'dashboardRoomDelete'],
             null,
             null,
             $this->t('confirmDeleteRoom')
