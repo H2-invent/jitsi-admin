@@ -81,8 +81,8 @@ class DashboardService
                 if ($startWindow > $now || $end < $now) {
                     $result[$room->getId()] = sprintf(
                         'Der Beitritt ist nur von %s bis %s möglich',
-                        $room->getStartwithTimeZone($user)->modify('-30min')->format('d.m.Y H:i'),
-                        $room->getEndwithTimeZone($user)->format('d.m.Y H:i')
+                        (clone $room->getStartwithTimeZone($user))->modify('-30min')->format('d.m.Y H:i'),
+                        (clone $room->getEndwithTimeZone($user))->format('d.m.Y H:i')
                     );
                 }
             }

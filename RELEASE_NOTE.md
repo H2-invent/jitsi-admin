@@ -16,6 +16,7 @@
 * Fix Phone Modal to be able to close
 * Fix sorting for conferences without date
 * Fix Showing Closed and 1 participant in conference
+* Fix wrong start time in dashboard
 
 ### ⭐ Improvements:
 * Performance increase in Dashboard page loading time
