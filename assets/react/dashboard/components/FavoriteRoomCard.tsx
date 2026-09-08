@@ -1,22 +1,32 @@
 import React from 'react';
 import { DashboardConfigContext } from '../DashboardPage';
 import { labelWithNumber } from '../utils/rooms';
+import type { Room } from '../types';
 
-const FavoriteRoomCard = React.memo(function FavoriteRoomCard({ room, isRunning, open, closed, occupantNames, pending }) {
-    const { config, onToggleFavorite } = React.useContext(DashboardConfigContext);
+export interface FavoriteRoomCardProps {
+    room: Room;
+    isRunning: boolean;
+    open: boolean;
+    closed: boolean;
+    occupantNames: string[];
+    pending: boolean;
+}
+
+const FavoriteRoomCard = React.memo(function FavoriteRoomCard({ room, isRunning, open, closed, occupantNames, pending }: FavoriteRoomCardProps) {
+    const { config, onToggleFavorite } = React.useContext(DashboardConfigContext)!;
     const tr = config.translations;
     const useMultiframe = config.useMultiframe;
 
-    const handleStar = (e) => {
+    const handleStar = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         if (!pending) {
             onToggleFavorite(room);
         }
     };
 
-    let info = null;
+    let info: React.ReactNode = null;
     if (!open) {
-        let text = null;
+        let text: string | null = null;
         if (!room.isPersistent && !room.isSchedule) {
             text = room.start ? room.start.dateTime : null;
         } else if (room.isSchedule) {
@@ -54,7 +64,7 @@ const FavoriteRoomCard = React.memo(function FavoriteRoomCard({ room, isRunning,
         </a>
     );
 
-    let scheduleButton = null;
+    let scheduleButton: React.ReactNode = null;
     if (room.isSchedule) {
         if (room.canOrganize && room.scheduleAdminUrl) {
             scheduleButton = (
@@ -66,7 +76,7 @@ const FavoriteRoomCard = React.memo(function FavoriteRoomCard({ room, isRunning,
             scheduleButton = (
                 <a
                     className="btn btn-outline-primary dropdown-toggle btn-sm"
-                    href={room.schedulePublicUrl}
+                    href={room.schedulePublicUrl || undefined}
                     target="_blank"
                 >
                     <i className="fa fa-calendar" />

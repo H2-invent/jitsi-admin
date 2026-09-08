@@ -1,18 +1,27 @@
 import React, { useMemo } from 'react';
 import { DashboardConfigContext } from '../DashboardPage';
 import FavoriteRoomCard from './FavoriteRoomCard';
+import type { LiveRoomInfo, Room, RoomStatus } from '../types';
 
-const NO_NAMES = [];
+const NO_NAMES: string[] = [];
 
-export default function FavoriteSidebar({ favorites, favoritePending, favoriteError, liveById, status }) {
-    const { config } = React.useContext(DashboardConfigContext);
+export interface FavoriteSidebarProps {
+    favorites: Room[];
+    favoritePending: number | null;
+    favoriteError: string | null;
+    liveById: Record<number, LiveRoomInfo>;
+    status: RoomStatus;
+}
+
+export default function FavoriteSidebar({ favorites, favoritePending, favoriteError, liveById, status }: FavoriteSidebarProps) {
+    const { config } = React.useContext(DashboardConfigContext)!;
     const translations = config.translations;
 
     // Preserve the server ordering: running favourites first, the rest in their
     // original order afterwards.
     const sorted = useMemo(() => {
-        const running = [];
-        const others = [];
+        const running: Room[] = [];
+        const others: Room[] = [];
         favorites.forEach((room) => {
             const live = liveById[room.id];
             if (live && live.running) {

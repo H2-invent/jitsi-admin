@@ -1,11 +1,20 @@
 import React from 'react';
 import { DashboardConfigContext } from '../DashboardPage';
 import RoomCard from './RoomCard';
+import type { LiveRoomInfo, RoomCollection, RoomStatus } from '../types';
 
-const NO_NAMES = [];
+const NO_NAMES: string[] = [];
 
-export default function FixedPane({ rooms, status, liveById, favoriteIds, favoritePending }) {
-    const { config } = React.useContext(DashboardConfigContext);
+export interface FixedPaneProps {
+    rooms: RoomCollection;
+    status: RoomStatus;
+    liveById: Record<number, LiveRoomInfo>;
+    favoriteIds: Set<number>;
+    favoritePending: number | null;
+}
+
+export default function FixedPane({ rooms, status, liveById, favoriteIds, favoritePending }: FixedPaneProps) {
+    const { config } = React.useContext(DashboardConfigContext)!;
     const tr = config.translations;
 
     if (rooms.fixed.length === 0) {

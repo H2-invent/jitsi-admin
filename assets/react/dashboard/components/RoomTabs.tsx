@@ -3,9 +3,19 @@ import { DashboardConfigContext } from '../DashboardPage';
 import FuturePane from './FuturePane';
 import PastPane from './PastPane';
 import FixedPane from './FixedPane';
+import type { LiveRoomInfo, RoomCollection, RoomStatus } from '../types';
 
-export default function RoomTabs({ rooms, status, liveById, favoriteIds, favoritePending, onVisibleIdsChange }) {
-    const { config } = React.useContext(DashboardConfigContext);
+export interface RoomTabsProps {
+    rooms: RoomCollection;
+    status: RoomStatus;
+    liveById: Record<number, LiveRoomInfo>;
+    favoriteIds: Set<number>;
+    favoritePending: number | null;
+    onVisibleIdsChange?: (ids: number[]) => void;
+}
+
+export default function RoomTabs({ rooms, status, liveById, favoriteIds, favoritePending, onVisibleIdsChange }: RoomTabsProps) {
+    const { config } = React.useContext(DashboardConfigContext)!;
     const tr = config.translations;
 
     return (

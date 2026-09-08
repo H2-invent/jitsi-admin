@@ -1,22 +1,32 @@
 import React, { useEffect, useRef } from 'react';
+import type { AddressBookContact, Translations } from '../types';
 
-function disposeEntryMdb(container) {
+function disposeEntryMdb(container: HTMLElement | null): void {
     if (!container || !window.mdb) {
         return;
     }
     container.querySelectorAll('[data-mdb-dropdown-init]').forEach((el) => {
-        window.mdb.Dropdown.getInstance(el)?.dispose();
+        window.mdb!.Dropdown.getInstance(el)?.dispose();
     });
     container.querySelectorAll('[data-mdb-popover-init]').forEach((el) => {
-        window.mdb.Popover.getInstance(el)?.dispose();
+        window.mdb!.Popover.getInstance(el)?.dispose();
     });
     container.querySelectorAll('[data-mdb-tooltip-init]').forEach((el) => {
-        window.mdb.Tooltip.getInstance(el)?.dispose();
+        window.mdb!.Tooltip.getInstance(el)?.dispose();
     });
 }
 
-export default function AddressBookEntry({ contact, status, tr, onToggleFavorite, onToggleDeputy, onDelete }) {
-    const entryRef = useRef(null);
+export interface AddressBookEntryProps {
+    contact: AddressBookContact;
+    status: string | undefined;
+    tr: Translations;
+    onToggleFavorite: () => void;
+    onToggleDeputy: () => void;
+    onDelete: () => void;
+}
+
+export default function AddressBookEntry({ contact, status, tr, onToggleFavorite, onToggleDeputy, onDelete }: AddressBookEntryProps) {
+    const entryRef = useRef<HTMLLIElement>(null);
     const starClass = contact.isFavorite ? 'fa isAddressbookFavorite fa-star' : 'far fa-star';
     const statusAttr = status || undefined;
 
@@ -96,7 +106,7 @@ export default function AddressBookEntry({ contact, status, tr, onToggleFavorite
                                         <i className="fa-solid fa-file-contract" />
                                         {tr.deputyLdapDisabled}
                                     </a>
-                                    <a className="ms-2" tabIndex="0" data-mdb-popover-init data-mdb-trigger="focus" data-mdb-content={tr.deputyHelpLdap}>
+                                    <a className="ms-2" tabIndex={0} data-mdb-popover-init data-mdb-trigger="focus" data-mdb-content={tr.deputyHelpLdap}>
                                         <i className="fa fa-question-circle" />
                                     </a>
                                 </>
@@ -106,7 +116,7 @@ export default function AddressBookEntry({ contact, status, tr, onToggleFavorite
                                         <i className="fa-solid fa-file-contract" />
                                         {contact.isDeputy ? tr.deputyRemove : tr.deputyAdd}
                                     </a>
-                                    <a className="ms-2" tabIndex="0" data-mdb-popover-init data-mdb-trigger="focus" data-mdb-content={tr.deputyHelp}>
+                                    <a className="ms-2" tabIndex={0} data-mdb-popover-init data-mdb-trigger="focus" data-mdb-content={tr.deputyHelp}>
                                         <i className="fa fa-question-circle" />
                                     </a>
                                 </>

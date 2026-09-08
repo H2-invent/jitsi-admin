@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react';
+import type { CSSProperties } from 'react';
 import { DashboardConfigContext } from '../DashboardPage';
 import { refreshPopover } from '../utils/mdb';
 import { labelWithNumber } from '../utils/rooms';
+import type { DashboardConfig, Room } from '../types';
 
-function escapeHtml(value) {
+function escapeHtml(value: string): string {
     return String(value)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -12,15 +14,21 @@ function escapeHtml(value) {
         .replace(/'/g, '&#039;');
 }
 
-function InfoPopover({ title, content, refreshKey, children }) {
-    const anchorRef = useRef(null);
+interface InfoPopoverProps {
+    title: string;
+    content: string;
+    refreshKey: string;
+    children: React.ReactNode;
+}
+
+function InfoPopover({ title, content, refreshKey, children }: InfoPopoverProps) {
+    const anchorRef = useRef<HTMLAnchorElement>(null);
     useEffect(() => {
         refreshPopover(anchorRef.current);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [refreshKey]);
     return (
         <a
-            tabIndex="0"
+            tabIndex={0}
             ref={anchorRef}
             data-mdb-popover-init
             data-mdb-trigger="focus"
@@ -33,8 +41,14 @@ function InfoPopover({ title, content, refreshKey, children }) {
     );
 }
 
-function OccupantStatus({ open, closed, occupantNames }) {
-    const { config } = useContext(DashboardConfigContext);
+interface OccupantStatusProps {
+    open: boolean;
+    closed: boolean;
+    occupantNames: string[];
+}
+
+function OccupantStatus({ open, closed, occupantNames }: OccupantStatusProps) {
+    const { config } = useContext(DashboardConfigContext)!;
     const tr = config.translations;
     if (open) {
         const content = occupantNames.map((name) => `${escapeHtml(name)}<br>`).join('');
@@ -60,9 +74,15 @@ function OccupantStatus({ open, closed, occupantNames }) {
     return null;
 }
 
-function FavoriteStar({ room, isFavorite, pending }) {
-    const { onToggleFavorite } = useContext(DashboardConfigContext);
-    const handleClick = (e) => {
+interface FavoriteStarProps {
+    room: Room;
+    isFavorite: boolean;
+    pending: boolean;
+}
+
+function FavoriteStar({ room, isFavorite, pending }: FavoriteStarProps) {
+    const { onToggleFavorite } = useContext(DashboardConfigContext)!;
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         if (!pending) {
             onToggleFavorite(room);
@@ -75,14 +95,21 @@ function FavoriteStar({ room, isFavorite, pending }) {
     );
 }
 
-function themeStyle(config, colorKey) {
-    return config.themeColors && config.themeColors[colorKey]
-        ? { backgroundColor: config.themeColors[colorKey] }
+function themeStyle(config: DashboardConfig, colorKey: string): CSSProperties | undefined {
+    return config.themeColors && config.themeColors[colorKey as keyof typeof config.themeColors]
+        ? { backgroundColor: config.themeColors[colorKey as keyof typeof config.themeColors] as string }
         : undefined;
 }
 
-export function StatusColumn({ room, open, closed, occupantNames }) {
-    const { config } = useContext(DashboardConfigContext);
+export interface StatusColumnProps {
+    room: Room;
+    open: boolean;
+    closed: boolean;
+    occupantNames: string[];
+}
+
+export function StatusColumn({ room, open, closed, occupantNames }: StatusColumnProps) {
+    const { config } = useContext(DashboardConfigContext)!;
     const tr = config.translations;
 
     return (
@@ -115,7 +142,7 @@ export function StatusColumn({ room, open, closed, occupantNames }) {
                     {room.moderatorNotCreator && (
                         <i
                             className={`fa-solid fa-file-contract me-1 createdByDeputy${room.changelogUrl ? ' loadContent' : ''}`}
-                            href={room.changelogUrl || undefined}
+                            {...(room.changelogUrl ? { href: room.changelogUrl } : {})}
                         />
                     )}
                     {room.hasRecordings && <i className="loadContent fa-solid fa-film" />}
@@ -131,8 +158,14 @@ export function StatusColumn({ room, open, closed, occupantNames }) {
     );
 }
 
-export function NameColumn({ room, isFavorite, favoritePending }) {
-    const { config } = useContext(DashboardConfigContext);
+export interface NameColumnProps {
+    room: Room;
+    isFavorite: boolean;
+    favoritePending: boolean;
+}
+
+export function NameColumn({ room, isFavorite, favoritePending }: NameColumnProps) {
+    const { config } = useContext(DashboardConfigContext)!;
     const tr = config.translations;
 
     return (
@@ -174,8 +207,15 @@ export function NameColumn({ room, isFavorite, favoritePending }) {
     );
 }
 
-export function ReadonlyColumn({ room, open, closed, occupantNames }) {
-    const { config } = useContext(DashboardConfigContext);
+export interface ReadonlyColumnProps {
+    room: Room;
+    open: boolean;
+    closed: boolean;
+    occupantNames: string[];
+}
+
+export function ReadonlyColumn({ room, open, closed, occupantNames }: ReadonlyColumnProps) {
+    const { config } = useContext(DashboardConfigContext)!;
     const tr = config.translations;
     return (
         <>

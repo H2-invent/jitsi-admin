@@ -1,20 +1,24 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { PastRoomsPage, Room } from '../types';
 
-/**
- * Infinite scrolling for the "past conferences" pane. Appends structured room records
- * fetched from the JSON endpoint, guards against duplicates, serialises concurrent
- * requests and keeps the sentinel observer alive across appends.
- */
-export default function usePastRooms({ url, initialRooms, initialHasMore, initialNextOffset, enabled }) {
-    const [rooms, setRooms] = useState(initialRooms || []);
+export interface UsePastRoomsOptions {
+    url: string;
+    initialRooms: Room[] | null | undefined;
+    initialHasMore: boolean | null | undefined;
+    initialNextOffset: number | null | undefined;
+    enabled: boolean;
+}
+
+export default function usePastRooms({ url, initialRooms, initialHasMore, initialNextOffset, enabled }: UsePastRoomsOptions) {
+    const [rooms, setRooms] = useState<Room[]>(initialRooms || []);
     const [hasMore, setHasMore] = useState(Boolean(initialHasMore));
     const [nextOffset, setNextOffset] = useState(initialNextOffset || 1);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [sentinel, setSentinel] = useState(null);
+    const [error, setError] = useState<Error | null>(null);
+    const [sentinel, setSentinel] = useState<HTMLElement | null>(null);
 
     const requestId = useRef(0);
-    const loadedPages = useRef(new Set());
+    const loadedPages = useRef(new Set<number>());
 
     useEffect(() => {
         setRooms(initialRooms || []);
@@ -39,7 +43,7 @@ export default function usePastRooms({ url, initialRooms, initialHasMore, initia
             if (!response.ok) {
                 throw new Error(`past rooms request failed (${response.status})`);
             }
-            const payload = await response.json();
+            const payload = (await response.json()) as PastRoomsPage;
             if (currentRequest !== requestId.current) {
                 return;
             }
@@ -55,7 +59,7 @@ export default function usePastRooms({ url, initialRooms, initialHasMore, initia
             }
         } catch (e) {
             if (currentRequest === requestId.current) {
-                setError(e);
+                setError(e as Error);
             }
         } finally {
             if (currentRequest === requestId.current) {
@@ -84,7 +88,7 @@ export default function usePastRooms({ url, initialRooms, initialHasMore, initia
         return () => observer.disconnect();
     }, [sentinel, enabled, loadMore]);
 
-    const removeRoom = useCallback((id) => {
+    const removeRoom = useCallback((id: number) => {
         setRooms((prevRooms) => prevRooms.filter((room) => room && room.id !== id));
     }, []);
 

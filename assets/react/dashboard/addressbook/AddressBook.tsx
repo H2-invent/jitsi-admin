@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import AddressBookEntry from './AddressBookEntry';
-import AddContactModal from './AddContactModal';
+import AddContactModal, { type AddContactResult } from './AddContactModal';
 import { addContact, postContactAction } from './addressBookApi';
 import { getCookie, setCookie } from '../../../js/cookie';
+import type { AddressBookConfig, AddressBookContact, AddressBookFilter, AddressBookState, Translations } from '../types';
 
-function normalizeFilterValue(value) {
+function normalizeFilterValue(value: string | string[]): string[] {
     return Array.isArray(value) ? value : [value];
 }
 
-function findCommonElements(filterArr, content) {
+function findCommonElements(filterArr: (string | string[])[], content: string[]): boolean {
     for (let i = 0; i < filterArr.length; i++) {
         const filter = normalizeFilterValue(filterArr[i]);
         let found = false;
@@ -26,52 +27,56 @@ function findCommonElements(filterArr, content) {
     return true;
 }
 
-function initMdbInContainer(container) {
+function initMdbInContainer(container: HTMLElement | null): void {
     if (!container || !window.mdb) {
         return;
     }
     container.querySelectorAll('[data-mdb-dropdown-init]').forEach((el) => {
-        window.mdb.Dropdown.getOrCreateInstance(el);
+        window.mdb!.Dropdown.getOrCreateInstance(el);
     });
     container.querySelectorAll('[data-mdb-popover-init]').forEach((el) => {
-        window.mdb.Popover.getOrCreateInstance(el);
+        window.mdb!.Popover.getOrCreateInstance(el);
     });
     container.querySelectorAll('[data-mdb-tooltip-init]').forEach((el) => {
-        window.mdb.Tooltip.getOrCreateInstance(el);
+        window.mdb!.Tooltip.getOrCreateInstance(el);
     });
 }
 
-export default function AddressBook({ initialState }) {
-    const config = (initialState && initialState.config) || {};
+export interface AddressBookProps {
+    initialState: AddressBookState | null;
+}
+
+export default function AddressBook({ initialState }: AddressBookProps) {
+    const config: AddressBookConfig = (initialState && initialState.config) || ({} as AddressBookConfig);
     const initialContacts = (initialState && initialState.contacts) || [];
     const filters = (initialState && initialState.filters) || [];
-    const translations = config.translations || {};
+    const translations: Translations = config.translations || {};
 
-    const [contacts, setContacts] = useState(initialContacts);
+    const [contacts, setContacts] = useState<AddressBookContact[]>(initialContacts);
     const [search, setSearch] = useState('');
-    const [checkedFilters, setCheckedFilters] = useState(() => {
-        const init = {};
+    const [checkedFilters, setCheckedFilters] = useState<Record<string, boolean>>(() => {
+        const init: Record<string, boolean> = {};
         filters.forEach((f) => {
             init[f.id] = getCookie(f.id) === 'true';
         });
         return init;
     });
-    const [statusByUid, setStatusByUid] = useState({});
-    const [activeLetter, setActiveLetter] = useState(null);
+    const [statusByUid, setStatusByUid] = useState<Record<string, string>>({});
+    const [activeLetter, setActiveLetter] = useState<string | null>(null);
     const [showAddModal, setShowAddModal] = useState(false);
-    const [pendingFavoriteUid, setPendingFavoriteUid] = useState(null);
+    const [pendingFavoriteUid, setPendingFavoriteUid] = useState<string | null>(null);
 
-    const rootRef = useRef(null);
-    const contentRef = useRef(null);
-    const contactsRef = useRef(contacts);
+    const rootRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const contactsRef = useRef<AddressBookContact[]>(contacts);
     contactsRef.current = contacts;
 
     useEffect(() => {
-        const handler = (e) => {
-            const data = e.detail || {};
+        const handler = (e: Event) => {
+            const data = (e as CustomEvent<Record<string, string[]>>).detail || {};
             setStatusByUid((prev) => {
                 const next = { ...prev };
-                const knownUids = new Set();
+                const knownUids = new Set<string>();
                 Object.keys(data).forEach((status) => {
                     (data[status] || []).forEach((uid) => {
                         next[uid] = status;
@@ -88,7 +93,6 @@ export default function AddressBook({ initialState }) {
         };
         window.addEventListener('addressbook:onlineStatus', handler);
         return () => window.removeEventListener('addressbook:onlineStatus', handler);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -99,7 +103,7 @@ export default function AddressBook({ initialState }) {
         initMdbInContainer(container);
     }, [contacts, search, checkedFilters, statusByUid]);
 
-    const toggleFilter = useCallback((id) => {
+    const toggleFilter = useCallback((id: string) => {
         setCheckedFilters((prev) => {
             const next = { ...prev, [id]: !prev[id] };
             setCookie(id, next[id] ? 'true' : 'false', 365);
@@ -110,7 +114,7 @@ export default function AddressBook({ initialState }) {
     const checkedCount = filters.filter((f) => checkedFilters[f.id]).length;
 
     const effectiveCategories = useCallback(
-        (contact) => {
+        (contact: AddressBookContact): string[] => {
             const cats = [...contact.categories];
             const status = statusByUid[contact.uid];
             if (status && cats.indexOf(status) === -1) {
@@ -157,7 +161,7 @@ export default function AddressBook({ initialState }) {
         const sorted = [...visibleContacts].sort((a, b) =>
             (a.nameNoIcon || '').toLowerCase().localeCompare((b.nameNoIcon || '').toLowerCase())
         );
-        const groups = [];
+        const groups: { initial: string; contacts: AddressBookContact[] }[] = [];
         sorted.forEach((contact) => {
             const letter = contact.initial;
             const last = groups[groups.length - 1];
@@ -171,7 +175,7 @@ export default function AddressBook({ initialState }) {
     }, [visibleContacts]);
 
     const toggleFavorite = useCallback(
-        async (contact) => {
+        async (contact: AddressBookContact) => {
             if (pendingFavoriteUid !== null) {
                 return;
             }
@@ -202,7 +206,7 @@ export default function AddressBook({ initialState }) {
         [pendingFavoriteUid]
     );
 
-    const toggleDeputy = useCallback(async (contact) => {
+    const toggleDeputy = useCallback(async (contact: AddressBookContact) => {
         try {
             const data = await postContactAction(contact.deputyUrl);
             if (data && data.ok === true) {
@@ -216,7 +220,7 @@ export default function AddressBook({ initialState }) {
     }, []);
 
     const deleteContact = useCallback(
-        (contact) => {
+        (contact: AddressBookContact) => {
             Swal.fire({
                 title: translations.confirmTitle || 'Bestätigung',
                 text: translations.confirmDelete || '',
@@ -255,14 +259,15 @@ export default function AddressBook({ initialState }) {
     );
 
     const handleAddContact = useCallback(
-        async (email) => {
+        async (email: string): Promise<AddContactResult> => {
             const data = await addContact(config.urls.addAjax, email);
             if (data && data.ok === true && data.contact) {
+                const newContact = data.contact;
                 setContacts((prev) => {
-                    if (prev.some((c) => c.uid === data.contact.uid)) {
+                    if (prev.some((c) => c.uid === newContact.uid)) {
                         return prev;
                     }
-                    return [...prev, data.contact];
+                    return [...prev, newContact];
                 });
                 return { ok: true };
             }
@@ -272,7 +277,7 @@ export default function AddressBook({ initialState }) {
     );
 
     const scrollToLetter = useCallback(
-        (letter) => {
+        (letter: string) => {
             const target = document.getElementById(`adressbook_${letter}`);
             const content = contentRef.current;
             const modal = document.getElementById('modalAdressbook');
@@ -291,7 +296,7 @@ export default function AddressBook({ initialState }) {
         []
     );
 
-    const entryProps = (contact) => ({
+    const entryProps = (contact: AddressBookContact) => ({
         contact,
         status: statusByUid[contact.uid],
         tr: translations,
@@ -355,7 +360,7 @@ export default function AddressBook({ initialState }) {
                                 </i>
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                {filters.map((f) => (
+                                {filters.map((f: AddressBookFilter) => (
                                     <li key={f.id} className="adressBookFilterLine">
                                         <a
                                             className="dropdown-item"
@@ -363,7 +368,7 @@ export default function AddressBook({ initialState }) {
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 e.stopPropagation();
-                                                if (e.target.matches('input') || e.target.matches('label')) {
+                                                if ((e.target as Element).matches('input') || (e.target as Element).matches('label')) {
                                                     return;
                                                 }
                                                 toggleFilter(f.id);

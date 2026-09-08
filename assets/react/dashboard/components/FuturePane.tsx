@@ -1,8 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { DashboardConfigContext } from '../DashboardPage';
-import RoomCard from './RoomCard';
+import RoomCard, { type RoomCardProps } from './RoomCard';
+import type { LiveRoomInfo, RoomCollection, RoomStatus } from '../types';
 
-function EmptyStateCard({ html }) {
+interface EmptyStateCardProps {
+    html: string;
+}
+
+function EmptyStateCard({ html }: EmptyStateCardProps) {
     return (
         <div className="card card-body mb-3">
             <p className="text-center mb-0" dangerouslySetInnerHTML={{ __html: html }} />
@@ -10,9 +15,11 @@ function EmptyStateCard({ html }) {
     );
 }
 
-const NO_NAMES = [];
+const NO_NAMES: string[] = [];
 
-function LiveRoomCard({ room, live, ...rest }) {
+type LiveRoomCardProps = Omit<RoomCardProps, 'running' | 'almost' | 'minutes'> & { live?: LiveRoomInfo | null };
+
+function LiveRoomCard({ room, live, ...rest }: LiveRoomCardProps) {
     const l = live || { running: false, almost: false, minutes: 0 };
     return (
         <RoomCard
@@ -25,8 +32,17 @@ function LiveRoomCard({ room, live, ...rest }) {
     );
 }
 
-export default function FuturePane({ rooms, status, liveById, favoriteIds, favoritePending, onVisibleIdsChange }) {
-    const { config } = React.useContext(DashboardConfigContext);
+export interface FuturePaneProps {
+    rooms: RoomCollection;
+    status: RoomStatus;
+    liveById: Record<number, LiveRoomInfo>;
+    favoriteIds: Set<number>;
+    favoritePending: number | null;
+    onVisibleIdsChange?: (ids: number[]) => void;
+}
+
+export default function FuturePane({ rooms, status, liveById, favoriteIds, favoritePending, onVisibleIdsChange }: FuturePaneProps) {
+    const { config } = React.useContext(DashboardConfigContext)!;
     const tr = config.translations;
 
     // The occupant status request must only cover the future conferences that are
@@ -35,13 +51,13 @@ export default function FuturePane({ rooms, status, liveById, favoriteIds, favor
     // and report the currently visible ids (with a generous rootMargin) to the parent,
     // which feeds exactly these ids into the polling endpoint.
     const allFutureIdsKey = useMemo(() => {
-        const ids = [];
+        const ids: number[] = [];
         (rooms.scheduled || []).forEach((r) => r && r.id != null && ids.push(r.id));
         (rooms.future || []).forEach((group) => (group.rooms || []).forEach((r) => r && r.id != null && ids.push(r.id)));
         return ids.join(',');
     }, [rooms]);
 
-    const [visibleIds, setVisibleIds] = useState(() => new Set());
+    const [visibleIds, setVisibleIds] = useState(() => new Set<number>());
 
     useEffect(() => {
         const container = document.getElementById('ex1-tabs-1');
@@ -84,9 +100,9 @@ export default function FuturePane({ rooms, status, liveById, favoriteIds, favor
     }, [visibleIds, onVisibleIdsChange]);
 
     const common = {
-        open: (id) => Boolean(status.open[id]),
-        closed: (id) => Boolean(status.closed[id]),
-        occupants: (id) => (status.occupants[id] ? status.occupants[id] : NO_NAMES),
+        open: (id: number) => Boolean(status.open[id]),
+        closed: (id: number) => Boolean(status.closed[id]),
+        occupants: (id: number) => (status.occupants[id] ? status.occupants[id] : NO_NAMES),
     };
 
     return (

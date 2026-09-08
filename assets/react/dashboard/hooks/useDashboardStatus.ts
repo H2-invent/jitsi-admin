@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import type { RoomStatus } from '../types';
 
 const POLL_INTERVAL_MS = 5000;
 
-function mapsEqual(a, b) {
+function mapsEqual<V>(a: Record<string, V> | undefined, b: Record<string, V> | undefined): boolean {
     if (a === b) {
         return true;
     }
@@ -12,7 +13,7 @@ function mapsEqual(a, b) {
         return false;
     }
     for (const key of aKeys) {
-        const av = a[key];
+        const av = a ? a[key] : undefined;
         const bv = b ? b[key] : undefined;
         if (av === bv) {
             continue;
@@ -33,11 +34,11 @@ function mapsEqual(a, b) {
     return true;
 }
 
-function mergeMap(prevMap, nextMap) {
-    return mapsEqual(prevMap || {}, nextMap || {}) ? prevMap || {} : { ...(nextMap || {}) };
+function mergeMap<V>(prevMap: Record<string, V> | undefined, nextMap: Record<string, V> | undefined): Record<string, V> {
+    return mapsEqual(prevMap, nextMap) ? prevMap || {} : { ...(nextMap || {}) };
 }
 
-function mergeStatus(prev, next) {
+function mergeStatus(prev: RoomStatus, next: RoomStatus): RoomStatus {
     const open = mergeMap(prev.open, next.open);
     const closed = mergeMap(prev.closed, next.closed);
     const hasStatus = mergeMap(prev.hasStatus, next.hasStatus);
@@ -52,18 +53,10 @@ function mergeStatus(prev, next) {
     };
 }
 
-/**
- * Polls /room/dashboard/api/occupants for the currently displayed room ids.
- * - stops when the dashboard unmounts
- * - never overlaps requests
- * - pauses while the document is hidden
- * - on failure keeps the previous data untouched (next tick recovers)
- * - only creates new map references for entries that actually changed
- */
-export default function useDashboardStatus(url, roomIds, initialStatus) {
-    const [status, setStatus] = useState(initialStatus);
+export default function useDashboardStatus(url: string | null, roomIds: number[], initialStatus: RoomStatus): RoomStatus {
+    const [status, setStatus] = useState<RoomStatus>(initialStatus);
     const inFlight = useRef(false);
-    const controllerRef = useRef(null);
+    const controllerRef = useRef<AbortController | null>(null);
     const idsKey = roomIds.join(',');
     const idsRef = useRef(idsKey);
     idsRef.current = idsKey;
@@ -78,13 +71,17 @@ export default function useDashboardStatus(url, roomIds, initialStatus) {
             if (ids.length === 0) {
                 return;
             }
+            const baseUrl = url;
+            if (!baseUrl) {
+                return;
+            }
             inFlight.current = true;
             const controller = new AbortController();
             controllerRef.current = controller;
             try {
-                const separator = url.includes('?') ? '&' : '?';
+                const separator = baseUrl.includes('?') ? '&' : '?';
                 const response = await fetch(
-                    `${url}${separator}ids=${encodeURIComponent(ids.join(','))}`,
+                    `${baseUrl}${separator}ids=${encodeURIComponent(ids.join(','))}`,
                     {
                         headers: { Accept: 'application/json' },
                         cache: 'no-store',
@@ -94,7 +91,7 @@ export default function useDashboardStatus(url, roomIds, initialStatus) {
                 if (!response.ok) {
                     throw new Error(`occupants request failed (${response.status})`);
                 }
-                const payload = await response.json();
+                const payload = (await response.json()) as RoomStatus;
                 if (!cancelled) {
                     setStatus((prev) => mergeStatus(prev, payload));
                 }

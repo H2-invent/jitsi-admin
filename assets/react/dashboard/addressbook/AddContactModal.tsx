@@ -1,11 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Swal from 'sweetalert2';
+import type { Translations } from '../types';
 
-export default function AddContactModal({ translations, onSubmit, onClose }) {
+export interface AddContactResult {
+    ok: boolean;
+    error?: string;
+}
+
+export interface AddContactModalProps {
+    translations: Translations;
+    onSubmit: (email: string) => Promise<AddContactResult>;
+    onClose: () => void;
+}
+
+export default function AddContactModal({ translations, onSubmit, onClose }: AddContactModalProps) {
     const [email, setEmail] = useState('');
     const [saving, setSaving] = useState(false);
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const onCloseRef = useRef(onClose);
     // A fresh MDB modal host appended to <body>, so the dialog is rendered and
     // positioned exactly like every other app modal (e.g. the "New Group" modal)
@@ -47,7 +59,7 @@ export default function AddContactModal({ translations, onSubmit, onClose }) {
             cancelAnimationFrame(frame);
             host.removeEventListener('hidden.bs.modal', handleHidden);
             if (ModalCtor && ModalCtor.getInstance(host)) {
-                ModalCtor.getInstance(host).dispose();
+                ModalCtor.getInstance(host)!.dispose();
             }
             host.remove();
         };
@@ -65,7 +77,7 @@ export default function AddContactModal({ translations, onSubmit, onClose }) {
         }
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (saving || !email) {
             return;

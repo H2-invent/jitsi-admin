@@ -1,13 +1,20 @@
-import React, { memo, useContext, useEffect, useRef } from 'react';
-import { DashboardConfigContext } from '../DashboardPage';
+import React, { memo, useEffect, useRef } from 'react';
 import OptionDropdown from './OptionDropdown';
 import { initMdbComponents } from '../utils/mdb';
 import { StatusColumn, NameColumn, ReadonlyColumn } from './RoomCardShared';
+import type { Room } from '../types';
 
-const PastRoomCard = memo(function PastRoomCard({ room, open, closed, occupantNames, isFavorite, favoritePending }) {
-    const { config } = useContext(DashboardConfigContext);
-    const tr = config.translations;
-    const cardRef = useRef(null);
+export interface PastRoomCardProps {
+    room: Room;
+    open: boolean;
+    closed: boolean;
+    occupantNames: string[];
+    isFavorite: boolean;
+    favoritePending: boolean;
+}
+
+const PastRoomCard = memo(function PastRoomCard({ room, open, closed, occupantNames, isFavorite, favoritePending }: PastRoomCardProps) {
+    const cardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (cardRef.current) {
@@ -23,11 +30,11 @@ const PastRoomCard = memo(function PastRoomCard({ room, open, closed, occupantNa
         >
             <div className="row">
                 {room.readOnly ? (
-                    <ReadonlyColumn room={room} tr={tr} open={open} closed={closed} occupantNames={occupantNames} />
+                    <ReadonlyColumn room={room} open={open} closed={closed} occupantNames={occupantNames} />
                 ) : (
                     <>
-                        <StatusColumn room={room} tr={tr} config={config} open={open} closed={closed} occupantNames={occupantNames} />
-                        <NameColumn room={room} tr={tr} config={config} isFavorite={isFavorite} favoritePending={favoritePending} />
+                        <StatusColumn room={room} open={open} closed={closed} occupantNames={occupantNames} />
+                        <NameColumn room={room} isFavorite={isFavorite} favoritePending={favoritePending} />
                         <div className="col-md-4 d-flex align-items-start justify-content-lg-start justify-content-center">
                             {room.canOrganize ? (
                                 <>
@@ -46,7 +53,7 @@ const PastRoomCard = memo(function PastRoomCard({ room, open, closed, occupantNa
                                     <a
                                         className="btn btn-outline-default btn-darkred confirmHref dashboardRoomDelete"
                                         href={room.actions.leave.href}
-                                        data-text={room.actions.leave.confirmText}
+                                        data-text={room.actions.leave.confirmText || undefined}
                                     >
                                         <i className="fa-solid fa-trash" />
                                     </a>

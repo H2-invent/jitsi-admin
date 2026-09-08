@@ -4,16 +4,23 @@ import OptionDropdown from './OptionDropdown';
 import { initMdbComponents } from '../utils/mdb';
 import { labelWithTime } from '../utils/rooms';
 import { NameColumn, ReadonlyColumn, StatusColumn } from './RoomCardShared';
+import type { DashboardConfig, Room, Translations } from '../types';
 
-function StartButton({ room, tr, config }) {
+interface StartButtonProps {
+    room: Room;
+    tr: Translations;
+    config: DashboardConfig;
+}
+
+function StartButton({ room, tr, config }: StartButtonProps) {
     const useMultiframe = config.useMultiframe;
     return (
         <div className={useMultiframe ? 'start-iframe' : ''}>
             <a
                 className={`btn btn-primary ${useMultiframe ? 'startIframe' : ''}`}
                 data-roomname={room.name}
-                data-iframetoast={room.actions.start.iframeToast}
-                href={room.actions.start.url}
+                data-iframetoast={room.actions.start ? room.actions.start.iframeToast : undefined}
+                href={room.actions.start ? room.actions.start.url : ''}
                 rel="opener"
                 target="_blank"
             >
@@ -23,8 +30,13 @@ function StartButton({ room, tr, config }) {
     );
 }
 
-function RoomActions({ room, tr }) {
-    const { config } = useContext(DashboardConfigContext);
+interface RoomActionsProps {
+    room: Room;
+    tr: Translations;
+}
+
+function RoomActions({ room, tr }: RoomActionsProps) {
+    const { config } = useContext(DashboardConfigContext)!;
     const actions = room.actions;
     if (room.canOrganize) {
         return (
@@ -56,7 +68,7 @@ function RoomActions({ room, tr }) {
                 <a
                     className={`element btn btn-outline-default ${(actions.leave.classes || []).join(' ')} participants-remove`}
                     href={actions.leave.href}
-                    data-text={actions.leave.confirmText}
+                    data-text={actions.leave.confirmText || undefined}
                 >
                     <i className="fa-solid fa-trash" />
                 </a>
@@ -71,7 +83,7 @@ function RoomActions({ room, tr }) {
                             data-roomname={item.data ? item.data.roomname : undefined}
                             data-close={item.data ? item.data.close : undefined}
                         >
-                            <i className={item.icon} />
+                            <i className={item.icon || undefined} />
                         </a>
                     ))}
                 </div>
@@ -80,7 +92,7 @@ function RoomActions({ room, tr }) {
                 <a
                     className="btn btn-outline-primary participant-shedule"
                     href={actions.schedule.url}
-                    target={actions.schedule.target}
+                    target={actions.schedule.target as React.HTMLAttributeAnchorTarget | undefined}
                     rel={actions.schedule.target === '_blank' ? 'noopener' : undefined}
                 >
                     {actions.schedule.icon && <i className={`${actions.schedule.icon} me-2`} />}
@@ -92,10 +104,22 @@ function RoomActions({ room, tr }) {
     );
 }
 
-const RoomCard = memo(function RoomCard({ room, open, closed, occupantNames, isFavorite, favoritePending, running, almost, minutes }) {
-    const { config } = useContext(DashboardConfigContext);
+export interface RoomCardProps {
+    room: Room;
+    open: boolean;
+    closed: boolean;
+    occupantNames: string[];
+    isFavorite: boolean;
+    favoritePending: boolean;
+    running: boolean;
+    almost: boolean;
+    minutes: number;
+}
+
+const RoomCard = memo(function RoomCard({ room, open, closed, occupantNames, isFavorite, favoritePending, running, almost, minutes }: RoomCardProps) {
+    const { config } = useContext(DashboardConfigContext)!;
     const tr = config.translations;
-    const cardRef = useRef(null);
+    const cardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (cardRef.current) {

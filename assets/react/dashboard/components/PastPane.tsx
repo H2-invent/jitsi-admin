@@ -2,11 +2,19 @@ import React, { useContext, useEffect } from 'react';
 import usePastRooms from '../hooks/usePastRooms';
 import { DashboardConfigContext } from '../DashboardPage';
 import PastRoomCard from './PastRoomCard';
+import type { RoomCollection, RoomStatus } from '../types';
 
-const NO_NAMES = [];
+const NO_NAMES: string[] = [];
 
-export default function PastPane({ rooms, status, favoriteIds, favoritePending }) {
-    const { config } = useContext(DashboardConfigContext);
+export interface PastPaneProps {
+    rooms: RoomCollection;
+    status: RoomStatus;
+    favoriteIds: Set<number>;
+    favoritePending: number | null;
+}
+
+export default function PastPane({ rooms, status, favoriteIds, favoritePending }: PastPaneProps) {
+    const { config } = useContext(DashboardConfigContext)!;
     const tr = config.translations;
     const past = rooms.past || { rooms: [], hasMore: false, nextOffset: 1 };
 
@@ -19,8 +27,8 @@ export default function PastPane({ rooms, status, favoriteIds, favoritePending }
     });
 
     useEffect(() => {
-        function handleRoomRemoved(e) {
-            const id = Number(e.detail && e.detail.id);
+        function handleRoomRemoved(e: Event) {
+            const id = Number((e as CustomEvent<{ id?: unknown }>).detail?.id);
             if (Number.isInteger(id) && id > 0) {
                 removeRoom(id);
             }

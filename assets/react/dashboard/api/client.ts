@@ -1,9 +1,20 @@
 const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
 
-function requestJson(url, options = {}) {
+export interface RequestOptions extends RequestInit {
+    headers?: Record<string, string>;
+}
+
+interface RequestFailure extends Error {
+    status?: number;
+    payload?: unknown;
+}
+
+export type AbortablePromise<T> = Promise<T> & { abort: () => void };
+
+function requestJson<T>(url: string, options: RequestOptions = {}): AbortablePromise<T> {
     const controller = new AbortController();
     const { signal } = controller;
-    const config = {
+    const config: RequestOptions = {
         headers: {
             Accept: 'application/json',
             ...(options.headers || {}),
@@ -11,8 +22,11 @@ function requestJson(url, options = {}) {
         signal,
         ...options,
     };
-    if (options.body && !(options.body instanceof FormData) && !config.headers['Content-Type']) {
-        config.headers['Content-Type'] = 'application/json';
+    if (options.body && !(options.body instanceof FormData)) {
+        const headers = config.headers || (config.headers = {});
+        if (!headers['Content-Type']) {
+            headers['Content-Type'] = 'application/json';
+        }
     }
 
     const promise = fetch(url, config).then(async (response) => {
@@ -27,21 +41,21 @@ function requestJson(url, options = {}) {
         }
         if (!response.ok) {
             const error = new Error(
-                (payload && payload.error) || `Request failed with status ${response.status}`
-            );
+                (payload && (payload as { error?: string }).error) || `Request failed with status ${response.status}`
+            ) as RequestFailure;
             error.status = response.status;
             error.payload = payload;
             throw error;
         }
-        return payload;
-    });
+        return payload as T;
+    }) as AbortablePromise<T>;
 
     promise.abort = () => controller.abort();
     return promise;
 }
 
-function postJson(url, body) {
-    return requestJson(url, {
+function postJson<T>(url: string, body: unknown): AbortablePromise<T> {
+    return requestJson<T>(url, {
         method: 'POST',
         body: JSON.stringify(body || {}),
     });

@@ -1,21 +1,29 @@
 import React from 'react';
 import { DashboardConfigContext } from '../DashboardPage';
+import type { DashboardActionItem } from '../types';
 
-export function ActionLink({ item, className }) {
+interface ActionLinkProps {
+    item: DashboardActionItem;
+    className?: string;
+}
+
+export function ActionLink({ item, className }: ActionLinkProps) {
     const classes = [className, ...(item.classes || [])].filter(Boolean).join(' ');
-    const dataProps = {};
+    const dataProps: Record<string, string> = {};
     if (item.data) {
-        Object.keys(item.data).forEach((key) => {
-            dataProps[`data-${key}`] = item.data[key];
+        const data = item.data;
+        Object.keys(data).forEach((key) => {
+            dataProps[`data-${key}`] = data[key];
         });
     }
+    const target = item.target || undefined;
     return (
         <a
             href={item.href}
             className={classes}
-            target={item.target}
-            rel={item.target === '_blank' ? 'noopener' : undefined}
-            data-text={item.confirmText}
+            target={target as React.HTMLAttributeAnchorTarget | undefined}
+            rel={target === '_blank' ? 'noopener' : undefined}
+            data-text={item.confirmText || undefined}
             {...dataProps}
         >
             {item.icon ? <i className={item.icon} /> : null}
@@ -24,8 +32,13 @@ export function ActionLink({ item, className }) {
     );
 }
 
-export default function OptionDropdown({ items, translationKey }) {
-    const { config } = React.useContext(DashboardConfigContext);
+interface OptionDropdownProps {
+    items: DashboardActionItem[];
+    translationKey: string;
+}
+
+export default function OptionDropdown({ items, translationKey }: OptionDropdownProps) {
+    const { config } = React.useContext(DashboardConfigContext)!;
     const tr = config.translations;
     if (!items || items.length === 0) {
         return null;

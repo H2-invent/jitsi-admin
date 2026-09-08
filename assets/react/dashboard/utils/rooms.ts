@@ -1,4 +1,6 @@
-export function isRunning(room, nowTs) {
+import type { Room } from '../types';
+
+export function isRunning(room: Room | null | undefined, nowTs: number | null | undefined): boolean {
     if (!room || room.start == null || room.isPersistent || room.isSchedule) {
         return false;
     }
@@ -10,10 +12,13 @@ export function isRunning(room, nowTs) {
     if (nowTs == null) {
         return false;
     }
-    return start < nowTs && (end === null || end > nowTs);
+    if (end === null) {
+        return start < nowTs;
+    }
+    return end !== undefined && end > nowTs && start < nowTs;
 }
 
-export function almostRunning(room, nowTs) {
+export function almostRunning(room: Room | null | undefined, nowTs: number | null | undefined): boolean {
     if (!room || room.start == null || nowTs == null) {
         return false;
     }
@@ -21,15 +26,15 @@ export function almostRunning(room, nowTs) {
     return start !== null && start - 600 < nowTs && start > nowTs;
 }
 
-export function minutesToStart(room, nowTs) {
+export function minutesToStart(room: Room | null | undefined, nowTs: number | null | undefined): number {
     if (!room || room.start == null || nowTs == null) {
         return 0;
     }
     return Math.max(0, Math.round((room.start.ts - nowTs) / 60));
 }
 
-export function collectRoomIds(groups) {
-    const ids = [];
+export function collectRoomIds(groups: { rooms: (Room | null | undefined)[] }[]): number[] {
+    const ids: number[] = [];
     groups.forEach((group) => {
         group.rooms.forEach((room) => {
             if (room && room.id != null) {
@@ -40,14 +45,14 @@ export function collectRoomIds(groups) {
     return ids;
 }
 
-export function labelWithNumber(pattern, number) {
+export function labelWithNumber(pattern: string | null | undefined, number: number): string {
     if (pattern == null) {
         return String(number);
     }
     return pattern.replace(/\{\{number\}\}/g, String(number));
 }
 
-export function labelWithTime(pattern, time) {
+export function labelWithTime(pattern: string | null | undefined, time: number): string {
     if (pattern == null) {
         return String(time);
     }

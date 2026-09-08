@@ -4,25 +4,39 @@ import useDashboardStatus from './hooks/useDashboardStatus';
 import FavoriteSidebar from './components/FavoriteSidebar';
 import RoomTabs from './components/RoomTabs';
 import { almostRunning, isRunning, minutesToStart } from './utils/rooms';
+import type { DashboardConfig, DashboardInitialState, LiveRoomInfo, Room, RoomCollection, RoomStatus } from './types';
 
-export const DashboardConfigContext = createContext(null);
+export interface DashboardConfigContextValue {
+    config: DashboardConfig;
+    onToggleFavorite: (room: Room) => Promise<void>;
+}
 
-export default function DashboardPage({ initialState }) {
-    const [favorites, setFavorites] = useState(() => (initialState ? initialState.favorites || [] : []));
-    const [favoritePending, setFavoritePending] = useState(null);
-    const [favoriteError, setFavoriteError] = useState(null);
+export const DashboardConfigContext = createContext<DashboardConfigContextValue | null>(null);
+
+export interface DashboardPageProps {
+    initialState: DashboardInitialState | null;
+}
+
+export default function DashboardPage({ initialState }: DashboardPageProps) {
+    const [favorites, setFavorites] = useState<Room[]>(() => (initialState ? initialState.favorites || [] : []));
+    const [favoritePending, setFavoritePending] = useState<number | null>(null);
+    const [favoriteError, setFavoriteError] = useState<string | null>(null);
     // The room lists are kept in state so that deleted conferences can be removed
     // from the dashboard without reloading the page.
-    const [rooms, setRooms] = useState(() => (initialState ? initialState.rooms : null));
+    const [rooms, setRooms] = useState<RoomCollection | null>(() =>
+        initialState ? initialState.rooms || null : null
+    );
     // Only the future conferences currently near the viewport are polled for occupant
     // status (see FuturePane). This keeps the occupants request small and targeted.
-    const [pollRoomIds, setPollRoomIds] = useState([]);
+    const [pollRoomIds, setPollRoomIds] = useState<number[]>([]);
 
-    const config = useMemo(() => (initialState ? initialState.config : null), [initialState]);
+    const config = useMemo<DashboardConfig | null>(() => (initialState ? initialState.config || null : null), [
+        initialState,
+    ]);
 
     useEffect(() => {
-        function handleRoomRemoved(e) {
-            const id = Number(e.detail && e.detail.id);
+        function handleRoomRemoved(e: Event) {
+            const id = Number((e as CustomEvent<{ id?: unknown }>).detail?.id);
             if (!Number.isInteger(id) || id <= 0) {
                 return;
             }
@@ -47,7 +61,7 @@ export default function DashboardPage({ initialState }) {
         window.addEventListener('dashboard-room-removed', handleRoomRemoved);
         return () => window.removeEventListener('dashboard-room-removed', handleRoomRemoved);
     }, []);
-    const initialStatus = useMemo(
+    const initialStatus = useMemo<RoomStatus>(
         () =>
             initialState && initialState.status
                 ? initialState.status
@@ -66,8 +80,8 @@ export default function DashboardPage({ initialState }) {
     // Derived per room, computed once per poll tick so that unchanged room cards can be
     // skipped by React.memo (we only pass primitives down).
     const liveById = useMemo(() => {
-        const map = {};
-        const compute = (r) => {
+        const map: Record<number, LiveRoomInfo> = {};
+        const compute = (r: Room | null | undefined) => {
             if (r && r.id != null) {
                 map[r.id] = {
                     running: isRunning(r, nowTs),
@@ -93,7 +107,7 @@ export default function DashboardPage({ initialState }) {
     const favoriteIds = new Set(favorites.map((f) => f.id));
 
     const handleToggleFavorite = useCallback(
-        async (room) => {
+        async (room: Room) => {
             if (favoritePending != null) {
                 return;
             }
@@ -105,16 +119,16 @@ export default function DashboardPage({ initialState }) {
                 setFavoritePending(null);
             } catch (e) {
                 setFavoritePending(null);
-                setFavoriteError(e.message || 'Favorite update failed');
+                setFavoriteError(e instanceof Error ? e.message : 'Favorite update failed');
             }
         },
         [config, favoritePending]
     );
 
-    const contextValue = useMemo(() => ({ config, onToggleFavorite: handleToggleFavorite }), [
-        config,
-        handleToggleFavorite,
-    ]);
+    const contextValue = useMemo<DashboardConfigContextValue>(
+        () => ({ config, onToggleFavorite: handleToggleFavorite }),
+        [config, handleToggleFavorite]
+    );
 
     return (
         <DashboardConfigContext.Provider value={contextValue}>
@@ -128,7 +142,6 @@ export default function DashboardPage({ initialState }) {
                 <div className="sidebarContent">
                     <FavoriteSidebar
                         favorites={favorites}
-                        favoriteIds={favoriteIds}
                         favoritePending={favoritePending}
                         favoriteError={favoriteError}
                         liveById={liveById}
