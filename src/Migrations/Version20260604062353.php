@@ -24,7 +24,7 @@ final class Version20260604062353 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $table = $schema->getTable(self::TABLE_NAME);
-        $table->addColumn(self::COLUMN_NAME, Types::BOOLEAN)->setNotnull(true);
+        $table->addColumn(self::COLUMN_NAME, Types::BOOLEAN)->setDefault(false);
     }
 
     public function down(Schema $schema): void
