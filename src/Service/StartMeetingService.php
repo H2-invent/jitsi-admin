@@ -236,7 +236,13 @@ class StartMeetingService
         $this->em->flush();
         $this->toModerator->refreshLobby($lobbyUser);
         $this->lobbyUser = $lobbyUser;
-        return new Response($this->twig->render('lobby_participants/index.html.twig', ['type' => $lobbyUser->getType(), 'room' => $lobbyUser->getRoom(), 'server' => $lobbyUser->getRoom()->getServer(), 'user' => $lobbyUser]));
+        return new Response($this->twig->render('lobby_participants/index.html.twig', [
+            'type' => $lobbyUser->getType(),
+            'room' => $lobbyUser->getRoom(),
+            'server' => $lobbyUser->getRoom()->getServer(),
+            'user' => $lobbyUser,
+            'roomOccupants' => $this->roomStatusFrontendService->numberOfOccupants($lobbyUser->getRoom()),
+        ]));
     }
 
     /**

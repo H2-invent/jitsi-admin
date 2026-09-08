@@ -231,7 +231,7 @@ class RoomFixture extends Fixture
             $room->setDuration(60);
             $room->setDissallowPrivateMessage(true);
             $room->setDissallowScreenshareGlobal(true);
-            $start = (new \DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('+' . ($i * 2) . 'minutes');
+            $start = (new \DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('+' . ($i * 2 + 1) . 'minutes');
             $end = clone $start;
             $end->modify('+60min');
             $room->setStart($start);

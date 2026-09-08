@@ -1,21 +1,40 @@
 name: Check Changelog
+
 on:
   pull_request:
-    types: [assigned, opened, synchronize, reopened, labeled, unlabeled]
+    types: [assigned, opened, edited, synchronize, reopened, labeled, unlabeled]
     branches:
       - master
       - feature/development
+      - release/*
       - unstable/*
       - hotfix/*
 
 jobs:
-  build:
-    name: Check Actions
+  check:
+    name: Check Changelog
     runs-on: ubuntu-latest
     steps:
-      - name: Update Repository
-        uses: actions/checkout@v1
-
-      - uses: tarides/changelog-check-action@v2
+      - name: Require a changelog entry or an opt-out label
+        uses: actions/github-script@v7
         with:
-          changelog: RELEASE_NOTE.md
+          script: |
+            const pr = context.payload.pull_request;
+
+            const labels = pr.labels.map(l => l.name);
+            if (labels.includes('no changelog')) {
+              core.info('Skipping: PR is labeled "no changelog".');
+              return;
+            }
+
+            const body = pr.body || '';
+            const match = body.match(/```changelog\s*\r?\n([\s\S]*?)\r?\n```/i);
+            const entry = (match ? match[1] : '').trim();
+
+            if (!entry) {
+              core.setFailed(
+                'No changelog entry found. Fill in the ```changelog``` block of the PR ' +
+                'description with a short, user-facing sentence, or add the "no changelog" ' +
+                'label if this PR has no user-facing effect.'
+              );
+            }

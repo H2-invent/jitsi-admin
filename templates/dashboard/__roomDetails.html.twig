@@ -4,11 +4,11 @@
               style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</span>
     {% endif %}
 
-    {% if RoomStatusOpen(room) == true %}
+    {% if roomStatusOpenMap[room.id] is defined %}
         <div class="occupant">
             <div class="number">
                 <small>
-                    {{ 'status.inconference.number'|trans( {'{number}' : RoomStatusOccupats(room)|length}) }}
+                    {{ 'status.inconference.number'|trans( {'{number}' : roomStatusOccupantsMap[room.id]|default([])|length}) }}
 
                 </small>
                 <a tabindex="0"
@@ -16,7 +16,7 @@
                    data-mdb-trigger="focus"
                    data-mdb-html="true"
                    title="{{ 'status.inconference'|trans }}"
-                   data-mdb-content="{% for u in RoomStatusOccupats(room) %}{{ u.participantName }}<br>{% endfor %}"><i
+                   data-mdb-content="{% for name in roomStatusOccupantsMap[room.id]|default([]) %}{{ name }}<br>{% endfor %}"><i
                             class="fa fa-info-circle"></i>
                 </a>
             </div>
@@ -27,7 +27,7 @@
 
         </div>
     {% endif %}
-    {% if RoomStatusClosed(room) == true %}
+    {% if roomStatusClosedMap[room.id] is defined %}
         <div class="occupant text-danger">
             <div class="text">
                 {{ 'status.finished'|trans }}

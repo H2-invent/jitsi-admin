@@ -26,4 +26,5 @@ return [
     JMS\I18nRoutingBundle\JMSI18nRoutingBundle::class => ['all' => true],
     Baldinof\RoadRunnerBundle\BaldinofRoadRunnerBundle::class => ['all' => true],
     Symfony\UX\Translator\UxTranslatorBundle::class => ['all' => true],
+    OpenAI\Symfony\OpenAIBundle::class => ['all' => true],
 ];

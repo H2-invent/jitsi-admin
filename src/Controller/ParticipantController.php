@@ -12,6 +12,7 @@ use App\Service\ParticipantSearchService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\Theme\ThemeService;
+use App\Service\UserCreatorService;
 use App\Service\UserService;
 use App\UtilsHelper;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,7 +25,7 @@ class ParticipantController extends JitsiAdminController
 {
 
     #[Route(path: '/room/participant/search', name: 'search_participant')]
-    public function index(Request $request, ParticipantSearchService $participantSearchService): Response
+    public function index(Request $request, ParticipantSearchService $participantSearchService, UserCreatorService $userCreatorService): Response
     {
         $string = $request->get('search');
         $string = strtolower($string);
@@ -32,7 +33,7 @@ class ParticipantController extends JitsiAdminController
         $group = $this->doctrine->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
 
         $res = [];
-        if ($this->parameterBag->get('strict_allow_user_creation') == 1) {
+        if ($userCreatorService->doAllowUserCreation()) {
             $res['user'] = $participantSearchService->generateUserwithEmptyUser($user, $string);
         } else {
             $res['user'] = $participantSearchService->generateUserwithoutEmptyUser($user);

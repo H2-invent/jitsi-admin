@@ -16,11 +16,6 @@
             <title>Jitsi Konferenz Manager</title>
         {% endif %}
     {% endblock %}
-
-
-
-    {{ include('base/__matomo.html.twig') }}
-
     <!-- Our Custom CSS -->
     {% if css is defined and css is not null %}
         {{ encore_entry_link_tags(css) }}

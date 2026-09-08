@@ -35,36 +35,30 @@ class ServerUserManagment
      */
     public function getServersFromUser(User $user)
     {
-        $servers = [];
-        //here we add theserver which is directed connected to a user
         $servers = $user->getServers()->toArray();
 
-
-        // here we add the servers from thekeycloak group
+        $searchTerms = [];
         if ($user->getGroups()) {
-            foreach ($user->getGroups() as $data1) {
-                $tmpG = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(['keycloakGroup' => $data1]);
-                foreach ($tmpG as $data2) {
-                    if (!in_array($data2->getServer(), $servers)) {
-                        $servers[] = $data2->getServer();
-                    }
-                }
+            foreach ($user->getGroups() as $group) {
+                $searchTerms[] = $group;
             }
         }
         try {
-            $domainArr =explode('@', $user->getEmail());
-            if (count($domainArr) > 1){
-                $domain = explode('@', $user->getEmail())[1];
-                $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(['keycloakGroup' => $domain]);
-                foreach ($tmpE as $data2) {
-                    if (!in_array($data2->getServer(), $servers)) {
-                        $servers[] = $data2->getServer();
-                    }
-                }
+            $domainArr = explode('@', $user->getEmail());
+            if (count($domainArr) > 1) {
+                $searchTerms[] = explode('@', $user->getEmail())[1];
             }
         } catch (\Exception $exception) {
         }
 
+        if (!empty($searchTerms)) {
+            $tmpResults = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(['keycloakGroup' => $searchTerms]);
+            foreach ($tmpResults as $mapping) {
+                if (!in_array($mapping->getServer(), $servers)) {
+                    $servers[] = $mapping->getServer();
+                }
+            }
+        }
 
         $default = $this->em->getRepository(Server::class)->find($this->parameter->get('default_jitsi_server_id'));
         //here we add the default group which is set in the env
@@ -108,15 +102,13 @@ class ServerUserManagment
         return $servers;
     }
 
-    function getActualConference(Server $server)
+    public function getActualConference(Server $server)
     {
-        $actualConf = $this->em->getRepository(Rooms::class)->findActualConferenceForServerByStatus($server);
-        return $actualConf;
+        return $this->em->getRepository(Rooms::class)->findActualConferenceForServerByStatus($server);
     }
 
-    function getActualParticipantsFromServer(Server $server)
+    public function getActualParticipantsFromServer(Server $server)
     {
-        $actualPart = $this->em->getRepository(RoomStatusParticipant::class)->findActualParticipantsByServer($server);
-        return $actualPart;
+        return $this->em->getRepository(RoomStatusParticipant::class)->findActualParticipantsByServer($server);
     }
 }

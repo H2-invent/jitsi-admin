@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "lodash/array";
 import {getCookie, setCookie} from './cookie'
+import {Dropdown, Popover, Tooltip} from "mdb-ui-kit";
 
 function initAddressGroupSearch() {
     $("#searchAddressGroup").on("keyup", function () {
@@ -200,4 +201,51 @@ function findRegister(register) {
     }
 }
 
-export {initAddressGroupSearch, initListSearch, categorySort};
+// Reloads the address book tab pane (#home) with fresh server-rendered HTML.
+//
+// The address book pane is replaced wholesale because actions like favorite/deputy
+// toggle or contact deletion can affect ordering, grouping, and cross-entry
+// relationships (favorites section, deputy badges, contact grouping by first letter).
+//
+// Before DOM replacement, all existing MDB component instances (Dropdown, Popover,
+// Tooltip) are explicitly disposed. This is critical: without disposal, orphaned MDB
+// instances hold references to DOM nodes that no longer exist, causing downstream
+// interactions (e.g. clicking the filter dropdown icon) to hang for several seconds
+// while MDB's internal state tries to reconcile stale references.
+//
+// After replacement, each component type is explicitly re-initialized via
+// getOrCreateInstance() scoped to the new content. Using initMDB() alone is
+// insufficient: MDB only performs global component initialization once per page load,
+// so dynamically inserted elements with data-mdb-* attributes would remain uninitialized.
+function reloadAddressBookPane() {
+    fetch('/room/dashboard/adressbook-fragment')
+        .then(response => response.text())
+        .then(html => {
+            const currentHome = document.getElementById('home');
+            if (currentHome) {
+                currentHome.querySelectorAll('[data-mdb-dropdown-init]').forEach(el => {
+                    Dropdown.getInstance(el)?.dispose();
+                });
+                currentHome.querySelectorAll('[data-mdb-popover-init]').forEach(el => {
+                    Popover.getInstance(el)?.dispose();
+                });
+                currentHome.querySelectorAll('[data-mdb-tooltip-init]').forEach(el => {
+                    Tooltip.getInstance(el)?.dispose();
+                });
+
+                currentHome.innerHTML = html;
+                initListSearch();
+                currentHome.querySelectorAll('[data-mdb-dropdown-init]').forEach(element => {
+                    Dropdown.getOrCreateInstance(element);
+                });
+                currentHome.querySelectorAll('[data-mdb-popover-init]').forEach(element => {
+                    Popover.getOrCreateInstance(element);
+                });
+                currentHome.querySelectorAll('[data-mdb-tooltip-init]').forEach(element => {
+                    Tooltip.getOrCreateInstance(element);
+                });
+            }
+        });
+}
+
+export {initAddressGroupSearch, initListSearch, categorySort, reloadAddressBookPane};

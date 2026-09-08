@@ -74,4 +74,13 @@ class Transcription
 
         return $this;
     }
+
+    public function getFileName(): ?string
+    {
+        if ($this->room === null) {
+            return null;
+        }
+
+        return "transcription_{$this->room->getName()}_{$this->createdAt->format('y-m-d_H-i-s')}.md";
+    }
 }

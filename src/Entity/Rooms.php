@@ -173,6 +173,12 @@ class Rooms
     #[ORM\Column(name: 'is_e2ee_enabled')]
     private bool $isE2EEEnabled = false;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isFastConference = false;
+
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $enableTranscription = false;
+
 
     public function __construct()
     {
@@ -212,6 +218,9 @@ class Rooms
             $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
             $this->startUtc = \DateTime::createFromImmutable($utc);
             $this->startTimestamp = $utc->getTimestamp();
+        } else {
+            $this->startUtc = null;
+            $this->startTimestamp = null;
         }
 
         if ($this->enddate) {
@@ -223,6 +232,9 @@ class Rooms
             $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
             $this->endDateUtc = \DateTime::createFromImmutable($utc);
             $this->endTimestamp = $utc->getTimestamp();
+        } else {
+            $this->endDateUtc = null;
+            $this->endTimestamp = null;
         }
     }
 
@@ -1223,6 +1235,30 @@ class Rooms
     public function setIsE2EEEnabled(bool $isE2EEEnabled): static
     {
         $this->isE2EEEnabled = $isE2EEEnabled;
+
+        return $this;
+    }
+
+    public function isFastConference(): ?bool
+    {
+        return $this->isFastConference;
+    }
+
+    public function setIsFastConference(?bool $isFastConference): static
+    {
+        $this->isFastConference = $isFastConference;
+
+        return $this;
+    }
+
+    public function isEnableTranscription(): bool
+    {
+        return $this->enableTranscription;
+    }
+
+    public function setEnableTranscription(bool $enableTranscription): static
+    {
+        $this->enableTranscription = $enableTranscription;
 
         return $this;
     }

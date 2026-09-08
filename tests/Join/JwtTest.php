@@ -8,6 +8,7 @@ use App\Repository\RoomsRepository;
 use App\Service\RoomService;
 use App\UtilsHelper;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class JwtTest extends KernelTestCase
@@ -40,6 +41,7 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => true,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'light',
             ],
@@ -103,6 +105,7 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => true,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'light',
             ],
@@ -148,6 +151,7 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => false,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'light',
             ],
@@ -193,6 +197,7 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => false,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'light',
             ],
@@ -238,6 +243,7 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => true,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'light',
             ],
@@ -287,6 +293,7 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => true,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'light',
             ],
@@ -336,6 +343,7 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => false,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'light',
             ],
@@ -385,6 +393,7 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => false,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'light',
             ],
@@ -435,6 +444,7 @@ class JwtTest extends KernelTestCase
                 ]
             ],
             'moderator' => false,
+            'lobbyModerator' => false,
             'theme' => [
                 'colorScheme' => 'light',
             ],
@@ -474,6 +484,7 @@ class JwtTest extends KernelTestCase
                 'user' => [
                     'name' => 'Test User',
                     'moderator' => false,
+                    'lobbyModerator' => false,
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
                 ],
@@ -526,6 +537,7 @@ class JwtTest extends KernelTestCase
                 'user' => [
                     'name' => 'Test User',
                     'moderator' => false,
+                    'lobbyModerator' => false,
                     'avatar' => 'https://image.de',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
@@ -548,5 +560,138 @@ class JwtTest extends KernelTestCase
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User', 'https://image.de');
         $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+    }
+
+    public function testLobbyModeratorTrueWhenUserIsRoomModerator(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+        $roomModerator = $room->getModerator();
+
+        $token = $jwtService->generateJwt($room, $roomModerator, 'Test User');
+        $decoded = JWT::decode($token, new Key($server->getAppSecret(), 'HS256'));
+
+        $this->assertTrue($decoded->lobbyModerator);
+        $this->assertTrue($decoded->moderator);
+    }
+
+    public function testLobbyModeratorTrueWhenRoomsUserLobbyModeratorFlagIsSet(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+        $userRoom = new RoomsUser();
+        $userRoom->setRoom($room);
+        $userRoom->setLobbyModerator(true);
+        $testUser = new User();
+        $testUser->addRoomsAttributes($userRoom);
+
+        $token = $jwtService->generateJwt($room, $testUser, 'Test User');
+        $decoded = JWT::decode($token, new Key($server->getAppSecret(), 'HS256'));
+
+        $this->assertTrue($decoded->lobbyModerator);
+        $this->assertFalse($decoded->moderator);
+    }
+
+    public function testLobbyModeratorInContextWhenJwtModeratorPositionIsOne(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(true);
+        $server->setJwtModeratorPosition(1);
+        $room->setDissallowScreenshareGlobal(true);
+        $room->setDissallowPrivateMessage(true);
+        $userRoom = new RoomsUser();
+        $userRoom->setRoom($room);
+        $userRoom->setPrivateMessage(true);
+        $userRoom->setShareDisplay(true);
+        $testUser = new User();
+        $testUser->addRoomsAttributes($userRoom);
+
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $testUser, lobbyModerator: true);
+        $res = [
+            'aud' => 'jitsi_admin',
+            'iss' => $server->getAppId(),
+            'sub' => $server->getUrl(),
+            'room' => $room->getUid(),
+            'context' => [
+                'user' => [
+                    'name' => 'Test User',
+                    'moderator' => false,
+                    'lobbyModerator' => true,
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
+                ],
+                'features' => [
+                    'screen-sharing' => true,
+                    'private-message' => true,
+                ],
+                'room' => [
+                    'name' => 'TestMeeting: 0'
+                ],
+            ],
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
+        ];
+        $this->assertEquals($res, $payload);
+    }
+
+    public function testLobbyModeratorDerivedInContextWhenJwtModeratorPositionIsOne(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+        $server->setJwtModeratorPosition(1);
+        $userRoom = new RoomsUser();
+        $userRoom->setRoom($room);
+        $userRoom->setLobbyModerator(true);
+        $testUser = new User();
+        $testUser->addRoomsAttributes($userRoom);
+
+        $token = $jwtService->generateJwt($room, $testUser, 'Test User');
+        $decoded = JWT::decode($token, new Key($server->getAppSecret(), 'HS256'));
+
+        $this->assertTrue($decoded->context->user->lobbyModerator);
+        $this->assertFalse($decoded->context->user->moderator);
+        $this->assertFalse(property_exists($decoded, 'lobbyModerator'));
+    }
+
+    public function testLobbyModeratorOmittedWhenNoModeratorIsTrue(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, true, null, null, noModerator: true, lobbyModerator: true);
+
+        $this->assertArrayNotHasKey('moderator', $payload);
+        $this->assertArrayNotHasKey('lobbyModerator', $payload);
     }
 }
