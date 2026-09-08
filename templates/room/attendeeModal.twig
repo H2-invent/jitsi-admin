@@ -7,7 +7,7 @@
         </div>
         <div class="modal-body">
             <div class="row g-4">
-                <div class="col-12 col-xl-6">
+                <div class="col-12">
                     <h6>{{ 'Einladen'|trans }}</h6>
                     <div class="dropdown " id="selectAtendeeArea" tabindex="-1">
                         <div class="form-outline" data-mdb-input-init>
@@ -123,15 +123,26 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-xl-6 {% if laf_addParticipantsNoInput == 1 %}d-none{% endif %}">
-                    <h6>{{ 'Mehrere E-Mail-Adressen auf einmal eingeben'|trans }}</h6>
-                    <p class="small text-black-50 mb-3">{{ 'Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.'|trans }}</p>
-                    {% if form is defined and form is not null %}
-                        {{ form_start(form) }}
-                        {{ form_row(form.member) }}
-                        {{ form_row(form.submit) }}
-                        {{ form_end(form) }}
-                    {% endif %}
+                <div class="col-12 {% if laf_addParticipantsNoInput == 1 %}d-none{% endif %}">
+                    <button
+                            class="btn btn-primary"
+                            type="button"
+                            data-mdb-collapse-init
+                            data-mdb-target="#bulkInvite"
+                            aria-expanded="false"
+                            aria-controls="bulkInvite"
+                    >
+                        {{ 'Mehrere E-Mail-Adressen auf einmal eingeben'|trans }}
+                    </button>
+
+                    <div class="collapse mt-3" id="bulkInvite">
+                        {% if form is defined and form is not null %}
+                            {{ form_start(form) }}
+                            {{ form_row(form.member) }}
+                            {{ form_row(form.submit) }}
+                            {{ form_end(form) }}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
