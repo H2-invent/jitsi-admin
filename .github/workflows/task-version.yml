@@ -24,6 +24,6 @@ jobs:
         with:
           event-name: ${{ github.event_name }}
           base-ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.event.pull_request.base.ref }}
-          head-ref: ${{ github.event.pull_request.head.ref }}
+          head-ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.event.pull_request.head.ref }}
           pr-action: ${{ github.event.action }}
           pr-merged: ${{ github.event.pull_request.merged }}
