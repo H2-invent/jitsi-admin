@@ -1,44 +1,23 @@
 name: Create Release Build
-env:
-  GITHUB_TOKEN: ${{ secrets.token }}
+
+permissions:
+  contents: read
+  packages: write
 
 on:
-  workflow_dispatch:
   pull_request:
-    types: [opened, reopened, edited, closed]
+    types: [opened, synchronize, reopened, edited, closed]
     branches:
-      - 'release/**'
+      - "release/**"
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "release/X.Y Branch, für den ein Preview-Tag gebaut werden soll"
+        required: true
 
 jobs:
   version:
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: paulhatch/semantic-version@v5.0.2
-        id: version
-        with:
-          tag_prefix: ""
-          major_pattern: "(MAJOR)"
-          minor_pattern: "(MINOR)"
-          change_path: .
-          version_format: "${major}.${minor}.${patch}-${{ github.run_id }}"
-
-      - name: Write summary
-        run: |
-          {
-            echo "### Version Info"
-            echo ""
-            echo "| Feld | Wert |"
-            echo "|------|------|"
-            echo "| Version | \`${{ steps.version.outputs.version }}\` |"
-            echo "| Run ID | \`${{ github.run_id }}\` |"
-          } >> "$GITHUB_STEP_SUMMARY"
+    uses: ./.github/workflows/task-version.yml
 
   artifact:
     uses: ./.github/workflows/task-artifact.yml
