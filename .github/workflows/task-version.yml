@@ -2,6 +2,10 @@ name: Define version
 
 on:
   workflow_call:
+    outputs:
+      version:
+        description: "Computed version"
+        value: ${{ jobs.version.outputs.version }}
 
 jobs:
   version:
