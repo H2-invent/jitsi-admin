@@ -6,6 +6,7 @@ use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
 use App\Service\FormatName;
 use App\Service\Lobby\ToModeratorWebsocketService;
+use App\Service\livekit\SipTrunkGenerator;
 use App\Service\RoomService;
 use App\Service\Theme\ThemeService;
 use App\Service\webhook\RoomStatusFrontendService;
@@ -37,6 +38,7 @@ class CallerSessionService
         private FormatName                    $formatName,
         private ThemeService                  $themeService,
         private JitsiComponentSelectorService $jitsiComponentSelectorService,
+        private SipTrunkGenerator             $sipTrunkGenerator,
     )
     {
         $this->em = $entityManager;
@@ -178,6 +180,15 @@ class CallerSessionService
                 'left' => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
             ]
         ];
+        $room = $session->getCaller()->getRoom();
+        if ($room->getServer() && $room->getServer()->isLiveKitServer()) {
+            try {
+                $res['sip_trunk'] = $this->sipTrunkGenerator->createNewSIPNumber($room, $session->getCallerId());
+            } catch (\Exception $exception) {
+                $this->loggger->error($exception->getMessage(), ['sessionId' => $session->getSessionId(), 'callerId' => $session->getCallerId()]);
+            }
+        }
+
         if ($session->isIsSipVideoUser()) {
             try {
                 $this->jitsiComponentSelectorService->setBaseUrlFromServer($session->getCaller()->getRoom()->getServer());
