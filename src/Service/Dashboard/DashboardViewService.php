@@ -53,6 +53,12 @@ class DashboardViewService
         'dropdown_settings_generate_report',
     ];
 
+    /**
+     * Memorized result of buildTranslations() so that t() and the React payload
+     * always expose the very same translated strings.
+     */
+    private ?array $translations = null;
+
     public function __construct(
         private readonly RoomsRepository $roomsRepository,
         private readonly DashboardService $dashboardService,
@@ -276,11 +282,15 @@ class DashboardViewService
      */
     private function buildTranslations(): array
     {
+        if ($this->translations !== null) {
+            return $this->translations;
+        }
+
         $t = $this->translator;
         $sub = static fn(string $translated): string => str_replace('{number}', '{{number}}', $translated);
         $roomNewUrl = $this->url('room_new');
 
-        return [
+        return $this->translations = [
             'sidebarTitle' => $t->trans('favorite.sidebar.title'),
             'sidebarHelp' => $t->trans('favorite.sidebar.help'),
             'tabFuture' => $t->trans('Zukünftige Konferenzen'),
@@ -670,7 +680,9 @@ class DashboardViewService
 
     private function t(string $translationKey): string
     {
-        return $this->translator->trans($translationKey);
+        $translations = $this->buildTranslations();
+
+        return $translations[$translationKey] ?? $this->translator->trans($translationKey);
     }
 
     private function url(string $route, array $params = []): string
