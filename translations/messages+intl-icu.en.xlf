@@ -705,7 +705,7 @@
       </trans-unit>
       <trans-unit id="oB0r.dK" resname="Terminplaner">
         <source>Terminplaner</source>
-        <target state="translated">Appointment poll tool</target>
+        <target state="translated">Appointment poll</target>
       </trans-unit>
       <trans-unit id="jJwkoAg" resname="Einladung zu einer Terminplanung">
         <source>Einladung zu einer Terminplanung</source>
