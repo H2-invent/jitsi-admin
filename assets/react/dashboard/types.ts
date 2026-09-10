@@ -76,6 +76,7 @@ export interface RoomActions {
     icons: DashboardActionItem[];
     leave: DashboardActionItem | null;
     participantsManage: DashboardActionItem | null;
+    participantsUrl: string | null;
     shareLink: DashboardActionItem | null;
     start: RoomStartAction | null;
     schedule: RoomScheduleAction | null;
@@ -228,4 +229,93 @@ export interface AddressBookState {
     contacts: AddressBookContact[];
     filters: AddressBookFilter[];
     config: AddressBookConfig;
+}
+
+export interface ParticipantPermission {
+    moderator: boolean;
+    shareDisplay: boolean;
+    privateMessage: boolean;
+    lobbyModerator: boolean;
+}
+
+export interface ParticipantSipInfo {
+    numbers: string[];
+    roomNumber: string;
+    pin: string;
+}
+
+export interface ParticipantAction {
+    key: string;
+    label: string;
+    icon: string;
+    href?: string;
+    type?: 'action' | 'sip';
+    active?: boolean;
+    tooltip?: string | null;
+    confirmText?: string | null;
+}
+
+export interface RoomParticipant {
+    id: number;
+    uid: string;
+    name: string;
+    username: string | null;
+    profilePicture: string | null;
+    isCurrentUser: boolean;
+    isOrganizer: boolean;
+    permissions: ParticipantPermission;
+    sip: ParticipantSipInfo | null;
+    actions: ParticipantAction[];
+}
+
+export interface WaitinglistEntry {
+    id: number;
+    email: string;
+    acceptUrl: string;
+}
+
+export interface ParticipantsState {
+    roomId: number;
+    title: string;
+    addUrl: string;
+    bulkAddUrl: string;
+    searchUrl: string;
+    allowBulkInvite: boolean;
+    canPrintParticipants: boolean;
+    printUrl: string | null;
+    organizer: RoomParticipant | null;
+    participants: RoomParticipant[];
+    waitinglist: WaitinglistEntry[];
+    translations: Translations;
+}
+
+export interface ParticipantSearchHit {
+    name: string;
+    nameNoIcon?: string;
+    id: string;
+    roles?: string[];
+    uid?: string;
+}
+
+export interface ParticipantSearchGroup {
+    name: string;
+    user: string[];
+}
+
+export interface ParticipantSearchResponse {
+    user: ParticipantSearchHit[];
+    group: ParticipantSearchGroup[];
+}
+
+export interface AddParticipantsResponse {
+    error?: boolean;
+    validMember?: string[];
+    invalidMember?: string[];
+}
+
+export interface ActionResult {
+    ok: boolean;
+    message?: string | null;
+    color?: string | null;
+    payload?: unknown;
 }

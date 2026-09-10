@@ -8,6 +8,8 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Helper\JitsiAdminController;
 use App\Service\Dashboard\DashboardViewService;
+use App\Service\Dashboard\ParticipantsViewService;
+use App\UtilsHelper;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,6 +33,7 @@ class DashboardApiController extends JitsiAdminController
         LoggerInterface $logger,
         ParameterBagInterface $parameterBag,
         private readonly DashboardViewService $dashboardViewService,
+        private readonly ParticipantsViewService $participantsViewService,
     ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
@@ -76,6 +79,25 @@ class DashboardApiController extends JitsiAdminController
         }
 
         return new JsonResponse($this->dashboardViewService->buildPastPage($user, $offset));
+    }
+
+    /**
+     * Full dataset for the "Manage participants" modal of one room (invitees,
+     * pre-computed action urls, waiting list and translated labels). Only room
+     * moderators may read it.
+     */
+    #[Route(path: '/room/dashboard/api/participants/{room}', name: 'dashboard_api_participants', methods: ['GET'])]
+    public function participants(Rooms $room): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return new JsonResponse(['error' => 'unauthorized'], Response::HTTP_UNAUTHORIZED);
+        }
+        if (!UtilsHelper::isAllowedToOrganizeRoom($user, $room)) {
+            return new JsonResponse(['error' => $this->translator->trans('Keine Berechtigung')], Response::HTTP_FORBIDDEN);
+        }
+
+        return new JsonResponse($this->participantsViewService->buildState($user, $room));
     }
 
     /**

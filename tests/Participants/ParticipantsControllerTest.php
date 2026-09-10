@@ -18,17 +18,19 @@ class ParticipantsControllerTest extends WebTestCase
         $organizer = $room->getModerator();
         $client->loginUser($organizer);
 
-        $crawler = $client->request('GET', '/room/participant/add/' . $room->getId());
-        $buttonCrawlerNode = $crawler->filter('#new_member_submit');
+        $client->request(
+            'POST',
+            '/room/participant/add_bulk/' . $room->getId(),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json'],
+            json_encode(['member' => "test@local4.de\ntestNeu@local.de"], JSON_THROW_ON_ERROR)
+        );
+        self::assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        self::assertFalse($response['error']);
+        self::assertStringContainsString('eingeladen', $response['message']);
 
-// retrieve the Form object for the form belonging to this button
-        $form = $buttonCrawlerNode->form();
-        $form['new_member[member]'] = "test@local4.de\ntestNeu@local.de";
-        $client->submit($form);
-
-        self::assertResponseRedirects('/room/dashboard');
-        $client->request('GET', '/room/dashboard');
-        self::assertSelectorTextContains('.snackbar', 'Die Teilnehmenden wurden eingeladen.');
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(5, $room->getUser()->count());
         $userRoomRepo = self::getContainer()->get(RoomsUserRepository::class);
@@ -52,17 +54,19 @@ class ParticipantsControllerTest extends WebTestCase
         $organizer = $room->getModerator();
         $client->loginUser($organizer);
 
-        $crawler = $client->request('GET', '/room/participant/add/' . $room->getId());
-        $buttonCrawlerNode = $crawler->filter('#new_member_submit');
+        $client->request(
+            'POST',
+            '/room/participant/add_bulk/' . $room->getId(),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json'],
+            json_encode(['member' => 'falschTeilnehmer'], JSON_THROW_ON_ERROR)
+        );
+        self::assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        self::assertFalse($response['error']);
+        self::assertStringContainsString('falschTeilnehmer', $response['message']);
 
-// retrieve the Form object for the form belonging to this button
-        $form = $buttonCrawlerNode->form();
-        $form['new_member[member]'] = "falschTeilnehmer";
-        $client->submit($form);
-
-        self::assertResponseRedirects('/room/dashboard');
-        $client->request('GET', '/room/dashboard');
-        self::assertSelectorTextContains('.snackbar', 'Einige Teilnehmende wurden eingeladen. falschTeilnehmer ist/sind nicht korrekt und können nicht eingeladen werden.');
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, $room->getUser()->count());
     }
@@ -74,10 +78,17 @@ class ParticipantsControllerTest extends WebTestCase
         self::assertEquals(3, $room->getUser()->count());
         $user = $room->getUser()[1];
         $client->loginUser($user);
-        $crawler = $client->request('GET', '/room/participant/add/' . $room->getId());
-        self::assertResponseRedirects('/room/dashboard');
-        $client->request('GET', '/room/dashboard');
-        self::assertSelectorTextContains('.snackbar', 'Keine Berechtigung');
+        $client->request(
+            'POST',
+            '/room/participant/add_bulk/' . $room->getId(),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json'],
+            json_encode(['member' => 'falschTeilnehmer'], JSON_THROW_ON_ERROR)
+        );
+        self::assertResponseStatusCodeSame(403);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        self::assertEquals(3, $room->getUser()->count());
     }
     public function testParticipantPast(): void
     {

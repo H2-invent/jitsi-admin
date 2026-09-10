@@ -1,4 +1,5 @@
-import React, { memo, useEffect, useRef } from 'react';
+import React, { memo, useContext, useEffect, useRef } from 'react';
+import { DashboardConfigContext } from '../DashboardPage';
 import OptionDropdown from './OptionDropdown';
 import { initMdbComponents } from '../utils/mdb';
 import { StatusColumn, NameColumn, ReadonlyColumn } from './RoomCardShared';
@@ -15,6 +16,12 @@ export interface PastRoomCardProps {
 
 const PastRoomCard = memo(function PastRoomCard({ room, open, closed, occupantNames, isFavorite, favoritePending }: PastRoomCardProps) {
     const cardRef = useRef<HTMLDivElement>(null);
+    const { onManageParticipants } = useContext(DashboardConfigContext)!;
+    const openManageParticipants = () => {
+        if (room.actions.participantsUrl) {
+            onManageParticipants(room);
+        }
+    };
 
     useEffect(() => {
         if (cardRef.current) {
@@ -38,7 +45,11 @@ const PastRoomCard = memo(function PastRoomCard({ room, open, closed, occupantNa
                         <div className="col-md-4 d-flex align-items-start justify-content-lg-start justify-content-center">
                             {room.canOrganize ? (
                                 <>
-                                    <OptionDropdown items={room.actions.optionItems} translationKey="options" />
+                                    <OptionDropdown
+                                        items={room.actions.optionItems}
+                                        translationKey="options"
+                                        onManageParticipants={openManageParticipants}
+                                    />
                                     {room.pastParticipantsUrl && (
                                         <a
                                             className="element btn btn-outline-primary loadContent"

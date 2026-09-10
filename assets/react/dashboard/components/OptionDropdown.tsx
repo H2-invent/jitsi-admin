@@ -35,9 +35,10 @@ export function ActionLink({ item, className }: ActionLinkProps) {
 interface OptionDropdownProps {
     items: DashboardActionItem[];
     translationKey: string;
+    onManageParticipants?: () => void;
 }
 
-export default function OptionDropdown({ items, translationKey }: OptionDropdownProps) {
+export default function OptionDropdown({ items, translationKey, onManageParticipants }: OptionDropdownProps) {
     const { config } = React.useContext(DashboardConfigContext)!;
     const tr = config.translations;
     if (!items || items.length === 0) {
@@ -58,7 +59,21 @@ export default function OptionDropdown({ items, translationKey }: OptionDropdown
             <ul className="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
                 {items.map((item) => (
                     <li key={item.key}>
-                        <ActionLink item={item} className="dropdown-item" />
+                        {item.key === 'participants' && onManageParticipants ? (
+                            <a
+                                className="dropdown-item manageParticipants"
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    onManageParticipants();
+                                }}
+                            >
+                                {item.icon ? <i className={item.icon} /> : null}
+                                {item.label ? ` ${item.label}` : ''}
+                            </a>
+                        ) : (
+                            <ActionLink item={item} className="dropdown-item" />
+                        )}
                     </li>
                 ))}
             </ul>

@@ -19,20 +19,17 @@ class ChangePermissionsController extends JitsiAdminController
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!$room) {
-            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
-            return $this->redirectToRoute('dashboard');
+            return $this->accessDeniedResponse($request, $translator);
         }
         $userNew = $this->doctrine->getRepository(User::class)->find($request->get('user'));
         if (!$userNew) {
-            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
-            return $this->redirectToRoute('dashboard');
+            return $this->accessDeniedResponse($request, $translator);
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->toggleShareScreen($userOld, $userNew, $room)) {
             return new JsonResponse(['error' => false]);
         }
-        $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
-        return $this->redirectToRoute('dashboard');
+        return $this->accessDeniedResponse($request, $translator);
     }
 
     #[Route(path: '/room/change/permissions/privateMessage', name: 'change_permissions_privateMessage')]
@@ -40,20 +37,17 @@ class ChangePermissionsController extends JitsiAdminController
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!$room) {
-            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
-            return $this->redirectToRoute('dashboard');
+            return $this->accessDeniedResponse($request, $translator);
         }
         $userNew = $this->doctrine->getRepository(User::class)->find($request->get('user'));
         if (!$userNew) {
-            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
-            return $this->redirectToRoute('dashboard');
+            return $this->accessDeniedResponse($request, $translator);
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->togglePrivateMessage($userOld, $userNew, $room)) {
             return new JsonResponse(['error' => false]);
         }
-        $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
-        return $this->redirectToRoute('dashboard');
+        return $this->accessDeniedResponse($request, $translator);
     }
 
     #[Route(path: '/room/addModerator', name: 'room_add_moderator')]
@@ -61,20 +55,17 @@ class ChangePermissionsController extends JitsiAdminController
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!$room) {
-            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
-            return $this->redirectToRoute('dashboard');
+            return $this->accessDeniedResponse($request, $translator);
         }
         $userNew = $this->doctrine->getRepository(User::class)->find($request->get('user'));
         if (!$userNew) {
-            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
-            return $this->redirectToRoute('dashboard');
+            return $this->accessDeniedResponse($request, $translator);
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->toggleModerator($userOld, $userNew, $room)) {
             return new JsonResponse(['error' => false]);
         }
-        $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
-        return $this->redirectToRoute('dashboard');
+        return $this->accessDeniedResponse($request, $translator);
     }
 
     #[Route(path: '/room/change/lobbyModerator', name: 'room_add_lobby_moderator')]
@@ -98,5 +89,18 @@ class ChangePermissionsController extends JitsiAdminController
             }
         }
         return new JsonResponse(['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+    }
+
+    private function accessDeniedResponse(Request $request, TranslatorInterface $translator): Response
+    {
+        if ($this->wantsJson($request)) {
+            return new JsonResponse([
+                'error' => true,
+                'message' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'),
+                'color' => 'danger',
+            ]);
+        }
+        $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+        return $this->redirectToRoute('dashboard');
     }
 }

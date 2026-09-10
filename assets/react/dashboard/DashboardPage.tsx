@@ -2,13 +2,20 @@ import React, { createContext, useCallback, useEffect, useMemo, useState } from 
 import { toggleFavorite } from './api/dashboardApi';
 import useDashboardStatus from './hooks/useDashboardStatus';
 import FavoriteSidebar from './components/FavoriteSidebar';
+import ManageParticipantsModal from './components/ManageParticipantsModal';
 import RoomTabs from './components/RoomTabs';
 import { almostRunning, isRunning, minutesToStart } from './utils/rooms';
 import type { DashboardConfig, DashboardInitialState, LiveRoomInfo, Room, RoomCollection, RoomStatus } from './types';
 
+export interface ManageParticipantsTarget {
+    dataUrl: string;
+    roomName?: string;
+}
+
 export interface DashboardConfigContextValue {
     config: DashboardConfig;
     onToggleFavorite: (room: Room) => Promise<void>;
+    onManageParticipants: (room: Room) => void;
 }
 
 export const DashboardConfigContext = createContext<DashboardConfigContextValue | null>(null);
@@ -29,6 +36,9 @@ export default function DashboardPage({ initialState }: DashboardPageProps) {
     // Only the future conferences currently near the viewport are polled for occupant
     // status (see FuturePane). This keeps the occupants request small and targeted.
     const [pollRoomIds, setPollRoomIds] = useState<number[]>([]);
+    // The room (and its participants data url) whose participant management modal is
+    // currently open. Null means no modal is shown.
+    const [manageParticipants, setManageParticipants] = useState<ManageParticipantsTarget | null>(null);
 
     const config = useMemo<DashboardConfig | null>(() => (initialState ? initialState.config || null : null), [
         initialState,
@@ -125,9 +135,69 @@ export default function DashboardPage({ initialState }: DashboardPageProps) {
         [config, favoritePending]
     );
 
+    const openParticipantsModal = useCallback((dataUrl: string, roomName?: string) => {
+        // The manage participants modal can be requested from server-rendered modals
+        // (e.g. the join link modal). Close their Bootstrap host first so that the
+        // React modal is not stacked on top of an open legacy modal.
+        const legacyModal = document.getElementById('loadContentModal');
+        if (legacyModal && window.mdb) {
+            const instance = window.mdb.Modal.getInstance(legacyModal);
+            if (instance) {
+                instance.hide();
+            }
+        }
+        setManageParticipants({ dataUrl, roomName });
+    }, []);
+
+    const handleManageParticipants = useCallback(
+        (room: Room) => {
+            const dataUrl = room.actions && room.actions.participantsUrl;
+            if (!dataUrl) {
+                return;
+            }
+            openParticipantsModal(dataUrl, room.name);
+        },
+        [openParticipantsModal]
+    );
+
+    useEffect(() => {
+        const handleOpenParticipantsEvent = (e: Event) => {
+            const detail = (e as CustomEvent<{ url?: string; roomName?: string }>).detail;
+            if (detail && typeof detail.url === 'string' && detail.url) {
+                openParticipantsModal(detail.url, detail.roomName);
+            }
+        };
+        const handleManageParticipantsClick = (e: MouseEvent) => {
+            const element = (e.target as HTMLElement | null)?.closest('[data-manage-participants]');
+            if (!element) {
+                return;
+            }
+            e.preventDefault();
+            const dataUrl = element.getAttribute('data-manage-participants');
+            const roomName = element.getAttribute('data-room-name') || undefined;
+            if (dataUrl) {
+                openParticipantsModal(dataUrl, roomName);
+            }
+        };
+        document.addEventListener('jitsi-admin:manage-participants', handleOpenParticipantsEvent);
+        document.addEventListener('click', handleManageParticipantsClick);
+        return () => {
+            document.removeEventListener('jitsi-admin:manage-participants', handleOpenParticipantsEvent);
+            document.removeEventListener('click', handleManageParticipantsClick);
+        };
+    }, [openParticipantsModal]);
+
+    const handleCloseManageParticipants = useCallback(() => {
+        setManageParticipants(null);
+    }, []);
+
     const contextValue = useMemo<DashboardConfigContextValue>(
-        () => ({ config, onToggleFavorite: handleToggleFavorite }),
-        [config, handleToggleFavorite]
+        () => ({
+            config,
+            onToggleFavorite: handleToggleFavorite,
+            onManageParticipants: handleManageParticipants,
+        }),
+        [config, handleToggleFavorite, handleManageParticipants]
     );
 
     return (
@@ -159,6 +229,13 @@ export default function DashboardPage({ initialState }: DashboardPageProps) {
                     onVisibleIdsChange={setPollRoomIds}
                 />
             </div>
+            {manageParticipants && (
+                <ManageParticipantsModal
+                    dataUrl={manageParticipants.dataUrl}
+                    roomName={manageParticipants.roomName}
+                    onClose={handleCloseManageParticipants}
+                />
+            )}
         </DashboardConfigContext.Provider>
     );
 }

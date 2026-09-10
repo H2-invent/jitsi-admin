@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2'
-import {initSearchUser} from './searchUser'
 import {Popover, Tooltip, Collapse, Dropdown, Input, initMDB} from "mdb-ui-kit";
 import {createIframe} from "./createConference";
 import {setSnackbar} from "./myToastr";

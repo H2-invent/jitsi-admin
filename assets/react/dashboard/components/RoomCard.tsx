@@ -36,16 +36,22 @@ interface RoomActionsProps {
 }
 
 function RoomActions({ room, tr }: RoomActionsProps) {
-    const { config } = useContext(DashboardConfigContext)!;
+    const { config, onManageParticipants } = useContext(DashboardConfigContext)!;
     const actions = room.actions;
+    const openManageParticipants = () => onManageParticipants(room);
     if (room.canOrganize) {
         return (
             <div className="col-md-6 hide">
-                <OptionDropdown items={actions.optionItems} translationKey="options" />
+                <OptionDropdown items={actions.optionItems} translationKey="options" onManageParticipants={openManageParticipants} />
                 {actions.participantsManage && (
                     <a
-                        className="element btn btn-outline-primary loadContent moderator-participants"
-                        href={actions.participantsManage.href}
+                        className="element btn btn-outline-primary manageParticipants moderator-participants"
+                        href="#"
+                        title={actions.participantsManage.label || undefined}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            openManageParticipants();
+                        }}
                     >
                         <i className="fa-solid fa-users" />
                     </a>

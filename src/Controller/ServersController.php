@@ -7,7 +7,6 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\EnterpriseType;
-use App\Form\Type\NewMemberType;
 use App\Form\Type\NewPermissionType;
 use App\Form\Type\RoomType;
 use App\Form\Type\ServerType;

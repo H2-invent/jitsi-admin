@@ -503,10 +503,12 @@ class DashboardViewService
         $leaveAction = null;
         $participantsManageButton = null;
         $shareLinkButton = null;
+        $participantsDataUrl = null;
 
         if (!$readOnly) {
             if ($canOrganize) {
-                $options[] = $this->anchor('participants', $this->t('manageParticipants'), $this->url('room_add_user', ['room' => $id]), 'fa-solid fa-users', ['loadContent']);
+                $participantsDataUrl = $this->url('dashboard_api_participants', ['room' => $id]);
+                $options[] = $this->anchor('participants', $this->t('manageParticipants'), $participantsDataUrl, 'fa-solid fa-users', ['manageParticipants']);
 
                 if ($isSchedule) {
                     $options = array_merge($options, $this->scheduleOptionItems($room, $id, $s, $ctx));
@@ -525,7 +527,7 @@ class DashboardViewService
                         ['loadContent']
                     );
                 } else {
-                    $participantsManageButton = $this->anchor('participants', null, $this->url('room_add_user', ['room' => $id]), 'fa-solid fa-users', ['loadContent']);
+                    $participantsManageButton = $this->anchor('participants', null, $participantsDataUrl, 'fa-solid fa-users', ['manageParticipants']);
                 }
             } else {
                 $leaveAction = $this->anchor(
@@ -646,6 +648,7 @@ class DashboardViewService
                 'icons' => $icons,
                 'leave' => $leaveAction,
                 'participantsManage' => $participantsManageButton,
+                'participantsUrl' => $participantsDataUrl,
                 'shareLink' => $shareLinkButton,
                 'start' => $startInfo,
                 'schedule' => $scheduleInfo,

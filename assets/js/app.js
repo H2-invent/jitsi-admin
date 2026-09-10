@@ -39,7 +39,6 @@ import * as Toastr from 'toastr';
 import {initCopytoClipboard, initGenerell, initNewModal} from './init';
 import {initKeycloakGroups} from './keyCloakGroupsInit';
 import {initAddressGroupSearch, initListSearch, reloadAddressBookPane} from './addressGroup';
-import {initSearchUser} from './searchUser';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
@@ -61,14 +60,20 @@ addEventListener('load', function () {
     }
     if (url !== null) {
         if (url.startsWith('/')) {
-            $('#loadContentModal').load(url, function (data, status) {
-                if (status === "error") {
-                    window.location.reload();
-                } else {
-                    $('#loadContentModal ').modal('show');
-                }
+            if (url.startsWith('/room/dashboard/api/participants/')) {
+                // The dashboard participants manager is a React component; hand the
+                // room over to it instead of loading raw JSON into the legacy modal.
+                document.dispatchEvent(new CustomEvent('jitsi-admin:manage-participants', {detail: {url: url}}));
+            } else {
+                $('#loadContentModal').load(url, function (data, status) {
+                    if (status === "error") {
+                        window.location.reload();
+                    } else {
+                        $('#loadContentModal ').modal('show');
+                    }
 
-            });
+                });
+            }
         }
         let search = new URLSearchParams(window.location.search);
         search.delete('modalUrl');

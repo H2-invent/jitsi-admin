@@ -11,7 +11,6 @@ import {inIframe} from "./moderatorIframe";
 import {initScheduling} from "./scheduling";
 import {initdateTimePicker} from "@holema/h2datetimepicker";
 import {initNewRoomModal} from "./newRoom";
-import {initSearchUser} from "./searchUser";
 import {initKeycloakGroups} from "./keyCloakGroupsInit";
 import {initAddressGroupSearch} from "./addressGroup";
 import {initChart} from "./chart";
@@ -190,7 +189,6 @@ function initNewModal() {
 
 
     initCopytoClipboard();
-    initSearchUser();
     initServerFeatures();
     initRepeater();
     initKeycloakGroups();

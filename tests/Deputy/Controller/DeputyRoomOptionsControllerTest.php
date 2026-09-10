@@ -128,12 +128,17 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
         $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
         $this->client->loginUser($deputy);
+        $this->client->request('GET', '/room/dashboard/api/participants/' . $room->getId());
+        self::assertResponseIsSuccessful();
+        $data = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertIsArray($data);
+        self::assertEquals($manager->getId(), $data['organizer']['id']);
 
-        $crawler = $this->client->request('GET', '/room/participant/add/' . $room->getId());
-
-        self::assertEquals(1, $crawler->filter('#atendeeList:contains("Test2, 1234, User2, Test2")')->count());
         $this->client->loginUser($manager);
-        $crawler = $this->client->request('GET', '/room/participant/add/' . $room->getId());
-        self::assertEquals(1, $crawler->filter('#atendeeList:contains("Test2, 1234, User2, Test2")')->count());
+        $this->client->request('GET', '/room/dashboard/api/participants/' . $room->getId());
+        self::assertResponseIsSuccessful();
+        $data = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertIsArray($data);
+        self::assertEquals($manager->getId(), $data['organizer']['id']);
     }
 }

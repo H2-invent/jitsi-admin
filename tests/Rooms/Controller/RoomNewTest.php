@@ -59,7 +59,7 @@ class RoomNewTest extends WebTestCase
         $client->submit($form);
         $room = (static::getContainer()->get(RoomsRepository::class))->findOneBy(['name' => 198273987321]);
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
-        $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
+        $modalUrl = base64_encode($urlGenerator->generate('dashboard_api_participants', ['room' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
             json_encode(
                 [
@@ -120,7 +120,7 @@ class RoomNewTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => '198273987321']);
         self::assertNotNull($room);
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
-        $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
+        $modalUrl = base64_encode($urlGenerator->generate('dashboard_api_participants', ['room' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
             json_encode(
                 [
@@ -180,7 +180,7 @@ class RoomNewTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => '198273987321']);
         self::assertNotNull($room);
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
-        $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
+        $modalUrl = base64_encode($urlGenerator->generate('dashboard_api_participants', ['room' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
             json_encode(
                 [
@@ -241,7 +241,7 @@ class RoomNewTest extends WebTestCase
         $this->assertNull($room);
         $room = $roomRepo->findOneBy(['name' => '765456654456']);
         $this->assertNotNull($room);
-        $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
+        $modalUrl = base64_encode($urlGenerator->generate('dashboard_api_participants', ['room' => $room->getId()]));
         $test = $client->getResponse()->getContent();
         $this->assertJsonStringEqualsJsonString(
             json_encode(
@@ -284,7 +284,7 @@ class RoomNewTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => '198273987321']);
         self::assertNotNull($room);
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
-        $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
+        $modalUrl = base64_encode($urlGenerator->generate('dashboard_api_participants', ['room' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
             json_encode(
                 [
@@ -317,7 +317,7 @@ class RoomNewTest extends WebTestCase
         $client->submit($form);
         $room = $roomRepo->findOneBy(['name' => 'Roome Clone']);
         $this->assertNotNull($room);
-        $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
+        $modalUrl = base64_encode($urlGenerator->generate('dashboard_api_participants', ['room' => $room->getId()]));
         $test = $client->getResponse()->getContent();
         $this->assertJsonStringEqualsJsonString(
             json_encode(
@@ -364,7 +364,7 @@ class RoomNewTest extends WebTestCase
 
 
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
-        $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
+        $modalUrl = base64_encode($urlGenerator->generate('dashboard_api_participants', ['room' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
             json_encode(
                 [

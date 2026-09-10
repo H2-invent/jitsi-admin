@@ -194,7 +194,7 @@ class ScheduleController extends JitsiAdminController
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not found');
         }
-        $modalUrl = base64_encode($this->generateUrl('room_add_user', ['room' => $rooms->getId()]));
+        $modalUrl = base64_encode($this->generateUrl('dashboard_api_participants', ['room' => $rooms->getId()]));
         $res = $this->redirectToRoute('dashboard');
         $this->addFlash('modalUrl', $modalUrl);
         return $res;

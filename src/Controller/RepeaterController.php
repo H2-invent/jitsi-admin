@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Repeat;
 use App\Entity\Rooms;
-use App\Form\Type\NewMemberType;
 use App\Form\Type\RepeaterType;
 use App\Form\Type\RoomType;
 use App\Helper\JitsiAdminController;
@@ -246,7 +245,6 @@ class RepeaterController extends JitsiAdminController
         return $this->render(
             'base/__newRoomModal.html.twig',
             [
-                'serverchoose' => $room->getServer(),
                 'form' => $form->createView(),
                 'isEdit' => $edit,
                 'serverchoose' => $serverChhose,
