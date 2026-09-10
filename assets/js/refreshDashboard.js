@@ -5,14 +5,10 @@
  * the React dashboard listens for the "dashboard:refresh" event and immediately polls
  * the status endpoint instead of reloading the whole page.
  */
-function initRefreshDashboard() {
-    // no-op: the React dashboard owns the refresh cadence
-}
-
 function refreshDashboard() {
     if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('dashboard:refresh'));
     }
 }
 
-export { initRefreshDashboard, refreshDashboard };
+export {refreshDashboard};

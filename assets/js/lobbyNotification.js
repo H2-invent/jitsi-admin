@@ -9,6 +9,7 @@ import newMessageSound from '../sound/new_message.mp3'
 import {setSnackbar, deleteToast} from './myToastr';
 import {TabUtils} from './tabBroadcast'
 import {refreshDashboard} from './refreshDashboard';
+import {showContentModal} from './init';
 
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
 import {close, inIframe} from './moderatorIframe'
@@ -151,8 +152,11 @@ function endMeeting(data) {
 }
 
 function loadModal(data) {
-
-    $('#loadContentModal').html(data.content).modal('show');
+    const modalElement = document.getElementById('loadContentModal');
+    if (modalElement) {
+        modalElement.innerHTML = data.content;
+        showContentModal(modalElement);
+    }
 }
 
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Swal from 'sweetalert2';
+import { cleanupOrphanedModalBackdrops } from '../utils/mdb';
 import type { Translations } from '../types';
 
 export interface AddContactResult {
@@ -39,42 +40,82 @@ export default function AddContactModal({ translations, onSubmit, onClose }: Add
 
     useEffect(() => {
         const ModalCtor = window.mdb && window.mdb.Modal;
-        const instance = ModalCtor ? ModalCtor.getOrCreateInstance(host) : null;
-        const frame = requestAnimationFrame(() => {
-            if (instance) {
-                instance.show();
-            } else {
+        let frame = 0;
+        let cancelled = false;
+
+        const showModal = (attempt = 0) => {
+            if (cancelled) {
+                return;
+            }
+            // React renders the `.modal-dialog` into this host. Only hand the host
+            // to MDB once that child is actually present, otherwise the instance's
+            // cached `_dialog` stays null and MDB's `_showElement()` throws
+            // "Illegal invocation", leaving only a gray backdrop behind.
+            if (!host.querySelector('.modal-dialog')) {
+                if (attempt < 30) {
+                    frame = requestAnimationFrame(() => showModal(attempt + 1));
+                }
+                return;
+            }
+            if (!ModalCtor) {
                 host.classList.add('show');
                 host.style.display = 'block';
+                if (inputRef.current) {
+                    inputRef.current.focus();
+                }
+                return;
             }
+            let instance = ModalCtor.getInstance(host);
+            const dialog = instance
+                ? (instance as unknown as { _dialog?: Element | null })._dialog
+                : null;
+            if (instance && !host.contains(dialog || null)) {
+                instance.dispose();
+                instance = null;
+            }
+            if (!instance) {
+                instance = ModalCtor.getOrCreateInstance(host);
+            }
+            instance.show();
             if (inputRef.current) {
                 inputRef.current.focus();
             }
-        });
+        };
+        frame = requestAnimationFrame(() => showModal());
 
         const handleHidden = () => onCloseRef.current();
         host.addEventListener('hidden.bs.modal', handleHidden);
 
         return () => {
+            cancelled = true;
             cancelAnimationFrame(frame);
             host.removeEventListener('hidden.bs.modal', handleHidden);
             if (ModalCtor && ModalCtor.getInstance(host)) {
                 ModalCtor.getInstance(host)!.dispose();
             }
             host.remove();
+            cleanupOrphanedModalBackdrops();
         };
     }, [host]);
 
     const hide = () => {
         const ModalCtor = window.mdb && window.mdb.Modal;
         const instance = ModalCtor ? ModalCtor.getOrCreateInstance(host) : null;
-        if (instance) {
-            instance.hide();
-        } else {
+        if (!instance) {
             host.classList.remove('show');
             host.style.display = 'none';
             onCloseRef.current();
+            cleanupOrphanedModalBackdrops();
+            return;
         }
+        const state = instance as unknown as { _isShown?: boolean; _isTransitioning?: boolean };
+        if (state._isTransitioning && state._isShown) {
+            // The modal is still animating in; Bootstrap swallows hide() in that
+            // state, so defer the close until the show transition completed.
+            host.addEventListener('shown.bs.modal', () => instance.hide(), { once: true });
+            return;
+        }
+        instance.hide();
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

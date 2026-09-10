@@ -36,7 +36,7 @@ import autosize from 'autosize';
 
 import {initScheduling} from './scheduling';
 import * as Toastr from 'toastr';
-import {initCopytoClipboard, initGenerell, initNewModal} from './init';
+import {initCopytoClipboard, initGenerell, initNewModal, showContentModal} from './init';
 import {initKeycloakGroups} from './keyCloakGroupsInit';
 import {initAddressGroupSearch, initListSearch, reloadAddressBookPane} from './addressGroup';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
@@ -60,7 +60,7 @@ addEventListener('load', function () {
     }
     if (url !== null) {
         if (url.startsWith('/')) {
-            if (url.startsWith('/room/dashboard/api/participants/')) {
+            if (url.includes('/dashboard/api/participants/')) {
                 // The dashboard participants manager is a React component; hand the
                 // room over to it instead of loading raw JSON into the legacy modal.
                 document.dispatchEvent(new CustomEvent('jitsi-admin:manage-participants', {detail: {url: url}}));
@@ -69,9 +69,8 @@ addEventListener('load', function () {
                     if (status === "error") {
                         window.location.reload();
                     } else {
-                        $('#loadContentModal ').modal('show');
+                        showContentModal(document.getElementById('loadContentModal'));
                     }
-
                 });
             }
         }
@@ -192,7 +191,37 @@ document.addEventListener('hidden.bs.modal', () => {
         openModalCount = 0;
         document.removeEventListener('keydown', closeTopModalOnEscape, true);
     }
+    cleanupStrayBackdrops();
 });
+
+// Safety net against a stuck gray overlay: when a modal fails to open (for
+// example because MDB lost its `.modal-dialog` reference and _showElement()
+// threw), only its backdrop remains and it blocks every click on the page.
+// Whenever such an orphaned backdrop is clicked, remove all stray backdrops and
+// the body scroll lock so the page becomes usable again.
+document.addEventListener('mousedown', (e) => {
+    if (!(e.target instanceof Element) || !e.target.classList.contains('modal-backdrop')) {
+        return;
+    }
+    const hasVisibleDialog = [...document.querySelectorAll('.modal.show')].some((m) => m.querySelector('.modal-dialog'));
+    if (!hasVisibleDialog) {
+        cleanupStrayBackdrops();
+    }
+}, true);
+
+function cleanupStrayBackdrops() {
+    const visibleModals = document.querySelectorAll('.modal.show').length;
+    const backdrops = document.querySelectorAll('.modal-backdrop');
+    if (backdrops.length > visibleModals) {
+        for (let i = visibleModals; i < backdrops.length; i++) {
+            backdrops[i].remove();
+        }
+    }
+    if (visibleModals === 0) {
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+    }
+}
 
 
 
