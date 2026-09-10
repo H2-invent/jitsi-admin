@@ -39,6 +39,20 @@ function RoomActions({ room, tr }: RoomActionsProps) {
     const { config, onManageParticipants } = useContext(DashboardConfigContext)!;
     const actions = room.actions;
     const openManageParticipants = () => onManageParticipants(room);
+    // The start button (and for scheduling meetings the vote button) is shown for
+    // every user who is part of the room, moderator or participant - matching the
+    // pre-React dashboard.
+    const scheduleButton = room.userInRoom && actions.schedule && (
+        <a
+            className="btn btn-outline-primary participant-shedule"
+            href={actions.schedule.url}
+            target={actions.schedule.target as React.HTMLAttributeAnchorTarget | undefined}
+            rel={actions.schedule.target === '_blank' ? 'noopener' : undefined}
+        >
+            {actions.schedule.icon && <i className={`${actions.schedule.icon} me-2`} />}
+            {actions.schedule.label}
+        </a>
+    );
     if (room.canOrganize) {
         return (
             <div className="col-md-6 hide">
@@ -64,6 +78,8 @@ function RoomActions({ room, tr }: RoomActionsProps) {
                         <i className="fa fa-link" /> {tr.joinLink}
                     </a>
                 )}
+                {scheduleButton}
+                {actions.start && <StartButton room={room} tr={tr} config={config} />}
             </div>
         );
     }
@@ -94,17 +110,7 @@ function RoomActions({ room, tr }: RoomActionsProps) {
                     ))}
                 </div>
             )}
-            {room.userInRoom && actions.schedule && (
-                <a
-                    className="btn btn-outline-primary participant-shedule"
-                    href={actions.schedule.url}
-                    target={actions.schedule.target as React.HTMLAttributeAnchorTarget | undefined}
-                    rel={actions.schedule.target === '_blank' ? 'noopener' : undefined}
-                >
-                    {actions.schedule.icon && <i className={`${actions.schedule.icon} me-2`} />}
-                    {actions.schedule.label}
-                </a>
-            )}
+            {scheduleButton}
             {room.userInRoom && actions.start && <StartButton room={room} tr={tr} config={config} />}
         </div>
     );

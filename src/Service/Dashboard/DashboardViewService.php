@@ -556,7 +556,7 @@ class DashboardViewService
                 ]);
             }
         }
-        if (!$readOnly && !$canOrganize && $room->getUser()->contains($user)) {
+        if (!$readOnly && $room->getUser()->contains($user)) {
             if ($isSchedule) {
                 $hasVoted = isset($ctx['votes'][$id]);
                 if ($hasVoted) {
@@ -574,7 +574,7 @@ class DashboardViewService
                         'icon' => null,
                     ];
                 }
-            } elseif (!$readOnly) {
+            } else {
                 $toast = null;
                 if (isset($ctx['closedForStart'][$id])) {
                     $toast = $ctx['closedForStart'][$id];
