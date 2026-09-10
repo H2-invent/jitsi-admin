@@ -24,3 +24,4 @@
 * Redesigned homepage
 * Fix appointment modal
 * Adressbook refactoring
+* SIP dial-in via the lobby using Livekit
