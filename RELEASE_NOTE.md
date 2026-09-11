@@ -6,6 +6,7 @@ Allow disabling of survey from theme settings
 
 ## 1.6
 ### 🚀 Features:
+* Add E2EE to server and conference setting and JWT
 
 ### 🐛 Bug Fixes:
 
