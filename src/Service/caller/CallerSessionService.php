@@ -82,7 +82,7 @@ class CallerSessionService
             return $this->sessionAccepted(session: $session);
         }
 
-        if (!$session->getLobbyWaitingUser() && $authOk === false) {
+        if ($session->getCaller()->getRoom()->getLobby() && !$session->getLobbyWaitingUser() && $authOk === false) {
             $this->loggger->debug('The Session was declined by the lobbymoderator', ['sessionId' => $sessionId]);
             $this->cleanUpSession($session);
             return $this->sessionDeclined(session: $session);
@@ -90,24 +90,24 @@ class CallerSessionService
 
 
         if ($closed == false && $started == false && $authOk == false) {
-            $this->loggger->debug('The Room is not startd and the User hast to wait. The user is not accepted', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()]);
+            $this->loggger->debug('The Room is not startd and the User hast to wait. The user is not accepted', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
             return $this->sessionWaiting(session: $session, started: false);
         }
 
         if ($authOk == false && $started == true) {
-            $this->loggger->debug('The Room is  startd and the User hast to wait. The user is not accepted', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()]);
+            $this->loggger->debug('The Room is  startd and the User hast to wait. The user is not accepted', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
             return $this->sessionWaiting(session: $session, started: true);
         }
 
         if ($closed == true) {
-            $this->loggger->debug('The user is called to hangup. The Meeting has finished while he was waiting', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()]);
+            $this->loggger->debug('The user is called to hangup. The Meeting has finished while he was waiting', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
 
             $this->cleanUpSession($session);
             return $this->sessionMeetingFinished(session: $session);
         }
 
 
-        $this->loggger->error('Error. an UNKNOWN state occured.', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()]);
+        $this->loggger->error('Error. an UNKNOWN state occured.', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
 
         $this->cleanUpSession($session);
         return $this->sessionError(session: $session);
