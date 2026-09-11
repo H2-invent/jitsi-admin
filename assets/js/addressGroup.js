@@ -10,6 +10,11 @@ function initAddressGroupSearch() {
 }
 
 function initListSearch() {
+    // The React address book (dashboard) owns search/filter/alphabet behaviour in React
+    // state. Do not bind the legacy jQuery handlers on top of it.
+    if (document.getElementById('addressbook-root')) {
+        return;
+    }
     $(".searchListInput").on("keyup", function () {
         searchUSers(this)
     });
@@ -218,6 +223,12 @@ function findRegister(register) {
 // insufficient: MDB only performs global component initialization once per page load,
 // so dynamically inserted elements with data-mdb-* attributes would remain uninitialized.
 function reloadAddressBookPane() {
+    // The React address book (dashboard) owns the pane. Replacing its DOM with a
+    // server-rendered fragment would destroy the React tree, so the legacy reload
+    // is a no-op whenever the React root is present.
+    if (document.getElementById('addressbook-root')) {
+        return;
+    }
     fetch('/room/dashboard/adressbook-fragment')
         .then(response => response.text())
         .then(html => {

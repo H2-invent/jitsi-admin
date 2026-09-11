@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Helper\JitsiAdminController;
 use App\Service\adressbookFavoriteService\AdressbookFavoriteService;
+use App\Service\Dashboard\AddressBookViewService;
 use App\Service\Deputy\DeputyService;
 use App\Service\UserCreatorService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -26,6 +27,7 @@ class AdressbookController extends JitsiAdminController
         private AdressbookFavoriteService $adressbookFavoriteService,
         private DeputyService             $deputyService,
         private UserCreatorService        $userCreatorService,
+        private AddressBookViewService    $addressBookViewService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -97,7 +99,10 @@ class AdressbookController extends JitsiAdminController
         $em->persist($myUser);
         $em->flush();
 
-        return new JsonResponse(['ok' => true]);
+        return new JsonResponse([
+            'ok' => true,
+            'contact' => $this->addressBookViewService->serializeContact($myUser, $contact),
+        ]);
     }
 
     #[Route(path: '/room/adressbook/new-contact', name: 'adressbook_new_contact')]

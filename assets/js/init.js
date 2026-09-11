@@ -6,13 +6,11 @@ import {initDarkmodeSwitch} from './switchDarkmode'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
 import {initPrettyJson} from './jsonBeautifier';
-import {initLayzLoading} from './lazyLoading'
 import hotkeys from 'hotkeys-js';
 import {inIframe} from "./moderatorIframe";
 import {initScheduling} from "./scheduling";
 import {initdateTimePicker} from "@holema/h2datetimepicker";
 import {initNewRoomModal} from "./newRoom";
-import {initSearchUser} from "./searchUser";
 import {initKeycloakGroups} from "./keyCloakGroupsInit";
 import {initAddressGroupSearch} from "./addressGroup";
 import {initChart} from "./chart";
@@ -34,7 +32,6 @@ import {
 function initGenerell() {
     checkFirefox();
     initDarkmodeSwitch();
-    initLayzLoading();
     initStartIframe();
     initProtip();
     wrapSelect();
@@ -135,13 +132,14 @@ function initLoadContent() {
                 })
                 .then(data => {
                     const modalElement = document.getElementById('loadContentModal');
-                    modalElement.innerHTML='';
+                    if (!modalElement) {
+                        return;
+                    }
                     modalElement.innerHTML = data;
 
                     // Überprüfe, ob das Modal geöffnet ist
                     if (!modalElement.classList.contains('show')) {
-                        const modal = Modal.getOrCreateInstance(modalElement);
-                        modal.show();
+                        showContentModal(modalElement);
                     } else {
                         initNewModal(modalElement);
                     }
@@ -151,6 +149,33 @@ function initLoadContent() {
                 });
         }
     });
+}
+
+/**
+ * Öffnet das Legacy-Content-Modal (#loadContentModal) auf sichere Weise.
+ *
+ * MDB merkt sich beim Erzeugen einer Modal-Instanz deren `.modal-dialog`-Kind.
+ * Fehlt dieses Kind (oder wurde es durch neu geladenen Inhalt ersetzt), wirft
+ * MDBs `_showElement()` "Illegal invocation" und es bleibt nur der graue
+ * Backdrop stehen, der die Seite blockiert. Deshalb die veraltete Instanz
+ * verwerfen, die Instanz neu erzeugen und niemals ein leeres Modal anzeigen.
+ */
+export function showContentModal(modalElement) {
+    if (!modalElement) {
+        return;
+    }
+    const dialog = modalElement.querySelector('.modal-dialog');
+    const instance = Modal.getInstance(modalElement);
+    if (instance && (!instance._dialog || !modalElement.contains(instance._dialog))) {
+        instance.dispose();
+    }
+    if (!dialog) {
+        // Kein Modal-Inhalt vorhanden: keinen grauen Backdrop stehen lassen.
+        document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+        document.body.classList.remove('modal-open');
+        return;
+    }
+    Modal.getOrCreateInstance(modalElement).show();
 }
 
 $('#loadContentModal').on('shown.bs.modal', function (e) {
@@ -198,7 +223,6 @@ function initNewModal() {
 
 
     initCopytoClipboard();
-    initSearchUser();
     initServerFeatures();
     initRepeater();
     initKeycloakGroups();

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\AddressGroup;
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Form\Type\NewMemberType;
 use App\Helper\JitsiAdminController;
 use App\Service\FavoriteService;
 use App\Service\ParticipantSearchService;
@@ -40,42 +39,6 @@ class ParticipantController extends JitsiAdminController
         }
         $res['group'] = $participantSearchService->generateGroup($group);
         return new JsonResponse($res);
-    }
-
-    #[Route(path: '/room/participant/add/{room}', name: 'room_add_user')]
-    public function roomAddUser(Request $request, RoomAddService $roomAddService, Rooms $room)
-    {
-        $newMember = [];
-        if (!$room){
-            return $this->redirectToRoute('dashboard');
-        }
-        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
-            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
-            return $this->redirectToRoute('dashboard');
-        }
-        $form = $this->createForm(NewMemberType::class, $newMember, ['action' => $this->generateUrl('room_add_user', ['room' => $room->getId()])]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $newMembers = $form->getData();
-            $falseEmail = [];
-            $falseEmail = array_merge(
-                $roomAddService->createParticipants($newMembers['member'], $room, $this->getUser()),
-            );
-
-            if (sizeof($falseEmail) > 0) {
-                $emails = implode(", ", $falseEmail);
-                $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden", ['{emails}' => $emails]);
-            } else {
-                $snack = $this->translator->trans('Teilnehmer wurden eingeladen');
-            }
-            $this->addFlash('success', $snack);
-            return $this->redirectToRoute('dashboard');
-        }
-
-        $title = $this->translator->trans('Teilnehmer verwalten');
-
-        return $this->render('room/attendeeModal.twig', ['form' => $form->createView(), 'title' => $title, 'room' => $room]);
     }
 
     #[Route(path: '/room/participant/add_single/{room}', name: 'room_add_user_single', methods: "POST")]
@@ -150,6 +113,10 @@ class ParticipantController extends JitsiAdminController
             return $this->redirectToRoute('dashboard');
         }
 
+        if ($user === null) {
+            return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('Teilnehmer gelöscht'), 'color' => 'success']);
+        }
+
         $roomAddService->removeUserFromRoom($user, $room);
         return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('Teilnehmer gelöscht'), 'color' => 'success']);
     }
@@ -161,16 +128,81 @@ class ParticipantController extends JitsiAdminController
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('room')]);
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
+            if ($this->wantsJson($request)) {
+                return new JsonResponse([
+                    'error' => true,
+                    'message' => $this->translator->trans('Keine Berechtigung'),
+                    'color' => 'danger',
+                ], Response::HTTP_FORBIDDEN);
+            }
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
-        if (!in_array($room, $user->getRooms()->toArray())) {
+        if ($user === null || !in_array($room, $user->getRooms()->toArray())) {
+            if ($this->wantsJson($request)) {
+                return new JsonResponse([
+                    'error' => true,
+                    'message' => $this->translator->trans('Keine Berechtigung'),
+                    'color' => 'danger',
+                ], Response::HTTP_FORBIDDEN);
+            }
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
         $userService->addUser($user, $room);
+        if ($this->wantsJson($request)) {
+            return new JsonResponse([
+                'error' => false,
+                'toast' => true,
+                'message' => $this->translator->trans('participant.resend.invitation.sucess'),
+                'color' => 'success',
+            ]);
+        }
         $this->addFlash('success', $this->translator->trans('participant.resend.invitation.sucess'));
         return $this->redirectToRoute('dashboard');
+    }
+
+    /**
+     * Adds many invitees from a textarea (one email or username per line) and returns
+     * a translated summary. This is the JSON pendant of the former bulk invite form
+     * submission used by the React participant management modal.
+     */
+    #[Route(path: '/room/participant/add_bulk/{room}', name: 'room_add_user_bulk', methods: ['POST'])]
+    public function roomAddUserBulk(Request $request, RoomAddService $roomAddService, Rooms $room): JsonResponse
+    {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
+            return new JsonResponse([
+                'error' => true,
+                'message' => $this->translator->trans('Keine Berechtigung'),
+                'color' => 'danger',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        $member = trim((string) ($payload['member'] ?? ''));
+        if ($member === '') {
+            return new JsonResponse([
+                'error' => true,
+                'message' => $this->translator->trans('Fehler'),
+                'color' => 'danger',
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $falseEmail = $roomAddService->createParticipants($member, $room, $this->getUser());
+        if (count($falseEmail) > 0) {
+            $emails = implode(', ', $falseEmail);
+            $snack = $this->translator->trans(
+                'Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden',
+                ['{emails}' => $emails]
+            );
+            return new JsonResponse(['error' => false, 'message' => $snack, 'color' => 'warning']);
+        }
+
+        return new JsonResponse([
+            'error' => false,
+            'message' => $this->translator->trans('Teilnehmer wurden eingeladen'),
+            'color' => 'success',
+        ]);
     }
 }

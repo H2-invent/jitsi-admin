@@ -21,8 +21,6 @@ class ParticipantsSingleControllerTest extends WebTestCase
         $organizer = $room->getModerator();
         $client->loginUser($organizer);
 
-        $crawler = $client->request('GET', '/room/participant/add/' . $room->getId());
-        self::assertResponseIsSuccessful();
         $crawler = $client->request('POST', '/room/participant/add_single/' . $room->getId(), content: json_encode(['participant' => ['test@local4.de']]));
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(4, $room->getUser()->count());
@@ -38,8 +36,6 @@ class ParticipantsSingleControllerTest extends WebTestCase
         $organizer = $room->getModerator();
         $client->loginUser($organizer);
 
-        $crawler = $client->request('GET', '/room/participant/add/' . $room->getId());
-        self::assertResponseIsSuccessful();
         $crawler = $client->request('POST', '/room/participant/add_single/' . $room->getId(), content: json_encode(['wrongEntity' => ['test@local4.de']]));
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, $room->getUser()->count());

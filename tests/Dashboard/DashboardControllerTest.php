@@ -76,7 +76,18 @@ class DashboardControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
-        self::assertEquals(2, $crawler->filter('.dropdown-item:contains("Server with License")')->count());
+        // The address book is React-owned on the dashboard; the adhoc servers are
+        // bootstrapped as JSON state instead of server-rendered dropdown items.
+        $stateNode = $crawler->filter('#addressbook-state');
+        self::assertEquals(1, $stateNode->count());
+        $state = json_decode($stateNode->text(), true);
+        $adhocServerNames = [];
+        foreach (($state['contacts'] ?? []) as $contact) {
+            foreach (($contact['adhoc'] ?? []) as $server) {
+                $adhocServerNames[] = $server['serverName'];
+            }
+        }
+        self::assertEquals(2, count(array_filter($adhocServerNames, static fn($name) => $name === 'Server with License')));
     }
     public function testservernameinConferenceCard()
     {
@@ -101,50 +112,5 @@ class DashboardControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
         self::assertEquals(0, $crawler->filter('p:contains("Server: meet.jit.si2")')->count());
-    }
-    public function testlazyLoadFixed()
-    {
-        $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        // retrieve the test user
-        $testUser = $userRepository->findOneByUsername('test@local.de');
-        $client->loginUser($testUser);
-
-        $crawler = $client->request('GET', '/room/dashboard/lazy/fixed/0');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertSelectorExists('.lazyLoad');
-        $this->assertResponseIsSuccessful();
-
-        self::assertEquals(3, $crawler->filter('.card')->count());
-
-
-        $crawler = $client->request('GET', '/room/dashboard/lazy/fixed/1');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertSelectorNotExists('.lazyLoad');
-        $this->assertResponseIsSuccessful();
-        self::assertEquals(0, $crawler->filter('.card')->count());
-    }
-    public function testlazyLoadPast()
-    {
-        $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        // retrieve the test user
-        $testUser = $userRepository->findOneByUsername('test@local.de');
-        $client->loginUser($testUser);
-
-        $crawler = $client->request('GET', '/room/dashboard/lazy/past/0');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertSelectorExists('.lazyLoad');
-        $this->assertResponseIsSuccessful();
-
-        self::assertEquals(1, $crawler->filter('.card')->count());
-
-
-        $crawler = $client->request('GET', '/room/dashboard/lazy/past/1');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertSelectorNotExists('.lazyLoad');
-        $this->assertResponseIsSuccessful();
-        self::assertEquals(0, $crawler->filter('.card')->count());
-        ;
     }
 }

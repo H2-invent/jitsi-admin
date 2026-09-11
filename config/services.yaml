@@ -162,6 +162,9 @@ parameters:
     app.transcription.mistral.uri: '%env(MISTRAL_API_URI)%'
 
 services:
+    Parsedown:
+        class: Parsedown
+
     Gaufrette\FilesystemInterface $recordingFilesystem:
         alias: gaufrette.recording_fs_filesystem
 

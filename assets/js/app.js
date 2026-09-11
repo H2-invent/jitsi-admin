@@ -19,6 +19,12 @@ global.$ = global.jQuery = $;
 
 import { Dropdown,Popover,Modal,Tooltip,Collapse, initMDB } from "mdb-ui-kit";
 
+// Expose a single MDB singleton to other entry points (the React dashboard). The React
+// bundle must not import mdb-ui-kit itself, otherwise the component data-api handlers
+// (e.g. the document-level dropdown toggling) would be registered twice and dropdowns
+// would open and immediately close again.
+global.mdb = window.mdb = { Dropdown, Popover, Modal, Tooltip, Collapse };
+
 import Swal from 'sweetalert2';
 
 import {trans, ADDRESSBOOKERRORTITLE, ADDRESSBOOKERRORDEFAULT} from '../translator.js';
@@ -30,11 +36,9 @@ import autosize from 'autosize';
 
 import {initScheduling} from './scheduling';
 import * as Toastr from 'toastr';
-import {initCopytoClipboard, initGenerell, initNewModal} from './init';
+import {initCopytoClipboard, initGenerell, initNewModal, showContentModal} from './init';
 import {initKeycloakGroups} from './keyCloakGroupsInit';
 import {initAddressGroupSearch, initListSearch, reloadAddressBookPane} from './addressGroup';
-import {initSearchUser} from './searchUser';
-import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
@@ -56,14 +60,19 @@ addEventListener('load', function () {
     }
     if (url !== null) {
         if (url.startsWith('/')) {
-            $('#loadContentModal').load(url, function (data, status) {
-                if (status === "error") {
-                    window.location.reload();
-                } else {
-                    $('#loadContentModal ').modal('show');
-                }
-
-            });
+            if (url.includes('/dashboard/api/participants/')) {
+                // The dashboard participants manager is a React component; hand the
+                // room over to it instead of loading raw JSON into the legacy modal.
+                document.dispatchEvent(new CustomEvent('jitsi-admin:manage-participants', {detail: {url: url}}));
+            } else {
+                $('#loadContentModal').load(url, function (data, status) {
+                    if (status === "error") {
+                        window.location.reload();
+                    } else {
+                        showContentModal(document.getElementById('loadContentModal'));
+                    }
+                });
+            }
         }
         let search = new URLSearchParams(window.location.search);
         search.delete('modalUrl');
@@ -99,7 +108,6 @@ $(document).ready(function () {
     }
     initGenerell();
 
-    initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
     initListSearch();
     initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
@@ -183,7 +191,37 @@ document.addEventListener('hidden.bs.modal', () => {
         openModalCount = 0;
         document.removeEventListener('keydown', closeTopModalOnEscape, true);
     }
+    cleanupStrayBackdrops();
 });
+
+// Safety net against a stuck gray overlay: when a modal fails to open (for
+// example because MDB lost its `.modal-dialog` reference and _showElement()
+// threw), only its backdrop remains and it blocks every click on the page.
+// Whenever such an orphaned backdrop is clicked, remove all stray backdrops and
+// the body scroll lock so the page becomes usable again.
+document.addEventListener('mousedown', (e) => {
+    if (!(e.target instanceof Element) || !e.target.classList.contains('modal-backdrop')) {
+        return;
+    }
+    const hasVisibleDialog = [...document.querySelectorAll('.modal.show')].some((m) => m.querySelector('.modal-dialog'));
+    if (!hasVisibleDialog) {
+        cleanupStrayBackdrops();
+    }
+}, true);
+
+function cleanupStrayBackdrops() {
+    const visibleModals = document.querySelectorAll('.modal.show').length;
+    const backdrops = document.querySelectorAll('.modal-backdrop');
+    if (backdrops.length > visibleModals) {
+        for (let i = visibleModals; i < backdrops.length; i++) {
+            backdrops[i].remove();
+        }
+    }
+    if (visibleModals === 0) {
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+    }
+}
 
 
 
@@ -337,9 +375,14 @@ $('#loadContentModal').on('submit', '#addressGroupForm', function (e) {
 // These links have data-ajax-url but are NOT .confirmHref (handled by confirmation.js).
 // After the Ajax POST completes, the entire address book pane is reloaded from the server
 // because the action may change ordering, favorite status, or deputy status across multiple entries.
+//
+// The React address book (#addressbook-root, on the dashboard) owns its own DOM and state and
+// must not be reloaded from a server-rendered fragment. Its entries do not carry data-ajax-url,
+// but guard explicitly so the fragment reload never runs inside the React pane.
 document.addEventListener('click', function (e) {
     const link = e.target.closest('a[data-ajax-url]');
     if (!link) return;
+    if (link.closest('#addressbook-root')) return;
 
     const ajaxUrl = link.dataset.ajaxUrl;
     if (!ajaxUrl) return;

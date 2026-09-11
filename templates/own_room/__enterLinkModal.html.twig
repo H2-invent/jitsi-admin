@@ -24,8 +24,10 @@
 
                     <div class="col-lg-12">
                         <p>{{ 'openRoom.addParticipants.help'|trans }}</p>
-                        <a href="{{ path('room_add_user',{'room':room.id}) }}"
-                           class=" element btn btn-outline-default loadContent"><i
+                        <a href="{{ path('dashboard_api_participants',{'room':room.id}) }}"
+                           data-manage-participants="{{ path('dashboard_api_participants',{'room':room.id}) }}"
+                           data-room-name="{{ room.name }}"
+                           class=" element btn btn-outline-default"><i
                                     class="fas fa-plus"></i> {{ 'Teilnehmer'|trans }}</a>
                     </div>
                 </div>

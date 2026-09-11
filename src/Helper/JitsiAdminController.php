@@ -7,6 +7,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -51,5 +52,11 @@ class JitsiAdminController extends AbstractController
         }
 
         return $user;
+    }
+
+    protected function wantsJson(Request $request): bool
+    {
+        return in_array('application/json', $request->getAcceptableContentTypes(), true)
+            || $request->isXmlHttpRequest();
     }
 }

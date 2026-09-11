@@ -397,8 +397,6 @@ class RoomsRepository extends ServiceEntityRepository
      * them afterwards (e.g. $room->getUser(), $room->schedulings[0]) does not trigger a
      * lazy-load query per room (the N+1 problem).
      *
-     * How it works:
-     *
      * The $rooms passed here are the entities just returned by one of the find*() methods
      * of this repository and are therefore still managed by the EntityManager. Within a
      * single unit of work (one request), Doctrine's identity map guarantees that there is
@@ -428,7 +426,7 @@ class RoomsRepository extends ServiceEntityRepository
      *
      * @param Rooms[] $rooms
      */
-    private function loadDashboardCollections(array $rooms): void
+    public function loadDashboardCollections(array $rooms): void
     {
         if (empty($rooms)) {
             return;
@@ -474,6 +472,16 @@ class RoomsRepository extends ServiceEntityRepository
             ->leftJoin('r.moderator', 'm')
             ->leftJoin('m.managerElement', 'me')
             ->leftJoin('me.deputy', 'd')
+            ->where('r.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+
+        // favoriteUsers (inverse ManyToMany)
+        $em->createQueryBuilder()
+            ->select('r', 'fu')
+            ->from(Rooms::class, 'r')
+            ->leftJoin('r.favoriteUsers', 'fu')
             ->where('r.id IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()
@@ -529,6 +537,49 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('true', true)
             ->setParameter('false', false)
             ->orderBy('r.startUtc', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Returns the subset of $ids that the given user may actually see on their
+     * dashboard (participant, moderator, organising deputy or favourite). Used by the
+     * JSON dashboard APIs so that a client cannot probe arbitrary rooms.
+     *
+     * @param int[] $ids
+     * @return Rooms[]
+     */
+    public function findVisibleRoomsByIds(User $user, array $ids): array
+    {
+        if (empty($ids)) {
+            return [];
+        }
+        $qb = $this->createQueryBuilder('r');
+        return $qb->select('r', 'server', 'tag', 'moderator', 'creator', 'repeater', 'callerRoom')
+            ->innerJoin('r.server', 'server')
+            ->leftJoin('r.tag', 'tag')
+            ->leftJoin('r.moderator', 'moderator')
+            ->leftJoin('r.creator', 'creator')
+            ->leftJoin('r.repeater', 'repeater')
+            ->leftJoin('r.callerRoom', 'callerRoom')
+            ->andWhere('r.id IN (:ids)')
+            ->andWhere(
+                $qb->expr()->orX(
+                    ':user MEMBER OF r.user',
+                    ':user MEMBER OF r.favoriteUsers',
+                    $qb->expr()->exists(
+                        $this->createQueryBuilder('r_dep')
+                            ->select('1')
+                            ->join('r_dep.moderator', 'm_dep')
+                            ->join('m_dep.managerElement', 'me_dep')
+                            ->join('me_dep.deputy', 'd_dep')
+                            ->where('r_dep = r')
+                            ->andWhere('d_dep = :user')
+                    )
+                )
+            )
+            ->setParameter('ids', array_values(array_unique(array_map('intval', $ids))))
+            ->setParameter('user', $user)
             ->getQuery()
             ->getResult();
     }

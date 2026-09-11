@@ -32,6 +32,12 @@ export function setStatus() {
 }
 
 export function showOnlineUsers(data) {
+    // The React address book (dashboard) owns the pane and listens for this event to
+    // update its own state; the legacy DOM mutation must not run on top of React DOM.
+    if (document.getElementById('addressbook-root')) {
+        window.dispatchEvent(new CustomEvent('addressbook:onlineStatus', { detail: data }));
+        return;
+    }
     status = document.querySelectorAll('.adressbookline') ? document.querySelectorAll('.adressbookline') : null;
 
     if (status) {

@@ -131,7 +131,7 @@ class RoomController extends JitsiAdminController
                     $this->addFlash('success', $translator->trans('Konferenz erfolgreich erstellt'));
                 }
 
-                $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));
+                $modalUrl = base64_encode($this->generateUrl('dashboard_api_participants', ['room' => $room->getId()]));
                 if ($room->getScheduleMeeting()) {
                     $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
                 }
@@ -165,6 +165,7 @@ class RoomController extends JitsiAdminController
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $color = 'danger';
         $snack = 'Keine Berechtigung';
+        $success = false;
         if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             if ($room->getRepeater()) {
                 $repeater = $room->getRepeater();
@@ -174,10 +175,16 @@ class RoomController extends JitsiAdminController
             if ($removeRoomService->deleteRoom($room)) {
                 $snack = $this->translator->trans('Konferenz gelöscht');
                 $color = 'success';
+                $success = true;
             } else {
                 $snack = $this->translator->trans('Fehler, Bitte Laden Sie die Seite neu');
             }
         }
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(['error' => !$success, 'toast' => true, 'message' => $snack, 'color' => $color]);
+        }
+
         $this->addFlash($color, $snack);
         return $this->redirectToRoute('dashboard');
     }
@@ -247,7 +254,7 @@ class RoomController extends JitsiAdminController
                 }
                 $snack = $translator->trans('Konferenz erfolgreich erstellt');
                 $this->addFlash('success', $snack);
-                $this->addFlash('modalUrl', base64_encode($this->generateUrl('room_add_user', array('room' => $roomNew->getId()))));
+                $this->addFlash('modalUrl', base64_encode($this->generateUrl('dashboard_api_participants', array('room' => $roomNew->getId()))));
                 $res = $this->generateUrl('dashboard');
                 return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $roomNew->getServer()->getId())));
 
