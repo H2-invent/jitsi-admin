@@ -93,7 +93,10 @@
                data-mdb-html="true"
                title="{{ 'email.sip.number'|trans }}"
                data-mdb-content="
-               <p>{{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</p>
+               <p>{{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</p>
+               {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and app.user and sipPinFromRoomAndUser(room, app.user) is not null %}
+               <p>{{ 'email.sip.pin'|trans }}: {{ sipPinFromRoomAndUser(room, app.user).callerId|addRepetiveCharacters(' ',3) }}#</p>
+               {% endif %}
     {% for key,n in getJigasiNumber(room) %}
     {% for number in n %}
     <p> ({{ key }}) {{ number }} </p>
