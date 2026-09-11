@@ -1,44 +1,19 @@
 name: Create Release
 
-env:
-  GITHUB_TOKEN: ${{ secrets.token }}
+permissions:
+  contents: read
+  packages: write
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
-      - main
       - master
+      - main
 
 jobs:
   version:
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: paulhatch/semantic-version@v5.0.2
-        id: version
-        with:
-          tag_prefix: ""
-          major_pattern: "(MAJOR)"
-          minor_pattern: "(MINOR)"
-          change_path: .
-          version_format: "${major}.${minor}.${patch}"
-
-      - name: Write summary
-        run: |
-          {
-            echo "### Version Info"
-            echo ""
-            echo "| Feld | Wert |"
-            echo "|------|------|"
-            echo "| Version | \`${{ steps.version.outputs.version }}\` |"
-            echo "| Run ID | \`${{ github.run_id }}\` |"
-          } >> "$GITHUB_STEP_SUMMARY"
+    uses: ./.github/workflows/task-version.yml
 
   artifact:
     uses: ./.github/workflows/task-artifact.yml
