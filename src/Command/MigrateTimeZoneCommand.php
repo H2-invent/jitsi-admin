@@ -12,6 +12,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:migrateTimeZone', 'This command creates a UTC Time from the local start time. This command ist only one time important when you migrate to version ^0.71.xx')]
 class MigrateTimeZoneCommand extends Command
 {
+    private const BATCH_SIZE = 500;
+
     private $em;
 
     public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
@@ -27,24 +29,43 @@ class MigrateTimeZoneCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $rooms = $this->em->getRepository(Rooms::class)->findAll();
+        $lastId = 0;
 
-        foreach ($rooms as $data) {
-            $timezone = $data->getTimeZone() ? new \DateTimeZone($data->getTimeZone()) : null;
+        while (true) {
+            $rooms = $this->em->getRepository(Rooms::class)
+                ->createQueryBuilder('r')
+                ->where('r.id > :lastId')
+                ->orderBy('r.id', 'ASC')
+                ->setMaxResults(self::BATCH_SIZE)
+                ->setParameter('lastId', $lastId)
+                ->getQuery()
+                ->getResult();
 
-            if ($data->getStart()) {
-                $dateStart = new \DateTime($data->getStart()->format('Y-m-d H:i:s'), $timezone);
-                $data->setStartUtc($dateStart->setTimezone(new \DateTimeZone('utc')));
-                $data->setStartTimestamp((new \DateTime($data->getStart()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
+            if (count($rooms) === 0) {
+                break;
             }
-            if ($data->getEnddate()) {
-                $dateEnd = new \DateTime($data->getEnddate()->format('Y-m-d H:i:s'), $timezone);
-                $data->setEndDateUtc($dateEnd->setTimezone(new \DateTimeZone('utc')));
-                $data->setEndTimestamp((new \DateTime($data->getEnddate()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
+
+            foreach ($rooms as $user) {
+                $lastId = $user->getId();
+                $timezone = $user->getTimeZone() ? new \DateTimeZone($user->getTimeZone()) : null;
+
+                if ($user->getStart()) {
+                    $dateStart = new \DateTime($user->getStart()->format('Y-m-d H:i:s'), $timezone);
+                    $user->setStartUtc($dateStart->setTimezone(new \DateTimeZone('utc')));
+                    $user->setStartTimestamp((new \DateTime($user->getStart()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
+                }
+                if ($user->getEnddate()) {
+                    $dateEnd = new \DateTime($user->getEnddate()->format('Y-m-d H:i:s'), $timezone);
+                    $user->setEndDateUtc($dateEnd->setTimezone(new \DateTimeZone('utc')));
+                    $user->setEndTimestamp((new \DateTime($user->getEnddate()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
+                }
+                $this->em->persist($user);
             }
-            $this->em->persist($data);
+
+            $this->em->flush();
+            $this->em->clear();
         }
-        $this->em->flush();
+
         return Command::SUCCESS;
     }
 }

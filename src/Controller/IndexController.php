@@ -56,9 +56,6 @@ class IndexController extends JitsiAdminController
         parse_str($dataAll, $data);
         $form = $this->createForm(JoinViewType::class, $data, ['action' => $this->generateUrl('join_index')]);
         $form->handleRequest($request);
-        $user = $this->doctrine->getRepository(User::class)->findAll();
-        $server = $this->doctrine->getRepository(Server::class)->findAll();
-        $rooms = $this->doctrine->getRepository(Rooms::class)->findAll();
-        return $this->render('dashboard/start.html.twig', ['form' => $form->createView(), 'user' => $user, 'server' => $server, 'rooms' => $rooms]);
+        return $this->render('dashboard/start.html.twig', ['form' => $form->createView()]);
     }
 }

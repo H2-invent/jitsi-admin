@@ -17,6 +17,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:tag:addToAll', 'Add a short description for your command')]
 class TagAddToAllCommand extends Command
 {
+    private const BATCH_SIZE = 500;
+
     private EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
     {
@@ -46,15 +48,45 @@ class TagAddToAllCommand extends Command
             return Command::FAILURE;
         }
 
-        $rooms = $this->em->getRepository(Rooms::class)->findRoomsWithNoTags();
-        $progressBar = new ProgressBar($output, sizeof($rooms));
+        $roomCount = (int)$this->em->getRepository(Rooms::class)
+            ->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->where('r.tag IS NULL')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $progressBar = new ProgressBar($output, $roomCount);
         $progressBar->start();
-        foreach ($rooms as $data) {
-            $data->setTag($tag);
-            $this->em->persist($data);
-            $progressBar->advance(1);
+        $tagId = $tag->getId();
+        $lastId = 0;
+
+        while (true) {
+            $rooms = $this->em->getRepository(Rooms::class)
+                ->createQueryBuilder('r')
+                ->where('r.id > :lastId')
+                ->andWhere('r.tag IS NULL')
+                ->orderBy('r.id', 'ASC')
+                ->setMaxResults(self::BATCH_SIZE)
+                ->setParameter('lastId', $lastId)
+                ->getQuery()
+                ->getResult();
+
+            if (count($rooms) === 0) {
+                break;
+            }
+
+            $tag = $this->em->getRepository(Tag::class)->find($tagId);
+            foreach ($rooms as $room) {
+                $lastId = $room->getId();
+                $room->setTag($tag);
+                $this->em->persist($room);
+                $progressBar->advance(1);
+            }
+
+            $this->em->flush();
+            $this->em->clear();
         }
-        $this->em->flush();
+
+        $progressBar->finish();
         $io->success('This are all your tags');
         return Command::SUCCESS;
     }

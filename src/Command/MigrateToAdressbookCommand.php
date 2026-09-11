@@ -12,6 +12,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:migrateToAdressbook')]
 class MigrateToAdressbookCommand extends Command
 {
+    private const BATCH_SIZE = 500;
+
     protected $em;
     public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
     {
@@ -28,25 +30,44 @@ class MigrateToAdressbookCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $users = $this->em->getRepository(User::class)->findAll();
         $counterUser = 0;
-        $counterCOnnections = 0;
-        foreach ($users as $user) {
-            $rooms = $user->getRoomModerator();
-            $counterUser++;
-            foreach ($rooms as $room) {
-                foreach ($room->getUser() as $participant) {
-                    if ($participant != $user) {
-                        $counterCOnnections++;
-                        $user->addAddressbook($participant);
-                        $this->em->persist($user);
+        $counterConnections = 0;
+        $lastId = 0;
+
+        while (true) {
+            $users = $this->em->getRepository(User::class)
+                ->createQueryBuilder('u')
+                ->where('u.id > :lastId')
+                ->orderBy('u.id', 'ASC')
+                ->setMaxResults(self::BATCH_SIZE)
+                ->setParameter('lastId', $lastId)
+                ->getQuery()
+                ->getResult();
+
+            if (count($users) === 0) {
+                break;
+            }
+
+            foreach ($users as $user) {
+                $lastId = $user->getId();
+                $rooms = $user->getRoomModerator();
+                $counterUser++;
+                foreach ($rooms as $room) {
+                    foreach ($room->getUser() as $participant) {
+                        if ($participant != $user) {
+                            $counterConnections++;
+                            $user->addAddressbook($participant);
+                            $this->em->persist($user);
+                        }
                     }
                 }
             }
+
             $this->em->flush();
+            $this->em->clear();
         }
 
-        $io->success('You genereated ' . $counterCOnnections . ' Adressentries with ' . $counterUser . ' Users');
+        $io->success('You generated ' . $counterConnections . ' Address entries with ' . $counterUser . ' Users');
 
         return Command::SUCCESS;
     }
