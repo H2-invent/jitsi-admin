@@ -56,8 +56,8 @@ class CheckThemeValidDateCommand extends Command
             }
 
             if ($validUntil) {
-                $validDate = new \DateTime($validUntil);
-                $now = new \DateTime();
+                $validDate = new \DateTimeImmutable($validUntil);
+                $now = new \DateTimeImmutable();
                 $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
                 if ($daysDifff < $maxTime && $daysDifff > 0) {
 

@@ -9,7 +9,7 @@ use App\Entity\SchedulingTime;
 use App\Entity\SchedulingTimeUser;
 use App\Entity\User;
 use App\Service\SchedulingService;
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -94,7 +94,7 @@ class ScheduleControllerTest extends KernelTestCase
         $schedulingTimeUserCollection2->add($schedulingTimeUser2);
         $schedulingTimeUserCollection2->add($schedulingTimeUser3);
 
-        $dateTime1 = new DateTime('2023-10-31');
+        $dateTime1 = new DateTimeImmutable('2023-10-31');
         $dateTime2 = (clone $dateTime1)->modify('+1 day');
 
         $room

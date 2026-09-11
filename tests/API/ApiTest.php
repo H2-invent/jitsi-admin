@@ -24,7 +24,7 @@ class ApiTest extends WebTestCase
                 'name' => 'TestApi',
                 'duration' => 70,
                 'server' => 'meet.jit.si2',
-                'start' => (new \DateTime())->format('Y-m-d') . 'T' . (new \DateTime())->format('H:i'),
+                'start' => (new \DateTimeImmutable())->format('Y-m-d') . 'T' . (new \DateTimeImmutable())->format('H:i'),
                 'keycloakId' => '123456'
             ]
         );
@@ -46,7 +46,7 @@ class ApiTest extends WebTestCase
                 'email' => 'test@local.de',
                 'duration' => 70,
                 'server' => 'meet.jit.si2',
-                'start' => (new \DateTime())->format('Y-m-d') . 'T' . (new \DateTime())->format('H:i'),
+                'start' => (new \DateTimeImmutable())->format('Y-m-d') . 'T' . (new \DateTimeImmutable())->format('H:i'),
                 'keycloakId' => '123456'
             ]
         );
@@ -69,7 +69,7 @@ class ApiTest extends WebTestCase
                 'name' => 'TestApi',
                 'duration' => 70,
                 'server' => 'meet.jit.si2',
-                'start' => (new \DateTime())->format('Y-m-d') . 'T' . (new \DateTime())->format('H:i'),
+                'start' => (new \DateTimeImmutable())->format('Y-m-d') . 'T' . (new \DateTimeImmutable())->format('H:i'),
                 'keycloakId' => '123456'
             ]
         );

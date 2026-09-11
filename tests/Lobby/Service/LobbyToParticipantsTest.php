@@ -60,7 +60,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setUser($user2);
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);
@@ -113,7 +113,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setUser($user2);
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $server = $lobbyUser->getRoom()->getServer();
@@ -139,7 +139,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setUser($user2);
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);
@@ -193,7 +193,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setUser($user2);
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);

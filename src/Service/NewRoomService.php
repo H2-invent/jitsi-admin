@@ -132,7 +132,7 @@ class NewRoomService
                     JsonEncoder::FORMAT,
                     [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude])),
             );
-            $log->setCreatedAt(new \DateTime())
+            $log->setCreatedAt(new \DateTimeImmutable())
                 ->setUserName($myUser->getUid())
                 ->setMessage(json_encode($message))
                 ->setUser($myUser)

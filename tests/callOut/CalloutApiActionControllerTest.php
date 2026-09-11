@@ -34,7 +34,7 @@ class CalloutApiActionControllerTest extends WebTestCase
         $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
         $this->client->loginUser($moderator);
         $callerUserId = new CallerId();
-        $callerUserId->setCreatedAt(new \DateTime())
+        $callerUserId->setCreatedAt(new \DateTimeImmutable())
             ->setRoom($this->room)
             ->setUser($user)
             ->setCallerId('987654321');

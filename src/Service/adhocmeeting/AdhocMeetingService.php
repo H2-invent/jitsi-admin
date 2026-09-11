@@ -39,12 +39,12 @@ class AdhocMeetingService
         } else {
             $room->setTag(null);
         }
-        $now = new \DateTime('now', TimeZoneService::getTimeZone($creator));
+        $now = new \DateTimeImmutable('now', TimeZoneService::getTimeZone($creator));
         $room->setStart($now);
         if ($this->theme->getApplicationProperties('allowTimeZoneSwitch') == 1) {
             $room->setTimeZone($creator->getTimeZone());
         }
-        $room->setEnddate((clone $now)->modify('+ 1 hour'));
+        $room->setEnddate($now->modify('+ 1 hour'));
         $room->setDuration(60);
         $room->setName($this->translator->trans('Konferenz mit {n}', ['{n}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]));
         $room->setSecondaryName($this->translator->trans('Konferenz mit {n}', ['{n}' => $reciever->getFormatedName($this->parameterBag->get('laf_showName'))]));

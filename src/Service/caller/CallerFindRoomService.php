@@ -19,7 +19,7 @@ class CallerFindRoomService
     public function findRoom($id)
     {
         $caller = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $id]);
-        $now = (new \DateTime())->getTimestamp();
+        $now = (new \DateTimeImmutable())->getTimestamp();
         if (!$caller) {
             return ['status' => 'ROOM_ID_UKNOWN', 'reason' => 'ROOM_ID_UKNOWN', 'links' => []];
         }

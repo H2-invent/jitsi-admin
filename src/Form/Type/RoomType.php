@@ -57,7 +57,7 @@ class RoomType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-        $time = (new \DateTime())->getTimestamp();
+        $time = (new \DateTimeImmutable())->getTimestamp();
         $room = $options['data'];
         $during = false;
         if ($room->getStartTimestamp() && $room->getStartTimestamp() <= $time && !$room->getRepeaterProtoype()) {
@@ -92,7 +92,7 @@ class RoomType extends AbstractType
         $builder
             ->add('name', TextType::class, ['disabled' => $during, 'required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
             ->add('agenda', TextareaType::class, ['disabled' => $during, 'required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
-            ->add('start', DateTimeType::class, ['required' => true, 'attr' => ['data-minDate' => $options['minDate'], 'class' => 'flatpickr', 'placeholder' => 'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
+            ->add('start', DateTimeType::class, ['input' => 'datetime_immutable', 'required' => true, 'attr' => ['data-minDate' => $options['minDate'], 'class' => 'flatpickr', 'placeholder' => 'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
             ->add(
                 'duration',
                 ChoiceType::class,

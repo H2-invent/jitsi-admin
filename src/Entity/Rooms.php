@@ -19,9 +19,9 @@ class Rooms
     private $id;
     #[ORM\Column(type: 'text')]
     private $name;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $start;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $enddate;
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'rooms')]
     #[Ignore]
@@ -95,9 +95,9 @@ class Rooms
     private $totalOpenRoomsOpenTime = 30;
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $timeZone;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $startUtc;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $endDateUtc;
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favorites')]
     private $favoriteUsers;
@@ -213,7 +213,7 @@ class Rooms
                 $srcTz ?? $this->start->getTimezone()
             );
             $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
-            $this->startUtc = \DateTime::createFromImmutable($utc);
+            $this->startUtc = $utc;
             $this->startTimestamp = $utc->getTimestamp();
         } else {
             $this->startUtc = null;
@@ -227,7 +227,7 @@ class Rooms
                 $srcTz ?? $this->enddate->getTimezone()
             );
             $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
-            $this->endDateUtc = \DateTime::createFromImmutable($utc);
+            $this->endDateUtc = $utc;
             $this->endTimestamp = $utc->getTimestamp();
         } else {
             $this->endDateUtc = null;
@@ -252,25 +252,25 @@ class Rooms
         return $this;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getStart(): ?\DateTimeImmutable
     {
 
         return $this->start;
     }
 
-    public function setStart(?\DateTimeInterface $start): self
+    public function setStart(?\DateTimeImmutable $start): self
     {
         $this->start = $start;
         $this->setUTCTime();
         return $this;
     }
 
-    public function getEnddate(): ?\DateTimeInterface
+    public function getEnddate(): ?\DateTimeImmutable
     {
         return $this->enddate;
     }
 
-    public function setEnddate(?\DateTimeInterface $enddate): self
+    public function setEnddate(?\DateTimeImmutable $enddate): self
     {
         $this->enddate = $enddate;
         $this->setUTCTime();
@@ -759,49 +759,49 @@ class Rooms
         }
     }
 
-    public function getStartwithTimeZone(?User $user): ?\DateTimeInterface
+    public function getStartwithTimeZone(?User $user): ?\DateTimeImmutable
     {
         if ($this->timeZone && $user && $user->getTimeZone()) {
-            $data = new \DateTime($this->start->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
+            $data = new \DateTimeImmutable($this->start->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
             $laTimezone = new \DateTimeZone($user->getTimeZone());
-            $data->setTimezone($laTimezone);
+            $data = $data->setTimezone($laTimezone);
             return $data;
         } else {
             return $this->start;
         }
     }
 
-    public function getEndwithTimeZone(?User $user): ?\DateTimeInterface
+    public function getEndwithTimeZone(?User $user): ?\DateTimeImmutable
     {
         if ($this->timeZone && $user && $user->getTimeZone()) {
-            $data = new \DateTime($this->enddate->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
+            $data = new \DateTimeImmutable($this->enddate->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
             $laTimezone = new \DateTimeZone($user->getTimeZone());
-            $data->setTimezone($laTimezone);
+            $data = $data->setTimezone($laTimezone);
             return $data;
         } else {
             return $this->enddate;
         }
     }
 
-    public function getStartUtc(): ?\DateTimeInterface
+    public function getStartUtc(): ?\DateTimeImmutable
     {
-        return $this->startUtc ? new \DateTime($this->startUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')) : null;
+        return $this->startUtc ? new \DateTimeImmutable($this->startUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')) : null;
     }
 
 
-    public function setStartUtc(?\DateTimeInterface $startUtc): self
+    public function setStartUtc(?\DateTimeImmutable $startUtc): self
     {
         $this->startUtc = $startUtc;
 
         return $this;
     }
 
-    public function getEndDateUtc(): ?\DateTimeInterface
+    public function getEndDateUtc(): ?\DateTimeImmutable
     {
-        return $this->endDateUtc ? new \DateTime($this->endDateUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')) : null;
+        return $this->endDateUtc ? new \DateTimeImmutable($this->endDateUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')) : null;
     }
 
-    public function setEndDateUtc(?\DateTimeInterface $endDateUtc): self
+    public function setEndDateUtc(?\DateTimeImmutable $endDateUtc): self
     {
         $this->endDateUtc = $endDateUtc;
 

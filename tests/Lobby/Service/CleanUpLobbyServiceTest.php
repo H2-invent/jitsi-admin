@@ -53,14 +53,14 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         $lobbyRepoUser = $lobbyRepo->findAll();
         foreach ($lobbyRepoUser as $data) {
             $callerID = new CallerId();
-            $callerID->setCreatedAt(new \DateTime());
+            $callerID->setCreatedAt(new \DateTimeImmutable());
             $callerID->setCallerId('test');
             $callerID->setRoom($data->getRoom());
             $callerID->setUser($data->getUser());
             $session = new CallerSession();
             $session->setAuthOk(false);
             $session->setCallerId('sdffsd');
-            $session->setCreatedAt(new \DateTime());
+            $session->setCreatedAt(new \DateTimeImmutable());
             $session->setShowName('test');
             $session->setSessionId('test');
             $session->setCaller($callerID);

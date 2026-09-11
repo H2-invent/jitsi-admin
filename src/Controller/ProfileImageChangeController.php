@@ -73,8 +73,8 @@ class ProfileImageChangeController extends JitsiAdminController
                     }
                 }
 
-                $user->getProfilePicture()->setUpdatedAt(new \DateTime());
-                $user->setUpdatedAt(new \DateTime());
+                $user->getProfilePicture()->setUpdatedAt(new \DateTimeImmutable());
+                $user->setUpdatedAt(new \DateTimeImmutable());
                 $em = $this->doctrine->getManager();
                 $em->persist($user);
                 $em->flush();

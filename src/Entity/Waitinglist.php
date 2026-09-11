@@ -18,7 +18,7 @@ class Waitinglist
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'waitinglists')]
     #[ORM\JoinColumn(nullable: false)]
     private $room;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
     public function getId(): ?int
     {
@@ -44,11 +44,11 @@ class Waitinglist
 
         return $this;
     }
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

@@ -24,8 +24,8 @@ class ReminderLizenseController extends JitsiAdminController
             return new JsonResponse($message);
         }
         $counter = 0;
-        $back = (new \DateTime())->modify('+5 days');
-        $now = new \DateTime();
+        $back = (new \DateTimeImmutable())->modify('+5 days');
+        $now = new \DateTimeImmutable();
         $qb = $this->doctrine->getRepository(License::class)->createQueryBuilder('license');
         $qb->andWhere($qb->expr()->gte('license.validUntil', ':now'))
             ->setParameter('now', $now)

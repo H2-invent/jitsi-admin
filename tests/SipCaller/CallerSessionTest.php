@@ -99,11 +99,11 @@ class CallerSessionTest extends KernelTestCase
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
@@ -142,17 +142,17 @@ class CallerSessionTest extends KernelTestCase
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
         $roomPart = new RoomStatusParticipant();
         $roomPart->setInRoom(true)
             ->setParticipantId('test@test.de')
-            ->setEnteredRoomAt(new \DateTime())
+            ->setEnteredRoomAt(new \DateTimeImmutable())
             ->setRoomStatus($status)
             ->setParticipantName('test 1234');
         $manager->persist($roomPart);
@@ -193,12 +193,12 @@ class CallerSessionTest extends KernelTestCase
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime())
-            ->setDestroyedAt(new \DateTime())
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setDestroyedAt(new \DateTimeImmutable())
             ->setDestroyed(true);
         $manager->persist($status);
         $manager->flush();
@@ -243,11 +243,11 @@ class CallerSessionTest extends KernelTestCase
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
@@ -265,7 +265,7 @@ class CallerSessionTest extends KernelTestCase
             ],
             $sessionService->getSessionStatus($session->getSessionId())
         );
-        $status->setDestroyedAt(new \DateTime())
+        $status->setDestroyedAt(new \DateTimeImmutable())
             ->setDestroyed(true);
         $manager->persist($status);
         $manager->flush();
@@ -596,11 +596,11 @@ class CallerSessionTest extends KernelTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
         self::assertEquals(
@@ -660,7 +660,7 @@ class CallerSessionTest extends KernelTestCase
         $callerSession = new CallerSession();
         $callerSession->setSessionId('test')
             ->setAuthOk(false)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setShowName('testUser');
         $waitingUser->setCallerSession($callerSession);
         $em->persist($callerSession);

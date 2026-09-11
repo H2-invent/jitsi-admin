@@ -122,7 +122,7 @@ class RoomWebhookService
 
             if ($roomStatus) {
                 $roomStatus->setJitsiRoomId($roomJid);
-                $roomStatus->setUpdatedAt(new \DateTime());
+                $roomStatus->setUpdatedAt(new \DateTimeImmutable());
                 $this->em->persist($roomStatus);
                 $this->em->flush();
                 $text = 'Room already created';
@@ -131,12 +131,12 @@ class RoomWebhookService
             }
 
                 $roomStatus = new RoomStatus();
-                $roomStatus->setCreatedAt(new \DateTime())
+                $roomStatus->setCreatedAt(new \DateTimeImmutable())
                     ->setJitsiRoomId($roomJid)
                     ->setRoom($room);
 
-            $roomStatus->setRoomCreatedAt(\DateTime::createFromFormat('U', $createdAt))
-                ->setUpdatedAt(new \DateTime())
+            $roomStatus->setRoomCreatedAt(\DateTimeImmutable::createFromFormat('U', $createdAt))
+                ->setUpdatedAt(new \DateTimeImmutable())
                 ->setCreated(true);
 
             $this->em->persist($roomStatus);
@@ -184,8 +184,8 @@ class RoomWebhookService
                 return null;
             }
 
-            $roomStatus->setDestroyedAt(\DateTime::createFromFormat('U', $destroyedAt))
-                ->setUpdatedAt(new \DateTime())
+            $roomStatus->setDestroyedAt(\DateTimeImmutable::createFromFormat('U', $destroyedAt))
+                ->setUpdatedAt(new \DateTimeImmutable())
                 ->setDestroyed(true);
 
             $this->em->persist($roomStatus);
@@ -197,7 +197,7 @@ class RoomWebhookService
 
             foreach ($roomStatus->getRoomStatusParticipants() as $data2) {
                 if($data2->getInRoom()){
-                    $data2->setLeftRoomAt(\DateTime::createFromFormat('U', $destroyedAt))
+                    $data2->setLeftRoomAt(\DateTimeImmutable::createFromFormat('U', $destroyedAt))
                         ->setInRoom(false);
                     $this->em->persist($data2);
                 }
@@ -254,7 +254,7 @@ class RoomWebhookService
                 return 'NO_DATA';
             }
             $roomPart = new RoomStatusParticipant();
-            $roomPart->setEnteredRoomAt(\DateTime::createFromFormat('U', $joinedAt))
+            $roomPart->setEnteredRoomAt(\DateTimeImmutable::createFromFormat('U', $joinedAt))
                 ->setInRoom(true)
                 ->setParticipantId($occupantJId)
                 ->setParticipantName($occupantName ?? 'No Data')
@@ -300,7 +300,7 @@ class RoomWebhookService
                 return $text;
             }
 
-            $roomPart->setLeftRoomAt(\DateTime::createFromFormat('U', $leftAt))
+            $roomPart->setLeftRoomAt(\DateTimeImmutable::createFromFormat('U', $leftAt))
                 ->setInRoom(false)
                 ->setDominantSpeakerTime($totalDominantSpeakerTime);
 

@@ -52,8 +52,7 @@ class LobbyMessageCreateCommand extends Command
 
 
         $message = new PredefinedLobbyMessages();
-        $message->setText($text)
-            ->setCreatedAt(new \DateTime());
+        $message->setText($text)->setCreatedAt(new \DateTimeImmutable());
         $prio = $input->getArgument('prio');
         if ($prio) {
             $io->note(sprintf('We create a new Predefined message with the prio: %d', $prio));

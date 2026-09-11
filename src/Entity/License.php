@@ -19,7 +19,7 @@ class License
     private $licenseKey;
     #[ORM\Column(type: 'text')]
     private $license;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private $validUntil;
     #[ORM\Column(type: 'text')]
     private $url;
@@ -47,11 +47,11 @@ class License
 
         return $this;
     }
-    public function getValidUntil(): ?\DateTimeInterface
+    public function getValidUntil(): ?\DateTimeImmutable
     {
         return $this->validUntil;
     }
-    public function setValidUntil(\DateTimeInterface $validUntil): self
+    public function setValidUntil(\DateTimeImmutable $validUntil): self
     {
         $this->validUntil = $validUntil;
 

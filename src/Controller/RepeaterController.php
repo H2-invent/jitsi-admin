@@ -203,7 +203,7 @@ class RepeaterController extends JitsiAdminController
             'isEdit' => true
         ];
         if ($request->get('type') === 'all') {
-            if (new \DateTime() > $room->getStart()) {
+            if (new \DateTimeImmutable() > $room->getStart()) {
                 $option['minDate'] = $room->getStart()->format('m/d/Y');
             }
         }
@@ -220,7 +220,7 @@ class RepeaterController extends JitsiAdminController
                 $em = $this->doctrine->getManager();
                 $room = $form->getData();
                 if ($room->getRepeaterRemoved()) {//this is a single room. So we take the room out of the series
-                    $room->setEnddate((clone $room->getStart())->modify('+' . $room->getDuration() . 'min'));
+                    $room->setEnddate($room->getStart()->modify('+' . $room->getDuration() . 'min'));
                     $em->persist($room);
                     $em->flush();
                     $repeater = $room->getRepeater();

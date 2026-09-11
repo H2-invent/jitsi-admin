@@ -23,7 +23,7 @@ class Repeat
     private $id;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $repetation;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $repeatUntil;
     #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'repeater')]
     private $rooms;
@@ -47,7 +47,7 @@ class Repeat
     private $RepeatMontly;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $RepeatYearly;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private $startDate;
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'repeaterProtoype', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
@@ -88,11 +88,11 @@ class Repeat
 
         return $this;
     }
-    public function getRepeatUntil(): ?\DateTimeInterface
+    public function getRepeatUntil(): ?\DateTimeImmutable
     {
         return $this->repeatUntil;
     }
-    public function setRepeatUntil(?\DateTimeInterface $repeatUntil): self
+    public function setRepeatUntil(?\DateTimeImmutable $repeatUntil): self
     {
         $this->repeatUntil = $repeatUntil;
 
@@ -236,11 +236,11 @@ class Repeat
 
         return $this;
     }
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?\DateTimeImmutable
     {
         return $this->startDate;
     }
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStartDate(\DateTimeImmutable $startDate): self
     {
         $this->startDate = $startDate;
 

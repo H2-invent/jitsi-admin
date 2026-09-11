@@ -17,7 +17,7 @@ class CallerRoom
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'callerRoom')]
     #[ORM\JoinColumn(nullable: false)]
     private $room;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
     public function getId(): ?int
     {
@@ -43,11 +43,11 @@ class CallerRoom
 
         return $this;
     }
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

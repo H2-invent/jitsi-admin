@@ -9,7 +9,7 @@ use App\Entity\User;
 use App\Repository\TagRepository;
 use App\Service\Theme\ThemeService;
 use App\Util\InputSettings;
-use DateTime;
+use DateTimeImmutable;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -52,7 +52,7 @@ class SchedulerType extends AbstractType
             $durations[sprintf(self::DURATION_LABEL_FORMAT, $i)] = $i;
         }
 
-        $time = (new DateTime())->getTimestamp();
+        $time = (new DateTimeImmutable())->getTimestamp();
         $room = $options['data'];
         $during = false;
         if ($room->getStartTimestamp() && $room->getStartTimestamp() < $time && !$room->getRepeaterProtoype()) {

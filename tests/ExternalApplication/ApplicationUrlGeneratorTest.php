@@ -62,7 +62,7 @@ class ApplicationUrlGeneratorTest extends KernelTestCase
             ->setDays(2)
             ->setRepetation(10)
             ->setRepeatType(1)
-            ->setStartDate(new \DateTime());
+            ->setStartDate(new \DateTimeImmutable());
         $res = $applicationUrlGen->createWhitebophirLink($room, true);
         $repeater = $room->getRepeater();
         $token = $tokenService->createJwt($room, true);

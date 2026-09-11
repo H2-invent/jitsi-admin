@@ -30,7 +30,7 @@ class PexelService
                         $item->expiresAfter(intval($this->parameterBag->get('laF_pexel_refresh_time')));
 
                         $s = [];
-                        $hour = (new \DateTime())->format('H');
+                        $hour = (new \DateTimeImmutable())->format('H');
                         if ($hour < 7) {
                             $s = ['night', 'northern lights'];
                         } elseif ($hour < 9) {

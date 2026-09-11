@@ -47,7 +47,7 @@ class LobbyWaitungUserRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findOldLobbyWaitinguser(\DateTime $oldestDate)
+    public function findOldLobbyWaitinguser(\DateTimeImmutable $oldestDate)
     {
         return $this->createQueryBuilder('l')
             ->andWhere('l.createdAt < :oldest')

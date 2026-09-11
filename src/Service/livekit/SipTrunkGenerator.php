@@ -72,7 +72,7 @@ class SipTrunkGenerator
     {
         $this->rooms = $rooms;
         $this->server = $server;
-        $this->sipTrunkNumber = (new \DateTime())->format('U').rand(10, 99);
+        $this->sipTrunkNumber = (new \DateTimeImmutable())->format('U').rand(10, 99);
         $payload = [
             'trunk' => [
                 'name' => $this->livekitRoomNameGenerator->getLiveKitName($rooms),

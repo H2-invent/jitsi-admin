@@ -30,9 +30,9 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertTrue($repeaterService->checkData($repeat));
         $repeaterService->createNewRepeater($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2021-01-16T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2021-01-17T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-16T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-17T15:00'), $repeat->getRooms()[2]->getStart());
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
@@ -54,9 +54,9 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertTrue($repeaterService->checkData($repeat));
         $repeaterService->createNewRepeater($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2021-01-22T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2021-01-29T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-22T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-29T15:00'), $repeat->getRooms()[2]->getStart());
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
@@ -78,9 +78,9 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertTrue($repeaterService->checkData($repeat));
         $repeaterService->createNewRepeater($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2021-02-15T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2021-03-15T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-02-15T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-03-15T15:00'), $repeat->getRooms()[2]->getStart());
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
@@ -104,9 +104,9 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertTrue($repeaterService->checkData($repeat));
         $repeaterService->createNewRepeater($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-02-01T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2021-03-01T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2021-04-05T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-02-01T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-03-01T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-04-05T15:00'), $repeat->getRooms()[2]->getStart());
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
@@ -132,9 +132,9 @@ class RepeaterServiceTest extends KernelTestCase
         $repeaterService->createNewRepeater($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-04T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2021-02-01T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2021-03-01T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-04T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-02-01T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-03-01T15:00'), $repeat->getRooms()[2]->getStart());
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
@@ -156,9 +156,9 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertTrue($repeaterService->checkData($repeat));
         $repeaterService->createNewRepeater($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2022-01-15T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2023-01-15T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2022-01-15T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2023-01-15T15:00'), $repeat->getRooms()[2]->getStart());
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
@@ -184,9 +184,9 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertTrue($repeaterService->checkData($repeat));
         $repeaterService->createNewRepeater($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2022-01-03T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2023-01-02T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2024-01-01T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2022-01-03T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2023-01-02T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2024-01-01T15:00'), $repeat->getRooms()[2]->getStart());
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
@@ -212,9 +212,9 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertTrue($repeaterService->checkData($repeat));
         $repeaterService->createNewRepeater($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-04T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2022-01-03T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2023-01-02T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-04T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2022-01-03T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2023-01-02T15:00'), $repeat->getRooms()[2]->getStart());
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
@@ -236,9 +236,9 @@ class RepeaterServiceTest extends KernelTestCase
         $repeat->setRepeaterDays(1);
         $repeaterService->createNewRepeater($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2021-01-16T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2021-01-17T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-16T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-17T15:00'), $repeat->getRooms()[2]->getStart());
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
@@ -271,9 +271,9 @@ class RepeaterServiceTest extends KernelTestCase
         $manager->flush();
         $repeaterService->addUserRepeat($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2021-01-16T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2021-01-17T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-16T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTimeImmutable('2021-01-17T15:00'), $repeat->getRooms()[2]->getStart());
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
@@ -285,7 +285,7 @@ class RepeaterServiceTest extends KernelTestCase
         $roomNew = $repTmp->getPrototyp();
         $roomNew->setRepeaterProtoype($repTmp);
         $roomNew->setDuration(90);
-        $roomNew->setStart(new \DateTime('2021-01-20T18:00'));
+        $roomNew->setStart(new \DateTimeImmutable('2021-01-20T18:00'));
         $rep = $repeaterService->prepareRepeater($roomNew);
         self::assertEquals('2021-01-20T18:00', $rep->getStartDate()->format('Y-m-d') . 'T' . $rep->getStartDate()->format('H:i'));
         $rep = $repeaterService->replaceRooms($roomNew);
@@ -294,10 +294,10 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertEquals('Sie haben erfolgreich einen Serientermin bearbeitet.', $rep);
         self::assertEquals(3, sizeof($repTmp->getRooms()));
 
-        $date = new \DateTime('2021-01-20T18:00');
+        $date = new \DateTimeImmutable('2021-01-20T18:00');
         foreach ($repTmp->getRooms() as $data) {
             self::assertEquals($date, $data->getStart());
-            $date->modify('+1day');
+            $date = $date->modify('+1day');
             self::assertEquals(3, sizeof($data->getUser()));
             self::assertEquals(3, sizeof($data->getCallerIds()));
             self::assertNotNull($data->getCallerRoom());
@@ -326,9 +326,9 @@ class RepeaterServiceTest extends KernelTestCase
 
     private function changeStart(Rooms $rooms, $startDate)
     {
-        $rooms->setStart(new \DateTime($startDate));
+        $rooms->setStart(new \DateTimeImmutable($startDate));
         $endDate = clone $rooms->getStart();
-        $endDate->modify('+' . $rooms->getDuration() . 'min');
+        $endDate = $endDate->modify('+' . $rooms->getDuration() . 'min');
         $rooms->setEnddate($endDate);
         return $rooms;
     }

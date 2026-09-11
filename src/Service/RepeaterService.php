@@ -126,14 +126,13 @@ class RepeaterService
         //hier bauen wir alle X tage einen neuenRoom
         $start = $repeat->getStartDate();
         $prototype = $this->em->getRepository(Rooms::class)->find($repeat->getPrototyp()->getId());
-        $start->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
+        $start = $start->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
 
         for ($i = 0; $i < $repeat->getRepetation(); $i++) {
-            $startTmp = clone $start;
-            $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $room = $this->createClonedRoom($prototype, $repeat, $start);
             $repeat->addRoom($room);
             $this->em->persist($room);
-            $start->modify('+' . $repeat->getRepeaterDays() . ' days');
+            $start = $start->modify('+' . $repeat->getRepeaterDays() . ' days');
         }
         $this->em->persist($repeat);
         $this->em->flush();
@@ -150,14 +149,13 @@ class RepeaterService
 
         $start = $repeat->getStartDate();
         $prototype = $repeat->getPrototyp();
-        $start->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
+        $start = $start->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
 
         for ($i = 0; $i < $repeat->getRepetation(); $i++) {
-            $startTmp = clone $start;
-            $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $room = $this->createClonedRoom($prototype, $repeat, $start);
             $repeat->addRoom($room);
             $this->em->persist($room);
-            $start->modify('+' . $repeat->getRepeaterWeeks() . ' weeks');
+            $start = $start->modify('+' . $repeat->getRepeaterWeeks() . ' weeks');
         }
         $this->em->persist($repeat);
         $this->em->flush();
@@ -174,14 +172,13 @@ class RepeaterService
 
         $start = $repeat->getStartDate();
         $prototype = $repeat->getPrototyp();
-        $start->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
+        $start = $start->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
 
         for ($i = 0; $i < $repeat->getRepetation(); $i++) {
-            $startTmp = clone $start;
-            $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $room = $this->createClonedRoom($prototype, $repeat, $start);
             $repeat->addRoom($room);
             $this->em->persist($room);
-            $start->modify('+' . $repeat->getRepeatMontly() . ' months');
+            $start = $start->modify('+' . $repeat->getRepeatMontly() . ' months');
         }
         $this->em->persist($repeat);
         $this->em->flush();
@@ -198,34 +195,31 @@ class RepeaterService
 
         $s = $repeat->getStartDate();
         $prototype = $repeat->getPrototyp();
-        $s->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
-        $start = clone $s;
-        $startTmp = clone $start;
-        $startTmp->modify('first day of this month');
+        $start = $s->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
+        $startTmp = $start->modify('first day of this month');
         $text = $this->number[$repeat->getRepatMonthRelativNumber()] . ' ' . $this->days[$repeat->getRepatMonthRelativWeekday()] . ' of this month';
-        $startTmp->modify($text);
-        $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
+        $startTmp = $startTmp->modify($text);
+        $startTmp = $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
         $sollCounter = $repeat->getRepetation();
         if ($startTmp >= $start) {
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
             $repeat->addRoom($room);
             $this->em->persist($room);
-            $start->modify('first day of this month');
-            $start->modify('+' . ($repeat->getRepeatMonthlyRelativeHowOften()) . ' months');
+            $start = $start->modify('first day of this month');
+            $start = $start->modify('+' . ($repeat->getRepeatMonthlyRelativeHowOften()) . ' months');
             $sollCounter--;
         } else {
-            $start->modify('first day of next Month');
+            $start = $start->modify('first day of next Month');
         }
 
         for ($i = 0; $i < $sollCounter; $i++) {
-            $start->modify($text);
-            $startTmp = clone $start;
-            $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
+            $start = $start->modify($text);
+            $startTmp = $start->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
             $this->em->persist($room);
             $repeat->addRoom($room);
-            $start->modify('first day of this month');
-            $start->modify('+' . ($repeat->getRepeatMonthlyRelativeHowOften()) . ' months');
+            $start = $start->modify('first day of this month');
+            $start = $start->modify('+' . ($repeat->getRepeatMonthlyRelativeHowOften()) . ' months');
         }
 
         $this->em->persist($repeat);
@@ -242,14 +236,12 @@ class RepeaterService
     {
         $s = $repeat->getStartDate();
         $prototype = $repeat->getPrototyp();
-        $s->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
-        $start = clone $s;
+        $start = $s->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
         for ($i = 0; $i < $repeat->getRepetation(); $i++) {
-            $startTmp = clone $start;
-            $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $room = $this->createClonedRoom($prototype, $repeat, $start);
             $repeat->addRoom($room);
             $this->em->persist($room);
-            $start->modify('+' . $repeat->getRepeatYearly() . ' years');
+            $start = $start->modify('+' . $repeat->getRepeatYearly() . ' years');
         }
         $this->em->persist($repeat);
         $this->em->flush();
@@ -267,34 +259,31 @@ class RepeaterService
 
         $s = $repeat->getStartDate();
         $prototype = $repeat->getPrototyp();
-        $s->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
-        $start = clone $s;
-        $startTmp = clone $start;
-        $startTmp->modify('first day of this year');
+        $start = $s->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
+        $startTmp = $start->modify('first day of this year');
         $text = $this->number[$repeat->getRepeatYearlyRelativeNumber()] . ' ' . $this->days[$repeat->getRepeatYearlyRelativeWeekday()] . ' of ' . $this->months[$repeat->getRepeatYearlyRelativeMonth()];
-        $startTmp->modify($text);
+        $startTmp = $startTmp->modify($text);
         $sollCounter = $repeat->getRepetation();
-        $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
+        $startTmp = $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
         if ($startTmp >= $start) {
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
             $repeat->addRoom($room);
             $this->em->persist($room);
             $sollCounter--;
-            $start->modify('first day of this month');
-            $start->modify('+' . ($repeat->getRepeatYearlyRelativeHowOften()) . ' years');
+            $start = $start->modify('first day of this month');
+            $start = $start->modify('+' . ($repeat->getRepeatYearlyRelativeHowOften()) . ' years');
         } else {
-            $start->modify('first day of next Year');
+            $start = $start->modify('first day of next Year');
         }
 
         for ($i = 0; $i < $sollCounter; $i++) {
-            $start->modify($text);
-            $startTmp = clone $start;
-            $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
+            $start = $start->modify($text);
+            $startTmp = $start->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
             $repeat->addRoom($room);
             $this->em->persist($room);
-            $start->modify('first day of this month');
-            $start->modify('+' . ($repeat->getRepeatYearlyRelativeHowOften()) . ' years');
+            $start = $start->modify('first day of this month');
+            $start = $start->modify('+' . ($repeat->getRepeatYearlyRelativeHowOften()) . ' years');
         }
         $this->em->persist($repeat);
         $this->em->flush();
@@ -305,11 +294,11 @@ class RepeaterService
      * This function clones the prototype and sets all paramters which are necesarry
      * @param Rooms $prototype
      * @param Repeat $repeat
-     * @param \DateTime $start
+     * @param \DateTimeImmutable $start
      * @return Rooms
      * @author Emanuel Holzmann
      */
-    function createClonedRoom(Rooms $prototype, Repeat $repeat, \DateTime $start): Rooms
+    function createClonedRoom(Rooms $prototype, Repeat $repeat, \DateTimeImmutable $start): Rooms
     {
 
         $room = clone $prototype;
@@ -325,8 +314,7 @@ class RepeaterService
         $room->setRepeaterRemoved(false);
         $room->setRepeater($repeat);
         $room->setStart($start);
-        $end = clone $start;
-        $end->modify('+' . $prototype->getDuration() . ' min');
+        $end = $start->modify('+' . $prototype->getDuration() . ' min');
         $room->setEnddate($end);
         return $room;
     }
@@ -363,7 +351,7 @@ class RepeaterService
     public function prepareRepeater(Rooms $rooms)
     {
 
-        $rooms->setEnddate((clone $rooms->getStart())->modify('+' . $rooms->getDuration() . 'min'));
+        $rooms->setEnddate($rooms->getStart()->modify('+' . $rooms->getDuration() . 'min'));
         $this->em->persist($rooms);
         $this->em->flush();
 

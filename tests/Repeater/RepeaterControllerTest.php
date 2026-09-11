@@ -38,7 +38,7 @@ class RepeaterControllerTest extends WebTestCase
         $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
         $start = $room->getStart();
-        $start->setTime($start->format('H'), $start->format('i'), 0);
+        $start = $start->setTime($start->format('H'), $start->format('i'), 0);
 
         foreach ($rooms as $data) {
 
@@ -46,7 +46,7 @@ class RepeaterControllerTest extends WebTestCase
             if ($data->getRepeater()) {
 
                 self::assertEquals($start, $data->getStart());
-                $start->modify('+1day');
+                $start = $start->modify('+1day');
             } else {
                 self::assertEquals($data->getStart(), $data->getRepeaterProtoype()->getStartDate());
             }
@@ -67,12 +67,12 @@ class RepeaterControllerTest extends WebTestCase
 
         $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
-        $start = new \DateTime('2022-04-10T12:00:00');
-        $start->setTime($start->format('H'), $start->format('i'), 0);
+        $start = new \DateTimeImmutable('2022-04-10T12:00:00');
+        $start = $start->setTime($start->format('H'), $start->format('i'), 0);
         foreach ($rooms as $data) {
             if ($data->getRepeater()) {
                 self::assertEquals($start, $data->getStart());
-                $start->modify('+1day');
+                $start = $start->modify('+1day');
             } else {
                 self::assertEquals($data->getStart(), $data->getRepeaterProtoype()->getStartDate());
             }
@@ -97,11 +97,11 @@ class RepeaterControllerTest extends WebTestCase
 
         $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(4, sizeof($rooms));
-        $start = new \DateTime('2022-04-10T12:00:00');
+        $start = new \DateTimeImmutable('2022-04-10T12:00:00');
         foreach ($rooms as $data) {
             if ($data->getRepeater()) {
                 self::assertEquals($start, $data->getStart());
-                $start->modify('+3days');
+                $start = $start->modify('+3days');
             } else {
                 self::assertEquals($data->getStart(), $data->getRepeaterProtoype()->getStartDate());
             }

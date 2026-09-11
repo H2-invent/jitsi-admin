@@ -124,7 +124,7 @@ class UserService
         } elseif ($room->getPersistantRoom()) {
             return $this->userRemoveService->removePersistantRoom($user, $room);
         } else {
-            if ($room->getEnddate() > new \DateTime()) {
+            if ($room->getEnddate() > new \DateTimeImmutable()) {
                 $this->userRemoveService->removeRoom($user, $room);
             }
         }

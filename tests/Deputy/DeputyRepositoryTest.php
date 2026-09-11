@@ -44,13 +44,13 @@ class DeputyRepositoryTest extends KernelTestCase
         $deputy1 = new Deputy();
         $deputy1->setManager($manager)
             ->setDeputy($deputyUser1)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setIsFromLdap(false);
 
         $deputy2 = new Deputy();
         $deputy2->setManager($manager)
             ->setDeputy($deputyUser2)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setIsFromLdap(true);
 
         $em->persist($deputy1);

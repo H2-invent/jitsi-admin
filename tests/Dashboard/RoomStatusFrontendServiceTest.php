@@ -146,13 +146,13 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $roomStatus = new RoomStatus();
         $roomStatus->setCreated(true)
-            ->setRoomCreatedAt((new \DateTime())->modify('-3 hours'))
+            ->setRoomCreatedAt((new \DateTimeImmutable())->modify('-3 hours'))
             ->setRoom($room)
             ->setJitsiRoomId('testclosed@test.de')
             ->setDestroyed(true)
-            ->setDestroyedAt((new \DateTime())->modify('-1 hour'))
-            ->setUpdatedAt(new \DateTime())
-            ->setCreatedAt(new \DateTime());
+            ->setDestroyedAt((new \DateTimeImmutable())->modify('-1 hour'))
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable());
         $em->persist($roomStatus);
         $em->flush();
 
@@ -238,23 +238,23 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $roomStatus1 = new RoomStatus();
         $roomStatus1->setCreated(true)
-            ->setRoomCreatedAt((new \DateTime())->modify('-3 hours'))
+            ->setRoomCreatedAt((new \DateTimeImmutable())->modify('-3 hours'))
             ->setRoom($room)
             ->setJitsiRoomId('partial1@test.de')
             ->setDestroyed(true)
-            ->setDestroyedAt((new \DateTime())->modify('-2 hours'))
-            ->setUpdatedAt(new \DateTime())
-            ->setCreatedAt(new \DateTime());
+            ->setDestroyedAt((new \DateTimeImmutable())->modify('-2 hours'))
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable());
         $em->persist($roomStatus1);
 
         $roomStatus2 = new RoomStatus();
         $roomStatus2->setCreated(true)
-            ->setRoomCreatedAt((new \DateTime())->modify('-1 hour'))
+            ->setRoomCreatedAt((new \DateTimeImmutable())->modify('-1 hour'))
             ->setRoom($room)
             ->setJitsiRoomId('partial2@test.de')
             ->setDestroyed(null)
-            ->setUpdatedAt(new \DateTime())
-            ->setCreatedAt(new \DateTime());
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable());
         $em->persist($roomStatus2);
         $em->flush();
 
@@ -291,7 +291,7 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
         $this->assertArrayNotHasKey($yesterdayRoom->getId(), $closedMap);
     }
 
-    private function createRoom(EntityManagerInterface $em, string $name, ?\DateTimeInterface $start = null): Rooms
+    private function createRoom(EntityManagerInterface $em, string $name, ?\DateTimeImmutable $start = null): Rooms
     {
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => $name]);
@@ -319,7 +319,7 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
         return $room;
     }
 
-    private function createStatus(EntityManagerInterface $em, Rooms $room, string $jitsiId, ?bool $destroyed, ?\DateTimeInterface $destroyedAt = null, ?\DateTimeInterface $roomCreatedAt = null): RoomStatus
+    private function createStatus(EntityManagerInterface $em, Rooms $room, string $jitsiId, ?bool $destroyed, ?\DateTimeImmutable $destroyedAt = null, ?\DateTimeImmutable $roomCreatedAt = null): RoomStatus
     {
         $status = new RoomStatus();
         $status->setCreated(true)
@@ -327,9 +327,9 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
             ->setJitsiRoomId($jitsiId)
             ->setDestroyed($destroyed)
             ->setDestroyedAt($destroyedAt)
-            ->setRoomCreatedAt($roomCreatedAt ?? new \DateTime())
-            ->setUpdatedAt(new \DateTime())
-            ->setCreatedAt(new \DateTime());
+            ->setRoomCreatedAt($roomCreatedAt ?? new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable());
         $em->persist($status);
         return $status;
     }
@@ -341,7 +341,7 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'ClosedMapActiveRoom', new \DateTime('-2 hours'));
+        $room = $this->createRoom($em, 'ClosedMapActiveRoom', new \DateTimeImmutable('-2 hours'));
 
         $this->createStatus($em, $room, 'active-only@test.de', null);
         $em->flush();
@@ -359,9 +359,9 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'ClosedMapDestroyedAfter', new \DateTime('-3 hours'));
+        $room = $this->createRoom($em, 'ClosedMapDestroyedAfter', new \DateTimeImmutable('-3 hours'));
 
-        $this->createStatus($em, $room, 'destroyed-after@test.de', true, new \DateTime('-1 hour'), new \DateTime('-3 hours'));
+        $this->createStatus($em, $room, 'destroyed-after@test.de', true, new \DateTimeImmutable('-1 hour'), new \DateTimeImmutable('-3 hours'));
         $em->flush();
 
         $result = $service->getRoomClosedStatusMap([$room->getId()]);
@@ -377,9 +377,9 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'ClosedMapDestroyedBefore', new \DateTime('+2 hours'));
+        $room = $this->createRoom($em, 'ClosedMapDestroyedBefore', new \DateTimeImmutable('+2 hours'));
 
-        $this->createStatus($em, $room, 'destroyed-before@test.de', true, new \DateTime('-1 hour'), new \DateTime('-1 hour'));
+        $this->createStatus($em, $room, 'destroyed-before@test.de', true, new \DateTimeImmutable('-1 hour'), new \DateTimeImmutable('-1 hour'));
         $em->flush();
 
         $result = $service->getRoomClosedStatusMap([$room->getId()]);
@@ -395,7 +395,7 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'ClosedMapNoStatus', new \DateTime('-2 hours'));
+        $room = $this->createRoom($em, 'ClosedMapNoStatus', new \DateTimeImmutable('-2 hours'));
 
         $result = $service->getRoomClosedStatusMap([$room->getId()]);
 
@@ -409,10 +409,10 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'ClosedMapMixed', new \DateTime('-4 hours'));
+        $room = $this->createRoom($em, 'ClosedMapMixed', new \DateTimeImmutable('-4 hours'));
 
-        $this->createStatus($em, $room, 'mixed-1@test.de', true, new \DateTime('-2 hours'), new \DateTime('-4 hours'));
-        $this->createStatus($em, $room, 'mixed-2@test.de', null, null, new \DateTime('-1 hour'));
+        $this->createStatus($em, $room, 'mixed-1@test.de', true, new \DateTimeImmutable('-2 hours'), new \DateTimeImmutable('-4 hours'));
+        $this->createStatus($em, $room, 'mixed-2@test.de', null, null, new \DateTimeImmutable('-1 hour'));
         $em->flush();
 
         $result = $service->getRoomClosedStatusMap([$room->getId()]);
@@ -428,10 +428,10 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'ClosedMapMultipleDestroyed', new \DateTime('-6 hours'));
+        $room = $this->createRoom($em, 'ClosedMapMultipleDestroyed', new \DateTimeImmutable('-6 hours'));
 
-        $this->createStatus($em, $room, 'multi-1@test.de', true, new \DateTime('-5 hours'), new \DateTime('-6 hours'));
-        $this->createStatus($em, $room, 'multi-2@test.de', true, new \DateTime('-1 hour'), new \DateTime('-2 hours'));
+        $this->createStatus($em, $room, 'multi-1@test.de', true, new \DateTimeImmutable('-5 hours'), new \DateTimeImmutable('-6 hours'));
+        $this->createStatus($em, $room, 'multi-2@test.de', true, new \DateTimeImmutable('-1 hour'), new \DateTimeImmutable('-2 hours'));
         $em->flush();
 
         $result = $service->getRoomClosedStatusMap([$room->getId()]);
@@ -447,9 +447,9 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'ClosedMapDestroyedAtNull', new \DateTime('-2 hours'));
+        $room = $this->createRoom($em, 'ClosedMapDestroyedAtNull', new \DateTimeImmutable('-2 hours'));
 
-        $this->createStatus($em, $room, 'nn-destroyed@test.de', true, null, new \DateTime('-2 hours'));
+        $this->createStatus($em, $room, 'nn-destroyed@test.de', true, null, new \DateTimeImmutable('-2 hours'));
         $em->flush();
 
         $result = $service->getRoomClosedStatusMap([$room->getId()]);
@@ -465,15 +465,15 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
 
-        $activeRoom = $this->createRoom($em, 'BatchActiveRoom', new \DateTime('-1 hour'));
+        $activeRoom = $this->createRoom($em, 'BatchActiveRoom', new \DateTimeImmutable('-1 hour'));
         $this->createStatus($em, $activeRoom, 'batch-active@test.de', null);
         $em->flush();
 
-        $closedRoom = $this->createRoom($em, 'BatchClosedRoom', new \DateTime('-3 hours'));
-        $this->createStatus($em, $closedRoom, 'batch-closed@test.de', true, new \DateTime('-1 hour'), new \DateTime('-3 hours'));
+        $closedRoom = $this->createRoom($em, 'BatchClosedRoom', new \DateTimeImmutable('-3 hours'));
+        $this->createStatus($em, $closedRoom, 'batch-closed@test.de', true, new \DateTimeImmutable('-1 hour'), new \DateTimeImmutable('-3 hours'));
         $em->flush();
 
-        $emptyRoom = $this->createRoom($em, 'BatchEmptyRoom', new \DateTime('-2 hours'));
+        $emptyRoom = $this->createRoom($em, 'BatchEmptyRoom', new \DateTimeImmutable('-2 hours'));
 
         $result = $service->getRoomClosedStatusMap([$activeRoom->getId(), $closedRoom->getId(), $emptyRoom->getId()]);
 
@@ -491,10 +491,10 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'ClosedMapNullDestroyed', new \DateTime('-2 hours'));
+        $room = $this->createRoom($em, 'ClosedMapNullDestroyed', new \DateTimeImmutable('-2 hours'));
 
         // destroyed explicitly NULL (not true) => still active
-        $this->createStatus($em, $room, 'null-destroyed@test.de', null, null, new \DateTime('-2 hours'));
+        $this->createStatus($em, $room, 'null-destroyed@test.de', null, null, new \DateTimeImmutable('-2 hours'));
         $em->flush();
 
         $result = $service->getRoomClosedStatusMap([$room->getId()]);
@@ -510,7 +510,7 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'HasStatusActiveRoom', new \DateTime('-1 hour'));
+        $room = $this->createRoom($em, 'HasStatusActiveRoom', new \DateTimeImmutable('-1 hour'));
 
         $this->createStatus($em, $room, 'has-active@test.de', null);
         $em->flush();
@@ -528,9 +528,9 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'HasStatusDestroyedRoom', new \DateTime('-3 hours'));
+        $room = $this->createRoom($em, 'HasStatusDestroyedRoom', new \DateTimeImmutable('-3 hours'));
 
-        $this->createStatus($em, $room, 'has-destroyed@test.de', true, new \DateTime('-1 hour'), new \DateTime('-3 hours'));
+        $this->createStatus($em, $room, 'has-destroyed@test.de', true, new \DateTimeImmutable('-1 hour'), new \DateTimeImmutable('-3 hours'));
         $em->flush();
 
         $result = $service->getRoomHasStatusMap([$room->getId()]);
@@ -546,7 +546,7 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
-        $room = $this->createRoom($em, 'HasStatusEmptyRoom', new \DateTime('-2 hours'));
+        $room = $this->createRoom($em, 'HasStatusEmptyRoom', new \DateTimeImmutable('-2 hours'));
 
         $result = $service->getRoomHasStatusMap([$room->getId()]);
 
@@ -585,15 +585,15 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $service = $this->getContainer()->get(RoomStatusFrontendService::class);
 
-        $activeRoom = $this->createRoom($em, 'HasStatusBatchActive', new \DateTime('-1 hour'));
+        $activeRoom = $this->createRoom($em, 'HasStatusBatchActive', new \DateTimeImmutable('-1 hour'));
         $this->createStatus($em, $activeRoom, 'has-batch-active@test.de', null);
         $em->flush();
 
-        $destroyedRoom = $this->createRoom($em, 'HasStatusBatchDestroyed', new \DateTime('-3 hours'));
-        $this->createStatus($em, $destroyedRoom, 'has-batch-destroyed@test.de', true, new \DateTime('-1 hour'), new \DateTime('-3 hours'));
+        $destroyedRoom = $this->createRoom($em, 'HasStatusBatchDestroyed', new \DateTimeImmutable('-3 hours'));
+        $this->createStatus($em, $destroyedRoom, 'has-batch-destroyed@test.de', true, new \DateTimeImmutable('-1 hour'), new \DateTimeImmutable('-3 hours'));
         $em->flush();
 
-        $emptyRoom = $this->createRoom($em, 'HasStatusBatchEmpty', new \DateTime('-2 hours'));
+        $emptyRoom = $this->createRoom($em, 'HasStatusBatchEmpty', new \DateTimeImmutable('-2 hours'));
 
         $result = $service->getRoomHasStatusMap([$activeRoom->getId(), $destroyedRoom->getId(), $emptyRoom->getId()]);
 

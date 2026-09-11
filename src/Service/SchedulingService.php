@@ -34,8 +34,7 @@ class SchedulingService
         $room = $schedulingTime->getScheduling()->getRoom();
         $room->setScheduleMeeting(false);
         $room->setStart($schedulingTime->getTime());
-        $end = clone $schedulingTime->getTime();
-        $end->modify('+' . $room->getDuration() . 'min');
+        $end = $schedulingTime->getTime()->modify('+' . $room->getDuration() . 'min');
         $room->setEnddate($end);
         $this->em->persist($room);
         $this->em->flush();

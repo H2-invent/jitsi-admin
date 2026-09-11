@@ -83,9 +83,9 @@ class StatisticServiceTest extends KernelTestCase
 
     private function changeStart(Rooms $rooms, $startDate)
     {
-        $rooms->setStart(new \DateTime($startDate));
+        $rooms->setStart(new \DateTimeImmutable($startDate));
         $endDate = clone $rooms->getStart();
-        $endDate->modify('+' . $rooms->getDuration() . 'min');
+        $endDate = $endDate->modify('+' . $rooms->getDuration() . 'min');
         $rooms->setEnddate($endDate);
         return $rooms;
     }

@@ -33,14 +33,14 @@ class MigrateTimeZoneCommand extends Command
             $timezone = $data->getTimeZone() ? new \DateTimeZone($data->getTimeZone()) : null;
 
             if ($data->getStart()) {
-                $dateStart = new \DateTime($data->getStart()->format('Y-m-d H:i:s'), $timezone);
+                $dateStart = new \DateTimeImmutable($data->getStart()->format('Y-m-d H:i:s'), $timezone);
                 $data->setStartUtc($dateStart->setTimezone(new \DateTimeZone('utc')));
-                $data->setStartTimestamp((new \DateTime($data->getStart()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
+                $data->setStartTimestamp((new \DateTimeImmutable($data->getStart()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
             }
             if ($data->getEnddate()) {
-                $dateEnd = new \DateTime($data->getEnddate()->format('Y-m-d H:i:s'), $timezone);
+                $dateEnd = new \DateTimeImmutable($data->getEnddate()->format('Y-m-d H:i:s'), $timezone);
                 $data->setEndDateUtc($dateEnd->setTimezone(new \DateTimeZone('utc')));
-                $data->setEndTimestamp((new \DateTime($data->getEnddate()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
+                $data->setEndTimestamp((new \DateTimeImmutable($data->getEnddate()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
             }
             $this->em->persist($data);
         }

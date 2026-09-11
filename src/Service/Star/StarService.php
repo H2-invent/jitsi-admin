@@ -21,7 +21,7 @@ class StarService
     {
         try {
             $star = new Star();
-            $star->setCreatedAt(new \DateTime());
+            $star->setCreatedAt(new \DateTimeImmutable());
             if ($comment !== '') {
                 $star->setComment($comment);
             }

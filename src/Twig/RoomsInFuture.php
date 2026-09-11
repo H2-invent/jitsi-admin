@@ -37,7 +37,7 @@ class RoomsInFuture extends AbstractExtension
 
     public function roomsinFuture(Server $server)
     {
-        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
         $qb->andWhere('rooms.server = :server')
             ->andWhere('rooms.showRoomOnJoinpage = true')

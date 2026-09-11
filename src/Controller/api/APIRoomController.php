@@ -52,7 +52,7 @@ class APIRoomController extends JitsiAdminController
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
         }
         //we create the start Datetime
-        $start = new \DateTime($request->get('start'));
+        $start = new \DateTimeImmutable($request->get('start'));
         $duration = $request->get('duration');
         $name = $request->get('name');
         //we are looking for the server with the Email and the ServerUrl
@@ -97,7 +97,7 @@ class APIRoomController extends JitsiAdminController
         };
 
         //we create the start Datetime
-        $start = new \DateTime($request->get('start'));
+        $start = new \DateTimeImmutable($request->get('start'));
         $duration = $request->get('duration');
         $name = $request->get('name');
         //we are looking for the server with the Email and the ServerUrl
