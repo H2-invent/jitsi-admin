@@ -1,7 +1,7 @@
 name: Create Release
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 on:
