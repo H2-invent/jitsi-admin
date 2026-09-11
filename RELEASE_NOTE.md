@@ -1,5 +1,10 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
 
+## 1.7
+### 🚀 Features:
+* Convert all DateTime usages to DateTimeImmutable
+
+
 ## 1.6
 ### 🚀 Features:
 
