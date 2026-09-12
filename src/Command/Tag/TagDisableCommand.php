@@ -35,7 +35,7 @@ class TagDisableCommand extends Command
             $io->note(sprintf('You passed the ID: %s', $tagId));
         }
 
-        $tag = $this->em->getRepository(Tag::class)->find($tagId);
+        $tag = $tagId ? $this->em->getRepository(Tag::class)->find($tagId) : null;
         if (!$tag) {
             $io->error('Tag does not exist');
             return Command::FAILURE;
