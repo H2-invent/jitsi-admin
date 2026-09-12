@@ -4,11 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
-use App\Entity\Server;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
-use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method RoomStatus|null find($id, $lockMode = null, $lockVersion = null)
@@ -56,8 +53,8 @@ class RoomStatusRepository extends ServiceEntityRepository
 
         $qb =  $this->createQueryBuilder('r');
 
-            return $qb->andWhere($qb->expr()->isNull('r.destroyed'))
-                ->innerJoin('r.room', 'room')
+        return $qb->andWhere($qb->expr()->isNull('r.destroyed'))
+            ->innerJoin('r.room', 'room')
             ->andWhere('room =:room')
             ->setParameter('room', $rooms)
             ->getQuery()
@@ -78,6 +75,7 @@ class RoomStatusRepository extends ServiceEntityRepository
     public function findRoomStatusByUid(string $uid):?RoomStatus
     {
         $qb = $this->createQueryBuilder('r');
+
         return $qb
             ->andWhere('r.jitsiRoomId LIKE :uid')
             ->setParameter('uid', '%' . $uid . '%')

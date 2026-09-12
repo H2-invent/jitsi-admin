@@ -98,8 +98,9 @@ class UserShowTest extends WebTestCase
         $ldapConnection->setPassword('password');
         $ldapConnection->setBindType('simple');
         $ldapConnection->createLDAP();
+
         $ldap = $ldapConnection->getLdap();
-        $ldapConnection = new LdapType($ldapConnection);
+        $ldapConnection = new LdapType();
         $ldapConnection->setUrl($this->LDAPURL);
         $ldapConnection->setSerVerId('Server1');
         $ldapConnection->setPassword('password');

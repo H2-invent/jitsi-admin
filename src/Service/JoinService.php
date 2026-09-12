@@ -30,6 +30,8 @@ class JoinService
     private $response;
     private $startService;
     private $session;
+
+
     public function __construct(
         RequestStack  $requestStack,
         StartMeetingService $startMeetingService,
@@ -58,6 +60,7 @@ class JoinService
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
         if ($room && in_array($user,$room->getUser()->toArray())) {
 
+            $type = null;
             if ($appAllowed && $appKlicked) {
                 $type = 'a';
             } elseif ($browerAllowed && $browserKlicked) {

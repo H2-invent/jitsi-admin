@@ -41,7 +41,7 @@ class RoomAddService
         $lines = explode("\n", $input);
         $falseEmail = [];
 
-        if (!empty($lines)) {
+        if ($lines) {
             $this->logger->debug('Crete new Participants from',$lines);
             foreach ($lines as $line) {
                 $user = $this->createUserFromUserUid($line, $falseEmail);
@@ -98,7 +98,8 @@ class RoomAddService
     {
         $lines = explode("\n", $input);
         $falseEmail = [];
-        if (!empty($lines)) {
+
+        if ($lines) {
             foreach ($lines as $line) {
                 $user = $this->createUserFromUserUid($line, $falseEmail);
                 if ($user) {

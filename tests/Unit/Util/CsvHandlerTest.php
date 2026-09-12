@@ -5,10 +5,7 @@ namespace App\Tests\Unit\Util;
 use App\Util\CsvHandler;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 
-#[CoversClass(CsvHandler::class)]
 class CsvHandlerTest extends TestCase
 {
 

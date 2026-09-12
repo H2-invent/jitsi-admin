@@ -16,8 +16,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
-
 class ToModeratorWebsocketService
 {
     private $publisher;

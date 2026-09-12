@@ -198,6 +198,11 @@ class User extends BaseUser
         $this->livekitRecordings = new ArrayCollection();
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -1030,8 +1035,8 @@ class User extends BaseUser
 
     public function addDeputy(self $deputy): self
     {
-        if (!$this->deputy->contains($deputy)) {
-            $this->deputy[] = $deputy;
+        if (!$this->deputiesElement->contains($deputy)) {
+            $this->deputiesElement->add($deputy);
         }
 
         return $this;
@@ -1039,7 +1044,7 @@ class User extends BaseUser
 
     public function removeDeputy(self $deputy): self
     {
-        $this->deputy->removeElement($deputy);
+        $this->deputiesElement->removeElement($deputy);
 
         return $this;
     }
@@ -1058,8 +1063,8 @@ class User extends BaseUser
 
     public function addManager(self $manager): self
     {
-        if (!$this->managers->contains($manager)) {
-            $this->managers[] = $manager;
+        if (!$this->managerElement->contains($manager)) {
+            $this->managerElement->add($manager);
             $manager->addDeputy($this);
         }
 
@@ -1068,7 +1073,7 @@ class User extends BaseUser
 
     public function removeManager(self $manager): self
     {
-        if ($this->managers->removeElement($manager)) {
+        if ($this->managerElement->removeElement($manager)) {
             $manager->removeDeputy($this);
         }
 

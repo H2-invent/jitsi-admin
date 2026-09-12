@@ -98,6 +98,7 @@ class RoomWebhookService
         try {
 
 
+            $room = null;
             try {
                 $room = $this->em->getRepository(Rooms::class)->findRoomByCaseInsensitiveUid($roomName);
             } catch (\Exception $exception) {
@@ -257,7 +258,7 @@ class RoomWebhookService
             $roomPart->setEnteredRoomAt(\DateTime::createFromFormat('U', $joinedAt))
                 ->setInRoom(true)
                 ->setParticipantId($occupantJId)
-                ->setParticipantName($occupantName ?? 'No Data')
+                ->setParticipantName($occupantName)
                 ->setRoomStatus($roomStatus);
             $this->em->persist($roomPart);
             $this->em->flush();

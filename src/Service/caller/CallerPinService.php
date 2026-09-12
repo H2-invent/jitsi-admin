@@ -93,11 +93,12 @@ class CallerPinService
         return false;
     }
 
-    public function clean($string)
+    public function clean(?string $string)
     {
-        $string = str_replace(' ', '-', $string ?? ''); // Replaces all spaces with hyphens.
+        $string = (string)$string;
 
-        $res = preg_replace('/[^0-9]/', '', $string ?? ''); // Removes special chars.
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+        $res = preg_replace('/[^0-9]/', '', $string); // Removes special chars.
         return $res;
     }
 }

@@ -63,7 +63,7 @@ class JigasiService
 
             $sipPin = $this->cache->get(
                 'jigasi_pin_' . $rooms->getUid(),
-                function (ItemInterface $item) use ($server, $rooms) {
+                function (ItemInterface $item) use ($rooms) {
                     $item->expiresAfter(3600);
                     try {
                         $pin = $this->pingJigasi($rooms);
@@ -84,6 +84,7 @@ class JigasiService
         if (!$rooms) {
             return null;
         }
+        $response = null;
         $server = $rooms->getServer();
         if ($server && $this->licenseService->verify($server) && $server->getJigasiApiUrl()) {
             try {
@@ -95,7 +96,7 @@ class JigasiService
                 $pin = $responseArr['id'];
                 return $pin;
             } catch (\Exception $exception) {
-                if ($response->getStatusCode() === 200) {
+                if ($response && $response->getStatusCode() === 200) {
                     $this->logger->info(printf("%s: %s", 'Receive HTML', $response->getContent()));
                 }
                 $this->logger->error($exception->getMessage());

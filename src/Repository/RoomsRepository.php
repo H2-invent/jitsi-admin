@@ -9,9 +9,6 @@ use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-use function Doctrine\ORM\QueryBuilder;
-use function PHPUnit\Framework\returnArgument;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 /**
  * @method Rooms|null find($id, $lockMode = null, $lockVersion = null)

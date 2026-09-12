@@ -30,10 +30,10 @@ class AdressbookFavoriteService
     public function addFavorite(User $addUser, User $favoriteUser): bool
     {
         if ($addUser->getAdressbookFavorites()->contains($favoriteUser)) {
-            throw new UserAlreadyAdressbookFavoriteException($favoriteUser);
+            throw new UserAlreadyAdressbookFavoriteException();
         }
         if (!$addUser->getAddressbook()->contains($favoriteUser)) {
-            throw new UserNotInAdressbookException($favoriteUser);
+            throw new UserNotInAdressbookException();
         }
         $addUser->addAdressbookFavorite($favoriteUser);
         $this->entityManager->persist($addUser);

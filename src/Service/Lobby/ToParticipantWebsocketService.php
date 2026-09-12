@@ -18,8 +18,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
-
 class ToParticipantWebsocketService
 {
     private $publisher;
@@ -54,7 +52,7 @@ class ToParticipantWebsocketService
 
     public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser)
     {
-
+        $options = [];
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
         $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success',2000);
         $appUrl = $this->roomService->join(

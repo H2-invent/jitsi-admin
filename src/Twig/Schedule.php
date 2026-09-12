@@ -3,29 +3,19 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\Rooms;
-use App\Entity\RoomsUser;
 use App\Entity\SchedulingTime;
 use App\Entity\SchedulingTimeUser;
-use App\Entity\Server;
 use App\Entity\User;
-use App\Service\LicenseService;
-use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
-
-use function GuzzleHttp\Psr7\str;
 
 class Schedule extends AbstractExtension
 {
     private $em;
-    public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
     }

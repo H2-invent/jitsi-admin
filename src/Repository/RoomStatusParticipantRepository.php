@@ -8,8 +8,6 @@ use App\Entity\Server;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-use function Doctrine\ORM\QueryBuilder;
-
 /**
  * @method RoomStatusParticipant|null find($id, $lockMode = null, $lockVersion = null)
  * @method RoomStatusParticipant|null findOneBy(array $criteria, array $orderBy = null)
