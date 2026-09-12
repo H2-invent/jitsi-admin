@@ -30,6 +30,8 @@ class JoinService
     private $response;
     private $startService;
     private $session;
+
+
     public function __construct(
         RequestStack  $requestStack,
         StartMeetingService $startMeetingService,
@@ -71,8 +73,7 @@ class JoinService
             $type = null;
         }
 
-        if (
-            $this->startService->isAllowedToStartMeeting($room, $user)
+        if ($this->startService->isAllowedToStartMeeting($room, $user)
             || UtilsHelper::isAllowedToOrganizeRoom($user, $room)
             || $user->getKeycloakId()
         ) {

@@ -90,6 +90,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
                 function () use ($accessToken, $client) {
                     /** @var KeycloakUser $keycloakUser */
                     $keycloakUser = $client->fetchUserFromToken($accessToken);
+                    $email = null;
                     try {
                         //When the keycloak USer delivers a
                         $email = $keycloakUser->getEmail();

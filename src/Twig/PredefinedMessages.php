@@ -3,14 +3,10 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\PredefinedLobbyMessages;
-use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
 class PredefinedMessages extends AbstractExtension
 {

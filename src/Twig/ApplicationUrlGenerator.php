@@ -3,18 +3,14 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
 use App\Entity\LobbyWaitungUser;
-use App\Entity\MyUser;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Helper\ExternalApplication;
-use App\Service\MessageService;
 use App\Service\ParticipantSearchService;
 use Psr\Log\LoggerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
 class ApplicationUrlGenerator extends AbstractExtension
 {

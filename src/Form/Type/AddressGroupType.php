@@ -9,7 +9,7 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Addressgroup;
+use App\Entity\AddressGroup;
 use App\Entity\User;
 use App\Service\ParticipantSearchService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -72,7 +72,7 @@ class AddressGroupType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => Addressgroup::class,
+                'data_class' => AddressGroup::class,
                 'user' => new User(),
             ]
         );

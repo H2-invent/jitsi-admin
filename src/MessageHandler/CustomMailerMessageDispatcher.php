@@ -29,7 +29,7 @@ class CustomMailerMessageDispatcher
     public function __invoke(CustomMailerMessage $customMailerMessage)
     {
         $this->logger->debug($customMailerMessage->getDsn());
-        $transport = $this->transport = Transport::fromDsn($customMailerMessage->getDsn());
+        $transport = Transport::fromDsn($customMailerMessage->getDsn());
         $this->logger->debug('We build the new Mailer from the dsn', ['dsn' => $customMailerMessage->getDsn()]);
         try {
             $transport->send($customMailerMessage->getEmail());

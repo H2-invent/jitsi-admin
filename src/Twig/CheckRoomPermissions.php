@@ -3,16 +3,12 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
-use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
 class CheckRoomPermissions extends AbstractExtension
 {

@@ -20,11 +20,6 @@ class UserBase implements UserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getUuid(): ?string
     {
         return $this->uuid;

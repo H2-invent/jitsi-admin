@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Addressgroup;
+use App\Entity\AddressGroup;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Addressgroup|null find($id, $lockMode = null, $lockVersion = null)
- * @method Addressgroup|null findOneBy(array $criteria, array $orderBy = null)
- * @method Addressgroup[]    findAll()
- * @method Addressgroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method AddressGroup|null find($id, $lockMode = null, $lockVersion = null)
+ * @method AddressGroup|null findOneBy(array $criteria, array $orderBy = null)
+ * @method AddressGroup[]    findAll()
+ * @method AddressGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class AddressGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Addressgroup::class);
+        parent::__construct($registry, AddressGroup::class);
     }
 
     // /**

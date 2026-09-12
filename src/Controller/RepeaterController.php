@@ -186,7 +186,6 @@ class RepeaterController extends JitsiAdminController
         $edit = true;
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('id'));
-        $serverChhose = $room->getServer();
         if ($request->get('type') === 'single') {
             $room->setRepeaterRemoved(true);
             $title = $this->translator->trans('Nur dieses Serienelement bearbeiten');
@@ -249,7 +248,6 @@ class RepeaterController extends JitsiAdminController
                 'serverchoose' => $room->getServer(),
                 'form' => $form->createView(),
                 'isEdit' => $edit,
-                'serverchoose' => $serverChhose,
                 'title' => $title,
                 'extra' => $extra
             ]

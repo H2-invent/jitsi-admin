@@ -41,7 +41,6 @@ class LobbyParticipantsController extends JitsiAdminController
         CreateLobbyUserService         $createLobbyUserService,
         ToParticipantWebsocketService  $toParticipantWebsocketService,
         ToModeratorWebsocketService    $toModeratorWebsocketService,
-        DirectSendService              $lobbyUpdateService,
         EventDispatcherInterface       $eventDispatcher,
         private EntityManagerInterface $entityManager
     )
