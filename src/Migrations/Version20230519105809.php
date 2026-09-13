@@ -35,7 +35,7 @@ final class Version20230519105809 extends AbstractMigration
         parent::postUp($schema);
         if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
             $this->connection->createQueryBuilder()
-                ->insert(self::TABLE_NAME, 'c')
+                ->insert(self::TABLE_NAME)
                 ->values(
                     [
                         'name' => ':name',

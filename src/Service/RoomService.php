@@ -85,10 +85,10 @@ class RoomService
 
     /**
      * Creates the JWT Token to send to the Information of the User to the jitsi-Meet Server
-     * @param Rooms $room
-     * @param User $user
      * @param $t
-     * @param $userName
+     * @param Rooms $room
+     * @param $name
+     * @param $isModerator
      * @return string
      * @author Emanuel Holzmann
      * @de

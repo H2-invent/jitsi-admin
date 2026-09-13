@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -49,7 +50,9 @@ class NewRoomService
         if ($edit) {
             $room = $this->roomsRepository->findOneBy(['id' => $id]);
             if (!UtilsHelper::isAllowedToOrganizeRoom($myUser, $room)) {
-                $this->requestStack->getSession()->getBag('flashes')->add('danger', $this->translator->trans('Keine Berechtigung'));
+                /** @var FlashBagInterface $flashBag */
+                $flashBag = $this->requestStack->getSession()->getBag('flashes');
+                $flashBag->add('danger', $this->translator->trans('Keine Berechtigung'));
                 return new RedirectResponse($this->urlGenerator->generate('dashboard'));
             }
             $sequence = $room->getSequence() + 1;

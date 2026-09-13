@@ -4,6 +4,7 @@ namespace App\Service\Callout;
 
 use App\Entity\CalloutSession;
 use App\Entity\Rooms;
+use App\Repository\CalloutSessionRepository;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\RoomAddService;
@@ -35,7 +36,9 @@ class CallOutSessionAPIRemoveService
      */
     public function refuse($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
+        /** @var CalloutSessionRepository $calloutSessionRepository */
+        $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
@@ -55,7 +58,9 @@ class CallOutSessionAPIRemoveService
      */
     public function error($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
+        /** @var CalloutSessionRepository $calloutSessionRepository */
+        $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
@@ -77,7 +82,9 @@ class CallOutSessionAPIRemoveService
      */
     public function unreachable($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
+        /** @var CalloutSessionRepository $calloutSessionRepository */
+        $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }

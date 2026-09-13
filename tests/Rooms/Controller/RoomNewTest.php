@@ -389,8 +389,10 @@ class RoomNewTest extends WebTestCase
 
         $crawler = $client->request('GET', $urlGenerator->generate('room_new', ['id' => $room->getId()]));
 
+        /** @var \DOMElement[] $disabled */
         $disabled = [];
         foreach ($crawler->filter('[disabled=disabled]') as $content) {
+            /** @var \DOMElement $content */
             $disabled[] = $content;
         }
         self::assertEquals(2, sizeof($disabled));

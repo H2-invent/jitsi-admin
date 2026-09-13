@@ -158,7 +158,7 @@ class RoomAddService
      * This function generates a participant from a room and user.
      * Is adds the user to the room if it is a non series and adds the user to the series, if the room is a series
      * @param Rooms $room
-     * @param User|null $user
+     * @param User $user
      * @return User|null The user which is connected to the room
      */
     private function createUserParticipant(Rooms $room, User $user)

@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\UploadedRecordings;
+use App\Entity\UploadedRecording;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<UploadedRecordings>
+ * @extends ServiceEntityRepository<UploadedRecording>
  */
 class UploadedRecordingsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UploadedRecordings::class);
+        parent::__construct($registry, UploadedRecording::class);
     }
 
     //    /**
-    //     * @return UploadedRecordings[] Returns an array of UploadedRecordings objects
+    //     * @return UploadedRecording[] Returns an array of UploadedRecording objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class UploadedRecordingsRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?UploadedRecordings
+    //    public function findOneBySomeField($value): ?UploadedRecording
     //    {
     //        return $this->createQueryBuilder('u')
     //            ->andWhere('u.exampleField = :val')

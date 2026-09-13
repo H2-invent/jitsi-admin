@@ -9,6 +9,7 @@ use App\Service\IndexUserService;
 use App\Service\ldap\LdapUserService;
 use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Ldap\Adapter\AdapterInterface;
@@ -20,6 +21,7 @@ use Symfony\Component\Ldap\Adapter\QueryInterface;
 
 class LdapUserServiceDeleteUserTest extends TestCase
 {
+    /** @return LdapUserService&MockObject */
     private function createService(): LdapUserService
     {
         return $this->getMockBuilder(LdapUserService::class)

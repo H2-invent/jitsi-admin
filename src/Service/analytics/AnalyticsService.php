@@ -5,6 +5,7 @@ namespace App\Service\analytics;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -33,7 +34,9 @@ class AnalyticsService
         $res['rooms'] = count($rooms);
         $users = $this->entityManager->getRepository(User::class)->findAll();
         $res['users'] = count($users);
-        $usersKC = $this->entityManager->getRepository(User::class)->findUsersWithKC();
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $usersKC = $userRepository->findUsersWithKC();
         $res['kcUser'] = count($usersKC);
         $res['jitsiadmin_version'] = $this->parameterBag->get('laF_version');
         $openRooms = $this->entityManager->getRepository(Rooms::class)->findBy(['totalOpenRooms' => true]);

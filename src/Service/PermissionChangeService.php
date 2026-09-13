@@ -118,7 +118,7 @@ class PermissionChangeService
      * @param User $oldUser
      * @param User $user
      * @param Rooms $rooms
-     * @return bool
+     * @return RoomsUser|false
      */
     function toggleLobbyModerator(User $oldUser, User $user, Rooms $rooms)
     {

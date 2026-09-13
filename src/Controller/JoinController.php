@@ -12,6 +12,7 @@ use App\Service\RoomService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -72,7 +73,16 @@ class JoinController extends JitsiAdminController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //here is where the magic happens
-            $res = $this->joinService->join($form->getData(), $snack, $color, $form->has('joinApp'), $form->has('joinApp') ? $form->get('joinApp')->isClicked() : null, $form->has('joinBrowser'), $form->has('joinBrowser') ? $form->get('joinBrowser')->isClicked() : null);
+            $joinAppButton = $form->has('joinApp') ? $form->get('joinApp') : null;
+            $joinBrowserButton = $form->has('joinBrowser') ? $form->get('joinBrowser') : null;
+            $res = $this->joinService->join( $form->getData(),
+                $snack,
+                $color,
+                $form->has('joinApp'),
+                $joinAppButton instanceof ClickableInterface ? $joinAppButton->isClicked() : null,
+                $form->has('joinBrowser'),
+                $joinBrowserButton instanceof ClickableInterface ? $joinBrowserButton->isClicked() : null
+            );
             if ($res) {
                 return $res;
             }

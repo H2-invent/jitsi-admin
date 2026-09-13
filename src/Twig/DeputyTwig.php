@@ -5,6 +5,7 @@ namespace App\Twig;
 
 use App\Entity\Deputy;
 use App\Entity\User;
+use App\Repository\DeputyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
@@ -36,9 +37,9 @@ class DeputyTwig extends AbstractExtension
     public function deputyIsFromLDAP(User $manager, User $deputy): bool
     {
         if (!isset($this->deputyCache[$manager->getId()])) {
-            $this->deputyCache[$manager->getId()] = $this->entityManager
-                ->getRepository(Deputy::class)
-                ->findForManager($manager);
+            /** @var DeputyRepository $deputyRepository */
+            $deputyRepository = $this->entityManager->getRepository(Deputy::class);
+            $this->deputyCache[$manager->getId()] = $deputyRepository->findForManager($manager);
         }
 
         $dep = $this->deputyCache[$manager->getId()][$deputy->getId()] ?? null;

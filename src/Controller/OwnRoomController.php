@@ -15,6 +15,7 @@ use Firebase\JWT\JWT;
 
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -95,9 +96,11 @@ class OwnRoomController extends JitsiAdminController
             }
 
             $type = 'b';
-            if ($form->has('joinApp') && $form->get('joinApp')->isClicked()) {
+            $joinAppButton = $form->has('joinApp') ? $form->get('joinApp') : null;
+            $joinBrowserButton = $form->has('joinBrowser') ? $form->get('joinBrowser') : null;
+            if ($joinAppButton instanceof ClickableInterface && $joinAppButton->isClicked()) {
                 $type = 'a';
-            } elseif ($form->has('joinBrowser') && $form->get('joinBrowser')->isClicked()) {
+            } elseif ($joinBrowserButton instanceof ClickableInterface && $joinBrowserButton->isClicked()) {
                 $type = 'b';
             }
             $startMeetingService->setAttribute($rooms, $this->getUser(), $type, $name);

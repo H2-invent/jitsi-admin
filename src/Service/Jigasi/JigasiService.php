@@ -4,9 +4,9 @@ namespace App\Service\Jigasi;
 
 use App\Entity\Rooms;
 use App\Service\LicenseService;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -16,7 +16,7 @@ class JigasiService
         private HttpClientInterface    $client,
         private LoggerInterface        $logger,
         private LicenseService         $licenseService,
-        private CacheItemPoolInterface $cache,
+        private CacheInterface         $cache,
         private KernelInterface        $kernel
     )
     {

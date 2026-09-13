@@ -6,6 +6,7 @@ use App\Entity\CallerSession;
 use App\Entity\CalloutSession;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Service\adhocmeeting\AdhocMeetingWebsocketService;
 use App\Service\Theme\ThemeService;
@@ -121,12 +122,14 @@ class CalloutService
      * checks if a callInSession is running
      * @param Rooms $rooms
      * @param User $user
-     * @return CalloutSession|null
+     * @return CallerSession|null
      */
     public function checkCallIn(Rooms $rooms, User $user): ?CallerSession
     {
         $this->logger->debug('check if callin exists');
-        return $this->entityManager->getRepository(CallerSession::class)->findCallerSessionByUserAndRoom($user, $rooms);
+        /** @var CallerSessionRepository $callerSessionRepository */
+        $callerSessionRepository = $this->entityManager->getRepository(CallerSession::class);
+        return $callerSessionRepository->findCallerSessionByUserAndRoom($user, $rooms);
     }
 
     /**

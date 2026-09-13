@@ -21,7 +21,9 @@ class ThemeController extends AbstractController
     {
         $applicationProperties = $this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP');
         if ($applicationProperties !== '') {
-            $groups = $this->getUser()->getGroups();
+            /** @var \App\Entity\User $user */
+            $user = $this->getUser();
+            $groups = $user->getGroups();
             if (!$groups || !in_array($applicationProperties, $groups)) {
                 $this->addFlash('danger', 'Permission denied');
 

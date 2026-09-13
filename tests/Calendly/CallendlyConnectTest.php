@@ -5,6 +5,7 @@ namespace App\Tests\Calendly;
 
 use App\Entity\User;
 use App\Service\calendly\CallendlyConnect;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -18,9 +19,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CallendlyConnectTest extends TestCase
 {
+    /** @var HttpClientInterface&MockObject */
     private HttpClientInterface $httpClient;
+    /** @var TranslatorInterface&MockObject */
     private TranslatorInterface $translator;
+    /** @var ParameterBagInterface&MockObject */
     private ParameterBagInterface $parameterBag;
+    /** @var UrlGeneratorInterface&MockObject */
     private UrlGeneratorInterface $urlGenerator;
     private CallendlyConnect $calendlyConnect;
 

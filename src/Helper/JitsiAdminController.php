@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JitsiAdminController extends AbstractController
@@ -23,6 +24,14 @@ class JitsiAdminController extends AbstractController
         $this->translator = $translator;
         $this->logger = $logger;
         $this->parameterBag = $parameterBag;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getUser(): ?UserInterface
+    {
+        return parent::getUser();
     }
 
     /**

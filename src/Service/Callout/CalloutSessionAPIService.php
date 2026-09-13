@@ -4,6 +4,7 @@ namespace App\Service\Callout;
 
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
+use App\Repository\CalloutSessionRepository;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -56,7 +57,7 @@ class CalloutSessionAPIService
                 (new \DateTime())->format('U'),
                 (intval((new \DateTime())->format('U')) - $calloutSession->getLastDialed())
             ]);
-        if ($calloutSession->getLastDialed() && ((intval((new \DateTime())->format('U')) - $calloutSession->getLastDialed()) < $this->parameterBag->get('CALLOUT_WAITING_TIME'))) {
+        if ($calloutSession->getLastDialed() && ((intval((new \DateTime())->format('U')) - $calloutSession->getLastDialed()) < intval($this->parameterBag->get('CALLOUT_WAITING_TIME')))) {
             return null;
         } else {
             $calloutSession->setLastDialed((new \DateTime())->format('U'));
@@ -128,7 +129,9 @@ class CalloutSessionAPIService
      */
     public function getOnHoldPool()
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findonHoldCalloutSessions();
+        /** @var CalloutSessionRepository $calloutSessionRepository */
+        $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutSession = $calloutSessionRepository->findonHoldCalloutSessions();
         $res = [];
         foreach ($calloutSession as $data) {
             $tmp = $this->buildCallerSessionPoolArray($data);

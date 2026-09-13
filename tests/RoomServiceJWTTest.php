@@ -19,6 +19,7 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Service\ResetInterface;
 
 
 class RoomServiceJWTTest extends KernelTestCase

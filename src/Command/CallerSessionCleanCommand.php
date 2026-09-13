@@ -7,6 +7,7 @@ use App\Service\caller\CallerSessionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -43,6 +44,7 @@ class CallerSessionCleanCommand extends Command
         $table->render();
 
         //ask the user to select a session i which he wants to delte
+        /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
         $question = new Question('Please enter the id of the session you want to delete: ', null);
         $id = $helper->ask($input, $output, $question);

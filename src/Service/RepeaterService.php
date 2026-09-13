@@ -335,7 +335,7 @@ class RepeaterService
     /**
      * This function takes a new room and sets the new room as prototype in the repeater series which it belongs to.
      * @param Rooms $rooms
-     * @return Repeat
+     * @return string
      * @author Emanuel Holzmann
      */
     public function replaceRooms(Rooms $rooms): string

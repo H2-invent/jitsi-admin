@@ -11,6 +11,7 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class CronService
@@ -18,7 +19,7 @@ class CronService
     private $em;
     private $logger;
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, private ParameterBagInterface $parameterBag)
     {
         $this->em = $entityManager;
         $this->logger = $logger;
@@ -28,12 +29,12 @@ class CronService
     {
         $message = false;
 
-        if ($request->get('token') !== $this->getParameter('cronToken')) {
+        if ($request->get('token') !== $this->parameterBag->get('cronToken')) {
             $message = ['error' => true, 'hinweis' => 'Token fehlerhaft', 'token' => $request->get('token'), 'ip' => $request->getClientIp()];
             $this->logger->error($message['hinweis'], $message);
         }
 
-        if ($this->getParameter('cronIPAdress') !== $request->getClientIp()) {
+        if ($this->parameterBag->get('cronIPAdress') !== $request->getClientIp()) {
             $message = ['error' => true, 'hinweis' => 'IP Adresse fuer Cron Jobs nicht zugelassen', 'ip' => $request->getClientIp()];
             $this->logger->error($message['hinweis'], $message);
         }

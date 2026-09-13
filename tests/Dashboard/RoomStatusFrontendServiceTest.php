@@ -291,7 +291,7 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
         $this->assertArrayNotHasKey($yesterdayRoom->getId(), $closedMap);
     }
 
-    private function createRoom(EntityManagerInterface $em, string $name, ?\DateTimeInterface $start = null): Rooms
+    private function createRoom(EntityManagerInterface $em, string $name, ?\DateTime $start = null): Rooms
     {
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => $name]);

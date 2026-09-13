@@ -198,9 +198,6 @@ class CallerControllerTest extends WebTestCase
     }
 
 
-    /**
-     * @return int|string
-     */
     public function testFinishMeeing(): void
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer 123456']);

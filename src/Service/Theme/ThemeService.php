@@ -4,12 +4,13 @@ namespace App\Service\Theme;
 
 use App\Entity\Rooms;
 use H2Entwicklung\Signature\CheckSignature;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -19,10 +20,10 @@ class ThemeService
     private $logger;
     private RequestStack $request;
     private CheckSignature $checkSignature;
-    private CacheItemPoolInterface $cache;
+    private CacheInterface $cache;
 
     public function __construct(
-        CacheItemPoolInterface      $filesystemAdapter,
+        CacheInterface              $filesystemAdapter,
         CheckSignature              $checkSignature,
         RequestStack                $request,
         ParameterBagInterface       $parameterBag,
@@ -237,7 +238,9 @@ class ThemeService
             $now = new \DateTime();
             $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
             if ($daysDifff < $this->getApplicationProperties('SECURITY_THEME_REMINDER_DAYS')) {
-                $this->request->getSession()->getBag('flashes')->add(
+                /** @var FlashBagInterface $flashBag */
+                $flashBag = $this->request->getSession()->getBag('flashes');
+                $flashBag->add(
                     $daysDifff > 0 ? 'warning' : 'danger',
                     $this->translator->trans('theme.invalid.', array('{days}' => $daysDifff))
                 );
