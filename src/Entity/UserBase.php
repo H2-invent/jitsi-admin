@@ -25,7 +25,7 @@ class UserBase implements UserInterface
         return $this->uuid;
     }
 
-    public function setUuid(string $uuid): self
+    public function setUuid(string $uuid): static
     {
         $this->uuid = $uuid;
 
@@ -57,7 +57,7 @@ class UserBase implements UserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(array $roles): static
     {
         $this->roles = $roles;
 
@@ -72,7 +72,7 @@ class UserBase implements UserInterface
         return (string)$this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): static
     {
         $this->password = $password;
 

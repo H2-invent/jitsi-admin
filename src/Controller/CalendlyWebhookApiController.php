@@ -49,6 +49,7 @@ class CalendlyWebhookApiController extends AbstractController
     {
         $servers = $this->serverUserManagment->getServersFromUser($this->getUser());
 
+        /** @var User $user */
         $user = $this->getUser();
 
         $form = $this->createForm(CalendlyTokenType::class,

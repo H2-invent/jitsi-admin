@@ -4,6 +4,7 @@ namespace App\Command\Tag;
 
 use App\Entity\Rooms;
 use App\Entity\Tag;
+use App\Repository\RoomsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -46,7 +47,9 @@ class TagAddToAllCommand extends Command
             return Command::FAILURE;
         }
 
-        $rooms = $this->em->getRepository(Rooms::class)->findRoomsWithNoTags();
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->em->getRepository(Rooms::class);
+        $rooms = $roomsRepository->findRoomsWithNoTags();
         $progressBar = new ProgressBar($output, sizeof($rooms));
         $progressBar->start();
         foreach ($rooms as $data) {

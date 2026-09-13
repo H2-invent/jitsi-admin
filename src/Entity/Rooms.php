@@ -881,7 +881,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|Roomstatus[]
+     * @return Collection|RoomStatus[]
      */
     public function getRoomstatuses(): Collection
     {

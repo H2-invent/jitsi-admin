@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -253,8 +254,9 @@ class StartMeetingService
      */
     private function RoomClosed()
     {
-        $text =
-            $this->flashBag->getSession()->getBag('flashes')->add('danger', $this->buildClosedString($this->room));
+        /** @var FlashBagInterface $flashBag */
+        $flashBag = $this->flashBag->getSession()->getBag('flashes');
+        $flashBag->add('danger', $this->buildClosedString($this->room));
 
         return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
@@ -266,7 +268,9 @@ class StartMeetingService
      */
     private function roomNotFound()
     {
-        $this->flashBag->getSession()->getBag('flashes')->add('danger', $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
+        /** @var FlashBagInterface $flashBag */
+        $flashBag = $this->flashBag->getSession()->getBag('flashes');
+        $flashBag->add('danger', $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
         return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
 

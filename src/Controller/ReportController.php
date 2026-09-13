@@ -31,7 +31,10 @@ class ReportController extends AbstractController
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             throw  new NotFoundHttpException('Room not Found');
         }
-        $timeZone = $this->getUser()->getTimeZone() ? $this->getUser()->getTimeZone() : (new \DateTimeImmutable())->getTimezone()->getName();
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $timeZone = $user->getTimeZone() ?: (new \DateTimeImmutable())->getTimezone()->getName();
+
         return $this->render(
             'report/index.html.twig',
             [

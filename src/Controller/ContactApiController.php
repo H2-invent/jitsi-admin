@@ -47,7 +47,9 @@ class ContactApiController extends AbstractController
                 $tagArr[] = ['name' => $tag->getTitle(), 'id' => $tag->getId()];
             }
         }
-        $contact = $this->getUser()->getAddressbook();
+        /** @var User $user */
+        $user = $this->getUser();
+        $contact = $user->getAddressbook();
         $res = [];
 
 

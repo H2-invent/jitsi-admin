@@ -13,6 +13,7 @@ use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
 use Psr\Log\LoggerInterface;
+use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,7 +89,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
             new UserBadge(
                 $accessToken->getToken(),
                 function () use ($accessToken, $client) {
-                    /** @var KeycloakUser $keycloakUser */
+                    /** @var KeycloakResourceOwner $keycloakUser */
                     $keycloakUser = $client->fetchUserFromToken($accessToken);
                     $email = null;
                     try {

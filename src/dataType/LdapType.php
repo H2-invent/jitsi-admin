@@ -341,10 +341,6 @@ class LdapType
 
     /**
      * this function queries for users in the ldap
-     * @param Ldap $ldap
-     * @param string $userDn
-     * @param string $objectclass
-     * @param string $scope
      * @return \Symfony\Component\Ldap\Entry[]
      */
     public function retrieveUser()

@@ -34,7 +34,7 @@ class LoginController extends JitsiAdminController
     public function index(
         ClientRegistry $clientRegistry): Response
     {
-        return $clientRegistry->getClient('auth0_main')->redirect(['user']);
+        return $clientRegistry->getClient('auth0_main')->redirect(['user'], []);
     }
 
     #[Route(path: '/login/auth0_login/check', name: 'connect_auth0_check')]

@@ -156,7 +156,7 @@ class CallerPrepareService
 
     /**
      * Generates callerId for a given Room
-     * @param Rooms $rooms
+     * @param Repeat $repeat
      */
     public function createUserCallerIDforRepeater(Repeat $repeat)
     {

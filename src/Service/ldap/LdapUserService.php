@@ -5,6 +5,7 @@ namespace App\Service\ldap;
 use App\dataType\LdapType;
 use App\Entity\LdapUserProperties;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Service\IndexUserService;
 use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,9 +17,13 @@ use Symfony\Component\Ldap\Ldap;
 
 class LdapUserService
 {
+    /** @var EntityManagerInterface */
     private $em;
+    /** @var UserCreatorService */
     private $userCreationService;
+    /** @var IndexUserService */
     private $indexer;
+    /** @var LoggerInterface */
     private $logger;
 
     public function __construct(LoggerInterface $logger, EntityManagerInterface $entityManager, UserCreatorService $userCreationService, IndexUserService $indexUserService)
@@ -32,9 +37,9 @@ class LdapUserService
     /**
      * This function retrieves the user
      * @param Entry $entry
-     * @param string $userNameAttribute
-     * @param $mapper
-     * @return User|object
+     * @param LdapType $ldapType
+     * @param bool $dryRun
+     * @return User|null
      */
     public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType, $dryRun = false): ?User
     {
@@ -44,9 +49,11 @@ class LdapUserService
             $email = $entry->getAttribute($ldapType->getMapper()['email'])[0] ?? '';
             $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0] ?? null;
             $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0] ?? null;
-            $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
+            /** @var UserRepository $userRepository */
+            $userRepository = $this->em->getRepository(User::class);
+            $user = $userRepository->findUsersfromLdapdn($entry->getDn());
             if (!$user) {
-                $user = $this->em->getRepository(User::class)->findOneBy(['username' => $uid]);
+                $user = $userRepository->findOneBy(['username' => $uid]);
             }
             if (!$user) {
                 $user = $this->userCreationService->createUser($email, $uid, $firstName, $lastName, $dryRun);
@@ -57,7 +64,7 @@ class LdapUserService
                 $ldap->setLdapHost($ldapType->getUrl());
                 $ldap->setLdapDn($entry->getDn());
                 $user->setLdapUserProperties($ldap);
-                $user->getLdapUserProperties()->setLdapNumber($ldapType->getSerVerId());
+                $ldap->setLdapNumber($ldapType->getSerVerId());
             }
             try {
                 if ($ldapType->getRdn()) {
@@ -95,7 +102,9 @@ class LdapUserService
      */
     public function connectUserwithAllUSersInAdressbock()
     {
-        $allUSer = $this->em->getRepository(User::class)->findUsersfromLdapService();
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->em->getRepository(User::class);
+        $allUSer = $userRepository->findUsersfromLdapService();
         foreach ($allUSer as $data) {
             foreach ($allUSer as $data2) {
                 $data->addAddressbook($data2);
@@ -111,7 +120,9 @@ class LdapUserService
      */
     public function cleanUpAdressbook()
     {
-        $allUSer = $this->em->getRepository(User::class)->findUsersfromLdapService();
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->em->getRepository(User::class);
+        $allUSer = $userRepository->findUsersfromLdapService();
         foreach ($allUSer as $data) {
             foreach ($allUSer as $data2) {
                 if ($data === $data2) {
@@ -128,12 +139,13 @@ class LdapUserService
 
     /**
      * returns all valid users from the database which are in the ldap and the Database
-     * @param Ldap $ldap
-     * @param $ldapServerId
+     * @param LdapType $ldapType
      */
     public function syncDeletedUser(LdapType $ldapType): void
     {
-        $usersInSystemFromLdapId = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->em->getRepository(User::class);
+        $usersInSystemFromLdapId = $userRepository->findUsersByLdapServerId($ldapType->getSerVerId());
         $userListInLdap = $ldapType->retrieveUser();
 
 
@@ -158,7 +170,7 @@ class LdapUserService
     /**
      * Search for the USer in LDAP
      * @param User $user
-     * @param Ldap $ldap
+     * @param LdapType $ldap
      */
     public function checkUserInLdap(User $user, LdapType $ldap): ?Entry
     {

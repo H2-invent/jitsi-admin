@@ -34,7 +34,9 @@ class UploadThemeController extends AbstractController
     public function index(): Response
     {
         if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
-            $groups = $this->getUser()->getGroups();
+            /** @var \App\Entity\User $user */
+            $user = $this->getUser();
+            $groups = $user->getGroups();
             if (!$groups || !in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
                 $this->addFlash('danger', 'Permission denied');
 

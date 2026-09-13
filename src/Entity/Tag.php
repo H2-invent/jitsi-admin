@@ -129,7 +129,7 @@ class Tag
     {
         if (!$this->servers->contains($server)) {
             $this->servers->add($server);
-            $server->addServer($this);
+            $server->addTag($this);
         }
 
         return $this;
@@ -138,7 +138,7 @@ class Tag
     public function removeServer(Server $server): static
     {
         if ($this->servers->removeElement($server)) {
-            $server->removeServer($this);
+            $server->removeTag($this);
         }
 
         return $this;

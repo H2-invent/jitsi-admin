@@ -467,7 +467,7 @@ class InstallerCommand extends Command
         }
     }
 
-    /** @param ConvertToEnvironmentInterface[] $convertibles */
+    /** @param ConvertToEnvironmentInterface ...$convertibles */
     private function writeEnvFile(...$convertibles): void
     {
         $envVars = [];

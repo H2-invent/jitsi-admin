@@ -5,6 +5,7 @@ namespace App\Service\Callout;
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
 use App\Entity\Rooms;
+use App\Repository\CalloutSessionRepository;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\Theme\ThemeService;
@@ -32,7 +33,9 @@ class CallOutSessionAPIHoldService
      */
     public function timeout($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
+        /** @var CalloutSessionRepository $calloutSessionRepository */
+        $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
@@ -46,7 +49,9 @@ class CallOutSessionAPIHoldService
      */
     public function occupied($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
+        /** @var CalloutSessionRepository $calloutSessionRepository */
+        $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
@@ -63,7 +68,9 @@ class CallOutSessionAPIHoldService
      */
     public function later($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
+        /** @var CalloutSessionRepository $calloutSessionRepository */
+        $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
