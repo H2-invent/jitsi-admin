@@ -1,5 +1,9 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
 
+## 1.7
+### 🚀 Features:
+* Make ad-hoc calls skip lobby
+
 ## 1.6
 ### 🚀 Features:
 
