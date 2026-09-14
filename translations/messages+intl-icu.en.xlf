@@ -1290,6 +1290,18 @@
         <source>room.new.help.isE2EEEnabled</source>
         <target state="translated">Enables the "end-to-end encryption" security feature for this conference.</target>
       </trans-unit>
+      <trans-unit id="n9kfdtZ" resname="room.dashboard.e2ee.title">
+        <source>room.dashboard.e2ee.title</source>
+        <target state="translated">End-to-end encryption (E2EE)</target>
+      </trans-unit>
+      <trans-unit id="n3f4gc0" resname="room.dashboard.e2ee.help">
+        <source>room.dashboard.e2ee.help</source>
+        <target state="translated">The contents of this conference are end-to-end encrypted.</target>
+      </trans-unit>
+      <trans-unit id="vBtgsCz" resname="room.dashboard.e2ee.help.enforced">
+        <source>room.dashboard.e2ee.help.enforced</source>
+        <target state="translated">The contents of this conference are end-to-end encrypted. The server enforces this for all conferences.</target>
+      </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
         <target state="translated">{name}</target>

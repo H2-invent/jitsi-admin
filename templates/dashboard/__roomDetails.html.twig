@@ -112,6 +112,16 @@
            data-mdb-content="{% if room.agenda is not null %}{{ room.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
                     class="fa fa-info-circle"></i>
         </a>
+
+        {% if room.isE2EEEnabled or room.server.isEnforceE2e %}
+            <a tabindex="0"
+                data-mdb-popover-init
+               data-mdb-trigger="focus"
+               title="{{ 'room.dashboard.e2ee.title'|trans }}"
+               data-mdb-content="{{ (room.server.isEnforceE2e ? 'room.dashboard.e2ee.help.enforced' : 'room.dashboard.e2ee.help')|trans }}"><i
+                        class="fa-solid fa-lock"></i>
+            </a>
+        {% endif %}
     </h5>
 
 
