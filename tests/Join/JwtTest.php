@@ -643,7 +643,8 @@ class JwtTest extends KernelTestCase
                     'private-message' => true,
                 ],
                 'room' => [
-                    'name' => 'TestMeeting: 0'
+                    'name' => 'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
                 ],
             ],
             'theme' => [
