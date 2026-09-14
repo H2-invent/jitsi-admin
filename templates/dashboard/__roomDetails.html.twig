@@ -27,7 +27,7 @@
 
         </div>
     {% endif %}
-    {% if roomStatusClosedMap[room.id] is defined %}
+    {% if roomStatusClosedMap[room.id] is defined and roomStatusClosedMap[room.id] is same as(true) %}
         <div class="occupant text-danger">
             <div class="text">
                 {{ 'status.finished'|trans }}

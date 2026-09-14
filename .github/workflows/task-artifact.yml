@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Update PHP Version and tools
         uses: shivammathur/setup-php@v2
@@ -16,7 +16,7 @@ jobs:
           tools: composer:v2
 
       - name: Install NPM Packages
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ vars.NODE_VERSION }}
 
@@ -41,7 +41,7 @@ jobs:
           args: zip -qq -r artifact_${{github.run_number}}.zip .
 
       - name: Upload articats
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: artifact_${{github.run_number}}
           path: artifact_${{github.run_number}}.zip
