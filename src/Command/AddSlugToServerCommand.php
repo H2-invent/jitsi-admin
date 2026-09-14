@@ -32,22 +32,21 @@ class AddSlugToServerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $server = $this->em->getRepository(Server::class)->findAll();
-        $counter = 0;
-        foreach ($server as $data) {
-            if (!$data->getSlug()) {
-                $counter++;
+        $servers = $this->em->getRepository(Server::class)
+            ->createQueryBuilder('s')
+            ->where('s.slug IS NULL')
+            ->getQuery()
+            ->getResult();
 
-                $slug = $this->serverService->makeSlug($data->getUrl());
-                $data->setSlug($slug);
-                $this->em->persist($data);
-                $io->writeln($slug);
-                $this->em->flush();
-            }
+        foreach ($servers as $server) {
+            $slug = $this->serverService->makeSlug($server->getUrl());
+            $server->setSlug($slug);
+            $this->em->persist($server);
+            $io->writeln($slug);
         }
+        $this->em->flush();
 
-
-        $io->success('We transformed ' . $counter . ' Servers');
+        $io->success('We transformed ' . count($servers) . ' Servers');
 
         return Command::SUCCESS;
     }
