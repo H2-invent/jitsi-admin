@@ -1295,6 +1295,10 @@
         <source>room.new.help.lobby</source>
         <target>Für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
       </trans-unit>
+      <trans-unit id="DiHUDGM" resname="room.new.help.isE2EEEnabled">
+        <source>room.new.help.isE2EEEnabled</source>
+        <target>Aktiviert die Sicherheitsfunktion „Ende-zu-Ende-Verschlüsselung“ für diese Konferenz.</target>
+      </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
         <target>{name}</target>

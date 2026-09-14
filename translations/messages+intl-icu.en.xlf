@@ -1286,6 +1286,10 @@
         <source>room.new.help.lobby</source>
         <target state="translated">Please activate the lobby for this conference. You can admit each participant individually to the conference.</target>
       </trans-unit>
+      <trans-unit id="DiHUDGM" resname="room.new.help.isE2EEEnabled">
+        <source>room.new.help.isE2EEEnabled</source>
+        <target state="translated">Enables the "end-to-end encryption" security feature for this conference.</target>
+      </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
         <target state="translated">{name}</target>
