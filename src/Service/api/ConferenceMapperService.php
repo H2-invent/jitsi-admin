@@ -67,17 +67,34 @@ class ConferenceMapperService
             $user = $this->findNameFromCallerId(callerId: $callerId);
         }
 
+        try {
+            $res = [
+                'state' => 'STARTED',
+                'jwt' => $this->roomService->generateJwt($room, null, $user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId),
+                'room_name' => $room->getUid() . '@' . $room->getServer()->getJigasiProsodyDomain(),
+                'display_name' => $user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId
+            ];
+        } catch (\Throwable $exception) {
+            $this->logger->error(
+                'Could not build the conference payload',
+                [
+                    'room' => $room->getId(),
+                    'callerId' => $callerId,
+                    'exception' => $exception->getMessage(),
+                ]
+            );
 
-        $res = [
-            'state' => 'STARTED',
-            'jwt' => $this->roomService->generateJwt($room, null, $user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId),
-            'room_name' => $room->getUid() . '@' . $room->getServer()->getJigasiProsodyDomain(),
-            'display_name' => $user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId
-        ];
+            return ['error' => true, 'text' => 'INTERNAL_ERROR'];
+        }
+
         if ($room->getServer()->isLiveKitServer()) {
             try {
                 $res['sip_trunk'] = $this->sipTrunkGenerator->createNewSIPNumber($room,$callerId);
-            }catch (\Exception $exception){
+            }catch (\Throwable $exception){
+                $this->logger->error(
+                    'Could not create the livekit sip trunk',
+                    ['room' => $room->getId(), 'exception' => $exception->getMessage()]
+                );
                 $res['sip_trunk'] = 'error during fetching sip trunk from livekit';
             }
         }

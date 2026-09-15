@@ -8,6 +8,7 @@ use App\Repository\RoomsRepository;
 use App\Service\caller\CallerFindRoomService;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerPrepareService;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -24,7 +25,7 @@ class CallerServiceTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
 
-        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'links' => ['pin' => $urlGen->generate('caller_pin', ['roomId' => $id])]], $callerService->findRoom($id));
+        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));
     }
     public function testGetPersistantRoomSuccess(): void
     {
@@ -40,8 +41,81 @@ class CallerServiceTest extends KernelTestCase
         $callerPrepareService->addCallerIdToRoom($room);
         $room = $roomRepo->findOneBy(['name' => 'This is a fixed room']);
         $id = $room->getCallerRoom()->getCallerId();
-        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'links' => ['pin' => $urlGen->generate('caller_pin', ['roomId' => $id])]], $callerService->findRoom($id));
+        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));
     }
+    public function testGetRoomWithLobbyButWithoutPersonalPin(): void
+    {
+        $kernel = self::bootKernel();
+        $callerService = self::getContainer()->get(CallerFindRoomService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '12340';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $lobbyBefore = $room->getLobby();
+
+        try {
+            $room->setLobby(true);
+            $manager->persist($room);
+            $manager->flush();
+
+            // The test env hides personal PINs, so the protected flow cannot complete.
+            self::assertEquals(
+                [
+                    'status' => 'HANGUP',
+                    'reason' => 'NO_PIN_CONFIGURED',
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'links' => []
+                ],
+                $callerService->findRoom($id)
+            );
+        } finally {
+            // Shared fixtures require restoring the room state after each test.
+            $room->setLobby($lobbyBefore);
+            $manager->persist($room);
+            $manager->flush();
+        }
+    }
+
+    public function testGetRoomWithLobbyAndPersonalPin(): void
+    {
+        $kernel = self::bootKernel();
+        $themeService = $this->createMock(ThemeService::class);
+        $themeService->method('getApplicationProperties')->willReturn(1);
+        self::getContainer()->set(ThemeService::class, $themeService);
+
+        $callerService = self::getContainer()->get(CallerFindRoomService::class);
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $id = '12340';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $lobbyBefore = $room->getLobby();
+
+        try {
+            $room->setLobby(true);
+            $manager->persist($room);
+            $manager->flush();
+
+            self::assertEquals(
+                [
+                    'status' => 'ACCEPTED',
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'roomName' => $room->getName(),
+                    'lobby_enabled' => true,
+                    'links' => ['pin' => $urlGen->generate('caller_protected', ['roomId' => $id])]
+                ],
+                $callerService->findRoom($id)
+            );
+        } finally {
+            $room->setLobby($lobbyBefore);
+            $manager->persist($room);
+            $manager->flush();
+        }
+    }
+
     public function testGetrromToEarly(): void
     {
         $kernel = self::bootKernel();

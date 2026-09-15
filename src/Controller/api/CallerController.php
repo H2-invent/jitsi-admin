@@ -2,8 +2,12 @@
 
 namespace App\Controller\api;
 
+use App\Entity\CallerRoom;
+use App\Entity\CallerSession;
+use App\Entity\Server;
 use App\Helper\JitsiAdminController;
 use App\Service\api\CheckAuthorizationService;
+use App\Service\api\ConferenceMapperService;
 use App\Service\caller\CallerFindRoomService;
 use App\Service\caller\CallerLeftService;
 use App\Service\caller\CallerPinService;
@@ -20,7 +24,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CallerController extends JitsiAdminController
 {
-    private $token;
+    private $legacyToken;
     private $callerRoomService;
     private $callerPinService;
     private $callerSessionService;
@@ -35,7 +39,9 @@ class CallerController extends JitsiAdminController
         CallerSessionService                  $callerSessionService,
         CallerPinService                      $callerPinService,
         CallerFindRoomService                 $callerFindRoomService,
-        private JitsiComponentSelectorService $jitsiComponentSelectorService
+        private JitsiComponentSelectorService $jitsiComponentSelectorService,
+        private ConferenceMapperService       $conferenceMapperService,
+        private CheckAuthorizationService     $checkAuthorizationService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -43,7 +49,7 @@ class CallerController extends JitsiAdminController
         $this->callerPinService = $callerPinService;
         $this->callerSessionService = $callerSessionService;
         $this->callerLeftService = $callerLeftService;
-        $this->token = 'Bearer ' . $parameterBag->get('SIP_CALLER_SECRET');
+        $this->legacyToken = $parameterBag->get('SIP_CALLER_SECRET');
     }
 
     public function setJitsiComponentSelectorService(JitsiComponentSelectorService $jitsiComponentSelectorService): void
@@ -56,18 +62,31 @@ class CallerController extends JitsiAdminController
     public
     function findRoom(Request $request, $roomId): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = $this->authorize($request, $this->serverFromRoomId($roomId));
         if ($check) {
             return $check;
         }
         return new JsonResponse($this->callerRoomService->findRoom($roomId));
     }
 
+    /**
+     * The /sip/pin/ path is deprecated in favour of /sip/protected/ and only kept so existing
+     * asterisk configurations keep working. Follow the links returned by caller_room instead of
+     * hardcoding paths.
+     */
+    #[Route(path: '/api/v1/lobby/sip/protected/{roomId}', name: 'caller_protected', methods: ['POST', 'GET'])]
     #[Route(path: '/api/v1/lobby/sip/pin/{roomId}', name: 'caller_pin', methods: ['POST', 'GET'])]
     public
     function findPin(Request $request, $roomId): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if (str_contains($request->getPathInfo(), '/lobby/sip/pin/')) {
+            $this->logger->warning(
+                'Deprecated: /api/v1/lobby/sip/pin/{roomId} was called. Use /api/v1/lobby/sip/protected/{roomId} instead.',
+                ['roomId' => $roomId]
+            );
+        }
+
+        $check = $this->authorize($request, $this->serverFromRoomId($roomId));
         if ($check) {
             return $check;
         }
@@ -101,11 +120,27 @@ class CallerController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
+    /**
+     * Dial-in for lobby-free rooms. No personal PIN or caller session is required; returns the
+     * same payload as the deprecated conference-mapper endpoint, including the LiveKit SIP trunk.
+     */
+    #[Route(path: '/api/v1/lobby/sip/open/{roomId}', name: 'caller_open', methods: ['POST', 'GET'])]
+    public function openRoom(Request $request, $roomId): Response
+    {
+        return new JsonResponse(
+            $this->conferenceMapperService->checkConference(
+                callerRoom: $this->doctrine->getRepository(CallerRoom::class)->findOneBy(['callerId' => $roomId]),
+                apiKey: $request->headers->get('Authorization'),
+                callerId: $request->get('caller_id')
+            )
+        );
+    }
+
     #[Route(path: '/api/v1/lobby/sip/session', name: 'caller_session', methods: ['GET'])]
     public
     function findSession(Request $request): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = $this->authorize($request, $this->serverFromSessionId($request->get('session_id')));
         if ($check) {
             return $check;
         }
@@ -127,7 +162,7 @@ class CallerController extends JitsiAdminController
     public
     function leftSession(Request $request): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = $this->authorize($request, $this->serverFromSessionId($request->get('session_id')));
         if ($check) {
             return $check;
         }
@@ -144,5 +179,26 @@ class CallerController extends JitsiAdminController
 
         return new JsonResponse(['error' => $this->callerLeftService->callerLeft($request->get('session_id'))]);
     }
-}
 
+    private function authorize(Request $request, ?Server $server): ?Response
+    {
+        return $this->checkAuthorizationService->checkServerAuthorization($request, $server, $this->legacyToken);
+    }
+
+    private function serverFromRoomId($roomId): ?Server
+    {
+        $callerRoom = $this->doctrine->getRepository(CallerRoom::class)->findOneBy(['callerId' => $roomId]);
+
+        return $callerRoom?->getRoom()?->getServer();
+    }
+
+    private function serverFromSessionId($sessionId): ?Server
+    {
+        if (!$sessionId) {
+            return null;
+        }
+        $session = $this->doctrine->getRepository(CallerSession::class)->findOneBy(['sessionId' => $sessionId]);
+
+        return $session?->getCaller()?->getRoom()?->getServer();
+    }
+}

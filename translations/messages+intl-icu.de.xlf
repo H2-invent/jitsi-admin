@@ -1738,6 +1738,10 @@
         <source>email.sip.roomnumber</source>
         <target>Raumnummer</target>
       </trans-unit>
+      <trans-unit id="Pn1Prsn" resname="email.sip.personalpin">
+        <source>email.sip.personalpin</source>
+        <target>Persönliche PIN</target>
+      </trans-unit>
       <trans-unit id="sIWTG7_" resname="status.offline">
         <source>status.offline</source>
         <target>Offline</target>
