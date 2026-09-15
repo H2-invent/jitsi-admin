@@ -47,7 +47,7 @@
     <p> ({{ key }}) {{ number }} {{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#
         (<a href="tel:{{ number }},,,,{{ room.callerRoom.callerId }}#">{{ number }},,,,{{ room.callerRoom.callerId }}#</a>)
         {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and sipPinFromRoomAndUser(room, user) is not null %}
-            <br>{{ 'email.sip.pin'|trans }}: {{ sipPinFromRoomAndUser(room, user).callerId|addRepetiveCharacters(' ',3) }}#
+            <br>{{ 'email.sip.personalpin'|trans }}: {{ sipPinFromRoomAndUser(room, user).callerId|addRepetiveCharacters(' ',3) }}#
         {% endif %}
     </p><br>
     {% endif %}
