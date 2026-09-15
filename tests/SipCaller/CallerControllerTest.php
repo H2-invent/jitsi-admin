@@ -43,6 +43,19 @@ class CallerControllerTest extends WebTestCase
         $this->assertJsonStringEqualsJsonString(json_encode(['authorized' => false]), $client->getResponse()->getContent());
     }
 
+    public function testAuthorizedWithServerApiKey(): void
+    {
+        // The room server API key is accepted; the global SIP_CALLER_SECRET remains only as a
+        // deprecated fallback.
+        $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApi']);
+
+        $client->request('GET', '/api/v1/lobby/sip/room/123419');
+        $this->assertResponseIsSuccessful();
+
+        $client->request('GET', '/api/v1/lobby/sip/room/123419', [], [], ['HTTP_authorization' => 'Bearer wrong-key']);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+    }
+
     public function testGetCallerRoom(): void
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer 123456']);
@@ -603,17 +616,16 @@ class CallerControllerTest extends WebTestCase
         $room->setLobby(true);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[1];
-        //enter the room and check if the room is okay
+        // Check room access and then submit the caller PIN.
         $crawler = $client->request('GET', '/api/v1/lobby/sip/room/' . $id);
         $this->assertResponseIsSuccessful();
 
-        //enter the users pin
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
         $this->assertResponseIsSuccessful();
         $sessionLink = json_decode($client->getResponse()->getContent(), true)['links']['session'];
         $leafLink = json_decode($client->getResponse()->getContent(), true)['links']['left'];
 
-        //try entering again. the user should not be access again
+        // Reusing the same PIN should be rejected.
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
         $this->assertJsonStringEqualsJsonString(json_encode(['auth_ok' => false, 'links' => []]), $client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();

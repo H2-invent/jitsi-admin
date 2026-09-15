@@ -3,6 +3,7 @@
 namespace App\Service\caller;
 
 use App\Entity\CallerRoom;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -10,7 +11,11 @@ class CallerFindRoomService
 {
     private $em;
     private $urlGen;
-    public function __construct(UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager)
+    public function __construct(
+        UrlGeneratorInterface  $urlGenerator,
+        EntityManagerInterface $entityManager,
+        private ThemeService   $themeService,
+    )
     {
         $this->urlGen = $urlGenerator;
         $this->em = $entityManager;
@@ -42,13 +47,29 @@ class CallerFindRoomService
                 'links' => []
             ];
         }
+        $lobbyEnabled = (bool)$caller->getRoom()->getLobby();
+        $personalPinEnabled = $this->themeService->getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1;
+
+        // If the lobby is enabled but no personal PIN is exposed, the protected flow cannot be completed
+        if ($lobbyEnabled && !$personalPinEnabled) {
+            return [
+                'status' => 'HANGUP',
+                'reason' => 'NO_PIN_CONFIGURED',
+                'startTime' => $caller->getRoom()->getStartTimestamp(),
+                'endTime' => $caller->getRoom()->getEndTimestamp(),
+                'links' => []
+            ];
+        }
+
         return [
             'status' => 'ACCEPTED',
             'startTime' => $caller->getRoom()->getStartTimestamp(),
             'endTime' => $caller->getRoom()->getEndTimestamp(),
             'roomName' => $caller->getRoom()->getName(),
-            //todo hier die url rein
-            'links' => ['pin' => $this->urlGen->generate('caller_pin', ['roomId' => $id])]
+            'lobby_enabled' => $lobbyEnabled,
+            'links' => $lobbyEnabled
+                ? ['pin' => $this->urlGen->generate('caller_protected', ['roomId' => $id])]
+                : ['open' => $this->urlGen->generate('caller_open', ['roomId' => $id])]
         ];
     }
 }
