@@ -1290,6 +1290,22 @@
         <source>room.new.help.lobby</source>
         <target state="translated">Active la sala de espera para esta conferencia. Puede admitir a cada participante individualmente a la conferencia.</target>
       </trans-unit>
+      <trans-unit id="DiHUDGM" resname="room.new.help.isE2EEEnabled">
+        <source>room.new.help.isE2EEEnabled</source>
+        <target state="needs-translation">Aktiviert die Sicherheitsfunktion „Ende-zu-Ende-Verschlüsselung“ für diese Konferenz.</target>
+      </trans-unit>
+      <trans-unit id="n9kfdtZ" resname="room.dashboard.e2ee.title">
+        <source>room.dashboard.e2ee.title</source>
+        <target state="needs-translation">Ende-zu-Ende-Verschlüsselung (E2EE)</target>
+      </trans-unit>
+      <trans-unit id="n3f4gc0" resname="room.dashboard.e2ee.help">
+        <source>room.dashboard.e2ee.help</source>
+        <target state="needs-translation">Die Inhalte dieser Konferenz sind Ende-zu-Ende verschlüsselt.</target>
+      </trans-unit>
+      <trans-unit id="vBtgsCz" resname="room.dashboard.e2ee.help.enforced">
+        <source>room.dashboard.e2ee.help.enforced</source>
+        <target state="needs-translation">Die Inhalte dieser Konferenz sind Ende-zu-Ende verschlüsselt. Der Server erzwingt das für alle Konferenzen.</target>
+      </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
         <target state="translated">{name}</target>
@@ -1710,6 +1726,10 @@
       <trans-unit id="AohzXJm" resname="email.sip.roomnumber">
         <source>email.sip.roomnumber</source>
         <target state="translated">Número de sala</target>
+      </trans-unit>
+      <trans-unit id="Pn1Prsn" resname="email.sip.personalpin">
+        <source>email.sip.personalpin</source>
+        <target state="needs-translation">Persönliche PIN</target>
       </trans-unit>
       <trans-unit id="sIWTG7_" resname="status.offline">
         <source>status.offline</source>
