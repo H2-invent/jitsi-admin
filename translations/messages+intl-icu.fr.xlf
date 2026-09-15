@@ -1714,6 +1714,10 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>email.sip.roomnumber</source>
         <target state="translated">Numéro de salle</target>
       </trans-unit>
+      <trans-unit id="Pn1Prsn" resname="email.sip.personalpin">
+        <source>email.sip.personalpin</source>
+        <target state="needs-translation">Persönliche PIN</target>
+      </trans-unit>
       <trans-unit id="sIWTG7_" resname="status.offline">
         <source>status.offline</source>
         <target state="translated">Hors ligne</target>
