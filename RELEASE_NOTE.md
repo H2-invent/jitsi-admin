@@ -25,4 +25,4 @@
 * Fix appointment modal
 * Adressbook refactoring
 * Change Drag and Drop Lib back to inteact js because it is more robust
-
+* SIP dial-in via the lobby using Livekit
