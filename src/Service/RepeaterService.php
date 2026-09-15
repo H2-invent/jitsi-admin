@@ -47,7 +47,7 @@ class RepeaterService
         'April',
         'May',
         'June',
-        'July ',
+        'July',
         'August',
         'September',
         'October',
@@ -307,7 +307,7 @@ class RepeaterService
         }
 
 
-        $room->setUid(rand(0, 999) . time());
+        $room->setUid(md5(uniqid()));
         $room->setUidReal(md5(uniqid()));
         $room->setUidParticipant(md5(uniqid()));
         $room->setUidModerator(md5(uniqid()));
