@@ -69,11 +69,23 @@ class CallerController extends JitsiAdminController
         return new JsonResponse($this->callerRoomService->findRoom($roomId));
     }
 
+    /**
+     * The /sip/pin/ path is deprecated in favour of /sip/protected/ and only kept so existing
+     * asterisk configurations keep working. Follow the links returned by caller_room instead of
+     * hardcoding paths.
+     */
     #[Route(path: '/api/v1/lobby/sip/protected/{roomId}', name: 'caller_protected', methods: ['POST', 'GET'])]
     #[Route(path: '/api/v1/lobby/sip/pin/{roomId}', name: 'caller_pin', methods: ['POST', 'GET'])]
     public
     function findPin(Request $request, $roomId): Response
     {
+        if (str_contains($request->getPathInfo(), '/lobby/sip/pin/')) {
+            $this->logger->warning(
+                'Deprecated: /api/v1/lobby/sip/pin/{roomId} was called. Use /api/v1/lobby/sip/protected/{roomId} instead.',
+                ['roomId' => $roomId]
+            );
+        }
+
         $check = $this->authorize($request, $this->serverFromRoomId($roomId));
         if ($check) {
             return $check;
