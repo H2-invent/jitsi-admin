@@ -45,7 +45,7 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
         self::assertEquals(
             json_encode([
                 'state' => 'STARTED',
-                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCJ9LCJ1c2VyIjp7Im5hbWUiOiJVc2VyMiwgVGVzdDIsIHRlc3RAbG9jYWwyLmRlIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjpmYWxzZSwibG9iYnlNb2RlcmF0b3IiOmZhbHNlLCJ0aGVtZSI6eyJjb2xvclNjaGVtZSI6ImxpZ2h0In19.hMk7SA7yY80H4bO962H_knqnej0exFz6CQDFk_Q_VO4',
+                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCIsImlzRTJFRUVuYWJsZWQiOmZhbHNlfSwidXNlciI6eyJuYW1lIjoiVXNlcjIsIFRlc3QyLCB0ZXN0QGxvY2FsMi5kZSIsImxhbmd1YWdlIjoiZGUiLCJ0aW1lem9uZSI6IkV1cm9wZS9CZXJsaW4ifX0sIm1vZGVyYXRvciI6ZmFsc2UsImxvYmJ5TW9kZXJhdG9yIjpmYWxzZSwidGhlbWUiOnsiY29sb3JTY2hlbWUiOiJsaWdodCJ9fQ.7rT0ArZBNLIbi6fzqzftbf4N1XBTZd9ht9x1hMnQegg',
                 'room_name' => '123456780@testdomain.com',
                 "display_name" => "User2, Test2, test@local2.de"
             ], JSON_THROW_ON_ERROR),
@@ -87,7 +87,7 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
         self::assertEquals(
             json_encode([
                 'state' => 'STARTED',
-                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCJ9LCJ1c2VyIjp7Im5hbWUiOiIwMDk4NzY1NDU1MzI1IiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjpmYWxzZSwibG9iYnlNb2RlcmF0b3IiOmZhbHNlLCJ0aGVtZSI6eyJjb2xvclNjaGVtZSI6ImxpZ2h0In19.aWQ0_sUgAJ0LHr61HmQjWTeZll_8awla6_Y3I1LXXgE',
+                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCIsImlzRTJFRUVuYWJsZWQiOmZhbHNlfSwidXNlciI6eyJuYW1lIjoiMDA5ODc2NTQ1NTMyNSIsImxhbmd1YWdlIjoiZGUiLCJ0aW1lem9uZSI6IkV1cm9wZS9CZXJsaW4ifX0sIm1vZGVyYXRvciI6ZmFsc2UsImxvYmJ5TW9kZXJhdG9yIjpmYWxzZSwidGhlbWUiOnsiY29sb3JTY2hlbWUiOiJsaWdodCJ9fQ.gkveKknwSQk98sYaB_f1CAbNvZ14kNMxdNNXI_Q0XsA',
                 'room_name' => '123456780@testdomain.com',
                 "display_name" => "0098765455325"
             ], JSON_THROW_ON_ERROR),
