@@ -85,6 +85,10 @@ class UserProvider implements UserProviderInterface
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        // TODO: Implement loadUserByIdentifier() method.
+        return $this->entityManager->createQueryBuilder('u')
+            ->where('u.keycloakId = :identifier')
+            ->setParameter('identifier', $identifier)
+            ->getQuery()
+            ->getSingleResult();
     }
 }

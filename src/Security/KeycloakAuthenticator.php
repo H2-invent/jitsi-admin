@@ -73,11 +73,6 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
         return $request->attributes->get('_route') === 'connect_keycloak_check';
     }
 
-    public function getCredentials(Request $request)
-    {
-        return $this->fetchAccessToken($this->getauth0Client());
-    }
-
     public function authenticate(Request $request): Passport
     {
         $client = $this->clientRegistry->getClient('keycloak_main');

@@ -18,11 +18,13 @@ class CronService
 {
     private $em;
     private $logger;
+    private $parameterBag;
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, private ParameterBagInterface $parameterBag)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, ParameterBagInterface $parameterBag)
     {
         $this->em = $entityManager;
         $this->logger = $logger;
+        $this->parameterBag = $parameterBag;
     }
 
     function check($request)
