@@ -76,6 +76,7 @@ class RoomType extends AbstractType
                         'translation_domain' => 'form',
                         'multiple' => false,
                         'required' => true,
+                        'disabled' => $options['serverDisabled'],
                         'attr' => ['class' => 'moreFeatures fakeserver']
                     ]
                 );
@@ -256,6 +257,7 @@ class RoomType extends AbstractType
         $resolver->setDefaults(
             [
                 'server' => [],
+                'serverDisabled' => false,
                 'data_class' => Rooms::class,
                 'minDate' => 'today',
                 'isEdit' => false,

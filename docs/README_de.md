@@ -1,19 +1,19 @@
-[english](README.md)
+[english](../README.md)
 
 ![Server](docs/images/meetling-admin-readme-header-de.png)
 # Jitsi Manager
 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](../code_of_conduct.md)
 [![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
 
 Jitsi Manager oder Jitsi Admin zum Verwalten von Jitsi Konferenzen und Server mit JWT
 
 ### Bekannt aus
 
-![Server](docs/images/ct-logo.png)
+![Server](images/ct-logo.png)
 
 ## Docker Installation
-Folge der Anleitung [Dockeranweisung](installDocker.md)
+Folge der Anleitung [Dockeranweisung](../installDocker.md)
 
 ### Verteilerliste
 
@@ -54,7 +54,7 @@ Folgende Funktionen sind bereits im Jitsi Administrator integriert:
 ### Das Dashboard
 
 Alle Informationen zu den Konferenzen stehen auf dem zentralen Dashboard
-![Dashboard](docs/images/dashboard-heading.jpg)
+![Dashboard](docs/images/jitsiadmin-en-laptop.png)
 
 ### Die Server
 
@@ -111,5 +111,5 @@ Für Versionen <= 0.72x lesen Sie die Update-Anleitungen direkt in der Github Ve
 Für Versionen 0.73 oder später, lesen Sie zugehörigen Update-Anleitungen
 `update_instruction_<fromVersion>...<toVersion>.md`
 
-[Update instruction 0.73.x to 0.74.x](update_instruction_0.73.x...0.74.x.md)
-[Update instruction 0.72.x to 0.73.x](update_instruction_0.72.x...0.73.x.md)
+[Update instruction 0.73.x to 0.74.x](../update_instruction_0.73.x...0.74.x.md)
+[Update instruction 0.72.x to 0.73.x](../update_instruction_0.72.x...0.73.x.md)

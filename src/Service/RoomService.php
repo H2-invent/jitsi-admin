@@ -72,7 +72,7 @@ class RoomService
 
 
         $moderator = false;
-        if ($room->getModerator() === $user || $roomUser->getModerator()) {
+        if (($user !== null && $room->getModerator() === $user) || $roomUser->getModerator()) {
             $moderator = true;
         }
         $avatar = null;
@@ -182,15 +182,17 @@ class RoomService
         if ($enableMic!== null){
             $payload['settings']['isMicrophoneEnabled'] = $enableMic==='true';
         }else{
-            if ($this->themeService->getThemeProperty('isMicrophoneEnabled')){
-                $payload['settings']['isMicrophoneEnabled'] = $this->themeService->getThemeProperty('isMicrophoneEnabled')==='true';
+            $themeMicrophoneEnabled = $this->themeService->getThemeProperty('isMicrophoneEnabled');
+            if ($themeMicrophoneEnabled !== null){
+                $payload['settings']['isMicrophoneEnabled'] = filter_var($themeMicrophoneEnabled, FILTER_VALIDATE_BOOLEAN);
             }
         }
         if ($enableCamera!== null){
             $payload['settings']['isCameraEnabled'] = $enableCamera==='true';
         }else{
-            if ($this->themeService->getThemeProperty('isCameraEnabled')){
-                $payload['settings']['isCameraEnabled'] = $this->themeService->getThemeProperty('isCameraEnabled')==='true';
+            $themeCameraEnabled = $this->themeService->getThemeProperty('isCameraEnabled');
+            if ($themeCameraEnabled !== null){
+                $payload['settings']['isCameraEnabled'] = filter_var($themeCameraEnabled, FILTER_VALIDATE_BOOLEAN);
             }
         }
         if ($userName === 'Meetling' && $server->isLiveKitServer()){

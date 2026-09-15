@@ -12,6 +12,11 @@ use Twig\TwigFunction;
 
 class DeputyTwig extends AbstractExtension
 {
+    /**
+     * @var array<int, array<int, Deputy>>
+     */
+    private array $deputyCache = [];
+
     public function __construct(
         private EntityManagerInterface $entityManager,
         private ParameterBagInterface  $parameterBag
@@ -28,13 +33,17 @@ class DeputyTwig extends AbstractExtension
         ];
     }
 
-    public function deputyIsFromLDAP(User $manager, User $deputy)
+    public function deputyIsFromLDAP(User $manager, User $deputy): bool
     {
-        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(['manager' => $manager, 'deputy' => $deputy]);
-        if ($dep && $dep->isIsFromLdap()) {
-            return true;
+        if (!isset($this->deputyCache[$manager->getId()])) {
+            $this->deputyCache[$manager->getId()] = $this->entityManager
+                ->getRepository(Deputy::class)
+                ->findForManager($manager);
         }
-        return false;
+
+        $dep = $this->deputyCache[$manager->getId()][$deputy->getId()] ?? null;
+
+        return $dep !== null && $dep->isIsFromLdap() === true;
     }
 
     public function userIsDisallowedToMakeDeputy(User $user): bool
