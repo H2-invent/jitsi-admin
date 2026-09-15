@@ -1575,6 +1575,10 @@
         <source>addhock.notification.pushMessage</source>
         <target state="translated">{name} desea programar una videoconferencia rápida contigo</target>
       </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target state="translated">El participante está desconectado o no ha iniciado sesión. La llamada no se puede iniciar.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">Tiempo de carga</target>

@@ -45,7 +45,7 @@ function initGenerell() {
         document.body.classList.add("in-smartPhone");
     }
     openBlankTarget(blankTarget);
-    initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
+    initAdhocMeeting(confirmTitle, confirmCancel, confirmOk, typeof adhocOfflineMessage !== 'undefined' ? adhocOfflineMessage : null);
     hotkeys('1', function () {
         $('#ex1-tab-1-tab').trigger('click');
     });

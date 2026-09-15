@@ -1570,6 +1570,10 @@
         <source>addhock.notification.pushMessage</source>
         <target state="translated">{name} wants to start an ad hoc meeting with you</target>
       </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target state="translated">The participant is offline or not logged in. The call cannot be started.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">Loading time</target>

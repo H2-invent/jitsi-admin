@@ -1577,6 +1577,10 @@ ID конференции: {uid}]]></target>
         <source>addhock.notification.pushMessage</source>
         <target state="translated">{name} хотел бы организовать с вами видеоконференцию</target>
       </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target state="translated">Участник не в сети или не вошёл в систему. Звонок не может быть начат.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">Время зарядки</target>

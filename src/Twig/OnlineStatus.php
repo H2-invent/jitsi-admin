@@ -7,7 +7,7 @@ use App\Entity\Checklist;
 use App\Entity\MyUser;
 use App\Entity\User;
 use App\Service\MessageService;
-use App\Service\OnlineStatusService;
+use App\Service\OnlineStatus\OnlineStatusService;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
