@@ -54,16 +54,17 @@ class RoomController extends JitsiAdminController
 
         $roomold = clone $room;
 
-        $serverDisabled = false;
+        $hasParticipants = false;
         if ($edit) {
-            $serverDisabled = count($roomStatusFrontendService->numberOfOccupants($room)) > 0;
+            $hasParticipants = count($roomStatusFrontendService->numberOfOccupants($room)) > 0;
         }
 
         $form = $this->createForm(RoomType::class,
             $room, [
                 'user' => $this->getUser(),
                 'server' => $servers,
-                'serverDisabled' => $serverDisabled,
+                'serverDisabled' => $hasParticipants,
+                'e2eeDisabled' => $hasParticipants,
                 'action' => $this->generateUrl('room_new',
                     [
                         'id' => $room->getId()]
