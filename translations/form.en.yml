@@ -82,7 +82,7 @@ help:
   jigasiNumberUrl: 'Enter the dial-in number here in JSON format. To do this, these must be entered as they are entered in Jigasi in the "numbers.json" (e.g.: {"message":"Dial-in numbers","numbers":{"DE":["04122/012345"]},"numbersEnabled" :true}).'
   jigasiProsodyDomain: Enter prosody domain. Usually it has pattern "conference.domain.topdomain".
   disallowFirefox: Firefox browser is disabled. All participants joining with Firefox will be redirected to a chromium based browser.
-  enforceE2e: End-to-end encryption security is enforced in every conference on this Jitsi server.
+  enforceE2e: End-to-end encryption security is enforced in every conference on this server.
   allowIp: Only the specified IP address or IP ranges are allowed to join the conference. IP ranges must be specified in the notation 10.10.10.10/24. Multiple IPs or ranges can be entered separated by commas.
   jitsiEventSyncUrl: Here you can specify another Jitsi admin who has saved the corresponding Jitsi event syncs for SIP requests. Only the base URL needs to be specified. This function requires Jitsi-admin version >0.77.x
   disableFilmstripe: Disable stripe with videos in Jitsi
@@ -143,6 +143,7 @@ label:
   timezone: Timezone
   serverName: Server Name
   lobby: Activate lobby
+  isE2EEEnabled: Enable end-to-end encryption (E2EE)
   secondEmail: CC Email
   profilImage: Profile picture (Shown in Jitsi-Meet meeting)
   corsHeader: CORS- or frame-ancestor header
