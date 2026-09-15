@@ -1572,6 +1572,10 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>addhock.notification.pushMessage</source>
         <target state="translated">{name} veut crér une visioconférence instanée avec vous</target>
       </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target state="translated">Le participant est hors ligne ou n'est pas connecté. L'appel ne peut pas être démarré.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">Temps de chargement</target>

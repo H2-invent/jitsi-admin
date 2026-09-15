@@ -6,6 +6,8 @@ use App\Repository\RoomsRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use App\Service\Lobby\DirectSendService;
+use App\Service\OnlineStatus\PresenceService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
@@ -13,6 +15,20 @@ use Symfony\Component\Mercure\Update;
 
 class AdhocControllerTest extends WebTestCase
 {
+    private function mockPresence(?bool $online): void
+    {
+        $presence = $this->createMock(PresenceService::class);
+        $presence->method('isUserOnline')->willReturn($online);
+        self::getContainer()->set(PresenceService::class, $presence);
+    }
+
+    private function mockPresenceNever(): void
+    {
+        $presence = $this->createMock(PresenceService::class);
+        $presence->expects(self::never())->method('isUserOnline');
+        self::getContainer()->set(PresenceService::class, $presence);
+    }
+
     public function testcreateAdhocMeetingNoTag(): void
     {
         $client = static::createClient();
@@ -48,6 +64,7 @@ class AdhocControllerTest extends WebTestCase
         $directSend->setMercurePublisher($hub);
 
 
+        $this->mockPresence(true);
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'Konferenz mit Test1, 1234, User, Test'));
@@ -109,6 +126,7 @@ class AdhocControllerTest extends WebTestCase
 
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $tag = $tagRepo->findOneBy(['title' => 'Test Tag Enabled']);
+        $this->mockPresence(true);
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId() . '/' . $tag->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'Konferenz mit Test1, 1234, User, Test'));
@@ -129,5 +147,86 @@ class AdhocControllerTest extends WebTestCase
         $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(), true)['popups'][0]['url']);
         self::assertSelectorTextContains('#tagContent', 'Test Tag Enabled');
         self::assertResponseIsSuccessful();
+    }
+
+    public function testcreateAdhocMeetingReceiverOffline(): void
+    {
+        $client = static::createClient();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $client->loginUser($user);
+
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $user2->setOnlineStatus(0);
+        $em->persist($user2);
+        $em->flush();
+
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $roomsBefore = $roomRepo->count([]);
+
+        $this->mockPresenceNever();
+
+        $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
+
+        self::assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        self::assertArrayNotHasKey('popups', $response);
+        self::assertEquals(
+            'Der Teilnehmer ist offline oder nicht angemeldet. Der Anruf kann nicht gestartet werden.',
+            $response['error']
+        );
+        self::assertEquals($roomsBefore, $roomRepo->count([]));
+    }
+
+    public function testcreateAdhocMeetingUsesDbStatusWhenPresenceUnknown(): void
+    {
+        $client = static::createClient();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $client->loginUser($user);
+
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+        $directSend->setMercurePublisher(new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                return 'id';
+            }
+        ));
+
+        $this->mockPresence(null);
+
+        $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
+
+        self::assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        self::assertArrayHasKey('popups', $response);
+    }
+
+    public function testcreateAdhocMeetingReceiverOfflineByPresence(): void
+    {
+        $client = static::createClient();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $client->loginUser($user);
+
+        $this->mockPresence(false);
+
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $roomsBefore = $roomRepo->count([]);
+
+        $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
+
+        self::assertResponseIsSuccessful();
+        $response = json_decode($client->getResponse()->getContent(), true);
+        self::assertArrayNotHasKey('popups', $response);
+        self::assertEquals(
+            'Der Teilnehmer ist offline oder nicht angemeldet. Der Anruf kann nicht gestartet werden.',
+            $response['error']
+        );
+        self::assertEquals($roomsBefore, $roomRepo->count([]));
     }
 }

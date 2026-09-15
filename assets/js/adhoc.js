@@ -12,6 +12,9 @@ import ('jquery-confirm');
 let title = "Bestätigung";
 let cancel = "Abbrechen";
 let ok = "OK";
+// German fallback; replaced at runtime by the translated `adhocOfflineMessage` global passed to
+// initAdhocMeeting() (see base.html.twig).
+let offlineMessage = "Der Teilnehmer ist offline oder nicht angemeldet. Der Anruf kann nicht gestartet werden.";
 
 
 function initconfirmLoadOpenPopUp() {
@@ -19,6 +22,18 @@ function initconfirmLoadOpenPopUp() {
         const triggerElement = e.target.closest('.adhocConfirm');
         if (triggerElement) {
             e.preventDefault();
+
+            // The address book row carries the live websocket presence in data-status. When it has
+            // not arrived yet the attribute is undefined and the call is allowed (fail-open).
+            const contact = triggerElement.closest('.adressbookline');
+            if (contact && contact.dataset.status === 'offline') {
+                Swal.fire({
+                    title: 'Fehler',
+                    text: offlineMessage,
+                    icon: 'error'
+                });
+                return;
+            }
 
             var url = triggerElement.href;
             var title = triggerElement.getAttribute('data-title') || 'Bestätigung';
@@ -60,6 +75,10 @@ function initconfirmLoadOpenPopUp() {
                                         data.popups.forEach(function (value) {
                                             createIframe(value.url, value.title);
                                         });
+                                    } else if (data.error) {
+                                        // Server-side rejection, e.g. the callee is offline.
+                                        Swal.showValidationMessage(data.error);
+                                        return false;
                                     } else if (data.redirectUrl) {
                                         Swal.showValidationMessage('Die Konferenz konnte nicht erstellt werden.');
                                         return false;
@@ -84,10 +103,13 @@ function initconfirmLoadOpenPopUp() {
 }
 
 
-function initAdhocMeeting(titleL, cancelL, okL) {
+function initAdhocMeeting(titleL, cancelL, okL, offlineMessageL) {
     title = titleL;
     cancel = cancelL;
     ok = okL;
+    if (offlineMessageL) {
+        offlineMessage = offlineMessageL;
+    }
 
     initconfirmLoadOpenPopUp();
 

@@ -1580,6 +1580,10 @@
         <source>addhock.notification.pushMessage</source>
         <target state="needs-translation">{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
       </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target state="translated">참가자가 오프라인이거나 로그인하지 않았습니다. 통화를 시작할 수 없습니다.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="needs-translation">Ladezeit</target>

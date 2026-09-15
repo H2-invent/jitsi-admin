@@ -8,6 +8,8 @@ use App\Entity\User;
 use App\Helper\JitsiAdminController;
 use App\Service\adhocmeeting\AdhocMeetingService;
 use App\Service\CreateHttpsUrl;
+use App\Service\OnlineStatus\OnlineStatusService;
+use App\Service\OnlineStatus\PresenceService;
 use App\Service\ServerUserManagment;
 use Doctrine\Persistence\ManagerRegistry;
 use GuzzleHttp\Promise\Create;
@@ -51,6 +53,8 @@ class AdHocMeetingController extends JitsiAdminController
         TranslatorInterface $translator,
         ServerUserManagment $serverUserManagment,
         AdhocMeetingService $adhocMeetingService,
+        OnlineStatusService $onlineStatusService,
+        PresenceService $presenceService,
         #[MapEntity(id: 'tagId')] ?Tag $tag = null,
 
     ): Response
@@ -66,6 +70,18 @@ class AdHocMeetingController extends JitsiAdminController
         if (!in_array($server, $servers)) {
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
             return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
+        }
+
+        // The stored status is authoritative for an explicit "offline" and avoids a network call.
+        // Live websocket presence is only consulted when the stored status says online; if it is
+        // unknown (null, e.g. websocket service unreachable) we keep the stored answer.
+        if (!$onlineStatusService->isUserOnline($user) || $presenceService->isUserOnline($user) === false) {
+            return new JsonResponse(
+                [
+                    'redirectUrl' => $this->generateUrl('dashboard'),
+                    'error' => $translator->trans('addhock.notification.offline'),
+                ]
+            );
         }
         try {
             $room = $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server, $tag);

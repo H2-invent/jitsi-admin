@@ -3,7 +3,7 @@
 namespace App\Service\Websocket;
 
 use App\Entity\User;
-use App\Service\OnlineStatusService;
+use App\Service\OnlineStatus\OnlineStatusService;
 use Firebase\JWT\JWT;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 

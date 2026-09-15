@@ -3,12 +3,13 @@ import bodyParser from "body-parser";
 import http from "http";
 import https from "https";
 import fs from "fs";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { Server } from "socket.io";
 
 import { checkFileContains } from "./checkCertAndKey.js";
 import { websocketState } from "./websocketState.mjs";
-import { loginUser, getOnlineUser, getUserId, redisGetUser, redisSetUser } from "./login.mjs";
+import { loginUser, getOnlineUser, getUserId, redisGetUser, redisSetUser, getStatusForUserId } from "./login.mjs";
 import { setIO } from "./ioRegistry.mjs";
 import {
   MERCURE_INTERNAL_URL,
@@ -127,7 +128,38 @@ function setupRoutes(io) {
 
   router.get(MERCURE_INTERNAL_URL, (_, res) => res.sendStatus(200));
   router.get("/healthz", (_, res) => res.sendStatus(200));
+
+  // Internal server-to-server endpoint used by the PHP PresenceService. It is authenticated with
+  // the raw shared WEBSOCKET_SECRET (not a user JWT), so browser users cannot call it. A 503
+  // signals "presence unknown" so the caller can fall back to the stored online status.
+  router.get("/presence/:uid", (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return res.sendStatus(403);
+
+    const token = authHeader.split(" ")[1];
+    if (!token || !constantTimeSecretEquals(token, WEBSOCKET_SECRET)) return res.sendStatus(403);
+
+    getStatusForUserId(req.params.uid)
+      .then((status) => {
+        if (status === null) return res.status(503).json({ error: "presence unavailable" });
+        res.json({ uid: req.params.uid, status });
+      })
+      .catch((presenceError) => {
+        console.error("❌ Presence-Lookup fehlgeschlagen:", presenceError.message);
+        res.status(500).json({ error: "presence lookup failed" });
+      });
+  });
+
   app.use("/", router);
+}
+
+// Constant-time secret comparison. Hashing both values first keeps the comparison independent of
+// the input length and avoids leaking the secret length via timing.
+function constantTimeSecretEquals(provided, expected) {
+  const providedHash = crypto.createHash("sha256").update(provided || "").digest();
+  const expectedHash = crypto.createHash("sha256").update(expected || "").digest();
+
+  return crypto.timingSafeEqual(providedHash, expectedHash);
 }
 
 function startServer(server) {
