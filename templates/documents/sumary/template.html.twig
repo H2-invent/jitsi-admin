@@ -1,4 +1,17 @@
-{% extends ('documents/base.html.twig') %}
+{% extends 'documents/base.html.twig' %}
 {% block body %}
-{{ text|raw }}
+    {{ header|raw }}
+
+    {% if whiteboard %}
+        <div class="attachment">
+            {{ whiteboard|raw }}
+            <div class="muted" style="font-size: 10px; margin-top: 4px;">{{ 'Whiteboard'|trans }}</div>
+        </div>
+    {% endif %}
+
+    {% if etherpad %}
+        <div class="attachment etherpad">
+            {{ etherpad|raw }}
+        </div>
+    {% endif %}
 {% endblock %}

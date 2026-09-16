@@ -1,81 +1,89 @@
-<table style="width: 500px">
+<div class="doc-header">
+    <h1>{{ room.name }}</h1>
+    <div class="doc-subtitle">{{ 'Meeting'|trans }}</div>
+</div>
+
+<table class="grid section">
     <tbody>
     <tr>
-        <td style="padding: 20px" colspan="2">
-            <h1>{{ room.name }}</h1>
+        <td style="width: 60%;">
+            <div class="section-title">{{ 'Agenda'|trans }}</div>
+            <div class="card">
+                {{ room.agenda ? room.agenda|markdown_to_html : ('Keine Agenda'|trans) }}
+            </div>
         </td>
-    </tr>
-    <tr>
-        <td style="width: 250px; vertical-align: top">
-            {{ room.agenda?room.agenda|markdown_to_html: 'Keine Agenda'|trans }}
-        </td>
-        <td style="width: 250px; vertical-align: top">
-            <h3 style="margin-top-top: 0">
-                {{ 'Organisator'|trans }}
-            </h3>
-            {{ room.moderator|nameOfUserNoSymbol }}
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" style="vertical-align: top">
-            <p>
-                <small>{% trans with {'{timezone}':room.timeZone} %}report.info.timezone{% endtrans %}</small>
-            </p>
-        </td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top">
-            <table>
-                <tbody>
-                <tr>
-                    <td style="padding: 16px; width: 125px; vertical-align: top">
-                        {% if room.persistantRoom %}
-                            <h2>{{ 'fixed.Room.name'|trans }}</h2>
-                        {% else %}
-                            <h2>{{ 'Geplant'|trans }}:</h2> <p>{{ room.start|date('d.m.Y') }}</p>
-                            <p>{{ room.start|date('H:i') }} - {{ room.enddate|date('H:i') }}</p>
-                        {% endif %}
-                    </td>
-                    <td style="padding: 16px; width: 125px; vertical-align: top">
-                        <h2>{{ 'Durchgeführt'|trans }}:</h2>
-                        <table>
-                            <tbody>
-                            {% for s in room.roomstatuses|reverse|slice(0,5) %}
-                                <tr>
-                                    <td>
-                                        {{ s.roomCreatedAtwithTimeZone()|date('d.m.Y') }}:
-                                        <p>{{ s.roomCreatedAtwithTimeZone()|date('H:i') }}
-                                            - {% if s.destroyedAt is not null %}  {{ s.destroyedAtwithTimeZone()|date('H:i') }}{% else %} {{ 'Jetzt'|trans }} {% endif %}</p>
-
-                                    </td>
-                                </tr>
-
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-        </td>
-        <td style="vertical-align: top">
-            <table width="450px">
-                <tbody>
-                <tr>
-                    <td style="padding: 16px; width: 125px; vertical-align: top">
-                        <h2>{{ 'Teilnehmerliste'|trans }}</h2>
-                    </td>
-                </tr>
-                {% for u in room.user %}
-                    <tr>
-                        <td style="padding: 8px">{{ u|nameOfUserNoSymbol }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
+        <td style="width: 40%; padding-right: 0;">
+            <div class="section-title">{{ 'Organisator'|trans }}</div>
+            <div class="card">
+                <div class="value">{{ room.moderator|nameOfUserNoSymbol }}</div>
+            </div>
         </td>
     </tr>
     </tbody>
 </table>
+
+<p class="muted" style="font-size: 10px; margin-bottom: 16px;">
+    {% trans with {'{timezone}': room.timeZone} %}report.info.timezone{% endtrans %}
+</p>
+
+<table class="grid section">
+    <tbody>
+    <tr>
+        <td style="width: 50%;">
+            <div class="section-title">
+                {% if room.persistantRoom %}
+                    {{ 'fixed.Room.name'|trans }}
+                {% else %}
+                    {{ 'Geplant'|trans }}
+                {% endif %}
+            </div>
+            <div class="card">
+                {% if room.persistantRoom %}
+                    <span class="badge badge-fixed">{{ 'fixed.Room.name'|trans }}</span>
+                {% else %}
+                    <div class="label">{{ 'Datum'|trans }}</div>
+                    <div class="value">{{ room.start|date('d.m.Y') }}</div>
+                    <div class="label" style="margin-top: 8px;">{{ 'Uhrzeit'|trans }}</div>
+                    <div class="value">{{ room.start|date('H:i') }} &ndash; {{ room.enddate|date('H:i') }}</div>
+                {% endif %}
+            </div>
+        </td>
+        <td style="width: 50%; padding-right: 0;">
+            <div class="section-title">{{ 'Durchgeführt'|trans }}</div>
+            <div class="card">
+                {% if room.roomstatuses|length > 0 %}
+                    <table class="timeline">
+                        <tbody>
+                        {% for s in room.roomstatuses|reverse|slice(0, 5) %}
+                            <tr>
+                                <td>
+                                    <strong>{{ s.roomCreatedAtwithTimeZone()|date('d.m.Y') }}</strong>
+                                    <span class="muted">
+                                        {{ s.roomCreatedAtwithTimeZone()|date('H:i') }}
+                                        &ndash;
+                                        {% if s.destroyedAt is not null %}
+                                            {{ s.destroyedAtwithTimeZone()|date('H:i') }}
+                                        {% else %}
+                                            {{ 'Jetzt'|trans }}
+                                        {% endif %}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <span class="muted">&ndash;</span>
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="section">
+    <div class="section-title">{{ 'Teilnehmerliste'|trans }} ({{ room.user|length }})</div>
+    <div class="card">
+        {% for u in room.user %}<span class="chip">{{ u|nameOfUserNoSymbol }}</span> {% endfor %}
+    </div>
+</div>
