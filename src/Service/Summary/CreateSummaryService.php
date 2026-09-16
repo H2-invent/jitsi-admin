@@ -35,7 +35,7 @@ class CreateSummaryService
      */
     public function createSummary(Rooms $room): string
     {
-        return $this->environment->render('documents/sumary/template.html.twig', [
+        return $this->environment->render('documents/summary/template.html.twig', [
             'title' => $room->getName(),
             'header' => $this->createHeader($room),
             'whiteboard' => $this->createWhiteBoardSummary($room),
@@ -72,7 +72,7 @@ class CreateSummaryService
      */
     public function createHeader(Rooms $room): string
     {
-        return $this->environment->render('documents/sumary/header.html.twig', ['room' => $room]);
+        return $this->environment->render('documents/summary/header.html.twig', ['room' => $room]);
     }
 
     /**
