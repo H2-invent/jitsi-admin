@@ -54,15 +54,15 @@
                 {% if room.roomstatuses|length > 0 %}
                     <table class="timeline">
                         <tbody>
-                        {% for s in room.roomstatuses|reverse|slice(0, 5) %}
+                        {% for roomStatus in room.roomstatuses|reverse|slice(0, 5) %}
                             <tr>
                                 <td>
-                                    <strong>{{ s.roomCreatedAtwithTimeZone()|date('d.m.Y') }}</strong>
+                                    <strong>{{ roomStatus.roomCreatedAtwithTimeZone()|date('d.m.Y') }}</strong>
                                     <span class="muted">
-                                        {{ s.roomCreatedAtwithTimeZone()|date('H:i') }}
+                                        {{ roomStatus.roomCreatedAtwithTimeZone()|date('H:i') }}
                                         &ndash;
-                                        {% if s.destroyedAt is not null %}
-                                            {{ s.destroyedAtwithTimeZone()|date('H:i') }}
+                                        {% if roomStatus.destroyedAt is not null %}
+                                            {{ roomStatus.destroyedAtwithTimeZone()|date('H:i') }}
                                         {% else %}
                                             {{ 'Jetzt'|trans }}
                                         {% endif %}
@@ -84,6 +84,8 @@
 <div class="section">
     <div class="section-title">{{ 'Teilnehmerliste'|trans }} ({{ room.user|length }})</div>
     <div class="card">
-        {% for u in room.user %}<span class="chip">{{ u|nameOfUserNoSymbol }}</span> {% endfor %}
+        {% for user in room.user %}
+            <span class="chip">{{ user|nameOfUserNoSymbol }}</span>
+        {% endfor %}
     </div>
 </div>
