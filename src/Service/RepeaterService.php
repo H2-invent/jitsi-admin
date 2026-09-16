@@ -6,6 +6,7 @@ use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
+use App\Enums\RepeatTypeEnum;
 use App\Service\caller\CallerPrepareService;
 use App\Service\Jigasi\JigasiService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,37 +24,6 @@ class RepeaterService
     private $translator;
     private $twig;
     private $callerUserService;
-    private $days = [
-        1 => 'Monday',
-        2 => 'Tuesday',
-        3 => 'Wednesday',
-        4 => 'Thursday',
-        5 => 'Friday',
-        6 => 'Saturday',
-        0 => 'Sunday'
-    ];
-    private $number = [
-        0 => 'First',
-        1 => 'Second',
-        2 => 'Third',
-        3 => 'Fourth',
-        4 => 'Fifth',
-        5 => 'Last',
-    ];
-    private $months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-    ];
 
     public function __construct(
         CallerPrepareService            $callerPrepareService,
@@ -84,25 +54,23 @@ class RepeaterService
 
         $userAttribute = $repeat->getPrototyp()->getUserAttributes()->toArray();
         switch ($repeat->getRepeatType()) {
-            case 0:
+            case RepeatTypeEnum::DAILY:
                 $repeat = $this->createDaily($repeat);
                 break;
-            case 1:
+            case RepeatTypeEnum::WEEKLY:
                 $repeat = $this->createWeekly($repeat);
                 break;
-            case 2:
+            case RepeatTypeEnum::MONTHLY:
                 $repeat = $this->createMontly($repeat);
                 break;
-            case 3:
+            case RepeatTypeEnum::MONTHLY_RELATIVE:
                 $repeat = $this->createMontlyRelative($repeat);
                 break;
-            case 4:
+            case RepeatTypeEnum::YEARLY:
                 $repeat = $this->createYearly($repeat);
                 break;
-            case 5:
+            case RepeatTypeEnum::YEARLY_RELATIVE:
                 $repeat = $this->createYearlyRelative($repeat);
-                break;
-            default:
                 break;
         }
         foreach ($userAttribute as $data) {
@@ -197,7 +165,7 @@ class RepeaterService
         $prototype = $repeat->getPrototyp();
         $start = $s->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
         $startTmp = $start->modify('first day of this month');
-        $text = $this->number[$repeat->getRepatMonthRelativNumber()] . ' ' . $this->days[$repeat->getRepatMonthRelativWeekday()] . ' of this month';
+        $text = $repeat->getRepatMonthRelativNumber()->label() . ' ' . $repeat->getRepatMonthRelativWeekday()->label() . ' of this month';
         $startTmp = $startTmp->modify($text);
         $startTmp = $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
         $sollCounter = $repeat->getRepetation();
@@ -261,7 +229,7 @@ class RepeaterService
         $prototype = $repeat->getPrototyp();
         $start = $s->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
         $startTmp = $start->modify('first day of this year');
-        $text = $this->number[$repeat->getRepeatYearlyRelativeNumber()] . ' ' . $this->days[$repeat->getRepeatYearlyRelativeWeekday()] . ' of ' . $this->months[$repeat->getRepeatYearlyRelativeMonth()];
+        $text = $repeat->getRepeatYearlyRelativeNumber()->label() . ' ' . $repeat->getRepeatYearlyRelativeWeekday()->label() . ' of ' . $repeat->getRepeatYearlyRelativeMonth()->label();
         $startTmp = $startTmp->modify($text);
         $sollCounter = $repeat->getRepetation();
         $startTmp = $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
@@ -613,22 +581,22 @@ class RepeaterService
     function checkData(Repeat $repeat): bool
     {
         switch ($repeat->getRepeatType()) {
-            case 0:
+            case RepeatTypeEnum::DAILY:
                 if (!$repeat->getRepeaterDays()) {
                     return false;
                 }
                 break;
-            case 1:
+            case RepeatTypeEnum::WEEKLY:
                 if (!$repeat->getRepeaterWeeks()) {
                     return false;
                 }
                 break;
-            case 2:
+            case RepeatTypeEnum::MONTHLY:
                 if (!$repeat->getRepeatMontly()) {
                     return false;
                 }
                 break;
-            case 3:
+            case RepeatTypeEnum::MONTHLY_RELATIVE:
                 if ($repeat->getRepatMonthRelativNumber() === null) {
                     return false;
                 }
@@ -639,12 +607,12 @@ class RepeaterService
                     return false;
                 }
                 break;
-            case 4:
+            case RepeatTypeEnum::YEARLY:
                 if (!$repeat->getRepeatYearly()) {
                     return false;
                 }
                 break;
-            case 5:
+            case RepeatTypeEnum::YEARLY_RELATIVE:
                 if ($repeat->getRepeatYearlyRelativeHowOften() === null
                     || $repeat->getRepeatYearlyRelativeNumber() === null
                     || $repeat->getRepeatYearlyRelativeWeekday() === null
@@ -652,8 +620,6 @@ class RepeaterService
                 ) {
                     return false;
                 }
-                break;
-            default:
                 break;
         }
         return true;

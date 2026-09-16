@@ -2,6 +2,7 @@
 
 namespace App\Tests\ExternalApplication;
 
+use App\Enums\RepeatTypeEnum;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
@@ -61,7 +62,7 @@ class ApplicationUrlGeneratorTest extends KernelTestCase
             ->setWeeks(2)
             ->setDays(2)
             ->setRepetation(10)
-            ->setRepeatType(1)
+            ->setRepeatType(RepeatTypeEnum::WEEKLY)
             ->setStartDate(new \DateTimeImmutable());
         $res = $applicationUrlGen->createWhitebophirLink($room, true);
         $repeater = $room->getRepeater();

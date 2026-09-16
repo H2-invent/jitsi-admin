@@ -2,6 +2,7 @@
 
 namespace App\Tests\Repeater;
 
+use App\Enums\RepeatTypeEnum;
 use App\Entity\Repeat;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -187,7 +188,7 @@ class RepeaterControllerTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $repeat = new Repeat();
-        $repeat->setRepeatType(0);
+        $repeat->setRepeatType(RepeatTypeEnum::DAILY);
         $repeat->setRepetation(1);
         $repeat->setRepeaterDays(1);
         $repeat->setStartDate($room->getStart());

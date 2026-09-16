@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+use App\Enums\RepeatMonthEnum;
+use App\Enums\RepeatNumberEnum;
+use App\Enums\RepeatTypeEnum;
+use App\Enums\RepeatWeekdayEnum;
 use App\Repository\RepeatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -37,8 +41,8 @@ class Repeat
     private $months;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $days;
-    #[ORM\Column(type: 'integer')]
-    private $repeatType;
+    #[ORM\Column(type: 'integer', enumType: RepeatTypeEnum::class)]
+    private ?RepeatTypeEnum $repeatType = null;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $repeaterDays;
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -52,16 +56,16 @@ class Repeat
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'repeaterProtoype', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private $prototyp;
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $repatMonthRelativNumber;
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $repatMonthRelativWeekday;
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $repeatYearlyRelativeNumber;
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $repeatYearlyRelativeMonth;
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $repeatYearlyRelativeWeekday;
+    #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatNumberEnum::class)]
+    private ?RepeatNumberEnum $repatMonthRelativNumber = null;
+    #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatWeekdayEnum::class)]
+    private ?RepeatWeekdayEnum $repatMonthRelativWeekday = null;
+    #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatNumberEnum::class)]
+    private ?RepeatNumberEnum $repeatYearlyRelativeNumber = null;
+    #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatMonthEnum::class)]
+    private ?RepeatMonthEnum $repeatYearlyRelativeMonth = null;
+    #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatWeekdayEnum::class)]
+    private ?RepeatWeekdayEnum $repeatYearlyRelativeWeekday = null;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $repeatMonthlyRelativeHowOften;
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -186,11 +190,11 @@ class Repeat
 
         return $this;
     }
-    public function getRepeatType(): ?int
+    public function getRepeatType(): ?RepeatTypeEnum
     {
         return $this->repeatType;
     }
-    public function setRepeatType(int $repeatType): self
+    public function setRepeatType(RepeatTypeEnum $repeatType): self
     {
         $this->repeatType = $repeatType;
 
@@ -256,51 +260,51 @@ class Repeat
 
         return $this;
     }
-    public function getRepatMonthRelativNumber(): ?int
+    public function getRepatMonthRelativNumber(): ?RepeatNumberEnum
     {
         return $this->repatMonthRelativNumber;
     }
-    public function setRepatMonthRelativNumber(?int $repatMonthRelativNumber): self
+    public function setRepatMonthRelativNumber(?RepeatNumberEnum $repatMonthRelativNumber): self
     {
         $this->repatMonthRelativNumber = $repatMonthRelativNumber;
 
         return $this;
     }
-    public function getRepatMonthRelativWeekday(): ?int
+    public function getRepatMonthRelativWeekday(): ?RepeatWeekdayEnum
     {
         return $this->repatMonthRelativWeekday;
     }
-    public function setRepatMonthRelativWeekday(?int $repatMonthRelativWeekday): self
+    public function setRepatMonthRelativWeekday(?RepeatWeekdayEnum $repatMonthRelativWeekday): self
     {
         $this->repatMonthRelativWeekday = $repatMonthRelativWeekday;
 
         return $this;
     }
-    public function getRepeatYearlyRelativeNumber(): ?int
+    public function getRepeatYearlyRelativeNumber(): ?RepeatNumberEnum
     {
         return $this->repeatYearlyRelativeNumber;
     }
-    public function setRepeatYearlyRelativeNumber(?int $repeatYearlyRelativeNumber): self
+    public function setRepeatYearlyRelativeNumber(?RepeatNumberEnum $repeatYearlyRelativeNumber): self
     {
         $this->repeatYearlyRelativeNumber = $repeatYearlyRelativeNumber;
 
         return $this;
     }
-    public function getRepeatYearlyRelativeMonth(): ?int
+    public function getRepeatYearlyRelativeMonth(): ?RepeatMonthEnum
     {
         return $this->repeatYearlyRelativeMonth;
     }
-    public function setRepeatYearlyRelativeMonth(?int $repeatYearlyRelativeMonth): self
+    public function setRepeatYearlyRelativeMonth(?RepeatMonthEnum $repeatYearlyRelativeMonth): self
     {
         $this->repeatYearlyRelativeMonth = $repeatYearlyRelativeMonth;
 
         return $this;
     }
-    public function getRepeatYearlyRelativeWeekday(): ?int
+    public function getRepeatYearlyRelativeWeekday(): ?RepeatWeekdayEnum
     {
         return $this->repeatYearlyRelativeWeekday;
     }
-    public function setRepeatYearlyRelativeWeekday(?int $repeatYearlyRelativeWeekday): self
+    public function setRepeatYearlyRelativeWeekday(?RepeatWeekdayEnum $repeatYearlyRelativeWeekday): self
     {
         $this->repeatYearlyRelativeWeekday = $repeatYearlyRelativeWeekday;
 

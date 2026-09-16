@@ -12,6 +12,10 @@ namespace App\Form\Type;
 use App\Entity\AuditTomAbteilung;
 use App\Entity\Repeat;
 use App\Entity\Server;
+use App\Enums\RepeatMonthEnum;
+use App\Enums\RepeatNumberEnum;
+use App\Enums\RepeatTypeEnum;
+use App\Enums\RepeatWeekdayEnum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -33,14 +37,8 @@ class RepeaterType extends AbstractType
             ->add(
                 'repeatType',
                 ChoiceType::class,
-                ['choices' => [
-                    'option.daily' => 0,
-                    'option.weekly' => 1,
-                    'option.montly' => 2,
-                    'option.montlyRelative' => 3,
-                    'option.yearly' => 4,
-                    'option.yearlyRelative' => 5,
-                ],
+                ['choices' => RepeatTypeEnum::cases(),
+                    'choice_label' => fn (RepeatTypeEnum $choice) => $choice->translationKey(),
                     'label' => 'label.repeatType',
                     'translation_domain' => 'form']
             )
@@ -68,30 +66,16 @@ class RepeaterType extends AbstractType
             ->add(
                 'repatMonthRelativNumber',
                 ChoiceType::class,
-                ['choices' => [
-                    'option.first' => 0,
-                    'option.second' => 1,
-                    'option.third' => 2,
-                    'option.fourth' => 3,
-                    'option.fifth' => 4,
-                    'option.last' => 5,
-                ],
+                ['choices' => RepeatNumberEnum::cases(),
+                    'choice_label' => fn (RepeatNumberEnum $choice) => $choice->translationKey(),
                     'label' => 'label.montlyRelativeNumber',
                     'translation_domain' => 'form']
             )
             ->add(
                 'repatMonthRelativWeekday',
                 ChoiceType::class,
-                ['choices' => [
-                    'option.sunday' => 0,
-                    'option.monday' => 1,
-                    'option.tuesday' => 2,
-                    'option.wednesday' => 3,
-                    'option.thursday' => 4,
-                    'option.friday' => 5,
-                    'option.saturday' => 6,
-
-                ],
+                ['choices' => RepeatWeekdayEnum::cases(),
+                    'choice_label' => fn (RepeatWeekdayEnum $choice) => $choice->translationKey(),
                     'label' => 'label.montlyRelativeWeekday',
                     'translation_domain' => 'form']
             )
@@ -99,51 +83,24 @@ class RepeaterType extends AbstractType
             ->add(
                 'repeatYearlyRelativeNumber',
                 ChoiceType::class,
-                ['choices' => [
-                    'option.first' => 0,
-                    'option.second' => 1,
-                    'option.third' => 2,
-                    'option.fourth' => 3,
-                    'option.fifth' => 4,
-                    'option.last' => 5,
-                ],
+                ['choices' => RepeatNumberEnum::cases(),
+                    'choice_label' => fn (RepeatNumberEnum $choice) => $choice->translationKey(),
                     'label' => 'label.montlyRelativeNumber',
                     'translation_domain' => 'form']
             )
             ->add(
                 'repeatYearlyRelativeWeekday',
                 ChoiceType::class,
-                ['choices' => [
-                    'option.sunday' => 0,
-                    'option.monday' => 1,
-                    'option.tuesday' => 2,
-                    'option.wednesday' => 3,
-                    'option.thursday' => 4,
-                    'option.friday' => 5,
-                    'option.saturday' => 6,
-
-                ],
+                ['choices' => RepeatWeekdayEnum::cases(),
+                    'choice_label' => fn (RepeatWeekdayEnum $choice) => $choice->translationKey(),
                     'label' => 'label.montlyRelativeWeekday',
                     'translation_domain' => 'form']
             )
             ->add(
                 'repeatYearlyRelativeMonth',
                 ChoiceType::class,
-                ['choices' => [
-                    'option.january' => 0,
-                    'option.february' => 1,
-                    'option.march' => 2,
-                    'option.april' => 3,
-                    'option.may' => 4,
-                    'option.june' => 5,
-                    'option.july' => 6,
-                    'option.august' => 7,
-                    'option.septembre' => 8,
-                    'option.octobre' => 9,
-                    'option.novembre' => 10,
-                    'option.decembre' => 11,
-
-                ],
+                ['choices' => RepeatMonthEnum::cases(),
+                    'choice_label' => fn (RepeatMonthEnum $choice) => $choice->translationKey(),
                     'label' => 'label.montlyRelativeMonth',
                     'translation_domain' => 'form']
             )

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Rooms\Service;
 
+use App\Enums\RepeatTypeEnum;
 use App\Entity\CallerId;
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
@@ -109,7 +110,7 @@ class RemoveRoomTest extends KernelTestCase
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $repeaterService = self::getContainer()->get(RepeaterService::class);
         $repeat = new Repeat();
-        $repeat->setRepeatType(0);
+        $repeat->setRepeatType(RepeatTypeEnum::DAILY);
         $repeat->setPrototyp($room);
         $repeat->setStartDate($room->getStart());
         $repeat->setRepetation(3);
