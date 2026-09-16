@@ -538,4 +538,67 @@ class RoomNewTest extends WebTestCase
         $roomAfter = $roomRepo->find($room->getId());
         self::assertEquals($originalServer->getId(), $roomAfter->getServer()->getId());
     }
+
+    public function testEditE2eeNotDisabledWithoutParticipants(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
+
+        $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+        $crawler = $client->request('GET', $urlGenerator->generate('room_new', ['id' => $room->getId()]));
+        self::assertResponseIsSuccessful();
+
+        $e2eeNode = $crawler->filter('#room_isE2EEEnabled')->first();
+        self::assertCount(1, $e2eeNode);
+        self::assertNull($e2eeNode->attr('disabled'));
+    }
+
+    public function testEditE2eeDisabledWithParticipants(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $room = $this->createRoomWithStatus();
+
+        $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+        $crawler = $client->request('GET', $urlGenerator->generate('room_new', ['id' => $room->getId()]));
+        self::assertResponseIsSuccessful();
+
+        $e2eeNode = $crawler->filter('#room_isE2EEEnabled')->first();
+        self::assertCount(1, $e2eeNode);
+        self::assertEquals('disabled', $e2eeNode->attr('disabled'));
+    }
+
+    public function testEditE2eeChangeBlockedWhenParticipantsInRoom(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $room = $this->createRoomWithStatus();
+        self::assertFalse($room->isE2EEEnabled());
+
+        $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+        $url = $urlGenerator->generate('room_new', ['id' => $room->getId()]);
+
+        $crawler = $client->request('GET', $url);
+        self::assertResponseIsSuccessful();
+        $form = $crawler->selectButton('Speichern')->form();
+
+        $values = $form->getPhpValues();
+        $values['room']['isE2EEEnabled'] = '1';
+
+        $client->request('POST', $url, $values);
+
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $roomAfter = $roomRepo->find($room->getId());
+        self::assertFalse($roomAfter->isE2EEEnabled());
+    }
 }

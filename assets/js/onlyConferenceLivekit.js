@@ -1,6 +1,7 @@
 import {enterMeeting, initWebsocket, leaveMeeting} from "./websocket";
 import {close, inIframe, initModeratorIframe, showPlayPause, stopclosingMe} from "./moderatorIframe";
 import {initStarSend} from "./endModal";
+import {initGenerell} from "./init";
 import {initStartWhiteboard} from "./startWhiteboard";
 import * as mdb from 'mdb-ui-kit'; // lib
 import ClipboardJS from 'clipboard'
@@ -87,6 +88,7 @@ const api = new LivekitUtils(parentElementId, livekitUrl);
 //
 
 function docReady(fn) {
+    initGenerell();
     // see if DOM is already available
     if (document.readyState === "complete" || document.readyState === "interactive") {
         // call on next available tick

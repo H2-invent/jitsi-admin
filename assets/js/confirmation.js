@@ -27,6 +27,56 @@ export function initPopover() {
     });
 }
 
+let popoverDismissBound = false;
+
+function visiblePopoverInstances() {
+    const instances = [];
+    document.querySelectorAll('[data-mdb-popover-init]').forEach((item) => {
+        const instance = Popover.getInstance(item);
+        if (instance && instance.tip && instance.tip.classList.contains('show')) {
+            instances.push({item, instance});
+        }
+    });
+    return instances;
+}
+
+function bindPopoverDismiss() {
+    if (popoverDismissBound) {
+        return;
+    }
+    popoverDismissBound = true;
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') {
+            return;
+        }
+        const visible = visiblePopoverInstances();
+        visible.forEach(({instance}) => instance.hide());
+        const activeElement = document.activeElement;
+        if (visible.length > 0 && activeElement instanceof HTMLElement && activeElement !== document.body) {
+            const isTrigger = visible.some(({item}) => item === activeElement || item.contains(activeElement));
+            if (isTrigger) {
+                activeElement.blur();
+            }
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!target || target.nodeType !== Node.ELEMENT_NODE) {
+            return;
+        }
+        visiblePopoverInstances().forEach(({item, instance}) => {
+            if (item.contains(target) || instance.tip.contains(target)) {
+                return;
+            }
+            instance.hide();
+        });
+    });
+}
+
+bindPopoverDismiss();
+
 export function initDropdown() {
     initMDB({Dropdown});
     const items = document.querySelectorAll('[data-mdb-dropdown-init]');
