@@ -37,10 +37,12 @@ class RepeaterType extends AbstractType
             ->add(
                 'repeatType',
                 ChoiceType::class,
-                ['choices' => RepeatTypeEnum::cases(),
+                [
+                    'choices' => RepeatTypeEnum::cases(),
                     'choice_label' => fn (RepeatTypeEnum $choice) => $choice->translationKey(),
                     'label' => 'label.repeatType',
-                    'translation_domain' => 'form']
+                    'translation_domain' => 'form'
+                ]
             )
 //            ->add('weekday', ChoiceType::class, [
 //                'choices' => [
@@ -66,43 +68,53 @@ class RepeaterType extends AbstractType
             ->add(
                 'repatMonthRelativNumber',
                 ChoiceType::class,
-                ['choices' => RepeatNumberEnum::cases(),
+                [
+                    'choices' => RepeatNumberEnum::cases(),
                     'choice_label' => fn (RepeatNumberEnum $choice) => $choice->translationKey(),
                     'label' => 'label.montlyRelativeNumber',
-                    'translation_domain' => 'form']
+                    'translation_domain' => 'form'
+                ]
             )
             ->add(
                 'repatMonthRelativWeekday',
                 ChoiceType::class,
-                ['choices' => RepeatWeekdayEnum::cases(),
+                [
+                    'choices' => RepeatWeekdayEnum::cases(),
                     'choice_label' => fn (RepeatWeekdayEnum $choice) => $choice->translationKey(),
                     'label' => 'label.montlyRelativeWeekday',
-                    'translation_domain' => 'form']
+                    'translation_domain' => 'form'
+                ]
             )
             ->add('repeatMonthlyRelativeHowOften', NumberType::class, ['label' => 'label.repeatMontly', 'required' => false, 'attr' => ['placeholder' => 'label.repeatMontly'], 'translation_domain' => 'form'])
             ->add(
                 'repeatYearlyRelativeNumber',
                 ChoiceType::class,
-                ['choices' => RepeatNumberEnum::cases(),
+                [
+                    'choices' => RepeatNumberEnum::cases(),
                     'choice_label' => fn (RepeatNumberEnum $choice) => $choice->translationKey(),
                     'label' => 'label.montlyRelativeNumber',
-                    'translation_domain' => 'form']
+                    'translation_domain' => 'form'
+                ]
             )
             ->add(
                 'repeatYearlyRelativeWeekday',
                 ChoiceType::class,
-                ['choices' => RepeatWeekdayEnum::cases(),
+                [
+                    'choices' => RepeatWeekdayEnum::cases(),
                     'choice_label' => fn (RepeatWeekdayEnum $choice) => $choice->translationKey(),
                     'label' => 'label.montlyRelativeWeekday',
-                    'translation_domain' => 'form']
+                    'translation_domain' => 'form'
+                ]
             )
             ->add(
                 'repeatYearlyRelativeMonth',
                 ChoiceType::class,
-                ['choices' => RepeatMonthEnum::cases(),
+                [
+                    'choices' => RepeatMonthEnum::cases(),
                     'choice_label' => fn (RepeatMonthEnum $choice) => $choice->translationKey(),
                     'label' => 'label.montlyRelativeMonth',
-                    'translation_domain' => 'form']
+                    'translation_domain' => 'form'
+                ]
             )
             ->add('repeatYearlyRelativeHowOften', NumberType::class, ['label' => 'label.repeatYearly', 'required' => false, 'attr' => ['placeholder' => 'label.repeatYearly'], 'translation_domain' => 'form'])
             ->add('repetation', NumberType::class, ['label' => 'label.repetation', 'required' => true, 'attr' => ['placeholder' => 'label.repetation'], 'translation_domain' => 'form'])
