@@ -3,6 +3,7 @@
 ## 1.6
 ### 🚀 Features:
 * Add E2EE to server and conference setting and JWT
+* Revert layout change for Manage Participants dialog and implemented associated Ajax functionality
 
 ### 🐛 Bug Fixes:
 * Prevent server change for active meetings rooms
