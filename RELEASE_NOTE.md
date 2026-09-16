@@ -3,6 +3,7 @@
 ## 1.7
 ### 🚀 Features:
 * Convert all DateTime usages to DateTimeImmutable
+* Convert hardcoded repeat method integers to Enum
 
 
 ## 1.6
