@@ -25,77 +25,101 @@ class CreateSummaryService
     {
     }
 
-    public function setHttpClient(HttpClientInterface $httpClient)
+    public function setHttpClient(HttpClientInterface $httpClient): void
     {
         $this->httpClient = $httpClient;
     }
 
+    /**
+     * Renders the complete summary document as an HTML string.
+     */
     public function createSummary(Rooms $room): string
     {
-        $res = $this->createHeader($room);
-        $res .= $this->createWhiteBoardSummary($room);
-        $res .= $this->createEtherpadExport($room);
-        return $this->environment->render('documents/sumary/template.html.twig', ['text' => $res, 'title' => $room->getName()]);
+        return $this->environment->render('documents/summary/template.html.twig', [
+            'title' => $room->getName(),
+            'header' => $this->createHeader($room),
+            'whiteboard' => $this->createWhiteBoardSummary($room),
+            'etherpad' => $this->createEtherpadExport($room),
+        ]);
     }
 
+    /**
+     * Renders the summary as a ready-to-output PDF document.
+     */
     public function createSummaryPdf(Rooms $room): ?Dompdf
     {
-        $root = $this->appKernel->getProjectDir();
-        $pdfOptions = new Options();
+        $fontDirectory = $this->appKernel->getProjectDir()
+            . DIRECTORY_SEPARATOR . 'var'
+            . DIRECTORY_SEPARATOR . 'cache';
+        $this->logger->debug($fontDirectory);
 
-        $directory = $root . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache';
-        $this->logger->debug($directory);
-        $pdfOptions->set('defaultFont', 'Roboto');
-        $pdfOptions->set('fontDir', $directory);
-        $pdfOptions->set('fontCache', $directory);
-        $pdfOptions->set('chroot', $directory);
-        // Instantiate Dompdf with our options
-        $dompdf = new Dompdf($pdfOptions);
+        $options = new Options();
+        $options->set('defaultFont', 'Roboto');
+        $options->set('fontDir', $fontDirectory);
+        $options->set('fontCache', $fontDirectory);
+        $options->set('chroot', $fontDirectory);
 
-        // Retrieve the HTML generated in our twig file
-        $html = $this->createSummary($room);
-
-        // Load HTML to Dompdf
-        $dompdf->loadHtml($html);
-        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($this->createSummary($room));
         $dompdf->setPaper('A4', 'portrait');
-
-        // Render the HTML as PDF
         $dompdf->render();
 
-        // Output the generated PDF to Browser (force download)
         return $dompdf;
     }
 
-    public function createHeader(Rooms $rooms): string
+    /**
+     * Renders the meeting metadata header (agenda, organiser, schedule, participants).
+     */
+    public function createHeader(Rooms $room): string
     {
-        return $this->environment->render('documents/sumary/header.html.twig', ['room' => $rooms]);
+        return $this->environment->render('documents/summary/header.html.twig', ['room' => $room]);
     }
 
+    /**
+     * Fetches the whiteboard preview and returns it as an embeddable image block.
+     * Returns an empty string when no whiteboard content is available.
+     */
     public function createWhiteBoardSummary(Rooms $room): ?string
     {
         try {
-            $url = $this->themeService->getApplicationProperties('WHITEBOARD_URL') . '/preview/' . $room->getUidReal() . '?token=' . $this->whiteboardJwtService->createJwt($room);
-            $res = $this->httpClient->request('GET', $url);
-            if ($res->getStatusCode() === 200) {
-                if ($res->getContent() !== '<text>Sorry, an error occured</text>') {
-                    return '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . base64_encode($res->getContent()) . '" style="width: 600px"/>';
-                }
+            $url = $this->themeService->getApplicationProperties('WHITEBOARD_URL')
+                . '/preview/' . $room->getUidReal()
+                . '?token=' . $this->whiteboardJwtService->createJwt($room);
+
+            $response = $this->httpClient->request('GET', $url);
+
+            if ($response->getStatusCode() === 200
+                && $response->getContent() !== '<text>Sorry, an error occured</text>') {
+                return '<div class="page_break"></div><img src="data:image/svg+xml;base64,'
+                    . base64_encode($response->getContent())
+                    . '" style="width: 600px"/>';
             }
         } catch (\Exception $exception) {
+            $this->logger->debug('Whiteboard summary could not be fetched: ' . $exception->getMessage());
         }
+
         return '';
     }
 
+    /**
+     * Fetches the Etherpad HTML export for the room.
+     * Returns an empty string when no export is available.
+     */
     public function createEtherpadExport(Rooms $room): string
     {
         try {
-            $res = $this->httpClient->request('GET', $this->themeService->getApplicationProperties('ETHERPAD_URL') . '/p/' . $room->getUidReal() . '/export/html');
-            if ($res) {
-                return '<div class="page_break"></div>' . $res->getContent();
+            $url = $this->themeService->getApplicationProperties('ETHERPAD_URL')
+                . '/p/' . $room->getUidReal() . '/export/html';
+
+            $response = $this->httpClient->request('GET', $url);
+
+            if ($response) {
+                return '<div class="page_break"></div>' . $response->getContent();
             }
         } catch (\Exception $exception) {
+            $this->logger->debug('Etherpad export could not be fetched: ' . $exception->getMessage());
         }
+
         return '';
     }
 }
