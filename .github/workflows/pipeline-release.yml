@@ -20,24 +20,24 @@ jobs:
     uses: ./.github/workflows/task-version.yml
 
   artifact:
-    if: needs.version.outputs.skip != 'true'
     uses: ./.github/workflows/task-artifact.yml
+    if: needs.version.outputs.skip != 'true'
     needs:
       - version
 
   test:
-    if: needs.version.outputs.skip != 'true'
     uses: ./.github/workflows/task-test.yml
+    if: needs.version.outputs.skip != 'true'
     needs:
       - version
       - artifact
 
   docker_core:
-    if: needs.version.outputs.skip != 'true'
     needs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './Dockerfile-prod'
@@ -49,11 +49,11 @@ jobs:
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
 
   docker_websocket:
-    if: needs.version.outputs.skip != 'true'
     needs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './nodejs/Dockerfile-prod'
