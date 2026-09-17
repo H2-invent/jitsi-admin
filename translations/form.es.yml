@@ -143,6 +143,7 @@ label:
   timezone: Zona horaria
   serverName: Nombre del servidor
   lobby: Activar sala de espera
+  isE2EEEnabled: Activar el cifrado de extremo a extremo (E2EE)
   secondEmail: CC Correo Electrónico
   profilImage: Imagen de perfil (se mostrará en la conferencia de Jitsi-Meet)
   corsHeader: Encabezado CORS o encabezado frame-ancestor
@@ -171,9 +172,9 @@ label:
   calendlyToken: Token Oauth de Calendly
   enableRecording: Activar la grabación
   calendlyServer: Servidor de conferencias para las reuniones de Calendly
-  enableTranscription: Transkription aktivieren
-  apiKeyTranscription: Api Key für die Transkription
-  transcriptionProvider: Transkription Anbieter
+  enableTranscription: Activar transcripción
+  apiKeyTranscription: Clave de Api para la transcripción
+  transcriptionProvider: Proveedores de servicios de transcripción
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
