@@ -17,10 +17,15 @@ jobs:
 
   artifact:
     uses: ./.github/workflows/task-artifact.yml
+    if: needs.version.outputs.skip != 'true'
+    needs:
+      - version
 
   test:
     uses: ./.github/workflows/task-test.yml
+    if: needs.version.outputs.skip != 'true'
     needs:
+      - version
       - artifact
 
   release:
@@ -28,12 +33,14 @@ jobs:
       - test
       - version
     uses: ./.github/workflows/task-release.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       version: ${{ needs.version.outputs.version }}
       prerelease: false
 
   release_note:
     uses: ./.github/workflows/task-wiki-release.yml
+    if: needs.version.outputs.skip != 'true'
     needs:
       - release
       - version
@@ -45,6 +52,7 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       dockerfile_path: './Dockerfile'
       directory: '.'
@@ -59,6 +67,7 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       dockerfile_path: './nodejs/Dockerfile'
       directory: './nodejs'
@@ -73,6 +82,7 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './Dockerfile-prod'
@@ -88,6 +98,7 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './nodejs/Dockerfile-prod'
@@ -105,6 +116,7 @@ jobs:
       - docker_prod_core
       - docker_prod_websocket
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './Dockerfile-aio'
