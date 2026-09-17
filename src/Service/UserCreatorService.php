@@ -31,7 +31,7 @@ class UserCreatorService
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $userName]);
         if (!$user) {
             $user = new User();
-            $user->setCreatedAt(new \DateTime())
+            $user->setCreatedAt(new \DateTimeImmutable())
                 ->setUsername($userName)
                 ->setLastName($lastName)
                 ->setFirstName($firstName)

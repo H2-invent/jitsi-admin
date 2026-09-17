@@ -116,8 +116,8 @@ class ServersController extends JitsiAdminController
                 $em->persist($server);
                 $em->flush();
                 if ($server->getServerBackgroundImage()) {
-                    $server->getServerBackgroundImage()->setUpdatedAt(new \DateTime());
-                    $server->setUpdatedAt(new \DateTime());
+                    $server->getServerBackgroundImage()->setUpdatedAt(new \DateTimeImmutable());
+                    $server->setUpdatedAt(new \DateTimeImmutable());
                     $em->persist($server);
                     $em->flush();
                 }

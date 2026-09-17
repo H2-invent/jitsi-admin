@@ -9,8 +9,8 @@ class DashboardService
 {
     public function categorizeRooms(array $rooms, User $user): array
     {
-        $nowUtc = new \DateTime('now', new \DateTimeZone('utc'));
-        $todayEndUtc = (new \DateTime('now', new \DateTimeZone('utc')))->setTime(23, 59, 59);
+        $nowUtc = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
+        $todayEndUtc = (new \DateTimeImmutable('now', new \DateTimeZone('utc')))->setTime(23, 59, 59);
 
         $roomsFuture = [];
         $roomsNow = [];
@@ -62,7 +62,7 @@ class DashboardService
 
     public function getRoomClosedForStartMap(array $rooms, User $user, array $roomStatusOpenMap): array
     {
-        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         $result = [];
         foreach ($rooms as $room) {
             if (isset($roomStatusOpenMap[$room->getId()])) {
@@ -77,7 +77,7 @@ class DashboardService
             $start = $room->getStartUtc();
             $end = $room->getEndDateUtc();
             if ($start && $end) {
-                $startWindow = (clone $start)->modify('-30min');
+                $startWindow = $start->modify('-30min');
                 if ($startWindow > $now || $end < $now) {
                     $result[$room->getId()] = sprintf(
                         'Der Beitritt ist nur von %s bis %s möglich',

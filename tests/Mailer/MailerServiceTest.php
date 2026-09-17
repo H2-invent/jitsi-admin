@@ -31,22 +31,22 @@ class MailerServiceTest extends KernelTestCase
             ->setSmtpUsername('username')
             ->setSmtpEmail('local@local.de');
         $this->userSender = new User();
-        $this->userSender->setCreatedAt(new \DateTime())
+        $this->userSender->setCreatedAt(new \DateTimeImmutable())
             ->setEmail('test@test.de')
             ->setFirstName('testVorname')
             ->setLastName('testLastName')
             ->setTimeZone('Europe/Berlin')
             ->setKeycloakId('testId')
-            ->setLastLogin(new \DateTime())
+            ->setLastLogin(new \DateTimeImmutable())
             ->setUsername('test@test.de');
         $this->userReciever = new User();
-        $this->userReciever->setCreatedAt(new \DateTime())
+        $this->userReciever->setCreatedAt(new \DateTimeImmutable())
             ->setEmail('test2@test.de')
             ->setFirstName('testVorname2')
             ->setLastName('testLastName2')
             ->setTimeZone('Europe/Berlin')
             ->setKeycloakId('testId2')
-            ->setLastLogin(new \DateTime())
+            ->setLastLogin(new \DateTimeImmutable())
             ->setUsername('test2@test.de');
         $this->room = new Rooms();
         $this->room->setModerator($this->userSender)
@@ -56,9 +56,9 @@ class MailerServiceTest extends KernelTestCase
             ->setAgenda('testagenda')
             ->setTimeZone('Europe/Berlin')
             ->setServer($this->server)
-            ->setStart(new \DateTime())
+            ->setStart(new \DateTimeImmutable())
             ->setDuration(60)
-            ->setEnddate((new \DateTime())->modify('+60min'));
+            ->setEnddate((new \DateTimeImmutable())->modify('+60min'));
     }
 
     public function testCreateMailer(): void

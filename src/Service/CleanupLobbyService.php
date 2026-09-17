@@ -16,7 +16,7 @@ class CleanupLobbyService
 
     public function cleanUp($maxOld = 72)
     {
-        $date = (new \DateTime())->modify('-' . $maxOld . 'hours');
+        $date = (new \DateTimeImmutable())->modify('-' . $maxOld . 'hours');
         $oldestData = $this->em->getRepository(LobbyWaitungUser::class)->findOldLobbyWaitinguser($date);
         foreach ($oldestData as $data) {
             if ($data->getCallerSession()) {

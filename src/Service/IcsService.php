@@ -218,7 +218,7 @@ class IcsService
     }
 
     /** Convert DateTimeInterface|string to UTC Z format. */
-    public function toUtcZ(\DateTimeInterface|string $value): string
+    public function toUtcZ(\DateTimeImmutable|string $value): string
     {
         if ($value instanceof \DateTimeInterface) {
             $dt = (new \DateTimeImmutable($value->format('c')))->setTimezone(new \DateTimeZone('UTC'));

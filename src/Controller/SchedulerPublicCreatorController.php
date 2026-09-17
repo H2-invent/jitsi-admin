@@ -69,7 +69,7 @@ class SchedulerPublicCreatorController extends AbstractController
             }
 
             $scheduleTime = new SchedulingTime();
-            $scheduleTime->setTime(new \DateTime($request->get('date')));
+            $scheduleTime->setTime(new \DateTimeImmutable($request->get('date')));
             $scheduleTime->setScheduling($schedule);
             $scheduleTime->setCreatedFrom($user);
             $schedule->addSchedulingTime($scheduleTime);

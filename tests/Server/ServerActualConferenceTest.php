@@ -36,7 +36,7 @@ class ServerActualConferenceTest extends KernelTestCase
 
         $roomPart = new RoomStatusParticipant();
         $roomPart->setInRoom(true)
-            ->setEnteredRoomAt(new \DateTime())
+            ->setEnteredRoomAt(new \DateTimeImmutable())
             ->setRoomStatus($part->getRoomStatus())
             ->setParticipantId('test123')
             ->setParticipantName('test12354');

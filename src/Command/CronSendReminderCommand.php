@@ -50,8 +50,8 @@ class CronSendReminderCommand extends Command
         $io->writeln('Hinweis: ' . $res['hinweis']);
         $io->writeln('Konferenzen: ' . $res['Konferenzen']);
         $io->writeln('Emails: ' . $res['Emails']);
-        $io->writeln('Datum: ' . (new \DateTime())->format('d.m.Y'));
-        $io->writeln('Zeit: ' . (new \DateTime())->format('H:i'));
+        $io->writeln('Datum: ' . (new \DateTimeImmutable())->format('d.m.Y'));
+        $io->writeln('Zeit: ' . (new \DateTimeImmutable())->format('H:i'));
         if (!$res['error']) {
             $io->success('Erfolgreich versandt');
             return Command::SUCCESS;

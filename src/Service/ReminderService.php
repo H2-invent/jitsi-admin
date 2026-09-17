@@ -25,8 +25,8 @@ class ReminderService
     public function sendReminder($filter)
     {
         set_time_limit(600);
-        $now = (new \DateTime())->setTimezone(new \DateTimeZone('utc'));
-        $now10 = (clone $now)->modify('+ 10 minutes');
+        $now = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('utc'));
+        $now10 = $now->modify('+ 10 minutes');
 
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
         $qb->where('rooms.startUtc > :now')

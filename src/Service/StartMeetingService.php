@@ -223,7 +223,7 @@ class StartMeetingService
             $lobbyUser->setType($this->type);
             $lobbyUser->setUser($this->user);
             $lobbyUser->setRoom($this->room);
-            $lobbyUser->setCreatedAt(new \DateTime());
+            $lobbyUser->setCreatedAt(new \DateTimeImmutable());
             $lobbyUser->setUid(md5(uniqid()));
             $lobbyUser->setShowName($this->name);
             $this->em->persist($lobbyUser);
@@ -291,12 +291,12 @@ class StartMeetingService
     public static function checkTime(Rooms $room, ?User $user = null)
     {
 
-        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         $start = null;
         $endDate = null;
         if (!$room->getPersistantRoom()) {
-            $start = (clone $room->getStartUtc())->modify('-30min');
-            $endDate = clone $room->getEndDateUtc();
+            $start = $room->getStartUtc()->modify('-30min');
+            $endDate = $room->getEndDateUtc();
         }
 
 

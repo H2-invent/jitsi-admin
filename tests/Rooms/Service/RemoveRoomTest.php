@@ -2,6 +2,7 @@
 
 namespace App\Tests\Rooms\Service;
 
+use App\Enums\RepeatTypeEnum;
 use App\Entity\CallerId;
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
@@ -33,14 +34,14 @@ class RemoveRoomTest extends KernelTestCase
         $lobbyWatingUSer->setUser($user);
         $lobbyWatingUSer->setRoom($room);
         $lobbyWatingUSer->setType('a');
-        $lobbyWatingUSer->setCreatedAt(new \DateTime());
+        $lobbyWatingUSer->setCreatedAt(new \DateTimeImmutable());
         $lobbyWatingUSer->setShowName('test');
         $lobbyWatingUSer->setUid('test');
         $modSId = null;
         foreach ($room->getUser() as $data) {
             $callerID = new CallerId();
             $callerID->setRoom($room);
-            $callerID->setCreatedAt(new \DateTime());
+            $callerID->setCreatedAt(new \DateTimeImmutable());
             $callerID->setUser($data);
             $callerID->setCallerId('test123');
             if ($data == $room->getModerator()) {
@@ -52,7 +53,7 @@ class RemoveRoomTest extends KernelTestCase
         $callerSession->setAuthOk(false);
         $callerSession->setCallerId('1234');
         $callerSession->setCaller($modSId);
-        $callerSession->setCreatedAt(new \DateTime());
+        $callerSession->setCreatedAt(new \DateTimeImmutable());
         $callerSession->setSessionId('test');
         $callerSession->setShowName('test');
         $callerSession->setLobbyWaitingUser($lobbyWatingUSer);
@@ -70,7 +71,7 @@ class RemoveRoomTest extends KernelTestCase
 
         $wait = new Waitinglist();
         $wait->setUser($user);
-        $wait->setCreatedAt(new \DateTime());
+        $wait->setCreatedAt(new \DateTimeImmutable());
         $wait->setRoom($room);
         $em->persist($wait);
         $em->flush();
@@ -109,7 +110,7 @@ class RemoveRoomTest extends KernelTestCase
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $repeaterService = self::getContainer()->get(RepeaterService::class);
         $repeat = new Repeat();
-        $repeat->setRepeatType(0);
+        $repeat->setRepeatType(RepeatTypeEnum::DAILY);
         $repeat->setPrototyp($room);
         $repeat->setStartDate($room->getStart());
         $repeat->setRepetation(3);

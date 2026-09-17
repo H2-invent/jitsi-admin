@@ -38,8 +38,8 @@ class OwnRoomController extends JitsiAdminController
         }
 
         if (!StartMeetingService::checkTime($rooms)) {
-            $startPrint = $rooms->getTimeZone() ? clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getStart();
-            $startPrint->modify('-30min');
+            $startPrint = $rooms->getTimeZone() ? $rooms->getStartUtc()->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getStart();
+            $startPrint = $startPrint->modify('-30min');
             $endPrint = $rooms->getTimeZone() ? $rooms->getEndDateUtc()->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getEnddate();
             $snack = $translator->trans(
                 'Der Beitritt ist nur von {from} bis {to} möglich',
@@ -116,7 +116,7 @@ class OwnRoomController extends JitsiAdminController
                             $wui = $request->cookies->get('waitinguser');
                         }
                         $res = $startMeetingService->createLobbyParticipantResponse($wui);
-                        $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTime())->modify('+6 hours')));
+                        $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTimeImmutable())->modify('+6 hours')));
                     }
                 } else {
                     if ($this->getUser() === $rooms->getModerator()) {
@@ -136,7 +136,7 @@ class OwnRoomController extends JitsiAdminController
                             $wui = $request->cookies->get('waitinguser');
                         }
                         $res = $startMeetingService->createLobbyParticipantResponse($wui);
-                        $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTime())->modify('+6 hours')));
+                        $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTimeImmutable())->modify('+6 hours')));
                     }
                 } else {//Der Raum hat keine Lobby Aktiviert -->
                     // Der Fall hier: 1. Keine Zeit angegeben,
@@ -145,7 +145,7 @@ class OwnRoomController extends JitsiAdminController
                     $res = $startMeetingService->roomDefault();
                 }
             }
-            $res->headers->setCookie(new Cookie('name', $name, (new \DateTime())->modify('+365 days')));
+            $res->headers->setCookie(new Cookie('name', $name, (new \DateTimeImmutable())->modify('+365 days')));
             return $res;
         }
 
@@ -165,7 +165,7 @@ class OwnRoomController extends JitsiAdminController
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $request->get('uid')]);
         $name = $request->get('name');
         $type = $request->get('type');
-        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
 
         if (($room->getStartUtc() < $now && $room->getEndDateUtc() > $now)) {
             $startMeetingService->setAttribute($room, null, $type, $name);
@@ -208,7 +208,7 @@ class OwnRoomController extends JitsiAdminController
               $name, $type,
     ): Response
     {
-        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
 
         if (($rooms->getStartUtc() < $now && $rooms->getEndDateUtc() > $now)) {
             return new JsonResponse(['error' => false, 'url' => $this->generateUrl('room_waiting', ['name' => $name, 'type' => $type, 'uid' => $rooms->getUid()])]);

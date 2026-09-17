@@ -64,15 +64,15 @@ class JoinService
                 $type = 'b';
             }
             $start = null;
-            $now =  new \DateTime('now', new \DateTimeZone('utc'));
+            $now =  new \DateTimeImmutable('now', new \DateTimeZone('utc'));
             $endDate = null;
             if(!$room->getPersistantRoom()){
 
-                $start = (clone $room->getStartUtc())->modify('-30min');
-                $endDate = clone $room->getEndDateUtc();
+                $start = $room->getStartUtc()->modify('-30min');
+                $endDate = $room->getEndDateUtc();
 
-                $startPrint = $room->getTimeZone()?clone ($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
-                $startPrint->modify('-30min');
+                $startPrint = $room->getTimeZone() ? $room->getStartUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
+                $startPrint = $startPrint->modify('-30min');
                 $endPrint = $room->getTimeZone()?$room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getEnddate();
 
             }
@@ -163,7 +163,7 @@ class JoinService
             $res = new RedirectResponse($url);
         }
 
-        $res->headers->setCookie(new Cookie('name', $name, (new \DateTime())->modify('+365 days')));
+        $res->headers->setCookie(new Cookie('name', $name, (new \DateTimeImmutable())->modify('+365 days')));
         return $res;
     }
 
@@ -178,7 +178,7 @@ class JoinService
     {
         $url = $this->urlGenerator->generate('room_waiting', array('name' => $name, 'uid' => $room->getUid(), 'type' => $type));
         $res = new RedirectResponse(($url));
-        $res->headers->setCookie(new Cookie('name', $name, (new \DateTime())->modify('+365 days')));
+        $res->headers->setCookie(new Cookie('name', $name, (new \DateTimeImmutable())->modify('+365 days')));
         return $res;
     }
 }

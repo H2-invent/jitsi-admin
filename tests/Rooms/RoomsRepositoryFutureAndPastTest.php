@@ -139,8 +139,8 @@ class RoomsRepositoryFutureAndPastTest extends KernelTestCase
 
         $room = new Rooms();
         $room->setTimeZone('UTC');
-        $room->setStart(\DateTime::createFromImmutable($start));
-        $room->setEnddate(\DateTime::createFromImmutable($end));
+        $room->setStart($start);
+        $room->setEnddate($end);
         $room->setName($name);
         $room->setUid('uid-' . md5(uniqid((string) $name, true)));
         $room->setUidReal('uidreal-' . md5(uniqid((string) $name, true)));

@@ -27,11 +27,11 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $status = new RoomStatus();
         $status->setRoom($callerRoom->getRoom())
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $callerRoom->getRoom()->getServer()->setJigasiProsodyDomain('testdomain.com');
         $manager->flush();
@@ -69,11 +69,11 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $status = new RoomStatus();
         $status->setRoom($callerRoom->getRoom())
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $callerRoom->getRoom()->getServer()->setJigasiProsodyDomain('testdomain.com');
         $manager->flush();
