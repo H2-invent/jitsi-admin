@@ -82,7 +82,7 @@ help:
   jigasiNumberUrl: 'Introduzca aquí el número de acceso telefónico en formato JSON, como se hace en Jigasi en “numbers.json”.'
   jigasiProsodyDomain: Inserte el dominio de Prosody aquí. Por lo general, sigue el patrón "conference.domain.topdomain".
   disallowFirefox: El navegador Firefox está deshabilitado. Todos los participantes que quieran unirse con un navegador Firefox serán redirigidos a un navegador basado en Chromium.
-  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Server erzwungen.
+  enforceE2e: La seguridad del cifrado de extremo a extremo se aplica en cada conferencia en este servidor Jitsi.
   allowIp: Solo la dirección IP o los rangos de IP especificados pueden unirse a la conferencia. Los rangos de IP deben especificarse en la notación 10.10.10.10/24. Se pueden ingresar múltiples IP o rangos separados por comas.
   jitsiEventSyncUrl: Aquí puede especificar otro administrador de Jitsi que haya guardado las sincronizaciones de eventos de Jitsi correspondientes para solicitudes SIP. Sólo es necesario especificar la URL base. Esta función requiere la versión Jitsi-admin >0.77.x
   disableFilmstripe: Desactivar el vídeo en Jitsi
@@ -143,7 +143,7 @@ label:
   timezone: Zona horaria
   serverName: Nombre del servidor
   lobby: Activar sala de espera
-  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
+  isE2EEEnabled: Activar el cifrado de extremo a extremo (E2EE)
   secondEmail: CC Correo Electrónico
   profilImage: Imagen de perfil (se mostrará en la conferencia de Jitsi-Meet)
   corsHeader: Encabezado CORS o encabezado frame-ancestor
@@ -172,9 +172,9 @@ label:
   calendlyToken: Token Oauth de Calendly
   enableRecording: Activar la grabación
   calendlyServer: Servidor de conferencias para las reuniones de Calendly
-  enableTranscription: Transkription aktivieren
-  apiKeyTranscription: Api Key für die Transkription
-  transcriptionProvider: Transkription Anbieter
+  enableTranscription: Activar transcripción
+  apiKeyTranscription: Clave de Api para la transcripción
+  transcriptionProvider: Proveedores de servicios de transcripción
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
