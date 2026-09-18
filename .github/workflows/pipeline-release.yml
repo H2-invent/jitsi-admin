@@ -21,10 +21,15 @@ jobs:
 
   artifact:
     uses: ./.github/workflows/task-artifact.yml
+    if: needs.version.outputs.skip != 'true'
+    needs:
+      - version
 
   test:
     uses: ./.github/workflows/task-test.yml
+    if: needs.version.outputs.skip != 'true'
     needs:
+      - version
       - artifact
 
   docker_core:
@@ -32,6 +37,7 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './Dockerfile-prod'
@@ -47,6 +53,7 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './nodejs/Dockerfile-prod'
