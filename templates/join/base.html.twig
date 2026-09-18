@@ -106,7 +106,7 @@
                                         {% if room.tag is not null %}
                                             <h3 class="h3-responsive text-center w-100">
                                                 <p class="badge badge-danger d-block" id="tagContent"
-                                                   style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
+                                                   style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title|trans }}</p>
                                             </h3>
                                         {% endif %}
                                     {% endif %}

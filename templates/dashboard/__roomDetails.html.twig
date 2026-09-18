@@ -1,7 +1,7 @@
 <div class="col-md-2">
     {% if room.tag is not null %}
         <span class="badge badge-danger d-block mb-2"
-              style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</span>
+              style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title|trans }}</span>
     {% endif %}
 
     {% if roomStatusOpenMap[room.id] is defined %}

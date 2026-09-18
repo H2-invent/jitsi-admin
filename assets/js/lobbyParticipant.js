@@ -13,7 +13,7 @@ import {initGenerell} from './init';
 import {leaveMeeting, socket} from './websocket';
 import {close, inIframe, initModeratorIframe} from './moderatorIframe';
 import {initStarSend} from './endModal';
-import {moveTag} from './moveTag';
+import {moveTag} from './tag';
 import Swal from 'sweetalert2'
 
 import {JitsiUtils} from "./jitsiUtils";

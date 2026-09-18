@@ -1584,6 +1584,10 @@
         <source>sip.caller.data</source>
         <target>Einwahl-Informationen</target>
       </trans-unit>
+      <trans-unit id="nBdxX3f" resname="sip.caller.tag">
+        <source>sip.caller.tag</source>
+        <target>Telefoneinwahl aktiv</target>
+      </trans-unit>
       <trans-unit id="wnJgOxL" resname="addhock.notification.title">
         <source>addhock.notification.title</source>
         <target>Ad Hoc Meeting</target>

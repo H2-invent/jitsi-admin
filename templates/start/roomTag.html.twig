@@ -1,0 +1,6 @@
+<p class="floating-tag {{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'transparent-bg':'' }} {{ getApplicationProperties('LAF_FLOATING_TAG_FORCE_SHOW')==1?'forceShow':'' }}"
+   id="tagContent"
+   style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}"
+>
+    {{ room.tag.title|trans }}
+</p>

@@ -16,6 +16,7 @@ import {initStarSend} from "./endModal";
 import { Tooltip, initMDB } from "mdb-ui-kit";
 import {initAllComponents} from "./confirmation";
 import {showDialog} from "./createDialog";
+import {updateTag} from "./tag";
 
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
@@ -69,8 +70,10 @@ function masterNotify(data) {
         callAddhock(data);
     } else if (data.type === 'message') {
         addmessage(data);
+    } else if (data.type === 'tag') {
+        updateTag(data);
     } else {
-        console.log()('Error, Please reload the page')
+        console.log('Error, Please reload the page');
     }
 }
 

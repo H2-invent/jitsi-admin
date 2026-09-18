@@ -9,3 +9,11 @@ export function moveTag(frameDIv) {
         frameDIv.prepend(tagContent);
     }
 }
+
+export function updateTag(data) {
+    const tagElement = document.getElementById('tagContent'); //FIXME duplicate ids?
+
+    tagElement.outerHTML = data.html;
+    tagElement.closest('.jitsiadminiframe').style.borderColor(data.color); //FIXME not working yet
+}
+
