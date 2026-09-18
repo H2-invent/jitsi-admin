@@ -3,7 +3,6 @@
 ## 1.6
 ### 🚀 Features:
 
-
 ### 🐛 Bug Fixes:
 
 ### ⭐ Improvements:
