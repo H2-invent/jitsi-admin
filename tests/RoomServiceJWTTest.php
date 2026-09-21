@@ -32,18 +32,26 @@ class RoomServiceJWTTest extends KernelTestCase
     {
         self::bootKernel();
         $this->cache = self::getContainer()->get('cache.app');
+        $this->clearCache();
     }
 
     protected function tearDown(): void
     {
         // Cache leeren, um sicherzustellen, dass kein Caching zwischen Tests auftritt
-        if ($this->cache instanceof ResetInterface) {
-            $this->cache->reset();
-        } elseif (method_exists($this->cache, 'clear')) {
-            $this->cache->clear();
-        }
+        $this->clearCache();
 
         parent::tearDown();
+    }
+
+    private function clearCache(): void
+    {
+        // clear() must be preferred over reset(), otherwise persisted cache entries
+        // (e.g. the cached livekit public key) leak between tests.
+        if (method_exists($this->cache, 'clear')) {
+            $this->cache->clear();
+        } elseif ($this->cache instanceof ResetInterface) {
+            $this->cache->reset();
+        }
     }
     public function testGenerateJwtPayloadWithValidKey()
     {
