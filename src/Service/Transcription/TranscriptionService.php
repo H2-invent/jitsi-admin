@@ -99,20 +99,21 @@ class TranscriptionService
         }
 
         $participantEntities = $this->participantRepository->findUniqueParticipantsByRoom($room);
-        $participants = '';
-        if (count($participantEntities) > 0) {
-            $participantNames = array_map(static fn($participant) => '-' . $participant->getParticipantName(), $participantEntities);
-            $participantNamesFormatted = implode("\n", $participantNames);
-
-            $participants = "Participants:\n\n {$participantNamesFormatted}";
-        }
+        //todo hier kommen später die Teilnehmer in der spezifischen Konferenz rein
+//        $participants = '';
+//        if (count($participantEntities) > 0) {
+//            $participantNames = array_map(static fn($participant) => '-' . $participant->getParticipantName(), $participantEntities);
+//            $participantNamesFormatted = implode("\n", $participantNames);
+//
+//            $participants = "Participants:\n\n {$participantNamesFormatted}";
+//        }
 
         return <<<HEADER
         # {$name}
         
         {$date}{$agenda}
         
-        {$participants}
+
         ---
 
 

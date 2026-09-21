@@ -1,0 +1,35 @@
+name: Upmerge chain across release branches
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - 'release/**'
+
+permissions:
+  contents: write
+  pull-requests: write
+ 
+concurrency:
+  group: upmerge-chain
+  cancel-in-progress: false
+ 
+jobs:
+  upmerge-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+ 
+      - name: Upmerge-Kette durchlaufen
+        uses: h2-invent/action-upmerge-release@v1
+        with:
+          event-name: push
+          base-ref: ${{ github.ref_name }}
+          pr-merged: true
+          gh-token: ${{ secrets.GITHUB_TOKEN }}

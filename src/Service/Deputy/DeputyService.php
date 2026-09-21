@@ -36,7 +36,7 @@ class DeputyService
             $dep = new Deputy();
             $dep->setManager($manager);
             $dep->setDeputy($deputy);
-            $dep->setCreatedAt(new \DateTime());
+            $dep->setCreatedAt(new \DateTimeImmutable());
             $dep->setIsFromLdap(false);
             $this->entityManager->persist($dep);
             $this->entityManager->flush();

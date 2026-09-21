@@ -57,7 +57,7 @@ class RoomType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-        $time = (new \DateTime())->getTimestamp();
+        $time = (new \DateTimeImmutable())->getTimestamp();
         $room = $options['data'];
         $during = false;
         if ($room->getStartTimestamp() && $room->getStartTimestamp() <= $time && !$room->getRepeaterProtoype()) {
@@ -92,7 +92,7 @@ class RoomType extends AbstractType
         $builder
             ->add('name', TextType::class, ['disabled' => $during, 'required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
             ->add('agenda', TextareaType::class, ['disabled' => $during, 'required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
-            ->add('start', DateTimeType::class, ['required' => true, 'attr' => ['data-minDate' => $options['minDate'], 'class' => 'flatpickr', 'placeholder' => 'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
+            ->add('start', DateTimeType::class, ['input' => 'datetime_immutable', 'required' => true, 'attr' => ['data-minDate' => $options['minDate'], 'class' => 'flatpickr', 'placeholder' => 'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
             ->add(
                 'duration',
                 ChoiceType::class,
@@ -124,7 +124,8 @@ class RoomType extends AbstractType
                     ]
                 ]
             )
-            ->add('scheduleMeeting', CheckboxType::class, ['required' => false, 'label' => 'label.scheduleMeeting', 'translation_domain' => 'form']);
+            ->add('scheduleMeeting', CheckboxType::class, ['required' => false, 'label' => 'label.scheduleMeeting', 'translation_domain' => 'form'])
+            ->add('isE2EEEnabled', CheckboxType::class, ['disabled' => $options['e2eeDisabled'], 'required' => false, 'label' => 'label.isE2EEEnabled', 'translation_domain' => 'form']);
 
         if ($this->theme->getApplicationProperties(InputSettings::PERSISTENT_ROOMS) == 1) {
             $this->logger->debug('Add Persistant Rooms to the Form');
@@ -258,6 +259,7 @@ class RoomType extends AbstractType
             [
                 'server' => [],
                 'serverDisabled' => false,
+                'e2eeDisabled' => false,
                 'data_class' => Rooms::class,
                 'minDate' => 'today',
                 'isEdit' => false,

@@ -105,7 +105,8 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'timezone' => 'Europe/Berlin',
                             ),
                         'room'=>[
-                            'name'=>'testRoom'
+                            'name'=>'testRoom',
+                            'isE2EEEnabled' => false,
                         ]
                     ],
                 'livekit' =>
@@ -232,7 +233,8 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'timezone' => 'Europe/Berlin',
                             ),
                         'room'=>[
-                            'name'=>'testRoom'
+                            'name'=>'testRoom',
+                            'isE2EEEnabled' => false,
                         ]
                     ],
                 'livekit' =>
@@ -318,7 +320,8 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'timezone' => 'Europe/Berlin',
                             ),
                         'room'=>[
-                            'name'=>'testRoom'
+                            'name'=>'testRoom',
+                            'isE2EEEnabled' => false,
                         ]
                     ],
                 'livekit' =>
@@ -389,7 +392,8 @@ invalidKey
                                 'timezone' => 'Europe/Berlin',
                             ),
                         'room'=>[
-                            'name'=>'testRoom'
+                            'name'=>'testRoom',
+                            'isE2EEEnabled' => false,
                         ]
                     ],
                 'livekit' =>

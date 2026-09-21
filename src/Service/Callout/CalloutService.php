@@ -94,7 +94,7 @@ class CalloutService
         $callout = new CalloutSession();
         $callout->setUser($user)
             ->setRoom($rooms)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setInvitedFrom($inviter)
             ->setUid(md5(uniqid()))
             ->setState(CalloutSession::$INITIATED)

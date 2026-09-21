@@ -51,7 +51,7 @@ class LicenseService
 
         $license = new License();
         $license->setUrl($licenseArr['server_url']);
-        $license->setValidUntil((new \DateTime($licenseArr['valid_until']))->setTime(23, 59, 59));
+        $license->setValidUntil((new \DateTimeImmutable($licenseArr['valid_until']))->setTime(23, 59, 59));
         $license->setLicenseKey($licenseArr['license_key']);
         $license->setLicense($licenseString);
 

@@ -165,9 +165,9 @@ class RoomService
             "sub" => $room->getServer()->getUrl(),
             "room" => $roomName,
             "context" => [
-                'room'=>[
-                    'name'=>$room->getName()
-
+                'room' => [
+                    'name'=>$room->getName(),
+                    'isE2EEEnabled' => $server->isEnforceE2e() || $room->isE2EEEnabled(),
                 ],
                 'user' => [
                     'name' => $userName,

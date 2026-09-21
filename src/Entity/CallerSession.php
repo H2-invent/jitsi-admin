@@ -17,7 +17,7 @@ class CallerSession
     #[ORM\OneToOne(targetEntity: LobbyWaitungUser::class, inversedBy: 'callerSession', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private $lobbyWaitingUser;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
     #[ORM\Column(type: 'boolean')]
     private $authOk;
@@ -64,11 +64,11 @@ class CallerSession
 
         return $this;
     }
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

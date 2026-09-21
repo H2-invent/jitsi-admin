@@ -26,7 +26,7 @@ class Time extends AbstractExtension
 
     public function getTime(User $user)
     {
-        $now = new \DateTime('now', new \DateTimeZone($user->getTimeZone()));
+        $now = new \DateTimeImmutable('now', new \DateTimeZone($user->getTimeZone()));
         return $now;
     }
 }

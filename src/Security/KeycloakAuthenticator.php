@@ -121,7 +121,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
                         if (!$username) {
                             $username = $email;
                         }
-                        $existingUser->setLastLogin(new \DateTime());
+                        $existingUser->setLastLogin(new \DateTimeImmutable());
                         $existingUser->setEmail($email);
                         $existingUser->setFirstName($firstName);
                         $existingUser->setLastName($lastName);
@@ -144,7 +144,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
                             $username = $email;
                         }
                         $existingUser->setKeycloakId($id);
-                        $existingUser->setLastLogin(new \DateTime());
+                        $existingUser->setLastLogin(new \DateTimeImmutable());
                         $existingUser->setEmail($email);
                         $existingUser->setFirstName($firstName);
                         $existingUser->setLastName($lastName);
@@ -164,7 +164,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
                         }
                         $newUser = $this->userCreatorService->createUser($email, $username, $firstName, $lastName);
                         $newUser
-                            ->setLastLogin(new \DateTime())
+                            ->setLastLogin(new \DateTimeImmutable())
                             ->setKeycloakId($id)
                             ->setGroups($groups);
                         $newUser->setIndexer($this->indexer->indexUser($newUser));

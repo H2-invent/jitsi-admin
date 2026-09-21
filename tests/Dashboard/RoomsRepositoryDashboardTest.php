@@ -105,7 +105,7 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
         $rooms = $roomRepo->findRoomsInPast($user, 0);
 
         $this->assertIsArray($rooms);
-        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         foreach ($rooms as $room) {
             $this->assertNotNull($room->getEndDateUtc());
             $this->assertLessThan($now->getTimestamp(), $room->getEndDateUtc()->getTimestamp());

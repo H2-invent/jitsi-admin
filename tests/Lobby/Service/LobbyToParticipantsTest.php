@@ -39,7 +39,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                     self::assertEquals(
                         json_encode([
                             'type' => 'redirect',
-                            'url' => 'jitsi-meet://meet.jit.si2/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkifSwidXNlciI6eyJuYW1lIjoiVGVzdDIgVXNlcjIiLCJsYW5ndWFnZSI6ImRlIiwidGltZXpvbmUiOiJFdXJvcGUvQmVybGluIn19LCJtb2RlcmF0b3IiOmZhbHNlLCJsb2JieU1vZGVyYXRvciI6ZmFsc2UsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.DGQLcUJKpcCHZT9xTPZq0wqCxF-jm91Fc4g1h3CdX3E#config.subject=%22this_is_a_room_with_lobby%22',
+                            'url' => 'jitsi-meet://meet.jit.si2/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkiLCJpc0UyRUVFbmFibGVkIjpmYWxzZX0sInVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjpmYWxzZSwibG9iYnlNb2RlcmF0b3IiOmZhbHNlLCJ0aGVtZSI6eyJjb2xvclNjaGVtZSI6ImxpZ2h0In19.AWUaLrMI0-ARUvwW1BjL5FPBbrjQrv1lYOEdDVNWD88#config.subject=%22this_is_a_room_with_lobby%22',
                             'timeout' => 5000,
                         ], JSON_THROW_ON_ERROR),
                         $update->getData()
@@ -60,7 +60,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setUser($user2);
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);
@@ -113,7 +113,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setUser($user2);
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $server = $lobbyUser->getRoom()->getServer();
@@ -139,7 +139,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setUser($user2);
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);
@@ -156,7 +156,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                         [
                             'type' => "newJitsi",
                             'options' => [
-                                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkifSwidXNlciI6eyJuYW1lIjoiVGVzdDIgVXNlcjIiLCJsYW5ndWFnZSI6ImRlIiwidGltZXpvbmUiOiJFdXJvcGUvQmVybGluIn19LCJtb2RlcmF0b3IiOmZhbHNlLCJsb2JieU1vZGVyYXRvciI6ZmFsc2UsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.DGQLcUJKpcCHZT9xTPZq0wqCxF-jm91Fc4g1h3CdX3E',
+                                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkiLCJpc0UyRUVFbmFibGVkIjpmYWxzZX0sInVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjpmYWxzZSwibG9iYnlNb2RlcmF0b3IiOmZhbHNlLCJ0aGVtZSI6eyJjb2xvclNjaGVtZSI6ImxpZ2h0In19.AWUaLrMI0-ARUvwW1BjL5FPBbrjQrv1lYOEdDVNWD88',
                             ],
                         ],
                         json_decode($update->getData(), true, 512, JSON_THROW_ON_ERROR)
@@ -193,7 +193,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setUser($user2);
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);
@@ -210,7 +210,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                         [
                             'type' => "newJitsi",
                             'options' => [
-                                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkifSwidXNlciI6eyJuYW1lIjoiVGVzdDIgVXNlcjIiLCJsYW5ndWFnZSI6ImRlIiwidGltZXpvbmUiOiJFdXJvcGUvQmVybGluIn19LCJtb2RlcmF0b3IiOmZhbHNlLCJsb2JieU1vZGVyYXRvciI6ZmFsc2UsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.DGQLcUJKpcCHZT9xTPZq0wqCxF-jm91Fc4g1h3CdX3E',
+                                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgaXMgYSByb29tIHdpdGggTG9iYnkiLCJpc0UyRUVFbmFibGVkIjpmYWxzZX0sInVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjpmYWxzZSwibG9iYnlNb2RlcmF0b3IiOmZhbHNlLCJ0aGVtZSI6eyJjb2xvclNjaGVtZSI6ImxpZ2h0In19.AWUaLrMI0-ARUvwW1BjL5FPBbrjQrv1lYOEdDVNWD88',
                             ],
                         ],
                         json_decode($update->getData(), true, 512, JSON_THROW_ON_ERROR)

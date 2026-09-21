@@ -30,7 +30,7 @@ class CreateLobbyUserService
             $lobbyUser->setType($type);
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room);
-            $lobbyUser->setCreatedAt(new \DateTime());
+            $lobbyUser->setCreatedAt(new \DateTimeImmutable());
             $lobbyUser->setUid(md5(uniqid()));
             $lobbyUser->setShowName($user->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
 

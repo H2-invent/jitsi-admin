@@ -208,6 +208,7 @@ final class JWTGenerateTest extends TestCase
             'context' => [
                 'room' => [
                     'name' => 'Architecture Review',
+                    'isE2EEEnabled' => false,
                 ],
                 'user' => [
                     'name' => 'Ada Lovelace',

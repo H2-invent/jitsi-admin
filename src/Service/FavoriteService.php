@@ -36,7 +36,7 @@ class FavoriteService
     public function cleanFavorites(User $user)
     {
         $favorites = $user->getFavorites();
-        $now = (new \DateTime())->setTimezone(new \DateTimeZone('utc'));
+        $now = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('utc'));
         $changed = false;
         foreach ($favorites as $favorite) {
             if (!$favorite->getUser()->contains($user)

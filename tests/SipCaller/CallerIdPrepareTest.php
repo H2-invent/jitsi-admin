@@ -18,7 +18,7 @@ class CallerIdPrepareTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $callerId = new CallerId();
-        $callerId->setRoom($room)->setCallerId('10')->setUser($room->getModerator())->setCreatedAt(new \DateTime());
+        $callerId->setRoom($room)->setCallerId('10')->setUser($room->getModerator())->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($callerId);
         $manager->flush();
         for ($i = 0; $i < 10; $i++) {
@@ -35,7 +35,7 @@ class CallerIdPrepareTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $callerId = new CallerId();
-        $callerId->setRoom($room)->setCallerId('1')->setUser($room->getModerator())->setCreatedAt(new \DateTime());
+        $callerId->setRoom($room)->setCallerId('1')->setUser($room->getModerator())->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($callerId);
         $manager->flush();
 

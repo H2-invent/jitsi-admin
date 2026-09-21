@@ -16,7 +16,7 @@ class ApiKeys
     private $clientId;
     #[ORM\Column(type: 'text')]
     private $clientSecret;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
     public function getId(): ?int
     {
@@ -42,11 +42,11 @@ class ApiKeys
 
         return $this;
     }
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

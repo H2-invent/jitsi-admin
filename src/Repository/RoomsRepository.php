@@ -7,6 +7,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 
@@ -57,21 +58,45 @@ class RoomsRepository extends ServiceEntityRepository
     */
     public function findRoomsInFuture(User $user)
     {
-        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
+        $now = $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
             ->leftJoin('managerelement.deputy', 'deputy')
+            ->leftJoin('r.roomstatuses', 'status', Join::WITH,
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('status.destroyed'),
+                    'status.destroyed = false'
+                )
+            )
+            ->leftJoin('status.roomStatusParticipants', 'participant', Join::WITH,
+                'participant.inRoom = true'
+            )
             ->andWhere(
                 $qb->expr()->orX(
                     'user = :user',
                     'deputy = :user'
                 )
             )
-            ->andWhere('r.endDateUtc > :now')
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    'r.endDateUtc > :now',
+                    $qb->expr()->isNotNull('participant.id'),
+                )
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('r.scheduleMeeting'),
+                    'r.scheduleMeeting = false',
+                )
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('r.persistantRoom'),
+                    'r.persistantRoom = false',
+                )
+            )
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.startUtc', 'ASC')
@@ -81,8 +106,8 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsInPast(User $user, $offset)
     {
-        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
+        $now = $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         $rooms = $qb->select('r')
             ->addSelect('server')
@@ -99,6 +124,15 @@ class RoomsRepository extends ServiceEntityRepository
             ->leftJoin('r.repeater', 'repeater')
             ->leftJoin('r.callerRoom', 'callerRoom')
             ->leftJoin('r.repeaterProtoype', 'repeaterProtoype')
+            ->leftJoin('r.roomstatuses', 'status', Join::WITH,
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('status.destroyed'),
+                    'status.destroyed = false'
+                )
+            )
+            ->leftJoin('status.roomStatusParticipants', 'participant', Join::WITH,
+                'participant.inRoom = true'
+            )
             ->andWhere(
                 $qb->expr()->orX(
                     ':user MEMBER OF r.user',
@@ -114,8 +148,19 @@ class RoomsRepository extends ServiceEntityRepository
                 )
             )
             ->andWhere('r.endDateUtc < :now')
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('r.scheduleMeeting'),
+                    'r.scheduleMeeting = false',
+                )
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('r.persistantRoom'),
+                    'r.persistantRoom = false',
+                )
+            )
+            ->andWhere($qb->expr()->isNull('participant.id'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.startUtc', 'DESC')
@@ -150,25 +195,51 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRuningRooms(User $user)
+    public function findRunningRooms(User $user)
     {
 
-        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
+        $now = $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
             ->leftJoin('managerelement.deputy', 'deputy')
+            ->leftJoin('r.roomstatuses', 'status', Join::WITH,
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('status.destroyed'),
+                    'status.destroyed = false'
+                )
+            )
+            ->leftJoin('status.roomStatusParticipants', 'participant', Join::WITH,
+                'participant.inRoom = true'
+            )
             ->andWhere(
                 $qb->expr()->orX(
                     'user = :user',
                     'deputy = :user'
                 )
             )
-            ->andWhere('r.endDateUtc > :now')
-            ->andWhere('r.startUtc < :now')
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->andX(
+                        'r.endDateUtc > :now',
+                        'r.startUtc < :now',
+                    ),
+                    $qb->expr()->isNotNull('participant.id')
+                )
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('r.scheduleMeeting'),
+                    'r.scheduleMeeting = false'
+                )
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('r.persistantRoom'),
+                    'r.persistantRoom = false'
+                )
+            )
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.startUtc', 'ASC')
@@ -178,31 +249,51 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findTodayRooms(User $user)
     {
-        $now = new \DateTime('now', new \DateTimeZone('utc'));
-        $midnight = new \DateTime('now', new \DateTimeZone('utc'));
-        $midnight->setTime(23, 59, 59);
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
+        $midnight = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
+        $midnight = $midnight->setTime(23, 59, 59);
         $qb = $this->createQueryBuilder('r');
 
         return $qb
             ->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
             ->leftJoin('managerelement.deputy', 'deputy')
+            ->leftJoin('r.roomstatuses', 'status', Join::WITH,
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('status.destroyed'),
+                    'status.destroyed = false'
+                )
+            )
+            ->leftJoin('status.roomStatusParticipants', 'participant', Join::WITH,
+                'participant.inRoom = true'
+            )
             ->andWhere(
                 $qb->expr()->orX(
                     'user = :user',
                     'deputy = :user'
                 )
             )
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('r.scheduleMeeting'),
+                    'r.scheduleMeeting = false'
+                )
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('r.persistantRoom'),
+                    'r.persistantRoom = false'
+                )
+            )
             ->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->between('r.endDateUtc', ':now', ':midnight'),
                     $qb->expr()->between('r.startUtc', ':now', ':midnight'),
                     $qb->expr()->andX(
-                        $qb->expr()->gte('r.endDateUtc', ':now'),
-                        $qb->expr()->lte('r.startUtc', ':midnight')
-                    )
+                        $qb->expr()->lte('r.startUtc', ':now'),
+                        $qb->expr()->gte('r.endDateUtc', ':midnight')
+                    ),
+                    $qb->expr()->isNotNull('participant.id')
                 )
             )
             ->setParameter('now', $now)
@@ -255,27 +346,33 @@ class RoomsRepository extends ServiceEntityRepository
             )
             ->setParameter('user', $user)
             ->andWhere('rooms.persistantRoom = true')
+            ->orderBy('rooms.id', 'ASC')
             ->setMaxResults($this->amountperLayz)
             ->setFirstResult($this->amountperLayz * $offset);
         return $qb->getQuery()->getResult();
     }
 
-    public function findRoomsFutureAndPast(User $user, $timeBack)
+    public function findRoomsFutureAndPast(User $user, string $timeBack)
     {
-        $now = (new \DateTime('now', new \DateTimeZone('utc')))->modify($timeBack);
+        $now = (new \DateTimeImmutable('now', new \DateTimeZone('utc')))->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
-        return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement', 'managerelement')
-            ->leftJoin('managerelement.deputy', 'deputy')
+
+        return $qb
+            ->innerJoin('r.user', 'user')
+            ->andWhere('user = :user')
+            ->andWhere('r.endDateUtc > :now')
             ->andWhere(
                 $qb->expr()->orX(
-                    'user = :user',
-                    'deputy = :user'
+                    $qb->expr()->isNull('r.scheduleMeeting'),
+                    'r.scheduleMeeting = false'
                 )
             )
-            ->andWhere('r.endDateUtc > :now')
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('r.persistantRoom'),
+                    'r.persistantRoom = false'
+                )
+            )
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.startUtc', 'ASC')
@@ -285,8 +382,8 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsForDashboard(User $user)
     {
-        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
+        $now = $now->setTimezone(new \DateTimeZone('utc'));
 
         $qb = $this->createQueryBuilder('r');
         $qb->select('r')
@@ -305,7 +402,17 @@ class RoomsRepository extends ServiceEntityRepository
             ->leftJoin('r.creator', 'creator')
             ->leftJoin('r.repeater', 'repeater')
             ->leftJoin('r.callerRoom', 'callerRoom')
-            ->leftJoin('r.repeaterProtoype', 'repeaterProtoype');
+            ->leftJoin('r.repeaterProtoype', 'repeaterProtoype')
+            ->leftJoin('r.roomstatuses', 'status', Join::WITH,
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('status.destroyed'),
+                    'status.destroyed = false'
+                )
+            )
+            ->leftJoin('status.roomStatusParticipants', 'participant', Join::WITH,
+                'participant.inRoom = true'
+            )
+        ;
 
         $rooms = $qb
             ->andWhere(
@@ -341,7 +448,8 @@ class RoomsRepository extends ServiceEntityRepository
                 $qb->expr()->orX(
                     'r.endDateUtc > :now',
                     'r.persistantRoom = true',
-                    'r.scheduleMeeting = true'
+                    'r.scheduleMeeting = true',
+                    $qb->expr()->isNotNull('participant.id')
                 )
             )
             ->setParameter('now', $now)
@@ -464,6 +572,17 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
+        // roomstatuses and participants (OneToMany)
+        $em->createQueryBuilder()
+            ->select('r', 'rs', 'rsp')
+            ->from(Rooms::class, 'r')
+            ->leftJoin('r.roomstatuses', 'rs')
+            ->leftJoin('rs.roomStatusParticipants', 'rsp')
+            ->where('r.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+
         // moderator deputy collection (moderator.managerElement + deputy)
         $em->createQueryBuilder()
             ->select('r', 'm', 'me', 'd')
@@ -503,15 +622,15 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('server = :server')
             ->andWhere('r.startUtc BETWEEN :now AND :future')
             ->setParameter('server', $server)
-            ->setParameter('now', new \DateTime('now', new \DateTimeZone('utc')))
-            ->setParameter('future', new \DateTime("+$minutes minutes", new \DateTimeZone('utc')))
+            ->setParameter('now', new \DateTimeImmutable('now', new \DateTimeZone('utc')))
+            ->setParameter('future', new \DateTimeImmutable("+$minutes minutes", new \DateTimeZone('utc')))
             ->getQuery()
             ->getResult();
     }
 
     public function findRoomsnotInPast()
     {
-        $now = (new \DateTime('now'))->getTimestamp();
+        $now = (new \DateTimeImmutable('now'))->getTimestamp();
         $qb = $this->createQueryBuilder('r');
         return $qb
             ->andWhere(

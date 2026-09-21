@@ -1,51 +1,31 @@
 name: Create Release
 
-env:
-  GITHUB_TOKEN: ${{ secrets.token }}
+permissions:
+  contents: write
+  packages: write
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
-      - main
       - master
+      - main
 
 jobs:
   version:
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: paulhatch/semantic-version@v5.0.2
-        id: version
-        with:
-          tag_prefix: ""
-          major_pattern: "(MAJOR)"
-          minor_pattern: "(MINOR)"
-          change_path: .
-          version_format: "${major}.${minor}.${patch}"
-
-      - name: Write summary
-        run: |
-          {
-            echo "### Version Info"
-            echo ""
-            echo "| Feld | Wert |"
-            echo "|------|------|"
-            echo "| Version | \`${{ steps.version.outputs.version }}\` |"
-            echo "| Run ID | \`${{ github.run_id }}\` |"
-          } >> "$GITHUB_STEP_SUMMARY"
+    uses: ./.github/workflows/task-version.yml
 
   artifact:
     uses: ./.github/workflows/task-artifact.yml
+    if: needs.version.outputs.skip != 'true'
+    needs:
+      - version
 
   test:
     uses: ./.github/workflows/task-test.yml
+    if: needs.version.outputs.skip != 'true'
     needs:
+      - version
       - artifact
 
   release:
@@ -53,12 +33,14 @@ jobs:
       - test
       - version
     uses: ./.github/workflows/task-release.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       version: ${{ needs.version.outputs.version }}
       prerelease: false
 
   release_note:
     uses: ./.github/workflows/task-wiki-release.yml
+    if: needs.version.outputs.skip != 'true'
     needs:
       - release
       - version
@@ -70,6 +52,7 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       dockerfile_path: './Dockerfile'
       directory: '.'
@@ -84,6 +67,7 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       dockerfile_path: './nodejs/Dockerfile'
       directory: './nodejs'
@@ -98,6 +82,7 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './Dockerfile-prod'
@@ -113,6 +98,7 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './nodejs/Dockerfile-prod'
@@ -130,6 +116,7 @@ jobs:
       - docker_prod_core
       - docker_prod_websocket
     uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './Dockerfile-aio'

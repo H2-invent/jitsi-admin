@@ -63,11 +63,11 @@ class ConferenceMapperControllerTest extends WebTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $status = new RoomStatus();
         $status->setRoom($callerRoom->getRoom())
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $callerRoom->getRoom()->getServer()->setJigasiProsodyDomain('testdomain.com');
         $manager->flush();
@@ -81,7 +81,7 @@ class ConferenceMapperControllerTest extends WebTestCase
         self::assertEquals(
             json_encode([
                 'state' => 'STARTED',
-                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCJ9LCJ1c2VyIjp7Im5hbWUiOiIxMjM0NTYyMjU1NjYiLCJsYW5ndWFnZSI6ImRlIiwidGltZXpvbmUiOiJFdXJvcGUvQmVybGluIn19LCJtb2RlcmF0b3IiOmZhbHNlLCJsb2JieU1vZGVyYXRvciI6ZmFsc2UsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.OTAHd8Oa6v9zm-6RQRyBMNThFzmGb1kJxaqkzHMsjco',
+                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMCIsImlzRTJFRUVuYWJsZWQiOmZhbHNlfSwidXNlciI6eyJuYW1lIjoiMTIzNDU2MjI1NTY2IiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjpmYWxzZSwibG9iYnlNb2RlcmF0b3IiOmZhbHNlLCJ0aGVtZSI6eyJjb2xvclNjaGVtZSI6ImxpZ2h0In19.jArgoV-T5RPEU468aia0ejdMz80tWKS7tg8U8-yJWrg',
                 'room_name' => '123456780@testdomain.com',
                 "display_name" => "123456225566"
             ], JSON_THROW_ON_ERROR),
