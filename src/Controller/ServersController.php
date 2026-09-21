@@ -137,7 +137,7 @@ class ServersController extends JitsiAdminController
     }
 
     #[Route(path: '/server/add-user', name: 'server_add_user')]
-    public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService, TranslatorInterface $translator, UserCreatorService $userCreatorService)
+    public function roomAddUser(Request $request, ServerService $serverService, TranslatorInterface $translator, UserCreatorService $userCreatorService)
     {
         $newMember = [];
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);

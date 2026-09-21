@@ -85,6 +85,6 @@ class UserProvider implements UserProviderInterface
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        // TODO: Implement loadUserByIdentifier() method.
+        return $this->loadUserByUsername($identifier);
     }
 }
