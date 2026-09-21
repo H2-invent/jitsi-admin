@@ -32,7 +32,9 @@ class PexelService
                 $value = $cache->get(
                     'pexels_image',
                     function (ItemInterface $item) {
-                        $item->expiresAfter(intval($this->parameterBag->get('laF_pexel_refresh_time')));
+                        /** @var int|string $refreshTime */
+                        $refreshTime = $this->parameterBag->get('laF_pexel_refresh_time');
+                        $item->expiresAfter(intval($refreshTime));
 
                         $s = [];
                         $hour = (new \DateTimeImmutable())->format('H');

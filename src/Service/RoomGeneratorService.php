@@ -75,7 +75,10 @@ class RoomGeneratorService
         if ($allowTag == 1) {
             if ($server) {
                 if ($server->getTag()->count() > 0) {
-                    $room->setTag($server->getTag()->first());
+                    $tag = $server->getTag()->first();
+                    if ($tag !== false) {
+                        $room->setTag($tag);
+                    }
                 }
             }
         }

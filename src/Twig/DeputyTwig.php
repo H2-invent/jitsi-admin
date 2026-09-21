@@ -14,7 +14,7 @@ use Twig\TwigFunction;
 class DeputyTwig extends AbstractExtension
 {
     /**
-     * @var array<int, array<int, Deputy>>
+     * @var array<int|string, array<int|string, Deputy>>
      */
     private array $deputyCache = [];
 
@@ -53,7 +53,11 @@ class DeputyTwig extends AbstractExtension
             return false;
         }
 
-        if (in_array($user->getLdapUserProperties()->getLdapNumber(), json_decode($this->parameterBag->get('LDAP_DISALLOW_PROMOTE_DEPUTY')))){
+        /** @var string $ldapDisallowPromoteDeputy */
+        $ldapDisallowPromoteDeputy = $this->parameterBag->get('LDAP_DISALLOW_PROMOTE_DEPUTY');
+        /** @var array<int, mixed> $ldapDisallowed */
+        $ldapDisallowed = json_decode($ldapDisallowPromoteDeputy);
+        if (in_array($user->getLdapUserProperties()->getLdapNumber(), $ldapDisallowed)){
            return  true;
         }
         return  false;

@@ -70,7 +70,9 @@ class LiveKitEventSyncController extends AbstractController
         $room = $this->roomsRepository->findOneBy(['uid' => $roomName]);
         if ($room){
             try {
-                $targetUrl  = $room->getServer()->getLivekitMiddlewareUrl()?:$this->parameterBag->get('LIVEKIT_BASE_URL');
+                /** @var string $livekitBaseUrl */
+                $livekitBaseUrl = $this->parameterBag->get('LIVEKIT_BASE_URL');
+                $targetUrl  = $room->getServer()->getLivekitMiddlewareUrl()?:$livekitBaseUrl;
                 $targetUrl.='/webhook/recieve';
                 $this->logger->debug('livekit relay', ['target' => $targetUrl]);
 
@@ -102,7 +104,7 @@ class LiveKitEventSyncController extends AbstractController
                 $res = $this->webhookService->roomDestroyed(false,
                     null,
                     $roomSid,
-                    $event->getCreatedAt()
+                    (int)$event->getCreatedAt()
                 );
                 $roomStatus = $this->roomStatusRepository->findCreatedRoomsbyJitsiId($roomSid);
                 if ($roomStatus){
@@ -115,7 +117,7 @@ class LiveKitEventSyncController extends AbstractController
                     false,
                     null,
                     $roomSid,
-                    $event->getRoom()->getCreationTime()
+                    (int)$event->getRoom()->getCreationTime()
                 );
                 break;
             case 'participant_left':
@@ -123,7 +125,7 @@ class LiveKitEventSyncController extends AbstractController
                     false,
                     null,
                     $event->getParticipant()->getSid(),
-                    $event->getCreatedAt(),
+                    (int)$event->getCreatedAt(),
                     null
                 );
                 break;
@@ -133,7 +135,7 @@ class LiveKitEventSyncController extends AbstractController
                     null,
                     $roomSid,
                     $event->getParticipant()->getSid(),
-                    $event->getParticipant()->getJoinedAt(),
+                    (string)$event->getParticipant()->getJoinedAt(),
                     $event->getParticipant()->getName()
                 );
                 break;

@@ -49,8 +49,10 @@ final readonly class UserPreferenceProvider
      */
     public function getLanguage(): string
     {
+        /** @var string $defaultLocale */
+        $defaultLocale = $this->parameters->get('kernel.default_locale');
         return $this->requestStack->getCurrentRequest()?->getLocale()
-            ?? $this->parameters->get('kernel.default_locale');
+            ?? $defaultLocale;
     }
 
     /**

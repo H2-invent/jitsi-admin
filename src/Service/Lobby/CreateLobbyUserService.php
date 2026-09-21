@@ -37,7 +37,9 @@ class CreateLobbyUserService
             $lobbyUser->setRoom($room);
             $lobbyUser->setCreatedAt(new \DateTimeImmutable());
             $lobbyUser->setUid(md5(uniqid()));
-            $lobbyUser->setShowName($user->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
+            /** @var string $showNameInConference */
+            $showNameInConference = $this->parameterBag->get('laf_showNameInConference');
+            $lobbyUser->setShowName($user->getFormatedName($showNameInConference));
 
             $this->em->persist($lobbyUser);
             $this->em->flush();

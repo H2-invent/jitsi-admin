@@ -32,6 +32,9 @@ class WebsocketJwtService
             'rooms' => $rooms
         ];
 
-        return JWT::encode($payload, $this->parameterBag->get('WEBSOCKET_SECRET'),'HS256');
+        /** @var string $secret */
+        $secret = $this->parameterBag->get('WEBSOCKET_SECRET');
+
+        return JWT::encode($payload, $secret,'HS256');
     }
 }

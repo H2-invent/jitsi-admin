@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\Tag;
 use App\Form\Type\RoomType;
 use App\Helper\JitsiAdminController;
 use App\Service\NewRoomService;
@@ -112,7 +113,10 @@ class RoomController extends JitsiAdminController
                     $room->setTag(null);
                 }
                 if ($room->getServer()->getTag()->count() === 1) {
-                    $room->setTag($room->getServer()->getTag()->first());
+                    $tag = $room->getServer()->getTag()->first();
+                    if ($tag instanceof Tag) {
+                        $room->setTag($tag);
+                    }
                 }
                 $em = $this->doctrine->getManager();
                 $em->persist($room);

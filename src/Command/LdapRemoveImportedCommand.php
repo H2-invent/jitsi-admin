@@ -26,8 +26,12 @@ class LdapRemoveImportedCommand extends Command
     {
         parent::__construct($name);
         $this->ldapUserService = $ldapUserService;
-        $this->LDAPSERVERID = explode(',', $parameterBag->get('ldap_server_individualName'));
-        $this->URL = explode(';', $parameterBag->get('ldap_url'));
+        /** @var string $ldapServerIndividualName */
+        $ldapServerIndividualName = $parameterBag->get('ldap_server_individualName');
+        /** @var string $ldapUrl */
+        $ldapUrl = $parameterBag->get('ldap_url');
+        $this->LDAPSERVERID = explode(',', $ldapServerIndividualName);
+        $this->URL = explode(';', $ldapUrl);
         $this->em = $entityManager;
     }
 

@@ -51,7 +51,7 @@ class DeputyRepository extends ServiceEntityRepository
         foreach ($this->findBy(['manager' => $manager]) as $dep) {
             $deputy = $dep->getDeputy();
             if ($deputy !== null) {
-                $result[$deputy->getId()] = $dep;
+                $result[(int) $deputy->getId()] = $dep;
             }
         }
 

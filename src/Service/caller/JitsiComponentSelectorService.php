@@ -38,9 +38,15 @@ class JitsiComponentSelectorService
             $this->baseUrl = null;
             $dir = $this->kernel->getProjectDir();
 
-            $this->kid = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_JWT_KID');
-            $privateKeyPath = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH') . hash('sha256', $this->kid) . '.key';
-            $publicKeyPath = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH') . hash('sha256', $this->kid) . '.pem';
+            /** @var string $kid */
+            $kid = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_JWT_KID');
+            $this->kid = $kid;
+            /** @var string $privatePath */
+            $privatePath = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH');
+            /** @var string $publicPath */
+            $publicPath = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
+            $privateKeyPath = $dir . $privatePath . hash('sha256', $kid) . '.key';
+            $publicKeyPath = $dir . $publicPath . hash('sha256', $kid) . '.pem';
 
 // Replace directory separators for cross-platform compatibility
             $privateKeyPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $privateKeyPath);
@@ -211,6 +217,9 @@ class JitsiComponentSelectorService
     public function createAuthToken()
     {
 
+        if (!is_string($this->privateKey)) {
+            throw new \Exception('Private key is not set');
+        }
         $payload = [
             'iss' => 'signal',
             'aud' => 'jitsi-component-selector'

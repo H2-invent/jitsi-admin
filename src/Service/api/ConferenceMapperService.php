@@ -40,6 +40,8 @@ class ConferenceMapperService
      */
     public function checkConference(?CallerRoom $callerRoom, $apiKey, $callerId)
     {
+        /** @var string $showNameInConference */
+        $showNameInConference = $this->parameterBag->get('laf_showNameInConference');
 
         if (!$callerRoom) {
             return ['error' => true, 'reason' => 'ROOM_NOT_FOUND'];
@@ -74,9 +76,9 @@ class ConferenceMapperService
 
         $res = [
             'state' => 'STARTED',
-            'jwt' => $this->roomService->generateJwt($room, null, $user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId),
+            'jwt' => $this->roomService->generateJwt($room, null, $user ? $user->getFormatedName($showNameInConference) : $callerId),
             'room_name' => $room->getUid() . '@' . $room->getServer()->getJigasiProsodyDomain(),
-            'display_name' => $user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId
+            'display_name' => $user ? $user->getFormatedName($showNameInConference) : $callerId
         ];
         if ($room->getServer()->isLiveKitServer()) {
             try {

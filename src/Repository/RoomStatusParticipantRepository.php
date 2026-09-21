@@ -66,7 +66,7 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
 
     public function countOccupantsOfRoom(Rooms $room): int
     {
-        return $this->getOccupantsOfRoomQueryBuilder($room)
+        return (int) $this->getOccupantsOfRoomQueryBuilder($room)
             ->select('COUNT(roomStatusParticipant.id)')
             ->getQuery()
             ->getSingleScalarResult()

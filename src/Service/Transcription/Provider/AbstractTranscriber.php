@@ -67,6 +67,9 @@ abstract class AbstractTranscriber
     {
         $text = rtrim($text);
         $sentences = preg_split('/(?<=[.?!])\s+/', $text, flags: PREG_SPLIT_NO_EMPTY);
+        if ($sentences === false) {
+            $sentences = [];
+        }
         return implode("\n", $sentences);
     }
 }

@@ -20,7 +20,9 @@ class JitsiComponentSelectorPublicKeyController extends AbstractController
         private LoggerInterface       $logger)
     {
         $dir = $this->kernel->getProjectDir();
-        $this->publicKeyPath = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
+        /** @var string $publicPath */
+        $publicPath = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
+        $this->publicKeyPath = $dir . $publicPath;
         $this->publicKeyPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $this->publicKeyPath);
 
 

@@ -44,7 +44,7 @@ class DirectSendService
         if ($closeAfterMs){
             $data[ 'closeAfter'] = $closeAfterMs;
         }
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
 
@@ -66,7 +66,7 @@ class DirectSendService
 
         ];
 
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
 
@@ -81,7 +81,7 @@ class DirectSendService
             'message' => $message,
             'from' => $from
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
 
@@ -95,7 +95,7 @@ class DirectSendService
             'type' => 'reload',
             'timeout' => $timeout,
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
 
@@ -121,7 +121,7 @@ class DirectSendService
         if ($closeAfterMs){
             $data[ 'closeAfter'] = $closeAfterMs;
         }
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
 
@@ -139,7 +139,7 @@ class DirectSendService
             'pushNotification' => $pushMessage,
             'messageId' => $id,
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
     /**
@@ -154,7 +154,7 @@ class DirectSendService
             'soundName' => $soundName,
             'messageId' => $id,
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
     /**
@@ -167,7 +167,7 @@ class DirectSendService
             'type' => 'cleanNotification',
             'messageId' => $id,
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
 
@@ -183,7 +183,7 @@ class DirectSendService
             'content' => $content,
 
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->sendUpdate($update);
     }
 
@@ -199,7 +199,7 @@ class DirectSendService
             'url' => $url,
             'timeout' => $timeout,
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->sendUpdate($update);
     }
 
@@ -215,7 +215,7 @@ class DirectSendService
             'url' => $url,
             'timeout' => $timeout
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->sendUpdate($update);
     }
 
@@ -229,7 +229,7 @@ class DirectSendService
             'type' => 'newJitsi',
             'options' => $options,
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->sendUpdate($update);
     }
 
@@ -243,7 +243,7 @@ class DirectSendService
             'type' => 'refresh',
             'reloadUrl' => $url,
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->sendUpdate($update);
     }
 
@@ -266,7 +266,7 @@ class DirectSendService
             'color' => 'success',
             'messageId' => $id
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->sendUpdate($update);
     }
 
@@ -284,7 +284,7 @@ class DirectSendService
         $data = [
             'type' => 'refreshDashboard',
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string) json_encode($data));
         return $this->sendUpdate($update);
     }
 

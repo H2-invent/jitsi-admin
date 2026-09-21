@@ -70,8 +70,10 @@ class CallendlyConnect
     ): array {
         try {
             // Bereite die Anfrage-Payload vor
+            /** @var string $lafBaseUrl */
+            $lafBaseUrl = $this->parameterBag->get('laF_baseUrl');
             $payload = [
-                'url' => str_replace('localhost', 'h2-invent.com', $this->parameterBag->get('laF_baseUrl')) . $this->urlGenerator->generate('app_calendly_webhook_api'),
+                'url' => str_replace('localhost', 'h2-invent.com', $lafBaseUrl) . $this->urlGenerator->generate('app_calendly_webhook_api'),
                 'events' => ['invitee.created','invitee.canceled'],
                 'organization' => $user->getCalendlyOrgUri(),
                 'user' => $user->getCalendlyUserUri(),
