@@ -1581,6 +1581,10 @@ ID конференции: {uid}]]></target>
         <source>addhock.notification.offline</source>
         <target state="translated">Участник не в сети или не вошёл в систему. Звонок не может быть начат.</target>
       </trans-unit>
+      <trans-unit id="ADHOC_NO_ANSWER" resname="addhock.notification.noAnswer">
+        <source>addhock.notification.noAnswer</source>
+        <target state="translated">Участник не ответил.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">Время зарядки</target>

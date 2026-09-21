@@ -32,11 +32,11 @@ class CalloutService
      * @return CalloutSession|null
      */
     public
-    function initCalloutSession(Rooms $rooms, User $user, User $inviter): ?CalloutSession
+    function initCalloutSession(Rooms $rooms, User $user, User $inviter, bool $webCall = false): ?CalloutSession
     {
 
         $this->logger->debug('create callout session');
-        return $this->createCallout($rooms, $user, $inviter);
+        return $this->createCallout($rooms, $user, $inviter, $webCall);
     }
 
     /**
@@ -47,7 +47,7 @@ class CalloutService
      * @return CalloutSession|null
      */
     public
-    function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
+    function createCallout(Rooms $rooms, User $user, User $inviter, bool $webCall = false): ?CalloutSession
     {
         $callout = $this->checkCallout($rooms, $user);
         $callIn = $this->checkCallIn($rooms, $user);
@@ -61,7 +61,10 @@ class CalloutService
         }
 
         if ($callout) {
-
+            // A web call is tracked once; do not re-invite or touch its state.
+            if ($webCall) {
+                return $callout;
+            }
             $this->logger->debug('there is already a calloutsession. Change retries und reinvite the callout user');
             if ($callout->getState() > 1) {//calloutsession is on hold
                 $this->logger->debug('The callout session is on hold an it is tried to recall the user');
@@ -79,7 +82,9 @@ class CalloutService
         $this->logger->debug('Send Callout message to websocket so the called user is invited');
         $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
 
-        if (!$this->isAllowedToBeCalled($user)) {
+        // A browser (web) call does not need a phone number, so it is tracked regardless of
+        // whether the user can be dialed by the SIP callout system.
+        if (!$webCall && !$this->isAllowedToBeCalled($user)) {
             $this->logger->debug('The USer is not allowed to be called');
 
             return null;
@@ -96,7 +101,9 @@ class CalloutService
             ->setCreatedAt(new \DateTime())
             ->setInvitedFrom($inviter)
             ->setUid(md5(uniqid()))
-            ->setState(CalloutSession::$INITIATED)
+            // RINGING keeps web calls out of the SIP callout pools (which only pick up
+            // INITIATED/DIALED/ON_HOLD sessions).
+            ->setState($webCall ? CalloutSession::$RINGING : CalloutSession::$INITIATED)
             ->setLeftRetries($this->themeService->getApplicationProperties('CALLOUT_MAX_RETRIES'));
         $this->entityManager->persist($callout);
         $this->entityManager->flush();

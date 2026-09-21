@@ -7,9 +7,11 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\Jigasi\JigasiService;
 use App\Service\Lobby\ToModeratorWebsocketService;
+use App\Service\adhocmeeting\AdhocCallService;
 use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -75,6 +77,8 @@ class StartMeetingService
         private RoomStatusFrontendService $roomStatusFrontendService,
         private CheckIPService            $checkIPService,
         private CheckMaxUserService       $checkMaxUserService,
+        private AdhocCallService          $adhocCallService,
+        private Security                  $security,
 
     )
     {
@@ -118,6 +122,13 @@ class StartMeetingService
         $this->name = $name;
         $this->jigasiService->pingJigasi($room);
         if ($room && (in_array($user, $room->getUser()->toarray())|| $this->room->getModerator() === $user)) {
+            // Opening the join link counts as answering the ad-hoc call, but only when the acting
+            // user is the authenticated principal: the public /join flow must not be able to
+            // cancel another participant's pending callout.
+            $authenticatedUser = $this->security->getUser();
+            if ($authenticatedUser instanceof User && $authenticatedUser->getId() === $user->getId()) {
+                $this->adhocCallService->markAnswered($user, $room);
+            }
             $this->url = $this->roomService->join($room, $user, $t, $name);
             if (!self::checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
                 $this->logger->debug('This room is closed by time restrictions');

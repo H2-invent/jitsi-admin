@@ -1582,6 +1582,10 @@
         <source>addhock.notification.offline</source>
         <target state="translated">O participante está offline ou não está conectado. A chamada não pode ser iniciada.</target>
       </trans-unit>
+      <trans-unit id="ADHOC_NO_ANSWER" resname="addhock.notification.noAnswer">
+        <source>addhock.notification.noAnswer</source>
+        <target state="translated">O participante não atendeu.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="needs-translation">Ladezeit</target>

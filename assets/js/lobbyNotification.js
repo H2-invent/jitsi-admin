@@ -16,6 +16,8 @@ import {initStarSend} from "./endModal";
 import { Tooltip, initMDB } from "mdb-ui-kit";
 import {initAllComponents} from "./confirmation";
 import {showDialog} from "./createDialog";
+import Swal from 'sweetalert2';
+import {closeIframeByRoomId} from './createConference';
 
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
@@ -69,9 +71,22 @@ function masterNotify(data) {
         callAddhock(data);
     } else if (data.type === 'message') {
         addmessage(data);
+    } else if (data.type === 'adhocCallFailed') {
+        adhocCallFailed(data);
+    } else if (data.type === 'closeDialog') {
+        Swal.close();
     } else {
         console.log()('Error, Please reload the page')
     }
+}
+
+function adhocCallFailed(data) {
+    closeIframeByRoomId(data.roomId);
+    const message = (typeof adhocNoAnswerMessage !== 'undefined' && adhocNoAnswerMessage) ? adhocNoAnswerMessage : data.message;
+    Swal.fire({
+        icon: 'error',
+        text: message
+    });
 }
 
 function addmessage(data) {

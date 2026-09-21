@@ -1584,6 +1584,10 @@
         <source>addhock.notification.offline</source>
         <target state="translated">Participantul este offline sau nu este conectat. Apelul nu poate fi pornit.</target>
       </trans-unit>
+      <trans-unit id="ADHOC_NO_ANSWER" resname="addhock.notification.noAnswer">
+        <source>addhock.notification.noAnswer</source>
+        <target state="translated">Participantul nu a răspuns.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="needs-translation">Ladezeit</target>

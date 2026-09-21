@@ -467,4 +467,15 @@ function removeOverlayFromAllMultiframes() {
     document.querySelectorAll('.iframe-overlay').forEach(overlay => overlay.remove());
 }
 
-export {initStartIframe, createIframe, checkIfIsMutable}
+function closeIframeByRoomId(roomId) {
+    if (!roomId) {
+        return;
+    }
+    const suffix = '/room/join/b/' + roomId;
+    const instance = multiframes.find(frame => (frame.roomUid && String(frame.roomUid) === String(roomId)) || (frame.url && frame.url.indexOf(suffix) !== -1));
+    if (instance) {
+        instance.closeFrame();
+    }
+}
+
+export {initStartIframe, createIframe, checkIfIsMutable, closeIframeByRoomId}
