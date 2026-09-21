@@ -38,7 +38,7 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
             }
         );
         $directSend->setMercurePublisher($hub);
-        $crawler = $client->request('POST', '/room/lobby/message/send', [], [], [], json_encode(['uid' => md5(1), 'message' => $message->getId()]));
+        $crawler = $client->request('POST', '/room/lobby/message/send', [], [], [], json_encode(['uid' => md5('1'), 'message' => $message->getId()]));
 
         self::assertResponseIsSuccessful();
         self::assertEquals(['error' => false, 'message' => 'Die Nachricht wurde erfolgreich übermittelt.'], json_decode($client->getResponse()->getContent(), true));

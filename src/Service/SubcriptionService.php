@@ -31,7 +31,7 @@ class SubcriptionService
      * @param $userData
      * @param Rooms $rooms
      * @param bool $moderator
-     * @return array|bool[]
+     * @return array{error: bool, text: string, color: string, sub?: Subscriber}
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError

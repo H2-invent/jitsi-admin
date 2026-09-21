@@ -32,7 +32,7 @@ class EgressService
             $recording = new Recording();
             $recording->setRoom($rooms)
                 ->setUser($user)
-                ->setUid(md5(uniqid(rand(), true)))
+                ->setUid(md5(uniqid((string) rand(), true)))
                 ->setCreatedAt(new \DateTimeImmutable());
             try {
                 $egressClient = new EgressServiceClient(

@@ -232,8 +232,8 @@ class OwnRoomJoinTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
-        $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 2);
+        $lobbyUser = $lobbyRepo->findBy(['showName' => 'Test User 123']);
+        self::assertIsInt(sizeof($lobbyUser));
 
         self::assertResponseIsSuccessful();
         self::assertStringContainsString("var type = 'b';", $client->getResponse()->getContent());
@@ -266,7 +266,7 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertResponseIsSuccessful();
 
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 1);
+        self::assertIsInt(sizeof($lobbyUSer));
         self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
         self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
 //        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
@@ -278,7 +278,7 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 2);
+        self::assertIsInt(sizeof($lobbyUSer));
         self::assertResponseIsSuccessful();
         self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
         self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
@@ -320,7 +320,7 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 2);
+        self::assertIsInt(sizeof($lobbyUSer));
         self::assertResponseIsSuccessful();
         self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
         self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
@@ -577,7 +577,7 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 2);
+        self::assertIsInt(sizeof($lobbyUSer));
         self::assertResponseIsSuccessful();
         self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
         self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
@@ -612,7 +612,7 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 1);
+        self::assertIsInt(sizeof($lobbyUSer));
         self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
         self::assertStringNotContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', $client->getResponse()->getContent());
         self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
@@ -625,7 +625,7 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 2);
+        self::assertIsInt(sizeof($lobbyUSer));
         self::assertResponseIsSuccessful();
         self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
         self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
@@ -652,7 +652,7 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 1);
+        self::assertIsInt(sizeof($lobbyUSer));
 
         self::assertStringContainsString("var type = 'b';", $client->getResponse()->getContent());
         self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", $client->getResponse()->getContent());
@@ -664,7 +664,7 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
-        self::assertIsInt(sizeof($lobbyUSer), 2);
+        self::assertIsInt(sizeof($lobbyUSer));
 
         self::assertResponseIsSuccessful();
         self::assertStringContainsString("var type = 'b';", $client->getResponse()->getContent());

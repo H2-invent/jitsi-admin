@@ -47,10 +47,9 @@ class CalendlyWebhookApiController extends AbstractController
         Route('/room/calendly/connect', name: 'app_calendly_webhook_connect', methods: ['GET', 'POST'])]
     public function connect(Request $request): Response
     {
-        $servers = $this->serverUserManagment->getServersFromUser($this->getUser());
-
         /** @var User $user */
         $user = $this->getUser();
+        $servers = $this->serverUserManagment->getServersFromUser($user);
 
         $form = $this->createForm(CalendlyTokenType::class,
             $user,

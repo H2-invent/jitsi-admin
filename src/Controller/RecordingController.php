@@ -155,7 +155,7 @@ class RecordingController extends AbstractController
 
             $response->headers->set('Content-Type', $uploadedFile->getType());
             $response->headers->set('Content-Disposition', 'attachment; filename="' . $uploadedFile->getRoom()->getName() . '.' . $extension . '"');
-            $response->headers->set('Content-Length', $this->filesystem->size($uploadedFile->getFilename()));
+            $response->headers->set('Content-Length', (string) $this->filesystem->size($uploadedFile->getFilename()));
 
             return $response;
         } catch (\Exception $e) {

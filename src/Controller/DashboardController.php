@@ -204,7 +204,7 @@ class DashboardController extends JitsiAdminController
             $res->headers->setCookie(
                 Cookie::create(
                     'DARK_MODE',
-                    1,
+                    '1',
                     time() + (2 * 365 * 24 * 60 * 60),
                     '/',       // Path.
                     null,    // Domain.
@@ -228,7 +228,7 @@ class DashboardController extends JitsiAdminController
         $res->headers->setCookie(
             Cookie::create(
                 'is_loggedIn_user',
-                1,
+                '1',
                 time() + (2 * 365 * 24 * 60 * 60),
                 '/',  // Path.
             )

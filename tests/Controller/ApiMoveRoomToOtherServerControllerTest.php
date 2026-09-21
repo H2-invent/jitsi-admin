@@ -142,7 +142,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         $room->setName('meinRaum')
         ->setUid('kjsdhf')
             ->setUidReal('meinTestUidReal')
-        ->setDuration('123')
+        ->setDuration(123.0)
         ->setSequence(0);
         $room->setServer($server);
         $this->entityManager->persist($room);

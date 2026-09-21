@@ -57,7 +57,7 @@ class SendMessageToWaitingUSerServiceTest extends KernelTestCase
             }
         );
         $directSend->setMercurePublisher($hub);
-        $sendResult = $sendMessage->sendMessage(md5(1), $message, $user);
+        $sendResult = $sendMessage->sendMessage(md5('1'), $message, $user);
 
         self::assertTrue($sendResult);
     }
@@ -87,7 +87,7 @@ class SendMessageToWaitingUSerServiceTest extends KernelTestCase
             }
         );
         $directSend->setMercurePublisher($hub);
-        $sendResult = $sendMessage->sendMessage(md5(1), $lobbyMessage->getId(), $user);
+        $sendResult = $sendMessage->sendMessage(md5('1'), $lobbyMessage->getId(), $user);
 
         self::assertTrue($sendResult);
     }
@@ -114,7 +114,7 @@ class SendMessageToWaitingUSerServiceTest extends KernelTestCase
         );
         $directSend->setMercurePublisher($hub);
 
-        self::assertEquals(false, $sendMessage->sendMessage(md5(1), $message[1]->getId(), $user));
+        self::assertEquals(false, $sendMessage->sendMessage(md5('1'), $message[1]->getId(), $user));
     }
 
     public function testfromIdINvaliduidSocket(): void
@@ -163,7 +163,7 @@ class SendMessageToWaitingUSerServiceTest extends KernelTestCase
         );
         $directSend->setMercurePublisher($hub);
 
-        self::assertEquals(false, $sendMessage->sendMessage(md5(1), $message[0]->getId(), $user));
+        self::assertEquals(false, $sendMessage->sendMessage(md5('1'), $message[0]->getId(), $user));
     }
     public function testSendToAllInLobby(): void
     {

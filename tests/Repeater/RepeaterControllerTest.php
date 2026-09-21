@@ -42,7 +42,7 @@ class RepeaterControllerTest extends WebTestCase
         $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
         $start = $room->getStart();
-        $start = $start->setTime($start->format('H'), $start->format('i'), 0);
+        $start = $start->setTime((int) $start->format('H'), (int) $start->format('i'), 0);
 
         foreach ($rooms as $data) {
 
@@ -72,7 +72,7 @@ class RepeaterControllerTest extends WebTestCase
         $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
         $start = new \DateTimeImmutable('2022-04-10T12:00:00');
-        $start = $start->setTime($start->format('H'), $start->format('i'), 0);
+        $start = $start->setTime((int) $start->format('H'), (int) $start->format('i'), 0);
         foreach ($rooms as $data) {
             if ($data->getRepeater()) {
                 self::assertEquals($start, $data->getStart());

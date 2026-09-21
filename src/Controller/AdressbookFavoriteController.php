@@ -30,7 +30,9 @@ class AdressbookFavoriteController extends AbstractController
             $this->addFlash('danger', $this->translator->trans('Fehler, Der User wurde nicht gefunden'));
             return $this->redirectToRoute('dashboard');
         }
-        $res = $this->adressbookFavoriteService->userFavorite($this->getUser(), $userToAdd);
+        /** @var User $user */
+        $user = $this->getUser();
+        $res = $this->adressbookFavoriteService->userFavorite($user, $userToAdd);
         $this->addFlash($res[0], $res[1]);
         return $this->redirectToRoute('dashboard');
     }
@@ -43,7 +45,9 @@ class AdressbookFavoriteController extends AbstractController
         if (!$userToAdd) {
             return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], 404);
         }
-        $this->adressbookFavoriteService->userFavorite($this->getUser(), $userToAdd);
+        /** @var User $user */
+        $user = $this->getUser();
+        $this->adressbookFavoriteService->userFavorite($user, $userToAdd);
         return new JsonResponse(['ok' => true]);
     }
 }

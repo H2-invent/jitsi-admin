@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Server;
+use App\Entity\User;
 use App\Repository\ServerRepository;
 use App\Service\CreateHttpsUrl;
 use App\Service\PublicConference\PublicConferenceService;
@@ -38,8 +39,10 @@ class CreateFastConfernceController extends AbstractController
         try {
             if ($this->server) {
                 $room = $this->publicConferenceService->createNewRoomFromName(md5(uniqid()), $this->server);
+                /** @var User $user */
+                $user = $this->getUser();
                 $room
-                    ->setModerator($this->getUser())
+                    ->setModerator($user)
                     ->setPublic(true)
                     ->setTotalOpenRooms(true)
                     ->setIsFastConference(true)
