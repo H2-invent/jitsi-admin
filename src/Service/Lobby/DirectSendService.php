@@ -215,6 +215,27 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
+    public function sendAdhocCallFailed($topic, $roomId)
+    {
+        $data = [
+            'type' => 'adhocCallFailed',
+            'reason' => 'timeout',
+            'roomId' => $roomId,
+            'message' => $this->translator->trans('addhock.notification.noAnswer'),
+        ];
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
+
+    public function sendCloseDialog($topic)
+    {
+        $data = [
+            'type' => 'closeDialog',
+        ];
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
+
     public function sendRefreshDashboardToUser(User $user)
     {
         $topic = 'personal/' . $user->getUid();

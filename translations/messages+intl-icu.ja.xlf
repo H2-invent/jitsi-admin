@@ -1578,6 +1578,10 @@
         <source>addhock.notification.offline</source>
         <target state="translated">参加者はオフラインであるか、ログインしていません。通話を開始できません。</target>
       </trans-unit>
+      <trans-unit id="ADHOC_NO_ANSWER" resname="addhock.notification.noAnswer">
+        <source>addhock.notification.noAnswer</source>
+        <target state="translated">参加者は応答しませんでした。</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">ロード時間：</target>
