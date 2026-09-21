@@ -28,11 +28,12 @@ class ReportController extends AbstractController
         ?Rooms $room
     ): Response
     {
-        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
-            throw  new NotFoundHttpException('Room not Found');
-        }
-        /** @var \App\Entity\User $user */
+        /** @var \App\Entity\User|null $user */
         $user = $this->getUser();
+        if (!UtilsHelper::isAllowedToOrganizeRoom($user, $room)) {
+            throw new NotFoundHttpException('Room not Found');
+        }
+
         $timeZone = $user->getTimeZone() ?: (new \DateTimeImmutable())->getTimezone()->getName();
 
         return $this->render(

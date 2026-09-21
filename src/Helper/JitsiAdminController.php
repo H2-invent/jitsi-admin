@@ -7,7 +7,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -51,7 +51,7 @@ class JitsiAdminController extends AbstractController
         return $this->doctrine;
     }
 
-    protected function getSessionUser(Session $session)
+    protected function getSessionUser(SessionInterface $session)
     {
 
         $user = $this->getUser();

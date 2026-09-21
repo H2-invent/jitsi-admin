@@ -32,7 +32,9 @@ class ContactApiController extends AbstractController
     #[Route('/room/contact/api', name: 'app_contact_api')]
     public function index(): Response
     {
-        $servers = $this->serverUserManagment->getServersFromUser($this->getUser());
+        /** @var User $user */
+        $user = $this->getUser();
+        $servers = $this->serverUserManagment->getServersFromUser($user);
         $serverArr = [];
         if (count($servers) > 0) {
             foreach ($servers as $data) {
@@ -46,8 +48,6 @@ class ContactApiController extends AbstractController
                 $tagArr[] = ['name' => $tag->getTitle(), 'id' => $tag->getId()];
             }
         }
-        /** @var User $user */
-        $user = $this->getUser();
         $contact = $user->getAddressbook();
         $res = [];
 
@@ -68,7 +68,9 @@ class ContactApiController extends AbstractController
     #[Route('/room/fixed_rooms/api', name: 'app_fixed_rooms_api')]
     public function fixedRooms(): Response
     {
-        $persistantRooms = $this->roomsRepository->getMyPersistantRooms($this->getUser(), 0);
+        /** @var User $user */
+        $user = $this->getUser();
+        $persistantRooms = $this->roomsRepository->getMyPersistantRooms($user, 0);
         $res = [];
         foreach ($persistantRooms as $data) {
             $tmp['name'] = $data->getName();

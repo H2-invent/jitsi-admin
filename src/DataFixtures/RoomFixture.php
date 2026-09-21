@@ -32,7 +32,7 @@ class RoomFixture extends Fixture
         $user->setKeycloakId('123456');
         $user->setFirstName('Test');
         $user->setLastName('User');
-        $user->setRegisterId(123456);
+        $user->setRegisterId('123456');
         $user->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user->setTimeZone('Europe/Berlin');
         $user->setUuid('lksdhflkjdsljflkjds');
@@ -46,10 +46,10 @@ class RoomFixture extends Fixture
         $user2 = new \App\Entity\User();
         $user2->setEmail('test@local2.de');
         $user2->setCreatedAt(new \DateTimeImmutable());
-        $user2->setKeycloakId(123456);
+        $user2->setKeycloakId('123456');
         $user2->setFirstName('Test2');
         $user2->setLastName('User2');
-        $user2->setRegisterId(123456);
+        $user2->setRegisterId('123456');
         $user2->setSpezialProperties(['ou' => 'Test2', 'departmentNumber' => '1234', 'telephoneNumber' => '9876543210',]);
         $user2->setTimeZone('Europe/Berlin');
         $user2->setUuid('lksdhflkjdsljflhjkkjds');
@@ -63,10 +63,10 @@ class RoomFixture extends Fixture
         $userLDAP = new \App\Entity\User();
         $userLDAP->setEmail('ldapUser@local.de');
         $userLDAP->setCreatedAt(new \DateTimeImmutable());
-        $userLDAP->setKeycloakId(123456);
+        $userLDAP->setKeycloakId('123456');
         $userLDAP->setFirstName('LdapUSer');
         $userLDAP->setLastName('Ldap');
-        $userLDAP->setRegisterId(123456);
+        $userLDAP->setRegisterId('123456');
         $userLDAP->setSpezialProperties(['ou' => 'AA', 'departmentNumber' => '45689', 'telephoneNumber' => '987654321012',]);
         $userLDAP->setTimeZone('Europe/Berlin');
         $userLDAP->setUuid('dfsdffscxv');
@@ -88,7 +88,7 @@ class RoomFixture extends Fixture
         $user3->setEmail('test@local3.de');
         $user3->setUsername('test@local3.de');
         $user3->setCreatedAt(new \DateTimeImmutable());
-        $user3->setRegisterId(123456);
+        $user3->setRegisterId('123456');
         $user3->setCreatedAt(new \DateTimeImmutable());
         $user3->setUid('kjsdfhkjds');
         $user3->setIndexer('test@local3.de test@local3.de');
@@ -98,7 +98,7 @@ class RoomFixture extends Fixture
         $user4->setEmail('test@local4.de');
         $user4->setUsername('test@local4.de');
         $user4->setCreatedAt(new \DateTimeImmutable());
-        $user4->setRegisterId(123456);
+        $user4->setRegisterId('123456');
         $user4->setCreatedAt(new \DateTimeImmutable());
         $user4->setUid('bjhxbcvuzcbxv7');
         $user4->setIndexer('test@local4.de test@local4.de');
@@ -111,7 +111,7 @@ class RoomFixture extends Fixture
         $user5->setKeycloakId('123456');
         $user5->setFirstName('Test');
         $user5->setLastName('User');
-        $user5->setRegisterId(123456);
+        $user5->setRegisterId('123456');
         $user5->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user5->setTimeZone('Australia/Lindeman');
         $user5->setUuid('lksdhflkjdsljflkjds');
@@ -127,7 +127,7 @@ class RoomFixture extends Fixture
         $user6->setKeycloakId('123456');
         $user6->setFirstName('Test');
         $user6->setLastName('User');
-        $user6->setRegisterId(123456);
+        $user6->setRegisterId('123456');
         $user6->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user6->setUuid('lksdhflkjdsljflkjds');
         $user6->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
@@ -615,7 +615,7 @@ class RoomFixture extends Fixture
             $lobbyUser->setWebsocketReady(true);
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room1);
-            $lobbyUser->setUid(md5($i));
+            $lobbyUser->setUid(md5((string) $i));
             $lobbyTime = $lobbyTime->modify('-1 hour');
             $lobbyUser->setCreatedAt($lobbyTime);
             $lobbyUser->setShowName('LobbyUser ' . $i);

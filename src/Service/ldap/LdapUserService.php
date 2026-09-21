@@ -90,7 +90,7 @@ class LdapUserService
             }
             return $user;
         } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage(), $exception->getFile() . 'Line: ' . $exception->getLine());
+            $this->logger->error($exception->getMessage(), ['file' => $exception->getFile(), 'line' => $exception->getLine()]);
         }
         return null;
     }

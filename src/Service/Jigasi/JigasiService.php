@@ -97,7 +97,7 @@ class JigasiService
                 return $pin;
             } catch (\Exception $exception) {
                 if ($response && $response->getStatusCode() === 200) {
-                    $this->logger->info(printf("%s: %s", 'Receive HTML', $response->getContent()));
+                    $this->logger->info(sprintf("%s: %s", 'Receive HTML', $response->getContent()));
                 }
                 $this->logger->error($exception->getMessage());
                 return null;

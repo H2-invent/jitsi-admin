@@ -60,7 +60,7 @@ class CalloutSessionAPIService
         if ($calloutSession->getLastDialed() && ((intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed()) < (int) $this->parameterBag->get('CALLOUT_WAITING_TIME'))) {
             return null;
         } else {
-            $calloutSession->setLastDialed((new \DateTimeImmutable())->format('U'));
+            $calloutSession->setLastDialed((float) (new \DateTimeImmutable())->format('U'));
             $this->entityManager->persist($calloutSession);
             $this->entityManager->flush();
         }

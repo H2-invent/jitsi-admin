@@ -101,7 +101,12 @@ class RecordingService
 
         // Datei in Gaufrette speichern
         $fileStream = fopen($finalPath, 'rb');
+        if ($fileStream === false) {
+            return ServiceResult::failure(RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE);
+        }
         $fileName = md5(uniqid()) . '.mp4';
+        // The local Gaufrette-Adapter passes the contents to file_put_contents(), also accepts a stream
+        /** @phpstan-ignore-next-line */
         $this->recordingFilesystem->write($fileName, $fileStream);
         fclose($fileStream);
 
