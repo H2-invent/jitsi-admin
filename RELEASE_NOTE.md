@@ -13,7 +13,6 @@ Allow disabling of survey from theme settings
 ## 1.6
 ### 🚀 Features:
 
-
 ### 🐛 Bug Fixes:
 
 ### ⭐ Improvements:
