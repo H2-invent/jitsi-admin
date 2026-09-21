@@ -31,7 +31,8 @@ class JitsiAdminController extends AbstractController
      */
     public function getUser(): ?UserInterface
     {
-        return parent::getUser();
+        $user = parent::getUser();
+        return $user instanceof User ? $user : null;
     }
 
     /**

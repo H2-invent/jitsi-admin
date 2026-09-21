@@ -1,6 +1,7 @@
 services:
     App\Tests\Functional\Fixtures\HubStub:
         decorates: mercure.hub.default
+        arguments: ['@.inner']
 
 parameters:
     ldap_test_url: '%env(ldap_test_url)%'

@@ -153,7 +153,7 @@ class DeputyDashboardTest extends WebTestCase
         $form['room[server]'] = $server->getId();
         $form['room[moderator]'] = $master->getId();
         $form['room[name]'] = 'test von deputy';
-        $form['room[persistantRoom]'] = true;
+        $form['room[persistantRoom]'] = '1';
         $client->submit($form);
 
         $this->assertResponseIsSuccessful();
@@ -210,7 +210,7 @@ class DeputyDashboardTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = 'test von deputy';
-        $form['room[persistantRoom]'] = true;
+        $form['room[persistantRoom]'] = '1';
         $client->submit($form);
 
         $this->assertResponseIsSuccessful();
@@ -261,7 +261,7 @@ class DeputyDashboardTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['scheduler[server]'] = $server->getId();
         $form['scheduler[name]'] = 'test von deputy';
-        $form['scheduler[duration]'] = 60;
+        $form['scheduler[duration]'] = '60';
         $client->submit($form);
 
         $this->assertResponseIsSuccessful();
@@ -313,7 +313,7 @@ class DeputyDashboardTest extends WebTestCase
         $form['scheduler[server]'] = $server->getId();
         $form['scheduler[name]'] = 'test von deputy';
         $form['scheduler[moderator]'] = $master->getId();
-        $form['scheduler[duration]'] = 60;
+        $form['scheduler[duration]'] = '60';
         $client->submit($form);
 
         $this->assertResponseIsSuccessful();

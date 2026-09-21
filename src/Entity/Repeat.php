@@ -18,8 +18,7 @@ class Repeat
 {
     public function __toString()
     {
-        return intval($this->id);
-        // TODO: Implement __toString() method.
+        return (string) $this->id;
     }
     #[ORM\Id]
     #[ORM\GeneratedValue]

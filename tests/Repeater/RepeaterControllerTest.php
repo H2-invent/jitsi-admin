@@ -25,9 +25,9 @@ class RepeaterControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h5', 'Serientermin festlegen');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['repeater[repeatType]'] = 0;
-        $form['repeater[repeaterDays]'] = 1;
-        $form['repeater[repetation]'] = 10;
+        $form['repeater[repeatType]'] = '0';
+        $form['repeater[repeaterDays]'] = '1';
+        $form['repeater[repetation]'] = '10';
         $client->submit($form);
 
 
@@ -87,8 +87,8 @@ class RepeaterControllerTest extends WebTestCase
 
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['repeater[repetation]'] = 3;
-        $form['repeater[repeaterDays]'] = 3;
+        $form['repeater[repetation]'] = '3';
+        $form['repeater[repeaterDays]'] = '3';
         $client->submit($form);
 
 
