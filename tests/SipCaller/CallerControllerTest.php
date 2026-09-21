@@ -152,6 +152,49 @@ class CallerControllerTest extends WebTestCase
         );
     }
 
+    public function testGetCallerPinTotalOpenRoomWithoutPin(): void
+    {
+        $client = static::createClient([], ['HTTP_authorization' => 'Bearer 123456']);
+
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $sessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+        $id = '123419';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $room->setLobby(true);
+        $room->setTotalOpenRooms(true);
+        $manager->persist($room);
+        $manager->flush();
+
+        // the pin is not required for a total open room, but the phone number is
+        $crawler = $client->request('POST', '/api/v1/lobby/sip/protected/' . $id, []);
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertJsonStringEqualsJsonString(json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['caller_id']]), $client->getResponse()->getContent());
+
+        $crawler = $client->request('POST', '/api/v1/lobby/sip/protected/' . $id, ['caller_id' => '012345']);
+        $this->assertResponseIsSuccessful();
+        $session = $sessionRepo->findOneBy(['callerId' => '012345']);
+        self::assertNotNull($session);
+        self::assertNull($session->getCaller()->getUser());
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'auth_ok' => true,
+                    'links' => [
+                        'session' => '/api/v1/lobby/sip/session?session_id=' . $session->getSessionId(),
+                        'left' => '/api/v1/lobby/sip/session/left?session_id=' . $session->getSessionId()
+                    ]
+                ]
+            ),
+            $client->getResponse()->getContent()
+        );
+
+        // a wrong pin is still declined
+        $crawler = $client->request('POST', '/api/v1/lobby/sip/protected/' . $id, ['pin' => 'wrong', 'caller_id' => '012345']);
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonStringEqualsJsonString(json_encode(['auth_ok' => false, 'links' => []]), $client->getResponse()->getContent());
+    }
+
     public function testGetCallerSession(): void
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer 123456']);

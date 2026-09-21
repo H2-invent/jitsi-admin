@@ -127,15 +127,13 @@ class CallerSessionService
 
             $this->loggger->debug('The Callersession is destroyed', ['room' => $callerSession->getSessionId()]);
             $callerId = $callerSession->getCaller();
-            if ($callerId) {
-                $callerId->setCallerSession(null);
-                if (!$callerId->getUser()) {
-                    // Call-in users without a user are created on the fly for total open rooms and are not reused
-                    $this->em->remove($callerId);
-                }
-            }
+            $callerId?->setCallerSession(null);
             $this->em->remove($callerSession);
             $this->em->flush();
+            if ($callerId && !$callerId->getUser()) {
+                $this->em->remove($callerId);
+                $this->em->flush();
+            }
         } catch (\Exception $exception) {
             $this->loggger->error($exception->getMessage());
             return false;
