@@ -46,7 +46,7 @@ class StartMeetingService
     private $twig;
     private string $url;
     private ?Rooms $room;
-    /** @var User|int|null */
+    /** @var User|null */
     private $user;
     /** @var string|null */
     private $type;
@@ -163,8 +163,8 @@ class StartMeetingService
      */
     private function generateLobby()
     {
-        if ($this->user === $this->room->getModerator() || $this->user->getPermissionForRoom($this->room)->getLobbyModerator()) {
-            return $this->lobbyModerator();
+        if ($this->user !== null && ($this->user === $this->room->getModerator() || $this->user->getPermissionForRoom($this->room)->getLobbyModerator())) {
+            return $this->createLobbyModeratorResponse();
         } else {
             return $this->createLobbyParticipantResponse();
         }
@@ -179,11 +179,11 @@ class StartMeetingService
      */
     public function lobbyModerator()
     {
-        if ($this->room->getModerator() === $this->user || $this->user->getPermissionForRoom($this->room)->getLobbyModerator() === true) {
+        if ($this->user !== null && ($this->room->getModerator() === $this->user || $this->user->getPermissionForRoom($this->room)->getLobbyModerator() === true)) {
             return $this->createLobbyModeratorResponse();
         }
 
-        $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', ['room' => $this->room->getId(), 'user' => $this->user->getUserIdentifier()]);
+        $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', ['room' => $this->room->getId(), 'user' => $this->user?->getUserIdentifier()]);
         return $this->urlGen->generate('dashboard');
     }
 
@@ -216,14 +216,15 @@ class StartMeetingService
     public function createLobbyParticipantResponse($wuid = null): Response
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $this->user, 'room' => $this->room]);
+        $foundByUid = false;
         if ($wuid) {
             $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $wuid]);
             if ($lobbyUser) {
-                $this->user = 1;
+                $foundByUid = true;
             }
         }
 
-        if (!$lobbyUser || $this->user === null) {
+        if (!$lobbyUser || ($this->user === null && !$foundByUid)) {
             $lobbyUser = new LobbyWaitungUser();
             $lobbyUser->setType($this->type);
             $lobbyUser->setUser($this->user);

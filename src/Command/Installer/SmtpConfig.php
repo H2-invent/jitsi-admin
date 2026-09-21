@@ -46,6 +46,7 @@ class SmtpConfig implements ConvertToEnvironmentInterface
     {
         $smtp = [];
         preg_match('~.*://(?<username>.*):(?<password>.*)@(?<host>.*):(?<port>\d*)~', $dsn, $smtp);
+        /** @var array<string, string> $smtp */
 
         return new self(
             host: $smtp['host'],

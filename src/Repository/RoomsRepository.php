@@ -173,7 +173,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->orderBy('r.startUtc', 'DESC')
             ->setMaxResults($this->amountperLayz)
-            ->setFirstResult($this->amountperLayz * $offset)
+            ->setFirstResult($this->amountperLayz * (int) $offset)
             ->getQuery()
             ->getResult();
 
@@ -369,7 +369,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('rooms.persistantRoom = true')
             ->orderBy('rooms.id', 'ASC')
             ->setMaxResults($this->amountperLayz)
-            ->setFirstResult($this->amountperLayz * $offset);
+            ->setFirstResult($this->amountperLayz * (int) $offset);
         return $qb->getQuery()->getResult();
     }
 

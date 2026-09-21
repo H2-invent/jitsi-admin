@@ -137,7 +137,7 @@ class NewRoomService
             );
             $log->setCreatedAt(new \DateTimeImmutable())
                 ->setUserName($myUser->getUid())
-                ->setMessage(json_encode($message))
+                ->setMessage((string) json_encode($message))
                 ->setUser($myUser)
                 ->setRoom($room);
 

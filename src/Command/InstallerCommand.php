@@ -36,7 +36,9 @@ class InstallerCommand extends Command
     # region command
     public function __construct(ParameterBagInterface $parameterBag, ?string $name = null)
     {
-        $this->projectDir = $parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR;
+        /** @var string $projectDir */
+        $projectDir = $parameterBag->get('kernel.project_dir');
+        $this->projectDir = $projectDir . DIRECTORY_SEPARATOR;
 
         parent::__construct($name);
     }
@@ -388,9 +390,9 @@ class InstallerCommand extends Command
     # endregion ask_for_configs
 
     # region ask_types
-    private function ask(Question $question): string|bool|int
+    private function ask(Question $question): string
     {
-        return $this->helper->ask($this->input, $this->output, $question);
+        return (string)$this->helper->ask($this->input, $this->output, $question);
     }
 
     private function askForNumeric(

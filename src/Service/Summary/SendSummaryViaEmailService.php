@@ -32,6 +32,7 @@ class SendSummaryViaEmailService
     public function sendSumaryToParticipant(User $user): void
     {
         $dompdf = $this->createSummaryService->createSummaryPdf($this->rooms);
+        /** @var string $pdf */
         $pdf = $dompdf->output();
 
         $attachment = [['type' => 'application/pdf', 'filename' => $this->rooms->getName() . '.pdf', 'body' => $pdf]];

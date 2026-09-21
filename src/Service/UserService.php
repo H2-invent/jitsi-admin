@@ -160,11 +160,13 @@ class UserService
             $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', ['slug' => $room->getServer()->getSlug()]), $room);
         }
 
+        /** @var string $showNameFrontend */
+        $showNameFrontend = $this->parameterBag->get('laf_showNameFrontend');
         $this->pushService->generatePushNotification(
             $subject,
             $this->translator->trans(
                 'Die Videokonferenz {name} startet gleich.',
-                ['{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')),
+                ['{organizer}' => $room->getModerator()->getFormatedName($showNameFrontend),
                     '{name}' => $room->getName()]
             ),
             $user,

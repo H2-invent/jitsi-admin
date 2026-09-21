@@ -32,6 +32,8 @@ class AdhocMeetingService
 
     public function createAdhocMeeting(User $creator, User $reciever, Server $server, ?Tag $tag = null): ?Rooms
     {
+        /** @var string $showName */
+        $showName = $this->parameterBag->get('laf_showName');
         $room = $this->roomGeneratorService->createRoom($creator, $server);
         if ($tag) {
             $room->setTag($tag);
@@ -45,8 +47,8 @@ class AdhocMeetingService
         }
         $room->setEnddate($now->modify('+ 1 hour'));
         $room->setDuration(60);
-        $room->setName($this->translator->trans('Konferenz mit {n}', ['{n}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]));
-        $room->setSecondaryName($this->translator->trans('Konferenz mit {n}', ['{n}' => $reciever->getFormatedName($this->parameterBag->get('laf_showName'))]));
+        $room->setName($this->translator->trans('Konferenz mit {n}', ['{n}' => $creator->getFormatedName($showName)]));
+        $room->setSecondaryName($this->translator->trans('Konferenz mit {n}', ['{n}' => $reciever->getFormatedName($showName)]));
         $this->em->persist($room);
         $this->em->flush();
         $reciever->addRoom($room);

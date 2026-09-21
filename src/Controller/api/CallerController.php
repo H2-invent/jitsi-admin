@@ -41,7 +41,9 @@ class CallerController extends JitsiAdminController
         $this->callerPinService = $callerPinService;
         $this->callerSessionService = $callerSessionService;
         $this->callerLeftService = $callerLeftService;
-        $this->token = 'Bearer ' . $parameterBag->get('SIP_CALLER_SECRET');
+        /** @var string $sipCallerSecret */
+        $sipCallerSecret = $parameterBag->get('SIP_CALLER_SECRET');
+        $this->token = 'Bearer ' . $sipCallerSecret;
     }
 
 

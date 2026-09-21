@@ -93,8 +93,13 @@ class ParticipantSearchService
     public function buildShowInFrontendString(User $user): string
     {
         $res = '';
-        $res .= $user->getFormatedName($this->parameterBag->get('laf_showName'));
-        $mapper = json_decode($this->parameterBag->get('laf_icon_mapping_search'), true);
+        /** @var string $showName */
+        $showName = $this->parameterBag->get('laf_showName');
+        $res .= $user->getFormatedName($showName);
+        /** @var string $iconMappingSearch */
+        $iconMappingSearch = $this->parameterBag->get('laf_icon_mapping_search');
+        /** @var array<string, string> $mapper */
+        $mapper = json_decode($iconMappingSearch, true);
 
         foreach ($mapper as $key => $data) {//Iterie über alle Icon Mapper Symbole
             if (isset($user->getSpezialProperties()[$key]) && $user->getSpezialProperties()[$key] !== '') {//Wenn das Spezialfeld im  User vorhanden ist, und wenn dieses im User nicht leer ist
@@ -107,7 +112,9 @@ class ParticipantSearchService
     public function buildShowInFrontendStringNoString(User $user): string
     {
         $res = '';
-        $res .= $user->getFormatedName($this->parameterBag->get('laf_showName'));
+        /** @var string $showName */
+        $showName = $this->parameterBag->get('laf_showName');
+        $res .= $user->getFormatedName($showName);
         return $res;
     }
 

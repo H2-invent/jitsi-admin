@@ -130,6 +130,7 @@ class OwnRoomController extends JitsiAdminController
                     } else {
                         $wui = null;
                         if ($request->cookies->has('waitinguser')) {
+                            /** @var string $wui */
                             $wui = $request->cookies->get('waitinguser');
                         }
                         $res = $startMeetingService->createLobbyParticipantResponse($wui);
@@ -150,6 +151,7 @@ class OwnRoomController extends JitsiAdminController
                     } else {
                         $wui = null;
                         if ($request->cookies->has('waitinguser')) {
+                            /** @var string $wui */
                             $wui = $request->cookies->get('waitinguser');
                         }
                         $res = $startMeetingService->createLobbyParticipantResponse($wui);
@@ -161,6 +163,9 @@ class OwnRoomController extends JitsiAdminController
                     //Resultat:  also wird der Teilnehmer direkt in die Konferenz überführt. Es wird nichts weiter kontrolliert
                     $res = $startMeetingService->roomDefault();
                 }
+            }
+            if ($res instanceof NotFoundHttpException) {
+                throw $res;
             }
             $res->headers->setCookie(new Cookie('name', $name, (new \DateTimeImmutable())->modify('+365 days')));
             return $res;
@@ -186,7 +191,11 @@ class OwnRoomController extends JitsiAdminController
 
         if (($room->getStartUtc() < $now && $room->getEndDateUtc() > $now)) {
             $startMeetingService->setAttribute($room, null, $type, $name);
-            return $startMeetingService->roomDefault();
+            $res = $startMeetingService->roomDefault();
+            if ($res instanceof NotFoundHttpException) {
+                throw $res;
+            }
+            return $res;
         }
         return $this->render(
             'own_room/waiting.html.twig',

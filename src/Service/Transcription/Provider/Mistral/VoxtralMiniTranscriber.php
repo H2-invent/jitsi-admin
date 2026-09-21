@@ -22,6 +22,7 @@ class VoxtralMiniTranscriber extends AbstractTranscriber
     protected function transcribeChunk(string $chunkPath, mixed $client): string
     {
         /** @var MistralClient $client */
+        /** @var array{text: string} $response */
         $response = $client->request('POST', 'v1/audio/transcriptions', [
             'model' => 'voxtral-mini-latest',
             'file' => fopen($chunkPath, 'rb'),

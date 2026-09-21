@@ -32,7 +32,9 @@ class CalloutAPIController extends JitsiAdminController
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
-        $this->token = 'Bearer ' . $parameterBag->get('SIP_CALLER_SECRET');
+        /** @var string $sipCallerSecret */
+        $sipCallerSecret = $parameterBag->get('SIP_CALLER_SECRET');
+        $this->token = 'Bearer ' . $sipCallerSecret;
     }
 
     #[Route('/', name: 'pool')]

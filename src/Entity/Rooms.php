@@ -259,6 +259,7 @@ class Rooms
         $srcTz = $this->timeZone ? new \DateTimeZone($this->timeZone) : null;
 
         if ($this->start) {
+            /** @var \DateTimeImmutable $dt */
             $dt = \DateTimeImmutable::createFromFormat(
                 'Y-m-d H:i:s',
                 $this->start->format('Y-m-d H:i:s'),
@@ -273,6 +274,7 @@ class Rooms
         }
 
         if ($this->enddate) {
+            /** @var \DateTimeImmutable $dt */
             $dt = \DateTimeImmutable::createFromFormat(
                 'Y-m-d H:i:s',
                 $this->enddate->format('Y-m-d H:i:s'),

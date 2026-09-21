@@ -49,7 +49,9 @@ class CustomMailerMessageDispatcher
      */
     private function sendNotdelivery(?Rooms $room, $to, $wrongEmail, $error): void
     {
+        /** @var string $sender */
         $sender = $this->parameterBag->get('registerEmailAdress');
+        /** @var string $senderName */
         $senderName = $this->parameterBag->get('registerEmailName');
         $message = (new Email())
             ->subject('Invalid email address ')

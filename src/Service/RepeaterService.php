@@ -398,13 +398,15 @@ class RepeaterService
         //this is the main event and holds all the Rdate.
         // The Rdates will be overwritten by the individall elements
 
+        /** @var Rooms $firstRoom */
+        $firstRoom = $repeat->getRooms()->first();
         $ics->addEvent(
             [
                 'uid' => md5($repeat->getUid()) . '@' . parse_url($repeat->getPrototyp()->getHostUrl(), PHP_URL_HOST),
                 'location' => $this->translator->trans('meetling Konferenz'),
                 'description' => $description,
-                'dtstart' => $repeat->getRooms()->first()->getStartUtc(),
-                'dtend' => $repeat->getRooms()->first()->getEndDateUtc(),
+                'dtstart' => $firstRoom->getStartUtc(),
+                'dtend' => $firstRoom->getEndDateUtc(),
                 'summary' => $repeat->getPrototyp()->getName(),
                 'sequence' => $repeat->getPrototyp()->getSequence(),
                 'organizerEmail'=>$repeat->getPrototyp()->getModerator()->getEmail(),

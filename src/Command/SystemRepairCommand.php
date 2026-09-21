@@ -21,7 +21,7 @@ class SystemRepairCommand extends Command
     private EntityManagerInterface $em;
     private SymfonyStyle $io;
     private string $logfile = 'repairLog.txt';
-    /** @var resource|false */
+    /** @var resource */
     private $logFileFile;
 
     public function __construct(
@@ -43,7 +43,11 @@ class SystemRepairCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $this->io = $io;
         $io->info('We try to repair the system.....');
-        $this->logFileFile = fopen($this->logfile, "a") or die("Unable to open file!");
+        $logFileFile = fopen($this->logfile, "a");
+        if ($logFileFile === false) {
+            die("Unable to open file!");
+        }
+        $this->logFileFile = $logFileFile;
         fwrite($this->logFileFile, sprintf(PHP_EOL . PHP_EOL . 'Repair on %s' . PHP_EOL, (new \DateTimeImmutable())->format('d.m.Y H:i')));
         $count = 0;
         $user = $this->em->getRepository(User::class)->findAll();

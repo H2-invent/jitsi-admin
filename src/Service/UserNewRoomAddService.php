@@ -44,6 +44,8 @@ class UserNewRoomAddService
      */
     function addUserToRoom(User $user, Rooms $room)
     {
+        /** @var string $showName */
+        $showName = $this->parameterBag->get('laf_showName');
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}', ['{name}' => $room->getName()]);
@@ -55,7 +57,7 @@ class UserNewRoomAddService
                 $subject,
                 $this->translator->trans(
                     'Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
-                    ['{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
+                    ['{organizer}' => $room->getModerator()->getFormatedName($showName),
                         '{name}' => $room->getName()]
                 ),
                 $user,
@@ -77,6 +79,8 @@ class UserNewRoomAddService
      */
     function addUserToPersistantRoom(User $user, Rooms $room)
     {
+        /** @var string $showName */
+        $showName = $this->parameterBag->get('laf_showName');
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}', ['{name}' => $room->getName()]);
@@ -86,7 +90,7 @@ class UserNewRoomAddService
                 $subject,
                 $this->translator->trans(
                     'Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
-                    ['{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
+                    ['{organizer}' => $room->getModerator()->getFormatedName($showName),
                         '{name}' => $room->getName()]
                 ),
                 $user,
@@ -109,6 +113,8 @@ class UserNewRoomAddService
     function addUserSchedule(User $user, Rooms $room)
     {
 
+        /** @var string $showName */
+        $showName = $this->parameterBag->get('laf_showName');
         $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room,]);
         $subject = $this->translator->trans('[Terminplanung] Neue Einladung zur Terminplanung {name}', ['{name}' => $room->getName()]);
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room);
@@ -117,7 +123,7 @@ class UserNewRoomAddService
                 $subject,
                 $this->translator->trans(
                     'Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.',
-                    ['{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
+                    ['{organizer}' => $room->getModerator()->getFormatedName($showName),
                         '{name}' => $room->getName()]
                 ),
                 $user,

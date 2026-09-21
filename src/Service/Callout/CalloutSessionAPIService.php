@@ -57,7 +57,9 @@ class CalloutSessionAPIService
                 (new \DateTimeImmutable())->format('U'),
                 (intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed())
             ]);
-        if ($calloutSession->getLastDialed() && ((intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed()) < (int) $this->parameterBag->get('CALLOUT_WAITING_TIME'))) {
+        /** @var int|string $caloutWaitingTime */
+        $caloutWaitingTime = $this->parameterBag->get('CALLOUT_WAITING_TIME');
+        if ($calloutSession->getLastDialed() && ((intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed()) < (int) $caloutWaitingTime)) {
             return null;
         } else {
             $calloutSession->setLastDialed((float) (new \DateTimeImmutable())->format('U'));
@@ -98,10 +100,11 @@ class CalloutSessionAPIService
      * This Function searches all CalloutSessions in the Specific State
      * The State is defined in the CalloutSession Class in Static Variables
      * @param int $state
-     * @return CalloutSession[]|array|object[]
+     * @return CalloutSession[]
      */
     public function findCalloutSessionByState($state)
     {
+        /** @var CalloutSession[] $calloutSession */
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findBy(['state' => $state]);
         return $calloutSession;
     }

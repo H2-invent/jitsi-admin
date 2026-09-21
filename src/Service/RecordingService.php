@@ -51,7 +51,7 @@ class RecordingService
         $chunk->move($tempDir, $chunkPath);
 
         $uploadedChunks = glob("{$tempDir}/chunk_*");
-        if (count($uploadedChunks) !== $totalChunks) {
+        if ($uploadedChunks === false || count($uploadedChunks) !== $totalChunks) {
             return ServiceResult::failure(RecordingUploadError::UPLOAD_INCOMPLETE);
         }
 
@@ -86,8 +86,14 @@ class RecordingService
         // Datei zusammensetzen
         try {
             $finalFile = fopen($finalPath, 'ab');
+            if ($finalFile === false) {
+                return ServiceResult::failure(RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE);
+            }
             foreach ($chunks as $chunk) {
                 $chunkFile = fopen($chunk->getPathname(), 'rb');
+                if ($chunkFile === false) {
+                    return ServiceResult::failure(RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE);
+                }
                 stream_copy_to_stream($chunkFile, $finalFile);
                 fclose($chunkFile);
             }

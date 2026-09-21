@@ -29,7 +29,9 @@ class AdhocMeetingWebsocketService
     {
         $topic = 'personal/' . $reciever->getUid();
         $header = $this->translator->trans('addhock.notification.title');
-        $text = $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]);
+        /** @var string $showName */
+        $showName = $this->parameterBag->get('laf_showName');
+        $text = $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($showName)]);
         $dialogType = 'question';
         $button = [
             [

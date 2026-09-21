@@ -30,6 +30,9 @@ class Utils extends AbstractExtension
 
     public function addRepetiveCharacters(string $string, string $character, int $sequence): string
     {
+        if ($sequence < 1) {
+            $sequence = 1;
+        }
         return chunk_split($string, $sequence, $character);
     }
 

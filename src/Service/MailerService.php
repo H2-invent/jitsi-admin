@@ -105,7 +105,9 @@ class MailerService
         try {
             if ($server->getSmtpHost()) {
                 if ($this->kernel->getEnvironment() === 'dev') {
-                    foreach ($this->parameter->get('delivery_addresses') as $devRecipient) {
+                    /** @var array<int, string> $deliveryAddresses */
+                    $deliveryAddresses = $this->parameter->get('delivery_addresses');
+                    foreach ($deliveryAddresses as $devRecipient) {
                         $email->to($devRecipient);
                     }
                 }
@@ -128,9 +130,13 @@ class MailerService
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $fallbackEmail = new Email();
+            /** @var string $registerEmailAdress */
+            $registerEmailAdress = $this->parameter->get('registerEmailAdress');
+            /** @var string $registerEmailName */
+            $registerEmailName = $this->parameter->get('registerEmailName');
             $fallbackEmail->from(new Address(
-                $this->parameter->get('registerEmailAdress'),
-                $this->parameter->get('registerEmailName')
+                $registerEmailAdress,
+                $registerEmailName
             ));
             $this->mailer->send($fallbackEmail);
             throw $e;
@@ -224,20 +230,26 @@ class MailerService
     private function resolveSender(Server $server, ?Rooms $rooms): array
     {
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
-            return [$server->getSmtpEmail(), $server->getSmtpSenderName()];
+            return [(string) $server->getSmtpEmail(), (string) $server->getSmtpSenderName()];
         }
 
         if ($rooms?->getModerator() && $this->parameter->get('emailSenderIsModerator')) {
             $moderator = $rooms->getModerator();
+            /** @var string $registerEmailAdress */
+            $registerEmailAdress = $this->parameter->get('registerEmailAdress');
             return [
-                $this->parameter->get('registerEmailAdress'),
+                $registerEmailAdress,
                 $moderator->getFirstName() . ' ' . $moderator->getLastName()
             ];
         }
 
+        /** @var string $registerEmailAdress */
+        $registerEmailAdress = $this->parameter->get('registerEmailAdress');
+        /** @var string $registerEmailName */
+        $registerEmailName = $this->parameter->get('registerEmailName');
         return [
-            $this->parameter->get('registerEmailAdress'),
-            $this->parameter->get('registerEmailName')
+            $registerEmailAdress,
+            $registerEmailName
         ];
     }
 

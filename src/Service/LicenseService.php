@@ -56,7 +56,10 @@ class LicenseService
         $this->em->persist($license);
         $this->em->flush();
 
-        return ['error' => false, 'licenseKey' => $license->getLicenseKey()];
+        /** @var string $licenseKey */
+        $licenseKey = $license->getLicenseKey();
+
+        return ['error' => false, 'licenseKey' => $licenseKey];
     }
 
     public function validUntil(Server $server): ?\DateTimeImmutable

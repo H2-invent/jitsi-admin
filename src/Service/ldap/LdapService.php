@@ -108,34 +108,41 @@ class LdapService
         $this->ldaps = [];
     }
 
+    private function getStringParameter(string $name): string
+    {
+        /** @var string $value */
+        $value = $this->parameterBag->get($name);
+        return $value;
+    }
+
     /**
      * @return bool|int
      */
     public function readLdapConfig(): bool|int
     {
         try {
-            $this->URL = explode(';', $this->parameterBag->get('ldap_url'));
-            $this->LOGIN = explode(';', $this->parameterBag->get('ldap_bind_dn'));
-            $this->PASSWORD = explode(';', $this->parameterBag->get('ldap_password'));
-            $this->USERDN = explode(';', $this->parameterBag->get('ldap_user_dn'));
-            $this->SCOPE = explode(';', $this->parameterBag->get('ldap_search_scope'));
-            $this->OBJECTCLASSES = explode(';', $this->parameterBag->get('ldap_user_object_classes'));
-            $this->USERNAMEATTRIBUTE = explode(';', $this->parameterBag->get('ldap_userName_attribute'));
-            $this->RDN = explode(',', $this->parameterBag->get('ldap_rdn_ldap_attribute'));
-            $this->BINDTYPE = explode(',', $this->parameterBag->get('ldap_bind_type'));
-            $this->LDAPSERVERID = explode(',', $this->parameterBag->get('ldap_server_individualName'));
-            $this->LDAPFILTER = explode(';', $this->parameterBag->get('ldap_filter'));
-            $this->LDAP_DEPUTY_GROUP_DN = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_DN'));
-            $this->LDAP_DEPUTY_GROUP_LEADER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_LEADER'));
-            $this->LDAP_DEPUTY_GROUP_MEMBERS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_MEMBERS'));
-            $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
-            $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_FILTER'));
-            $this->LDAP_IS_SIP_VIDEO = explode(';', $this->parameterBag->get('LDAP_IS_SIP_VIDEO'));
-            $tmp = explode(';', $this->parameterBag->get('ldap_attribute_mapper'));
+            $this->URL = explode(';', $this->getStringParameter('ldap_url'));
+            $this->LOGIN = explode(';', $this->getStringParameter('ldap_bind_dn'));
+            $this->PASSWORD = explode(';', $this->getStringParameter('ldap_password'));
+            $this->USERDN = explode(';', $this->getStringParameter('ldap_user_dn'));
+            $this->SCOPE = explode(';', $this->getStringParameter('ldap_search_scope'));
+            $this->OBJECTCLASSES = explode(';', $this->getStringParameter('ldap_user_object_classes'));
+            $this->USERNAMEATTRIBUTE = explode(';', $this->getStringParameter('ldap_userName_attribute'));
+            $this->RDN = explode(',', $this->getStringParameter('ldap_rdn_ldap_attribute'));
+            $this->BINDTYPE = explode(',', $this->getStringParameter('ldap_bind_type'));
+            $this->LDAPSERVERID = explode(',', $this->getStringParameter('ldap_server_individualName'));
+            $this->LDAPFILTER = explode(';', $this->getStringParameter('ldap_filter'));
+            $this->LDAP_DEPUTY_GROUP_DN = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_DN'));
+            $this->LDAP_DEPUTY_GROUP_LEADER = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_LEADER'));
+            $this->LDAP_DEPUTY_GROUP_MEMBERS = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_MEMBERS'));
+            $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
+            $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_FILTER'));
+            $this->LDAP_IS_SIP_VIDEO = explode(';', $this->getStringParameter('LDAP_IS_SIP_VIDEO'));
+            $tmp = explode(';', $this->getStringParameter('ldap_attribute_mapper'));
             foreach ($tmp as $data) {
                 $this->MAPPER[] = json_decode($data, true);
             }
-            $tmp = explode(';', $this->parameterBag->get('ldap_special_Fields'));
+            $tmp = explode(';', $this->getStringParameter('ldap_special_Fields'));
             foreach ($tmp as $data) {
                 $this->LDAP_SPECIALFIELD[] = json_decode($data, true);
             }

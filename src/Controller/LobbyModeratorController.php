@@ -79,7 +79,9 @@ class LobbyModeratorController extends JitsiAdminController
             $this->addFlash('danger', $this->translator->trans('Fehler'));
             return $this->redirectToRoute('dashboard');
         }
-        $url = $roomService->join($roomL, $this->getUser(), $t, $this->getSessionUser($request->getSession())->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
+        /** @var string $showNameInConference */
+        $showNameInConference = $this->parameterBag->get('laf_showNameInConference');
+        $url = $roomService->join($roomL, $this->getUser(), $t, $this->getSessionUser($request->getSession())->getFormatedName($showNameInConference));
         return $this->redirect($url);
     }
 

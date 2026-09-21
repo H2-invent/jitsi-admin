@@ -79,17 +79,20 @@ class PublicConferenceController extends JitsiAdminController
         $this->server = $room->getServer();
         $firstUser = $this->roomStatusFrontendService->isRoomCreated($room);
         $name = $this->requestStack->getSession()->get('myName')?:'Meetling';
+        /** @var string $showNameFrontend */
+        $showNameFrontend = $this->parameterBag->get('laf_showNameFrontend');
         $response = $this->render(
             'public_conference/publicConference.html.twig',
             [
                 'room' => $room,
                 'user' => null,
-                'name' => $this->getUser() ? $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')) : $name,
+                'name' => $this->getUser() ? $this->getUser()->getFormatedName($showNameFrontend) : $name,
                 'moderator' => !$firstUser,
                 'server' => $this->server,
                 'noModerator'=>true,
             ]
         );
+        /** @var string|null $lastConf */
         $lastConf = $request->cookies->get('LAST_CONFERENCE');
         if (!$lastConf) {
             $lastConf = [$confId];
@@ -99,10 +102,12 @@ class PublicConferenceController extends JitsiAdminController
                 $lastConf[] = $confId;
             }
         }
+        /** @var string $lastConfEncoded */
+        $lastConfEncoded = json_encode($lastConf);
         $response->headers->setCookie(
             Cookie::create(
                 'LAST_CONFERENCE',
-                json_encode($lastConf),
+                $lastConfEncoded,
                 time() + (2 * 365 * 24 * 60 * 60),
             )
         );

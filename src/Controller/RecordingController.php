@@ -64,6 +64,7 @@ class RecordingController extends AbstractController
         // Hole die Konferenz-ID und die Datei
         $chunkIndex = $request->request->get('chunk_index');
         $totalChunks = $request->request->get('total_chunks');
+        /** @var string|null $recordingId */
         $recordingId = $request->request->get('recording_id');
         $uploadedFile = $request->files->get('file');
 

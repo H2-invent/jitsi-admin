@@ -38,8 +38,10 @@ class CheckThemeValidDateCommand extends Command
         $count = 0;
         $io = new SymfonyStyle($input, $output);
         $maxTime = $input->getArgument('maxTime');
+        /** @var string $projectDir */
+        $projectDir = $this->parameterBag->get('kernel.project_dir');
         $finder = new Finder();
-        $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name('*theme.json.signed');
+        $finder->files()->in($projectDir . '/theme/')->name('*theme.json.signed');
         $arr = iterator_to_array($finder);
         foreach ($arr as $path) {
             $theme = json_decode($path->getContents(), true)['entry'];

@@ -80,17 +80,22 @@ class ThemeService
 
 
 
+        /** @var string $projectDir */
+        $projectDir = $this->parameterBag->get('kernel.project_dir');
+
         try {
             $value = $this->cache->get(
                 'theme_' . $url,
-                function (ItemInterface $item) use ($url) {
+                function (ItemInterface $item) use ($url, $projectDir) {
                     $item->expiresAfter(3600);
 
                     $finder = new Finder();
-                    $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name($url . '.' . 'theme.json.signed');
+                    $finder->files()->in($projectDir . '/theme/')->name($url . '.' . 'theme.json.signed');
                     if ($finder->count() > 0) {
                         $arr = iterator_to_array($finder);
-                        $theme = reset($arr)->getContents();
+                        /** @var \Symfony\Component\Finder\SplFileInfo $file */
+                        $file = reset($arr);
+                        $theme = $file->getContents();
 
                         $valid = $this->checkSignature->verifySignature($theme);
                         if ($valid) {
@@ -134,6 +139,7 @@ class ThemeService
 
         $variable = null;
         if ($this->parameterBag->has($input)) {
+            /** @var string $variable */
             $variable = $this->parameterBag->get($input);
         }
 
@@ -260,8 +266,10 @@ class ThemeService
      */
     public function showAllThemes(): bool|array
     {
+        /** @var string $projectDir */
+        $projectDir = $this->parameterBag->get('kernel.project_dir');
         $finder = new Finder();
-        $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name('*.theme.json.signed');
+        $finder->files()->in($projectDir . '/theme/')->name('*.theme.json.signed');
         if (!$finder->hasResults()) {
             return false;
         }

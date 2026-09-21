@@ -20,7 +20,9 @@ class CreateHttpsUrl
         $this->paramterBag = $parameterBag;
         $this->request = $requestStack;
         $this->logger = $logger;
-        $this->baseUrl = $this->paramterBag->get('laF_baseUrl');
+        /** @var string $baseUrl */
+        $baseUrl = $this->paramterBag->get('laF_baseUrl');
+        $this->baseUrl = $baseUrl;
     }
 
     public function setParamterBag(ParameterBagInterface $paramterBag): void
@@ -41,7 +43,9 @@ class CreateHttpsUrl
 
 
         if ($this->paramterBag->get('LAF_DEV_URL') !== '') {
-            return $this->paramterBag->get('LAF_DEV_URL') . $url;
+            /** @var string $lafDevUrl */
+            $lafDevUrl = $this->paramterBag->get('LAF_DEV_URL');
+            return $lafDevUrl . $url;
         } else {
             try {
                 if ($rooms && $rooms->getHostUrl()) {
@@ -81,7 +85,9 @@ class CreateHttpsUrl
      */
     public function replaceSchemeOfAbsolutUrl($url): string
     {
-        $protokoll = parse_url($this->paramterBag->get('laF_baseUrl'));
+        /** @var string $baseUrl */
+        $baseUrl = $this->paramterBag->get('laF_baseUrl');
+        $protokoll = parse_url($baseUrl);
         if (!$protokoll) {
             return $url;
         }

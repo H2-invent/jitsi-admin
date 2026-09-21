@@ -64,6 +64,7 @@ class DbConfig implements ConvertToEnvironmentInterface
     {
         $dbConfig = [];
         preg_match('~.*://(?<username>.*):(?<password>.*)@(?<host>.*):(?<port>\d*)/(?<database>.*)\?serverVersion=(?<serverVersion>.*)~', $dsn, $dbConfig);
+        /** @var array<string, string> $dbConfig */
         return new self(
             engine: 'mysql',
             serverVersion: $dbConfig['serverVersion'],

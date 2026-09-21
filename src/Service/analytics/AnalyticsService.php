@@ -82,7 +82,9 @@ class AnalyticsService
 
     public function sendAnalytics(): void
     {
-        if (md5($this->parameterBag->get('DONT_SEND_TELEMATIC')) !== '1d824017272c3c2fbe01f151ae7819b6') {
+        /** @var string $dontSendTelematic */
+        $dontSendTelematic = $this->parameterBag->get('DONT_SEND_TELEMATIC');
+        if (md5($dontSendTelematic) !== '1d824017272c3c2fbe01f151ae7819b6') {
             $cache = new FilesystemAdapter();
             $cache->get('send_analytics', function (ItemInterface $item) {
                 $item->expiresAfter(12 * 60 * 60);

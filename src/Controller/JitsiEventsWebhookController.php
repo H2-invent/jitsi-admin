@@ -32,7 +32,9 @@ class JitsiEventsWebhookController extends JitsiAdminController
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
 
-        $this->token = 'Bearer ' . $parameterBag->get('JITSI_EVENTS_TOKEN');
+        /** @var string $jitsiEventsToken */
+        $jitsiEventsToken = $parameterBag->get('JITSI_EVENTS_TOKEN');
+        $this->token = 'Bearer ' . $jitsiEventsToken;
         $this->webhookService = $roomCreatedWebhookService;
     }
 

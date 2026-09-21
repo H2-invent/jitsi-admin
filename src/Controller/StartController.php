@@ -18,7 +18,9 @@ class StartController extends JitsiAdminController
     public function joinRoom(RoomService $roomService, string $room, string $t, StartMeetingService $startMeetingService): NotFoundHttpException|RedirectResponse|Response
     {
         $roomL = $this->doctrine->getRepository(Rooms::class)->find($room);
-        return $startMeetingService->startMeeting($roomL, $this->getUser(), $t, $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
+        /** @var string $showNameInConference */
+        $showNameInConference = $this->parameterBag->get('laf_showNameInConference');
+        return $startMeetingService->startMeeting($roomL, $this->getUser(), $t, $this->getUser()->getFormatedName($showNameInConference));
     }
     #[Route(path: '/room/checkCors', name: 'room_check_cors')]
     public function checkCorsRoom(Request $request, RoomService $roomService): Response

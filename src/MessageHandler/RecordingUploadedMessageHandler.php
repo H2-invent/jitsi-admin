@@ -27,9 +27,13 @@ class RecordingUploadedMessageHandler
             switch ($result->getErrorType()) {
                 case RecordingFinalizeError::NO_CHUNKS_FOUND:
                 case RecordingFinalizeError::NO_RECORDING_FOUND:
-                    throw new UnrecoverableMessageHandlingException($result->getErrorType()->value);
+                    /** @var string $errorMessage */
+                    $errorMessage = $result->getErrorType()->value;
+                    throw new UnrecoverableMessageHandlingException($errorMessage);
                 case RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE:
-                    throw new RecoverableMessageHandlingException($result->getErrorType()->value);
+                    /** @var string $errorMessage */
+                    $errorMessage = $result->getErrorType()->value;
+                    throw new RecoverableMessageHandlingException($errorMessage);
             }
         }
     }
