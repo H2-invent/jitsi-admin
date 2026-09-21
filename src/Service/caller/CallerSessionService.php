@@ -78,7 +78,7 @@ class CallerSessionService
         }
 
         if ($authOk || (!$session->getCaller()->getRoom()->getLobby() && $started)) {
-            $this->loggger->debug('The user is accepted and is allowed to enter the room', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'user' => $session->getCaller()->getUser()->getId()]);
+            $this->loggger->debug('The user is accepted and is allowed to enter the room', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'user' => $session->getCaller()->getUser()?->getId()]);
             return $this->sessionAccepted(session: $session);
         }
 
@@ -127,7 +127,13 @@ class CallerSessionService
 
             $this->loggger->debug('The Callersession is destroyed', ['room' => $callerSession->getSessionId()]);
             $callerId = $callerSession->getCaller();
-            $callerId->setCallerSession(null);
+            if ($callerId) {
+                $callerId->setCallerSession(null);
+                if (!$callerId->getUser()) {
+                    // Call-in users without a user are created on the fly for total open rooms and are not reused
+                    $this->em->remove($callerId);
+                }
+            }
             $this->em->remove($callerSession);
             $this->em->flush();
         } catch (\Exception $exception) {
@@ -165,6 +171,8 @@ class CallerSessionService
 
     private function sessionAccepted(CallerSession $session): array
     {
+        // Callers of total open rooms have no user, they are shown with the name of the session (phone number)
+        $user = $session->getCaller()->getUser();
         $res = [
             'status' => 'ACCEPTED',
             'reason' => 'ACCEPTED_BY_MODERATOR',
@@ -172,8 +180,10 @@ class CallerSessionService
             'status_of_meeting' => 'STARTED',
             'message' => $this->createMessageElement($session),
             'room_name' => $session->getCaller()->getRoom()->getUid(),
-            'displayname' => $this->formatName->formatName($this->themeService->getApplicationProperties('laf_showNameInConference'), $session->getCaller()->getUser()),
-            'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
+            'displayname' => $user
+                ? $this->formatName->formatName($this->themeService->getApplicationProperties('laf_showNameInConference'), $user)
+                : $session->getShowName(),
+            'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $user, $session->getShowName()),
 
             'links' => [
                 'session' => $this->urlGen->generate('caller_session', ['session_id' => $session->getSessionId()]),
@@ -192,7 +202,7 @@ class CallerSessionService
         if ($session->isIsSipVideoUser()) {
             try {
                 $this->jitsiComponentSelectorService->setBaseUrlFromServer($session->getCaller()->getRoom()->getServer());
-                $res['componentKey'] = $this->jitsiComponentSelectorService->fetchComponentKey($session->getCaller()->getRoom(), $session->getCaller()->getUser());
+                $res['componentKey'] = $this->jitsiComponentSelectorService->fetchComponentKey($session->getCaller()->getRoom(), $user, $session->getShowName());
             }catch (\Exception $exception){
                $this->loggger->error($exception->getMessage());
             }

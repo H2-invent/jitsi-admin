@@ -91,7 +91,8 @@ class CallerController extends JitsiAdminController
             return $check;
         }
         $error = [];
-        if (!$request->get('pin')) {
+        $pinRequired = !$this->callerRoomFromRoomId($roomId)?->getRoom()?->getTotalOpenRooms();
+        if ($pinRequired && !$request->get('pin')) {
             $error['error'] = 'MISSING_ARGUMENT';
             $error['argument'][] = 'pin';
         }
@@ -102,7 +103,7 @@ class CallerController extends JitsiAdminController
         if (sizeof($error) > 0) {
             return new JsonResponse($error, 404);
         }
-        $session = $this->callerPinService->createNewCallerSession($roomId, $request->get('pin'), $request->get('caller_id'), $request->get('is_video')?:false);
+        $session = $this->callerPinService->createNewCallerSession($roomId, $request->get('pin') ?: null, $request->get('caller_id'), $request->get('is_video')?:false);
         if (!$session) {
             $res = [
                 'auth_ok' => false,
@@ -187,9 +188,12 @@ class CallerController extends JitsiAdminController
 
     private function serverFromRoomId($roomId): ?Server
     {
-        $callerRoom = $this->doctrine->getRepository(CallerRoom::class)->findOneBy(['callerId' => $roomId]);
+        return $this->callerRoomFromRoomId($roomId)?->getRoom()?->getServer();
+    }
 
-        return $callerRoom?->getRoom()?->getServer();
+    private function callerRoomFromRoomId($roomId): ?CallerRoom
+    {
+        return $this->doctrine->getRepository(CallerRoom::class)->findOneBy(['callerId' => $roomId]);
     }
 
     private function serverFromSessionId($sessionId): ?Server

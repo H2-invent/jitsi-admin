@@ -48,10 +48,10 @@ class CallerFindRoomService
             ];
         }
         $lobbyEnabled = (bool)$caller->getRoom()->getLobby();
+        $totalOpenRooms = (bool)$caller->getRoom()->getTotalOpenRooms();
         $personalPinEnabled = $this->themeService->getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1;
 
-        // If the lobby is enabled but no personal PIN is exposed, the protected flow cannot be completed
-        if ($lobbyEnabled && !$personalPinEnabled) {
+        if ($lobbyEnabled && !$totalOpenRooms && !$personalPinEnabled) {
             return [
                 'status' => 'HANGUP',
                 'reason' => 'NO_PIN_CONFIGURED',
@@ -67,6 +67,8 @@ class CallerFindRoomService
             'endTime' => $caller->getRoom()->getEndTimestamp(),
             'roomName' => $caller->getRoom()->getName(),
             'lobby_enabled' => $lobbyEnabled,
+            'total_open_rooms' => $totalOpenRooms,
+            'pin_required' => $lobbyEnabled && !$totalOpenRooms,
             'links' => $lobbyEnabled
                 ? ['pin' => $this->urlGen->generate('caller_protected', ['roomId' => $id])]
                 : ['open' => $this->urlGen->generate('caller_open', ['roomId' => $id])]
