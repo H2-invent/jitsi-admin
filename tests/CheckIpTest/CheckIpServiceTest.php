@@ -18,43 +18,43 @@ class CheckIpServiceTest extends TestCase
 
    }
 
-    public function testValidIPInRange() {
+    public function testValidIPInRange(): void {
         // Testen, ob die IP-Adresse in der Range liegt
         $this->assertTrue($this->checkIPService->isIPInRange('192.168.1.10', '192.168.1.0/24'));
         $this->assertTrue($this->checkIPService->isIPInRange('10.0.0.5', '10.0.0.0/16'));
         $this->assertTrue($this->checkIPService->isIPInRange('172.16.0.1', '172.16.0.0/12'));
     }
 
-    public function testInvalidIPInRange() {
+    public function testInvalidIPInRange(): void {
         // Testen, ob die IP-Adresse nicht in der Range liegt
         $this->assertFalse($this->checkIPService->isIPInRange('192.168.2.10', '192.168.1.0/24'));
         $this->assertFalse($this->checkIPService->isIPInRange('10.1.0.5', '10.0.0.0/16'));
         $this->assertFalse($this->checkIPService->isIPInRange('172.51.0.1', '172.16.0.0/12'));
     }
 
-    public function testSingleIPRange() {
+    public function testSingleIPRange(): void {
         // Testen mit einer einzelnen IP-Adresse (Range ohne Subnetzmaske)
         $this->assertTrue($this->checkIPService->isIPInRange('192.168.1.10', '192.168.1.10'));
         $this->assertFalse($this->checkIPService->isIPInRange('192.168.1.10', '192.168.1.11'));
     }
 
-    public function testInvalidInput() {
+    public function testInvalidInput(): void {
         // Testen mit ungültiger IP-Adresse und Range
         $this->assertFalse($this->checkIPService->isIPInRange('invalid_ip', '192.168.1.0/24'));
         $this->assertFalse($this->checkIPService->isIPInRange('192.168.1.10', 'invalid_range'));
     }
 
-    public function testMinMaxIP() {
+    public function testMinMaxIP(): void {
         // Testen mit der niedrigsten und höchsten möglichen IP-Adresse
         $this->assertTrue($this->checkIPService->isIPInRange('0.0.0.0', '0.0.0.0/0'));
         $this->assertTrue($this->checkIPService->isIPInRange('255.255.255.255', '0.0.0.0/0'));
     }
-    public function testEmptyRange() {
+    public function testEmptyRange(): void {
         // Testen mit leerer IP Range
         $this->assertTrue($this->checkIPService->isIPInRange('0.0.0.0', null));
     }
 
-    public function testCommaSeparatedList() {
+    public function testCommaSeparatedList(): void {
         // Testen mit einer kommaseparierten Liste von IP-Adressen und IP-Ranges
         $this->assertTrue($this->checkIPService->isIPInRange('192.168.1.10', '192.168.1.0/24,10.0.0.0/16'));
         $this->assertTrue($this->checkIPService->isIPInRange('192.168.1.10', '10.0.0.0/16,192.168.1.0/24'));

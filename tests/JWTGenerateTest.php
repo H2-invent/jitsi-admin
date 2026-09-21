@@ -33,19 +33,28 @@ final class JWTGenerateTest extends TestCase
     {
 
         $this->themeService = $this->createMock(ThemeService::class);
-        $userPreferences = $this->createMock(UserPreferenceProvider::class);
-        $userPreferences
+        /** @var class-string $userPreferencesClass */
+        $userPreferencesClass = UserPreferenceProvider::class;
+        /** @var MockObject $userPreferencesMock */
+        $userPreferencesMock = $this->createMock($userPreferencesClass);
+        $userPreferencesMock
             ->method('getLanguage')
             ->willReturn('de');
-        $userPreferences
+        $userPreferencesMock
             ->method('getTimezone')
             ->willReturn('Europe/Berlin');
-        $userPreferences
+        $userPreferencesMock
             ->method('getColorScheme')
             ->willReturn('dark');
+        /** @var UserPreferenceProvider $userPreferences */
+        $userPreferences = $userPreferencesMock;
 
+        /** @var class-string $uploaderHelperClass */
+        $uploaderHelperClass = UploaderHelper::class;
+        /** @var UploaderHelper $uploaderHelper */
+        $uploaderHelper = $this->createMock($uploaderHelperClass);
         $this->roomService = new RoomService(
-            $this->createMock(UploaderHelper::class),
+            $uploaderHelper,
             $this->createMock(LoggerInterface::class),
             $this->createMock(ParameterBagInterface::class),
             $this->createMock(CacheInterface::class),
@@ -198,6 +207,9 @@ final class JWTGenerateTest extends TestCase
         return [$room, $server];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function expectedPayload(): array
     {
         return [

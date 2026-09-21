@@ -8,6 +8,7 @@ use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ServerEndToEndEncryptionTest extends WebTestCase
@@ -15,7 +16,7 @@ class ServerEndToEndEncryptionTest extends WebTestCase
     private User $moderator;
     private User $participant;
     private Rooms $rooms;
-    private $client;
+    private KernelBrowser $client;
     protected function setUp(): void
     {
         $this->client = static::createClient();

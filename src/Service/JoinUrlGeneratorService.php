@@ -15,8 +15,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class JoinUrlGeneratorService
 {
-    private $url;
-    private $createHttps;
+    private UrlGeneratorInterface $url;
+    private CreateHttpsUrl $createHttps;
 
     public function __construct(CreateHttpsUrl $createHttpsUrl, UrlGeneratorInterface $urlGenerator)
     {
@@ -24,7 +24,7 @@ class JoinUrlGeneratorService
         $this->createHttps = $createHttpsUrl;
     }
 
-    function generateUrl(Rooms $room, User $user)
+    function generateUrl(Rooms $room, User $user): string
     {
 
         $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());

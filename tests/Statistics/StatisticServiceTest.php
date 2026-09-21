@@ -62,7 +62,7 @@ class StatisticServiceTest extends KernelTestCase
         $chart = $adminService->createChart($server);
     }
 
-    private function prepareRoom(RoomsRepository $roomsRepository)
+    private function prepareRoom(RoomsRepository $roomsRepository): Rooms
     {
         $manager = self::getContainer()->get(EntityManagerInterface::class);
 
@@ -82,7 +82,7 @@ class StatisticServiceTest extends KernelTestCase
         return $rooms;
     }
 
-    private function changeStart(Rooms $rooms, $startDate)
+    private function changeStart(Rooms $rooms, string $startDate): Rooms
     {
         $rooms->setStart(new \DateTimeImmutable($startDate));
         $endDate = clone $rooms->getStart();

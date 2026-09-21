@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class LiveKitUrlGeneratorTwigExtensionTest extends KernelTestCase
 {
-    public function testGetLiveKitName()
+    public function testGetLiveKitName(): void
     {
         // Arrange
         $roomUid = 'room123';

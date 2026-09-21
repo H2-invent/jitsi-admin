@@ -12,67 +12,97 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ServerRepository::class)]
 class Server
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var string */
     #[ORM\Column(type: 'text')]
     private $url;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $appId;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $appSecret;
+    /** @var Collection<int, User> */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'servers')]
     private $user;
+    /** @var Collection<int, Rooms> */
     #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'server')]
     private $rooms;
+    /** @var User|null */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'serverAdmins')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private $administrator;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $logoUrl;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $smtpHost;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $smtpPort;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $smtpPassword;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $smtpUsername;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $smtpEncryption;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $smtpEmail;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $smtpSenderName;
+    /** @var string */
     #[ORM\Column(type: 'text')]
     private $slug;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $privacyPolicy;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $licenseKey;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $apiKey;
+    /** @var string|null */
     #[ORM\Column(type: 'string', length: 7, nullable: true)]
     private $staticBackgroundColor;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $showStaticBackgroundColor;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $featureEnableByJWT = false;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $serverEmailHeader;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $serverEmailBody;
+    /** @var Collection<int, KeycloakGroupsToServers> */
     #[ORM\OneToMany(targetEntity: KeycloakGroupsToServers::class, mappedBy: 'server', cascade: ['persist'])]
     private $keycloakGroups;
+    /** @var Collection<int, User> */
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'myOwnRoomServer')]
     private $OwnRoomUSer;
+    /** @var int|null */
     #[ORM\Column(type: 'integer')]
     private $jwtModeratorPosition;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $serverName;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $corsHeader;
+    /** @var Collection<int, Star> */
     #[ORM\OneToMany(targetEntity: Star::class, mappedBy: 'server', orphanRemoval: true)]
     private $stars;
     /**
@@ -80,6 +110,7 @@ class Server
      */
     #[ORM\OneToOne(targetEntity: Documents::class, cascade: ['persist', 'remove'])]
     private $serverBackgroundImage;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $updatedAt;
 
@@ -107,6 +138,7 @@ class Server
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $allowIp = null;
 
+    /** @var Collection<int, Tag> */
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'servers')]
     private Collection $tag;
 
@@ -236,7 +268,7 @@ class Server
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getUser(): Collection
     {
@@ -260,7 +292,7 @@ class Server
     }
 
     /**
-     * @return Collection|Rooms[]
+     * @return Collection<int, Rooms>
      */
     public function getRooms(): Collection
     {
@@ -516,7 +548,7 @@ class Server
     }
 
     /**
-     * @return Collection|KeycloakGroupsToServers[]
+     * @return Collection<int, KeycloakGroupsToServers>
      */
     public function getKeycloakGroups(): Collection
     {
@@ -546,7 +578,7 @@ class Server
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getOwnRoomUSer(): Collection
     {

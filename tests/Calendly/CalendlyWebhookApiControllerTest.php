@@ -6,15 +6,17 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\calendly\CallendlyConnect;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use function PHPUnit\Framework\assertStringContainsString;
 
 class CalendlyWebhookApiControllerTest extends WebTestCase
 {
-    private $client;
-    private $callendlyConnectMock;
-    private $testuser;
+    private KernelBrowser $client;
+    private CallendlyConnect&MockObject $callendlyConnectMock;
+    private User $testuser;
     protected function setUp(): void
     {
         $this->client = static::createClient();

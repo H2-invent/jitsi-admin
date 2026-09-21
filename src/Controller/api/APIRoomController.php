@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Helper\BearerTokenAuthHelper;
 use App\Helper\JitsiAdminController;
+use App\Repository\ServerRepository;
 use App\Service\api\KeycloakService;
 use App\Service\api\RoomService;
 use App\Service\LicenseService;
@@ -47,7 +48,9 @@ class APIRoomController extends JitsiAdminController
         }
         $serverUrl = $request->get('server');
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
-        $server = $this->doctrine->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $email, $apiKey);
+        /** @var ServerRepository $serverRepository */
+        $serverRepository = $this->doctrine->getRepository(Server::class);
+        $server = $serverRepository->findServerWithEmailandUrl($serverUrl, $email, $apiKey);
         if (!$server) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
         }
@@ -103,7 +106,9 @@ class APIRoomController extends JitsiAdminController
         //we are looking for the server with the Email and the ServerUrl
         $serverUrl = $request->get('server');
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
-        $server = $this->doctrine->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $room->getModerator()->getEmail(), $apiKey);
+        /** @var ServerRepository $serverRepository */
+        $serverRepository = $this->doctrine->getRepository(Server::class);
+        $server = $serverRepository->findServerWithEmailandUrl($serverUrl, $room->getModerator()->getEmail(), $apiKey);
         //If there is no server, then we take the default server which is accessabl for all jitsi admin users
         if (!$server) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);

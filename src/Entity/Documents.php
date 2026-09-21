@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Vich\Uploadable()]
 class Documents implements \Serializable
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -24,10 +25,12 @@ class Documents implements \Serializable
         return $this->id;
     }
 
+    /** @var string|null */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $documentFileName;
 
 
+    /** @var File|null */
     #[Vich\UploadableField(mapping: "profile", fileNameProperty: "documentFileName")]
     #[Assert\File(maxSize: "3M",maxSizeMessage: 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}',)]
     private $documentFile;
@@ -90,14 +93,23 @@ class Documents implements \Serializable
     {
         return array('id'=>$this->getId());
     }
+
+    /**
+     * @param mixed $data
+     */
     public function __unserialize($data)
     {
         $this->id = $data;
     }
+
     public function serialize()
     {
         return serialize($this->__serialize());
     }
+
+    /**
+     * @param mixed $data
+     */
     public function unserialize($data)
     {
         $this->id = $data;

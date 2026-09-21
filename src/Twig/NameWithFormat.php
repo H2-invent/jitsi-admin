@@ -10,7 +10,7 @@ use Twig\TwigFunction;
 
 class NameWithFormat extends AbstractExtension
 {
-    private $formateName;
+    private FormatName $formateName;
     public function __construct(FormatName $formatName)
     {
         $this->formateName = $formatName;
@@ -23,7 +23,10 @@ class NameWithFormat extends AbstractExtension
         ];
     }
 
-    public function nameOfUserwithFormat(User $user, $string)
+    /**
+     * @param string $string
+     */
+    public function nameOfUserwithFormat(User $user, $string): string
     {
         return $this->formateName->formatName($string, $user);
     }

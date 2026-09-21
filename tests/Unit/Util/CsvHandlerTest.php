@@ -11,6 +11,8 @@ class CsvHandlerTest extends TestCase
 
     /**
      * @dataProvider providerForGenerate
+     * @param array<int, array<string, mixed>> $arrayData
+     * @param array<int, string> $expectedCsv
      */
     public function testGenerate(array $arrayData, array $expectedCsv, ?string $seperator): void
     {
@@ -20,6 +22,7 @@ class CsvHandlerTest extends TestCase
 
     /**
      * @dataProvider providerForGenerateWillThrowException
+     * @param array<mixed> $arrayData
      */
     public function testGenerateWillThrowException(array $arrayData, string $exception): void
     {
@@ -29,6 +32,9 @@ class CsvHandlerTest extends TestCase
         CsvHandler::generateFromArray($arrayData);
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function providerForGenerate(): array
     {
         return [
@@ -75,6 +81,9 @@ class CsvHandlerTest extends TestCase
         ];
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function providerForGenerateWillThrowException(): array
     {
         return [

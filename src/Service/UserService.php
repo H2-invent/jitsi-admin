@@ -21,20 +21,20 @@ use Twig\Environment;
 
 class UserService
 {
-    private $parameterBag;
-    private $twig;
-    private $notificationService;
-    private $url;
-    private $translator;
-    private $em;
-    private $pushService;
-    private $licenseService;
-    private $userAddService;
-    private $userEditService;
-    private $userRemoveService;
-    private $callerUserService;
-    private $createHttpsUrl;
-    private $joinUrlGenerator;
+    private ParameterBagInterface $parameterBag;
+    private Environment $twig;
+    private NotificationService $notificationService;
+    private UrlGeneratorInterface $url;
+    private TranslatorInterface $translator;
+    private EntityManagerInterface $em;
+    private PushService $pushService;
+    private LicenseService $licenseService;
+    private UserNewRoomAddService $userAddService;
+    private UserServiceEditRoom $userEditService;
+    private UserServiceRemoveRoom $userRemoveService;
+    private CallerPrepareService $callerUserService;
+    private CreateHttpsUrl $createHttpsUrl;
+    private JoinUrlGeneratorService $joinUrlGenerator;
 
     public function __construct(
         CreateHttpsUrl          $createHttpsUrl,
@@ -69,11 +69,17 @@ class UserService
         $this->joinUrlGenerator = $joinUrlGeneratorService;
     }
 
+    /**
+     * @return string
+     */
     function generateUrl(Rooms $room, User $user)
     {
         return $this->joinUrlGenerator->generateUrl($room, $user);
     }
 
+    /**
+     * @return bool
+     */
     function addUser(User $user, Rooms $room)
     {
         if (!$user->getUid()) {
@@ -93,6 +99,9 @@ class UserService
         }
     }
 
+    /**
+     * @return bool
+     */
     function addWaitinglist(User $user, Rooms $room)
     {
         if (!$user->getUid()) {
@@ -103,6 +112,9 @@ class UserService
         return $this->userAddService->addWaitinglist($user, $room);
     }
 
+    /**
+     * @return bool
+     */
     function editRoom(User $user, Rooms $room)
     {
         if ($room->getScheduleMeeting()) {
@@ -114,6 +126,9 @@ class UserService
         }
     }
 
+    /**
+     * @return bool
+     */
     function removeRoom(User $user, Rooms $room)
     {
         if ($room->getScheduleMeeting()) {
@@ -128,6 +143,9 @@ class UserService
         return true;
     }
 
+    /**
+     * @return bool
+     */
     function notifyUser(User $user, Rooms $room)
     {
         $url = $this->generateUrl($room, $user);

@@ -25,7 +25,7 @@ final class ApiMoveRoomToOtherServerController extends AbstractController
     }
 
     #[Route('/api/v1/room/move/{roomId}', name: 'app_api_move_room_to_other_server', methods: ['POST'])]
-    public function index(Request $request, $roomId): Response
+    public function index(Request $request, string $roomId): Response
     {
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         $room = $this->roomsRepository->findOneBy(['uidReal' => $roomId]);

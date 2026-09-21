@@ -9,10 +9,10 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserCreatorService
 {
-    private $em;
-    private $indexer;
-    private $parameterBag;
-    private $themeService;
+    private EntityManagerInterface $em;
+    private IndexUserService $indexer;
+    private ParameterBagInterface $parameterBag;
+    private ThemeService $themeService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -26,6 +26,13 @@ class UserCreatorService
         $this->themeService = $themeService;
     }
 
+    /**
+     * @param string $email
+     * @param string|null $userName
+     * @param string|null $firstName
+     * @param string|null $lastName
+     * @param bool $dryrun
+     */
     public function createUser($email, $userName, $firstName = null, $lastName = null, $dryrun = false): User
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $userName]);

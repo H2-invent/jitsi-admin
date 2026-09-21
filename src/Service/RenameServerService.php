@@ -2,18 +2,23 @@
 
 namespace App\Service;
 
+use App\Entity\Server;
 use Doctrine\ORM\EntityManagerInterface;
 
 class RenameServerService
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
     }
 
-    public function renameServer($servers)
+    /**
+     * @param Server[] $servers
+     * @return Server[]
+     */
+    public function renameServer($servers): array
     {
         $res = [];
         foreach ($servers as $data) {

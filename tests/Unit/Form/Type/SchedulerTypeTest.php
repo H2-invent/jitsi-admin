@@ -79,6 +79,8 @@ class SchedulerTypeTest extends KernelTestCase
 
     /**
      * @dataProvider provideForConfigureOptions
+     * @param array<string, mixed> $attr
+     * @param array<int, int> $themeServiceReturns
      */
     public function testConfigureOptions(
         int   $allowMaybeOptionDefault,
@@ -116,6 +118,9 @@ class SchedulerTypeTest extends KernelTestCase
         $this->assertSame($expected, $optionsResolver->resolve(['isEdit' => $isEdit]));
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function provideForConfigureOptions(): array
     {
         $attr = [

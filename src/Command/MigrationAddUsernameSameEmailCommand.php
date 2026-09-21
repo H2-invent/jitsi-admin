@@ -12,7 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:migration:addUsernameSameEmail', 'This command finds empts username and sets the user = email')]
 class MigrationAddUsernameSameEmailCommand extends Command
 {
-    protected $em;
+    protected EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
     {
         $this->em = $entityManager;

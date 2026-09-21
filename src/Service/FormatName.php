@@ -6,7 +6,11 @@ use App\Entity\User;
 
 class FormatName
 {
-    public function formatName($string, User $user)
+    /**
+     * @param string $string
+     * @return string
+     */
+    public function formatName($string, User $user): string
     {
         $pattern = '/[^\$]*user\.[a-zA-Z0-9.]*\$/';
         $patternItem = '/user\.[a-zA-Z0-9.]*\$/';

@@ -2,6 +2,8 @@
 
 namespace App\Tests\Dashboard;
 
+use App\Entity\Rooms;
+use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -29,14 +31,14 @@ class InviteUserOpenRoomsButtonTest extends WebTestCase
 
 
 
-    public function getRoomByName($name)
+    public function getRoomByName(string $name): ?Rooms
     {
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => $name]);
         return $room;
     }
 
-    public function getUSerByEmail($name)
+    public function getUSerByEmail(string $name): ?User
     {
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => $name]);

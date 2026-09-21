@@ -23,12 +23,15 @@ class Jigasi extends AbstractExtension
         ];
     }
 
-    public function getJigasiNumber(?Rooms $rooms = null)
+    /**
+     * @return array<mixed>|null
+     */
+    public function getJigasiNumber(?Rooms $rooms = null): ?array
     {
         return $this->jigasiService->getNumber($rooms);
     }
 
-    public function getJigasiPin(?Rooms $rooms = null)
+    public function getJigasiPin(?Rooms $rooms = null): ?string
     {
         return $this->jigasiService->getRoomPin($rooms);
     }

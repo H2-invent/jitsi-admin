@@ -22,7 +22,7 @@ class AdressbookFavoriteController extends AbstractController
     }
 
     #[Route('/room/adressbook/favorite/{userId}', name: 'app_adressbook_favorite')]
-    public function index($userId): Response
+    public function index(string $userId): Response
     {
         $userToAdd = $this->entityManager->getRepository(User::class)->findOneBy(['uid' => $userId]);
 
@@ -38,7 +38,7 @@ class AdressbookFavoriteController extends AbstractController
     }
 
     #[Route('/room/adressbook/favorite-ajax/{userId}', name: 'app_adressbook_favorite_ajax', methods: ['POST'])]
-    public function favoriteAjax(TranslatorInterface $translator, $userId): Response
+    public function favoriteAjax(TranslatorInterface $translator, string $userId): Response
     {
         $userToAdd = $this->entityManager->getRepository(User::class)->findOneBy(['uid' => $userId]);
 

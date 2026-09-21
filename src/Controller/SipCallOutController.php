@@ -37,7 +37,7 @@ class SipCallOutController extends JitsiAdminController
     }
 
     #[Route('invite/{roomUid}', name: 'invite', methods: 'POST')]
-    public function invite($roomUid, Request $request): Response
+    public function invite(string $roomUid, Request $request): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomUid]);
         if (!UtilsHelper::isAllowedToOrganizeLobby($this->getUser(), $room)) {

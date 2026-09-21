@@ -10,7 +10,7 @@ use Twig\TwigFunction;
 
 class Theme extends AbstractExtension
 {
-    private $themeService;
+    private ThemeService $themeService;
     public function __construct(ThemeService $themeService)
     {
         $this->themeService = $themeService;
@@ -25,11 +25,18 @@ class Theme extends AbstractExtension
         ];
     }
 
+    /**
+     * @return array<string, mixed>|false
+     */
     public function getThemeProperties(?Rooms $rooms = null)
     {
         return $this->themeService->getTheme($rooms);
     }
 
+    /**
+     * @param string $input
+     * @return mixed
+     */
     public function getApplicationProperties($input)
     {
         return $this->themeService->getApplicationProperties($input);

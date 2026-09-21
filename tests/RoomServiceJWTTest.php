@@ -53,7 +53,7 @@ class RoomServiceJWTTest extends KernelTestCase
             $this->cache->reset();
         }
     }
-    public function testGenerateJwtPayloadWithValidKey()
+    public function testGenerateJwtPayloadWithValidKey(): void
     {
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
         $validEncryptionKEy = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
@@ -151,7 +151,7 @@ class RoomServiceJWTTest extends KernelTestCase
         );
 
     }
-    public function testGenerateJwtPayloadWithValidKeyandBackgrouImage()
+    public function testGenerateJwtPayloadWithValidKeyandBackgrouImage(): void
     {
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
         $validEncryptionKEy = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
@@ -261,7 +261,7 @@ class RoomServiceJWTTest extends KernelTestCase
 
     }
 
-    public function testGenerateJwtPayloadWithValidKeyandInvalidBackgrouImage()
+    public function testGenerateJwtPayloadWithValidKeyandInvalidBackgrouImage(): void
     {
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
         $validEncryptionKEy = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
@@ -349,8 +349,7 @@ class RoomServiceJWTTest extends KernelTestCase
     }
 
 
-    public
-    function testGenerateJwtPayloadWithInvalidKey()
+    public function testGenerateJwtPayloadWithInvalidKey(): void
     {
 
         $invalidEncryptionKEy = '-----BEGIN RSA PUBLIC KEY-----

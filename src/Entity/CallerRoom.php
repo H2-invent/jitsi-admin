@@ -8,15 +8,19 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CallerRoomRepository::class)]
 class CallerRoom
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $callerId;
+    /** @var Rooms|null */
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'callerRoom')]
     #[ORM\JoinColumn(nullable: false)]
     private $room;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
     public function getId(): ?int

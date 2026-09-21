@@ -99,8 +99,9 @@ class LdapUserService
      * This function connects all users in the Database with the adressbook of all available other users.
      * So everyon can search for everyone in the whole jitsi-admin system
      *
+     * @return User[]
      */
-    public function connectUserwithAllUSersInAdressbock()
+    public function connectUserwithAllUSersInAdressbock(): array
     {
         /** @var UserRepository $userRepository */
         $userRepository = $this->em->getRepository(User::class);
@@ -117,8 +118,10 @@ class LdapUserService
 
     /**
      *This Function removes the own user from the adressbook
+     *
+     * @return User[]
      */
-    public function cleanUpAdressbook()
+    public function cleanUpAdressbook(): array
     {
         /** @var UserRepository $userRepository */
         $userRepository = $this->em->getRepository(User::class);
@@ -158,6 +161,10 @@ class LdapUserService
     }
 
 
+    /**
+     * @param Entry[] $ldapEntry
+     * @return string[]
+     */
     private function createDNListFromLdapResult(array $ldapEntry): array
     {
         $dnList = [];
@@ -225,7 +232,7 @@ class LdapUserService
      * Delete User and remove all Addressbooks entrys
      * @param User $user
      */
-    public function deleteUser(User $user)
+    public function deleteUser(User $user): void
     {
         foreach ($user->getAddressbookInverse() as $u) {
             $u->removeAddressbook($user);
@@ -291,7 +298,10 @@ class LdapUserService
         $this->em->flush();
     }
 
-    public function getSpezialPropertiesFields(LdapType $ldapType, Entry $entry)
+    /**
+     * @return array<array-key, string>
+     */
+    public function getSpezialPropertiesFields(LdapType $ldapType, Entry $entry): array
     {
         $specialField = [];
         foreach ($ldapType->getSpecialFields() as $key => $data) {

@@ -11,7 +11,7 @@ use Twig\TwigFilter;
 
 class RoomsInFuture extends AbstractExtension
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -25,6 +25,9 @@ class RoomsInFuture extends AbstractExtension
         ];
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function roomsinFuture(Server $server)
     {
         $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));

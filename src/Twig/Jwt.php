@@ -11,7 +11,7 @@ use Twig\TwigFunction;
 
 class Jwt extends AbstractExtension
 {
-    private $roomService;
+    private RoomService $roomService;
     public function __construct(RoomService $roomService)
     {
         $this->roomService = $roomService;
@@ -26,13 +26,25 @@ class Jwt extends AbstractExtension
         ];
     }
 
-    public function jwtFromRoom(?User $user, Rooms $rooms, $name, $moderatorExplizit = false,$noModerator=false, $skipLobby=false,$enableMic = null, $enableCamera=null)
+    /**
+     * @param string $name
+     * @param bool $moderatorExplizit
+     * @param bool $noModerator
+     * @param string|bool $skipLobby
+     * @param string|bool|null $enableMic
+     * @param string|bool|null $enableCamera
+     */
+    public function jwtFromRoom(?User $user, Rooms $rooms, $name, $moderatorExplizit = false,$noModerator=false, $skipLobby=false,$enableMic = null, $enableCamera=null): string
     {
 
         return $this->roomService->generateJwt($rooms, $user, $name, $moderatorExplizit, noModerator: $noModerator,skipLobby: $skipLobby,enableMic: $enableMic,enableCamera: $enableCamera);
     }
 
-    public function urlFromRoom(?User $user, Rooms $rooms, $name, $t)
+    /**
+     * @param string $name
+     * @param string $t
+     */
+    public function urlFromRoom(?User $user, Rooms $rooms, $name, $t): string
     {
         if ($user) {
             return $this->roomService->join($rooms, $user, $t, $name);
@@ -40,7 +52,7 @@ class Jwt extends AbstractExtension
             return $this->roomService->joinUrl($t, $rooms, $name, false);
         }
     }
-    public function generateEncryptedSecret( Rooms $rooms)
+    public function generateEncryptedSecret( Rooms $rooms): ?string
     {
         return $this->roomService->generateEncryptedSecret($rooms->getServer());
     }

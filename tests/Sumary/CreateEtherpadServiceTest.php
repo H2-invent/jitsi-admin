@@ -10,8 +10,8 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 class CreateEtherpadServiceTest extends KernelTestCase
 {
-    public static $samplePadREsult = '<div class="page_break"></div><h1>test</h1>';
-    public static $samplePadHtml = '<h1>test</h1>';
+    public static string $samplePadREsult = '<div class="page_break"></div><h1>test</h1>';
+    public static string $samplePadHtml = '<h1>test</h1>';
 
 
     public function testEtherpadSuccess(): void

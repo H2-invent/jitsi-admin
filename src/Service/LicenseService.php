@@ -16,7 +16,7 @@ use H2Entwicklung\Signature\CheckSignature;
 
 class LicenseService
 {
-    private $em;
+    private EntityManagerInterface $em;
     private CheckSignature $checkSignature;
     public function __construct(CheckSignature $checkSignature, EntityManagerInterface $entityManager)
     {
@@ -30,7 +30,11 @@ class LicenseService
     }
 
 
-    public function generateNewLicense($licenseString)
+    /**
+     * @param string $licenseString
+     * @return array{error: bool, text?: string, licenseKey?: string}
+     */
+    public function generateNewLicense($licenseString): array
     {
         if (!$this->checkSignature->verifySignature($licenseString)) {
             return ['error' => true, 'text' => 'Invalid Signature'];
@@ -55,7 +59,7 @@ class LicenseService
         return ['error' => false, 'licenseKey' => $license->getLicenseKey()];
     }
 
-    public function validUntil(Server $server)
+    public function validUntil(Server $server): ?\DateTimeImmutable
     {
         $license = $this->em->getRepository(License::class)->findOneBy(['licenseKey' => $server->getLicenseKey()]);
         return $license->getValidUntil();

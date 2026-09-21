@@ -17,7 +17,9 @@ use Symfony\Component\Ldap\Exception\NotBoundException;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:sync', 'This commands syncs a ldap server with users database')]
 class SyncLdapCommand extends Command
 {
+    /** @var string */
     protected static $defaultName = 'app:ldap:sync';
+    /** @var string */
     protected static $defaultDescription = 'This commands syncs a ldap server with users database';
 
     public function __construct(
@@ -92,7 +94,10 @@ class SyncLdapCommand extends Command
         }
     }
 
-    private function printTable(OutputInterface $output, $header, array $data)
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function printTable(OutputInterface $output, string $header, array $data): int
     {
 
         $numberUsers = 0;

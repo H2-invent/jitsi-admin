@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DeputyService
 {
-    static $IS_DEPUTY = 1;
-    static $IS_NOT_DEPUTY = 2;
+    static int $IS_DEPUTY = 1;
+    static int $IS_NOT_DEPUTY = 2;
 
     public function __construct(
         private EntityManagerInterface $entityManager,

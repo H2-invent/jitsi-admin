@@ -8,16 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SchedulingTimeUserRepository::class)]
 class SchedulingTimeUser
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var User|null */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'schedulingTimeUsers')]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
+    /** @var SchedulingTime|null */
     #[ORM\ManyToOne(targetEntity: SchedulingTime::class, inversedBy: 'schedulingTimeUsers')]
     #[ORM\JoinColumn(nullable: false)]
     private $scheduleTime;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $accept;
     public function getId(): ?int

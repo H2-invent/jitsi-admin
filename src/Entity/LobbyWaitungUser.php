@@ -9,27 +9,36 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class LobbyWaitungUser
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var User|null */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'lobbyWaitungUsers')]
     #[ORM\JoinColumn(nullable: true)]
     private $user;
+    /** @var Rooms|null */
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'lobbyWaitungUsers')]
     #[ORM\JoinColumn(nullable: false)]
     private $room;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $uid;
+    /** @var string|null */
     #[ORM\Column(type: 'string', length: 5)]
     private $type;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $showName;
+    /** @var CallerSession|null */
     #[ORM\OneToOne(targetEntity: CallerSession::class, mappedBy: 'lobbyWaitingUser', cascade: ['persist'])]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private $callerSession;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $closeBrowser;
 

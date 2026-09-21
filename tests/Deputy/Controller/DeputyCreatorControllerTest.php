@@ -6,17 +6,18 @@ use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 class DeputyCreatorControllerTest extends WebTestCase
 {
-    private $client;
+    private KernelBrowser $client;
     private User $manager;
     private User $deputy;
     private EntityManagerInterface $em;
-    private $session;
+    private Session $session;
     public function setUp(): void
     {
 
@@ -53,14 +54,16 @@ class DeputyCreatorControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/room/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
-        $form['room[moderator]'] = $this->manager->getId();
+        $form['room[server]'] = (string)$server->getId();
+        $form['room[moderator]'] = (string)$this->manager->getId();
         $form['room[name]'] = 'test for the supervisor';
         $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
 
         $this->client->submit($form);
-        $flash = $this->session->getBag('flashes')->all();
+        /** @var \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag */
+        $flashBag = $this->session->getBag('flashes');
+        $flash = $flashBag->all();
 
 
         $crawler = $this->client->request('GET', '/room/dashboard');
@@ -128,14 +131,16 @@ class DeputyCreatorControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/room/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
-        $form['room[moderator]'] = $this->manager->getId();
+        $form['room[server]'] = (string)$server->getId();
+        $form['room[moderator]'] = (string)$this->manager->getId();
         $form['room[name]'] = 'test for the supervisor';
         $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
 
         $this->client->submit($form);
-        $flash = $this->session->getBag('flashes')->all();
+        /** @var \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag */
+        $flashBag = $this->session->getBag('flashes');
+        $flash = $flashBag->all();
 
 
         $crawler = $this->client->request('GET', '/room/dashboard');

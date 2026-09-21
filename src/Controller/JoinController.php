@@ -14,12 +14,13 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinController extends JitsiAdminController
 {
-    private $joinService;
+    private JoinService $joinService;
 
     public function __construct(
         ManagerRegistry       $managerRegistry,
@@ -36,7 +37,7 @@ class JoinController extends JitsiAdminController
     #[Route(path: '/join/{slug}', name: 'join_index')]
     #[Route(path: '/join/{slug}/{uid}', name: 'join_index_uid')]
     #[Route(path: '/join', name: 'join_index_no_slug')]
-    public function index(Request $request, TranslatorInterface $translator, RoomService $roomService, $slug = null, $uid = null)
+    public function index(Request $request, TranslatorInterface $translator, RoomService $roomService, ?string $slug = null, ?string $uid = null): Response
     {
         $data = [];
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['slug' => $slug]);
@@ -65,7 +66,9 @@ class JoinController extends JitsiAdminController
             $snack = $translator->trans('Zugangsdaten in das Formular eingeben');
         }
 
-        if ($this->parameterBag->get('laF_onlyRegisteredParticipents') == 1) {
+        /** @var string|int|bool|null $laFOnlyRegisteredParticipents */
+        $laFOnlyRegisteredParticipents = $this->parameterBag->get('laF_onlyRegisteredParticipents');
+        if ($laFOnlyRegisteredParticipents == 1) {
             return $this->redirectToRoute('dashboard');
         }
 
@@ -106,7 +109,9 @@ class JoinController extends JitsiAdminController
     function onlyWithUserAccount(?Rooms $room)
     {
         if ($room) {
-            return $this->parameterBag->get('laF_onlyRegisteredParticipents') == 1 || //only registered Users globally set
+            /** @var string|int|bool|null $laFOnlyRegisteredParticipents */
+            $laFOnlyRegisteredParticipents = $this->parameterBag->get('laF_onlyRegisteredParticipents');
+            return $laFOnlyRegisteredParticipents == 1 || //only registered Users globally set
                 $room->getOnlyRegisteredUsers();
         }
         return false;

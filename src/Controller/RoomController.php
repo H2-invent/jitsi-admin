@@ -39,7 +39,7 @@ class RoomController extends JitsiAdminController
         SerializerInterface       $serializer,
         NewRoomService            $newRoomService,
         RoomStatusFrontendService $roomStatusFrontendService,
-    )
+    ): Response
     {
         $room = $newRoomService->newRoomService(request: $request,myUser: $this->getUser());
         if ($room instanceof Response){
@@ -76,7 +76,9 @@ class RoomController extends JitsiAdminController
 
         if ($edit) {
             $form->remove('moderator');
-            if ($this->parameterBag->get('ALLOW_SERVER_CHANGE_WHEN_DISABLED') == 0){
+            /** @var string|int|bool|null $allowServerChangeWhenDisabled */
+            $allowServerChangeWhenDisabled = $this->parameterBag->get('ALLOW_SERVER_CHANGE_WHEN_DISABLED');
+            if ($allowServerChangeWhenDisabled == 0){
                 if (!in_array($room->getServer(), $servers)) {
                     $form->remove('server');
                 }
@@ -160,7 +162,7 @@ class RoomController extends JitsiAdminController
 
     #[Route(path: '/room/remove', name: 'room_remove')]
     public
-    function roomRemove(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService)
+    function roomRemove(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService): Response
     {
 
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
@@ -185,7 +187,7 @@ class RoomController extends JitsiAdminController
 
     #[Route(path: '/room/clone/{room}', name: 'room_clone')]
     public
-    function roomClone($room, RoomGeneratorService $roomGeneratorService, RoomCheckService $roomCheckService, Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment $serverUserManagment)
+    function roomClone(string $room, RoomGeneratorService $roomGeneratorService, RoomCheckService $roomCheckService, Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment $serverUserManagment): Response
     {
 
         $roomOld = $this->doctrine->getRepository(Rooms::class)->find($room);

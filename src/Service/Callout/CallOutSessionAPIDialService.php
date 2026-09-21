@@ -20,8 +20,8 @@ class CallOutSessionAPIDialService
     }
 
     /**
-     * @param $sessionId
-     * @return array
+     * @param string $sessionId
+     * @return array<string, mixed>
      * A session is dialed.
      * Every Session has to go through this session
      * Every Session has to be dialed after it is shown in the pool
@@ -53,7 +53,7 @@ class CallOutSessionAPIDialService
 
     /**
      * @param string $sessionId
-     * @return array
+     * @return array<string, mixed>
      * A session can be set in ringing state.
      * A ringing State is show with a different symbol in the frontend.
      * A Session has to be in DIaling state to be moved to the ringing state
@@ -84,7 +84,7 @@ class CallOutSessionAPIDialService
     /**
      * @param CalloutSession $calloutSession
      * @param CallerId $pin
-     * @return array
+     * @return array<string, string>
      * This function genetrates the link list
      * The Link list return the link for:
      * refuse, ringing, timeout, error, unreachable, later, dial, occupied,accept
@@ -117,7 +117,7 @@ if ($calloutSession->getUser()->getIsSipVideoUser()){
 
     /**
      * @param string $sessionId
-     * @return array
+     * @return array<string, mixed>
      * This FUnction resets a session from on hold back to dial State.
      * This is necessary when a called user wants to revert his decision from f.eg. klicking want to join later but then he wants to join now
      */

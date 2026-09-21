@@ -8,27 +8,37 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CallerSessionRepository::class)]
 class CallerSession
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $sessionId;
+    /** @var LobbyWaitungUser|null */
     #[ORM\OneToOne(targetEntity: LobbyWaitungUser::class, inversedBy: 'callerSession', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private $lobbyWaitingUser;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean')]
     private $authOk;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $callerId;
+    /** @var CallerId|null */
     #[ORM\OneToOne(targetEntity: CallerId::class, mappedBy: 'callerSession', cascade: ['persist'])]
     private $caller;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $showName;
+    /** @var bool */
     #[ORM\Column(type: 'boolean')]
     private $callerIdVerified = false;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $forceFinish;
 

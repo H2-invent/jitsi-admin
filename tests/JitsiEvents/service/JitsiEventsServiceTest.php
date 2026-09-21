@@ -10,14 +10,20 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class JitsiEventsServiceTest extends KernelTestCase
 {
-    public static $roomCreatedData = [
+    /**
+     * @var array<string, mixed>
+     */
+    public static array $roomCreatedData = [
         "event_name" => "muc-room-created",
         "created_at" => 1647337556,
         "room_name" => "123456780",
         "is_breakout" => false,
         "room_jid" => "123456780@conference.testserver.de"
     ];
-    public static $roomDestroyedData = [
+    /**
+     * @var array<string, mixed>
+     */
+    public static array $roomDestroyedData = [
         "all_occupants" => [
             [
                 "occupant_jid" => "123456780@conference.testserver.de",
@@ -34,7 +40,10 @@ class JitsiEventsServiceTest extends KernelTestCase
         "created_at" => 1647337556,
         "destroyed_at" => 1647337563
     ];
-    public static $participantJoinedData = [
+    /**
+     * @var array<string, mixed>
+     */
+    public static array $participantJoinedData = [
         "event_name" => "muc-occupant-joined",
         "occupant" => [
             "occupant_jid" => "653515c2-21a2-4d9b-9e44-b557cdf8f4ae@jitsi01/OxCwsxE2",
@@ -45,7 +54,10 @@ class JitsiEventsServiceTest extends KernelTestCase
         "is_breakout" => false,
         "room_jid" => "123456780@conference.testserver.de"
     ];
-    public static $participantLeftD = [
+    /**
+     * @var array<string, mixed>
+     */
+    public static array $participantLeftD = [
         "event_name" => "muc-occupant-left",
         "is_breakout" => false,
         "occupant" => [

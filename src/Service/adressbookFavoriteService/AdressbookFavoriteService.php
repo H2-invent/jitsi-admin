@@ -57,6 +57,11 @@ class AdressbookFavoriteService
         return true;
     }
 
+    /**
+     * @param User $addUser
+     * @param User $favoriteUser
+     * @return array<int, string>
+     */
     public function userFavorite(User $addUser, User $favoriteUser): array
     {
         if ($addUser->getAdressbookFavorites()->contains($favoriteUser)) {

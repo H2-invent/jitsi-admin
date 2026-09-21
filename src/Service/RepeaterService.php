@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Enums\RepeatTypeEnum;
 use App\Service\caller\CallerPrepareService;
 use App\Service\Jigasi\JigasiService;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Guides\RestructuredText\Directives\Replace;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -16,14 +17,14 @@ use Twig\Environment;
 
 class RepeaterService
 {
-    private $em;
-    private $mailer;
+    private EntityManagerInterface $em;
+    private MailerService $mailer;
 
 
 
-    private $translator;
-    private $twig;
-    private $callerUserService;
+    private TranslatorInterface $translator;
+    private Environment $twig;
+    private CallerPrepareService $callerUserService;
 
     public function __construct(
         CallerPrepareService            $callerPrepareService,
@@ -333,17 +334,17 @@ class RepeaterService
     /**
      * this function sends an email with the changes series
      * @param Repeat $repeat
-     * @param $template
-     * @param $subject
-     * @param array $templateAttr
+     * @param string $template
+     * @param string $subject
+     * @param array<string, mixed> $templateAttr
      * @param string $method
-     * @param array $users
+     * @param array<User>|Collection<int, User> $users
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      * @author Emanuel Holzmann
      */
-    function sendEMail(Repeat $repeat, $template, $subject, $templateAttr = [], $method = 'REQUEST', $users = [])
+    function sendEMail(Repeat $repeat, $template, $subject, $templateAttr = [], $method = 'REQUEST', $users = []): void
     {
         if (sizeof($users) === 0) {
             $users = $repeat->getPrototyp()->getPrototypeUsers();
@@ -370,6 +371,7 @@ class RepeaterService
      * this function creates the ICS for the series. this is a new calendar
      * @param Repeat $repeat
      * @param User $user
+     * @param string $method
      * @return string
      * @author Emanuel Holzmann
      */
@@ -443,7 +445,7 @@ class RepeaterService
 
     }
 
-    private function createDescription(Rooms $rooms, User $user)
+    private function createDescription(Rooms $rooms, User $user): string
     {
 
         $url = $this->joinUrlGeneratorService->generateUrl($rooms, $user);
@@ -476,7 +478,7 @@ class RepeaterService
      * @author Emanuel Holzmann
      */
     public
-    function addUserRepeat(Repeat $repeat)
+    function addUserRepeat(Repeat $repeat): void
     {
         $prototype = $repeat->getPrototyp();
         foreach ($repeat->getRooms() as $data) {//iterate over all rooms in the series

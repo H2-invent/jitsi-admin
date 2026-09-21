@@ -120,7 +120,10 @@ class CallerControllerSipVideoTest extends WebTestCase
     }
 
 
-    function startWorkflow(KernelBrowser $client)
+    /**
+     * @return array<int, mixed>
+     */
+    function startWorkflow(KernelBrowser $client): array
     {
 
         $callerLEftService = self::getContainer()->get(CallerLeftService::class);
@@ -169,7 +172,7 @@ class CallerControllerSipVideoTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         return [$sessionLink, $leafLink];
     }
-    function getLobbyWaitinguser($link): ?LobbyWaitungUser
+    function getLobbyWaitinguser(string $link): ?LobbyWaitungUser
     {
         $sessionId = explode('=', $link);
         $sessionId = $sessionId[sizeof($sessionId) - 1];
@@ -184,7 +187,7 @@ class CallerControllerSipVideoTest extends WebTestCase
         return $lobbyUser;
     }
 
-    function getSessionfromLink($link): ?CallerSession
+    function getSessionfromLink(string $link): ?CallerSession
     {
         $sessionId = explode('=', $link);
         $sessionId = $sessionId[sizeof($sessionId) - 1];

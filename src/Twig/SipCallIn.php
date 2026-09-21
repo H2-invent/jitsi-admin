@@ -3,6 +3,7 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
+use App\Entity\CallerId;
 use App\Entity\Rooms;
 use App\Entity\User;
 use Twig\Extension\AbstractExtension;
@@ -18,6 +19,9 @@ class SipCallIn extends AbstractExtension
         ];
     }
 
+    /**
+     * @return CallerId|null
+     */
     public function sipPinFromRoomAndUser(Rooms $rooms, User $user)
     {
         foreach ($user->getCallerIds() as $data) {

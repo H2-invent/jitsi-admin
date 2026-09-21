@@ -182,7 +182,7 @@ class CalloutServiceTest extends KernelTestCase
         self::assertNull($calloutService->checkCallIn($room, $user));
     }
 
-    public function testDialSucessfull()
+    public function testDialSucessfull(): void
     {
         $kernel = self::bootKernel();
         $manager = self::getContainer()->get(EntityManagerInterface::class);
@@ -210,7 +210,7 @@ class CalloutServiceTest extends KernelTestCase
 
     }
 
-    public function testcheckCallIn()
+    public function testcheckCallIn(): void
     {
         $kernel = self::bootKernel();
         $manager = self::getContainer()->get(EntityManagerInterface::class);

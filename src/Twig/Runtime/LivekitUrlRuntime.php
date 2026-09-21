@@ -16,7 +16,7 @@ class LivekitUrlRuntime implements RuntimeExtensionInterface
     {
     }
 
-    public function getLiveKitName(Rooms $rooms)
+    public function getLiveKitName(Rooms $rooms): string
     {
      return  $this->livekitRoomNameGenerator->getLiveKitName($rooms);
     }

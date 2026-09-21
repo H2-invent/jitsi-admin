@@ -27,8 +27,8 @@ class CallOutSessionAPIHoldService
     }
 
     /**
-     * @param $sessionId
-     * @return array
+     * @param string|null $sessionId
+     * @return array<string, mixed>
      * This Function is used when the Caller is not able to reach the invited user and the phone rings over a certain time.
      */
     public function timeout($sessionId): array
@@ -43,8 +43,8 @@ class CallOutSessionAPIHoldService
     }
 
     /**
-     * @param $sessionId
-     * @return array
+     * @param string|null $sessionId
+     * @return array<string, mixed>
      * This funktion is called when the called uder is occuppied so his ohone retuns  a occupied signal then the caller can trigger this funkction
      */
     public function occupied($sessionId): array
@@ -60,8 +60,8 @@ class CallOutSessionAPIHoldService
 
 
     /**
-     * @param $sessionId
-     * @return array
+     * @param string|null $sessionId
+     * @return array<string, mixed>
      * The called user is selecting later by pressing a kex on his phone. The caller system has to trigger this function.
      * This function retuns the information for the called person to join the meeting later. this is the caller id and the pin for this meeting.
      * The inviting user is informed that the called user is joing later
@@ -79,9 +79,9 @@ class CallOutSessionAPIHoldService
 
     /**
      * @param CalloutSession $calloutSession
-     * @param $state
-     * @param $message
-     * @return array
+     * @param int $state
+     * @param string $message
+     * @return array<string, mixed>
      * This function is a generic function to set a calloutoutsession into the on hold status.
      * In this status the caller system is not able to do a ringing or a dial.
      *
@@ -112,7 +112,7 @@ class CallOutSessionAPIHoldService
 
     /**
      * @param Rooms $room
-     * @param $message
+     * @param string $message
      * @return void
      * This function is a generic function to send a message to the lobbymoderators.
      * The message is send via websocket

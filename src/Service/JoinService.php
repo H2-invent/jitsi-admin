@@ -20,12 +20,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinService
 {
-    private $parameterBag;
-    private $em;
-    private $translator;
-    private $urlGenerator;
-    private $startService;
-    private $session;
+    private ParameterBagInterface $parameterBag;
+    private EntityManagerInterface $em;
+    private TranslatorInterface $translator;
+    private UrlGeneratorInterface $urlGenerator;
+    private StartMeetingService $startService;
+    private RequestStack $session;
 
 
     public function __construct(
@@ -45,6 +45,16 @@ class JoinService
         $this->session = $requestStack;
     }
 
+    /**
+     * @param array<string, mixed> $search
+     * @param string $snack
+     * @param string $color
+     * @param bool $appAllowed
+     * @param bool|null $appKlicked
+     * @param bool $browerAllowed
+     * @param bool|null $browserKlicked
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException|null
+     */
     public function join($search, &$snack, &$color, $appAllowed, $appKlicked, $browerAllowed, $browserKlicked)
     {
         $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
@@ -106,7 +116,9 @@ class JoinService
     function onlyWithUserAccount(?Rooms $room)
     {
         if ($room) {
-            return $this->parameterBag->get('laF_onlyRegisteredParticipents') == 1 || //only registered Users globally set
+            /** @var mixed $onlyRegistered */
+            $onlyRegistered = $this->parameterBag->get('laF_onlyRegisteredParticipents');
+            return $onlyRegistered == 1 || //only registered Users globally set
                 $room->getOnlyRegisteredUsers();
         }
         return false;

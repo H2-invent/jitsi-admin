@@ -10,21 +10,28 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: AddressGroupRepository::class)]
 class AddressGroup
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $name;
+    /** @var User|null */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'AddressGroupLeader')]
     #[ORM\JoinColumn(nullable: false)]
     private $leader;
+    /** @var Collection<int, User> */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'AddressGroupMember')]
     private $member;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $updatedAt;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $indexer;
     public function __construct()
@@ -56,7 +63,7 @@ class AddressGroup
         return $this;
     }
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getMember(): Collection
     {

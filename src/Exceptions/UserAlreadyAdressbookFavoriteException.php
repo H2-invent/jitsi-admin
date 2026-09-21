@@ -11,7 +11,7 @@ class UserAlreadyAdressbookFavoriteException extends \Exception
         parent::__construct('User already in Adressbook favorite');
     }
 
-    public function customMessage()
+    public function customMessage(): void
     {
 
     }

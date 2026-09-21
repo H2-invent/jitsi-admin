@@ -8,19 +8,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
 class Notification
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $title;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $text;
+    /** @var User|null */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $url;
     public function getId(): ?int

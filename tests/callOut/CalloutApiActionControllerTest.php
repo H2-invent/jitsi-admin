@@ -4,19 +4,22 @@ namespace App\Tests\callOut;
 
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
+use App\Entity\Rooms;
 use App\Entity\User;
 use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use function PHPUnit\Framework\assertEquals;
 
 class CalloutApiActionControllerTest extends WebTestCase
 {
-    private $client;
-    private $room;
-    private $authHEader;
+    private KernelBrowser $client;
+    private Rooms $room;
+    /** @var array<string, string> */
+    private array $authHEader;
     private CalloutSession $calloutSession;
 
     protected function setUp(): void

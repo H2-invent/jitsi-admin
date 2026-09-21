@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method CallerRoom|null findOneBy(array $criteria, array $orderBy = null)
  * @method CallerRoom[]    findAll()
  * @method CallerRoom[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<CallerRoom>
  */
 class CallerRoomRepository extends ServiceEntityRepository
 {
@@ -47,6 +49,10 @@ class CallerRoomRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @param int|string $now
+     * @return CallerRoom[]
+     */
     public function findPastRoomsWithCallerId($now)
     {
         $qb = $this->createQueryBuilder('c');

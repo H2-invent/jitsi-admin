@@ -6,12 +6,15 @@ use App\Entity\CallerId;
 use App\Entity\CallerRoom;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
+use App\Repository\CallerRoomRepository;
+use App\Repository\RoomsRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Prophecy\Call\Call;
 
 class CallerPrepareService
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -35,7 +38,9 @@ class CallerPrepareService
     public function deleteOldId()
     {
         $now = (new \DateTimeImmutable())->getTimestamp();
-        $oldCallerId = $this->em->getRepository(CallerRoom::class)->findPastRoomsWithCallerId($now);
+        /** @var CallerRoomRepository $callerRoomRepository */
+        $callerRoomRepository = $this->em->getRepository(CallerRoom::class);
+        $oldCallerId = $callerRoomRepository->findPastRoomsWithCallerId($now);
         foreach ($oldCallerId as $data) {
             $this->em->remove($data);
             $this->em->flush();
@@ -50,7 +55,9 @@ class CallerPrepareService
     public function addNewId()
     {
         $now = (new \DateTimeImmutable())->getTimestamp();
-        $futureRooms = $this->em->getRepository(Rooms::class)->findFutureRoomsWithNoCallerId($now);
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->em->getRepository(Rooms::class);
+        $futureRooms = $roomsRepository->findFutureRoomsWithNoCallerId($now);
         foreach ($futureRooms as $data) {
             $this->addCallerIdToRoom($data);
         }
@@ -80,7 +87,7 @@ class CallerPrepareService
 
     /**
      * generates the random Caller ID. The Function checks if the caller Id is already used
-     * @param $max
+     * @param int $max
      * @return string
      */
     public function generateRoomId($max): string
@@ -96,7 +103,7 @@ class CallerPrepareService
     }
 
     /**
-     * @param $random
+     * @param string $random
      * @return bool
      * Checks if the random Id is already used
      */
@@ -113,7 +120,9 @@ class CallerPrepareService
      */
     public function createUserCallerId()
     {
-        $rooms = $this->em->getRepository(Rooms::class)->findRoomsnotInPast();
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->em->getRepository(Rooms::class);
+        $rooms = $roomsRepository->findRoomsnotInPast();
         foreach ($rooms as $data) {
             $this->createUserCallerIDforRoom($data);
         }
@@ -124,7 +133,7 @@ class CallerPrepareService
     /**
      * Generates callerId for a given Room
      * @param Rooms $rooms
-     * @return CallerId[]|\Doctrine\Common\Collections\Collection
+     * @return Collection<int, CallerId>
      */
     public function createUserCallerIDforRoom(Rooms $rooms)
     {
@@ -149,6 +158,7 @@ class CallerPrepareService
     /**
      * Generates callerId for a given Room
      * @param Repeat $repeat
+     * @return void
      */
     public function createUserCallerIDforRepeater(Repeat $repeat)
     {
@@ -176,7 +186,7 @@ class CallerPrepareService
     /**
      * Creates the unique Caller PIN for this it needs the room to search if no other user has the same caller Id
      * @param Rooms $rooms
-     * @param $max
+     * @param int $max
      * @return string
      */
     public function generateCallerUserId(Rooms $rooms, $max): string
@@ -193,7 +203,7 @@ class CallerPrepareService
 
     /**
      * CHecks if the id is already added to the room
-     * @param $random
+     * @param string $random
      * @param Rooms $rooms
      * @return bool
      */

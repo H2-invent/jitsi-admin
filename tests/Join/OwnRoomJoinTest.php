@@ -3,6 +3,7 @@
 namespace App\Tests\Join;
 
 use App\Entity\Rooms;
+use App\Entity\User;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -672,14 +673,14 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", $client->getResponse()->getContent());
         self::assertStringNotContainsString("jwt", $client->getResponse()->getContent());
     }
-    public function getRoomByName($name)
+    public function getRoomByName(string $name): Rooms
     {
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => $name]);
         return $room;
     }
 
-    public function getUSerByEmail($name)
+    public function getUSerByEmail(string $name): User
     {
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => $name]);

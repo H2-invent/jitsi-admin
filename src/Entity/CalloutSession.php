@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CalloutSessionRepository::class)]
 class CalloutSession
 {
+    /** @var array<int, string> */
     public static $STATE = [
         0 => 'INITIATED',
         10 => 'DIALED',
@@ -18,12 +19,19 @@ class CalloutSession
         40 => 'LATER',
         50 => 'TIMEOUT',
     ];
+    /** @var int */
     public static $RINGING = 15;
+    /** @var int */
     public static $TIMEOUT = 50;
+    /** @var int */
     public static $LATER = 40;
+    /** @var int */
     public static $OCCUPIED = 30;
+    /** @var int */
     public static $ON_HOLD = 20;
+    /** @var int */
     public static $DIALED = 10;
+    /** @var int */
     public static $INITIATED = 0;
 
 

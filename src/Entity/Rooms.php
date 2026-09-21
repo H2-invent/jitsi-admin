@@ -13,121 +13,169 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\HasLifecycleCallbacks]
 class Rooms
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $name;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $start;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $enddate;
+    /** @var Collection<int, User> */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'rooms')]
     #[Ignore]
     private $user;
+    /** @var Server|null */
     #[ORM\ManyToOne(targetEntity: Server::class, fetch: 'EAGER', inversedBy: 'rooms')]
     #[ORM\JoinColumn(nullable: false)]
     private $server;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $uid;
+    /** @var User|null */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator')]
     #[ORM\JoinColumn(nullable: true)]
     #[Ignore]
     private $moderator;
+    /** @var float|null */
     #[ORM\Column(type: 'float')]
     private $duration;
+    /** @var int|null */
     #[ORM\Column(type: 'integer')]
     private $sequence;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $uidReal;
+    /** @var bool */
     #[ORM\Column(type: 'boolean')]
     private $onlyRegisteredUsers = false;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $agenda;
+    /** @var Collection<int, RoomsUser> */
     #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'room', cascade: ['persist'], orphanRemoval: true)]
     #[Ignore]
     private $userAttributes;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $dissallowScreenshareGlobal;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $dissallowPrivateMessage;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $public = true;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $showRoomOnJoinpage;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $uidParticipant;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $uidModerator;
+    /** @var Collection<int, Subscriber> */
     #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'room', cascade: ['persist', 'remove'])]
     #[Ignore]
     private $subscribers;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $maxParticipants;
+    /** @var Collection<int, Scheduling> */
     #[ORM\OneToMany(targetEntity: Scheduling::class, mappedBy: 'room')]
     #[Ignore]
     private $schedulings;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $scheduleMeeting;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $waitinglist;
+    /** @var Collection<int, Waitinglist> */
     #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'room', cascade: ['persist', 'remove'])]
     #[Ignore]
     private $waitinglists;
+    /** @var Repeat|null */
     #[ORM\ManyToOne(targetEntity: Repeat::class, inversedBy: 'rooms')]
     private $repeater;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $repeaterRemoved;
+    /** @var Repeat|null */
     #[ORM\OneToOne(targetEntity: Repeat::class, mappedBy: 'prototyp', cascade: ['persist', 'remove'])]
     #[Ignore]
     private $repeaterProtoype;
+    /** @var Collection<int, User> */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'protoypeRooms')]
     #[ORM\JoinTable(name: 'prototype_users')]
     private $prototypeUsers;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $persistantRoom;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $slug;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $totalOpenRooms;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $totalOpenRoomsOpenTime = 30;
+    /** @var string|null */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $timeZone;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $startUtc;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $endDateUtc;
+    /** @var Collection<int, User> */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favorites')]
     private $favoriteUsers;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $lobby;
+    /** @var Collection<int, LobbyWaitungUser> */
     #[ORM\OneToMany(targetEntity: LobbyWaitungUser::class, mappedBy: 'room', orphanRemoval: true)]
     #[Ignore]
     private $lobbyWaitungUsers;
+    /** @var Collection<int, RoomStatus> */
     #[ORM\OneToMany(targetEntity: RoomStatus::class, mappedBy: 'room', orphanRemoval: true)]
     #[Ignore]
     private $roomstatuses;
+    /** @var CallerRoom|null */
     #[ORM\OneToOne(targetEntity: CallerRoom::class, mappedBy: 'room', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Ignore]
     private $callerRoom;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $startTimestamp;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $endTimestamp;
+    /** @var Collection<int, CallerId> */
     #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[Ignore]
     private $callerIds;
+    /** @var Tag|null */
     #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'rooms')]
     #[Ignore]
     private $tag;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $hostUrl;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $secondaryName = null;
 
+    /** @var Collection<int, CalloutSession> */
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: CalloutSession::class, orphanRemoval: true)]
     #[Ignore]
     private Collection $calloutSessions;
@@ -137,6 +185,7 @@ class Rooms
     #[Ignore]
     private ?User $creator = null;
 
+    /** @var Collection<int, Log> */
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: Log::class)]
     private Collection $logs;
 
@@ -281,7 +330,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getUser(): Collection
     {
@@ -401,7 +450,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|RoomsUser[]
+     * @return Collection<int, RoomsUser>
      */
     public function getUserAttributes(): Collection
     {
@@ -503,7 +552,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|Subscriber[]
+     * @return Collection<int, Subscriber>
      */
     public function getSubscribers(): Collection
     {
@@ -545,7 +594,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|Scheduling[]
+     * @return Collection<int, Scheduling>
      */
     public function getSchedulings(): Collection
     {
@@ -599,7 +648,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|Waitinglist[]
+     * @return Collection<int, Waitinglist>
      */
     public function getWaitinglists(): Collection
     {
@@ -670,7 +719,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getPrototypeUsers(): Collection
     {
@@ -812,7 +861,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getFavoriteUsers(): Collection
     {
@@ -851,7 +900,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|LobbyWaitungUser[]
+     * @return Collection<int, LobbyWaitungUser>
      */
     public function getLobbyWaitungUsers(): Collection
     {
@@ -881,7 +930,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|RoomStatus[]
+     * @return Collection<int, RoomStatus>
      */
     public function getRoomstatuses(): Collection
     {
@@ -952,7 +1001,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|CallerId[]
+     * @return Collection<int, CallerId>
      */
     public function getCallerIds(): Collection
     {

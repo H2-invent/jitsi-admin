@@ -27,7 +27,7 @@ class Name extends AbstractExtension
         ];
     }
 
-    public function nameOfUser(User|LobbyWaitungUser $user)
+    public function nameOfUser(User|LobbyWaitungUser $user): Markup
     {
         if ($user instanceof LobbyWaitungUser) {
             $user = $user->getUser();
@@ -41,7 +41,7 @@ class Name extends AbstractExtension
             'utf-8'
         );
     }
-    public function nameOfUserNoSymbol(User|LobbyWaitungUser $user)
+    public function nameOfUserNoSymbol(User|LobbyWaitungUser $user): ?string
     {
         if ($user instanceof LobbyWaitungUser) {
             $userT = $user->getUser();

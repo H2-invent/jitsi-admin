@@ -8,20 +8,26 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CallerIdRepository::class)]
 class CallerId
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var Rooms|null */
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'callerIds')]
     #[ORM\JoinColumn(nullable: false)]
     private $room;
+    /** @var User|null */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'callerIds')]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $callerId;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
+    /** @var CallerSession|null */
     #[ORM\OneToOne(targetEntity: CallerSession::class, inversedBy: 'caller', cascade: ['persist', 'remove'])]
     private $callerSession;
     public function getId(): ?int

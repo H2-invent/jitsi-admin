@@ -22,11 +22,14 @@ class JigasiService
     {
     }
 
-    public function setClient(HttpClientInterface $client)
+    public function setClient(HttpClientInterface $client): void
     {
         $this->client = $client;
     }
 
+    /**
+     * @return mixed
+     */
     public function getNumber(?Rooms $rooms)
     {
         if (!$rooms) {
@@ -50,6 +53,9 @@ class JigasiService
         return null;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRoomPin(?Rooms $rooms)
     {
         if (!$rooms) {

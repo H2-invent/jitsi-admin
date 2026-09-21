@@ -10,9 +10,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class CreateLobbyUserService
 {
-    private $em;
-    private $toModerator;
-    private $parameterBag;
+    private EntityManagerInterface $em;
+    private ToModeratorWebsocketService $toModerator;
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(EntityManagerInterface $entityManager, ToModeratorWebsocketService $toModeratorWebsocketService, ParameterBagInterface $parameterBag)
     {
@@ -21,6 +21,11 @@ class CreateLobbyUserService
         $this->em = $entityManager;
     }
 
+    /**
+     * @param string $type
+     * @param bool $websocketReady
+     * @return LobbyWaitungUser
+     */
     public function createNewLobbyUser(User $user, Rooms $room, $type,$websocketReady=false): LobbyWaitungUser
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $user, 'room' => $room]);

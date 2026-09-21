@@ -20,38 +20,53 @@ class Repeat
     {
         return (string) $this->id;
     }
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $repetation;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $repeatUntil;
+    /** @var Collection<int, Rooms> */
     #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'repeater')]
     private $rooms;
+    /** @var Collection<int, User> */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'repeaterUsers')]
     private $participants;
+    /** @var array<int, mixed> */
     #[ORM\Column(type: 'array')]
     private $weekday = [];
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $weeks;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $months;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $days;
     #[ORM\Column(type: 'integer', enumType: RepeatTypeEnum::class)]
     private ?RepeatTypeEnum $repeatType = null;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $repeaterDays;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $repeaterWeeks;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $RepeatMontly;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $RepeatYearly;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $startDate;
+    /** @var Rooms|null */
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'repeaterProtoype', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private $prototyp;
@@ -65,8 +80,10 @@ class Repeat
     private ?RepeatMonthEnum $repeatYearlyRelativeMonth = null;
     #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatWeekdayEnum::class)]
     private ?RepeatWeekdayEnum $repeatYearlyRelativeWeekday = null;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $repeatMonthlyRelativeHowOften;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $repeatYearlyRelativeHowOften;
 
@@ -102,7 +119,7 @@ class Repeat
         return $this;
     }
     /**
-     * @return Collection|Rooms[]
+     * @return Collection<int, Rooms>
      */
     public function getRooms(): Collection
     {
@@ -129,7 +146,7 @@ class Repeat
         return $this;
     }
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getParticipants(): Collection
     {
@@ -149,10 +166,16 @@ class Repeat
 
         return $this;
     }
+    /**
+     * @return array<int, mixed>|null
+     */
     public function getWeekday(): ?array
     {
         return $this->weekday;
     }
+    /**
+     * @param array<int, mixed> $weekday
+     */
     public function setWeekday(array $weekday): self
     {
         $this->weekday = $weekday;

@@ -8,6 +8,7 @@ use App\Helper\JitsiAdminController;
 use App\Service\AdminService;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -20,7 +21,7 @@ class AdminController extends JitsiAdminController
         #[MapEntity(id: 'server')] Server $server,
         AdminService $adminService,
         HttpClientInterface $httpClient,
-        TranslatorInterface $translator)
+        TranslatorInterface $translator): Response
     {
         $countPart = 0;
         foreach ($server->getRooms() as $room) {

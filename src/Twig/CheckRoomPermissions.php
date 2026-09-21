@@ -12,7 +12,7 @@ use Twig\TwigFunction;
 
 class CheckRoomPermissions extends AbstractExtension
 {
-    private $em;
+    private EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;

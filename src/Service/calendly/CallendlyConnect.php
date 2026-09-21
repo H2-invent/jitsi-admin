@@ -28,6 +28,9 @@ class CallendlyConnect
     {
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getUserInfo(string $token): array
     {
         try {
@@ -59,6 +62,9 @@ class CallendlyConnect
         }
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function registerWebhook(
         User $user,
     ): array {
@@ -98,6 +104,9 @@ class CallendlyConnect
             throw new \RuntimeException('Weiterleitungsfehler bei der Calendly-API: ' . $e->getMessage());
         }
     }
+    /**
+     * @return array<mixed>
+     */
     public function getWebhooks(
         User $user,
     ): array {
@@ -140,6 +149,10 @@ class CallendlyConnect
         }
     }
 
+    /**
+     * @param string $webhookId
+     * @return array<mixed>
+     */
     public function cleanWebhooks(
         User $user,
         $webhookId

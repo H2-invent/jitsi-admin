@@ -102,7 +102,7 @@ class NewRoomService
         );
     }
 
-    public function writeLogInDatabase(Rooms $roomold, Rooms $room, User $myUser)
+    public function writeLogInDatabase(Rooms $roomold, Rooms $room, User $myUser): void
     {
 
         if ($room->getCreator() !== $room->getModerator()) {

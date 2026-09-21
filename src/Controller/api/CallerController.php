@@ -19,11 +19,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CallerController extends JitsiAdminController
 {
-    private $token;
-    private $callerRoomService;
-    private $callerPinService;
-    private $callerSessionService;
-    private $callerLeftService;
+    private string $token;
+    private CallerFindRoomService $callerRoomService;
+    private CallerPinService $callerPinService;
+    private CallerSessionService $callerSessionService;
+    private CallerLeftService $callerLeftService;
 
     public function __construct(
         ManagerRegistry                       $managerRegistry,
@@ -47,7 +47,7 @@ class CallerController extends JitsiAdminController
 
     #[Route(path: '/api/v1/lobby/sip/room/{roomId}', name: 'caller_room', methods: ['GET'])]
     public
-    function findRoom(Request $request, $roomId): Response
+    function findRoom(Request $request, string $roomId): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -58,7 +58,7 @@ class CallerController extends JitsiAdminController
 
     #[Route(path: '/api/v1/lobby/sip/pin/{roomId}', name: 'caller_pin', methods: ['POST', 'GET'])]
     public
-    function findPin(Request $request, $roomId): Response
+    function findPin(Request $request, string $roomId): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {

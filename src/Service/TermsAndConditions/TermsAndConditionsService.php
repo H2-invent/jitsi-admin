@@ -15,7 +15,7 @@ class TermsAndConditionsService
     {
     }
 
-    public function hasAcceptedTerms(User $user)
+    public function hasAcceptedTerms(User $user): bool
     {
         if ($user->isAcceptTermsAndConditions() || $this->themeService->getApplicationProperties('LAF_TERMS_AND_CONDITIONS') === '') {
             return true;
@@ -23,7 +23,7 @@ class TermsAndConditionsService
         return false;
     }
 
-    public function acceptTerms(User $user)
+    public function acceptTerms(User $user): bool
     {
         $user->setAcceptTermsAndConditions(true);
         $this->entityManager->persist($user);

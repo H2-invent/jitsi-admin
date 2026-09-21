@@ -10,8 +10,8 @@ use Symfony\Component\Mercure\Update;
 
 class DirectSendService
 {
-    private $publisher;
-    private $logger;
+    private HubInterface $publisher;
+    private LoggerInterface $logger;
 
     public function __construct(
         HubInterface          $publisher,
@@ -22,12 +22,18 @@ class DirectSendService
         $this->logger = $logger;
     }
 
-    public function setMercurePublisher(HubInterface $hub)
+    public function setMercurePublisher(HubInterface $hub): void
     {
         $this->publisher = $hub;
     }
 
-    public function sendSnackbar($topic, $text, $color, $closeAfterMs = null)
+    /**
+     * @param string $topic
+     * @param string $text
+     * @param string $color
+     * @param int|null $closeAfterMs
+     */
+    public function sendSnackbar($topic, $text, $color, $closeAfterMs = null): string
     {
         $data = [
             'type' => 'snackbar',
@@ -42,7 +48,14 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    public function sendDialog($topic, $header, $text, $type='question', $buttons=[])
+    /**
+     * @param string $topic
+     * @param string $header
+     * @param string $text
+     * @param string $type
+     * @param array<int, array<string, mixed>> $buttons
+     */
+    public function sendDialog($topic, $header, $text, $type='question', $buttons=[]): string
     {
         $data = [
             'type' => 'dialog',
@@ -57,7 +70,11 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    public function sendMessage($topic, $message, string $from)
+    /**
+     * @param string $topic
+     * @param string $message
+     */
+    public function sendMessage($topic, $message, string $from): string
     {
         $data = [
             'type' => 'message',
@@ -68,7 +85,11 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    public function sendReloadPage($topic, $timeout)
+    /**
+     * @param string $topic
+     * @param mixed $timeout
+     */
+    public function sendReloadPage($topic, $timeout): string
     {
         $data = [
             'type' => 'reload',
@@ -78,7 +99,16 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    public function sendBrowserNotification($topic, $title, $message, $pushMessage, $id, $color, $closeAfterMs = null)
+    /**
+     * @param string $topic
+     * @param string $title
+     * @param string $message
+     * @param string $pushMessage
+     * @param string|int $id
+     * @param string $color
+     * @param int|null $closeAfterMs
+     */
+    public function sendBrowserNotification($topic, $title, $message, $pushMessage, $id, $color, $closeAfterMs = null): string
     {
         $data = [
             'type' => 'notification',
@@ -95,7 +125,13 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    public function sendBrowserPush($topic, $title,  $pushMessage, $id)
+    /**
+     * @param string $topic
+     * @param string $title
+     * @param string $pushMessage
+     * @param string|int $id
+     */
+    public function sendBrowserPush($topic, $title,  $pushMessage, $id): string
     {
         $data = [
             'type' => 'browserPush',
@@ -106,7 +142,12 @@ class DirectSendService
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }
-    public function sendPlaySound($topic, $soundName,  $id)
+    /**
+     * @param string $topic
+     * @param string $soundName
+     * @param string|int $id
+     */
+    public function sendPlaySound($topic, $soundName,  $id): string
     {
         $data = [
             'type' => 'playSound',
@@ -116,7 +157,11 @@ class DirectSendService
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }
-    public function sendCleanBrowserNotification($topic, $id)
+    /**
+     * @param string $topic
+     * @param string|int $id
+     */
+    public function sendCleanBrowserNotification($topic, $id): string
     {
         $data = [
             'type' => 'cleanNotification',
@@ -126,7 +171,11 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    public function sendModal($topic, $content)
+    /**
+     * @param string $topic
+     * @param string $content
+     */
+    public function sendModal($topic, $content): bool
     {
 
         $data = [
@@ -138,7 +187,12 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendRedirect($topic, $url, $timeout = 1000)
+    /**
+     * @param string $topic
+     * @param string $url
+     * @param mixed $timeout
+     */
+    public function sendRedirect($topic, $url, $timeout = 1000): bool
     {
         $data = [
             'type' => 'redirect',
@@ -149,7 +203,12 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendEndMeeting($topic, $url, $timeout = 1000)
+    /**
+     * @param string $topic
+     * @param string $url
+     * @param mixed $timeout
+     */
+    public function sendEndMeeting($topic, $url, $timeout = 1000): bool
     {
         $data = [
             'type' => 'endMeeting',
@@ -160,7 +219,11 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendNewJitsiMeeting($topic, $options)
+    /**
+     * @param string $topic
+     * @param array<string, mixed> $options
+     */
+    public function sendNewJitsiMeeting($topic, $options): bool
     {
         $data = [
             'type' => 'newJitsi',
@@ -170,7 +233,11 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendRefresh($topic, $url)
+    /**
+     * @param string $topic
+     * @param string $url
+     */
+    public function sendRefresh($topic, $url): bool
     {
         $data = [
             'type' => 'refresh',
@@ -180,7 +247,15 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendCallAdhockmeeding($title, $topic, $message, $pushMesage, $time, $id)
+    /**
+     * @param string $title
+     * @param string $topic
+     * @param string $message
+     * @param string $pushMesage
+     * @param int|string $time
+     * @param string|int $id
+     */
+    public function sendCallAdhockmeeding($title, $topic, $message, $pushMesage, $time, $id): bool
     {
         $data = [
             'type' => 'call',
@@ -195,13 +270,16 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendRefreshDashboardToUser(User $user)
+    public function sendRefreshDashboardToUser(User $user): void
     {
         $topic = 'personal/' . $user->getUid();
         $this->sendRefreshDashboard($topic);
     }
 
-    public function sendRefreshDashboard($topic)
+    /**
+     * @param string $topic
+     */
+    public function sendRefreshDashboard($topic): bool
     {
         $data = [
             'type' => 'refreshDashboard',
@@ -211,7 +289,7 @@ class DirectSendService
     }
 
 
-    private function sendUpdate(Update $update)
+    private function sendUpdate(Update $update): bool
     {
         try {
             $this->logger->debug('send Message via Websocket:', ['topic' => $update->getTopics(), 'data' => $update->getData()]);

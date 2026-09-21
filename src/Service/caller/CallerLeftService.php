@@ -9,9 +9,9 @@ use Psr\Log\LoggerInterface;
 
 class CallerLeftService
 {
-    private $em;
-    private $loggger;
-    private $sessionService;
+    private EntityManagerInterface $em;
+    private LoggerInterface $loggger;
+    private CallerSessionService $sessionService;
 
     public function __construct(CallerSessionService $callerSessionService, LoggerInterface $logger, EntityManagerInterface $entityManager)
     {
@@ -20,6 +20,10 @@ class CallerLeftService
         $this->sessionService = $callerSessionService;
     }
 
+    /**
+     * @param string $sessionId
+     * @return bool
+     */
     public function callerLeft($sessionId)
     {
         $session = $this->em->getRepository(CallerSession::class)->findOneBy(['sessionId' => $sessionId]);

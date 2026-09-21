@@ -17,11 +17,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CallerSessionService
 {
-    private $em;
-    private $roomStatus;
-    private $loggger;
-    private $toModerator;
-    private $roomService;
+    private EntityManagerInterface $em;
+    private RoomStatusFrontendService $roomStatus;
+    private LoggerInterface $loggger;
+    private ToModeratorWebsocketService $toModerator;
+    private RoomService $roomService;
     private UrlGeneratorInterface $urlGen;
     private RequestStack $requestStack;
 
@@ -50,7 +50,11 @@ class CallerSessionService
         $this->requestStack = $requestStack;
     }
 
-    public function getSessionStatus($sessionId)
+    /**
+     * @param string|null $sessionId
+     * @return array<string, mixed>
+     */
+    public function getSessionStatus($sessionId): array
     {
         $this->loggger->debug('Start with Session', ['sessionId' => $sessionId]);
         $session = $this->em->getRepository(CallerSession::class)->findOneBy(['sessionId' => $sessionId]);
@@ -113,7 +117,7 @@ class CallerSessionService
         return $this->sessionError(session: $session);
     }
 
-    public function cleanUpSession(CallerSession $callerSession)
+    public function cleanUpSession(CallerSession $callerSession): bool
     {
         $this->loggger->debug('We start to destroy the caller session', ['sessionID' => $callerSession->getSessionId()]);
         try {
@@ -138,7 +142,7 @@ class CallerSessionService
         return true;
     }
 
-    public function acceptCallerUser(LobbyWaitungUser $lobbyWaitungUser)
+    public function acceptCallerUser(LobbyWaitungUser $lobbyWaitungUser): bool
     {
         if ($lobbyWaitungUser->getCallerSession()) {
             $caller = $lobbyWaitungUser->getCallerSession();
@@ -151,6 +155,9 @@ class CallerSessionService
         return false;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function sessionMeetingFinished(CallerSession $session): array
     {
         return [
@@ -163,6 +170,9 @@ class CallerSessionService
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function sessionAccepted(CallerSession $session): array
     {
         $res = [
@@ -201,6 +211,9 @@ class CallerSessionService
         return $res;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function sessionDeclined(CallerSession $session): array
     {
         return [
@@ -211,6 +224,9 @@ class CallerSessionService
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function sessionWaiting(CallerSession $session, bool $started): array
     {
         return [
@@ -226,6 +242,9 @@ class CallerSessionService
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function sessionError(CallerSession $session): array
     {
         return [
@@ -238,7 +257,10 @@ class CallerSessionService
         ];
     }
 
-    public function createMessageElement(CallerSession $session)
+    /**
+     * @return array<string, string>
+     */
+    public function createMessageElement(CallerSession $session): array
     {
         return $session->getMessageUid() ? ['uid' => $session->getMessageUid(), 'message' => $session->getMessageText()] : [];
     }

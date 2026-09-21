@@ -16,7 +16,7 @@ class Reporting extends AbstractExtension
         ];
     }
 
-    public function getTotalSpeakingTime(\App\Entity\RoomStatus $roomStatus)
+    public function getTotalSpeakingTime(\App\Entity\RoomStatus $roomStatus): int
     {
         $time = 0;
         foreach ($roomStatus->getRoomStatusParticipants() as $data) {

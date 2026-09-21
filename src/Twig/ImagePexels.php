@@ -9,7 +9,7 @@ use Twig\TwigFunction;
 
 class ImagePexels extends AbstractExtension
 {
-    private $pexelsService;
+    private PexelService $pexelsService;
     public function __construct(PexelService $pexelService)
     {
         $this->pexelsService = $pexelService;
@@ -21,6 +21,9 @@ class ImagePexels extends AbstractExtension
             new TwigFunction('pexelsImage', [$this, 'pexelsImage']),
         ];
     }
+    /**
+     * @return array<string, mixed>|null
+     */
     public function pexelsImage()
     {
 

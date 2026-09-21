@@ -29,8 +29,8 @@ class CallOutSessionAPIRemoveService
     }
 
     /**
-     * @param $sessionId
-     * @return array
+     * @param string|null $sessionId
+     * @return array<string, mixed>
      * the user refuse the call
      * the session is removed and a message is send to the lobbymoderator
      */
@@ -52,8 +52,8 @@ class CallOutSessionAPIRemoveService
     }
 
     /**
-     * @param $sessionId
-     * @return array
+     * @param string|null $sessionId
+     * @return array<string, mixed>
      * An error occurred during calling a invited participant
      */
     public function error($sessionId): array
@@ -74,8 +74,8 @@ class CallOutSessionAPIRemoveService
     }
 
     /**
-     * @param $sessionId
-     * @return array
+     * @param string|null $sessionId
+     * @return array<string, mixed>
      * The phone is not reachable.
      * The inviter is informed about the unreachable of the invited phone
      * The difference between error and unreachable is only the message which is send to the lobbymoderator
@@ -100,11 +100,11 @@ class CallOutSessionAPIRemoveService
 
     /**
      * @param CalloutSession|null $calloutSession
-     * @param $message
-     * @return array
+     * @param string $message
+     * @return array<string, mixed>
      * This is a generic function to remove the callout session
      */
-    public function removeCalloutSession(?CalloutSession $calloutSession, $message)
+    public function removeCalloutSession(?CalloutSession $calloutSession, $message): array
     {
 
         $this->entityManager->remove($calloutSession);
@@ -121,11 +121,11 @@ class CallOutSessionAPIRemoveService
 
     /**
      * @param Rooms $room
-     * @param $message
+     * @param string $message
      * @return void
      * This function sends a refuse message to the lobbymoderator
      */
-    public function sendRefuseMessage(Rooms $room, $message)
+    public function sendRefuseMessage(Rooms $room, $message): void
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSendService->sendSnackbar($topic, $message, 'danger',2000);

@@ -3,21 +3,28 @@
 namespace App\Service;
 
 use App\Entity\LobbyWaitungUser;
+use App\Repository\LobbyWaitungUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CleanupLobbyService
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
     }
 
+    /**
+     * @param int|string $maxOld
+     * @return LobbyWaitungUser[]
+     */
     public function cleanUp($maxOld = 72)
     {
         $date = (new \DateTimeImmutable())->modify('-' . $maxOld . 'hours');
-        $oldestData = $this->em->getRepository(LobbyWaitungUser::class)->findOldLobbyWaitinguser($date);
+        /** @var LobbyWaitungUserRepository $repo */
+        $repo = $this->em->getRepository(LobbyWaitungUser::class);
+        $oldestData = $repo->findOldLobbyWaitinguser($date);
         foreach ($oldestData as $data) {
             if ($data->getCallerSession()) {
                 if ($data->getCallerSession()->getCaller()) {

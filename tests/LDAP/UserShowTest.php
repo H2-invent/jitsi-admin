@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserShowTest extends WebTestCase
 {
-    public $LDAPURL = 'ldap://192.168.230.128:10389';
+    public string $LDAPURL = 'ldap://192.168.230.128:10389';
     public function testShowName(): void
     {
         $client = static::createClient();
@@ -150,7 +150,7 @@ class UserShowTest extends WebTestCase
             $crawler->filter('.breakWord:contains("unitTest")')->count()
         );
     }
-    private function getParam()
+    private function getParam(): void
     {
         $para = self::getContainer()->get(ParameterBagInterface::class);
         $this->LDAPURL = $para->get('ldap_test_url');

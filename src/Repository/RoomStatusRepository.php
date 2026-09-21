@@ -12,6 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method RoomStatus|null findOneBy(array $criteria, array $orderBy = null)
  * @method RoomStatus[]    findAll()
  * @method RoomStatus[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<RoomStatus>
  */
 class RoomStatusRepository extends ServiceEntityRepository
 {
@@ -60,6 +62,9 @@ class RoomStatusRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+    /**
+     * @param string $jitsiId
+     */
     public function findCreatedRoomsbyJitsiId($jitsiId): ?RoomStatus
     {
         $id = explode('@', strrev($jitsiId), 2);

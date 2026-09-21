@@ -8,14 +8,16 @@ use App\Entity\Rooms;
 use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Repository\RoomStatusParticipantRepository;
+use App\Repository\RoomsRepository;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ServerUserManagment
 {
-    private $em;
-    private $parameter;
+    private EntityManagerInterface $em;
+    private ParameterBagInterface $parameter;
     private ThemeService $themeService;
 
     public function __construct(ThemeService $themeService, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager)
@@ -102,13 +104,23 @@ class ServerUserManagment
         return $servers;
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function getActualConference(Server $server)
     {
-        return $this->em->getRepository(Rooms::class)->findActualConferenceForServerByStatus($server);
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->em->getRepository(Rooms::class);
+        return $roomsRepository->findActualConferenceForServerByStatus($server);
     }
 
+    /**
+     * @return RoomStatusParticipant[]
+     */
     public function getActualParticipantsFromServer(Server $server)
     {
-        return $this->em->getRepository(RoomStatusParticipant::class)->findActualParticipantsByServer($server);
+        /** @var RoomStatusParticipantRepository $roomStatusParticipantRepository */
+        $roomStatusParticipantRepository = $this->em->getRepository(RoomStatusParticipant::class);
+        return $roomStatusParticipantRepository->findActualParticipantsByServer($server);
     }
 }

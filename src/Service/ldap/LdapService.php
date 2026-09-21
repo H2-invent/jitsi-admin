@@ -13,31 +13,88 @@ use Symfony\Component\Ldap\Entry;
 
 class LdapService
 {
-    private $ldapUserService;
-    private $em;
+    private LdapUserService $ldapUserService;
+    private EntityManagerInterface $em;
     /**
      * @var LdapType[]
      */
     private $ldaps;
+    /**
+     * @var string[]
+     */
     private $URL;
+    /**
+     * @var string[]
+     */
     private $LOGIN;
+    /**
+     * @var string[]
+     */
     private $PASSWORD;
+    /**
+     * @var string[]
+     */
     private $USERDN;
+    /**
+     * @var string[]
+     */
     private $SCOPE;
+    /**
+     * @var string[]
+     */
     private $OBJECTCLASSES;
+    /**
+     * @var string[]
+     */
     private $USERNAMEATTRIBUTE;
+    /**
+     * @var array<int, mixed>
+     */
     private $MAPPER;
+    /**
+     * @var string[]
+     */
     private $RDN;
+    /**
+     * @var string[]
+     */
     private $BINDTYPE;
+    /**
+     * @var string[]
+     */
     private $LDAPSERVERID;
+    /**
+     * @var array<int, mixed>
+     */
     private $LDAP_SPECIALFIELD;
+    /**
+     * @var string[]
+     */
     private $LDAPFILTER;
+    /**
+     * @var string[]
+     */
     private $LDAP_DEPUTY_GROUP_OBJECTCLASS;
+    /**
+     * @var string[]
+     */
     private $LDAP_DEPUTY_GROUP_DN;
+    /**
+     * @var string[]
+     */
     private $LDAP_DEPUTY_GROUP_LEADER;
+    /**
+     * @var string[]
+     */
     private $LDAP_DEPUTY_GROUP_MEMBERS;
+    /**
+     * @var string[]
+     */
     private $LDAP_DEPUTY_GROUP_FILTER;
 
+    /**
+     * @var string[]
+     */
     private $LDAP_IS_SIP_VIDEO;
 
     public function __construct(
@@ -194,7 +251,8 @@ class LdapService
 
     /**
      * @param LdapType $ldap
-     * @return array
+     * @param bool $dryRun
+     * @return array{ldap: LdapType, user: array<int, mixed>|null}
      * @throws \Exception
      */
     public function fetchLdap(LdapType $ldap, $dryRun = false)
@@ -214,6 +272,9 @@ class LdapService
         return ['ldap' => $ldap, 'user' => $user];
     }
 
+    /**
+     * @return Entry[]
+     */
     public function fetchDeputies()
     {
         $res = [];
@@ -231,6 +292,7 @@ class LdapService
      * An array with LDAP elements is send to tis function. this element is then split into elements and we select the
      * attributes which are configured i nthe env.
      * @param Entry[] $entrys
+     * @param bool $dryrun
      * @return void
      */
     public function setDeputies($entrys, $dryrun = false)
@@ -284,6 +346,9 @@ class LdapService
         $this->ldaps = $ldaps;
     }
 
+    /**
+     * @return void
+     */
     public function cleanUpLdapUsers()
     {
         foreach ($this->ldaps as $data) {

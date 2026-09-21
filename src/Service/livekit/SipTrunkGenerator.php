@@ -56,6 +56,11 @@ class SipTrunkGenerator
         $this->server = $server;
     }
 
+    /**
+     * @param Rooms $rooms
+     * @param string $callerId
+     * @return string|null
+     */
     public function createNewSIPNumber(Rooms $rooms, $callerId)
     {
         try {
@@ -66,8 +71,15 @@ class SipTrunkGenerator
         } catch (\Exception $exception) {
             throw new \Exception('Fehler bei der API-Anfrage: ' . $exception->getMessage());
         }
+        return null;
     }
 
+    /**
+     * @param Server $server
+     * @param Rooms $rooms
+     * @param string $callerId
+     * @return string|null
+     */
     public function generateSipTrunk(Server $server, Rooms $rooms, $callerId)
     {
         $this->rooms = $rooms;
@@ -92,7 +104,7 @@ class SipTrunkGenerator
             throw new \Exception('Fehler bei der API-Anfrage: ' . $exception->getMessage());
 
         }
-
+        return null;
     }
 
     public function generateDispatcherRule(): ?bool
@@ -126,8 +138,8 @@ class SipTrunkGenerator
      *
      * @param Server $server
      * @param string $endpoint Der spezifische Endpunkt, der angesprochen werden soll.
-     * @param array $payload Zusätzliche Parameter, die an die Anfrage angehängt werden.
-     * @return array|null Gibt die Antwortdaten als Array zurück oder null bei Fehlern.
+     * @param array<string, mixed> $payload Zusätzliche Parameter, die an die Anfrage angehängt werden.
+     * @return array<string, mixed>|null Gibt die Antwortdaten als Array zurück oder null bei Fehlern.
      * @throws \Exception
      */
     public function sendPostRequest(Server $server, string $endpoint, array $payload = []): ?array

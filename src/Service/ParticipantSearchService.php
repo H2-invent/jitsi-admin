@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\AddressGroup;
 use App\Entity\User;
 use App\Service\Theme\ThemeService;
 use Psr\Log\LoggerInterface;
@@ -9,13 +10,17 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ParticipantSearchService
 {
-    private $parameterBag;
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(ParameterBagInterface $parameterBag, private ThemeService $themeService, private LoggerInterface $logger)
     {
         $this->parameterBag = $parameterBag;
     }
 
+    /**
+     * @param User[] $user
+     * @return array<int, array<string, mixed>>
+     */
     public function generateUserwithoutEmptyUser($user)
     {
         $res = [];
@@ -34,6 +39,11 @@ class ParticipantSearchService
         return $res;
     }
 
+    /**
+     * @param User[] $user
+     * @param string $searchString
+     * @return array<int, array<string, mixed>>
+     */
     public function generateUserwithEmptyUser($user, $searchString)
     {
         $res = [];
@@ -60,6 +70,10 @@ class ParticipantSearchService
         return $res;
     }
 
+    /**
+     * @param AddressGroup[] $group
+     * @return array<int, array<string, mixed>>
+     */
     public function generateGroup($group)
     {
         $res = [];
@@ -76,7 +90,7 @@ class ParticipantSearchService
         return $res;
     }
 
-    public function buildShowInFrontendString(User $user)
+    public function buildShowInFrontendString(User $user): string
     {
         $res = '';
         $res .= $user->getFormatedName($this->parameterBag->get('laf_showName'));
@@ -90,13 +104,17 @@ class ParticipantSearchService
         return $res;
     }
 
-    public function buildShowInFrontendStringNoString(User $user)
+    public function buildShowInFrontendStringNoString(User $user): string
     {
         $res = '';
         $res .= $user->getFormatedName($this->parameterBag->get('laf_showName'));
         return $res;
     }
 
+    /**
+     * @param array<string, mixed> $inputArr
+     * @return array<string, mixed>
+     */
     public function filterForModerator(User $user, &$inputArr)
     {
         try {
@@ -109,6 +127,11 @@ class ParticipantSearchService
         return $inputArr;
     }
 
+    /**
+     * @param array<int, string> $inputArr
+     * @param string $role
+     * @return array<int, string>
+     */
     public function removeRoleFromArray($inputArr, $role)
     {
         return \array_filter(

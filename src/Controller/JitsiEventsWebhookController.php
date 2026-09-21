@@ -16,8 +16,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JitsiEventsWebhookController extends JitsiAdminController
 {
-    private $token;
-    private $webhookService;
+    private string $token;
+    private RoomWebhookService $webhookService;
 
     /**
      * @param ParameterBagInterface $parameterBag

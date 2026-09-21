@@ -16,9 +16,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:index:user', 'This command reindex the user and the addressbookgroups name')]
 class IndexUserCommand extends Command
 {
-    private $em;
-    private $indexer;
-    private $groupIndexer;
+    private EntityManagerInterface $em;
+    private IndexUserService $indexer;
+    private IndexGroupsService $groupIndexer;
     protected function configure(): void
     {
     }

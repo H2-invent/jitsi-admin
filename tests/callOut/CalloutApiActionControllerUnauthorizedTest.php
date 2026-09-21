@@ -7,11 +7,12 @@ use App\Entity\CalloutSession;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CalloutApiActionControllerUnauthorizedTest extends WebTestCase
 {
-    private $client;
+    private KernelBrowser $client;
 
     protected function setUp(): void
     {

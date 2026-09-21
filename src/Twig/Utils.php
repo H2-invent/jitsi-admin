@@ -33,18 +33,25 @@ class Utils extends AbstractExtension
         return chunk_split($string, $sequence, $character);
     }
 
+    /**
+     * @param string|null $string
+     * @return mixed
+     */
     public function json_decode($string)
     {
         $res = json_decode($string ?? '', true);
         return $res;
     }
 
-    public function roomIsReadOnly(Rooms $rooms, User $user)
+    public function roomIsReadOnly(Rooms $rooms, User $user): bool
     {
         return UtilsHelper::isRoomReadOnly($rooms, $user);
     }
 
-    public function colorFromString($string)
+    /**
+     * @param string $string
+     */
+    public function colorFromString($string): string
     {
 
         $code = dechex(crc32($string));

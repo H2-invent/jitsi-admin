@@ -23,9 +23,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LobbyModeratorController extends JitsiAdminController
 {
-    private $toModerator;
-    private $toParticipant;
-    private $directSend;
+    private ToModeratorWebsocketService $toModerator;
+    private ToParticipantWebsocketService $toParticipant;
+    private DirectSendService $directSend;
     private CheckLobbyPermissionService $checkLobbyPermissionService;
 
     public function __construct(
@@ -48,7 +48,7 @@ class LobbyModeratorController extends JitsiAdminController
 
 
     #[Route(path: '/room/lobby/moderator/{type}/{uid}', name: 'lobby_moderator', defaults: ['type' => 'a'])]
-    public function index(Request $request, $uid, $type): Response
+    public function index(Request $request, string $uid, string $type): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $uid]);
 
@@ -71,7 +71,7 @@ class LobbyModeratorController extends JitsiAdminController
     }
 
     #[Route(path: '/room/lobby/start/moderator/{t}/{room}', name: 'lobby_moderator_start')]
-    public function startMeeting($room, $t, RoomService $roomService, Request $request): Response
+    public function startMeeting(string $room, string $t, RoomService $roomService, Request $request): Response
     {
         $roomL = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $room]);
         if (!$this->checkLobbyPermissionService->checkPermissions($roomL, $this->getSessionUser($request->getSession()))) {
@@ -84,7 +84,7 @@ class LobbyModeratorController extends JitsiAdminController
     }
 
     #[Route(path: '/room/lobby/accept/{wUid}', name: 'lobby_moderator_accept')]
-    public function accept(Request $request, $wUid, CallerSessionService $callerSessionService): Response
+    public function accept(Request $request, string $wUid, CallerSessionService $callerSessionService): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $wUid]);
         if (!$lobbyUser) {
@@ -108,7 +108,7 @@ class LobbyModeratorController extends JitsiAdminController
     }
 
     #[Route(path: '/room/lobby/acceptAll/{roomId}', name: 'lobby_moderator_accept_all')]
-    public function acceptAll(Request $request, $roomId, CallerSessionService $callerSessionService): Response
+    public function acceptAll(Request $request, string $roomId, CallerSessionService $callerSessionService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomId]);
         if (!$this->checkLobbyPermissionService->checkPermissions($room, $this->getSessionUser($request->getSession()))) {
@@ -133,7 +133,7 @@ class LobbyModeratorController extends JitsiAdminController
     }
 
     #[Route(path: '/room/lobby/decline/{wUid}', name: 'lobby_moderator_decline')]
-    public function decline($wUid, Request $request): Response
+    public function decline(string $wUid, Request $request): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $wUid]);
         if (!$lobbyUser) {
@@ -165,7 +165,7 @@ class LobbyModeratorController extends JitsiAdminController
     }
 
     #[Route(path: '/lobby/moderator/endMeeting/{roomUid}', name: 'lobby_Moderator_endMeeting')]
-    public function broadcastWebsocketEndMeeting($roomUid, LobbyUtils $lobbyUtils, Request $request): Response
+    public function broadcastWebsocketEndMeeting(string $roomUid, LobbyUtils $lobbyUtils, Request $request): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomUid]);
         if ($room) {

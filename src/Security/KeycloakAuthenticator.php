@@ -32,12 +32,12 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
 {
     use TargetPathTrait;
 
-    private $clientRegistry;
-    private $em;
-    private $router;
-    private $userCreatorService;
-    private $indexer;
-    private $logger;
+    private ClientRegistry $clientRegistry;
+    private EntityManagerInterface $em;
+    private RouterInterface $router;
+    private UserCreatorService $userCreatorService;
+    private IndexUserService $indexer;
+    private LoggerInterface $logger;
 
     public function __construct(
         LoggerInterface               $logger,
@@ -169,6 +169,9 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     }
 
 
+    /**
+     * @param string $providerKey
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
 

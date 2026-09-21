@@ -23,7 +23,7 @@ use function PHPUnit\Framework\assertEquals;
 
 class LdapUserServiceTest extends WebTestCase
 {
-    public $LDAPURL = 'ldap://192.168.230.128:10389';
+    public string $LDAPURL = 'ldap://192.168.230.128:10389';
 
     protected function setUp(): void
     {
@@ -575,7 +575,7 @@ class LdapUserServiceTest extends WebTestCase
         self::assertNull($userRepo->findOneBy(['email' => 'test@local.de']));
     }
 
-    private function getParam()
+    private function getParam(): void
     {
         $para = self::getContainer()->get(ParameterBagInterface::class);
         $this->LDAPURL = $para->get('ldap_test_url');

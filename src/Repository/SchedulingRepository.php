@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Scheduling|null findOneBy(array $criteria, array $orderBy = null)
  * @method Scheduling[]    findAll()
  * @method Scheduling[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Scheduling>
  */
 class SchedulingRepository extends ServiceEntityRepository
 {

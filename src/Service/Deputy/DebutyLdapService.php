@@ -12,6 +12,7 @@ class DebutyLdapService
     }
 
     /**
+     * @param bool $dryRun
      * @return int
      */
     public function cleanDeputies($dryRun = false)

@@ -20,12 +20,12 @@ use Twig\Environment;
 
 class UserServiceEditRoom
 {
-    private $twig;
-    private $notificationService;
-    private $url;
-    private $translator;
-    private $pushService;
-    private $urlGenerator;
+    private Environment $twig;
+    private NotificationService $notificationService;
+    private UrlGeneratorInterface $url;
+    private TranslatorInterface $translator;
+    private PushService $pushService;
+    private JoinUrlGeneratorService $urlGenerator;
 
     public function __construct(JoinUrlGeneratorService $joinUrlGeneratorService, PushService $pushService, TranslatorInterface $translator, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
@@ -37,6 +37,9 @@ class UserServiceEditRoom
         $this->urlGenerator = $joinUrlGeneratorService;
     }
 
+    /**
+     * @return bool
+     */
     function editRoom(User $user, Rooms $room)
     {
 
@@ -61,6 +64,9 @@ class UserServiceEditRoom
 
         return true;
     }
+    /**
+     * @return bool
+     */
     function editPersistantRoom(User $user, Rooms $room)
     {
 
@@ -83,6 +89,9 @@ class UserServiceEditRoom
 
         return true;
     }
+    /**
+     * @return bool
+     */
     function editRoomSchedule(User $user, Rooms $room)
     {
 

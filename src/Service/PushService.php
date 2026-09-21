@@ -10,9 +10,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PushService
 {
-    private $em;
-    private $urlGenerator;
-    private $directSend;
+    private EntityManagerInterface $em;
+    private UrlGeneratorInterface $urlGenerator;
+    private DirectSendService $directSend;
 
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, DirectSendService $directSend)
     {
@@ -21,7 +21,13 @@ class PushService
         $this->directSend = $directSend;
     }
 
-    function generatePushNotification($title, $text, User $user, $url = null, $id = '0x00')
+    /**
+     * @param string $title
+     * @param string $text
+     * @param string|null $url
+     * @param string $id
+     */
+    function generatePushNotification($title, $text, User $user, $url = null, $id = '0x00'): bool
     {
         $topic = 'personal/' . $user->getUid();
         $this->directSend->sendBrowserNotification($topic, $title, $text, $text, $id, 'info');
@@ -29,6 +35,9 @@ class PushService
         return true;
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     function getNotification(User $user)
     {
         $res = [];

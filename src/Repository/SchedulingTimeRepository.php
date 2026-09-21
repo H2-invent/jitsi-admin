@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method SchedulingTime|null findOneBy(array $criteria, array $orderBy = null)
  * @method SchedulingTime[]    findAll()
  * @method SchedulingTime[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<SchedulingTime>
  */
 class SchedulingTimeRepository extends ServiceEntityRepository
 {
@@ -49,14 +51,15 @@ class SchedulingTimeRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+    */
 
-     /**
-      * @return SchedulingTime[] Returns an array of SchedulingTime objects
-      */
-    public function findSchedulingTimeForUserAndScheduling(Scheduling $scheduling, User $user)
+    /**
+     * @return SchedulingTime[]
+     */
+    public function findSchedulingTimeForUserAndScheduling(Scheduling $scheduling, User $user): array
     {
         return $this->createQueryBuilder('s')
-            ->innerJoin('s.scheduling','scheduling')
+            ->innerJoin('s.scheduling', 'scheduling')
             ->andWhere('scheduling =:scheduling')
             ->setParameter('scheduling', $scheduling)
             ->innerJoin('s.schedulingTimeUsers','schedulingTimeUsers')

@@ -5,6 +5,7 @@ namespace App\Service\caller;
 use App\Entity\CallerId;
 use App\Entity\CallerRoom;
 use App\Entity\CallerSession;
+use App\Repository\CallerIdRepository;
 use App\Service\Callout\CalloutServiceDialSuccessfull;
 use App\Service\Lobby\CreateLobbyUserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,9 +14,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class CallerPinService
 {
-    private $em;
-    private $createLobbyUserService;
-    private $loggger;
+    private EntityManagerInterface $em;
+    private CreateLobbyUserService $createLobbyUserService;
+    private LoggerInterface $loggger;
     private ParameterBagInterface $parameterBag;
 
     public function __construct(
@@ -32,6 +33,13 @@ class CallerPinService
         $this->parameterBag = $parameterBag;
     }
 
+    /**
+     * @param string $roomId
+     * @param string $pin
+     * @param string $callerId
+     * @param bool $isSipVideo
+     * @return CallerSession|null
+     */
     public function createNewCallerSession($roomId, $pin, $callerId, $isSipVideo = false): ?CallerSession
     {
         $callerRoom = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $roomId]);
@@ -40,7 +48,9 @@ class CallerPinService
             return null;
         }
         $room = $callerRoom->getRoom();
-        $callInUser = $this->em->getRepository(CallerId::class)->findByRoomAndPin($room, $pin);
+        /** @var CallerIdRepository $callerIdRepository */
+        $callerIdRepository = $this->em->getRepository(CallerId::class);
+        $callInUser = $callerIdRepository->findByRoomAndPin($room, $pin);
         if (!$callInUser) {
             $this->loggger->error('PIN not found for the room', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
             return null;
@@ -93,7 +103,7 @@ class CallerPinService
         return false;
     }
 
-    public function clean(?string $string)
+    public function clean(?string $string): ?string
     {
         $string = (string)$string;
 

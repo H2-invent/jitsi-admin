@@ -25,7 +25,7 @@ class CheckStartTime extends AbstractExtension
         ];
     }
 
-    public function isRoomOpen(Rooms $room, ?User $user)
+    public function isRoomOpen(Rooms $room, ?User $user): ?string
     {
         return $this->startMeetingService->isAllowedToEnter($room, $user);
     }

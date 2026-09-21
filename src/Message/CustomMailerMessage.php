@@ -8,8 +8,11 @@ class CustomMailerMessage
 {
     private string $dsn;
     private Email $email;
+    /** @var mixed */
     private $absender;
+    /** @var mixed */
     private $roomId;
+    /** @var mixed */
     private $to;
 
     public function __construct(string $dsn)
@@ -18,7 +21,7 @@ class CustomMailerMessage
         $this->dsn = $dsn;
     }
 
-    public function send(Email $email)
+    public function send(Email $email): self
     {
         $this->email = $email;
         return $this;

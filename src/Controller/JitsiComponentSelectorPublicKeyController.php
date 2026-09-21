@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class JitsiComponentSelectorPublicKeyController extends AbstractController
 {
-    private $publicKeyPath;
+    private string $publicKeyPath;
 
     public function __construct(
         private ParameterBagInterface $parameterBag,
@@ -32,7 +32,7 @@ class JitsiComponentSelectorPublicKeyController extends AbstractController
     }
 
     #[Route('/signal/{keyfile}', name: 'app_jitsi_component_selector_public_key')]
-    public function index($keyfile): Response
+    public function index(string $keyfile): Response
     {
         $pattern = '/\.pem$/'; // Regex-Pattern für ".pem" am Ende der Zeichenkette
 

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DownloadParticipantsListController extends JitsiAdminController
 {
     #[Route('room/download/participants/list', name: 'app_download_participants_list')]
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!$room || !UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {

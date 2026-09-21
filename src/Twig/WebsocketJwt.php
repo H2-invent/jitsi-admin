@@ -28,12 +28,16 @@ class WebsocketJwt extends AbstractExtension
         ];
     }
 
+    /**
+     * @param array<int, string> $rooms
+     * @return string
+     */
     public function getJwtforWebsocket($rooms, ?User $user)
     {
         return $this->websocketJwtService->createJwt($rooms, $user);
     }
 
-    public function getUrlforWebsocket()
+    public function getUrlforWebsocket(): string
     {
         $path = $this->parameterBag->get('MERCURE_PUBLIC_URL');
         if (str_contains($path, 'https')) {

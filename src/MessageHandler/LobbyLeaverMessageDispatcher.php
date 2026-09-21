@@ -13,7 +13,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class LobbyLeaverMessageDispatcher
 {
     private LoggerInterface $logger;
-    private $toModerator;
+    private ToModeratorWebsocketService $toModerator;
     private EntityManagerInterface $em;
 
     public function __construct(
@@ -27,7 +27,7 @@ class LobbyLeaverMessageDispatcher
         $this->em = $entityManager;
     }
 
-    public function __invoke(LobbyLeaverMessage $lobbyLeaverMessage)
+    public function __invoke(LobbyLeaverMessage $lobbyLeaverMessage): void
     {
         $lobbyWaitingUSer = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $lobbyLeaverMessage->getId()]);
 

@@ -9,9 +9,12 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
+/**
+ * @implements UserProviderInterface<User>
+ */
 class UserProvider implements UserProviderInterface
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     /**
      * UserProvider constructor.
@@ -36,13 +39,13 @@ class UserProvider implements UserProviderInterface
      *
      * @param string $username The username
      *
-     * @return UserInterface
+     * @return User
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function loadUserByUsername($username): UserInterface
+    public function loadUserByUsername(string $username): UserInterface
     {
-        return $this->entityManager->createQueryBuilder('u')
+        return $this->entityManager->createQueryBuilder()
             ->where('u.email = :email')
             ->setParameter('email', $username)
             ->getQuery()
@@ -78,12 +81,12 @@ class UserProvider implements UserProviderInterface
      *
      * @return bool
      */
-    public function supportsClass($class): bool
+    public function supportsClass(string $class): bool
     {
         return $class === 'App\Security\User';
     }
 
-    public function loadUserByIdentifier(string $identifier): UserInterface
+    public function loadUserByIdentifier(string $identifier): User
     {
         return $this->loadUserByUsername($identifier);
     }

@@ -8,13 +8,16 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: KeycloakGroupsToServersRepository::class)]
 class KeycloakGroupsToServers
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var Server|null */
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'keycloakGroups', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private $server;
+    /** @var string|null */
     #[ORM\Column(type: 'string', length: 255)]
     private $keycloakGroup;
     public function getId(): ?int

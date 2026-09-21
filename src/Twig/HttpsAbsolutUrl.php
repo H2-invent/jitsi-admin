@@ -10,7 +10,7 @@ use Twig\TwigFunction;
 
 class HttpsAbsolutUrl extends AbstractExtension
 {
-    private $httpsUrl;
+    private CreateHttpsUrl $httpsUrl;
 
     public function __construct(CreateHttpsUrl $createHttpsUrl)
     {
@@ -25,6 +25,11 @@ class HttpsAbsolutUrl extends AbstractExtension
         ];
     }
 
+    /**
+     * @param string $url
+     * @param Rooms|null $rooms
+     * @return string
+     */
     public function httpsAbolutUrl($url, ?Rooms $rooms = null)
     {
         return $this->httpsUrl->createHttpsUrl($url, $rooms);

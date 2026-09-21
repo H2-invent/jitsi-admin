@@ -430,6 +430,9 @@ class ScheduleController extends JitsiAdminController
         };
     }
 
+    /**
+     * @return array{user?: array<int, array<string, string|null>>, times?: array<int, string>}
+     */
     private function getUserVotes(Rooms $room): array
     {
         $votings = [];
@@ -471,6 +474,11 @@ class ScheduleController extends JitsiAdminController
         return $votings;
     }
 
+    /**
+     * @param array<int, array<string, string|null>> $userVotings
+     * @param array<int, string> $times
+     * @return array<int, array<string, string|null>>
+     */
     private function fillAllVotings(array $userVotings, array $times): array
     {
         $filledUpVotings = [];

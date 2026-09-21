@@ -43,7 +43,7 @@ class OwnRoomController extends JitsiAdminController
 
     #[Route(path: '/myRoom/start/{uid}', name: 'own_room_startPage')]
     #[Route(path: '/room/myRoom/start/{uid}', name: 'own_room_startPage_protected')]
-    public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator, StartMeetingService $startMeetingService): Response
+    public function index(string $uid, Request $request, RoomService $roomService, TranslatorInterface $translator, StartMeetingService $startMeetingService): Response
     {
         $session = $request->getSession();
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $uid, 'totalOpenRooms' => true]);
@@ -222,7 +222,7 @@ class OwnRoomController extends JitsiAdminController
     public function checkWaiting(
         #[MapEntity(mapping: ['uid' => 'uid'])]
         Rooms $rooms,
-              $name, $type,
+              string $name, string $type,
     ): Response
     {
         $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));

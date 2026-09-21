@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Waitinglist|null findOneBy(array $criteria, array $orderBy = null)
  * @method Waitinglist[]    findAll()
  * @method Waitinglist[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<Waitinglist>
  */
 class WaitinglistRepository extends ServiceEntityRepository
 {

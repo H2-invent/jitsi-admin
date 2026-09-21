@@ -15,10 +15,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RoomService
 {
-    private $em;
-    private $userService;
-    private $urlGenerator;
-    private $userCreatorService;
+    private EntityManagerInterface $em;
+    private UserService $userService;
+    private UrlGeneratorInterface $urlGenerator;
+    private UserCreatorService $userCreatorService;
 
     public function __construct(
         UserCreatorService           $userCreatorService,
@@ -33,7 +33,11 @@ class RoomService
         $this->userCreatorService = $userCreatorService;
     }
 
-    public function createRoom(User $user, Server $server, \DateTimeImmutable $start, $duration, $name)
+    /**
+     * @param float $duration
+     * @param string $name
+     */
+    public function createRoom(User $user, Server $server, \DateTimeImmutable $start, $duration, $name): Rooms
     {
         // We initialize the Room with the data;
 
@@ -56,7 +60,11 @@ class RoomService
         return $room;
     }
 
-    public function editRoom(Rooms $room, Server $server, \DateTimeImmutable $start, $duration, $name)
+    /**
+     * @param float $duration
+     * @param string $name
+     */
+    public function editRoom(Rooms $room, Server $server, \DateTimeImmutable $start, $duration, $name): Rooms
     {
         // We initialize the Room with the data;
 
@@ -76,7 +84,7 @@ class RoomService
         return $room;
     }
 
-    public function deleteRoom(Rooms $room)
+    public function deleteRoom(Rooms $room): Rooms
     {
         // We delete the Room
 
@@ -98,6 +106,10 @@ class RoomService
     }
 
 
+    /**
+     * @param string $email
+     * @return array<string, mixed>
+     */
     public function removeUserFromRoom(?Rooms $room, $email): array
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -123,6 +135,10 @@ class RoomService
         return ['uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich gelöscht'];
     }
 
+    /**
+     * @param string $email
+     * @return array<string, mixed>
+     */
     public function addUserToRoom(?Rooms $room, $email): array
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -145,6 +161,9 @@ class RoomService
         return ['uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich hinzugefügt'];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function generateRoomInfo(Rooms $room): array
     {
 

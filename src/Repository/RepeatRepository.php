@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Repeat|null findOneBy(array $criteria, array $orderBy = null)
  * @method Repeat[]    findAll()
  * @method Repeat[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Repeat>
  */
 class RepeatRepository extends ServiceEntityRepository
 {

@@ -73,7 +73,7 @@ class PublicConferenceController extends JitsiAdminController
     }
 
     #[Route('/m/{confId}', name: 'app_public_conference')]
-    public function startMeeting($confId, Request $request): Response
+    public function startMeeting(string $confId, Request $request): Response
     {
         $room = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
         $this->server = $room->getServer();

@@ -403,7 +403,7 @@ class RepeaterServiceTest extends KernelTestCase
      * Loads "TestMeeting: 0", moves its start to 2021-01-15 15:00 and adds moderator/user attributes so generated
      * series have the expected participants. Returns the prepared prototype room.
      */
-    private function prepareRoom(RoomsRepository $roomsRepository)
+    private function prepareRoom(RoomsRepository $roomsRepository): Rooms
     {
         $manager = self::getContainer()->get(EntityManagerInterface::class);
 
@@ -427,7 +427,7 @@ class RepeaterServiceTest extends KernelTestCase
      * Sets a room's start (optionally in a given timezone) and recalculates its end date from its duration.
      * Returns the room.
      */
-    private function changeStart(Rooms $rooms, $startDate, ?string $timeZone = null)
+    private function changeStart(Rooms $rooms, string $startDate, ?string $timeZone = null): Rooms
     {
         $rooms->setStart(new \DateTimeImmutable($startDate, $timeZone ? new \DateTimeZone($timeZone) : null));
         $endDate = clone $rooms->getStart();
@@ -439,6 +439,8 @@ class RepeaterServiceTest extends KernelTestCase
     /**
      * Asserts the series has exactly the expected number of rooms and that each room starts at the matching
      * "Y-m-d H:i" value in order.
+     *
+     * @param array<int, string> $expected
      */
     private function assertRoomStartDates(Repeat $repeat, array $expected): void
     {

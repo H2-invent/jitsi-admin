@@ -9,18 +9,23 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class PexelService
 {
-    private $client;
-    private $parameterBag;
+    private HttpClientInterface $client;
+    private ParameterBagInterface $parameterBag;
     public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag)
     {
         $this->client = $httpClient;
         $this->parameterBag = $parameterBag;
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getImageFromPexels()
     {
         $image = null;
-        if ($this->parameterBag->get('laF_pexel_api_key') !== '' && $this->parameterBag->get('enterprise_noExternal') == 0) {
+        /** @var mixed $noExternal */
+        $noExternal = $this->parameterBag->get('enterprise_noExternal');
+        if ($this->parameterBag->get('laF_pexel_api_key') !== '' && $noExternal == 0) {
             try {
                 $cache = new FilesystemAdapter();
 

@@ -9,6 +9,7 @@ class DashboardService
 {
     /**
      * @param Rooms[] $rooms
+     * @return array<string, mixed>
      */
     public function categorizeRooms(array $rooms, User $user): array
     {
@@ -62,6 +63,11 @@ class DashboardService
         ];
     }
 
+    /**
+     * @param Rooms[] $rooms
+     * @param array<int, bool> $roomStatusOpenMap
+     * @return array<int|string, string>
+     */
     public function getRoomClosedForStartMap(array $rooms, User $user, array $roomStatusOpenMap): array
     {
         $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));

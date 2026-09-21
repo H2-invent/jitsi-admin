@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method RoomStatusParticipant|null findOneBy(array $criteria, array $orderBy = null)
  * @method RoomStatusParticipant[]    findAll()
  * @method RoomStatusParticipant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<RoomStatusParticipant>
  */
 class RoomStatusParticipantRepository extends ServiceEntityRepository
 {
@@ -111,10 +112,10 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param Server $server
      * @return RoomStatusParticipant[] Returns an array of RoomStatusParticipant objects
      */
-
-    public function findParticipantsByServer(Server $server, $startDate, $endDate)
+    public function findParticipantsByServer(Server $server, \DateTimeImmutable $startDate, \DateTimeImmutable $endDate)
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.roomStatus', 'roomStatus')

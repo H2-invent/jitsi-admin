@@ -38,10 +38,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomType extends AbstractType
 {
-    private $parameterBag;
-    private $logger;
-    private $theme;
-    private $translator;
+    private ParameterBagInterface $parameterBag;
+    private LoggerInterface $logger;
+    private ThemeService $theme;
+    private TranslatorInterface $translator;
     private EntityManagerInterface $entityManager;
 
 
@@ -269,7 +269,11 @@ class RoomType extends AbstractType
 
         $resolver->setDefault('attr', function (Options $options) {
             $attr = array('id' => 'newRoom_form');
-            if (!$options['isEdit'] && $this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG) == 0 && $this->parameterBag->get(InputSettings::ALLOW_TAG) == 1) {
+            /** @var bool|float|int|string|null $allowEditTag */
+            $allowEditTag = $this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG);
+            /** @var bool|float|int|string|null $allowTag */
+            $allowTag = $this->parameterBag->get(InputSettings::ALLOW_TAG);
+            if (!$options['isEdit'] && $allowEditTag == 0 && $allowTag == 1) {
                 $attr['data-blocktext'] = $this->translator->trans('new.room.blockSave.text');
                 return $attr;
             }
@@ -277,12 +281,16 @@ class RoomType extends AbstractType
         }
         );
         $resolver->setDefault('showTag', function (Options $options) {
-            if ($this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG) == 1 && $this->parameterBag->get(InputSettings::ALLOW_TAG) == 1) {
+            /** @var bool|float|int|string|null $allowEditTag */
+            $allowEditTag = $this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG);
+            /** @var bool|float|int|string|null $allowTag */
+            $allowTag = $this->parameterBag->get(InputSettings::ALLOW_TAG);
+            if ($allowEditTag == 1 && $allowTag == 1) {
                 return true;
             }
-            if (!$options['isEdit'] && $this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG) == 0 && $this->parameterBag->get(InputSettings::ALLOW_TAG) == 1) {
+            if (!$options['isEdit'] && $allowEditTag == 0 && $allowTag == 1) {
                 return true;
-            } elseif ($options['isEdit'] && $this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG) == 0 && $this->parameterBag->get(InputSettings::ALLOW_TAG) == 1) {
+            } elseif ($options['isEdit'] && $allowEditTag == 0 && $allowTag == 1) {
                 return false;
             }
             return false;

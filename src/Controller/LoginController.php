@@ -38,7 +38,7 @@ class LoginController extends JitsiAdminController
     }
 
     #[Route(path: '/login/auth0_login/check', name: 'connect_auth0_check')]
-    public function check(ClientRegistry $clientRegistry, Request $request)
+    public function check(ClientRegistry $clientRegistry, Request $request): void
     {
         // ** if you want to *authenticate* the user, then
         // leave this method blank and create a Guard authenticator
@@ -67,7 +67,7 @@ class LoginController extends JitsiAdminController
         Request        $request,
         CreateHttpsUrl $createHttpsUrl,
         ThemeService   $themeService,
-    )
+    ): Response
     {
         $provider = new Keycloak(
             [

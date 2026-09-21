@@ -17,6 +17,14 @@ class StarService
     {
     }
 
+    /**
+     * @param mixed $serverId
+     * @param mixed $starInt
+     * @param mixed $comment
+     * @param mixed $browser
+     * @param mixed $os
+     * @return Response
+     */
     public function createStar($serverId, $starInt, $comment, $browser, $os): Response
     {
         try {

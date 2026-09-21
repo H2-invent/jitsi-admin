@@ -75,6 +75,9 @@ class DbConfig implements ConvertToEnvironmentInterface
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getEnvironmentMap(): array
     {
         return self::ENVIRONMENT;

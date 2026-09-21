@@ -24,6 +24,9 @@ class AnalyticsService
     {
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function gatherInformations(): array
     {
         $em = $this->entityManager;

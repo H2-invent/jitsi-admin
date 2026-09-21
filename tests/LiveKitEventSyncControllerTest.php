@@ -6,7 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class LiveKitEventSyncControllerTest extends WebTestCase
 {
-    private $roomFinished = [
+    /** @var array<string, mixed> */
+    private array $roomFinished = [
         "event" => "room_finished",
         "room" => [
             "sid" => "RM_FMtSomfxpkkU",
@@ -27,7 +28,8 @@ class LiveKitEventSyncControllerTest extends WebTestCase
         "id" => "EV_S2BuXd6ZDeUh",
         "createdAt" => "1724746167",
     ];
-    private $roomStarted =
+    /** @var array<string, mixed> */
+    private array $roomStarted =
         [
             "event" => "room_started",
             "room" => [
@@ -50,7 +52,8 @@ class LiveKitEventSyncControllerTest extends WebTestCase
             "createdAt" => "1724746166",
         ];
 
-    private $userJoined = [
+    /** @var array<string, mixed> */
+    private array $userJoined = [
         "event" => "participant_joined",
         "room" => [
             "sid" => "RM_FMtSomfxpkkU",
@@ -86,7 +89,8 @@ class LiveKitEventSyncControllerTest extends WebTestCase
         "id" => "EV_P3bYNoF44UA5",
         "createdAt" => "1724746004",
     ];
-    private $userLeft = [
+    /** @var array<string, mixed> */
+    private array $userLeft = [
         "event" => "participant_left",
         "room" => [
             "sid" => "RM_FMtSomfxpkkU",
@@ -123,7 +127,7 @@ class LiveKitEventSyncControllerTest extends WebTestCase
         "id" => "EV_x8Er9Y8i3Ywf",
         "createdAt" => "1724746155",
     ];
-    private $validToken = 'TEST_LIVEKIT_API_TOKEN';
+    private string $validToken = 'TEST_LIVEKIT_API_TOKEN';
 
     public function testAuthenticationSuccess(): void
     {

@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class JoinViewType extends AbstractType
 {
-    private $themeService;
+    private ThemeService $themeService;
     public function __construct(ThemeService $themeService)
     {
         $this->themeService = $themeService;

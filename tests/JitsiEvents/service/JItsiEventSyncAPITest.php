@@ -7,12 +7,13 @@ namespace App\Tests\JitsiEvents\service;
 use App\Entity\RoomStatus;
 use App\Repository\RoomStatusRepository;
 use App\Service\api\EventSyncApiService;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class JItsiEventSyncAPITest extends KernelTestCase
 {
-    private $roomStatusRepositoryMock;
-    private $eventSyncApiService;
+    private RoomStatusRepository&MockObject $roomStatusRepositoryMock;
+    private EventSyncApiService $eventSyncApiService;
 
     protected function setUp(): void
     {
@@ -20,7 +21,7 @@ class JItsiEventSyncAPITest extends KernelTestCase
         $this->eventSyncApiService = new EventSyncApiService($this->roomStatusRepositoryMock);
     }
 
-    public function testGetCallerSessionFromUidRoomStarted()
+    public function testGetCallerSessionFromUidRoomStarted(): void
     {
         // Arrange
         $uid = 'some_uid';
@@ -36,7 +37,7 @@ class JItsiEventSyncAPITest extends KernelTestCase
         $this->assertEquals(['status' => 'ROOM_STARTED'], $result);
     }
 
-    public function testGetCallerSessionFromUidRoomClosed()
+    public function testGetCallerSessionFromUidRoomClosed(): void
     {
         // Arrange
         $uid = 'another_uid';

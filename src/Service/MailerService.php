@@ -38,6 +38,9 @@ class MailerService
         private ThemeService          $themeService
     ) {}
 
+    /**
+     * @param array<int, array{type: string, filename: string, body: string}> $attachment
+     */
     public function sendEmail(
         User $user,
         string $betreff,
@@ -77,6 +80,10 @@ class MailerService
         }
     }
 
+    /**
+     * @param array<int, array{type: string, filename: string, body: string}> $attachment
+     * @param array<int, string> $cc
+     */
     private function sendViaMailer(
         string $to,
         string $betreff,
@@ -150,6 +157,10 @@ class MailerService
         $this->customMailer = new CustomMailerMessage($dsn);
     }
 
+    /**
+     * @param array<int, array{type: string, filename: string, body: string}> $attachments
+     * @param array<int, string> $cc
+     */
     private function createEmailMessage(
         string $to,
         string $subject,
@@ -207,6 +218,9 @@ class MailerService
         }
     }
 
+    /**
+     * @return array{0: string, 1: string}
+     */
     private function resolveSender(Server $server, ?Rooms $rooms): array
     {
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
@@ -227,6 +241,9 @@ class MailerService
         ];
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function extractValidEmails(?string $emails): array
     {
         $list = [];

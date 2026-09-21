@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ConferenceMapperCallerExternalStatus extends KernelTestCase
 {
-    public function testFindRoomStatusFromOtherServer()
+    public function testFindRoomStatusFromOtherServer(): void
     {
         // Mock für den HttpClient
         $httpClientMock = $this->createMock(HttpClientInterface::class);
@@ -46,7 +46,7 @@ class ConferenceMapperCallerExternalStatus extends KernelTestCase
 
 
 
-    public function testFindRoomStatusFromOtherServerCLosed()
+    public function testFindRoomStatusFromOtherServerCLosed(): void
     {
         // Mock für den HttpClient
         $httpClientMock = $this->createMock(HttpClientInterface::class);
