@@ -37,6 +37,8 @@ class SystemRepairCommand extends Command
     {
     }
 
+    private const BATCH_SIZE = 500;
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -44,59 +46,158 @@ class SystemRepairCommand extends Command
         $io->info('We try to repair the system.....');
         $this->logFileFile = fopen($this->logfile, "a") or die("Unable to open file!");
         fwrite($this->logFileFile, sprintf(PHP_EOL . PHP_EOL . 'Repair on %s' . PHP_EOL, (new \DateTime())->format('d.m.Y H:i')));
+
         $count = 0;
-        $user = $this->em->getRepository(User::class)->findAll();
         $io->info('--------We start with the users------');
         fwrite($this->logFileFile, sprintf('Repair emails with newline' . PHP_EOL));
 
-        foreach ($user as $u) {
-            $this->repairEmail(user: $u);
-            $this->repairUsername(user: $u);
-        }
-        $this->em->flush();
+        $this->repairUsers();
         $this->findDoubleEmail();
-        $rooms = $this->em->getRepository(Rooms::class)->findAll();
-
-        foreach ($rooms as $room) {
-            if (!$room->getModerator() || !$room->getServer()) {
-                foreach ($room->getUser() as $user) {
-                    $count++;
-                    $room->removeUser($user);
-                }
-                $this->em->persist($room);
-            }
-        }
-        $this->em->flush();
-        $lobbyWaitingUser = $this->em->getRepository(LobbyWaitungUser::class)->findAll();
-        foreach ($lobbyWaitingUser as $waitingUser) {
-            if ($waitingUser->getCreatedAt() < (new \DateTime())->modify('-10days')) {
-                $count++;
-                $this->em->remove($waitingUser);
-            }
-        }
-        $this->em->flush();
-        $user = $this->em->getRepository(User::class)->findAll();
+        $count += $this->repairRooms();
+        $count += $this->cleanLobbyUsers();
         $count += $this->repairWaitungUser();
         $io->success(sprintf('We found %d coruppt datasets', $count));
         fclose($this->logFileFile);
         $io->info('We clear the cache');
         $this->cacheItemPool->clear();
+
         return Command::SUCCESS;
+    }
+
+    private function repairUsers(): void
+    {
+        $lastId = 0;
+
+        while (true) {
+            $users = $this->em->getRepository(User::class)
+                ->createQueryBuilder('u')
+                ->where('u.id > :lastId')
+                ->orderBy('u.id', 'ASC')
+                ->setMaxResults(self::BATCH_SIZE)
+                ->setParameter('lastId', $lastId)
+                ->getQuery()
+                ->getResult();
+
+            if (count($users) === 0) {
+                break;
+            }
+
+            foreach ($users as $user) {
+                $lastId = $user->getId();
+                $this->repairEmail(user: $user);
+                $this->repairUsername(user: $user);
+            }
+
+            $this->em->flush();
+            $this->em->clear();
+        }
+    }
+
+    private function repairRooms(): int
+    {
+        $count = 0;
+        $lastId = 0;
+
+        while (true) {
+            $rooms = $this->em->getRepository(Rooms::class)
+                ->createQueryBuilder('r')
+                ->where('r.id > :lastId')
+                ->orderBy('r.id', 'ASC')
+                ->setMaxResults(self::BATCH_SIZE)
+                ->setParameter('lastId', $lastId)
+                ->getQuery()
+                ->getResult();
+
+            if (count($rooms) === 0) {
+                break;
+            }
+
+            foreach ($rooms as $room) {
+                $lastId = $room->getId();
+                if (!$room->getModerator() || !$room->getServer()) {
+                    foreach ($room->getUser() as $user) {
+                        $count++;
+                        $room->removeUser($user);
+                    }
+                    $this->em->persist($room);
+                }
+            }
+
+            $this->em->flush();
+            $this->em->clear();
+        }
+
+        return $count;
+    }
+
+    private function cleanLobbyUsers(): int
+    {
+        $count = 0;
+        $cutoff = (new \DateTime())->modify('-10days');
+        $lastId = 0;
+
+        while (true) {
+            $lobbyWaitingUsers = $this->em->getRepository(LobbyWaitungUser::class)
+                ->createQueryBuilder('w')
+                ->where('w.id > :lastId')
+                ->andWhere('w.createdAt < :cutoff')
+                ->orderBy('w.id', 'ASC')
+                ->setMaxResults(self::BATCH_SIZE)
+                ->setParameter('lastId', $lastId)
+                ->setParameter('cutoff', $cutoff)
+                ->getQuery()
+                ->getResult();
+
+            if (count($lobbyWaitingUsers) === 0) {
+                break;
+            }
+
+            foreach ($lobbyWaitingUsers as $waitingUser) {
+                $lastId = $waitingUser->getId();
+                $count++;
+                $this->em->remove($waitingUser);
+            }
+
+            $this->em->flush();
+            $this->em->clear();
+        }
+
+        return $count;
     }
 
     private function repairWaitungUser()
     {
-        $waitingUser = $this->em->getRepository(LobbyWaitungUser::class)->findAll();
         $count = 0;
-        foreach ($waitingUser as $data) {
-            try {
-                $session = $data->getCallerSession();
-            } catch (\Exception $exception) {
-                $this->em->remove($data);
-                $count++;
+        $lastId = 0;
+
+        while (true) {
+            $waitingUsers = $this->em->getRepository(LobbyWaitungUser::class)
+                ->createQueryBuilder('w')
+                ->where('w.id > :lastId')
+                ->orderBy('w.id', 'ASC')
+                ->setMaxResults(self::BATCH_SIZE)
+                ->setParameter('lastId', $lastId)
+                ->getQuery()
+                ->getResult();
+
+            if (count($waitingUsers) === 0) {
+                break;
             }
+
+            foreach ($waitingUsers as $waitingUser) {
+                $lastId = $waitingUser->getId();
+                try {
+                    $waitingUser->getCallerSession();
+                } catch (\Exception $exception) {
+                    $this->em->remove($waitingUser);
+                    $count++;
+                }
+            }
+
+            $this->em->flush();
+            $this->em->clear();
         }
-        $this->em->flush();
+
         return $count;
     }
 
@@ -131,54 +232,74 @@ class SystemRepairCommand extends Command
 
     private function findDoubleEmail()
     {
-        $user = $this->em->getRepository(User::class)->findAll();
         $checked = [];
         $count = 0;
         $countWithAccount = 0;
-        foreach ($user as $u) {
-            $email = $u->getEmail();
-            if (!in_array($email, $checked) && $email !== 'test1@local.h2') {
-                $allEmails = $this->em->getRepository(User::class)->findBy(['email' => $email]);
-                $checked[] = $email;
+        $lastId = 0;
 
-                if (sizeof($allEmails) > 1) {
-                    $count++;
-                    $this->io->info(sprintf('-----Double %s Email----', $email));
-                    $loggedIn = null;
-                    foreach ($allEmails as $d) {
-                        if ($d->getKeycloakId()) {
-                            $loggedIn = $d;
+        while (true) {
+            $users = $this->em->getRepository(User::class)
+                ->createQueryBuilder('u')
+                ->where('u.id > :lastId')
+                ->orderBy('u.id', 'ASC')
+                ->setMaxResults(self::BATCH_SIZE)
+                ->setParameter('lastId', $lastId)
+                ->getQuery()
+                ->getResult();
+
+            if (count($users) === 0) {
+                break;
+            }
+
+            foreach ($users as $user) {
+                $lastId = $user->getId();
+                $email = $user->getEmail();
+                if (!in_array($email, $checked) && $email !== 'test1@local.h2') {
+                    $allEmails = $this->em->getRepository(User::class)->findBy(['email' => $email]);
+                    $checked[] = $email;
+
+                    if (sizeof($allEmails) > 1) {
+                        $count++;
+                        $this->io->info(sprintf('-----Double %s Email----', $email));
+                        $loggedIn = null;
+                        foreach ($allEmails as $d) {
+                            if ($d->getKeycloakId()) {
+                                $loggedIn = $d;
+                            }
                         }
-                    }
-                    if (!$loggedIn) {
-                        $loggedIn = $allEmails[0];
-                    } else {
-                        $countWithAccount++;
-                        $this->io->info(sprintf('-----Has Account %s %s Email----', $loggedIn->getFirstName(), $loggedIn->getLastName()));
-                        fwrite($this->logFileFile, sprintf('Email %s with id %d has an account and has to stay' . PHP_EOL, $loggedIn->getEmail(), $loggedIn->getId()));
-                    }
-                    foreach ($allEmails as $email) {
-                        if ($email !== $loggedIn) {
-                            fwrite($this->logFileFile, sprintf('Double email found %s in user id %d' . PHP_EOL, $email->getEmail(), $email->getId()));
-                            foreach ($email->getRooms() as $room) {
-                                $loggedIn->addRoom($room);
-                                fwrite($this->logFileFile, sprintf('Add Room  with id %d from email %s to %s with id %d' . PHP_EOL, $room->getId(), $email->getEmail(), $loggedIn->getEmail(), $loggedIn->getId()));
-                            }
-                            foreach ($email->getAddressbookInverse() as $adressbook) {
-                                $loggedIn->addAddressbookInverse($adressbook);
-                            }
-                            foreach ($email->getSchedulingTimeUsers() as $schedulingTimeUser) {
-                                $loggedIn->addSchedulingTimeUser($schedulingTimeUser);
-                            }
-                            fwrite($this->logFileFile, sprintf('Delete User  with id %d and email %s' . PHP_EOL, $email->getId(), $email->getEmail()));
-                            $this->ldapUserService->deleteUser($email);
+                        if (!$loggedIn) {
+                            $loggedIn = $allEmails[0];
+                        } else {
+                            $countWithAccount++;
+                            $this->io->info(sprintf('-----Has Account %s %s Email----', $loggedIn->getFirstName(), $loggedIn->getLastName()));
+                            fwrite($this->logFileFile, sprintf('Email %s with id %d has an account and has to stay' . PHP_EOL, $loggedIn->getEmail(), $loggedIn->getId()));
                         }
+                        foreach ($allEmails as $email) {
+                            if ($email !== $loggedIn) {
+                                fwrite($this->logFileFile, sprintf('Double email found %s in user id %d' . PHP_EOL, $email->getEmail(), $email->getId()));
+                                foreach ($email->getRooms() as $room) {
+                                    $loggedIn->addRoom($room);
+                                    fwrite($this->logFileFile, sprintf('Add Room  with id %d from email %s to %s with id %d' . PHP_EOL, $room->getId(), $email->getEmail(), $loggedIn->getEmail(), $loggedIn->getId()));
+                                }
+                                foreach ($email->getAddressbookInverse() as $adressbook) {
+                                    $loggedIn->addAddressbookInverse($adressbook);
+                                }
+                                foreach ($email->getSchedulingTimeUsers() as $schedulingTimeUser) {
+                                    $loggedIn->addSchedulingTimeUser($schedulingTimeUser);
+                                }
+                                fwrite($this->logFileFile, sprintf('Delete User  with id %d and email %s' . PHP_EOL, $email->getId(), $email->getEmail()));
+                                $this->ldapUserService->deleteUser($email);
+                            }
+                        }
+                        $this->em->persist($loggedIn);
                     }
-                    $this->em->persist($loggedIn);
                 }
             }
+
+            $this->em->flush();
+            $this->em->clear();
         }
-        $this->em->flush();
+
         $this->io->info(sprintf('------Found %d double emails', $count));
         $this->io->info(sprintf('------Found %d account ', $countWithAccount));
     }

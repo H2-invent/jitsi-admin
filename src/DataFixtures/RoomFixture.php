@@ -308,7 +308,7 @@ class RoomFixture extends Fixture
             $room->addUser($user2);
             $room->addUser($user3);
             $room->setUid('13579' . $i);
-            $room->setUid('97531' . $i);
+            $room->setUidReal('97531' . $i);
             $room->setSlug('test');
             $room->setScheduleMeeting(false);
             $room->setName('TestMeeting_Amerika: ' . $i);
