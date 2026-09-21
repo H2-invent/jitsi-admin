@@ -253,6 +253,9 @@ class StartMeetingService
      */
     private function RoomClosed()
     {
+        $text =
+            $this->flashBag->getSession()->getBag('flashes')->add('danger', $this->buildClosedString($this->room));
+
         return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
 

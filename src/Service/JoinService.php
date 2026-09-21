@@ -89,7 +89,7 @@ class JoinService
 
         try {
             $startPrint = $room->getTimeZone() ? clone($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getStart();
-            $startPrint->modify('-30min');
+            $startPrint = $startPrint->modify('-30min');
             $endPrint = $room->getTimeZone() ? $room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getEnddate();
 
             $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich', [
