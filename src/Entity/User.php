@@ -1027,7 +1027,10 @@ class User extends BaseUser
     {
         $deputy = [];
         foreach ($this->getManagerElement() as $data) {
-            $deputy[] = $data->getDeputy();
+            $managerDeputy = $data->getDeputy();
+            if ($managerDeputy !== null) {
+                $deputy[] = $managerDeputy;
+            }
         }
         return new ArrayCollection($deputy);
     }
@@ -1055,7 +1058,10 @@ class User extends BaseUser
     {
         $managers = [];
         foreach ($this->getDeputiesElement() as $data) {
-            $managers[] = $data->getManager();
+            $deputyManager = $data->getManager();
+            if ($deputyManager !== null) {
+                $managers[] = $deputyManager;
+            }
         }
         return new ArrayCollection($managers);
     }

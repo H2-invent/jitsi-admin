@@ -43,7 +43,11 @@ class InstallerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->helper = $this->getHelper('question');
+        $helper = $this->getHelper('question');
+        if (!$helper instanceof QuestionHelper) {
+            throw new \LogicException('The question helper is not available.');
+        }
+        $this->helper = $helper;
         $this->input = $input;
         $this->output = $output;
 

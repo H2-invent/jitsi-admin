@@ -47,7 +47,7 @@ class CalloutSessionAPIService
     /**
      * This function build the Array which is expected from the API Consumer
      * @param CalloutSession $calloutSession
-     * @return array
+     * @return array|null
      */
     public function buildCallerSessionPoolArray(CalloutSession $calloutSession)
     {
