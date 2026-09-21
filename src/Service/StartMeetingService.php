@@ -36,7 +36,6 @@ class StartMeetingService
      */
     private $urlGen;
 
-    private $parameterBag;
     /**
      * @var TranslatorInterface
      */
@@ -71,7 +70,6 @@ class StartMeetingService
         RoomService                             $roomService,
         EntityManagerInterface                  $entityManager,
         UrlGeneratorInterface                   $urlGenerator,
-        ParameterBagInterface                   $parameterBag,
         TranslatorInterface                     $translator,
         JigasiService                           $jigasiService,
         private RoomStatusFrontendService       $roomStatusFrontendService,
@@ -83,7 +81,6 @@ class StartMeetingService
         $this->roomService = $roomService;
         $this->em = $entityManager;
         $this->urlGen = $urlGenerator;
-        $this->parameterBag = $parameterBag;
         $this->translator = $translator;
         $this->twig = $environment;
         $this->toModerator = $toModeratorWebsocketService;

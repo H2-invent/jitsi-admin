@@ -8,14 +8,12 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -26,8 +24,6 @@ class JoinService
     private $em;
     private $translator;
     private $urlGenerator;
-    private $roomService;
-    private $response;
     private $startService;
     private $session;
 
@@ -35,9 +31,6 @@ class JoinService
     public function __construct(
         RequestStack  $requestStack,
         StartMeetingService $startMeetingService,
-       private Security $security,
-        RouterInterface $response,
-        RoomService $roomService,
         UrlGeneratorInterface $urlGenerator,
         ParameterBagInterface $parameterBag,
         EntityManagerInterface $entityManager,
@@ -48,8 +41,6 @@ class JoinService
         $this->em = $entityManager;
         $this->translator = $translator;
         $this->urlGenerator = $urlGenerator;
-        $this->roomService = $roomService;
-        $this->response = $response;
         $this->startService = $startMeetingService;
         $this->session = $requestStack;
     }
@@ -133,44 +124,5 @@ class JoinService
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference
         }
         return false;
-    }
-
-    /**
-     * This Function generates te Response when the Room is a normal room with a atendece List
-     * @param $type
-     * @param $name
-     * @param Rooms $room
-     * @param User $user
-     * @return RedirectResponse
-     */
-    private function generateResponseCommonRoom($type, $name, Rooms $room, User $user)
-    {
-        if ($this->onlyWithUserAccount($room) || $this->userAccountLogin($room, $user)) {
-            return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
-        }
-        if ($room->getLobby()) {
-            $res = new RedirectResponse($this->urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'type' => $type, 'userUid' => $user->getUid()]));
-        } else {
-            $url = $this->roomService->join($room, $user, $type, $name);
-            $res = new RedirectResponse($url);
-        }
-
-        $res->headers->setCookie(new Cookie('name', $name, (new \DateTimeImmutable())->modify('+365 days')));
-        return $res;
-    }
-
-    /**
-     * This Function generates te Response when the Room is has no attendece list
-     * @param $type
-     * @param $name
-     * @param Rooms $room
-     * @return RedirectResponse
-     */
-    private function generateResponseOpenRoom($type, $name, Rooms $room)
-    {
-        $url = $this->urlGenerator->generate('room_waiting', array('name' => $name, 'uid' => $room->getUid(), 'type' => $type));
-        $res = new RedirectResponse(($url));
-        $res->headers->setCookie(new Cookie('name', $name, (new \DateTimeImmutable())->modify('+365 days')));
-        return $res;
     }
 }

@@ -6,7 +6,6 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,7 +17,6 @@ class UserRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry               $registry,
-        private ParameterBagInterface $parameterBag,
         private LoggerInterface       $logger,)
     {
         parent::__construct($registry, User::class);

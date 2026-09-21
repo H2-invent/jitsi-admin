@@ -255,24 +255,4 @@ class ScheduleControllerTest extends KernelTestCase
     {
         return $this->createMock(User::class);
     }
-
-    private function getContainerMockWithSession(): ContainerInterface
-    {
-        $container = $this->getContainer();
-        $requestStack = $this->createMock(RequestStack::class);
-        $session = $this->createMock(FlashbagAwareSessionInterface::class);
-        $flashbag = $this->createMock(FlashBagInterface::class);
-
-        $container->set('request_stack', $requestStack);
-
-        $requestStack
-            ->method('getSession')
-            ->willReturn($session);
-
-        $session
-            ->method('getFlashBag')
-            ->willReturn($flashbag);
-
-        return $container;
-    }
 }

@@ -59,7 +59,7 @@ class ThemeService
                 return false;
             }
         } else {
-            if ($this->request && $this->request->getCurrentRequest()) {
+            if ($this->request->getCurrentRequest()) {
                 // Hole die Host-URL aus der aktuellen Anfrage
                 $url = $this->request->getCurrentRequest()->getHost();
 
@@ -129,37 +129,28 @@ class ThemeService
         $tmp = $this->getThemeProperty($input);
 
         if ($tmp !== null) {
-            try {
-                $res = json_decode($tmp, true);
-                if ($res=== null) {
-                    return $tmp;
-                }
-                if ($res === false){
-                    return $res;
-                }
-                return $res;
-            } catch (\Exception $exception) {
-
-                return $tmp;
-            }
-        }
-
-        try {
-            $res = null;
-            if ($variable) {
-                $res = json_decode($variable, true);
-            }
-
+            $res = json_decode($tmp, true);
             if ($res=== null) {
-                return $variable;
+                return $tmp;
             }
             if ($res === false){
                 return $res;
             }
             return $res;
-        } catch (\Exception $exception) {
+        }
+
+        $res = null;
+        if ($variable) {
+            $res = json_decode($variable, true);
+        }
+
+        if ($res=== null) {
             return $variable;
         }
+        if ($res === false){
+            return $res;
+        }
+        return $res;
     }
 
     public function getAllThemes(): array
@@ -268,11 +259,7 @@ class ThemeService
             $tmp = [
                 $file->getFilename(),
             ];
-            try {
-                $tmp[] = json_decode($theme, true)['entry']['validUntil'];
-            } catch (\Exception $exception) {
-
-            }
+            $tmp[] = json_decode($theme, true)['entry']['validUntil'];
             $res[] = $tmp;
         }
         return $res;

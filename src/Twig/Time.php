@@ -4,18 +4,11 @@
 namespace App\Twig;
 
 use App\Entity\User;
-use App\Service\Theme\ThemeService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class Time extends AbstractExtension
 {
-    private $themeService;
-    public function __construct(ThemeService $themeService)
-    {
-        $this->themeService = $themeService;
-    }
-
     public function getFunctions(): array
     {
 

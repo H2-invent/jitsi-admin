@@ -23,7 +23,6 @@ class UserNewRoomAddService
     public function __construct(
         private JoinUrlGeneratorService $urlGenerator,
         private PushService             $pushService,
-        private EntityManagerInterface  $entityManager,
         private TranslatorInterface     $translator,
         private Environment             $twig,
         private NotificationService     $notificationService,

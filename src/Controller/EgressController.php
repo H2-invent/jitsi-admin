@@ -24,8 +24,6 @@ use Symfony\Component\Routing\Attribute\Route;
 class EgressController extends AbstractController
 {
     public function __construct(
-        private RecordingRepository    $recordingRepository,
-        private EntityManagerInterface $entityManager,
         private LoggerInterface        $logger,
         private EgressService $egressService,
 

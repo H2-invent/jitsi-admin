@@ -3,46 +3,26 @@
 namespace App\Service\Lobby;
 
 use App\Entity\LobbyWaitungUser;
-use App\Entity\Rooms;
-use App\Entity\User;
 use App\Service\RoomService;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Mercure\Exception\RuntimeException;
-use Symfony\Component\Mercure\HubInterface;
-use Symfony\Component\Mercure\Publisher;
-use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 class ToParticipantWebsocketService
 {
-    private $publisher;
     private $urlgenerator;
     private $parameterBag;
-    private $logger;
     private $translator;
     private $roomService;
-    private $twig;
     private $directSend;
-    private $uploadHelper;
-    private $em;
 
-    public function __construct(EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper, DirectSendService $directSendService, Environment $environment, HubInterface $publisher, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
+    public function __construct(DirectSendService $directSendService, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, TranslatorInterface $translator)
     {
-        $this->publisher = $publisher;
         $this->urlgenerator = $urlGenerator;
         $this->parameterBag = $parameterBag;
-        $this->logger = $logger;
         $this->translator = $translator;
         $this->roomService = $roomService;
-        $this->twig = $environment;
         $this->directSend = $directSendService;
-        $this->uploadHelper = $uploaderHelper;
-        $this->em = $entityManager;
     }
 
     public function setDirectSend(DirectSendService $directSendService)

@@ -33,7 +33,7 @@ class ShareLinkController extends JitsiAdminController
         Rooms $rooms
     ): Response
     {
-        if (!$rooms || !UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms) || $rooms->getPublic() != true) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms) || $rooms->getPublic() != true) {
             throw new NotFoundHttpException('Not found');
         }
         return $this->render('share_link/__shareLinkModal.html.twig', ['room' => $rooms]);

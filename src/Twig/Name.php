@@ -6,19 +6,16 @@ namespace App\Twig;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\User;
 use App\Service\ParticipantSearchService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Markup;
 use Twig\TwigFilter;
 
 class Name extends AbstractExtension
 {
-    private $parameterBag;
     private ParticipantSearchService $participantSearchService;
 
-    public function __construct(ParameterBagInterface $parameterBag, ParticipantSearchService $participantSearchService)
+    public function __construct(ParticipantSearchService $participantSearchService)
     {
-        $this->parameterBag = $parameterBag;
         $this->participantSearchService = $participantSearchService;
     }
 

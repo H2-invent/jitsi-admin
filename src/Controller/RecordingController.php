@@ -37,23 +37,18 @@ class RecordingController extends AbstractController
     private FilesystemInterface $filesystem;
     private EntityManagerInterface $entityManager;
     private string $expectedBearerToken;
-    private Filesystem $localFilesystem;
 
     public function __construct(
         FilesystemInterface                  $recordingFilesystem,
         EntityManagerInterface               $entityManager,
-        private RecordingRepository          $recordingRepository,
         private LoggerInterface              $logger,
         private UploadedRecordingRepository  $uploadedRecordingRepository,
-        private ParameterBagInterface        $parameterBag,
-        private readonly MessageBusInterface $messageBus,
         private readonly RecordingService    $recordingService,
     )
     {
         $this->filesystem = $recordingFilesystem; // Filesystem für die Aufnahmen
         $this->entityManager = $entityManager;
         $this->expectedBearerToken = $_ENV['RECORDING_UPLOAD_TOKEN']; // Token aus Umgebungsvariablen
-        $this->localFilesystem = new Filesystem();
     }
 
     #[Route('/recording/upload', name: 'recording_file_upload', methods: ['POST'])]
@@ -219,11 +214,6 @@ class RecordingController extends AbstractController
         // Bearer-Token extrahieren
         $token = str_replace('Bearer ', '', $authHeader);
         return $token === $this->expectedBearerToken;
-    }
-
-    private function generateUniqueFileName(string $originalName): string
-    {
-        return md5(uniqid()) . '_' . $originalName;
     }
 
     private function getFileExtensionFromMimeType(string $mimeType): string

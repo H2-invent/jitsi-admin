@@ -1,5 +1,5 @@
 parameters:
-    level: 3
+    level: 4
     paths:
         - src
         - tests
@@ -7,3 +7,7 @@ parameters:
         jobSize: 20
         maximumNumberOfProcesses: 32
         minimumNumberOfJobsPerProcess: 2
+
+    ignoreErrors:
+        # Doctrine populates generated $id values via reflection, so PHPStan cannot see the write.
+        - '#^Property App\\Entity\\[^:]+::\$id is never written, only read\.$#'

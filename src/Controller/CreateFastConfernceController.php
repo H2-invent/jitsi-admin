@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateFastConfernceController extends AbstractController
 {
-    private Server $server;
+    private ?Server $server;
 
     public function __construct(
 
@@ -30,7 +30,6 @@ class CreateFastConfernceController extends AbstractController
     )
     {
         $this->server = $this->serverRepository->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
-
     }
 
     #[Route('/room/create/fast/confernce', name: 'app_create_fast_confernce')]

@@ -16,13 +16,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ManifestController extends JitsiAdminController
 {
     private ThemeService $themeService;
-    private CreateHttpsUrl $createHttpsUrl;
 
-    public function __construct(CreateHttpsUrl $createHttpsUrl, ThemeService $themeService, ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag)
+    public function __construct(ThemeService $themeService, ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->themeService = $themeService;
-        $this->createHttpsUrl = $createHttpsUrl;
     }
 
     #[Route(path: '/site.webmanifest', name: 'app_manifest')]

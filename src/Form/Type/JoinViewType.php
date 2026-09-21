@@ -10,7 +10,6 @@
 namespace App\Form\Type;
 
 use App\Service\Theme\ThemeService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,11 +18,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class JoinViewType extends AbstractType
 {
-    private $parameterBag;
     private $themeService;
-    public function __construct(ParameterBagInterface $parameterBag, ThemeService $themeService)
+    public function __construct(ThemeService $themeService)
     {
-        $this->parameterBag = $parameterBag;
         $this->themeService = $themeService;
     }
 

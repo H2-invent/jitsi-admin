@@ -5,20 +5,16 @@ namespace App\Twig;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
-use App\Service\LicenseService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class RoomsInFuture extends AbstractExtension
 {
-    private $licenseService;
     private $em;
 
-    public function __construct(EntityManagerInterface $entityManager, LicenseService $licenseService)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->licenseService = $licenseService;
         $this->em = $entityManager;
     }
 

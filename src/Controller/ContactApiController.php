@@ -20,7 +20,6 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 class ContactApiController extends AbstractController
 {
     public function __construct(
-        private UserRepository           $userRepository,
         private ParticipantSearchService $participantSearchService,
         private UploaderHelper           $uploaderHelper,
         private ServerUserManagment      $serverUserManagment,

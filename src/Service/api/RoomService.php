@@ -148,9 +148,6 @@ class RoomService
     public function generateRoomInfo(Rooms $room): array
     {
 
-        if (!$room) {
-            return ['error' => true, 'text' => 'no Room found'];
-        }
         $res = [];
         $user = [];
         foreach ($room->getUser() as $data) {

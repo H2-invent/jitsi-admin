@@ -21,7 +21,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class CalloutStatistiksCommand extends Command
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
         private CalloutSessionRepository $calloutSessionRepository
     )
     {

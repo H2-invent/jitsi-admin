@@ -9,19 +9,15 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Form\FormFactoryInterface;
 
 class CronService
 {
-    private $em;
     private $logger;
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, private ParameterBagInterface $parameterBag)
+    public function __construct(LoggerInterface $logger, private ParameterBagInterface $parameterBag)
     {
-        $this->em = $entityManager;
         $this->logger = $logger;
     }
 

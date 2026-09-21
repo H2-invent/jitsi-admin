@@ -34,22 +34,11 @@ use function PHPUnit\Framework\exactly;
 class ScheduleControllerControllerTest extends WebTestCase
 {
 
-    private MockObject&ManagerRegistry $managerRegistry;
-
-    private MockObject&LoggerInterface $logger;
-
-    private MockObject&ParameterBagInterface $parameterBag;
-
-    private ScheduleController $subject;
     private KernelBrowser $client;
     public function setUp(): void
     {
 
-        $this->managerRegistry = $this->createMock(ManagerRegistry::class);
-
         $schedulingService = $this->createMock(SchedulingService::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
-        $this->parameterBag = $this->createMock(ParameterBagInterface::class);
 
     }
 

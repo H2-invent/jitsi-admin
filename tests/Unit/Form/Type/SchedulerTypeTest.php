@@ -5,7 +5,6 @@ namespace App\Tests\Unit\Form\Type;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\SchedulerType;
-use App\Repository\TagRepository;
 use App\Service\Theme\ThemeService;
 use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -19,8 +18,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SchedulerTypeTest extends KernelTestCase
 {
-    private MockObject&TagRepository $tagRepository;
-
     private MockObject&LoggerInterface $logger;
 
     private MockObject&ThemeService $themeService;
@@ -31,13 +28,11 @@ class SchedulerTypeTest extends KernelTestCase
 
     public function setUp(): void
     {
-        $this->tagRepository = $this->createMock(TagRepository::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->themeService = $this->createMock(ThemeService::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
 
         $this->subject = new SchedulerType(
-            $this->tagRepository,
             $this->logger,
             $this->themeService,
             $this->translator,
