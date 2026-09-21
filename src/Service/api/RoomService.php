@@ -17,7 +17,6 @@ class RoomService
 {
     private $em;
     private $userService;
-    private $inviteService;
     private $urlGenerator;
     private $userCreatorService;
 
@@ -26,12 +25,10 @@ class RoomService
         UrlGeneratorInterface        $urlGenerator,
         EntityManagerInterface       $entityManager,
         UserService                  $userService,
-        InviteService                $inviteService,
         private RoomGeneratorService $roomGeneratorService)
     {
         $this->em = $entityManager;
         $this->userService = $userService;
-        $this->inviteService = $inviteService;
         $this->urlGenerator = $urlGenerator;
         $this->userCreatorService = $userCreatorService;
     }

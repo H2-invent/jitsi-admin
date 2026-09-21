@@ -60,7 +60,7 @@ class APIUserController extends JitsiAdminController
     }
 
     #[Route(path: '/api/v1/user', name: 'apiV1_roomAddUser', methods: ['POST'])]
-    public function addUserToRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, UserService $userService, RoomService $roomService): Response
+    public function addUserToRoom(Request $request, RoomService $roomService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
@@ -72,7 +72,7 @@ class APIUserController extends JitsiAdminController
     }
 
     #[Route(path: '/api/v1/user', name: 'apiV1_roomDeleteUser', methods: ['DELETE'])]
-    public function removeUserFromRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, RoomService $roomService): Response
+    public function removeUserFromRoom(LicenseService $licenseService, Request $request, RoomService $roomService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);

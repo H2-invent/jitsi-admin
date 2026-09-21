@@ -57,7 +57,7 @@ class CalloutSessionAPIService
                 (new \DateTimeImmutable())->format('U'),
                 (intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed())
             ]);
-        if ($calloutSession->getLastDialed() && ((intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed()) < $this->parameterBag->get('CALLOUT_WAITING_TIME'))) {
+        if ($calloutSession->getLastDialed() && ((intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed()) < (int) $this->parameterBag->get('CALLOUT_WAITING_TIME'))) {
             return null;
         } else {
             $calloutSession->setLastDialed((new \DateTimeImmutable())->format('U'));
