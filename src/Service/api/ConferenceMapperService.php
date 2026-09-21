@@ -18,7 +18,6 @@ class ConferenceMapperService
 {
     public function __construct(
         private RoomStatusFrontendService $roomStatusFrontendService,
-        private LicenseService            $licenseService,
         private RoomService               $roomService,
         private UserRepository            $userRepository,
         private ParameterBagInterface     $parameterBag,

@@ -14,7 +14,6 @@ use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
 use Psr\Log\LoggerInterface;
 use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +22,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
@@ -37,9 +35,6 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     private $clientRegistry;
     private $em;
     private $router;
-    private $tokenStorage;
-    private $userManager;
-    private $parameterBag;
     private $userCreatorService;
     private $indexer;
     private $logger;
@@ -48,8 +43,6 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
         LoggerInterface               $logger,
         IndexUserService              $indexUserService,
         UserCreatorService            $userCreatorService,
-        ParameterBagInterface         $parameterBag,
-        TokenStorageInterface         $tokenStorage,
         ClientRegistry                $clientRegistry,
         EntityManagerInterface        $em,
         RouterInterface               $router,
@@ -60,8 +53,6 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->router = $router;
-        $this->tokenStorage = $tokenStorage;
-        $this->parameterBag = $parameterBag;
         $this->userCreatorService = $userCreatorService;
         $this->indexer = $indexUserService;
         $this->logger = $logger;

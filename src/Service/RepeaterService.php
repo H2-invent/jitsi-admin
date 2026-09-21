@@ -331,68 +331,6 @@ class RepeaterService
     }
 
     /**
-     * this function replaces the prototype in a repeater and hangs all attributes from the old prototype to the new prototype
-     * @param Rooms $rooms
-     * @param Repeat $repeat
-     * @return Repeat
-     * @author Emanuel Holzmann
-     */
-    private function replacePrototype(Rooms $rooms, Repeat $repeat): Repeat
-    {
-        $newPrototype = clone $rooms;
-        $this->em->persist($newPrototype);
-        $this->em->flush();
-        $oldPrototype = $repeat->getPrototyp();
-        foreach ($newPrototype->getPrototypeUsers() as $data) {
-            $newPrototype->removePrototypeUser($data);
-        }
-        foreach ($oldPrototype->getPrototypeUsers() as $data) {
-            $newPrototype->addPrototypeUser($data);
-            $oldPrototype->removePrototypeUser($data);
-        }
-        foreach ($newPrototype->getUser() as $data) {
-            $newPrototype->removeUser($data);
-        }
-        foreach ($newPrototype->getUserAttributes() as $data) {
-            $newPrototype->removeUserAttribute($data);
-            $this->em->remove($data);
-        }
-        foreach ($oldPrototype->getUserAttributes() as $data) {
-            $newPrototype->addUserAttribute($data);
-            $data->setRoom($newPrototype);
-            $this->em->persist($data);
-        }
-        $newPrototype->setSequence(($newPrototype->getSequence()) + 1);
-
-        foreach ($oldPrototype->getSchedulings() as $data2) {
-            $oldPrototype->removeScheduling($data2);
-            $this->em->remove($data2);
-        }
-        $repeat->removeRoom($newPrototype);
-        $repeat->setPrototyp($newPrototype);
-        $this->em->remove($oldPrototype);
-        $this->em->persist($repeat);
-        $this->em->flush();
-        return $repeat;
-    }
-
-    /**
-     * remove all prototype user from the generated rooms which are not a prototype
-     * @param Repeat $repeat
-     * @author Emanuel Holzmann
-     */
-    private function cleanUp(Repeat $repeat)
-    {
-        foreach ($repeat->getRooms() as $data) {
-            foreach ($data->getPrototypeUsers() as $data2) {
-                $data->removePrototypeUser($data2);
-            }
-            $this->em->persist($data);
-        }
-        $this->em->flush();
-    }
-
-    /**
      * this function sends an email with the changes series
      * @param Repeat $repeat
      * @param $template

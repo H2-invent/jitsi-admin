@@ -59,7 +59,7 @@ class UploadThemeController extends AbstractController
             return $this->redirectToRoute('app_upload_theme_form');
         }
 
-        /** @var UploadedFile $themeFile */
+        /** @var UploadedFile|null $themeFile */
         $themeFile = $form->get('theme')->getData();
         // this condition is needed because the 'brochure' field is not required
         // so the PDF file must be processed only when a file is uploaded

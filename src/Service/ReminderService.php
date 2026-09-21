@@ -4,20 +4,17 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 class ReminderService
 {
     private $em;
-    private $parameterBag;
     private $userService;
 
-    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, UserService $userService)
+    public function __construct(EntityManagerInterface $entityManager, UserService $userService)
     {
         $this->em = $entityManager;
-        $this->parameterBag = $parameterBag;
         $this->userService = $userService;
     }
 

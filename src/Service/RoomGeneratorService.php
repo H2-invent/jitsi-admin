@@ -33,7 +33,7 @@ class RoomGeneratorService
     public function createRoom(User $user, ?Server $server = null): Rooms
     {
         $room = new Rooms();
-        if ($this->requestStack && $this->requestStack->getCurrentRequest()) {
+        if ($this->requestStack->getCurrentRequest()) {
             $room->setHostUrl($this->requestStack->getCurrentRequest()->getSchemeAndHttpHost());
         }
         $room->setServer($server);

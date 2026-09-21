@@ -41,18 +41,16 @@ class RoomAddService
         $lines = explode("\n", $input);
         $falseEmail = [];
 
-        if ($lines) {
-            $this->logger->debug('Crete new Participants from',$lines);
-            foreach ($lines as $line) {
-                $user = $this->createUserFromUserUid($line, $falseEmail);
-                if ($user) {
-                    $validUsers->add($user);
-                    if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
-                        $this->createUserParticipant($room, $user);
-                        $this->logger->debug('Create new User from email:',[$line]);
-                    } else {
-                        $falseEmail[] = $line;
-                    }
+        $this->logger->debug('Crete new Participants from',$lines);
+        foreach ($lines as $line) {
+            $user = $this->createUserFromUserUid($line, $falseEmail);
+            if ($user) {
+                $validUsers->add($user);
+                if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
+                    $this->createUserParticipant($room, $user);
+                    $this->logger->debug('Create new User from email:',[$line]);
+                } else {
+                    $falseEmail[] = $line;
                 }
             }
         }
@@ -99,20 +97,18 @@ class RoomAddService
         $lines = explode("\n", $input);
         $falseEmail = [];
 
-        if ($lines) {
-            foreach ($lines as $line) {
-                $user = $this->createUserFromUserUid($line, $falseEmail);
-                if ($user) {
-                    if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
-                        $this->createUserParticipant($room, $user);
-                        $this->permissionChangeService->toggleModerator($room->getModerator(), $user, $room);
-                    } else {
-                        $falseEmail[] = $line;
-                    }
+        foreach ($lines as $line) {
+            $user = $this->createUserFromUserUid($line, $falseEmail);
+            if ($user) {
+                if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
+                    $this->createUserParticipant($room, $user);
+                    $this->permissionChangeService->toggleModerator($room->getModerator(), $user, $room);
+                } else {
+                    $falseEmail[] = $line;
                 }
             }
-            $this->em->flush();
         }
+        $this->em->flush();
         if ($room->getRepeater()) {
             $this->repeaterService->addUserRepeat($room->getRepeater());
         }
@@ -145,9 +141,7 @@ class RoomAddService
                     $user = $this->userCreatorService->createUser($email, $email, '', '');
                 }
             } else {
-                if (strlen($newMember) > 0) {
-                    $falseEmails[] = $newMember;
-                }
+                $falseEmails[] = $newMember;
             }
         }
         return $user;
@@ -159,7 +153,7 @@ class RoomAddService
      * Is adds the user to the room if it is a non series and adds the user to the series, if the room is a series
      * @param Rooms $room
      * @param User $user
-     * @return User|null The user which is connected to the room
+     * @return User The user which is connected to the room
      */
     private function createUserParticipant(Rooms $room, User $user)
     {

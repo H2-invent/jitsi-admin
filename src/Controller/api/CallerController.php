@@ -8,7 +8,6 @@ use App\Service\caller\CallerFindRoomService;
 use App\Service\caller\CallerLeftService;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerSessionService;
-use App\Service\caller\JitsiComponentSelectorService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -35,7 +34,6 @@ class CallerController extends JitsiAdminController
         CallerSessionService                  $callerSessionService,
         CallerPinService                      $callerPinService,
         CallerFindRoomService                 $callerFindRoomService,
-        private JitsiComponentSelectorService $jitsiComponentSelectorService
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -44,11 +42,6 @@ class CallerController extends JitsiAdminController
         $this->callerSessionService = $callerSessionService;
         $this->callerLeftService = $callerLeftService;
         $this->token = 'Bearer ' . $parameterBag->get('SIP_CALLER_SECRET');
-    }
-
-    public function setJitsiComponentSelectorService(JitsiComponentSelectorService $jitsiComponentSelectorService): void
-    {
-        $this->jitsiComponentSelectorService = $jitsiComponentSelectorService;
     }
 
 

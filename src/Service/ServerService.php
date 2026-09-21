@@ -15,7 +15,6 @@ use App\Entity\User;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
@@ -23,15 +22,13 @@ use Twig\Environment;
 class ServerService
 {
     private $em;
-    private $logger;
     private $notification;
     private $twig;
     private $translator;
 
-    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, Environment $environment, LoggerInterface $logger, NotificationService $notificationService)
+    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, Environment $environment, NotificationService $notificationService)
     {
         $this->em = $entityManager;
-        $this->logger = $logger;
         $this->notification = $notificationService;
         $this->twig = $environment;
         $this->translator = $translator;

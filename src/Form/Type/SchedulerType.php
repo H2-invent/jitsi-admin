@@ -6,7 +6,6 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
-use App\Repository\TagRepository;
 use App\Service\Theme\ThemeService;
 use App\Util\InputSettings;
 use DateTimeImmutable;
@@ -33,7 +32,6 @@ class SchedulerType extends AbstractType
     private const DURATION_LABEL_FORMAT = 'option.%dmin';
 
     public function __construct(
-        private TagRepository $tagRepository,
         private LoggerInterface        $logger,
         private ThemeService           $themeService,
         private TranslatorInterface    $translator,

@@ -12,7 +12,6 @@ namespace App\Form\Type;
 use App\Entity\AddressGroup;
 use App\Entity\User;
 use App\Service\ParticipantSearchService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,12 +20,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddressGroupType extends AbstractType
 {
-    private $parameterBag;
     private ParticipantSearchService $participantSearchService;
 
-    public function __construct(ParameterBagInterface $parameterBag, ParticipantSearchService $participantSearchService)
+    public function __construct(ParticipantSearchService $participantSearchService)
     {
-        $this->parameterBag = $parameterBag;
         $this->participantSearchService = $participantSearchService;
     }
 

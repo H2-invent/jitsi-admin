@@ -6,17 +6,14 @@ namespace App\Twig;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\RoomService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class Jwt extends AbstractExtension
 {
-    private $paramterBag;
     private $roomService;
-    public function __construct(RoomService $roomService, ParameterBagInterface $parameterBag)
+    public function __construct(RoomService $roomService)
     {
-        $this->paramterBag = $parameterBag;
         $this->roomService = $roomService;
     }
 

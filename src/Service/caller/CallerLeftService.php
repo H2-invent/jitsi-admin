@@ -12,14 +12,12 @@ class CallerLeftService
     private $em;
     private $loggger;
     private $sessionService;
-    private ToModeratorWebsocketService $moderatorWebsocketService;
 
-    public function __construct(ToModeratorWebsocketService $toModeratorWebsocketService, CallerSessionService $callerSessionService, LoggerInterface $logger, EntityManagerInterface $entityManager)
+    public function __construct(CallerSessionService $callerSessionService, LoggerInterface $logger, EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
         $this->loggger = $logger;
         $this->sessionService = $callerSessionService;
-        $this->moderatorWebsocketService = $toModeratorWebsocketService;
     }
 
     public function callerLeft($sessionId)

@@ -31,7 +31,7 @@ class PublicConferenceService
                 ->setSequence(0)
                 ->setPersistantRoom(true)
                 ->setUidReal(md5(uniqid()));
-            if ($this->requestStack && $this->requestStack->getCurrentRequest()) {
+            if ($this->requestStack->getCurrentRequest()) {
                 $room->setHostUrl($this->requestStack->getCurrentRequest()->getSchemeAndHttpHost());
             }
             $this->entityManager->persist($room);

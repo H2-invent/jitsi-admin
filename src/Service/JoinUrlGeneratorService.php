@@ -11,19 +11,15 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use App\Entity\User;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class JoinUrlGeneratorService
 {
-    private $parameterBag;
-
     private $url;
     private $createHttps;
 
-    public function __construct(CreateHttpsUrl $createHttpsUrl, ParameterBagInterface $parameterBag, UrlGeneratorInterface $urlGenerator)
+    public function __construct(CreateHttpsUrl $createHttpsUrl, UrlGeneratorInterface $urlGenerator)
     {
-        $this->parameterBag = $parameterBag;
         $this->url = $urlGenerator;
         $this->createHttps = $createHttpsUrl;
     }

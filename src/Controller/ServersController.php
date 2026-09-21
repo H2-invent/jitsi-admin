@@ -153,20 +153,18 @@ class ServersController extends JitsiAdminController
             $newMembers = $form->getData();
             $lines = explode("\n", $newMembers['member']);
 
-            if (sizeof($lines) > 0) {
-                $em = $this->doctrine->getManager();
-                foreach ($lines as $line) {
-                    $newMember = trim($line);
-                    $user = $userCreatorService->createUser($newMember, $newMember, '', '');
-                    $user->addServer($server);
-                    $em->persist($user);
-                    $serverService->addPermission($server, $user);
-                }
-                $em->flush();
-                $snack = 'Berechtigung hinzugefügt';
-                $this->addFlash('success', $snack);
-                return $this->redirectToRoute('dashboard');
+            $em = $this->doctrine->getManager();
+            foreach ($lines as $line) {
+                $newMember = trim($line);
+                $user = $userCreatorService->createUser($newMember, $newMember, '', '');
+                $user->addServer($server);
+                $em->persist($user);
+                $serverService->addPermission($server, $user);
             }
+            $em->flush();
+            $snack = 'Berechtigung hinzugefügt';
+            $this->addFlash('success', $snack);
+            return $this->redirectToRoute('dashboard');
         }
         $title = $translator->trans('Organisator zu Server hinzufügen');
 

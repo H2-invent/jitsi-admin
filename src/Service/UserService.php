@@ -21,7 +21,6 @@ use Twig\Environment;
 
 class UserService
 {
-    private $mailer;
     private $parameterBag;
     private $twig;
     private $notificationService;
@@ -47,7 +46,6 @@ class UserService
         PushService             $pushService,
         EntityManagerInterface  $entityManager,
         TranslatorInterface     $translator,
-        MailerService           $mailerService,
         ParameterBagInterface   $parameterBag,
         Environment             $environment,
         NotificationService     $notificationService,
@@ -55,7 +53,6 @@ class UserService
         JoinUrlGeneratorService $joinUrlGeneratorService
     )
     {
-        $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
         $this->twig = $environment;
         $this->notificationService = $notificationService;

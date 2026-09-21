@@ -13,20 +13,14 @@ use App\Entity\License;
 use App\Entity\Server;
 use Doctrine\ORM\EntityManagerInterface;
 use H2Entwicklung\Signature\CheckSignature;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LicenseService
 {
     private $em;
-    private $translator;
-    private $parameterBag;
     private CheckSignature $checkSignature;
-    public function __construct(CheckSignature $checkSignature, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(CheckSignature $checkSignature, EntityManagerInterface $entityManager)
     {
-        $this->translator = $translator;
         $this->em = $entityManager;
-        $this->parameterBag = $parameterBag;
         $this->checkSignature = $checkSignature;
     }
 

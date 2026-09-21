@@ -5,23 +5,13 @@ namespace App\Twig;
 
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Service\LicenseService;
 use App\UtilsHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class Utils extends AbstractExtension
 {
-    private $licenseService;
-
-    public function __construct(LicenseService $licenseService)
-    {
-        $this->licenseService = $licenseService;
-    }
-
     public function getFilters(): array
     {
         return [

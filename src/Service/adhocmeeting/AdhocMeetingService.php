@@ -25,7 +25,6 @@ class AdhocMeetingService
         private UserService                  $userService,
         private ThemeService                 $theme,
         private CalloutService               $calloutService,
-        private AdhocMeetingWebsocketService $adhocMeetingWebsocketService,
     )
     {
 

@@ -46,9 +46,6 @@ class ParticipantController extends JitsiAdminController
     public function roomAddUser(Request $request, RoomAddService $roomAddService, Rooms $room)
     {
         $newMember = [];
-        if (!$room){
-            return $this->redirectToRoute('dashboard');
-        }
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');

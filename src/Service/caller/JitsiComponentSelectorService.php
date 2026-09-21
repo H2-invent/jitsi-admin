@@ -17,7 +17,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class JitsiComponentSelectorService
 {
     private ?string $baseUrl;
-    private string $jsonResult;
     private $jwt;
     private $publicKey;
     private $privateKey;

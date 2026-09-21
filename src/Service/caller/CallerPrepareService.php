@@ -12,18 +12,10 @@ use Prophecy\Call\Call;
 class CallerPrepareService
 {
     private $em;
-    private $callerService;
-    private $callerPinService;
-    private $callerSessionService;
-    private $callerLeftService;
 
-    public function __construct(CallerLeftService $callerLeftService, CallerSessionService $callerSessionService, CallerPinService $callerPinService, EntityManagerInterface $entityManager, CallerFindRoomService $callerService)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
-        $this->callerService = $callerService;
-        $this->callerPinService = $callerPinService;
-        $this->callerSessionService = $callerSessionService;
-        $this->callerLeftService = $callerLeftService;
     }
 
     /**

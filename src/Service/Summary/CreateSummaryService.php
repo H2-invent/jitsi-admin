@@ -113,9 +113,7 @@ class CreateSummaryService
 
             $response = $this->httpClient->request('GET', $url);
 
-            if ($response) {
-                return '<div class="page_break"></div>' . $response->getContent();
-            }
+            return '<div class="page_break"></div>' . $response->getContent();
         } catch (\Exception $exception) {
             $this->logger->debug('Etherpad export could not be fetched: ' . $exception->getMessage());
         }

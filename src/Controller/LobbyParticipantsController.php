@@ -29,9 +29,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class LobbyParticipantsController extends JitsiAdminController
 {
     private $toModerator;
-    private $toParticipant;
     private $createLobbyUserService;
-    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         ManagerRegistry                $managerRegistry,
@@ -39,16 +37,12 @@ class LobbyParticipantsController extends JitsiAdminController
         LoggerInterface                $logger,
         ParameterBagInterface          $parameterBag,
         CreateLobbyUserService         $createLobbyUserService,
-        ToParticipantWebsocketService  $toParticipantWebsocketService,
         ToModeratorWebsocketService    $toModeratorWebsocketService,
-        EventDispatcherInterface       $eventDispatcher,
         private EntityManagerInterface $entityManager
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->toModerator = $toModeratorWebsocketService;
-        $this->toParticipant = $toParticipantWebsocketService;
-        $this->eventDispatcher = $eventDispatcher;
         $this->createLobbyUserService = $createLobbyUserService;
     }
 
