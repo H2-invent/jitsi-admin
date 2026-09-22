@@ -36,7 +36,7 @@
     "partitech/php-mistral": "^0.1",
     "php-ffmpeg/php-ffmpeg": "^1.4",
     "phpdocumentor/reflection-docblock": "^5.2",
-    "stevenmaguire/oauth2-keycloak": "^5.1",
+    "stevenmaguire/oauth2-keycloak": "^6.1",
     "symfony/apache-pack": "^1.0",
     "symfony/cache": "^7.4",
     "symfony/config": "^7.4",
