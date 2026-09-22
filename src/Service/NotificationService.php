@@ -33,10 +33,6 @@ class NotificationService
         $this->jigasiService = $jigasiService;
     }
 
-    /**
-     * @param string $url
-     * @param string $method
-     */
     function createIcs(Rooms $rooms, User $user, string $url, string $method = 'REQUEST'): string
     {
         $this->ics = new IcsService();
@@ -94,8 +90,6 @@ class NotificationService
     }
 
     /**
-     * @param string $content
-     * @param string $subject
      * @param array<mixed> $attachement
      */
     function sendNotification(string $content, string $subject, User $user, Server $server, ?Rooms $rooms = null, array $attachement = []): bool
@@ -112,10 +106,6 @@ class NotificationService
     }
 
 
-    /**
-     * @param string $content
-     * @param string $subject
-     */
     function sendCron(string $content, string $subject, User $user, Server $server, Rooms $rooms): bool
     {
         return $this->mailer->sendEmail(

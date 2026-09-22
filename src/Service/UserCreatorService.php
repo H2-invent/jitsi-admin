@@ -26,13 +26,6 @@ class UserCreatorService
         $this->themeService = $themeService;
     }
 
-    /**
-     * @param string $email
-     * @param string|null $userName
-     * @param string|null $firstName
-     * @param string|null $lastName
-     * @param bool $dryrun
-     */
     public function createUser(string $email, ?string $userName, ?string $firstName = null, ?string $lastName = null, bool $dryrun = false): User
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $userName]);

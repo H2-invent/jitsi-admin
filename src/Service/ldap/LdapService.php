@@ -115,9 +115,6 @@ class LdapService
         return $value;
     }
 
-    /**
-     * @return bool|int
-     */
     public function readLdapConfig(): bool|int
     {
         try {
@@ -152,9 +149,6 @@ class LdapService
         }
     }
 
-    /**
-     * @return int
-     */
     public function createLdapConnections(): int
     {
         if (sizeof($this->URL) > 0) {
@@ -207,7 +201,6 @@ class LdapService
 
     /**
      * Try to connect all ldaps with the LDAP server to check if all is working
-     * @return bool
      */
     public function connectToLdap(?SymfonyStyle $io = null): bool
     {
@@ -235,10 +228,6 @@ class LdapService
     }
 
 
-    /**
-     * @param SymfonyStyle $io
-     * @return bool
-     */
     public function initLdap(?SymfonyStyle $io = null): bool
     {
         $this->readLdapConfig();
@@ -246,10 +235,6 @@ class LdapService
         return true;
     }
 
-    /**
-     * @param SymfonyStyle $io
-     * @return bool
-     */
     public function testLdap(?SymfonyStyle $io = null): bool
     {
         return $this->connectToLdap($io);
@@ -257,8 +242,6 @@ class LdapService
 
 
     /**
-     * @param LdapType $ldap
-     * @param bool $dryRun
      * @return array{ldap: LdapType, user: array<int, mixed>|null}
      * @throws \Exception
      */
@@ -299,8 +282,6 @@ class LdapService
      * An array with LDAP elements is send to tis function. this element is then split into elements and we select the
      * attributes which are configured i nthe env.
      * @param Entry[] $entrys
-     * @param bool $dryrun
-     * @return void
      */
     public function setDeputies(array $entrys, bool $dryrun = false): void
     {
@@ -353,9 +334,6 @@ class LdapService
         $this->ldaps = $ldaps;
     }
 
-    /**
-     * @return void
-     */
     public function cleanUpLdapUsers(): void
     {
         foreach ($this->ldaps as $data) {

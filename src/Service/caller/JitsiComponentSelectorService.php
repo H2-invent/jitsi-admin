@@ -19,8 +19,7 @@ class JitsiComponentSelectorService
     private ?string $baseUrl;
     /** @var string|null */
     private $jwt;
-    /** @var mixed */
-    private $publicKey;
+    private mixed $publicKey;
     /** @var string|false */
     private $privateKey;
     /** @var string */
@@ -74,9 +73,6 @@ class JitsiComponentSelectorService
         $this->httpClient = $httpClient;
     }
 
-    /**
-     * @return mixed
-     */
     public function getJwt(): mixed
     {
         return $this->jwt;
@@ -98,11 +94,6 @@ class JitsiComponentSelectorService
     }
 
 
-    /**
-     * @param Rooms $room
-     * @param User $user
-     * @return mixed
-     */
     public function fetchComponentKey(Rooms $room, User $user): mixed
     {
         if (!$this->baseUrl) {
@@ -211,9 +202,6 @@ class JitsiComponentSelectorService
         return $requestData;
     }
 
-    /**
-     * @return string
-     */
     public function createAuthToken(): string
     {
 
@@ -228,10 +216,6 @@ class JitsiComponentSelectorService
         return $this->jwt;
     }
 
-    /**
-     * @param string $token
-     * @return bool
-     */
     public function verifyToken(string $token): bool
     {
 

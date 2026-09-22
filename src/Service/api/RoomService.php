@@ -33,10 +33,6 @@ class RoomService
         $this->userCreatorService = $userCreatorService;
     }
 
-    /**
-     * @param float $duration
-     * @param string $name
-     */
     public function createRoom(User $user, Server $server, \DateTimeImmutable $start, float $duration, ?string $name): Rooms
     {
         // We initialize the Room with the data;
@@ -60,10 +56,6 @@ class RoomService
         return $room;
     }
 
-    /**
-     * @param float $duration
-     * @param string $name
-     */
     public function editRoom(Rooms $room, Server $server, \DateTimeImmutable $start, float $duration, string $name): Rooms
     {
         // We initialize the Room with the data;
@@ -107,7 +99,6 @@ class RoomService
 
 
     /**
-     * @param string $email
      * @return array<string, mixed>
      */
     public function removeUserFromRoom(?Rooms $room, string $email): array
@@ -136,7 +127,6 @@ class RoomService
     }
 
     /**
-     * @param string $email
      * @return array<string, mixed>
      */
     public function addUserToRoom(?Rooms $room, string $email): array

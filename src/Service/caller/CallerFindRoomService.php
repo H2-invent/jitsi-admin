@@ -17,7 +17,6 @@ class CallerFindRoomService
     }
 
     /**
-     * @param string $id
      * @return array<string, mixed>
      */
     public function findRoom(string $id): array

@@ -31,7 +31,6 @@ class LicenseService
 
 
     /**
-     * @param string $licenseString
      * @return array{error: bool, text?: string, licenseKey?: string}
      */
     public function generateNewLicense(string $licenseString): array

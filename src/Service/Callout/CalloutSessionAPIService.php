@@ -46,7 +46,6 @@ class CalloutSessionAPIService
 
     /**
      * This function build the Array which is expected from the API Consumer
-     * @param CalloutSession $calloutSession
      * @return array<string, mixed>|null
      */
     public function buildCallerSessionPoolArray(CalloutSession $calloutSession): ?array
@@ -99,7 +98,6 @@ class CalloutSessionAPIService
     /**
      * This Function searches all CalloutSessions in the Specific State
      * The State is defined in the CalloutSession Class in Static Variables
-     * @param int $state
      * @return CalloutSession[]
      */
     public function findCalloutSessionByState(int $state): array

@@ -169,9 +169,6 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     }
 
 
-    /**
-     * @param string $providerKey
-     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey): ?Response
     {
 

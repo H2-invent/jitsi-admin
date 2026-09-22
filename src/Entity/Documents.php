@@ -40,50 +40,32 @@ class Documents implements \Serializable
     #[ORM\Column(type: 'datetime_immutable')]
     private $updatedAt;
 
-    /**
-     * @return string
-     */
     public function getDocumentFileName(): ?string
     {
         return $this->documentFileName;
     }
 
-    /**
-     * @param string $documentFileName
-     */
     public function setDocumentFileName(?string $documentFileName): void
     {
         $this->documentFileName = $documentFileName;
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    /**
-     * @return File
-     */
     public function getDocumentFile(): ?File
     {
         return $this->documentFile;
     }
 
-    /**
-     * @param File $documentFile
-     */
     public function setDocumentFile(?File $documentFile): void
     {
         $this->documentFile = $documentFile;
     }
 
-    /**
-     * @return \DateTimeImmutable
-     */
     public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param \DateTimeImmutable $updatedAt
-     */
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
@@ -91,12 +73,9 @@ class Documents implements \Serializable
 
     public function __serialize()
     {
-        return array('id'=>$this->getId());
+        return array('id' => $this->getId());
     }
 
-    /**
-     * @param mixed $data
-     */
     public function __unserialize(mixed $data)
     {
         $this->id = $data;
@@ -107,9 +86,6 @@ class Documents implements \Serializable
         return serialize($this->__serialize());
     }
 
-    /**
-     * @param mixed $data
-     */
     public function unserialize(mixed $data): void
     {
         $this->id = $data;

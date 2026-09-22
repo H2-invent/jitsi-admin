@@ -7,10 +7,6 @@ use App\Entity\User;
 
 class UtilsHelper
 {
-    /**
-     * @param string $urlString
-     * @return string|null
-     */
     public static function slugify(string $urlString): ?string
     {
         $slug = preg_replace("/[^a-zA-Z0-9 ]/", "", strtolower($urlString));
@@ -19,10 +15,6 @@ class UtilsHelper
         return $slug;
     }
 
-    /**
-     * @param string $urlString
-     * @return string|null
-     */
     public static function slugifyWithDot(string $urlString): ?string
     {
         $slug = preg_replace("/[^a-zA-Z0-9. ]/", "", strtolower($urlString));
@@ -31,10 +23,6 @@ class UtilsHelper
         return $slug;
     }
 
-    /**
-     * @param int $length
-     * @return string
-     */
     public static function readableRandomString(int $length = 6): string
     {
         $nouns = [

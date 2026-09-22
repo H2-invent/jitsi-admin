@@ -35,17 +35,11 @@ class JitsiAdminController extends AbstractController
         return $user instanceof User ? $user : null;
     }
 
-    /**
-     * @return LoggerInterface
-     */
     public function getLogger(): LoggerInterface
     {
         return $this->logger;
     }
 
-    /**
-     * @return ManagerRegistry
-     */
     public function getDoctrine(): ManagerRegistry
     {
         return $this->doctrine;

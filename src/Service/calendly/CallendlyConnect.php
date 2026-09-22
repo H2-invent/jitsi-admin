@@ -152,7 +152,6 @@ class CallendlyConnect
     }
 
     /**
-     * @param string $webhookId
      * @return array<mixed>
      */
     public function cleanWebhooks(

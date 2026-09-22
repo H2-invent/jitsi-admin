@@ -51,7 +51,6 @@ class CallerSessionService
     }
 
     /**
-     * @param string|null $sessionId
      * @return array<string, mixed>
      */
     public function getSessionStatus(?string $sessionId): array

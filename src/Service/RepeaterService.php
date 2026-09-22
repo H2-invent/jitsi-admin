@@ -46,8 +46,6 @@ class RepeaterService
     }
 
     /**
-     * @param Repeat $repeat
-     * @return Repeat
      * @author Emanuel Holzmann
      */
     function createNewRepeater(Repeat $repeat): Repeat
@@ -86,8 +84,6 @@ class RepeaterService
 
 
     /**
-     * @param Repeat $repeat
-     * @return Repeat
      * @author Emanuel Holzmann
      */
     function createDaily(Repeat $repeat): Repeat
@@ -109,8 +105,6 @@ class RepeaterService
     }
 
     /**
-     * @param Repeat $repeat
-     * @return Repeat
      * @author Emanuel Holzmann
      */
     function createWeekly(Repeat $repeat): Repeat
@@ -132,8 +126,6 @@ class RepeaterService
     }
 
     /**
-     * @param Repeat $repeat
-     * @return Repeat
      * @author Emanuel Holzmann
      */
     function createMontly(Repeat $repeat): Repeat
@@ -155,8 +147,6 @@ class RepeaterService
     }
 
     /**
-     * @param Repeat $repeat
-     * @return Repeat
      * @author Emanuel Holzmann
      */
     function createMontlyRelative(Repeat $repeat): Repeat
@@ -197,8 +187,6 @@ class RepeaterService
     }
 
     /**
-     * @param Repeat $repeat
-     * @return Repeat
      * @author Emanuel Holzmann
      */
     function createYearly(Repeat $repeat): Repeat
@@ -219,8 +207,6 @@ class RepeaterService
 
     /**
      * This function creates yearly relative roomy for a repeater
-     * @param Repeat $repeat
-     * @return Repeat
      * @author Emanuel Holzmann
      */
     function createYearlyRelative(Repeat $repeat): Repeat
@@ -261,10 +247,6 @@ class RepeaterService
 
     /**
      * This function clones the prototype and sets all paramters which are necesarry
-     * @param Rooms $prototype
-     * @param Repeat $repeat
-     * @param \DateTimeImmutable $start
-     * @return Rooms
      * @author Emanuel Holzmann
      */
     function createClonedRoom(Rooms $prototype, Repeat $repeat, \DateTimeImmutable $start): Rooms
@@ -291,8 +273,6 @@ class RepeaterService
 
     /**
      * This function takes a new room and sets the new room as prototype in the repeater series which it belongs to.
-     * @param Rooms $rooms
-     * @return string
      * @author Emanuel Holzmann
      */
     public function replaceRooms(Rooms $rooms): string
@@ -313,7 +293,6 @@ class RepeaterService
     }
 
     /**
-     * @param Rooms $rooms
      * @return Repeat|null
      * This function Prepares the repeater to have the new startdate
      */
@@ -333,11 +312,7 @@ class RepeaterService
 
     /**
      * this function sends an email with the changes series
-     * @param Repeat $repeat
-     * @param string $template
-     * @param string $subject
      * @param array<string, mixed> $templateAttr
-     * @param string $method
      * @param array<User>|Collection<int, User> $users
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -369,10 +344,6 @@ class RepeaterService
 
     /**
      * this function creates the ICS for the series. this is a new calendar
-     * @param Repeat $repeat
-     * @param User $user
-     * @param string $method
-     * @return string
      * @author Emanuel Holzmann
      */
     private function createIcs(Repeat $repeat, User $user, string $method = 'REQUEST'): string
@@ -476,7 +447,6 @@ class RepeaterService
 
     /**
      *
-     * @param Repeat $repeat
      * @author Emanuel Holzmann
      */
     public
@@ -515,8 +485,6 @@ class RepeaterService
     }
 
     /**
-     * @param Repeat $repeat
-     * @return bool
      * @author Emanuel Holzmann
      */
     public
@@ -567,10 +535,6 @@ class RepeaterService
         return true;
     }
 
-    /**
-     * @param Repeat $repeater
-     * @return Repeat
-     */
     public
     function cleanRepeater(Repeat $repeater): Repeat
     {
@@ -614,7 +578,6 @@ class RepeaterService
     }
 
     /**
-     * @param Repeat $repeat
      * @return void
      * This Function creates the caller Id for each Room which is generated in the Repeater Session
      */

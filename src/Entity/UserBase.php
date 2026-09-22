@@ -39,12 +39,9 @@ class UserBase implements UserInterface
         return $this->uuid;
     }
 
-    /**
-     * @return string
-     */
     public function getUserIdentifier(): string
     {
-        return $this->uuid;
+        return (string)$this->uuid;
     }
 
     /**

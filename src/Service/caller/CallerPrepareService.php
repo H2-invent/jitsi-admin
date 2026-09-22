@@ -23,7 +23,6 @@ class CallerPrepareService
 
     /**
      * This Function creates Caller Ids for all Rooms and all USers which are participants in the rooms
-     * @return void
      */
     public function prepareCallerId(): void
     {
@@ -67,7 +66,6 @@ class CallerPrepareService
     /**
      * Adds a caller Room Id to the given Room
      * @param Rooms $rooms Room to check if the room has a caller Id and if not then add a caller Id
-     * @return CallerRoom|null
      */
     public function addCallerIdToRoom(Rooms $rooms): ?CallerRoom
     {
@@ -87,8 +85,6 @@ class CallerPrepareService
 
     /**
      * generates the random Caller ID. The Function checks if the caller Id is already used
-     * @param int $max
-     * @return string
      */
     public function generateRoomId(int $max): string
     {
@@ -103,7 +99,6 @@ class CallerPrepareService
     }
 
     /**
-     * @param string $random
      * @return bool
      * Checks if the random Id is already used
      */
@@ -132,7 +127,6 @@ class CallerPrepareService
 
     /**
      * Generates callerId for a given Room
-     * @param Rooms $rooms
      * @return Collection<int, CallerId>
      */
     public function createUserCallerIDforRoom(Rooms $rooms): Collection
@@ -157,8 +151,6 @@ class CallerPrepareService
 
     /**
      * Generates callerId for a given Room
-     * @param Repeat $repeat
-     * @return void
      */
     public function createUserCallerIDforRepeater(Repeat $repeat): void
     {
@@ -185,9 +177,6 @@ class CallerPrepareService
 
     /**
      * Creates the unique Caller PIN for this it needs the room to search if no other user has the same caller Id
-     * @param Rooms $rooms
-     * @param int $max
-     * @return string
      */
     public function generateCallerUserId(Rooms $rooms, int $max): string
     {
@@ -203,9 +192,6 @@ class CallerPrepareService
 
     /**
      * CHecks if the id is already added to the room
-     * @param string $random
-     * @param Rooms $rooms
-     * @return bool
      */
     public function checkRandomCallerUserId(string $random, Rooms $rooms): bool
     {

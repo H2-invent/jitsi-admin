@@ -50,7 +50,6 @@ class CallerRoomRepository extends ServiceEntityRepository
     }
     */
     /**
-     * @param int|string $now
      * @return CallerRoom[]
      */
     public function findPastRoomsWithCallerId(int|string $now): array

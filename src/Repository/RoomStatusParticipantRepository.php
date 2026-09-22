@@ -53,7 +53,6 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
     */
 
     /**
-     * @param Rooms $room
      * @return RoomStatusParticipant[]
      */
     public function findOccupantsOfRoom(Rooms $room): array
@@ -112,7 +111,6 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Server $server
      * @return RoomStatusParticipant[] Returns an array of RoomStatusParticipant objects
      */
     public function findParticipantsByServer(Server $server, \DateTimeImmutable $startDate, \DateTimeImmutable $endDate): array

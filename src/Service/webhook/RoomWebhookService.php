@@ -242,9 +242,6 @@ class RoomWebhookService
         return null;
     }
 
-    /**
-     * @param string $joinedAt
-     */
     public function roomParticipantJoin(
         ?bool   $isBreakout,
         ?string $breakoutRoomName,

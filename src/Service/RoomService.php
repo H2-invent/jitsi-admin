@@ -58,11 +58,6 @@ class RoomService
 
     /**
      * Creates the JWT Token to send to the Information of the User to the jitsi-Meet Server
-     * @param Rooms $room
-     * @param User $user
-     * @param string $t
-     * @param string $userName
-     * @return string
      * @author Emanuel Holzmann
      * @de
      */
@@ -85,11 +80,6 @@ class RoomService
 
     /**
      * Creates the JWT Token to send to the Information of the User to the jitsi-Meet Server
-     * @param string $t
-     * @param Rooms $room
-     * @param string $name
-     * @param bool $isModerator
-     * @return string
      * @author Emanuel Holzmann
      * @de
      */
@@ -98,15 +88,6 @@ class RoomService
         return $this->createUrl($t, $room, $isModerator, null, $name);
     }
 
-    /**
-     * @param string $t
-     * @param Rooms $room
-     * @param bool $isModerator
-     * @param User|null $user
-     * @param string $userName
-     * @param string|null $avatar
-     * @return string
-     */
     public
     function createUrl(string $t, Rooms $room, bool $isModerator, ?User $user, string $userName, ?string $avatar = null): string
     {
@@ -131,18 +112,6 @@ class RoomService
         return $url;
     }
 
-    /**
-     * @param Rooms $room
-     * @param User|null $user
-     * @param string $userName
-     * @param bool $moderatorExplizit
-     * @param string|null $avatarUrl
-     * @param bool|string $noModerator
-     * @param bool|string|null $skipLobby
-     * @param bool|string|null $enableMic
-     * @param bool|string|null $enableCamera
-     * @return string
-     */
     public
     function generateJwt(Rooms $room, ?User $user, string $userName, bool $moderatorExplizit = false, ?string $avatarUrl = null, bool|string $noModerator=false, bool|string|null $skipLobby=false, bool|string|null $enableMic=null,bool|string|null $enableCamera=null): string
     {
@@ -170,17 +139,6 @@ class RoomService
     }
 
     /**
-     * @param string $userName
-     * @param Rooms $room
-     * @param Server $server
-     * @param bool $moderator
-     * @param User|null $user
-     * @param string|null $avatar
-     * @param bool|string $noModerator
-     * @param bool|string|null $skipLobby
-     * @param bool|string|null $enableMic
-     * @param bool|string|null $enableCamera
-     * @param bool $lobbyModerator
      * @return array<string, mixed>|null
      */
     public

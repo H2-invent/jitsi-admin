@@ -31,8 +31,6 @@ class RoomAddService
     /**
      * This functions creates participants from a string with new lines.
      * The Function splits the String on newline and then sends each line into the create participant function
-     * @param string $input
-     * @param Rooms $room
      * @return array<int, string>
      */
     public function createParticipants(string $input, Rooms $room, ?User $inviter = null): array
@@ -70,9 +68,6 @@ class RoomAddService
         return $falseEmail;
     }
 
-    /**
-     * @param string $userId
-     */
     public function createSingleParticipantAndAddtoRoom(string $userId, ?User $inviter, Rooms $room):?User
     {
         $invalidEmail = [];
@@ -91,8 +86,6 @@ class RoomAddService
     /**
      * Creates a moderator participant from a string.
      * The participant is first created a a normal participant and then upgraded to a moderator
-     * @param string $input
-     * @param Rooms $room
      * @return array<int, string>
      */
     public function createModerators(string $input, Rooms $room, ?User $inviter = null): array
@@ -123,9 +116,7 @@ class RoomAddService
      * This function creates a user from a given uid.
      * The given uid is mostly a email. can be a username.
      * If allowed a user is created when not in the database. this can be disabled.
-     * @param string $email
      * @param array<int, string> $falseEmails
-     * @return User|null
      */
     public function createUserFromUserUid(string $email, array &$falseEmails): ?User
     {
@@ -154,8 +145,6 @@ class RoomAddService
     /**
      * This function generates a participant from a room and user.
      * Is adds the user to the room if it is a non series and adds the user to the series, if the room is a series
-     * @param Rooms $room
-     * @param User $user
      * @return User The user which is connected to the room
      */
     private function createUserParticipant(Rooms $room, User $user): User
@@ -171,9 +160,6 @@ class RoomAddService
 
     /**
      * This adds a user to a room and sends the email to all participants
-     * @param User $user
-     * @param Rooms $room
-     * @return void
      */
     public function addUserOnlytoOneRoom(User $user, Rooms $room): void
     {
@@ -184,11 +170,6 @@ class RoomAddService
         }
     }
 
-    /**
-     * @param User $user
-     * @param Rooms $room
-     * @return User
-     */
     public function addUSerToSeries(User $user, Rooms $room): User
     {
         $prototype = $room->getRepeater()->getPrototyp();
@@ -201,9 +182,6 @@ class RoomAddService
 
     /**
      * Adds the user in the addressbook of the inviter/roommoderator
-     * @param User $inviter
-     * @param User $invited
-     * @return void
      */
     public function addUserToAdressbook(User $inviter, User $invited): void
     {
@@ -215,9 +193,6 @@ class RoomAddService
     /**
      * Removes a user from a room. The function checks if the room is a series or a non series.
      * If the room is a series, the participant is removed from all rooms in the series
-     * @param User $user
-     * @param Rooms $rooms
-     * @return void
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -234,9 +209,6 @@ class RoomAddService
 
     /**
      * This function removes the participant from a series
-     * @param Rooms $rooms
-     * @param User $user
-     * @return void
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -262,9 +234,6 @@ class RoomAddService
 
     /**
      * Removes the participant from a room. the participant is only removed from one room. even if the room is from a series.
-     * @param Rooms $rooms
-     * @param User $user
-     * @return void
      */
     public function removeUserFromRoomNoRepeat(Rooms $rooms, User $user): void
     {
@@ -291,9 +260,6 @@ class RoomAddService
 
     /**
      * Removes the permission entity.
-     * @param User $user
-     * @param Rooms $rooms
-     * @return void
      */
     private function removeRoomUser(User $user, Rooms $rooms): void
     {

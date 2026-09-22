@@ -56,11 +56,6 @@ class SipTrunkGenerator
         $this->server = $server;
     }
 
-    /**
-     * @param Rooms $rooms
-     * @param string $callerId
-     * @return string|null
-     */
     public function createNewSIPNumber(Rooms $rooms, string $callerId): ?string
     {
         try {
@@ -74,12 +69,6 @@ class SipTrunkGenerator
         return null;
     }
 
-    /**
-     * @param Server $server
-     * @param Rooms $rooms
-     * @param string $callerId
-     * @return string|null
-     */
     public function generateSipTrunk(Server $server, Rooms $rooms, string $callerId): ?string
     {
         $this->rooms = $rooms;
@@ -136,7 +125,6 @@ class SipTrunkGenerator
     /**
      * Führt einen GET-Request gegen die API der Server-URL aus.
      *
-     * @param Server $server
      * @param string $endpoint Der spezifische Endpunkt, der angesprochen werden soll.
      * @param array<string, mixed> $payload Zusätzliche Parameter, die an die Anfrage angehängt werden.
      * @return array<string, mixed>|null Gibt die Antwortdaten als Array zurück oder null bei Fehlern.

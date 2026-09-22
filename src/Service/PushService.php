@@ -21,12 +21,6 @@ class PushService
         $this->directSend = $directSend;
     }
 
-    /**
-     * @param string $title
-     * @param string $text
-     * @param string|null $url
-     * @param string $id
-     */
     function generatePushNotification(string $title, string $text, User $user, ?string $url = null, string $id = '0x00'): bool
     {
         $topic = 'personal/' . $user->getUid();

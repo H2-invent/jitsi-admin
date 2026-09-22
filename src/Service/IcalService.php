@@ -103,18 +103,12 @@ class IcalService
         return $ics->toString();
     }
 
-    /**
-     * @return mixed
-     */
     public
     function getRooms(): mixed
     {
         return $this->rooms;
     }
 
-    /**
-     * @param mixed $rooms
-     */
     public
     function setRooms(mixed $rooms): void
     {

@@ -42,11 +42,6 @@ class CustomMailerMessageDispatcher
         }
     }
 
-    /**
-     * @param string $to
-     * @param string $wrongEmail
-     * @param string $error
-     */
     private function sendNotdelivery(?Rooms $room, string $to, string $wrongEmail, string $error): void
     {
         /** @var string $sender */

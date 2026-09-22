@@ -12,11 +12,6 @@ class CheckIPService
     {
     }
 
-    /**
-     * @param string $ipToCheck
-     * @param string|null $ipRange
-     * @return bool
-     */
     function isIPInRange(string $ipToCheck, ?string $ipRange): bool
     {
 

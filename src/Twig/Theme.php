@@ -33,10 +33,6 @@ class Theme extends AbstractExtension
         return $this->themeService->getTheme($rooms);
     }
 
-    /**
-     * @param string $input
-     * @return mixed
-     */
     public function getApplicationProperties(string $input): mixed
     {
         return $this->themeService->getApplicationProperties($input);

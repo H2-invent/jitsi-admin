@@ -36,10 +36,6 @@ class LdapUserService
 
     /**
      * This function retrieves the user
-     * @param Entry $entry
-     * @param LdapType $ldapType
-     * @param bool $dryRun
-     * @return User|null
      */
     public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType, bool $dryRun = false): ?User
     {
@@ -142,7 +138,6 @@ class LdapUserService
 
     /**
      * returns all valid users from the database which are in the ldap and the Database
-     * @param LdapType $ldapType
      */
     public function syncDeletedUser(LdapType $ldapType): void
     {
@@ -176,8 +171,6 @@ class LdapUserService
 
     /**
      * Search for the USer in LDAP
-     * @param User $user
-     * @param LdapType $ldap
      */
     public function checkUserInLdap(User $user, LdapType $ldap): ?Entry
     {
@@ -230,7 +223,6 @@ class LdapUserService
 
     /**
      * Delete User and remove all Addressbooks entrys
-     * @param User $user
      */
     public function deleteUser(User $user): void
     {

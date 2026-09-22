@@ -23,7 +23,6 @@ class PexelService
     public function getImageFromPexels(): ?array
     {
         $image = null;
-        /** @var mixed $noExternal */
         $noExternal = $this->parameterBag->get('enterprise_noExternal');
         if ($this->parameterBag->get('laF_pexel_api_key') !== '' && $noExternal == 0) {
             try {

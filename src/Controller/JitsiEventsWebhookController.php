@@ -19,9 +19,6 @@ class JitsiEventsWebhookController extends JitsiAdminController
     private string $token;
     private RoomWebhookService $webhookService;
 
-    /**
-     * @param ParameterBagInterface $parameterBag
-     */
     public function __construct(
         ManagerRegistry       $managerRegistry,
         TranslatorInterface   $translator,

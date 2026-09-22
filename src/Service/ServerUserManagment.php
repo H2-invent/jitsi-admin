@@ -28,7 +28,6 @@ class ServerUserManagment
     }
 
     /**
-     * @param User $user
      * @return Server[]
      * Return the Server for an User. This can be
      * individual server

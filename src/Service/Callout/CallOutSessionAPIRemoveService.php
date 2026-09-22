@@ -29,7 +29,6 @@ class CallOutSessionAPIRemoveService
     }
 
     /**
-     * @param string|null $sessionId
      * @return array<string, mixed>
      * the user refuse the call
      * the session is removed and a message is send to the lobbymoderator
@@ -52,7 +51,6 @@ class CallOutSessionAPIRemoveService
     }
 
     /**
-     * @param string|null $sessionId
      * @return array<string, mixed>
      * An error occurred during calling a invited participant
      */
@@ -74,7 +72,6 @@ class CallOutSessionAPIRemoveService
     }
 
     /**
-     * @param string|null $sessionId
      * @return array<string, mixed>
      * The phone is not reachable.
      * The inviter is informed about the unreachable of the invited phone
@@ -99,8 +96,6 @@ class CallOutSessionAPIRemoveService
 
 
     /**
-     * @param CalloutSession|null $calloutSession
-     * @param string $message
      * @return array<string, mixed>
      * This is a generic function to remove the callout session
      */
@@ -120,8 +115,6 @@ class CallOutSessionAPIRemoveService
     }
 
     /**
-     * @param Rooms $room
-     * @param string $message
      * @return void
      * This function sends a refuse message to the lobbymoderator
      */

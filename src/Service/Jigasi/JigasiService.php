@@ -27,9 +27,6 @@ class JigasiService
         $this->client = $client;
     }
 
-    /**
-     * @return mixed
-     */
     public function getNumber(?Rooms $rooms): mixed
     {
         if (!$rooms) {
@@ -53,9 +50,6 @@ class JigasiService
         return null;
     }
 
-    /**
-     * @return mixed
-     */
     public function getRoomPin(?Rooms $rooms): mixed
     {
         if (!$rooms) {

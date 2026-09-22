@@ -19,9 +19,6 @@ class SipCallIn extends AbstractExtension
         ];
     }
 
-    /**
-     * @return CallerId|null
-     */
     public function sipPinFromRoomAndUser(Rooms $rooms, User $user): ?CallerId
     {
         foreach ($user->getCallerIds() as $data) {

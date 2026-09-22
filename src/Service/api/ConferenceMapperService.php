@@ -34,8 +34,6 @@ class ConferenceMapperService
     }
 
     /**
-     * @param string $apiKey
-     * @param string|null $callerId
      * @return array<string, mixed>
      */
     public function checkConference(?CallerRoom $callerRoom, string $apiKey, ?string $callerId): array
@@ -90,9 +88,6 @@ class ConferenceMapperService
         return  $res;
     }
 
-    /**
-     * @param string $callerId
-     */
     public function findNameFromCallerId(string $callerId): ?User
     {
         $this->logger->debug('Caller id fetched to find user', ['callerid' => $callerId]);

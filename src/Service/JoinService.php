@@ -47,13 +47,6 @@ class JoinService
 
     /**
      * @param array<string, mixed> $search
-     * @param string $snack
-     * @param string $color
-     * @param bool $appAllowed
-     * @param bool|null $appKlicked
-     * @param bool $browerAllowed
-     * @param bool|null $browserKlicked
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException|null
      */
     public function join(array $search, string &$snack, string &$color, bool $appAllowed, ?bool $appKlicked, bool $browerAllowed, ?bool $browserKlicked): RedirectResponse|\Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException|null
     {
@@ -116,7 +109,6 @@ class JoinService
     function onlyWithUserAccount(?Rooms $room): bool
     {
         if ($room) {
-            /** @var mixed $onlyRegistered */
             $onlyRegistered = $this->parameterBag->get('laF_onlyRegisteredParticipents');
             return $onlyRegistered == 1 || //only registered Users globally set
                 $room->getOnlyRegisteredUsers();
