@@ -180,11 +180,11 @@
     ],
     "test-repeater": [
       "@test-prepare",
-      " php vendor/bin/phpunit --testsuite=onlyRepeater"
+      "php vendor/bin/phpunit --testsuite=onlyRepeater"
     ],
     "test-complete": [
       "@test-prepare",
-      " php vendor/bin/phpunit --testsuite=Complete"
+      "php vendor/bin/phpunit --testsuite=Complete"
     ],
     "test-complete-parallel": "./runTestsParallel.sh --force --testsuite Complete",
     "test-complete-parallel-reusedb": "./runTestsParallel.sh --testsuite Complete",
