@@ -11,6 +11,7 @@ use App\Service\UserPreferenceProvider;
 use DG\BypassFinals;
 use Firebase\JWT\JWT;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -33,7 +34,7 @@ final class JWTGenerateTest extends TestCase
     {
 
         $this->themeService = $this->createMock(ThemeService::class);
-        $userPreferences = $this->createMock(UserPreferenceProvider::class);
+        $userPreferences = $this->createStub(UserPreferenceProvider::class);
         $userPreferences
             ->method('getLanguage')
             ->willReturn('de');
@@ -45,14 +46,14 @@ final class JWTGenerateTest extends TestCase
             ->willReturn('dark');
 
         $this->roomService = new RoomService(
-            $this->createMock(UploaderHelper::class),
-            $this->createMock(LoggerInterface::class),
-            $this->createMock(ParameterBagInterface::class),
-            $this->createMock(CacheInterface::class),
-            $this->createMock(HttpClientInterface::class),
-            $this->createMock(SluggerInterface::class),
+            $this->createStub(UploaderHelper::class),
+            $this->createStub(LoggerInterface::class),
+            $this->createStub(ParameterBagInterface::class),
+            $this->createStub(CacheInterface::class),
+            $this->createStub(HttpClientInterface::class),
+            $this->createStub(SluggerInterface::class),
             $userPreferences,
-            $this->createMock(LivekitRoomNameGenerator::class),
+            $this->createStub(LivekitRoomNameGenerator::class),
             $this->themeService,
         );
     }
@@ -106,7 +107,10 @@ final class JWTGenerateTest extends TestCase
     {
         [$room, $server] = $this->createRoomAndServer();
 
-
+        $this->themeService
+            ->expects(self::exactly(2))
+            ->method('getThemeProperty')
+            ->willReturn(null);
 
         $payload = $this->roomService->genereateJwtPayload(
             'Ada Lovelace',
@@ -176,11 +180,11 @@ final class JWTGenerateTest extends TestCase
     }
 
     /**
-     * @return array{0: Rooms&MockObject, 1: Server&MockObject}
+     * @return array{0: Rooms&Stub, 1: Server&Stub}
      */
     private function createRoomAndServer(): array
     {
-        $server = $this->createMock(Server::class);
+        $server = $this->createStub(Server::class);
         $server->method('getAppId')->willReturn(self::APP_ID);
         $server->method('getAppSecret')->willReturn(self::APP_SECRET);
         $server->method('getUrl')->willReturn('https://meet.example.test');
@@ -189,7 +193,7 @@ final class JWTGenerateTest extends TestCase
         $server->method('getJwtModeratorPosition')->willReturn(0);
         $server->method('getFeatureEnableByJWT')->willReturn(false);
 
-        $room = $this->createMock(Rooms::class);
+        $room = $this->createStub(Rooms::class);
         $room->method('getServer')->willReturn($server);
         $room->method('getUid')->willReturn('room-123');
         $room->method('getName')->willReturn('Architecture Review');
