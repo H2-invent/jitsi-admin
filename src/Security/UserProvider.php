@@ -18,7 +18,6 @@ class UserProvider implements UserProviderInterface
 
     /**
      * UserProvider constructor.
-     * @param EntityManagerInterface $entityManager
      * @internal param Client $httpClient
      * @internal param UserOptionService $userOptionService
      * @internal param ProjectService $projectService
@@ -60,8 +59,6 @@ class UserProvider implements UserProviderInterface
      * object can just be merged into some internal array of users/identity
      * map.
      *
-     * @param UserInterface $user
-     * @return UserInterface
      *
      */
     public function refreshUser(UserInterface $user): UserInterface
@@ -77,9 +74,7 @@ class UserProvider implements UserProviderInterface
     /**
      * Whether this provider supports the given user class.
      *
-     * @param string $class
      *
-     * @return bool
      */
     public function supportsClass(string $class): bool
     {

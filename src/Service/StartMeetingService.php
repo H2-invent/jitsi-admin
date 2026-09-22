@@ -93,9 +93,6 @@ class StartMeetingService
     }
 
     /**
-     * @param string|null $t
-     * @param string|null $name
-     * @return RedirectResponse|Response|NotFoundHttpException
      * @throws \Exception
      * This function check if the user is allowed to enter the meeting
      * this function checks if the meeting is already started or if it is too late or to early
@@ -142,10 +139,6 @@ class StartMeetingService
         return null;
     }
 
-    /**
-     * @param string|null $t
-     * @param string|null $name
-     */
     public function setAttribute(Rooms $rooms, ?User $user, ?string $t, ?string $name): void
     {
         $this->room = $rooms;
@@ -155,7 +148,6 @@ class StartMeetingService
     }
 
     /**
-     * @return RedirectResponse|Response
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -171,7 +163,6 @@ class StartMeetingService
     }
 
     /**
-     * @return string|Response
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -206,8 +197,6 @@ class StartMeetingService
     }
 
     /**
-     * @param string|null $wuid
-     * @return Response
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -279,7 +268,6 @@ class StartMeetingService
     }
 
     /**
-     * @return RedirectResponse|Response|NotFoundHttpException
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError

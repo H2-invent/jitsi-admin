@@ -35,9 +35,6 @@ class UserNewRoomAddService
 
     /**
      * we have a not sheduled meeting. So the participabts are getting invited directly
-     * @param User $user
-     * @param Rooms $room
-     * @return bool
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -70,9 +67,6 @@ class UserNewRoomAddService
 
     /**
      * we have a persistant Room. So the participabts are getting invited directly
-     * @param User $user
-     * @param Rooms $room
-     * @return bool
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -103,9 +97,6 @@ class UserNewRoomAddService
 
     /**
      * we have a shedule Meting. the participants only got a link to shedule their appointments
-     * @param User $user
-     * @param Rooms $room
-     * @return bool
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -135,9 +126,6 @@ class UserNewRoomAddService
 
     /**
      * we have a not sheduled meeting. So the participabts are getting invited directly
-     * @param User $user
-     * @param Rooms $room
-     * @return bool
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError

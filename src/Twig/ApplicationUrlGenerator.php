@@ -49,11 +49,6 @@ class ApplicationUrlGenerator extends AbstractExtension
         }
     }
 
-    /**
-     * @param Rooms $rooms
-     * @param bool $moderator
-     * @return string
-     */
     public function createWhitebophirLink(Rooms $rooms, bool $moderator = false): string
     {
 

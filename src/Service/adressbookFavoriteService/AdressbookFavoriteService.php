@@ -22,9 +22,6 @@ class AdressbookFavoriteService
     }
 
     /**
-     * @param User $addUser
-     * @param User $favoriteUser
-     * @return bool
      * @throws UserNotInAdressbookException
      */
     public function addFavorite(User $addUser, User $favoriteUser): bool
@@ -41,11 +38,6 @@ class AdressbookFavoriteService
         return true;
     }
 
-    /**
-     * @param User $addUser
-     * @param User $favoriteUser
-     * @return bool
-     */
     public function removeFavorite(User $addUser, User $favoriteUser): bool
     {
         if (!$addUser->getAdressbookFavorites()->contains($favoriteUser)) {
@@ -58,8 +50,6 @@ class AdressbookFavoriteService
     }
 
     /**
-     * @param User $addUser
-     * @param User $favoriteUser
      * @return array<int, string>
      */
     public function userFavorite(User $addUser, User $favoriteUser): array

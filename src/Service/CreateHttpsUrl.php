@@ -29,11 +29,6 @@ class CreateHttpsUrl
         $this->paramterBag = $paramterBag;
     }
 
-    /**
-     * @param string $url
-     * @param Rooms|null $rooms
-     * @return string
-     */
     public function createHttpsUrl(string $url, ?Rooms $rooms = null): string
     {
         if (str_contains($url, $this->baseUrl)) {
@@ -62,11 +57,6 @@ class CreateHttpsUrl
         }
     }
 
-    /**
-     * @param string $baseUrl
-     * @param string $url
-     * @return string
-     */
     public function generateAbsolutUrl(string $baseUrl, string $url = ''): string
     {
         $isStrictHttps = str_contains($this->baseUrl, 'https://');
@@ -78,10 +68,6 @@ class CreateHttpsUrl
         return str_replace('http://', 'https://', $res);
     }
 
-    /**
-     * @param string $url
-     * @return string
-     */
     public function replaceSchemeOfAbsolutUrl(string $url): string
     {
         $baseUrl = $this->paramterBag->get('laF_baseUrl');
@@ -93,11 +79,6 @@ class CreateHttpsUrl
         return $this->replaceProtocol($url, $scheme);
     }
 
-    /**
-     * @param string $url
-     * @param string $newProtocol
-     * @return string
-     */
     private function replaceProtocol(string $url, string $newProtocol): string
     {
         $oldProtocol = parse_url($url, PHP_URL_SCHEME);

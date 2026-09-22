@@ -15,9 +15,6 @@ class ServerStarView extends AbstractExtension
         ];
     }
 
-    /**
-     * @return float|int
-     */
     public function showAverageStar(\App\Entity\Server $server): float|int
     {
         $star = 0;

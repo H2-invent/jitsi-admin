@@ -26,7 +26,6 @@ class EgressService
     }
 
     /**
-     * @param string $template
      * @return array{error: bool, message?: string, recordingId?: string|null}
      */
     public function startEgress(Rooms $rooms, User $user, string $template): array

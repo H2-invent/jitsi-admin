@@ -35,10 +35,6 @@ class IndexController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
     #[Route(path: '/', name: 'index')]
     public function index(Request $request): RedirectResponse|Response
     {

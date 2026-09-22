@@ -41,7 +41,6 @@ class ParticipantSearchService
 
     /**
      * @param User[] $user
-     * @param string $searchString
      * @return array<int, array<string, mixed>>
      */
     public function generateUserwithEmptyUser(array $user, string $searchString): array
@@ -136,7 +135,6 @@ class ParticipantSearchService
 
     /**
      * @param array<int, string> $inputArr
-     * @param string $role
      * @return array<int, string>
      */
     public function removeRoleFromArray(array $inputArr, string $role): array

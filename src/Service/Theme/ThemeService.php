@@ -40,9 +40,6 @@ class ThemeService
         $this->cache = $filesystemAdapter;
     }
 
-    /**
-     * @return mixed
-     */
     public function getTheme(?Rooms $room = null): mixed
     {
         if ($room) {
@@ -117,10 +114,6 @@ class ThemeService
         return false;
     }
 
-    /**
-     * @param string $property
-     * @return mixed
-     */
     public function getThemeProperty(string $property): mixed
     {
         $theme = $this->getTheme();
@@ -130,10 +123,6 @@ class ThemeService
         return null;
     }
 
-    /**
-     * @param string $input
-     * @return mixed
-     */
     public function getApplicationProperties(string $input): mixed
     {
 

@@ -30,7 +30,6 @@ class WebsocketJwt extends AbstractExtension
 
     /**
      * @param array<int, string> $rooms
-     * @return string
      */
     public function getJwtforWebsocket(array $rooms, ?User $user): string
     {

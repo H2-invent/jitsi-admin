@@ -23,7 +23,6 @@ class CronService
     }
 
     /**
-     * @param Request $request
      * @return array<string, mixed>|false
      */
     function check(Request $request): array|bool

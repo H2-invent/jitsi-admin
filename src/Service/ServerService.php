@@ -42,10 +42,6 @@ class ServerService
 
         return true;
     }
-    /**
-     * @param string $urlString
-     * @return string|null
-     */
     function makeSlug(string $urlString): ?string
     {
         $counter = 0;

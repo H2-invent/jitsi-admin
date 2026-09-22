@@ -27,10 +27,6 @@ class CalloutService
 
     /**
      * Starts the Callout Session Process.
-     * @param Rooms $rooms
-     * @param User $user
-     * @param User $inviter
-     * @return CalloutSession|null
      */
     public
     function initCalloutSession(Rooms $rooms, User $user, User $inviter): ?CalloutSession
@@ -42,10 +38,6 @@ class CalloutService
 
     /**
      * Creates a new CalloutSession and rings the calles user, if this user online and propably not a phone user
-     * @param Rooms $rooms
-     * @param User $user
-     * @param User $inviter
-     * @return CalloutSession|null
      */
     public
     function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
@@ -107,9 +99,6 @@ class CalloutService
 
     /**
      * checks is the callout session is already astablished
-     * @param Rooms $rooms
-     * @param User $user
-     * @return CalloutSession|null
      */
     public
     function checkCallout(Rooms $rooms, User $user): ?CalloutSession
@@ -120,9 +109,6 @@ class CalloutService
 
     /**
      * checks if a callInSession is running
-     * @param Rooms $rooms
-     * @param User $user
-     * @return CallerSession|null
      */
     public function checkCallIn(Rooms $rooms, User $user): ?CallerSession
     {
@@ -135,8 +121,6 @@ class CalloutService
     /**
      * chechks either the user is alles to be called. is is done by check the env variable with the LDAP user properties
      * and the corresponding spezial fields, which are loaded from the ldap
-     * @param User|null $user
-     * @return bool
      */
     public
     function isAllowedToBeCalled(?User $user): bool
@@ -146,8 +130,6 @@ class CalloutService
 
     /**
      * checks if the user is already invited or is already in the lobby
-     * @param User|null $user
-     * @return bool
      */
     public
     function isalreadyInTheConfernce(?User $user, ?Rooms $rooms): bool
@@ -161,7 +143,6 @@ class CalloutService
 
     /**
      * Returns the CallerID which is mostly the telefonnumber from a user if this is configured
-     * @param User|null $user
      * @return mixed|null
      */
     public

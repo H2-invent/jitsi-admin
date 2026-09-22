@@ -58,217 +58,136 @@ class LdapType
         return $this->serVerId;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSpecialFields(): mixed
     {
         return $this->specialFields;
     }
 
-    /**
-     * @param mixed $specialFields
-     */
     public function setSpecialFields(mixed $specialFields): void
     {
         $this->specialFields = $specialFields;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUserDn(): mixed
     {
         return $this->userDn;
     }
 
-    /**
-     * @param mixed $userDn
-     */
     public function setUserDn(mixed $userDn): void
     {
         $this->userDn = $userDn;
     }
 
-    /**
-     * @return mixed
-     */
     public function getScope(): mixed
     {
         return $this->scope;
     }
 
-    /**
-     * @param mixed $scope
-     */
     public function setScope(mixed $scope): void
     {
         $this->scope = $scope;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMapper(): mixed
     {
         return $this->mapper;
     }
 
-    /**
-     * @param mixed $mapper
-     */
     public function setMapper(mixed $mapper): void
     {
         $this->mapper = $mapper;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUrl(): mixed
     {
         return $this->url;
     }
 
-    /**
-     * @param mixed $url
-     */
     public function setUrl(mixed $url): void
     {
         $this->url = $url;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUserNameAttribute(): mixed
     {
         return $this->userNameAttribute;
     }
 
-    /**
-     * @param mixed $userNameAttribute
-     */
     public function setUserNameAttribute(mixed $userNameAttribute): void
     {
         $this->userNameAttribute = $userNameAttribute;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSerVerId(): mixed
     {
         return $this->serVerId;
     }
 
-    /**
-     * @param mixed $serVerId
-     */
     public function setSerVerId(mixed $serVerId): void
     {
         $this->serVerId = $serVerId;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLdap(): mixed
     {
         return $this->ldap;
     }
 
-    /**
-     * @param mixed $ldap
-     */
     public function setLdap(mixed $ldap): void
     {
         $this->ldap = $ldap;
     }
 
-    /**
-     * @return mixed
-     */
     public function getRdn(): mixed
     {
         return $this->rdn;
     }
 
-    /**
-     * @param mixed $rdn
-     */
     public function setRdn(mixed $rdn): void
     {
         $this->rdn = $rdn;
     }
 
-    /**
-     * @return mixed
-     */
     public function getBindDn(): mixed
     {
         return $this->bindDn;
     }
 
-    /**
-     * @param mixed $bindDn
-     */
     public function setBindDn(mixed $bindDn): void
     {
         $this->bindDn = $bindDn;
     }
 
-    /**
-     * @return mixed
-     */
     public function getPassword(): mixed
     {
         return $this->password;
     }
 
-    /**
-     * @param mixed $password
-     */
     public function setPassword(mixed $password): void
     {
         $this->password = $password;
     }
 
-    /**
-     * @return mixed
-     */
     public function getBindType(): mixed
     {
         return $this->bindType;
     }
 
-    /**
-     * @param mixed $bindType
-     */
     public function setBindType(mixed $bindType): void
     {
         $this->bindType = $bindType;
     }
 
-    /**
-     * @return mixed
-     */
     public function getObjectClass(): mixed
     {
         return $this->objectClass;
     }
 
-    /**
-     * @param mixed $objectClass
-     */
     public function setObjectClass(mixed $objectClass): void
     {
         $this->objectClass = $objectClass;
     }
 
-    /**
-     * @return Ldap
-     */
     public function createLDAP(): Ldap
     {
 
@@ -303,17 +222,11 @@ class LdapType
         return $isUrl > 0;
     }
 
-    /**
-     * @return mixed
-     */
     public function getFilter(): mixed
     {
         return $this->filter;
     }
 
-    /**
-     * @param mixed $filter
-     */
     public function setFilter(mixed $filter): void
     {
         $this->filter = $filter;
@@ -321,7 +234,6 @@ class LdapType
 
 
     /**
-     * @param $objectClassString
      * @return string
      * This Function build the Query String to find the user in the LDAP
      */
@@ -340,7 +252,6 @@ class LdapType
     }
 
     /**
-     * @param $objectClassString
      * @return string
      * This Function build the Query String to find the user in the LDAP
      */
@@ -392,113 +303,71 @@ class LdapType
         return $user->toArray();
     }
 
-    /**
-     * @return mixed
-     */
     public function getDryRun(): mixed
     {
         return $this->dryRun;
     }
 
-    /**
-     * @param mixed $dryRun
-     */
     public function setDryRun(mixed $dryRun): void
     {
         $this->dryRun = $dryRun;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLDAPDEPUTYGROUPOBJECTCLASS(): mixed
     {
         return $this->LDAP_DEPUTY_GROUP_OBJECTCLASS;
     }
 
-    /**
-     * @param mixed $LDAP_DEPUTY_GROUP_OBJECTCLASS
-     */
     public function setLDAPDEPUTYGROUPOBJECTCLASS(mixed $LDAP_DEPUTY_GROUP_OBJECTCLASS): void
     {
         $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = $LDAP_DEPUTY_GROUP_OBJECTCLASS;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLDAPDEPUTYGROUPDN(): mixed
     {
         return $this->LDAP_DEPUTY_GROUP_DN;
     }
 
-    /**
-     * @param mixed $LDAP_DEPUTY_GROUP_DN
-     */
     public function setLDAPDEPUTYGROUPDN(mixed $LDAP_DEPUTY_GROUP_DN): void
     {
         $this->LDAP_DEPUTY_GROUP_DN = $LDAP_DEPUTY_GROUP_DN;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLDAPDEPUTYGROUPLEADER(): mixed
     {
         return $this->LDAP_DEPUTY_GROUP_LEADER;
     }
 
-    /**
-     * @param mixed $LDAP_DEPUTY_GROUP_LEADER
-     */
     public function setLDAPDEPUTYGROUPLEADER(mixed $LDAP_DEPUTY_GROUP_LEADER): void
     {
         $this->LDAP_DEPUTY_GROUP_LEADER = $LDAP_DEPUTY_GROUP_LEADER;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLDAPDEPUTYGROUPMEMBERS(): mixed
     {
         return $this->LDAP_DEPUTY_GROUP_MEMBERS;
     }
 
-    /**
-     * @param mixed $LDAP_DEPUTY_GROUP_MEMBERS
-     */
     public function setLDAPDEPUTYGROUPMEMBERS(mixed $LDAP_DEPUTY_GROUP_MEMBERS): void
     {
         $this->LDAP_DEPUTY_GROUP_MEMBERS = $LDAP_DEPUTY_GROUP_MEMBERS;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLDAPDEPUTYGROUPFILTER(): mixed
     {
         return $this->LDAP_DEPUTY_GROUP_FILTER;
     }
 
-    /**
-     * @param mixed $LDAP_DEPUTY_GROUP_FILTER
-     */
     public function setLDAPDEPUTYGROUPFILTER(mixed $LDAP_DEPUTY_GROUP_FILTER): void
     {
         $this->LDAP_DEPUTY_GROUP_FILTER = $LDAP_DEPUTY_GROUP_FILTER;
     }
 
-    /**
-     * @return bool
-     */
     public function isHealthy(): bool
     {
         return $this->isHealthy;
     }
 
-    /**
-     * @param bool $isHealthy
-     */
     public function setIsHealthy(bool $isHealthy): void
     {
         $this->isHealthy = $isHealthy;

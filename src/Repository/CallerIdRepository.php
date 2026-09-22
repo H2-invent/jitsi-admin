@@ -51,9 +51,6 @@ class CallerIdRepository extends ServiceEntityRepository
         ;
     }
     */
-    /**
-     * @param string $pin
-     */
     public function findByRoomAndPin(Rooms $rooms, string $pin): ?CallerId
     {
         return $this->createQueryBuilder('c')

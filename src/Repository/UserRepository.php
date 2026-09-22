@@ -53,10 +53,6 @@ class UserRepository extends ServiceEntityRepository
     }
     */
 
-    /**
-     * @param string $email
-     * @return User|null
-     */
     public function findOneByEmail(string $email): ?User
     {
         return $this->createQueryBuilder('u')
@@ -68,8 +64,6 @@ class UserRepository extends ServiceEntityRepository
 
 
     /**
-     * @param string $value
-     * @param User $user
      * @return User[]
      */
     public function findMyUserByIndex(string $value, User $user): array
@@ -87,7 +81,6 @@ class UserRepository extends ServiceEntityRepository
     }
 
      /**
-      * @param string $value
       * @return User[] Returns an array of USers objects
       */
     public function findUsersByLdapServerId(string $value): array
@@ -113,10 +106,6 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * @param string $userDn
-     * @return User|null
-     */
     public function findUsersfromLdapdn(string $userDn):?User
     {
         $qb = $this->createQueryBuilder('u');
@@ -156,10 +145,6 @@ class UserRepository extends ServiceEntityRepository
     }
 
 
-    /**
-     * @param string $callerId
-     * @return User|null
-     */
     public function findUsersByCallerId(string $callerId): ?User
     {
         $callerId = preg_replace('/[^0-9]/', '', $callerId);

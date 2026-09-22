@@ -27,7 +27,6 @@ class CallOutSessionAPIHoldService
     }
 
     /**
-     * @param string|null $sessionId
      * @return array<string, mixed>
      * This Function is used when the Caller is not able to reach the invited user and the phone rings over a certain time.
      */
@@ -43,7 +42,6 @@ class CallOutSessionAPIHoldService
     }
 
     /**
-     * @param string|null $sessionId
      * @return array<string, mixed>
      * This funktion is called when the called uder is occuppied so his ohone retuns  a occupied signal then the caller can trigger this funkction
      */
@@ -60,7 +58,6 @@ class CallOutSessionAPIHoldService
 
 
     /**
-     * @param string|null $sessionId
      * @return array<string, mixed>
      * The called user is selecting later by pressing a kex on his phone. The caller system has to trigger this function.
      * This function retuns the information for the called person to join the meeting later. this is the caller id and the pin for this meeting.
@@ -78,9 +75,6 @@ class CallOutSessionAPIHoldService
     }
 
     /**
-     * @param CalloutSession $calloutSession
-     * @param int $state
-     * @param string $message
      * @return array<string, mixed>
      * This function is a generic function to set a calloutoutsession into the on hold status.
      * In this status the caller system is not able to do a ringing or a dial.
@@ -111,8 +105,6 @@ class CallOutSessionAPIHoldService
 
 
     /**
-     * @param Rooms $room
-     * @param string $message
      * @return void
      * This function is a generic function to send a message to the lobbymoderators.
      * The message is send via websocket

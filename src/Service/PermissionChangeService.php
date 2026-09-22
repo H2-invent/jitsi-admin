@@ -35,10 +35,6 @@ class PermissionChangeService
     /**
      *  When this function is called then a user is allowed to share the screen or is not alloed to share the screen
      * The Function toggle this attribute
-     * @param User $oldUser
-     * @param User $user
-     * @param Rooms $rooms
-     * @return bool
      */
     function toggleShareScreen(User $oldUser, User $user, Rooms $rooms): bool
     {
@@ -72,10 +68,6 @@ class PermissionChangeService
     /**
      *   When this function is called then a user is set as an moderator
      * The Function toggle this attribute
-     * @param User $oldUser
-     * @param User $user
-     * @param Rooms $rooms
-     * @return bool
      */
     function toggleModerator(User $oldUser, User $user, Rooms $rooms): bool
     {
@@ -115,9 +107,6 @@ class PermissionChangeService
     /**
      *   When this function is called then a user is set as an moderator
      * The Function toggle this attribute
-     * @param User $oldUser
-     * @param User $user
-     * @param Rooms $rooms
      * @return RoomsUser|false
      */
     function toggleLobbyModerator(User $oldUser, User $user, Rooms $rooms): RoomsUser|bool
@@ -169,10 +158,6 @@ class PermissionChangeService
     /**
      * When this function is called then a user is allowed to send private mesages or is not alloed to send private messages.
      * The Function toggle this attribute
-     * @param User $oldUser
-     * @param User $user
-     * @param Rooms $rooms
-     * @return bool
      */
     function togglePrivateMessage(User $oldUser, User $user, Rooms $rooms): bool
     {

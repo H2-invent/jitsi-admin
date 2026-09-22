@@ -142,10 +142,6 @@ class SchedulingService
         return true;
     }
 
-    /**
-     * @param int|null $type
-     * @return void
-     */
     public function voteForSchedulingTimeOnly(User $user, SchedulingTime $schedulingTime, ?int $type): void
     {
         $scheduleTimeUser = $this->schedulingTimeUserRepository->findOneBy(['user' => $user, 'scheduleTime' => $schedulingTime]);
@@ -162,10 +158,6 @@ class SchedulingService
         $this->entityManager->flush();
     }
 
-    /**
-     * @param int|null $type
-     * @return bool
-     */
     public function voteForSchedulingTime(User $user, SchedulingTime $schedulingTime, ?int $type): bool
     {
         $this->voteForSchedulingTimeOnly(user: $user, schedulingTime: $schedulingTime, type: $type);

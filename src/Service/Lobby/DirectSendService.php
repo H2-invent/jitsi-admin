@@ -27,12 +27,6 @@ class DirectSendService
         $this->publisher = $hub;
     }
 
-    /**
-     * @param string $topic
-     * @param string $text
-     * @param string $color
-     * @param int|null $closeAfterMs
-     */
     public function sendSnackbar(string $topic, string $text, string $color, ?int $closeAfterMs = null): string
     {
         $data = [
@@ -49,10 +43,6 @@ class DirectSendService
     }
 
     /**
-     * @param string $topic
-     * @param string $header
-     * @param string $text
-     * @param string $type
      * @param array<int, array<string, mixed>> $buttons
      */
     public function sendDialog(string $topic, string $header, string $text, string $type='question', array $buttons=[]): string
@@ -70,10 +60,6 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    /**
-     * @param string $topic
-     * @param string $message
-     */
     public function sendMessage(string $topic, string $message, string $from): string
     {
         $data = [
@@ -85,10 +71,6 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    /**
-     * @param string $topic
-     * @param mixed $timeout
-     */
     public function sendReloadPage(string $topic, mixed $timeout): string
     {
         $data = [
@@ -99,15 +81,6 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    /**
-     * @param string $topic
-     * @param string $title
-     * @param string $message
-     * @param string $pushMessage
-     * @param string|int $id
-     * @param string $color
-     * @param int|null $closeAfterMs
-     */
     public function sendBrowserNotification(string $topic, string $title, string $message, string $pushMessage, string|int $id, string $color, ?int $closeAfterMs = null): string
     {
         $data = [
@@ -125,12 +98,6 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    /**
-     * @param string $topic
-     * @param string $title
-     * @param string $pushMessage
-     * @param string|int $id
-     */
     public function sendBrowserPush(string $topic, string $title,  string $pushMessage, string|int $id): string
     {
         $data = [
@@ -142,11 +109,6 @@ class DirectSendService
         $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
-    /**
-     * @param string $topic
-     * @param string $soundName
-     * @param string|int $id
-     */
     public function sendPlaySound(string $topic, string $soundName,  string|int $id): string
     {
         $data = [
@@ -157,10 +119,6 @@ class DirectSendService
         $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
-    /**
-     * @param string $topic
-     * @param string|int $id
-     */
     public function sendCleanBrowserNotification(string $topic, string|int $id): string
     {
         $data = [
@@ -171,10 +129,6 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    /**
-     * @param string $topic
-     * @param string $content
-     */
     public function sendModal(string $topic, string $content): bool
     {
 
@@ -187,11 +141,6 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    /**
-     * @param string $topic
-     * @param string $url
-     * @param mixed $timeout
-     */
     public function sendRedirect(string $topic, string $url, mixed $timeout = 1000): bool
     {
         $data = [
@@ -203,11 +152,6 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    /**
-     * @param string $topic
-     * @param string $url
-     * @param mixed $timeout
-     */
     public function sendEndMeeting(string $topic, string $url, mixed $timeout = 1000): bool
     {
         $data = [
@@ -220,7 +164,6 @@ class DirectSendService
     }
 
     /**
-     * @param string $topic
      * @param array<string, mixed> $options
      */
     public function sendNewJitsiMeeting(string $topic, array $options): bool
@@ -233,10 +176,6 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    /**
-     * @param string $topic
-     * @param string $url
-     */
     public function sendRefresh(string $topic, string $url): bool
     {
         $data = [
@@ -247,14 +186,6 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    /**
-     * @param string $title
-     * @param string $topic
-     * @param string $message
-     * @param string $pushMesage
-     * @param int|string $time
-     * @param string|int $id
-     */
     public function sendCallAdhockmeeding(string $title, string $topic, string $message, string $pushMesage, int|string $time, string|int $id): bool
     {
         $data = [
@@ -276,9 +207,6 @@ class DirectSendService
         $this->sendRefreshDashboard($topic);
     }
 
-    /**
-     * @param string $topic
-     */
     public function sendRefreshDashboard(string $topic): bool
     {
         $data = [

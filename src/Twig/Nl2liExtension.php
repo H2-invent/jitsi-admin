@@ -25,10 +25,6 @@ class Nl2liExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param string $value
-     * @return string
-     */
     public function nl2li(string $value): string
     {
         // Check for http at beginning of string

@@ -36,10 +36,6 @@ class Utils extends AbstractExtension
         return chunk_split($string, $sequence, $character);
     }
 
-    /**
-     * @param string|null $string
-     * @return mixed
-     */
     public function json_decode(?string $string): mixed
     {
         $res = json_decode($string ?? '', true);
@@ -51,9 +47,6 @@ class Utils extends AbstractExtension
         return UtilsHelper::isRoomReadOnly($rooms, $user);
     }
 
-    /**
-     * @param string $string
-     */
     public function colorFromString(string $string): string
     {
 

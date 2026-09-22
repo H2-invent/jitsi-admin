@@ -54,10 +54,6 @@ class Schedule extends AbstractExtension
         }
     }
 
-    /**
-     * @param int $type
-     * @return int|null
-     */
     public function scheduleNumber(SchedulingTime $schedulingTime, int $type): ?int
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(['scheduleTime' => $schedulingTime, 'accept' => $type]);
@@ -65,7 +61,6 @@ class Schedule extends AbstractExtension
     }
 
     /**
-     * @param int $type
      * @return SchedulingTimeUser[]
      */
     public function scheduleUser(SchedulingTime $schedulingTime, int $type): array

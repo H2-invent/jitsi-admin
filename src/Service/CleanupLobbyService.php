@@ -16,7 +16,6 @@ class CleanupLobbyService
     }
 
     /**
-     * @param int|string $maxOld
      * @return LobbyWaitungUser[]
      */
     public function cleanUp(int|string $maxOld = 72): array

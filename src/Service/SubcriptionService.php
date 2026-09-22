@@ -29,8 +29,6 @@ class SubcriptionService
 
     /**
      * @param array<string, mixed> $userData
-     * @param Rooms $rooms
-     * @param bool $moderator
      * @return array{error: bool, text: string, color: string, sub?: Subscriber}
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -107,7 +105,6 @@ class SubcriptionService
     }
 
     /**
-     * @param Subscriber|null $subscriber
      * @return array{message: string, title: string}
      * checks the subsriber an creates a roomUser connection or a waitinglist Element
      */
@@ -147,8 +144,6 @@ class SubcriptionService
     }
 
     /**
-     * @param User $user
-     * @param Rooms $rooms
      * @return array{text: string, color: string, error: bool, sub: Subscriber}
      * creates a new subscriber element
      */
@@ -166,8 +161,6 @@ class SubcriptionService
     }
 
     /**
-     * @param User $user
-     * @param Rooms $rooms
      * @return array{text: string, color: string, error: bool}
      * creates a new Waiinglist element and sends the email with the waiting list to the subscriber
      */
@@ -185,7 +178,6 @@ class SubcriptionService
     }
 
     /**
-     * @param User $user
      * @param Rooms $rooms
      * creates a new roomUser element and sends the email with the room infos  to the subscriber
      */

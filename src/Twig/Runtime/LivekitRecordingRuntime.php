@@ -18,11 +18,6 @@ class LivekitRecordingRuntime implements RuntimeExtensionInterface
 
     }
 
-    /**
-     * @param User|null $user
-     * @param Rooms|null $room
-     * @return Recording|null
-     */
     public function getRecordingForRoomAndUser(?User $user, ?Rooms $room): ?Recording
     {
         if ($room && $user){

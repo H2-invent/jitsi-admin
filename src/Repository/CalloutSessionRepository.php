@@ -80,10 +80,6 @@ class CalloutSessionRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    /**
-     * @param string|null $calloutSessionId
-     * @return CalloutSession|null
-     */
     public function findCalloutSessionActive(?string $calloutSessionId): ?CalloutSession
     {
         $qb = $this->createQueryBuilder('c');

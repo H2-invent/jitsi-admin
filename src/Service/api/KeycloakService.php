@@ -14,10 +14,6 @@ class KeycloakService
         $this->em = $entityManager;
     }
 
-    /**
-     * @param string $email
-     * @param string|null $keycloakId
-     */
     public function getUSer(string $email, ?string $keycloakId = null): ?User
     {
         $user = null;

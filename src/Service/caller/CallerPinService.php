@@ -33,13 +33,6 @@ class CallerPinService
         $this->parameterBag = $parameterBag;
     }
 
-    /**
-     * @param string $roomId
-     * @param string $pin
-     * @param string $callerId
-     * @param bool $isSipVideo
-     * @return CallerSession|null
-     */
     public function createNewCallerSession(string $roomId, string $pin, string $callerId, bool $isSipVideo = false): ?CallerSession
     {
         $callerRoom = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $roomId]);

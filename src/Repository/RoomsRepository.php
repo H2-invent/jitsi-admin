@@ -344,7 +344,6 @@ class RoomsRepository extends ServiceEntityRepository
     }
 
      /**
-       * @param int|string $offset
        * @return Rooms[] Returns an array of Rooms objects
        */
     public function getMyPersistantRooms(User $user, int|string $offset): array
@@ -699,9 +698,6 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * @return Rooms|null
-     */
     public function findRoomByCaseInsensitiveUid(string $value): ?Rooms
     {
         return $this->createQueryBuilder('r')

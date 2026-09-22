@@ -37,9 +37,6 @@ class UserServiceEditRoom
         $this->urlGenerator = $joinUrlGeneratorService;
     }
 
-    /**
-     * @return bool
-     */
     function editRoom(User $user, Rooms $room): bool
     {
 
@@ -64,9 +61,6 @@ class UserServiceEditRoom
 
         return true;
     }
-    /**
-     * @return bool
-     */
     function editPersistantRoom(User $user, Rooms $room): bool
     {
 
@@ -89,9 +83,6 @@ class UserServiceEditRoom
 
         return true;
     }
-    /**
-     * @return bool
-     */
     function editRoomSchedule(User $user, Rooms $room): bool
     {
 

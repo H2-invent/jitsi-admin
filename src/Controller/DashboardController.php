@@ -80,7 +80,6 @@ class DashboardController extends JitsiAdminController
     }
 
     /**
-     * @param Request $request
      * @return RedirectResponse|Response
      */
     #[Route(path: '/room/dashboard', name: 'dashboard')]
@@ -240,7 +239,6 @@ class DashboardController extends JitsiAdminController
     }
 
     /**
-     * @param Request $request
      * @return RedirectResponse|Response
      */
     #[Route(path: '/room/dashboard/lazy/{type}/{offset}', name: 'dashboard_lazy')]

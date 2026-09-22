@@ -51,7 +51,6 @@ class AddressGroupRepository extends ServiceEntityRepository
     }
     */
     /**
-     * @param string $value
      * @return AddressGroup[]
      */
     public function findMyAddressBookGroupsByName(string $value, User $user): array

@@ -964,10 +964,6 @@ class User extends BaseUser
         return $this;
     }
 
-    /**
-     * @param string $string
-     * @return string
-     */
     public function getFormatedName(string $string): string
     {
         $this->formatName = new FormatName();
@@ -976,7 +972,7 @@ class User extends BaseUser
 
     public function getUserIdentifier(): string
     {
-        return $this->username?:'';
+        return $this->username ?: '';
     }
 
     /**

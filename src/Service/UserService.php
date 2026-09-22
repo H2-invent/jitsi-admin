@@ -69,17 +69,11 @@ class UserService
         $this->joinUrlGenerator = $joinUrlGeneratorService;
     }
 
-    /**
-     * @return string
-     */
     function generateUrl(Rooms $room, User $user): string
     {
         return $this->joinUrlGenerator->generateUrl($room, $user);
     }
 
-    /**
-     * @return bool
-     */
     function addUser(User $user, Rooms $room): bool
     {
         if (!$user->getUid()) {
@@ -99,9 +93,6 @@ class UserService
         }
     }
 
-    /**
-     * @return bool
-     */
     function addWaitinglist(User $user, Rooms $room): bool
     {
         if (!$user->getUid()) {
@@ -112,9 +103,6 @@ class UserService
         return $this->userAddService->addWaitinglist($user, $room);
     }
 
-    /**
-     * @return bool
-     */
     function editRoom(User $user, Rooms $room): bool
     {
         if ($room->getScheduleMeeting()) {
@@ -126,9 +114,6 @@ class UserService
         }
     }
 
-    /**
-     * @return bool
-     */
     function removeRoom(User $user, Rooms $room): bool
     {
         if ($room->getScheduleMeeting()) {
@@ -143,9 +128,6 @@ class UserService
         return true;
     }
 
-    /**
-     * @return bool
-     */
     function notifyUser(User $user, Rooms $room): bool
     {
         $url = $this->generateUrl($room, $user);

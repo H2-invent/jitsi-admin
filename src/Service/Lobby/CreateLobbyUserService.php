@@ -21,11 +21,6 @@ class CreateLobbyUserService
         $this->em = $entityManager;
     }
 
-    /**
-     * @param string $type
-     * @param bool $websocketReady
-     * @return LobbyWaitungUser
-     */
     public function createNewLobbyUser(User $user, Rooms $room, string $type,bool $websocketReady=false): LobbyWaitungUser
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $user, 'room' => $room]);
