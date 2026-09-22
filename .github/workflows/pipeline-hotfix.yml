@@ -1,0 +1,56 @@
+name: Create Hotfix Build
+
+permissions:
+  contents: read
+  packages: write
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+    branches:
+      - master
+      - main
+
+jobs:
+  version:
+    uses: ./.github/workflows/task-version.yml
+
+  artifact:
+    uses: ./.github/workflows/task-artifact.yml
+
+  test:
+    uses: ./.github/workflows/task-test.yml
+    needs:
+      - artifact
+
+  docker_core:
+    needs:
+      - version
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './Dockerfile-prod'
+      directory: '.'
+      version: ${{ needs.version.outputs.version }}
+      tags: reg.h2-invent.com/meetling/core:${{ needs.version.outputs.version }}
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+
+  docker_websocket:
+    needs:
+      - version
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    if: needs.version.outputs.skip != 'true'
+    with:
+      registry: reg.h2-invent.com
+      dockerfile_path: './nodejs/Dockerfile-prod'
+      directory: './nodejs'
+      version: ${{ needs.version.outputs.version }}
+      tags: reg.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }}
+    secrets:
+      dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
+      dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}

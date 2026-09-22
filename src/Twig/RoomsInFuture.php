@@ -37,7 +37,7 @@ class RoomsInFuture extends AbstractExtension
 
     public function roomsinFuture(Server $server)
     {
-        $now = new \DateTime();
+        $now = new \DateTime('now', new \DateTimeZone('utc'));
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
         $qb->andWhere('rooms.server = :server')
             ->andWhere('rooms.showRoomOnJoinpage = true')
@@ -45,11 +45,11 @@ class RoomsInFuture extends AbstractExtension
             ->andWhere($qb->expr()->isNull('repeaterProtoype.id'))
             ->leftJoin('rooms.repeater', 'repeater')
             ->andWhere($qb->expr()->isNull('repeater.id'))
-            ->andWhere('rooms.start > :now')
+            ->andWhere('rooms.startUtc > :now')
             ->andWhere($qb->expr()->isNotNull('rooms.moderator'))
             ->setParameter('server', $server)
             ->setParameter('now', $now)
-            ->orderBy('rooms.start', 'ASC');
+            ->orderBy('rooms.startUtc', 'ASC');
         $rooms = $qb->getQuery()->getResult();
 
         return $rooms;

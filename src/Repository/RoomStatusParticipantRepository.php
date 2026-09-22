@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 use function Doctrine\ORM\QueryBuilder;
@@ -51,18 +52,39 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findOccupantsOfRoom(Rooms $rooms)
-    {
-        $qb = $this->createQueryBuilder('r');
 
-        return $qb->innerJoin('r.roomStatus', 'roomStatus')
+    /**
+     * @param Rooms $room
+     * @return RoomStatusParticipant[]
+     */
+    public function findOccupantsOfRoom(Rooms $room): array
+    {
+        return $this->getOccupantsOfRoomQueryBuilder($room)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function countOccupantsOfRoom(Rooms $room): int
+    {
+        return $this->getOccupantsOfRoomQueryBuilder($room)
+            ->select('COUNT(roomStatusParticipant.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    private function getOccupantsOfRoomQueryBuilder(Rooms $room): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('roomStatusParticipant');
+
+        return $qb->innerJoin('roomStatusParticipant.roomStatus', 'roomStatus')
             ->innerJoin('roomStatus.room', 'room')
             ->andWhere('room = :room')
-            ->andWhere('r.inRoom = true')
-            ->andWhere($qb->expr()->isNull('roomStatus.destroyed'))
-            ->setParameter('room', $rooms)
-            ->getQuery()
-            ->getResult();
+            ->andWhere('roomStatusParticipant.inRoom = true')
+            ->andWhere('roomStatus.destroyed IS NULL')
+            ->setParameter('room', $room)
+        ;
     }
 
     /**
@@ -108,5 +130,27 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
             ->setParameter('endDate', $endDate)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return RoomStatusParticipant[]
+     */
+    public function findUniqueParticipantsByRoom(Rooms $room): array
+    {
+        // Subquery to get one ID per unique participantId
+        $subQuery = $this->createQueryBuilder('participant2')
+            ->select('MIN(participant2.id)')
+            ->innerJoin('participant2.roomStatus', 'status2')
+            ->innerJoin('status2.room', 'room2')
+            ->andWhere('room2 = :room')
+            ->groupBy('participant2.participantId')
+            ->getDQL();
+
+        return $this->createQueryBuilder('participant')
+            ->andWhere('participant.id IN (' . $subQuery . ')')
+            ->setParameter('room', $room)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

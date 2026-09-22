@@ -27,7 +27,7 @@ jobs:
       # endregion mysql_start
       # region load_artifact
       - name: Download Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: artifact_${{github.run_number}}
 
@@ -42,6 +42,10 @@ jobs:
           php-version: ${{ vars.PHP_VERSION }}
           ini-values: date.timezone ="Europe/Berlin"
           tools: composer:v2
+
+      - name: Install FFMpeg
+        run: |
+          sudo apt update && sudo apt install ffmpeg -y
 
       - name: Run php test
         run: composer test

@@ -47,7 +47,6 @@ class EgressController extends AbstractController
     #[Route('/room/stop/egress/{recordingId}', name: 'app_stop_egress')]
     public function stop(Request $request, ?Recording $recording): Response
     {
-
         if (!$recording || $recording->getUser() !== $this->getUser()) {
             throw new NotFoundHttpException('Recording not found');
         }

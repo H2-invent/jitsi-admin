@@ -56,6 +56,9 @@ USER root
 
 RUN echo "Europe/Berlin" > /etc/timezone
 
+RUN apt update && apt install -y \
+    ffmpeg
+
 RUN echo "#!/bin/sh" > /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console cache:clear" >> /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console doc:mig:mig --no-interaction" >> /docker-entrypoint-init.d/03-symfony.sh \

@@ -1,13 +1,14 @@
 # Features, Improvements, and Bug Fixes in Jitsi Admin
-## 1.6
-* Removed matomo dependency
 
+## 1.7
+### 🚀 Features:
+Allow disabling of survey from theme settings
 
-## 1.6
 ### ⭐ Improvements:
 * Upgrade to Symfony 7.4
 
-
+## 1.6
+* Removed matomo dependency
 
 ## 1.5
 ### 🚀 Features:

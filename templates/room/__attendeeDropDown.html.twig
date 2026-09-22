@@ -13,7 +13,7 @@
     {% endif %}
 
     {% if laf_show_resendInvitation == 1 %}
-        <a class=" dropdown-item"
+        <a class="dropdown-item resendInvitation"
            href="{{ path('room_user_resend',{'room':room.uidReal,'user':user.id}) }}">
             <i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}</a>
     {% endif %}

@@ -1,4 +1,7 @@
-{% set isOpen =  isRoomOpen(room,app.user) %}
+{% set isOpen = null %}
+{% if roomClosedMapForStart[room.id] is defined %}
+    {% set isOpen = roomClosedMapForStart[room.id] %}
+{% endif %}
 
 <div class=" {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}start-iframe{% endif %}">
     <a class="btn btn-primary {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}"

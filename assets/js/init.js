@@ -44,8 +44,13 @@ function initGenerell() {
     if (window.innerWidth < 768) {
         document.body.classList.add("in-smartPhone");
     }
-    openBlankTarget(blankTarget);
-    initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
+    if (typeof blankTarget !== 'undefined'){
+        openBlankTarget(blankTarget);
+    }
+    if (typeof confirmTitle !== 'undefined'){
+        initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
+    }
+
     hotkeys('1', function () {
         $('#ex1-tab-1-tab').trigger('click');
     });
@@ -73,7 +78,8 @@ function initGenerell() {
         $('#profile-tab').trigger('click');
     });
     hotkeys('n', function () {
-        $('#createNewConference').trigger('click');
+        document.getElementById('createNewConference').click();
+
     });
     initWebsocket(websocketTopics);
     initLoadContent();
@@ -170,6 +176,13 @@ function initNewModal() {
     initdateTimePicker('.flatpickr');
     initNewRoomModal();
     $('form').submit(function () {
+        // Skip AJAX forms (marked with data-ajax-url or data-ajax); they handle
+        // their own submit UX (spinner + fetch) via delegated handlers, so running
+        // this generic spinner would produce a duplicate spinner.
+        if (this.dataset.ajaxUrl || this.dataset.ajax) {
+            return;
+        }
+
         const btn = $(this).find('button[type=submit]');
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled", true)
@@ -291,7 +304,17 @@ function initProtip() {
         var totalHeight = proTip.offsetHeight;
         var firstLineHeight = proTip.querySelector('.first-line').clientHeight;
         var visiblePart = firstLineHeight + 13 + 10; // padding-top + padding-bottom
+        // Disable the transition while collapsing and reveal the bubble so it
+        // appears already minimized without flashing open/closed.
+        proTip.classList.add('proTips-collapsed');
         proTip.style.transform = 'translateY(' + (totalHeight - visiblePart) + 'px)';
+        // Re-enable the transition on the next frame so the hover animation works.
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                proTip.classList.remove('proTips-collapsed');
+                proTip.classList.add('proTips-initialized');
+            });
+        });
     }
 }
 

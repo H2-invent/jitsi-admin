@@ -55,6 +55,30 @@ class SchedulingTimeUserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findVotesForUserAndRooms(User $user, array $roomIds): array
+    {
+        if (empty($roomIds)) {
+            return [];
+        }
+        $result = $this->createQueryBuilder('s')
+            ->innerJoin('s.scheduleTime', 'time')
+            ->innerJoin('time.scheduling','scheduling')
+            ->innerJoin('scheduling.room', 'r')
+            ->andWhere('s.user = :user')
+            ->andWhere('r.id IN (:roomIds)')
+            ->setParameter('roomIds', $roomIds)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+        $map = [];
+        foreach ($result as $schedulingTimeUser) {
+            $room = $schedulingTimeUser->getScheduleTime()->getScheduling()->getRoom();
+            $map[$room->getId()] = true;
+        }
+        return $map;
+    }
+
 
     /*
     public function findOneBySomeField($value): ?SchedulingTimeUser
