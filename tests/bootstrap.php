@@ -3,6 +3,14 @@
 use Symfony\Component\Dotenv\Dotenv;
 require dirname(__DIR__) . '/vendor/dg/bypass-finals/src/bootstrap.php';
 
+// BypassFinals rewrites both `final` and `readonly` in loaded sources. Under ParaTest
+// some PHPUnit classes are loaded before this bootstrap runs (e.g. the readonly
+// PHPUnit\Metadata\Metadata base class), while the PHPUnit\Metadata\* subclasses are
+// autoloaded afterwards. Rewriting only the subclass then triggers a fatal error:
+// "Non-readonly class ... cannot extend readonly class". Exclude PHPUnit's own sources
+// from rewriting; application and test classes keep the final/readonly bypass.
+DG\BypassFinals::denyPaths(['*/phpunit/*']);
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 if (file_exists(dirname(__DIR__) . '/config/bootstrap.php')) {
