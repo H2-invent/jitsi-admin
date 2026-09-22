@@ -22,7 +22,7 @@ class ReminderService
      * @param array<int, string|null>|null $filter
      * @return array{error: bool, hinweis: string, Konferenzen: int, Emails: int}
      */
-    public function sendReminder($filter)
+    public function sendReminder(?array $filter): array
     {
         set_time_limit(600);
         $now = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('utc'));

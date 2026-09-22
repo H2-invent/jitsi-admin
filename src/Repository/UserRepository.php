@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
+ * @method User|null findOneByUsername(string $username)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @extends ServiceEntityRepository<User>
@@ -71,7 +72,7 @@ class UserRepository extends ServiceEntityRepository
      * @param User $user
      * @return User[]
      */
-    public function findMyUserByIndex(string $value, User $user)
+    public function findMyUserByIndex(string $value, User $user): array
     {
         $value = strtolower($value);
         $qb = $this->createQueryBuilder('u')
@@ -89,7 +90,7 @@ class UserRepository extends ServiceEntityRepository
       * @param string $value
       * @return User[] Returns an array of USers objects
       */
-    public function findUsersByLdapServerId(string $value)
+    public function findUsersByLdapServerId(string $value): array
     {
         return $this->createQueryBuilder('u')
             ->innerJoin('u.ldapUserProperties', 'ldap_user_properties')
@@ -102,7 +103,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[]
      */
-    public function findUsersfromLdapService()
+    public function findUsersfromLdapService(): array
     {
         $qb = $this->createQueryBuilder('u');
 
@@ -116,7 +117,7 @@ class UserRepository extends ServiceEntityRepository
      * @param string $userDn
      * @return User|null
      */
-    public function findUsersfromLdapdn($userDn):?User
+    public function findUsersfromLdapdn(string $userDn):?User
     {
         $qb = $this->createQueryBuilder('u');
 
@@ -130,7 +131,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[] Returns an array of Server objects
      */
-    public function findUsersWithDeputy()
+    public function findUsersWithDeputy(): array
     {
         $qb = $this->createQueryBuilder('u');
 
@@ -145,7 +146,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[] Returns an array of Server objects
      */
-    public function findUsersWithKC()
+    public function findUsersWithKC(): array
     {
         $qb = $this->createQueryBuilder('u');
 

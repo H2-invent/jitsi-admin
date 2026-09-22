@@ -165,7 +165,7 @@ class CalloutService
      * @return mixed|null
      */
     public
-    function getCallerIdForUser(?User $user)
+    function getCallerIdForUser(?User $user): mixed
     {
         if (!$user) {
             return null;

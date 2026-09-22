@@ -29,7 +29,7 @@ class Server extends AbstractExtension
     /**
      * @return \App\Entity\Server[]
      */
-    public function getServer(User $user)
+    public function getServer(User $user): array
     {
 
         return $this->serverUserManagment->getServersFromUser($user);
@@ -37,7 +37,7 @@ class Server extends AbstractExtension
     /**
      * @return \App\Entity\Rooms[]
      */
-    public function getActualConference(\App\Entity\Server $server)
+    public function getActualConference(\App\Entity\Server $server): array
     {
 
         return $this->serverUserManagment->getActualConference($server);
@@ -45,7 +45,7 @@ class Server extends AbstractExtension
     /**
      * @return \App\Entity\RoomStatusParticipant[]
      */
-    public function getActualParticipants(\App\Entity\Server $server)
+    public function getActualParticipants(\App\Entity\Server $server): array
     {
         return $this->serverUserManagment->getActualParticipantsFromServer($server);
     }

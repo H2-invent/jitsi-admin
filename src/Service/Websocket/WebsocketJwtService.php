@@ -19,7 +19,7 @@ class WebsocketJwtService
     /**
      * @param array<int, string> $rooms
      */
-    public function createJwt($rooms, ?User $user): string
+    public function createJwt(array $rooms, ?User $user): string
     {
         $payload = [
             'iss' => 'jitsi-admin',

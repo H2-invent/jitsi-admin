@@ -21,7 +21,7 @@ class RoomCheckService
     /**
      * @param array<int, string> $error
      */
-    public function checkRoom(Rooms $room, &$error): Rooms
+    public function checkRoom(Rooms $room, array &$error): Rooms
     {
 
         $error = [];

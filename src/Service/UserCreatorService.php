@@ -33,7 +33,7 @@ class UserCreatorService
      * @param string|null $lastName
      * @param bool $dryrun
      */
-    public function createUser($email, $userName, $firstName = null, $lastName = null, $dryrun = false): User
+    public function createUser(string $email, ?string $userName, ?string $firstName = null, ?string $lastName = null, bool $dryrun = false): User
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $userName]);
         if (!$user) {

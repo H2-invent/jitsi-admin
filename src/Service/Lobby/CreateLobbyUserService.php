@@ -26,7 +26,7 @@ class CreateLobbyUserService
      * @param bool $websocketReady
      * @return LobbyWaitungUser
      */
-    public function createNewLobbyUser(User $user, Rooms $room, $type,$websocketReady=false): LobbyWaitungUser
+    public function createNewLobbyUser(User $user, Rooms $room, string $type,bool $websocketReady=false): LobbyWaitungUser
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $user, 'room' => $room]);
         if (!$lobbyUser) {

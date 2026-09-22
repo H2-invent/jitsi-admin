@@ -26,7 +26,7 @@ class CallOutSessionAPIDialService
      * Every Session has to go through this session
      * Every Session has to be dialed after it is shown in the pool
      */
-    public function dialSession($sessionId): array
+    public function dialSession(string $sessionId): array
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(['uid' => $sessionId]);
         if (!$calloutSession) {

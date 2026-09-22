@@ -61,7 +61,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getSpecialFields()
+    public function getSpecialFields(): mixed
     {
         return $this->specialFields;
     }
@@ -69,7 +69,7 @@ class LdapType
     /**
      * @param mixed $specialFields
      */
-    public function setSpecialFields($specialFields): void
+    public function setSpecialFields(mixed $specialFields): void
     {
         $this->specialFields = $specialFields;
     }
@@ -77,7 +77,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getUserDn()
+    public function getUserDn(): mixed
     {
         return $this->userDn;
     }
@@ -85,7 +85,7 @@ class LdapType
     /**
      * @param mixed $userDn
      */
-    public function setUserDn($userDn): void
+    public function setUserDn(mixed $userDn): void
     {
         $this->userDn = $userDn;
     }
@@ -93,7 +93,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getScope()
+    public function getScope(): mixed
     {
         return $this->scope;
     }
@@ -101,7 +101,7 @@ class LdapType
     /**
      * @param mixed $scope
      */
-    public function setScope($scope): void
+    public function setScope(mixed $scope): void
     {
         $this->scope = $scope;
     }
@@ -109,7 +109,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getMapper()
+    public function getMapper(): mixed
     {
         return $this->mapper;
     }
@@ -117,7 +117,7 @@ class LdapType
     /**
      * @param mixed $mapper
      */
-    public function setMapper($mapper): void
+    public function setMapper(mixed $mapper): void
     {
         $this->mapper = $mapper;
     }
@@ -125,7 +125,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getUrl()
+    public function getUrl(): mixed
     {
         return $this->url;
     }
@@ -133,7 +133,7 @@ class LdapType
     /**
      * @param mixed $url
      */
-    public function setUrl($url): void
+    public function setUrl(mixed $url): void
     {
         $this->url = $url;
     }
@@ -141,7 +141,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getUserNameAttribute()
+    public function getUserNameAttribute(): mixed
     {
         return $this->userNameAttribute;
     }
@@ -149,7 +149,7 @@ class LdapType
     /**
      * @param mixed $userNameAttribute
      */
-    public function setUserNameAttribute($userNameAttribute): void
+    public function setUserNameAttribute(mixed $userNameAttribute): void
     {
         $this->userNameAttribute = $userNameAttribute;
     }
@@ -157,7 +157,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getSerVerId()
+    public function getSerVerId(): mixed
     {
         return $this->serVerId;
     }
@@ -165,7 +165,7 @@ class LdapType
     /**
      * @param mixed $serVerId
      */
-    public function setSerVerId($serVerId): void
+    public function setSerVerId(mixed $serVerId): void
     {
         $this->serVerId = $serVerId;
     }
@@ -173,7 +173,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getLdap()
+    public function getLdap(): mixed
     {
         return $this->ldap;
     }
@@ -181,7 +181,7 @@ class LdapType
     /**
      * @param mixed $ldap
      */
-    public function setLdap($ldap): void
+    public function setLdap(mixed $ldap): void
     {
         $this->ldap = $ldap;
     }
@@ -189,7 +189,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getRdn()
+    public function getRdn(): mixed
     {
         return $this->rdn;
     }
@@ -197,7 +197,7 @@ class LdapType
     /**
      * @param mixed $rdn
      */
-    public function setRdn($rdn): void
+    public function setRdn(mixed $rdn): void
     {
         $this->rdn = $rdn;
     }
@@ -205,7 +205,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getBindDn()
+    public function getBindDn(): mixed
     {
         return $this->bindDn;
     }
@@ -213,7 +213,7 @@ class LdapType
     /**
      * @param mixed $bindDn
      */
-    public function setBindDn($bindDn): void
+    public function setBindDn(mixed $bindDn): void
     {
         $this->bindDn = $bindDn;
     }
@@ -221,7 +221,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getPassword()
+    public function getPassword(): mixed
     {
         return $this->password;
     }
@@ -229,7 +229,7 @@ class LdapType
     /**
      * @param mixed $password
      */
-    public function setPassword($password): void
+    public function setPassword(mixed $password): void
     {
         $this->password = $password;
     }
@@ -237,7 +237,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getBindType()
+    public function getBindType(): mixed
     {
         return $this->bindType;
     }
@@ -245,7 +245,7 @@ class LdapType
     /**
      * @param mixed $bindType
      */
-    public function setBindType($bindType): void
+    public function setBindType(mixed $bindType): void
     {
         $this->bindType = $bindType;
     }
@@ -253,7 +253,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getObjectClass()
+    public function getObjectClass(): mixed
     {
         return $this->objectClass;
     }
@@ -261,7 +261,7 @@ class LdapType
     /**
      * @param mixed $objectClass
      */
-    public function setObjectClass($objectClass): void
+    public function setObjectClass(mixed $objectClass): void
     {
         $this->objectClass = $objectClass;
     }
@@ -269,7 +269,7 @@ class LdapType
     /**
      * @return Ldap
      */
-    public function createLDAP()
+    public function createLDAP(): Ldap
     {
 
         $anonym = $this->bindType === 'simple' ? false : true;
@@ -306,7 +306,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getFilter()
+    public function getFilter(): mixed
     {
         return $this->filter;
     }
@@ -314,7 +314,7 @@ class LdapType
     /**
      * @param mixed $filter
      */
-    public function setFilter($filter): void
+    public function setFilter(mixed $filter): void
     {
         $this->filter = $filter;
     }
@@ -364,7 +364,7 @@ class LdapType
      * this function queries for users in the ldap
      * @return \Symfony\Component\Ldap\Entry[]
      */
-    public function retrieveUser()
+    public function retrieveUser(): array
     {
 
         $options = [
@@ -380,7 +380,7 @@ class LdapType
     /**
      * @return \Symfony\Component\Ldap\Entry[]
      */
-    public function retrieveDeputies()
+    public function retrieveDeputies(): array
     {
 
         $options = [
@@ -395,7 +395,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getDryRun()
+    public function getDryRun(): mixed
     {
         return $this->dryRun;
     }
@@ -403,7 +403,7 @@ class LdapType
     /**
      * @param mixed $dryRun
      */
-    public function setDryRun($dryRun): void
+    public function setDryRun(mixed $dryRun): void
     {
         $this->dryRun = $dryRun;
     }
@@ -411,7 +411,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getLDAPDEPUTYGROUPOBJECTCLASS()
+    public function getLDAPDEPUTYGROUPOBJECTCLASS(): mixed
     {
         return $this->LDAP_DEPUTY_GROUP_OBJECTCLASS;
     }
@@ -419,7 +419,7 @@ class LdapType
     /**
      * @param mixed $LDAP_DEPUTY_GROUP_OBJECTCLASS
      */
-    public function setLDAPDEPUTYGROUPOBJECTCLASS($LDAP_DEPUTY_GROUP_OBJECTCLASS): void
+    public function setLDAPDEPUTYGROUPOBJECTCLASS(mixed $LDAP_DEPUTY_GROUP_OBJECTCLASS): void
     {
         $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = $LDAP_DEPUTY_GROUP_OBJECTCLASS;
     }
@@ -427,7 +427,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getLDAPDEPUTYGROUPDN()
+    public function getLDAPDEPUTYGROUPDN(): mixed
     {
         return $this->LDAP_DEPUTY_GROUP_DN;
     }
@@ -435,7 +435,7 @@ class LdapType
     /**
      * @param mixed $LDAP_DEPUTY_GROUP_DN
      */
-    public function setLDAPDEPUTYGROUPDN($LDAP_DEPUTY_GROUP_DN): void
+    public function setLDAPDEPUTYGROUPDN(mixed $LDAP_DEPUTY_GROUP_DN): void
     {
         $this->LDAP_DEPUTY_GROUP_DN = $LDAP_DEPUTY_GROUP_DN;
     }
@@ -443,7 +443,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getLDAPDEPUTYGROUPLEADER()
+    public function getLDAPDEPUTYGROUPLEADER(): mixed
     {
         return $this->LDAP_DEPUTY_GROUP_LEADER;
     }
@@ -451,7 +451,7 @@ class LdapType
     /**
      * @param mixed $LDAP_DEPUTY_GROUP_LEADER
      */
-    public function setLDAPDEPUTYGROUPLEADER($LDAP_DEPUTY_GROUP_LEADER): void
+    public function setLDAPDEPUTYGROUPLEADER(mixed $LDAP_DEPUTY_GROUP_LEADER): void
     {
         $this->LDAP_DEPUTY_GROUP_LEADER = $LDAP_DEPUTY_GROUP_LEADER;
     }
@@ -459,7 +459,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getLDAPDEPUTYGROUPMEMBERS()
+    public function getLDAPDEPUTYGROUPMEMBERS(): mixed
     {
         return $this->LDAP_DEPUTY_GROUP_MEMBERS;
     }
@@ -467,7 +467,7 @@ class LdapType
     /**
      * @param mixed $LDAP_DEPUTY_GROUP_MEMBERS
      */
-    public function setLDAPDEPUTYGROUPMEMBERS($LDAP_DEPUTY_GROUP_MEMBERS): void
+    public function setLDAPDEPUTYGROUPMEMBERS(mixed $LDAP_DEPUTY_GROUP_MEMBERS): void
     {
         $this->LDAP_DEPUTY_GROUP_MEMBERS = $LDAP_DEPUTY_GROUP_MEMBERS;
     }
@@ -475,7 +475,7 @@ class LdapType
     /**
      * @return mixed
      */
-    public function getLDAPDEPUTYGROUPFILTER()
+    public function getLDAPDEPUTYGROUPFILTER(): mixed
     {
         return $this->LDAP_DEPUTY_GROUP_FILTER;
     }
@@ -483,7 +483,7 @@ class LdapType
     /**
      * @param mixed $LDAP_DEPUTY_GROUP_FILTER
      */
-    public function setLDAPDEPUTYGROUPFILTER($LDAP_DEPUTY_GROUP_FILTER): void
+    public function setLDAPDEPUTYGROUPFILTER(mixed $LDAP_DEPUTY_GROUP_FILTER): void
     {
         $this->LDAP_DEPUTY_GROUP_FILTER = $LDAP_DEPUTY_GROUP_FILTER;
     }

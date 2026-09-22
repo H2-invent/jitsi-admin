@@ -24,7 +24,7 @@ class ImagePexels extends AbstractExtension
     /**
      * @return array<string, mixed>|null
      */
-    public function pexelsImage()
+    public function pexelsImage(): ?array
     {
 
         return $this->pexelsService->getImageFromPexels();

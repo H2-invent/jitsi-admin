@@ -32,7 +32,7 @@ class RoomStatusFrontendService
     /**
      * @return RoomStatusParticipant[]
      */
-    public function numberOfOccupants(Rooms $rooms)
+    public function numberOfOccupants(Rooms $rooms): array
     {
         /** @var RoomStatusParticipantRepository $repository */
         $repository = $this->em->getRepository(RoomStatusParticipant::class);

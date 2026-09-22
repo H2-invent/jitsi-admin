@@ -28,7 +28,7 @@ class RoomsInFuture extends AbstractExtension
     /**
      * @return Rooms[]
      */
-    public function roomsinFuture(Server $server)
+    public function roomsinFuture(Server $server): array
     {
         $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');

@@ -77,7 +77,7 @@ class JitsiComponentSelectorService
     /**
      * @return mixed
      */
-    public function getJwt()
+    public function getJwt(): mixed
     {
         return $this->jwt;
     }
@@ -103,7 +103,7 @@ class JitsiComponentSelectorService
      * @param User $user
      * @return mixed
      */
-    public function fetchComponentKey(Rooms $room, User $user)
+    public function fetchComponentKey(Rooms $room, User $user): mixed
     {
         if (!$this->baseUrl) {
             $this->setBaseUrlFromServer($room->getServer());;
@@ -136,7 +136,7 @@ class JitsiComponentSelectorService
         string  $environment = 'default-env',
         string  $region = 'default-region',
         string  $type = 'SIP-JIBRI'
-    )
+    ): array
     {
         $requestData = $this->buildRequestData(
             baseUrl: $baseUrl,
@@ -184,7 +184,7 @@ class JitsiComponentSelectorService
         string  $environment,
         string  $region,
         string  $type,
-    )
+    ): array
     {
         $requestData = [
             'callParams' => [
@@ -214,7 +214,7 @@ class JitsiComponentSelectorService
     /**
      * @return string
      */
-    public function createAuthToken()
+    public function createAuthToken(): string
     {
 
         if (!is_string($this->privateKey)) {
@@ -232,7 +232,7 @@ class JitsiComponentSelectorService
      * @param string $token
      * @return bool
      */
-    public function verifyToken($token): bool
+    public function verifyToken(string $token): bool
     {
 
         try {

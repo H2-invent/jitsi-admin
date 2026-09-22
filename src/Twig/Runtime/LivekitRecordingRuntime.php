@@ -23,7 +23,7 @@ class LivekitRecordingRuntime implements RuntimeExtensionInterface
      * @param Rooms|null $room
      * @return Recording|null
      */
-    public function getRecordingForRoomAndUser(?User $user, ?Rooms $room)
+    public function getRecordingForRoomAndUser(?User $user, ?Rooms $room): ?Recording
     {
         if ($room && $user){
             return $this->recordingRepository->findOneBy(['room' => $room, 'user' => $user]);

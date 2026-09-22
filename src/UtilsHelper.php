@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App;
-
 
 use App\Entity\Rooms;
 use App\Entity\User;
@@ -13,10 +11,11 @@ class UtilsHelper
      * @param string $urlString
      * @return string|null
      */
-    public static function slugify($urlString)
+    public static function slugify(string $urlString): ?string
     {
         $slug = preg_replace("/[^a-zA-Z0-9 ]/", "", strtolower($urlString));
         $slug = preg_replace("/[ ]/", "_", $slug);
+
         return $slug;
     }
 
@@ -24,10 +23,11 @@ class UtilsHelper
      * @param string $urlString
      * @return string|null
      */
-    public static function slugifywithDot($urlString)
+    public static function slugifyWithDot(string $urlString): ?string
     {
         $slug = preg_replace("/[^a-zA-Z0-9. ]/", "", strtolower($urlString));
         $slug = preg_replace("/[ ]/", "_", $slug);
+
         return $slug;
     }
 
@@ -35,7 +35,7 @@ class UtilsHelper
      * @param int $length
      * @return string
      */
-    public static function readable_random_string($length = 6)
+    public static function readableRandomString(int $length = 6): string
     {
         $nouns = [
             'cat', 'dog', 'robot', 'moon', 'tree', 'fish', 'flower', 'cloud', 'book', 'child',

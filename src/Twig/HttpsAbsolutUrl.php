@@ -30,7 +30,7 @@ class HttpsAbsolutUrl extends AbstractExtension
      * @param Rooms|null $rooms
      * @return string
      */
-    public function httpsAbolutUrl($url, ?Rooms $rooms = null)
+    public function httpsAbolutUrl(string $url, ?Rooms $rooms = null): string
     {
         return $this->httpsUrl->createHttpsUrl($url, $rooms);
     }

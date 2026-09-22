@@ -35,7 +35,7 @@ class RoomAddService
      * @param Rooms $room
      * @return array<int, string>
      */
-    public function createParticipants($input, Rooms $room, ?User $inviter = null)
+    public function createParticipants(string $input, Rooms $room, ?User $inviter = null): array
     {
         $validUsers = new ArrayCollection();
         $lines = explode("\n", $input);
@@ -73,7 +73,7 @@ class RoomAddService
     /**
      * @param string $userId
      */
-    public function createSingleParticipantAndAddtoRoom($userId, ?User $inviter, Rooms $room):?User
+    public function createSingleParticipantAndAddtoRoom(string $userId, ?User $inviter, Rooms $room):?User
     {
         $invalidEmail = [];
         $user = $this->createUserFromUserUid($userId,$invalidEmail);
@@ -95,7 +95,7 @@ class RoomAddService
      * @param Rooms $room
      * @return array<int, string>
      */
-    public function createModerators($input, Rooms $room, ?User $inviter = null)
+    public function createModerators(string $input, Rooms $room, ?User $inviter = null): array
     {
         $lines = explode("\n", $input);
         $falseEmail = [];
@@ -127,7 +127,7 @@ class RoomAddService
      * @param array<int, string> $falseEmails
      * @return User|null
      */
-    public function createUserFromUserUid($email, &$falseEmails): ?User
+    public function createUserFromUserUid(string $email, array &$falseEmails): ?User
     {
         $user = null;
         $email = trim($email);
@@ -158,7 +158,7 @@ class RoomAddService
      * @param User $user
      * @return User The user which is connected to the room
      */
-    private function createUserParticipant(Rooms $room, User $user)
+    private function createUserParticipant(Rooms $room, User $user): User
     {
         if ($room->getRepeater()) {
             $this->addUSerToSeries($user, $room);
@@ -175,7 +175,7 @@ class RoomAddService
      * @param Rooms $room
      * @return void
      */
-    public function addUserOnlytoOneRoom(User $user, Rooms $room)
+    public function addUserOnlytoOneRoom(User $user, Rooms $room): void
     {
         if (!in_array($user, $room->getUser()->toArray())) {
             $user->addRoom($room);
@@ -189,7 +189,7 @@ class RoomAddService
      * @param Rooms $room
      * @return User
      */
-    public function addUSerToSeries(User $user, Rooms $room)
+    public function addUSerToSeries(User $user, Rooms $room): User
     {
         $prototype = $room->getRepeater()->getPrototyp();
         if (!in_array($user, $prototype->getPrototypeUsers()->toArray())) {
@@ -205,7 +205,7 @@ class RoomAddService
      * @param User $invited
      * @return void
      */
-    public function addUserToAdressbook(User $inviter, User $invited)
+    public function addUserToAdressbook(User $inviter, User $invited): void
     {
         $invited->addAddressbookInverse($inviter);
         $this->em->persist($invited);
@@ -241,7 +241,7 @@ class RoomAddService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function removeUserFromRepeaterRoom(Rooms $rooms, User $user)
+    public function removeUserFromRepeaterRoom(Rooms $rooms, User $user): void
     {
         $prot = $rooms->getRepeater()->getPrototyp();
         $prot->removePrototypeUser($user);
@@ -266,7 +266,7 @@ class RoomAddService
      * @param User $user
      * @return void
      */
-    public function removeUserFromRoomNoRepeat(Rooms $rooms, User $user)
+    public function removeUserFromRoomNoRepeat(Rooms $rooms, User $user): void
     {
         $rooms->removeUser($user);
         $this->em->persist($rooms);
@@ -295,7 +295,7 @@ class RoomAddService
      * @param Rooms $rooms
      * @return void
      */
-    private function removeRoomUser(User $user, Rooms $rooms)
+    private function removeRoomUser(User $user, Rooms $rooms): void
     {
         $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $rooms]);
         if ($roomsUser) {

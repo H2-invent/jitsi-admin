@@ -31,7 +31,7 @@ class SendMessageToWaitingUser
      * @param int|string $message
      * @return array{counter: int, success: bool}
      */
-    public function sendMessageToAllWaitingUser($message, User $user, Rooms $rooms): array
+    public function sendMessageToAllWaitingUser(int|string $message, User $user, Rooms $rooms): array
     {
         $counter = 0;
         $success = true;
@@ -49,7 +49,7 @@ class SendMessageToWaitingUser
      * @param string|null $uid
      * @param int|string $message
      */
-    public function sendMessage($uid, $message, User $user): bool
+    public function sendMessage(?string $uid, int|string $message, User $user): bool
     {
         $waitingUser = $this->entityManager->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $uid]);
         if (!$waitingUser) {
@@ -87,7 +87,7 @@ class SendMessageToWaitingUser
     /**
      * @param int|string $id
      */
-    public function createMesagefromId($id): ?string
+    public function createMesagefromId(int|string $id): ?string
     {
         $message = $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findOneBy(['id' => $id, 'active' => true]);
         if (!$message) {
@@ -101,7 +101,7 @@ class SendMessageToWaitingUser
     /**
      * @param string $message
      */
-    public function createMessageFromString($message, int $allowCreating): ?string
+    public function createMessageFromString(string $message, int $allowCreating): ?string
     {
         if ($allowCreating === 1) {
             $this->logger->debug('We create a custom message from a string');

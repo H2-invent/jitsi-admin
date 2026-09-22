@@ -54,7 +54,7 @@ class CallerSessionService
      * @param string|null $sessionId
      * @return array<string, mixed>
      */
-    public function getSessionStatus($sessionId): array
+    public function getSessionStatus(?string $sessionId): array
     {
         $this->loggger->debug('Start with Session', ['sessionId' => $sessionId]);
         $session = $this->em->getRepository(CallerSession::class)->findOneBy(['sessionId' => $sessionId]);

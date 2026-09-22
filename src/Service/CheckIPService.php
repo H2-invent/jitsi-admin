@@ -17,7 +17,7 @@ class CheckIPService
      * @param string|null $ipRange
      * @return bool
      */
-    function isIPInRange($ipToCheck, $ipRange): bool
+    function isIPInRange(string $ipToCheck, ?string $ipRange): bool
     {
 
         $this->logger->info($ipToCheck);

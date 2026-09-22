@@ -40,7 +40,7 @@ class PermissionChangeService
      * @param Rooms $rooms
      * @return bool
      */
-    function toggleShareScreen(User $oldUser, User $user, Rooms $rooms)
+    function toggleShareScreen(User $oldUser, User $user, Rooms $rooms): bool
     {
         $repeater = false;
         if ($rooms->getRepeater()) {
@@ -77,7 +77,7 @@ class PermissionChangeService
      * @param Rooms $rooms
      * @return bool
      */
-    function toggleModerator(User $oldUser, User $user, Rooms $rooms)
+    function toggleModerator(User $oldUser, User $user, Rooms $rooms): bool
     {
 
         $repeater = false;
@@ -120,7 +120,7 @@ class PermissionChangeService
      * @param Rooms $rooms
      * @return RoomsUser|false
      */
-    function toggleLobbyModerator(User $oldUser, User $user, Rooms $rooms)
+    function toggleLobbyModerator(User $oldUser, User $user, Rooms $rooms): RoomsUser|bool
     {
         $repeater = false;
         if ($rooms->getRepeater()) {
@@ -174,7 +174,7 @@ class PermissionChangeService
      * @param Rooms $rooms
      * @return bool
      */
-    function togglePrivateMessage(User $oldUser, User $user, Rooms $rooms)
+    function togglePrivateMessage(User $oldUser, User $user, Rooms $rooms): bool
     {
         $repeater = false;
         if ($rooms->getRepeater()) {

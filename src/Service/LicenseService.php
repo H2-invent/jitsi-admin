@@ -34,7 +34,7 @@ class LicenseService
      * @param string $licenseString
      * @return array{error: bool, text?: string, licenseKey?: string}
      */
-    public function generateNewLicense($licenseString): array
+    public function generateNewLicense(string $licenseString): array
     {
         if (!$this->checkSignature->verifySignature($licenseString)) {
             return ['error' => true, 'text' => 'Invalid Signature'];

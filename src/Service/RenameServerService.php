@@ -18,7 +18,7 @@ class RenameServerService
      * @param Server[] $servers
      * @return Server[]
      */
-    public function renameServer($servers): array
+    public function renameServer(array $servers): array
     {
         $res = [];
         foreach ($servers as $data) {

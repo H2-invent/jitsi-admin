@@ -19,7 +19,7 @@ class WhiteboardJwtService
      * @param bool $isModerator
      * @return string
      */
-    public function createJwt(Rooms $rooms, $isModerator = false): string
+    public function createJwt(Rooms $rooms, bool $isModerator = false): string
     {
         $ui = $this->uidHelper->getUid($rooms);
         $payload = [

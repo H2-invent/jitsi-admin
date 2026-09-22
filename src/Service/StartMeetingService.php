@@ -101,7 +101,7 @@ class StartMeetingService
      * this function checks if the meeting is already started or if it is too late or to early
      * This function checks if the room has the lobby function activated
      */
-    public function startMeeting(?Rooms $room, User $user, $t, $name): NotFoundHttpException|RedirectResponse|Response
+    public function startMeeting(?Rooms $room, User $user, ?string $t, ?string $name): NotFoundHttpException|RedirectResponse|Response
     {
         if ($this->flashBag->getCurrentRequest() && $room){
             $ip = $this->flashBag->getCurrentRequest()->getClientIp();
@@ -146,7 +146,7 @@ class StartMeetingService
      * @param string|null $t
      * @param string|null $name
      */
-    public function setAttribute(Rooms $rooms, ?User $user, $t, $name): void
+    public function setAttribute(Rooms $rooms, ?User $user, ?string $t, ?string $name): void
     {
         $this->room = $rooms;
         $this->user = $user;
@@ -161,7 +161,7 @@ class StartMeetingService
      * @throws \Twig\Error\SyntaxError
      * this function generates a page if the lobby is activated
      */
-    private function generateLobby()
+    private function generateLobby(): RedirectResponse|Response
     {
         if ($this->user !== null && ($this->user === $this->room->getModerator() || $this->user->getPermissionForRoom($this->room)->getLobbyModerator())) {
             return $this->createLobbyModeratorResponse();
@@ -177,7 +177,7 @@ class StartMeetingService
      * @throws \Twig\Error\SyntaxError
      *  this function generates the page for the lobby moderator
      */
-    public function lobbyModerator()
+    public function lobbyModerator(): string|Response
     {
         if ($this->user !== null && ($this->room->getModerator() === $this->user || $this->user->getPermissionForRoom($this->room)->getLobbyModerator() === true)) {
             return $this->createLobbyModeratorResponse();
@@ -213,7 +213,7 @@ class StartMeetingService
      * @throws \Twig\Error\SyntaxError
      * this function generates the page for the participant
      */
-    public function createLobbyParticipantResponse($wuid = null): Response
+    public function createLobbyParticipantResponse(?string $wuid = null): Response
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $this->user, 'room' => $this->room]);
         $foundByUid = false;
@@ -256,7 +256,7 @@ class StartMeetingService
      * this function generates tthe redirect respnse when the room is closed.
      * So it is to early or to late to enter the room
      */
-    private function RoomClosed()
+    private function RoomClosed(): RedirectResponse
     {
         /** @var FlashBagInterface $flashBag */
         $flashBag = $this->flashBag->getSession()->getBag('flashes');
@@ -270,7 +270,7 @@ class StartMeetingService
      * @return RedirectResponse
      * this function redirect to the dashboard when the room is not avalable. this can happens when the user is not a participent or the romm is not available
      */
-    private function roomNotFound()
+    private function roomNotFound(): RedirectResponse
     {
         /** @var FlashBagInterface $flashBag */
         $flashBag = $this->flashBag->getSession()->getBag('flashes');
@@ -285,7 +285,7 @@ class StartMeetingService
      * @throws \Twig\Error\SyntaxError
      * this function genereats a redirect to the meeting app or generate an iframe to load the jitsi window
      */
-    public function roomDefault()
+    public function roomDefault(): RedirectResponse|Response|NotFoundHttpException
     {
         if ($this->type === 'a') {
             $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);

@@ -30,7 +30,7 @@ class JigasiService
     /**
      * @return mixed
      */
-    public function getNumber(?Rooms $rooms)
+    public function getNumber(?Rooms $rooms): mixed
     {
         if (!$rooms) {
             return null;
@@ -56,7 +56,7 @@ class JigasiService
     /**
      * @return mixed
      */
-    public function getRoomPin(?Rooms $rooms)
+    public function getRoomPin(?Rooms $rooms): mixed
     {
         if (!$rooms) {
             return null;

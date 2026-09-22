@@ -155,7 +155,7 @@ class LdapService
     /**
      * @return int
      */
-    public function createLdapConnections()
+    public function createLdapConnections(): int
     {
         if (sizeof($this->URL) > 0) {
             $count = 0;
@@ -262,7 +262,7 @@ class LdapService
      * @return array{ldap: LdapType, user: array<int, mixed>|null}
      * @throws \Exception
      */
-    public function fetchLdap(LdapType $ldap, $dryRun = false)
+    public function fetchLdap(LdapType $ldap, bool $dryRun = false): array
     {
 
         $user = null;
@@ -282,7 +282,7 @@ class LdapService
     /**
      * @return Entry[]
      */
-    public function fetchDeputies()
+    public function fetchDeputies(): array
     {
         $res = [];
         foreach ($this->ldaps as $data) {
@@ -302,7 +302,7 @@ class LdapService
      * @param bool $dryrun
      * @return void
      */
-    public function setDeputies($entrys, $dryrun = false)
+    public function setDeputies(array $entrys, bool $dryrun = false): void
     {
         foreach ($entrys as $data) {
             foreach ($this->ldaps as $ldap) {
@@ -356,7 +356,7 @@ class LdapService
     /**
      * @return void
      */
-    public function cleanUpLdapUsers()
+    public function cleanUpLdapUsers(): void
     {
         foreach ($this->ldaps as $data) {
             $this->ldapUserService->syncDeletedUser($data);

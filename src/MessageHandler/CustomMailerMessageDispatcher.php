@@ -47,7 +47,7 @@ class CustomMailerMessageDispatcher
      * @param string $wrongEmail
      * @param string $error
      */
-    private function sendNotdelivery(?Rooms $room, $to, $wrongEmail, $error): void
+    private function sendNotdelivery(?Rooms $room, string $to, string $wrongEmail, string $error): void
     {
         /** @var string $sender */
         $sender = $this->parameterBag->get('registerEmailAdress');

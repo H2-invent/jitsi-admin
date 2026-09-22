@@ -38,7 +38,7 @@ class ConferenceMapperService
      * @param string|null $callerId
      * @return array<string, mixed>
      */
-    public function checkConference(?CallerRoom $callerRoom, $apiKey, $callerId)
+    public function checkConference(?CallerRoom $callerRoom, string $apiKey, ?string $callerId): array
     {
         /** @var string $showNameInConference */
         $showNameInConference = $this->parameterBag->get('laf_showNameInConference');
@@ -93,7 +93,7 @@ class ConferenceMapperService
     /**
      * @param string $callerId
      */
-    public function findNameFromCallerId($callerId): ?User
+    public function findNameFromCallerId(string $callerId): ?User
     {
         $this->logger->debug('Caller id fetched to find user', ['callerid' => $callerId]);
         $user = $this->userRepository->findUsersByCallerId(callerId: $callerId);

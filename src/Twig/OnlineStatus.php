@@ -31,7 +31,7 @@ class OnlineStatus extends AbstractExtension
     /**
      * @return string
      */
-    public function getOnlineStatus(User $user)
+    public function getOnlineStatus(User $user): string
     {
 
         return $this->onlineStatusService->getUserStatus(user: $user) === 1 ? 'online' : 'offline';
@@ -40,7 +40,7 @@ class OnlineStatus extends AbstractExtension
     /**
      * @return string
      */
-    public function getOnlineStatusString(User $user)
+    public function getOnlineStatusString(User $user): string
     {
 
         $state =  $this->onlineStatusService->getUserStatus(user: $user);

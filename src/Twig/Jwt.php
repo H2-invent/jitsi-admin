@@ -30,11 +30,11 @@ class Jwt extends AbstractExtension
      * @param string $name
      * @param bool $moderatorExplizit
      * @param bool $noModerator
-     * @param string|bool $skipLobby
+     * @param string|bool|null $skipLobby
      * @param string|bool|null $enableMic
      * @param string|bool|null $enableCamera
      */
-    public function jwtFromRoom(?User $user, Rooms $rooms, $name, $moderatorExplizit = false,$noModerator=false, $skipLobby=false,$enableMic = null, $enableCamera=null): string
+    public function jwtFromRoom(?User $user, Rooms $rooms, string $name, bool $moderatorExplizit = false,bool $noModerator=false, string|bool|null $skipLobby=false,string|bool|null $enableMic = null, string|bool|null $enableCamera=null): string
     {
 
         return $this->roomService->generateJwt($rooms, $user, $name, $moderatorExplizit, noModerator: $noModerator,skipLobby: $skipLobby,enableMic: $enableMic,enableCamera: $enableCamera);
@@ -44,7 +44,7 @@ class Jwt extends AbstractExtension
      * @param string $name
      * @param string $t
      */
-    public function urlFromRoom(?User $user, Rooms $rooms, $name, $t): string
+    public function urlFromRoom(?User $user, Rooms $rooms, string $name, string $t): string
     {
         if ($user) {
             return $this->roomService->join($rooms, $user, $t, $name);

@@ -37,7 +37,7 @@ class NotificationService
      * @param string $url
      * @param string $method
      */
-    function createIcs(Rooms $rooms, User $user, $url, $method = 'REQUEST'): string
+    function createIcs(Rooms $rooms, User $user, string $url, string $method = 'REQUEST'): string
     {
         $this->ics = new IcsService();
 
@@ -98,7 +98,7 @@ class NotificationService
      * @param string $subject
      * @param array<mixed> $attachement
      */
-    function sendNotification($content, $subject, User $user, Server $server, ?Rooms $rooms = null, $attachement = []): bool
+    function sendNotification(string $content, string $subject, User $user, Server $server, ?Rooms $rooms = null, array $attachement = []): bool
     {
         return $this->mailer->sendEmail(
             $user,
@@ -116,7 +116,7 @@ class NotificationService
      * @param string $content
      * @param string $subject
      */
-    function sendCron($content, $subject, User $user, Server $server, Rooms $rooms): bool
+    function sendCron(string $content, string $subject, User $user, Server $server, Rooms $rooms): bool
     {
         return $this->mailer->sendEmail(
             $user,

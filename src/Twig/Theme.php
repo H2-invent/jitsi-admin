@@ -28,7 +28,7 @@ class Theme extends AbstractExtension
     /**
      * @return array<string, mixed>|false
      */
-    public function getThemeProperties(?Rooms $rooms = null)
+    public function getThemeProperties(?Rooms $rooms = null): array|bool
     {
         return $this->themeService->getTheme($rooms);
     }
@@ -37,7 +37,7 @@ class Theme extends AbstractExtension
      * @param string $input
      * @return mixed
      */
-    public function getApplicationProperties($input)
+    public function getApplicationProperties(string $input): mixed
     {
         return $this->themeService->getApplicationProperties($input);
     }

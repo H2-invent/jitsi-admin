@@ -53,7 +53,7 @@ class CallerRoomRepository extends ServiceEntityRepository
      * @param int|string $now
      * @return CallerRoom[]
      */
-    public function findPastRoomsWithCallerId($now)
+    public function findPastRoomsWithCallerId(int|string $now): array
     {
         $qb = $this->createQueryBuilder('c');
         return $qb->innerJoin('c.room', 'room')

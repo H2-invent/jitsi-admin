@@ -48,7 +48,7 @@ class PublicConferenceController extends JitsiAdminController
         }
         $data = [
             'server'=>$this->server,
-            'roomName' => UtilsHelper::readable_random_string(5),
+            'roomName' => UtilsHelper::readableRandomString(5),
             'myName'=> $this->requestStack->getSession()->get('myName')?:''
         ];
         $form = $this->createForm(PublicConferenceType::class, $data);

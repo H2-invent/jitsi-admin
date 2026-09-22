@@ -157,7 +157,7 @@ class CallendlyConnect
      */
     public function cleanWebhooks(
         User $user,
-        $webhookId
+        string $webhookId
     ): array {
         try {
             $response = $this->httpClient->request(

@@ -97,12 +97,12 @@ class Documents implements \Serializable
     /**
      * @param mixed $data
      */
-    public function __unserialize($data)
+    public function __unserialize(mixed $data)
     {
         $this->id = $data;
     }
 
-    public function serialize()
+    public function serialize(): string
     {
         return serialize($this->__serialize());
     }
@@ -110,7 +110,7 @@ class Documents implements \Serializable
     /**
      * @param mixed $data
      */
-    public function unserialize($data)
+    public function unserialize(mixed $data): void
     {
         $this->id = $data;
     }

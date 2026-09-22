@@ -20,7 +20,7 @@ class PexelService
     /**
      * @return array<string, mixed>|null
      */
-    public function getImageFromPexels()
+    public function getImageFromPexels(): ?array
     {
         $image = null;
         /** @var mixed $noExternal */

@@ -33,7 +33,7 @@ class DirectSendService
      * @param string $color
      * @param int|null $closeAfterMs
      */
-    public function sendSnackbar($topic, $text, $color, $closeAfterMs = null): string
+    public function sendSnackbar(string $topic, string $text, string $color, ?int $closeAfterMs = null): string
     {
         $data = [
             'type' => 'snackbar',
@@ -55,7 +55,7 @@ class DirectSendService
      * @param string $type
      * @param array<int, array<string, mixed>> $buttons
      */
-    public function sendDialog($topic, $header, $text, $type='question', $buttons=[]): string
+    public function sendDialog(string $topic, string $header, string $text, string $type='question', array $buttons=[]): string
     {
         $data = [
             'type' => 'dialog',
@@ -74,7 +74,7 @@ class DirectSendService
      * @param string $topic
      * @param string $message
      */
-    public function sendMessage($topic, $message, string $from): string
+    public function sendMessage(string $topic, string $message, string $from): string
     {
         $data = [
             'type' => 'message',
@@ -89,7 +89,7 @@ class DirectSendService
      * @param string $topic
      * @param mixed $timeout
      */
-    public function sendReloadPage($topic, $timeout): string
+    public function sendReloadPage(string $topic, mixed $timeout): string
     {
         $data = [
             'type' => 'reload',
@@ -108,7 +108,7 @@ class DirectSendService
      * @param string $color
      * @param int|null $closeAfterMs
      */
-    public function sendBrowserNotification($topic, $title, $message, $pushMessage, $id, $color, $closeAfterMs = null): string
+    public function sendBrowserNotification(string $topic, string $title, string $message, string $pushMessage, string|int $id, string $color, ?int $closeAfterMs = null): string
     {
         $data = [
             'type' => 'notification',
@@ -131,7 +131,7 @@ class DirectSendService
      * @param string $pushMessage
      * @param string|int $id
      */
-    public function sendBrowserPush($topic, $title,  $pushMessage, $id): string
+    public function sendBrowserPush(string $topic, string $title,  string $pushMessage, string|int $id): string
     {
         $data = [
             'type' => 'browserPush',
@@ -147,7 +147,7 @@ class DirectSendService
      * @param string $soundName
      * @param string|int $id
      */
-    public function sendPlaySound($topic, $soundName,  $id): string
+    public function sendPlaySound(string $topic, string $soundName,  string|int $id): string
     {
         $data = [
             'type' => 'playSound',
@@ -161,7 +161,7 @@ class DirectSendService
      * @param string $topic
      * @param string|int $id
      */
-    public function sendCleanBrowserNotification($topic, $id): string
+    public function sendCleanBrowserNotification(string $topic, string|int $id): string
     {
         $data = [
             'type' => 'cleanNotification',
@@ -175,7 +175,7 @@ class DirectSendService
      * @param string $topic
      * @param string $content
      */
-    public function sendModal($topic, $content): bool
+    public function sendModal(string $topic, string $content): bool
     {
 
         $data = [
@@ -192,7 +192,7 @@ class DirectSendService
      * @param string $url
      * @param mixed $timeout
      */
-    public function sendRedirect($topic, $url, $timeout = 1000): bool
+    public function sendRedirect(string $topic, string $url, mixed $timeout = 1000): bool
     {
         $data = [
             'type' => 'redirect',
@@ -208,7 +208,7 @@ class DirectSendService
      * @param string $url
      * @param mixed $timeout
      */
-    public function sendEndMeeting($topic, $url, $timeout = 1000): bool
+    public function sendEndMeeting(string $topic, string $url, mixed $timeout = 1000): bool
     {
         $data = [
             'type' => 'endMeeting',
@@ -223,7 +223,7 @@ class DirectSendService
      * @param string $topic
      * @param array<string, mixed> $options
      */
-    public function sendNewJitsiMeeting($topic, $options): bool
+    public function sendNewJitsiMeeting(string $topic, array $options): bool
     {
         $data = [
             'type' => 'newJitsi',
@@ -237,7 +237,7 @@ class DirectSendService
      * @param string $topic
      * @param string $url
      */
-    public function sendRefresh($topic, $url): bool
+    public function sendRefresh(string $topic, string $url): bool
     {
         $data = [
             'type' => 'refresh',
@@ -255,7 +255,7 @@ class DirectSendService
      * @param int|string $time
      * @param string|int $id
      */
-    public function sendCallAdhockmeeding($title, $topic, $message, $pushMesage, $time, $id): bool
+    public function sendCallAdhockmeeding(string $title, string $topic, string $message, string $pushMesage, int|string $time, string|int $id): bool
     {
         $data = [
             'type' => 'call',
@@ -279,7 +279,7 @@ class DirectSendService
     /**
      * @param string $topic
      */
-    public function sendRefreshDashboard($topic): bool
+    public function sendRefreshDashboard(string $topic): bool
     {
         $data = [
             'type' => 'refreshDashboard',

@@ -26,7 +26,7 @@ class NameWithFormat extends AbstractExtension
     /**
      * @param string $string
      */
-    public function nameOfUserwithFormat(User $user, $string): string
+    public function nameOfUserwithFormat(User $user, string $string): string
     {
         return $this->formateName->formatName($string, $user);
     }

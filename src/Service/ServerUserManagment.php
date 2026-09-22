@@ -35,7 +35,7 @@ class ServerUserManagment
      * default server for all users
      * keycloakserver by group or domain
      */
-    public function getServersFromUser(User $user)
+    public function getServersFromUser(User $user): array
     {
         $servers = $user->getServers()->toArray();
 
@@ -107,7 +107,7 @@ class ServerUserManagment
     /**
      * @return Rooms[]
      */
-    public function getActualConference(Server $server)
+    public function getActualConference(Server $server): array
     {
         /** @var RoomsRepository $roomsRepository */
         $roomsRepository = $this->em->getRepository(Rooms::class);
@@ -117,7 +117,7 @@ class ServerUserManagment
     /**
      * @return RoomStatusParticipant[]
      */
-    public function getActualParticipantsFromServer(Server $server)
+    public function getActualParticipantsFromServer(Server $server): array
     {
         /** @var RoomStatusParticipantRepository $roomStatusParticipantRepository */
         $roomStatusParticipantRepository = $this->em->getRepository(RoomStatusParticipant::class);
