@@ -8,39 +8,38 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CallerSessionRepository::class)]
 class CallerSession
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var string|null */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'text')]
-    private $sessionId;
-    /** @var LobbyWaitungUser|null */
+    private string $sessionId;
+
     #[ORM\OneToOne(targetEntity: LobbyWaitungUser::class, inversedBy: 'callerSession', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
-    private $lobbyWaitingUser;
-    /** @var \DateTimeImmutable|null */
+    private ?LobbyWaitungUser $lobbyWaitingUser = null;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
-    /** @var bool|null */
+    private \DateTimeImmutable $createdAt;
+
     #[ORM\Column(type: 'boolean')]
-    private $authOk;
-    /** @var string|null */
+    private bool $authOk;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $callerId;
-    /** @var CallerId|null */
+    private ?string $callerId = null;
+
     #[ORM\OneToOne(targetEntity: CallerId::class, mappedBy: 'callerSession', cascade: ['persist'])]
-    private $caller;
-    /** @var string|null */
+    private ?CallerId $caller = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $showName;
-    /** @var bool */
+    private ?string $showName = null;
+
     #[ORM\Column(type: 'boolean')]
-    private $callerIdVerified = false;
-    /** @var bool|null */
+    private bool $callerIdVerified = false;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $forceFinish;
+    private ?bool $forceFinish = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $messageUid = null;

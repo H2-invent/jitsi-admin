@@ -9,38 +9,37 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class LobbyWaitungUser
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var User|null */
+    private ?int $id = null;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'lobbyWaitungUsers')]
     #[ORM\JoinColumn(nullable: true)]
-    private $user;
-    /** @var Rooms|null */
+    private ?User $user = null;
+
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'lobbyWaitungUsers')]
     #[ORM\JoinColumn(nullable: false)]
-    private $room;
-    /** @var \DateTimeImmutable|null */
+    private Rooms $room;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
-    /** @var string|null */
+    private \DateTimeImmutable $createdAt;
+
     #[ORM\Column(type: 'text')]
-    private $uid;
-    /** @var string|null */
+    private string $uid;
+
     #[ORM\Column(type: 'string', length: 5)]
-    private $type;
-    /** @var string|null */
+    private string $type;
+
     #[ORM\Column(type: 'text')]
-    private $showName;
-    /** @var CallerSession|null */
+    private string $showName;
+
     #[ORM\OneToOne(targetEntity: CallerSession::class, mappedBy: 'lobbyWaitingUser', cascade: ['persist'])]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
-    private $callerSession;
-    /** @var bool|null */
+    private ?CallerSession $callerSession = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $closeBrowser;
+    private ?bool $closeBrowser = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $websocketReady = false;

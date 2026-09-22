@@ -11,27 +11,30 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SchedulingRepository::class)]
 class Scheduling
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var string|null */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'text')]
-    private $uid;
-    /** @var string|null */
+    private string $uid;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $description;
-    /** @var Rooms|null */
+    private ?string $description = null;
+
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'schedulings')]
     #[ORM\JoinColumn(nullable: false)]
-    private $room;
-    /** @var Collection<int, SchedulingTime> */
+    private Rooms $room;
+
+    /**
+     * @var Collection<int, SchedulingTime>
+     */
     #[ORM\OneToMany(targetEntity: SchedulingTime::class, mappedBy: 'scheduling')]
-    private $schedulingTimes;
+    private Collection $schedulingTimes;
 
     #[ORM\Column(nullable: true)]
     private ?bool $completedEmailSent = null;
+
     public function __construct()
     {
         $this->schedulingTimes = new ArrayCollection();

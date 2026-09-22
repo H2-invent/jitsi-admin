@@ -8,33 +8,33 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RoomStatusParticipantRepository::class)]
 class RoomStatusParticipant
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var \DateTimeImmutable|null */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $enteredRoomAt;
-    /** @var \DateTimeImmutable|null */
+    private \DateTimeImmutable $enteredRoomAt;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $leftRoomAt;
-    /** @var bool|null */
+    private ?\DateTimeImmutable $leftRoomAt = null;
+
     #[ORM\Column(type: 'boolean')]
-    private $inRoom;
-    /** @var RoomStatus|null */
+    private bool $inRoom;
+
     #[ORM\ManyToOne(targetEntity: RoomStatus::class, inversedBy: 'roomStatusParticipants')]
     #[ORM\JoinColumn(nullable: false)]
-    private $roomStatus;
-    /** @var string|null */
+    private RoomStatus $roomStatus;
+
     #[ORM\Column(type: 'text')]
-    private $participantId;
-    /** @var string|null */
+    private string $participantId;
+
     #[ORM\Column(type: 'text')]
-    private $participantName;
-    /** @var int|null */
+    private string $participantName;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $dominantSpeakerTime;
+    private ?int $dominantSpeakerTime = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,9 +59,6 @@ class RoomStatusParticipant
     }
     public function getEnteredRoomAtUTC(): ?\DateTimeImmutable
     {
-        if (!$this->enteredRoomAt) {
-            return null;
-        }
         return new \DateTimeImmutable($this->enteredRoomAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
     public function setEnteredRoomAt(\DateTimeImmutable $enteredRoomAt): self

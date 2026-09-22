@@ -20,72 +20,86 @@ class Repeat
     {
         return (string) $this->id;
     }
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var int|null */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $repetation;
-    /** @var \DateTimeImmutable|null */
+    private ?int $repetation = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $repeatUntil;
-    /** @var Collection<int, Rooms> */
+    private ?\DateTimeImmutable $repeatUntil = null;
+
+    /**
+     * @var Collection<int, Rooms>
+     */
     #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'repeater')]
-    private $rooms;
-    /** @var Collection<int, User> */
+    private Collection $rooms;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'repeaterUsers')]
-    private $participants;
-    /** @var array<int, mixed> */
+    private Collection $participants;
+
+    /**
+     * @var array<int, mixed>
+     */
     #[ORM\Column(type: 'array')]
-    private $weekday = [];
-    /** @var int|null */
+    private array $weekday = [];
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $weeks;
-    /** @var int|null */
+    private ?int $weeks = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $months;
-    /** @var int|null */
+    private ?int $months = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $days;
+    private ?int $days = null;
+
     #[ORM\Column(type: 'integer', enumType: RepeatTypeEnum::class)]
     private ?RepeatTypeEnum $repeatType = null;
-    /** @var int|null */
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $repeaterDays;
-    /** @var int|null */
+    private ?int $repeaterDays = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $repeaterWeeks;
-    /** @var int|null */
+    private ?int $repeaterWeeks = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $RepeatMontly;
-    /** @var int|null */
+    private ?int $RepeatMontly = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $RepeatYearly;
-    /** @var \DateTimeImmutable|null */
+    private ?int $RepeatYearly = null;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $startDate;
-    /** @var Rooms|null */
+    private \DateTimeImmutable $startDate;
+
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'repeaterProtoype', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
-    private $prototyp;
+    private ?Rooms $prototyp = null;
+
     #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatNumberEnum::class)]
     private ?RepeatNumberEnum $repatMonthRelativNumber = null;
+
     #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatWeekdayEnum::class)]
     private ?RepeatWeekdayEnum $repatMonthRelativWeekday = null;
+
     #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatNumberEnum::class)]
     private ?RepeatNumberEnum $repeatYearlyRelativeNumber = null;
+
     #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatMonthEnum::class)]
     private ?RepeatMonthEnum $repeatYearlyRelativeMonth = null;
+
     #[ORM\Column(type: 'integer', nullable: true, enumType: RepeatWeekdayEnum::class)]
     private ?RepeatWeekdayEnum $repeatYearlyRelativeWeekday = null;
-    /** @var int|null */
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $repeatMonthlyRelativeHowOften;
-    /** @var int|null */
+    private ?int $repeatMonthlyRelativeHowOften = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $repeatYearlyRelativeHowOften;
+    private ?int $repeatYearlyRelativeHowOften = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $uid = null;

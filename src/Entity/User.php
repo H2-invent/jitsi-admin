@@ -20,204 +20,185 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class User extends BaseUser
 {
     private FormatName $formatName;
-    /**
-     * @var int|null
-     */
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected $id;
-    /**
-     * @var string|null
-     */
+    protected ?int $id = null;
+
     #[Assert\NotBlank(message: 'fos_user.password.blank', groups: ['Registration', 'ResetPassword', 'ChangePassword'])]
     #[Assert\Length(min: 8, minMessage: 'fos_user.password.short', groups: ['Registration', 'Profile', 'ResetPassword', 'ChangePassword'])]
-    protected $plainPassword;
-    /**
-     * @var string|null
-     */
+    protected ?string $plainPassword = null;
+
     #[ORM\Column(type: 'text')]
-    private $email;
-    /**
-     * @var string|null
-     */
+    private string $email;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $keycloakId;
-    /**
-     * @var \DateTimeImmutable|null
-     */
+    private ?string $keycloakId = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $createdAt;
-    /**
-     * @var string|null
-     */
+    private ?\DateTimeImmutable $createdAt = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $username;
-    /**
-     * @var \DateTimeImmutable|null
-     */
+    private ?string $username = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $lastLogin;
-    /**
-     * @var string|null
-     */
+    private ?\DateTimeImmutable $lastLogin = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $firstName;
-    /**
-     * @var string|null
-     */
+    private ?string $firstName = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $lastName;
-    /**
-     * @var string|null
-     */
+    private ?string $lastName = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $registerId;
+    private ?string $registerId = null;
+
     /**
      * @var Collection<int, Rooms>
      */
     #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'user')]
-    private $rooms;
+    private Collection $rooms;
+
     /**
      * @var Collection<int, Server>
      */
     #[ORM\ManyToMany(targetEntity: Server::class, mappedBy: 'user')]
-    private $servers;
+    private Collection $servers;
+
     /**
      * @var Collection<int, Rooms>
      */
     #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'moderator')]
-    private $roomModerator;
+    private Collection $roomModerator;
+
     /**
      * @var Collection<int, Server>
      */
     #[ORM\OneToMany(targetEntity: Server::class, mappedBy: 'administrator')]
-    private $serverAdmins;
+    private Collection $serverAdmins;
+
     /**
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'addressbookInverse')]
-    private $addressbook;
+    private Collection $addressbook;
+
     /**
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'addressbook')]
-    private $addressbookInverse;
+    private Collection $addressbookInverse;
+
     /**
      * @var Collection<int, RoomsUser>
      */
     #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'user')]
-    private $roomsAttributes;
+    private Collection $roomsAttributes;
+
     /**
      * @var Collection<int, Subscriber>
      */
     #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'user')]
-    private $subscribers;
+    private Collection $subscribers;
+
     /**
      * @var array<int|string, mixed>|null
      */
     #[ORM\Column(type: 'array', nullable: true, name: 'keycloakGroup')]
-    private $groups = [];
+    private ?array $groups = [];
+
     /**
      * @var Collection<int, SchedulingTimeUser>
      */
     #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'user')]
-    private $schedulingTimeUsers;
-    /**
-     * @var string|null
-     */
+    private Collection $schedulingTimeUsers;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $uid;
+    private ?string $uid = null;
+
     /**
      * @var Collection<int, Waitinglist>
      */
     #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'user', cascade: ['remove'])]
-    private $waitinglists;
+    private Collection $waitinglists;
+
     /**
      * @var Collection<int, Notification>
      */
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
-    private $notifications;
+    private Collection $notifications;
+
     /**
      * @var Collection<int, Repeat>
      */
     #[ORM\ManyToMany(targetEntity: Repeat::class, mappedBy: 'participants')]
-    private $repeaterUsers;
+    private Collection $repeaterUsers;
+
     /**
      * @var Collection<int, Rooms>
      */
     #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'prototypeUsers')]
-    private $protoypeRooms;
-    /**
-     * @var string|null
-     */
+    private Collection $protoypeRooms;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $ownRoomUid;
-    /**
-     * @var Server|null
-     */
+    private ?string $ownRoomUid = null;
+
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'OwnRoomUSer')]
-    private $myOwnRoomServer;
+    private ?Server $myOwnRoomServer = null;
+
     /**
      * @var Collection<int, AddressGroup>
      */
     #[ORM\OneToMany(targetEntity: AddressGroup::class, mappedBy: 'leader', cascade: ['remove'])]
-    private $AddressGroupLeader;
+    private Collection $AddressGroupLeader;
+
     /**
      * @var Collection<int, AddressGroup>
      */
     #[ORM\ManyToMany(targetEntity: AddressGroup::class, mappedBy: 'member')]
-    private $AddressGroupMember;
-    /**
-     * @var LdapUserProperties|null
-     */
+    private Collection $AddressGroupMember;
+
     #[ORM\OneToOne(targetEntity: LdapUserProperties::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private $ldapUserProperties;
-    /**
-     * @var string|null
-     */
+    private ?LdapUserProperties $ldapUserProperties = null;
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $timeZone;
+    private ?string $timeZone = null;
+
     /**
      * @var array<string, mixed>|null
      */
     #[ORM\Column(type: 'array', nullable: true)]
-    private $spezialProperties = [];
+    private ?array $spezialProperties = [];
+
     /**
      * @var Collection<int, Rooms>
      */
     #[ORM\ManyToMany(targetEntity: Rooms::class, inversedBy: 'favoriteUsers')]
-    private $favorites;
+    private Collection $favorites;
+
     /**
      * @var Collection<int, LobbyWaitungUser>
      */
     #[ORM\OneToMany(targetEntity: LobbyWaitungUser::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private $lobbyWaitungUsers;
-    /**
-     * @var string|null
-     */
+    private Collection $lobbyWaitungUsers;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $indexer;
-    /**
-     * @var string|null
-     */
+    private ?string $indexer = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $secondEmail;
-    /**
-     * @var Documents
-     */
+    private ?string $secondEmail = null;
+
     #[ORM\OneToOne(targetEntity: Documents::class, cascade: ['persist', 'remove'])]
-    private $profilePicture;
-    /**
-     * @var \DateTimeImmutable|null
-     */
+    private ?Documents $profilePicture = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
+
     /**
      * @var Collection<int, CallerId>
      */
     #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'user', cascade: ['remove'])]
-    private $callerIds;
+    private Collection $callerIds;
 
     #[ORM\Column(nullable: true)]
     private ?int $onlineStatus = null;

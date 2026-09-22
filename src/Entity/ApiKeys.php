@@ -8,20 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ApiKeysRepository::class)]
 class ApiKeys
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var string|null */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'text')]
-    private $clientId;
-    /** @var string|null */
+    private string $clientId;
+
     #[ORM\Column(type: 'text')]
-    private $clientSecret;
-    /** @var \DateTimeImmutable|null */
+    private string $clientSecret;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
+    private \DateTimeImmutable $createdAt;
+
     public function getId(): ?int
     {
         return $this->id;

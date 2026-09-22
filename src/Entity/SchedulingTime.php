@@ -10,24 +10,27 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SchedulingTimeRepository::class)]
 class SchedulingTime
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var \DateTimeImmutable|null */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $time;
-    /** @var Scheduling|null */
+    private \DateTimeImmutable $time;
+
     #[ORM\ManyToOne(targetEntity: Scheduling::class, inversedBy: 'schedulingTimes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $scheduling;
-    /** @var Collection<int, SchedulingTimeUser> */
+    private Scheduling $scheduling;
+
+    /**
+     * @var Collection<int, SchedulingTimeUser>
+     */
     #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'scheduleTime')]
-    private $schedulingTimeUsers;
+    private Collection $schedulingTimeUsers;
 
     #[ORM\ManyToOne(inversedBy: 'schedulingTimesCreated')]
     private ?User $createdFrom = null;
+
     public function __construct()
     {
         $this->schedulingTimeUsers = new ArrayCollection();

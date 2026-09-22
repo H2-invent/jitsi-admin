@@ -12,107 +12,119 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ServerRepository::class)]
 class Server
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var string */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'text')]
-    private $url;
-    /** @var string|null */
+    private string $url;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $appId;
-    /** @var string|null */
+    private ?string $appId = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $appSecret;
-    /** @var Collection<int, User> */
+    private ?string $appSecret = null;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'servers')]
-    private $user;
-    /** @var Collection<int, Rooms> */
+    private Collection $user;
+
+    /**
+     * @var Collection<int, Rooms>
+     */
     #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'server')]
-    private $rooms;
-    /** @var User|null */
+    private Collection $rooms;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'serverAdmins')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
-    private $administrator;
-    /** @var string|null */
+    private ?User $administrator = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $logoUrl;
-    /** @var string|null */
+    private ?string $logoUrl = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpHost;
-    /** @var int|null */
+    private ?string $smtpHost = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $smtpPort;
-    /** @var string|null */
+    private ?int $smtpPort = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpPassword;
-    /** @var string|null */
+    private ?string $smtpPassword = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpUsername;
-    /** @var string|null */
+    private ?string $smtpUsername = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpEncryption;
-    /** @var string|null */
+    private ?string $smtpEncryption = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpEmail;
-    /** @var string|null */
+    private ?string $smtpEmail = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpSenderName;
-    /** @var string */
+    private ?string $smtpSenderName = null;
+
     #[ORM\Column(type: 'text')]
-    private $slug;
-    /** @var string|null */
+    private string $slug;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $privacyPolicy;
-    /** @var string|null */
+    private ?string $privacyPolicy = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $licenseKey;
-    /** @var string|null */
+    private ?string $licenseKey = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $apiKey;
-    /** @var string|null */
+    private ?string $apiKey = null;
+
     #[ORM\Column(type: 'string', length: 7, nullable: true)]
-    private $staticBackgroundColor;
-    /** @var bool|null */
+    private ?string $staticBackgroundColor = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $showStaticBackgroundColor;
-    /** @var bool|null */
+    private ?bool $showStaticBackgroundColor = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $featureEnableByJWT = false;
-    /** @var string|null */
+    private ?bool $featureEnableByJWT = false;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $serverEmailHeader;
-    /** @var string|null */
+    private ?string $serverEmailHeader = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $serverEmailBody;
-    /** @var Collection<int, KeycloakGroupsToServers> */
-    #[ORM\OneToMany(targetEntity: KeycloakGroupsToServers::class, mappedBy: 'server', cascade: ['persist'])]
-    private $keycloakGroups;
-    /** @var Collection<int, User> */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'myOwnRoomServer')]
-    private $OwnRoomUSer;
-    /** @var int|null */
-    #[ORM\Column(type: 'integer')]
-    private $jwtModeratorPosition;
-    /** @var string|null */
-    #[ORM\Column(type: 'text')]
-    private $serverName;
-    /** @var bool|null */
-    #[ORM\Column(type: 'boolean', nullable: true)]
-    private $corsHeader;
-    /** @var Collection<int, Star> */
-    #[ORM\OneToMany(targetEntity: Star::class, mappedBy: 'server', orphanRemoval: true)]
-    private $stars;
+    private ?string $serverEmailBody = null;
+
     /**
-     * @var Documents
+     * @var Collection<int, KeycloakGroupsToServers>
      */
+    #[ORM\OneToMany(targetEntity: KeycloakGroupsToServers::class, mappedBy: 'server', cascade: ['persist'])]
+    private Collection $keycloakGroups;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'myOwnRoomServer')]
+    private Collection $OwnRoomUSer;
+
+    #[ORM\Column(type: 'integer')]
+    private int $jwtModeratorPosition;
+
+    #[ORM\Column(type: 'text')]
+    private string $serverName;
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $corsHeader = null;
+
+    /**
+     * @var Collection<int, Star>
+     */
+    #[ORM\OneToMany(targetEntity: Star::class, mappedBy: 'server', orphanRemoval: true)]
+    private Collection $stars;
+
     #[ORM\OneToOne(targetEntity: Documents::class, cascade: ['persist', 'remove'])]
-    private $serverBackgroundImage;
-    /** @var \DateTimeImmutable|null */
+    private ?Documents $serverBackgroundImage = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $jigasiApiUrl = null;

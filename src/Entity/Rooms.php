@@ -13,164 +13,193 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\HasLifecycleCallbacks]
 class Rooms
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var string|null */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'text')]
-    private $name;
-    /** @var \DateTimeImmutable|null */
+    private string $name;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $start;
-    /** @var \DateTimeImmutable|null */
+    private ?\DateTimeImmutable $start = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $enddate;
-    /** @var Collection<int, User> */
+    private ?\DateTimeImmutable $enddate = null;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'rooms')]
     #[Ignore]
-    private $user;
-    /** @var Server|null */
+    private Collection $user;
+
     #[ORM\ManyToOne(targetEntity: Server::class, fetch: 'EAGER', inversedBy: 'rooms')]
     #[ORM\JoinColumn(nullable: false)]
-    private $server;
-    /** @var string|null */
+    private Server $server;
+
     #[ORM\Column(type: 'text')]
-    private $uid;
-    /** @var User|null */
+    private string $uid;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator')]
     #[ORM\JoinColumn(nullable: true)]
     #[Ignore]
-    private $moderator;
-    /** @var float|null */
+    private ?User $moderator = null;
+
     #[ORM\Column(type: 'float')]
-    private $duration;
-    /** @var int|null */
+    private float $duration;
+
     #[ORM\Column(type: 'integer')]
-    private $sequence;
-    /** @var string|null */
+    private int $sequence;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $uidReal;
-    /** @var bool */
+    private ?string $uidReal = null;
+
     #[ORM\Column(type: 'boolean')]
-    private $onlyRegisteredUsers = false;
-    /** @var string|null */
+    private bool $onlyRegisteredUsers = false;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $agenda;
-    /** @var Collection<int, RoomsUser> */
+    private ?string $agenda = null;
+
+    /**
+     * @var Collection<int, RoomsUser>
+     */
     #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'room', cascade: ['persist'], orphanRemoval: true)]
     #[Ignore]
-    private $userAttributes;
-    /** @var bool|null */
+    private Collection $userAttributes;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $dissallowScreenshareGlobal;
-    /** @var bool|null */
+    private ?bool $dissallowScreenshareGlobal = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $dissallowPrivateMessage;
-    /** @var bool|null */
+    private ?bool $dissallowPrivateMessage = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $public = true;
-    /** @var bool|null */
+    private ?bool $public = true;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $showRoomOnJoinpage;
-    /** @var string|null */
+    private ?bool $showRoomOnJoinpage = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $uidParticipant;
-    /** @var string|null */
+    private ?string $uidParticipant = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $uidModerator;
-    /** @var Collection<int, Subscriber> */
+    private ?string $uidModerator = null;
+
+    /**
+     * @var Collection<int, Subscriber>
+     */
     #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'room', cascade: ['persist', 'remove'])]
     #[Ignore]
-    private $subscribers;
-    /** @var int|null */
+    private Collection $subscribers;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $maxParticipants;
-    /** @var Collection<int, Scheduling> */
+    private ?int $maxParticipants = null;
+
+    /**
+     * @var Collection<int, Scheduling>
+     */
     #[ORM\OneToMany(targetEntity: Scheduling::class, mappedBy: 'room')]
     #[Ignore]
-    private $schedulings;
-    /** @var bool|null */
+    private Collection $schedulings;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $scheduleMeeting;
-    /** @var bool|null */
+    private ?bool $scheduleMeeting = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $waitinglist;
-    /** @var Collection<int, Waitinglist> */
+    private ?bool $waitinglist = null;
+
+    /**
+     * @var Collection<int, Waitinglist>
+     */
     #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'room', cascade: ['persist', 'remove'])]
     #[Ignore]
-    private $waitinglists;
-    /** @var Repeat|null */
+    private Collection $waitinglists;
+
     #[ORM\ManyToOne(targetEntity: Repeat::class, inversedBy: 'rooms')]
-    private $repeater;
-    /** @var bool|null */
+    private ?Repeat $repeater = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $repeaterRemoved;
-    /** @var Repeat|null */
+    private ?bool $repeaterRemoved = null;
+
     #[ORM\OneToOne(targetEntity: Repeat::class, mappedBy: 'prototyp', cascade: ['persist', 'remove'])]
     #[Ignore]
-    private $repeaterProtoype;
-    /** @var Collection<int, User> */
+    private ?Repeat $repeaterProtoype = null;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'protoypeRooms')]
     #[ORM\JoinTable(name: 'prototype_users')]
-    private $prototypeUsers;
-    /** @var bool|null */
+    private Collection $prototypeUsers;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $persistantRoom;
-    /** @var string|null */
+    private ?bool $persistantRoom = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $slug;
-    /** @var bool|null */
+    private ?string $slug = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $totalOpenRooms;
-    /** @var int|null */
+    private ?bool $totalOpenRooms = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $totalOpenRoomsOpenTime = 30;
-    /** @var string|null */
+    private ?int $totalOpenRoomsOpenTime = 30;
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $timeZone;
-    /** @var \DateTimeImmutable|null */
+    private ?string $timeZone = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $startUtc;
-    /** @var \DateTimeImmutable|null */
+    private ?\DateTimeImmutable $startUtc = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $endDateUtc;
-    /** @var Collection<int, User> */
+    private ?\DateTimeImmutable $endDateUtc = null;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favorites')]
-    private $favoriteUsers;
-    /** @var bool|null */
+    private Collection $favoriteUsers;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $lobby;
-    /** @var Collection<int, LobbyWaitungUser> */
+    private ?bool $lobby = null;
+
+    /**
+     * @var Collection<int, LobbyWaitungUser>
+     */
     #[ORM\OneToMany(targetEntity: LobbyWaitungUser::class, mappedBy: 'room', orphanRemoval: true)]
     #[Ignore]
-    private $lobbyWaitungUsers;
-    /** @var Collection<int, RoomStatus> */
+    private Collection $lobbyWaitungUsers;
+
+    /**
+     * @var Collection<int, RoomStatus>
+     */
     #[ORM\OneToMany(targetEntity: RoomStatus::class, mappedBy: 'room', orphanRemoval: true)]
     #[Ignore]
-    private $roomstatuses;
-    /** @var CallerRoom|null */
+    private Collection $roomstatuses;
+
     #[ORM\OneToOne(targetEntity: CallerRoom::class, mappedBy: 'room', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Ignore]
-    private $callerRoom;
-    /** @var int|null */
+    private ?CallerRoom $callerRoom = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $startTimestamp;
-    /** @var int|null */
+    private ?int $startTimestamp = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $endTimestamp;
-    /** @var Collection<int, CallerId> */
+    private ?int $endTimestamp = null;
+
+    /**
+     * @var Collection<int, CallerId>
+     */
     #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[Ignore]
-    private $callerIds;
-    /** @var Tag|null */
+    private Collection $callerIds;
+
     #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'rooms')]
     #[Ignore]
-    private $tag;
-    /** @var string|null */
+    private ?Tag $tag = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $hostUrl;
+    private ?string $hostUrl = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $secondaryName = null;
