@@ -9,31 +9,31 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'userRoomsAttributes')]
 class RoomsUser
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var User|null */
+    private ?int $id = null;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomsAttributes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $user;
-    /** @var Rooms|null */
+    private User $user;
+
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'userAttributes', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private $room;
-    /** @var bool|null */
+    private Rooms $room;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $shareDisplay;
-    /** @var bool|null */
+    private ?bool $shareDisplay = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $moderator;
-    /** @var bool|null */
+    private ?bool $moderator = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $privateMessage;
-    /** @var bool|null */
+    private ?bool $privateMessage = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $lobbyModerator;
+    private ?bool $lobbyModerator = null;
+
     public function getId(): ?int
     {
         return $this->id;

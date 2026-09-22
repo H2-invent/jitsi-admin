@@ -10,39 +10,42 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RoomStatusRepository::class)]
 class RoomStatus
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var bool|null */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'boolean')]
-    private $created;
-    /** @var \DateTimeImmutable|null */
+    private bool $created;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $RoomCreatedAt;
-    /** @var bool|null */
+    private ?\DateTimeImmutable $RoomCreatedAt = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $destroyed;
-    /** @var \DateTimeImmutable|null */
+    private ?bool $destroyed = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $destroyedAt;
-    /** @var \DateTimeImmutable|null */
+    private ?\DateTimeImmutable $destroyedAt = null;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
-    /** @var \DateTimeImmutable|null */
+    private \DateTimeImmutable $createdAt;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $updatedAt;
-    /** @var Collection<int, RoomStatusParticipant> */
+    private \DateTimeImmutable $updatedAt;
+
+    /**
+     * @var Collection<int, RoomStatusParticipant>
+     */
     #[ORM\OneToMany(targetEntity: RoomStatusParticipant::class, mappedBy: 'roomStatus', orphanRemoval: true)]
-    private $roomStatusParticipants;
-    /** @var Rooms|null */
+    private Collection $roomStatusParticipants;
+
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'roomstatuses')]
     #[ORM\JoinColumn(nullable: true)]
-    private $room;
-    /** @var string|null */
+    private ?Rooms $room = null;
+
     #[ORM\Column(type: 'text')]
-    private $jitsiRoomId;
+    private string $jitsiRoomId;
+
     public function __construct()
     {
         $this->roomStatusParticipants = new ArrayCollection();

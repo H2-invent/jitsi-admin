@@ -10,30 +10,33 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: AddressGroupRepository::class)]
 class AddressGroup
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var string|null */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'text')]
-    private $name;
-    /** @var User|null */
+    private string $name;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'AddressGroupLeader')]
     #[ORM\JoinColumn(nullable: false)]
-    private $leader;
-    /** @var Collection<int, User> */
+    private User $leader;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'AddressGroupMember')]
-    private $member;
-    /** @var \DateTimeImmutable|null */
+    private Collection $member;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
-    /** @var \DateTimeImmutable|null */
+    private \DateTimeImmutable $createdAt;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $updatedAt;
-    /** @var string|null */
+    private ?\DateTimeImmutable $updatedAt = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $indexer;
+    private ?string $indexer = null;
+
     public function __construct()
     {
         $this->member = new ArrayCollection();

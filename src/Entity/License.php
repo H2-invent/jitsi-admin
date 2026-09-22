@@ -11,23 +11,23 @@ use phpDocumentor\Reflection\Types\This;
 #[ORM\Entity(repositoryClass: LicenseRepository::class)]
 class License
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var string|null */
+    private ?int $id = null;
+
     #[ORM\Column(type: 'text')]
-    private $licenseKey;
-    /** @var string|null */
+    private string $licenseKey;
+
     #[ORM\Column(type: 'text')]
-    private $license;
-    /** @var \DateTimeImmutable|null */
+    private string $license;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $validUntil;
-    /** @var string|null */
+    private \DateTimeImmutable $validUntil;
+
     #[ORM\Column(type: 'text')]
-    private $url;
+    private string $url;
+
     public function getId(): ?int
     {
         return $this->id;

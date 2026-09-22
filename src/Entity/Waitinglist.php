@@ -8,22 +8,22 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: WaitinglistRepository::class)]
 class Waitinglist
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var User|null */
+    private ?int $id = null;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'waitinglists')]
     #[ORM\JoinColumn(nullable: false)]
-    private $user;
-    /** @var Rooms|null */
+    private User $user;
+
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'waitinglists')]
     #[ORM\JoinColumn(nullable: false)]
-    private $room;
-    /** @var \DateTimeImmutable|null */
+    private Rooms $room;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
+    private \DateTimeImmutable $createdAt;
+
     public function getId(): ?int
     {
         return $this->id;

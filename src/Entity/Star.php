@@ -9,24 +9,23 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: StarRepository::class)]
 class Star
 {
-    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    /** @var Server|null */
+    private ?int $id = null;
+
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'stars')]
     #[ORM\JoinColumn(nullable: false)]
-    private $server;
-    /** @var int|null */
+    private Server $server;
+
     #[ORM\Column(type: 'integer')]
-    private $star;
-    /** @var string|null */
+    private int $star;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $comment;
-    /** @var \DateTimeImmutable|null */
+    private ?string $comment = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $browser = null;

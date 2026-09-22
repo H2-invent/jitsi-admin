@@ -8,19 +8,20 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserBase implements UserInterface
 {
-    /** @var string|null */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $uuid;
+    private string $uuid;
 
-    /** @var array<int, string> */
+    /**
+     * @var array<int, string>
+     */
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column(type: 'string')]
-    private $password;
+    private string $password;
 
     public function getUuid(): ?string
     {
