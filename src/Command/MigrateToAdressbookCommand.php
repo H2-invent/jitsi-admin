@@ -19,7 +19,7 @@ class MigrateToAdressbookCommand extends Command
         $this->em = $entityManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('This command collects all rooms which are moderator and puts the participants to the adressbook. This is only used when migrating from very old version.');

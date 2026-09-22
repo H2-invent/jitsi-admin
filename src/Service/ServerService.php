@@ -46,7 +46,7 @@ class ServerService
      * @param string $urlString
      * @return string|null
      */
-    function makeSlug($urlString)
+    function makeSlug(string $urlString): ?string
     {
         $counter = 0;
         $slug = UtilsHelper::slugify($urlString);

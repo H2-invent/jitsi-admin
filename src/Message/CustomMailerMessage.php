@@ -63,7 +63,7 @@ class CustomMailerMessage
     /**
      * @return mixed
      */
-    public function getAbsender()
+    public function getAbsender(): mixed
     {
         return $this->absender;
     }
@@ -71,7 +71,7 @@ class CustomMailerMessage
     /**
      * @param mixed $absender
      */
-    public function setAbsender($absender): void
+    public function setAbsender(mixed $absender): void
     {
         $this->absender = $absender;
     }
@@ -79,7 +79,7 @@ class CustomMailerMessage
     /**
      * @return mixed
      */
-    public function getRoomId()
+    public function getRoomId(): mixed
     {
         return $this->roomId;
     }
@@ -87,7 +87,7 @@ class CustomMailerMessage
     /**
      * @param mixed $roomId
      */
-    public function setRoomId($roomId): void
+    public function setRoomId(mixed $roomId): void
     {
         $this->roomId = $roomId;
     }
@@ -95,7 +95,7 @@ class CustomMailerMessage
     /**
      * @return mixed
      */
-    public function getTo()
+    public function getTo(): mixed
     {
         return $this->to;
     }
@@ -103,7 +103,7 @@ class CustomMailerMessage
     /**
      * @param mixed $to
      */
-    public function setTo($to): void
+    public function setTo(mixed $to): void
     {
         $this->to = $to;
     }

@@ -27,7 +27,7 @@ class PushService
      * @param string|null $url
      * @param string $id
      */
-    function generatePushNotification($title, $text, User $user, $url = null, $id = '0x00'): bool
+    function generatePushNotification(string $title, string $text, User $user, ?string $url = null, string $id = '0x00'): bool
     {
         $topic = 'personal/' . $user->getUid();
         $this->directSend->sendBrowserNotification($topic, $title, $text, $text, $id, 'info');
@@ -38,7 +38,7 @@ class PushService
     /**
      * @return array<int, array<string, mixed>>
      */
-    function getNotification(User $user)
+    function getNotification(User $user): array
     {
         $res = [];
         $notification = $this->em->getRepository(Notification::class)->findBy(['user' => $user], ['createdAt' => 'desc']);

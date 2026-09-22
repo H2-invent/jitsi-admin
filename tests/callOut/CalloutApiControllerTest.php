@@ -20,7 +20,7 @@ class CalloutApiControllerTest extends WebTestCase
         );
         $crawler = $client->request('GET', '/api/v1/call/out/');
         $this->assertResponseIsSuccessful();
-        self::assertEquals('{"calls":[]}', $client->getResponse()->getContent());
+        self::assertEquals('{"calls":[]}', (string) $client->getResponse()->getContent());
     }
     public function testEmptyNoAuthorization(): void
     {
@@ -53,7 +53,7 @@ class CalloutApiControllerTest extends WebTestCase
         self::assertEquals(1, sizeof($calloutRepo->findAll()));
         $crawler = $client->request('GET', '/api/v1/call/out/');
         $this->assertResponseIsSuccessful();
-        $res = json_decode($client->getResponse()->getContent(), true);
+        $res = json_decode((string) $client->getResponse()->getContent(), true);
         $callerIdRepo = self::getContainer()->get(CallerIdRepository::class);
         $callerId = $callerIdRepo->findOneBy(['room' => $calloutRepo->findAll()[0]->getRoom(), 'user' => $calloutRepo->findAll()[0]->getUser()]);
 

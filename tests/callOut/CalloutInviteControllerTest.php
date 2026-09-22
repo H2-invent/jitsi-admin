@@ -23,7 +23,7 @@ class CalloutInviteControllerTest extends WebTestCase
         $crawler = $client->request('POST', '/room/callout/invite/' . $room->getUidReal(), ['uid' => $invite->getEmail()]);
 
         $this->assertResponseIsSuccessful();
-        self::assertEquals(json_encode(['error' => false, 'falseEmails' => []]), $client->getResponse()->getContent());
+        self::assertEquals(json_encode(['error' => false, 'falseEmails' => []]), (string) $client->getResponse()->getContent());
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
         self::assertEquals(1, sizeof($calloutRepo->findAll()));
         $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
@@ -44,7 +44,7 @@ class CalloutInviteControllerTest extends WebTestCase
         $crawler = $client->request('POST', '/room/callout/invite/' . $room->getUidReal(), ['uid' => 'newUser@local.de']);
 
         $this->assertResponseIsSuccessful();
-        self::assertEquals(json_encode(['error' => false, 'falseEmails' => []]), $client->getResponse()->getContent());
+        self::assertEquals(json_encode(['error' => false, 'falseEmails' => []]), (string) $client->getResponse()->getContent());
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
         self::assertEquals(0, sizeof($calloutRepo->findAll()));
         $crawler = $client->request('GET', '/room/join/b/' . $room->getId());

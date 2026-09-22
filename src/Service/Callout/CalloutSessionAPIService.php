@@ -31,7 +31,7 @@ class CalloutSessionAPIService
      * The Callouts are formated in an array
      * @return array{calls: array<int, array<string, mixed>>}
      */
-    public function getCalloutPool()
+    public function getCalloutPool(): array
     {
         $calloutSession = $this->findCalloutSessionByState(CalloutSession::$INITIATED);
         $res = [];
@@ -49,7 +49,7 @@ class CalloutSessionAPIService
      * @param CalloutSession $calloutSession
      * @return array<string, mixed>|null
      */
-    public function buildCallerSessionPoolArray(CalloutSession $calloutSession)
+    public function buildCallerSessionPoolArray(CalloutSession $calloutSession): ?array
     {
         $this->logger->debug('lastdialed',
             [
@@ -102,7 +102,7 @@ class CalloutSessionAPIService
      * @param int $state
      * @return CalloutSession[]
      */
-    public function findCalloutSessionByState($state)
+    public function findCalloutSessionByState(int $state): array
     {
         /** @var CalloutSession[] $calloutSession */
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findBy(['state' => $state]);
@@ -113,7 +113,7 @@ class CalloutSessionAPIService
      * returns a pool of callout sessions which are in dialing state.
      * @return array{calls: array<int, array<string, mixed>>}
      */
-    public function getDialPool()
+    public function getDialPool(): array
     {
         $calloutSession = $this->findCalloutSessionByState(CalloutSession::$DIALED);
         $res = [];
@@ -130,7 +130,7 @@ class CalloutSessionAPIService
      * Returns the Pool of callout Sessions which are in an on hold state.
      * @return array{calls: array<int, array<string, mixed>>}
      */
-    public function getOnHoldPool()
+    public function getOnHoldPool(): array
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);

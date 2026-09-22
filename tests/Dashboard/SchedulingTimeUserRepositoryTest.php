@@ -30,6 +30,7 @@ class SchedulingTimeUserRepositoryTest extends KernelTestCase
         $this->assertNotNull($time, "SchedulingTime for '$roomName' must exist");
 
         $vote = new SchedulingTimeUser();
+        /** @var \App\Entity\User $user */
         $vote->setUser($user)
             ->setScheduleTime($time)
             ->setAccept($accept);

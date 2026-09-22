@@ -54,7 +54,7 @@ class AddressGroupRepository extends ServiceEntityRepository
      * @param string $value
      * @return AddressGroup[]
      */
-    public function findMyAddressBookGroupsByName($value, User $user): array
+    public function findMyAddressBookGroupsByName(string $value, User $user): array
     {
         $qb = $this->createQueryBuilder('g')
             ->innerJoin(' g.leader', 'leader')

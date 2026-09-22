@@ -79,7 +79,7 @@ class ToParticipantWebsocketService
      * @param string $from
      * @return void
      */
-    public function sendMessage(LobbyWaitungUser $lobbyWaitungUser, $message, string $from): void
+    public function sendMessage(LobbyWaitungUser $lobbyWaitungUser, ?string $message, string $from): void
     {
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
         $this->directSend->sendSnackbar($topic,$message,'red',10000);

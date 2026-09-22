@@ -61,9 +61,9 @@ class AdhocControllerTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
-        $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(), true)['popups'][0]['url']);
+        $crawler = $client->request('GET', json_decode((string) $client->getResponse()->getContent(), true)['popups'][0]['url']);
         self::assertSelectorNotExists('#tagContent');
 
         $crawler = $client->request('GET', '/room/dashboard');
@@ -124,9 +124,9 @@ class AdhocControllerTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
-        $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(), true)['popups'][0]['url']);
+        $crawler = $client->request('GET', json_decode((string) $client->getResponse()->getContent(), true)['popups'][0]['url']);
         self::assertSelectorTextContains('#tagContent', 'Test Tag Enabled');
         self::assertResponseIsSuccessful();
     }

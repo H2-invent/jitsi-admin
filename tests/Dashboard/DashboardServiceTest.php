@@ -234,7 +234,7 @@ class DashboardServiceTest extends KernelTestCase
         $room = $roomRepo->findOneBy(['name' => 'Running Room']);
         $this->assertNotNull($room);
 
-        $roomStatusOpenMap = [$room->getId() => true];
+        $roomStatusOpenMap = [(int) $room->getId() => true];
 
         $result = $dashboardService->getRoomClosedForStartMap([$room], $nonModerator, $roomStatusOpenMap);
 

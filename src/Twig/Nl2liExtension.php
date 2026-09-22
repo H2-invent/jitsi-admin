@@ -29,7 +29,7 @@ class Nl2liExtension extends AbstractExtension
      * @param string $value
      * @return string
      */
-    public function nl2li($value)
+    public function nl2li(string $value): string
     {
         // Check for http at beginning of string
         return '<li>' . str_replace("\n", "</li><li>", $value) . '</li>';

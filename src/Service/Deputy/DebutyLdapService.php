@@ -15,7 +15,7 @@ class DebutyLdapService
      * @param bool $dryRun
      * @return int
      */
-    public function cleanDeputies($dryRun = false)
+    public function cleanDeputies(bool $dryRun = false): int
     {
         $counter = 0;
         $deputies = $this->entityManager->getRepository(Deputy::class)->findBy(['isFromLdap' => true]);

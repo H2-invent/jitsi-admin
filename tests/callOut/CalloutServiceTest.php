@@ -178,6 +178,7 @@ class CalloutServiceTest extends KernelTestCase
         $callout = $calloutService->createCallout($room, $user, $inviter);
         self::assertNotNull($callout);
         $callout = $calloutService->checkCallout($room, $user);
+        self::assertNotNull($callout);
         self::assertEquals(0, $callout->getLeftRetries());
         self::assertNull($calloutService->checkCallIn($room, $user));
     }

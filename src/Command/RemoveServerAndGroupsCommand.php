@@ -22,7 +22,7 @@ class RemoveServerAndGroupsCommand extends Command
         $this->em = $entityManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('This removes a yecloak Group or a emaildomain connection from a server. Please add the server-Id, which can be found in the database and the keycloakgroup (on windows machines you need  two leading /all --> //all) or the emaildomain')

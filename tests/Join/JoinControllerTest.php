@@ -22,7 +22,7 @@ class JoinControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        self::assertStringContainsString('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSIsImlzRTJFRUVuYWJsZWQiOmZhbHNlfSwidXNlciI6eyJuYW1lIjoiVXNlciwgVGVzdCwgdGVzdEBsb2NhbC5kZSIsImxhbmd1YWdlIjoiZGUiLCJ0aW1lem9uZSI6IkV1cm9wZS9CZXJsaW4ifX0sIm1vZGVyYXRvciI6dHJ1ZSwibG9iYnlNb2RlcmF0b3IiOnRydWUsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.DJWpfs5KQiT-3Emb6yvrd16N6zZ3WXkwjibu3gmwP1g', $client->getResponse()->getContent());
+        self::assertStringContainsString('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSIsImlzRTJFRUVuYWJsZWQiOmZhbHNlfSwidXNlciI6eyJuYW1lIjoiVXNlciwgVGVzdCwgdGVzdEBsb2NhbC5kZSIsImxhbmd1YWdlIjoiZGUiLCJ0aW1lem9uZSI6IkV1cm9wZS9CZXJsaW4ifX0sIm1vZGVyYXRvciI6dHJ1ZSwibG9iYnlNb2RlcmF0b3IiOnRydWUsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.DJWpfs5KQiT-3Emb6yvrd16N6zZ3WXkwjibu3gmwP1g', (string) $client->getResponse()->getContent());
     }
     public function testjoinRoomApp(): void
     {

@@ -90,7 +90,7 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
      * @return RoomStatusParticipant[] Returns an array of RoomStatusParticipant objects
      */
 
-    public function findActualParticipantsByServer(Server $server)
+    public function findActualParticipantsByServer(Server $server): array
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.roomStatus', 'roomStatus')
@@ -115,7 +115,7 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
      * @param Server $server
      * @return RoomStatusParticipant[] Returns an array of RoomStatusParticipant objects
      */
-    public function findParticipantsByServer(Server $server, \DateTimeImmutable $startDate, \DateTimeImmutable $endDate)
+    public function findParticipantsByServer(Server $server, \DateTimeImmutable $startDate, \DateTimeImmutable $endDate): array
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.roomStatus', 'roomStatus')

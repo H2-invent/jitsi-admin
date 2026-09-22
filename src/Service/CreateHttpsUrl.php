@@ -12,7 +12,6 @@ class CreateHttpsUrl
     private ParameterBagInterface $paramterBag;
     private RequestStack $request;
     private LoggerInterface $logger;
-
     private string $baseUrl;
 
     public function __construct(LoggerInterface $logger, RequestStack $requestStack, ParameterBagInterface $parameterBag)
@@ -35,12 +34,11 @@ class CreateHttpsUrl
      * @param Rooms|null $rooms
      * @return string
      */
-    public function createHttpsUrl($url, ?Rooms $rooms = null): string
+    public function createHttpsUrl(string $url, ?Rooms $rooms = null): string
     {
         if (str_contains($url, $this->baseUrl)) {
             return $this->generateAbsolutUrl($url);
         }
-
 
         if ($this->paramterBag->get('LAF_DEV_URL') !== '') {
             /** @var string $lafDevUrl */
@@ -69,39 +67,30 @@ class CreateHttpsUrl
      * @param string $url
      * @return string
      */
-    private function generateAbsolutUrl($baseUrl, $url = ''): string
+    public function generateAbsolutUrl(string $baseUrl, string $url = ''): string
     {
-        $isStricktHttps = str_contains($this->baseUrl, 'https://');
+        $isStrictHttps = str_contains($this->baseUrl, 'https://');
         $res = $baseUrl . $url;
-        if ($isStricktHttps) {
-            $res = str_replace('http://', 'https://', $res);
+        if (!$isStrictHttps) {
+            return $res;
         }
-        return $res;
+
+        return str_replace('http://', 'https://', $res);
     }
 
     /**
      * @param string $url
      * @return string
      */
-    public function replaceSchemeOfAbsolutUrl($url): string
+    public function replaceSchemeOfAbsolutUrl(string $url): string
     {
-        /** @var string $baseUrl */
         $baseUrl = $this->paramterBag->get('laF_baseUrl');
-        $protokoll = parse_url($baseUrl);
-        if (!$protokoll) {
-            return $url;
-        }
-        try {
-            $protokoll = $protokoll['scheme'];
-            if ($protokoll) {
-                return $this->replaceProtocol(url: $url, newProtocol: $protokoll);
-            }
-            return $url;
-        }catch (\Exception $exception){
+        $scheme  = parse_url($baseUrl, PHP_URL_SCHEME);
+        if (!$scheme) {
             return $url;
         }
 
-
+        return $this->replaceProtocol($url, $scheme);
     }
 
     /**
@@ -109,17 +98,13 @@ class CreateHttpsUrl
      * @param string $newProtocol
      * @return string
      */
-    private function replaceProtocol($url, $newProtocol): string
+    private function replaceProtocol(string $url, string $newProtocol): string
     {
-        $parsedUrl = parse_url($url);
-
-        if ($parsedUrl && isset($parsedUrl['scheme'])) {
-            $oldProtocol = $parsedUrl['scheme'];
-            $newUrl = str_replace($oldProtocol, $newProtocol, $url);
-            return $newUrl;
+        $oldProtocol = parse_url($url, PHP_URL_SCHEME);
+        if (!$oldProtocol) {
+            return $url;
         }
 
-        // Return original URL if no valid protocol was found
-        return $url;
+        return str_replace($oldProtocol, $newProtocol, $url);
     }
 }

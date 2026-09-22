@@ -40,7 +40,7 @@ class CallerPinService
      * @param bool $isSipVideo
      * @return CallerSession|null
      */
-    public function createNewCallerSession($roomId, $pin, $callerId, $isSipVideo = false): ?CallerSession
+    public function createNewCallerSession(string $roomId, string $pin, string $callerId, bool $isSipVideo = false): ?CallerSession
     {
         $callerRoom = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $roomId]);
         if (!$callerRoom) {

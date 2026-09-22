@@ -20,7 +20,7 @@ class FormatedNameServiceTest extends KernelTestCase
         self::assertEquals('test@local.de', $formatedNameService->formatName('user.email$', $user));
         self::assertEquals('test@local.de', $formatedNameService->formatName('user.username$', $user));
         self::assertEquals('test@local.de test@local.de', $formatedNameService->formatName('user.username$ user.username$', $user));
-        self::assertEquals('test@local.de (test@local.de) test@local.de. Test- User', $user->getFormatedName('user.username$ (user.username$) user.email$. user.firstName$- user.lastName$', $user));
+        self::assertEquals('test@local.de (test@local.de) test@local.de. Test- User', $user->getFormatedName('user.username$ (user.username$) user.email$. user.firstName$- user.lastName$'));
         self::assertEquals('Test1', $formatedNameService->formatName('user.specialField.ou$', $user));
         self::assertEquals('0123456789', $formatedNameService->formatName('user.specialField.telephoneNumber$', $user));
         self::assertEquals('test@local.de test@local.de, Test1+-0123456789', $formatedNameService->formatName('user.email$ user.username$, user.specialField.ou$+-user.specialField.telephoneNumber$', $user));

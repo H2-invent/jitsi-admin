@@ -25,7 +25,7 @@ class CallerSessionRepository extends ServiceEntityRepository
     /**
      * @return CallerSession[] Returns an array of CallerSession objects
      */
-    public function findCallerSessionsByRoom(Rooms $rooms)
+    public function findCallerSessionsByRoom(Rooms $rooms): array
     {
         return $this->createQueryBuilder('c')
             ->innerJoin('c.caller', 'caller')

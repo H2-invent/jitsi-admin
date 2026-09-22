@@ -20,7 +20,7 @@ class CallerFindRoomService
      * @param string $id
      * @return array<string, mixed>
      */
-    public function findRoom($id)
+    public function findRoom(string $id): array
     {
         $caller = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $id]);
         $now = (new \DateTimeImmutable())->getTimestamp();

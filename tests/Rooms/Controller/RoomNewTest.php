@@ -31,7 +31,7 @@ class RoomNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '';
         $form['room[start]'] = '';
         $form['room[duration]'] = "60";
@@ -39,20 +39,20 @@ class RoomNewTest extends WebTestCase
         $client->submit($form);
 
         $this->assertResponseIsSuccessful();
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, bitte das Startdatum eingeben.', 'Fehler, bitte den Namen angeben.']]), $client->getResponse()->getContent());
-        $form['room[server]'] = $server->getId();
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => true, 'messages' => ['Fehler, bitte das Startdatum eingeben.', 'Fehler, bitte den Namen angeben.']]), (string) $client->getResponse()->getContent());
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[start]'] = '';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, bitte das Startdatum eingeben.']]), $client->getResponse()->getContent());
-        $form['room[server]'] = $server->getId();
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => true, 'messages' => ['Fehler, bitte das Startdatum eingeben.']]), (string) $client->getResponse()->getContent());
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[start]'] = '2020-01-01T20:00:00';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.']]), $client->getResponse()->getContent());
-        $form['room[server]'] = $server->getId();
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => true, 'messages' => ['Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.']]), (string) $client->getResponse()->getContent());
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
@@ -61,7 +61,7 @@ class RoomNewTest extends WebTestCase
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
         $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -70,7 +70,7 @@ class RoomNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
 
         $tagRepo = self::getContainer()->get(TagRepository::class);
@@ -81,7 +81,7 @@ class RoomNewTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
     }
     public function testNoServer(): void
     {
@@ -95,7 +95,7 @@ class RoomNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/new');
         $this->assertStringContainsString(
             'Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.',
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
     }
 
@@ -111,7 +111,7 @@ class RoomNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
@@ -122,7 +122,7 @@ class RoomNewTest extends WebTestCase
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
         $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -131,13 +131,13 @@ class RoomNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
 
 
         $client->request('GET', $urlGenerator->generate('room_favorite_toogle', ['uid' => $room->getUidReal()]));
@@ -171,7 +171,7 @@ class RoomNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[start]'] = (new \DateTimeImmutable())->modify('+1hour')->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
@@ -182,7 +182,7 @@ class RoomNewTest extends WebTestCase
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
         $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -191,14 +191,14 @@ class RoomNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
 
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
 
         $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
@@ -206,32 +206,32 @@ class RoomNewTest extends WebTestCase
         $crawler = $client->request('GET', $urlGenerator->generate('room_new', ['id' => $room->getId()]));
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '';
         $form['room[start]'] = (new \DateTimeImmutable())->modify('+2hours')->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, bitte den Namen angeben.']]), $client->getResponse()->getContent());
-        $form['room[server]'] = $server->getId();
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => true, 'messages' => ['Fehler, bitte den Namen angeben.']]), (string) $client->getResponse()->getContent());
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '765456654456';
         $form['room[start]'] = '';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, bitte das Startdatum eingeben.']]), $client->getResponse()->getContent());
-        $form['room[server]'] = $server->getId();
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => true, 'messages' => ['Fehler, bitte das Startdatum eingeben.']]), (string) $client->getResponse()->getContent());
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '';
         $form['room[start]'] = '';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, bitte das Startdatum eingeben.', 'Fehler, bitte den Namen angeben.']]), $client->getResponse()->getContent());
-        $form['room[server]'] = $server->getId();
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => true, 'messages' => ['Fehler, bitte das Startdatum eingeben.', 'Fehler, bitte den Namen angeben.']]), (string) $client->getResponse()->getContent());
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = 'test';
         $form['room[start]'] = '2020-01-01T20:00:00';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.']]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => true, 'messages' => ['Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.']]), (string) $client->getResponse()->getContent());
 
-        $form['room[server]'] = $server->getId();
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '765456654456';
         $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
@@ -242,9 +242,9 @@ class RoomNewTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => '765456654456']);
         $this->assertNotNull($room);
         $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
-        $test = $client->getResponse()->getContent();
+        $test = (string) $client->getResponse()->getContent();
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -260,7 +260,7 @@ class RoomNewTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich bearbeitet.');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
     }
 
     public function testClone(): void
@@ -275,7 +275,7 @@ class RoomNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[start]'] = (new \DateTimeImmutable())->modify('+1hour')->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
@@ -286,7 +286,7 @@ class RoomNewTest extends WebTestCase
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
         $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -295,14 +295,14 @@ class RoomNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
 
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
 
         $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
@@ -318,9 +318,9 @@ class RoomNewTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => 'Roome Clone']);
         $this->assertNotNull($room);
         $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
-        $test = $client->getResponse()->getContent();
+        $test = (string) $client->getResponse()->getContent();
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -336,7 +336,7 @@ class RoomNewTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
     }
 
     public function testEditRunningRoom(): void
@@ -351,7 +351,7 @@ class RoomNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
+        $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[agenda]'] = 'this is an agenda for this meeting';
         $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
@@ -366,7 +366,7 @@ class RoomNewTest extends WebTestCase
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
         $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -375,14 +375,14 @@ class RoomNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
 
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
 
         $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
@@ -408,7 +408,7 @@ class RoomNewTest extends WebTestCase
         $room = $roomRepo->find($room->getId());
 
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -417,7 +417,7 @@ class RoomNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
         self::assertEquals('198273987321', $room->getName());
         self::assertEquals('this is an agenda for this meeting', $room->getAgenda());

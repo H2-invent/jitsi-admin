@@ -37,7 +37,7 @@ class ServerEndToEndEncryptionTest extends WebTestCase
         $this->rooms = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $this->client->loginUser($this->moderator);
         $crawler = $this->client->request('GET','/room/join/b/'.$this->rooms->getId());
-        self::assertStringContainsString('var enforceE2Eencryption = false;',$this->client->getResponse()->getContent());
+        self::assertStringContainsString('var enforceE2Eencryption = false;',(string) $this->client->getResponse()->getContent());
     }
     public function testDefaultRoomActiveE2EnforcementModerator(): void
     {
@@ -53,7 +53,7 @@ class ServerEndToEndEncryptionTest extends WebTestCase
         $this->rooms->getServer()->setEnforceE2e(true);
         $this->client->loginUser($this->moderator);
         $crawler = $this->client->request('GET','/room/join/b/'.$this->rooms->getId());
-        self::assertStringContainsString('var enforceE2Eencryption = true;',$this->client->getResponse()->getContent());
+        self::assertStringContainsString('var enforceE2Eencryption = true;',(string) $this->client->getResponse()->getContent());
     }
     public function testDefaultRoomNoE2EnforcementParticipant(): void
     {
@@ -65,7 +65,7 @@ class ServerEndToEndEncryptionTest extends WebTestCase
         $this->rooms = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $this->client->loginUser($this->participant);
         $crawler = $this->client->request('GET','/room/join/b/'.$this->rooms->getId());
-        self::assertStringContainsString('var enforceE2Eencryption = false;',$this->client->getResponse()->getContent());
+        self::assertStringContainsString('var enforceE2Eencryption = false;',(string) $this->client->getResponse()->getContent());
     }
     public function testDefaultRoomActiveE2EnforcementParticipant(): void
     {
@@ -81,7 +81,7 @@ class ServerEndToEndEncryptionTest extends WebTestCase
         $this->rooms->getServer()->setEnforceE2e(true);
         $this->client->loginUser($this->participant);
         $crawler = $this->client->request('GET','/room/join/b/'.$this->rooms->getId());
-        self::assertStringContainsString('var enforceE2Eencryption = true;',$this->client->getResponse()->getContent());
+        self::assertStringContainsString('var enforceE2Eencryption = true;',(string) $this->client->getResponse()->getContent());
     }
 
     public function testLobbyRoomNoE2EnforcementModerator(): void
@@ -95,8 +95,8 @@ class ServerEndToEndEncryptionTest extends WebTestCase
         $this->rooms->setLobby(true);
         $this->client->loginUser($this->moderator);
         $crawler = $this->client->request('GET','/room/join/b/'.$this->rooms->getId());
-        self::assertStringContainsString('lobbyCard',$this->client->getResponse()->getContent());
-        self::assertStringContainsString('var enforceE2Eencryption = false;',$this->client->getResponse()->getContent());
+        self::assertStringContainsString('lobbyCard',(string) $this->client->getResponse()->getContent());
+        self::assertStringContainsString('var enforceE2Eencryption = false;',(string) $this->client->getResponse()->getContent());
     }
     //Hier are the rooms with the lobby
     public function testlobbyRoomActiveE2EnforcementModerator(): void
@@ -114,8 +114,8 @@ class ServerEndToEndEncryptionTest extends WebTestCase
         $this->rooms->setLobby(true);
         $this->client->loginUser($this->moderator);
         $crawler = $this->client->request('GET','/room/join/b/'.$this->rooms->getId());
-        self::assertStringContainsString('lobbyCard',$this->client->getResponse()->getContent());
-        self::assertStringContainsString('var enforceE2Eencryption = true;',$this->client->getResponse()->getContent());
+        self::assertStringContainsString('lobbyCard',(string) $this->client->getResponse()->getContent());
+        self::assertStringContainsString('var enforceE2Eencryption = true;',(string) $this->client->getResponse()->getContent());
     }
     public function testLobbyRoomNoE2EnforcementParticipant(): void
     {
@@ -128,8 +128,8 @@ class ServerEndToEndEncryptionTest extends WebTestCase
         $this->rooms->setLobby(true);
         $this->client->loginUser($this->participant);
         $crawler = $this->client->request('GET','/room/join/b/'.$this->rooms->getId());
-        self::assertStringContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.',$this->client->getResponse()->getContent());
-        self::assertStringContainsString('var enforceE2Eencryption = false;',$this->client->getResponse()->getContent());
+        self::assertStringContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.',(string) $this->client->getResponse()->getContent());
+        self::assertStringContainsString('var enforceE2Eencryption = false;',(string) $this->client->getResponse()->getContent());
     }
     //Hier are the rooms with the lobby
     public function testlobbyRoomActiveE2EnforcementParticipant(): void
@@ -147,8 +147,8 @@ class ServerEndToEndEncryptionTest extends WebTestCase
         $this->rooms->setLobby(true);
         $this->client->loginUser($this->participant);
         $crawler = $this->client->request('GET','/room/join/b/'.$this->rooms->getId());
-        self::assertStringContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.',$this->client->getResponse()->getContent());
-        self::assertStringContainsString('var enforceE2Eencryption = true;',$this->client->getResponse()->getContent());
+        self::assertStringContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.',(string) $this->client->getResponse()->getContent());
+        self::assertStringContainsString('var enforceE2Eencryption = true;',(string) $this->client->getResponse()->getContent());
     }
     public function testPublicRoomActiveE2Enforcement(): void
     {
@@ -162,7 +162,7 @@ class ServerEndToEndEncryptionTest extends WebTestCase
 
         $this->client->loginUser($this->participant);
         $crawler = $this->client->request('GET','/m/thisIsATest');
-        self::assertStringContainsString('var enforceE2Eencryption = true;',$this->client->getResponse()->getContent());
+        self::assertStringContainsString('var enforceE2Eencryption = true;',(string) $this->client->getResponse()->getContent());
     }
 
     public function testPublicRoomDisabledE2Enforcement(): void
@@ -172,6 +172,6 @@ class ServerEndToEndEncryptionTest extends WebTestCase
         $server = $serverrepo->findOneBy(['url' => 'meet.jit.si']);
         $this->client->loginUser($this->participant);
         $crawler = $this->client->request('GET','/m/thisIsATest');
-        self::assertStringContainsString('var enforceE2Eencryption = false;',$this->client->getResponse()->getContent());
+        self::assertStringContainsString('var enforceE2Eencryption = false;',(string) $this->client->getResponse()->getContent());
     }
 }

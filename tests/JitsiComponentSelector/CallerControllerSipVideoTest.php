@@ -43,7 +43,7 @@ class CallerControllerSipVideoTest extends WebTestCase
         $session = $caller->getCallerSession();
         self::assertTrue($session->isIsSipVideoUser());
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'auth_ok' => true,
                     'links' => [
@@ -52,7 +52,7 @@ class CallerControllerSipVideoTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
     }
 
@@ -144,12 +144,12 @@ class CallerControllerSipVideoTest extends WebTestCase
         //enter the users pin
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234','is_video'=>true]);
         $this->assertResponseIsSuccessful();
-        $sessionLink = json_decode($client->getResponse()->getContent(), true)['links']['session'];
-        $leafLink = json_decode($client->getResponse()->getContent(), true)['links']['left'];
+        $sessionLink = json_decode((string) $client->getResponse()->getContent(), true)['links']['session'];
+        $leafLink = json_decode((string) $client->getResponse()->getContent(), true)['links']['left'];
 
         //try entering again. the user should not be access again
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
-        $this->assertJsonStringEqualsJsonString(json_encode(['auth_ok' => false, 'links' => []]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['auth_ok' => false, 'links' => []]), (string) $client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
 
         $crawler = $client->request('GET', $sessionLink);
@@ -165,7 +165,7 @@ class CallerControllerSipVideoTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
 
         $this->assertResponseIsSuccessful();

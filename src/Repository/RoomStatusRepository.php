@@ -65,7 +65,7 @@ class RoomStatusRepository extends ServiceEntityRepository
     /**
      * @param string $jitsiId
      */
-    public function findCreatedRoomsbyJitsiId($jitsiId): ?RoomStatus
+    public function findCreatedRoomsbyJitsiId(string $jitsiId): ?RoomStatus
     {
         $id = explode('@', strrev($jitsiId), 2);
         $id = strrev($id[sizeof($id) - 1]);

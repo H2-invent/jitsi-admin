@@ -39,7 +39,7 @@ class SubcriptionService
      * This functions sends a mail to the subscriper with the double opt in link.
      * This function checks if the room is full and if so then it will reject or if the waiting list is active then the user can register
      */
-    public function subscripe($userData, Rooms $rooms, $moderator = false)
+    public function subscripe(array $userData, Rooms $rooms, bool $moderator = false): array
     {
         $res = ['error' => true];
         if ($rooms->getMaxParticipants() && (sizeof($rooms->getUser()->toArray()) >= $rooms->getMaxParticipants()) && !$rooms->getWaitinglist()) {
@@ -111,7 +111,7 @@ class SubcriptionService
      * @return array{message: string, title: string}
      * checks the subsriber an creates a roomUser connection or a waitinglist Element
      */
-    public function acceptSub(?Subscriber $subscriber)
+    public function acceptSub(?Subscriber $subscriber): array
     {
         $res['message'] = $this->translator->trans('Danke für die Anmeldung. ');
         $res['title'] = $this->translator->trans('Erfolgreich bestätigt');
@@ -152,7 +152,7 @@ class SubcriptionService
      * @return array{text: string, color: string, error: bool, sub: Subscriber}
      * creates a new subscriber element
      */
-    function createNewSubscriber(User $user, Rooms $rooms)
+    function createNewSubscriber(User $user, Rooms $rooms): array
     {
         $subscriber = new Subscriber();
         $subscriber->setUser($user)->setRoom($rooms)->setUid(md5(uniqid()));
@@ -171,7 +171,7 @@ class SubcriptionService
      * @return array{text: string, color: string, error: bool}
      * creates a new Waiinglist element and sends the email with the waiting list to the subscriber
      */
-    function createNewWaitinglist(User $user, Rooms $rooms)
+    function createNewWaitinglist(User $user, Rooms $rooms): array
     {
         $waitingList = new Waitinglist();
         $waitingList->setUser($user)->setRoom($rooms)->setCreatedAt(new \DateTimeImmutable());

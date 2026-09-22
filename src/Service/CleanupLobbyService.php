@@ -19,7 +19,7 @@ class CleanupLobbyService
      * @param int|string $maxOld
      * @return LobbyWaitungUser[]
      */
-    public function cleanUp($maxOld = 72)
+    public function cleanUp(int|string $maxOld = 72): array
     {
         $date = (new \DateTimeImmutable())->modify('-' . $maxOld . 'hours');
         /** @var LobbyWaitungUserRepository $repo */

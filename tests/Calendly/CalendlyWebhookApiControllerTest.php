@@ -49,7 +49,7 @@ class CalendlyWebhookApiControllerTest extends WebTestCase
         $this->client->loginUser($this->testuser);
         $this->client->request('GET', '/room/calendly/connect');
         self::assertResponseIsSuccessful();
-        assertStringContainsString('Calendly Verknüpfung',$this->client->getResponse()->getContent());
+        assertStringContainsString('Calendly Verknüpfung',(string) $this->client->getResponse()->getContent());
         $this->assertNull($this->testuser->getCalendlyUserUri());
         $this->assertNull($this->testuser->isCalendlySucessfullyAdded());
         $this->client->request('POST', '/room/calendly/connect', [

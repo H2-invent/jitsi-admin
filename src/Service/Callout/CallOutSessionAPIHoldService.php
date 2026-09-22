@@ -31,7 +31,7 @@ class CallOutSessionAPIHoldService
      * @return array<string, mixed>
      * This Function is used when the Caller is not able to reach the invited user and the phone rings over a certain time.
      */
-    public function timeout($sessionId): array
+    public function timeout(?string $sessionId): array
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
@@ -47,7 +47,7 @@ class CallOutSessionAPIHoldService
      * @return array<string, mixed>
      * This funktion is called when the called uder is occuppied so his ohone retuns  a occupied signal then the caller can trigger this funkction
      */
-    public function occupied($sessionId): array
+    public function occupied(?string $sessionId): array
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
@@ -66,7 +66,7 @@ class CallOutSessionAPIHoldService
      * This function retuns the information for the called person to join the meeting later. this is the caller id and the pin for this meeting.
      * The inviting user is informed that the called user is joing later
      */
-    public function later($sessionId): array
+    public function later(?string $sessionId): array
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
@@ -86,7 +86,7 @@ class CallOutSessionAPIHoldService
      * In this status the caller system is not able to do a ringing or a dial.
      *
      */
-    public function setCalloutSessionOnHold(CalloutSession $calloutSession, $state, $message)
+    public function setCalloutSessionOnHold(CalloutSession $calloutSession, int $state, string $message): array
     {
         if ($calloutSession->getState() >= CalloutSession::$ON_HOLD || $calloutSession->getState() < CalloutSession::$DIALED) {
             return ['error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'];
@@ -117,7 +117,7 @@ class CallOutSessionAPIHoldService
      * This function is a generic function to send a message to the lobbymoderators.
      * The message is send via websocket
      */
-    public function sendMessage(Rooms $room, $message)
+    public function sendMessage(Rooms $room, string $message): void
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSendService->sendSnackbar($topic, $message, 'info',2000);

@@ -42,7 +42,7 @@ class UserNewRoomAddService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    function addUserToRoom(User $user, Rooms $room)
+    function addUserToRoom(User $user, Rooms $room): bool
     {
         /** @var string $showName */
         $showName = $this->parameterBag->get('laf_showName');
@@ -77,7 +77,7 @@ class UserNewRoomAddService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    function addUserToPersistantRoom(User $user, Rooms $room)
+    function addUserToPersistantRoom(User $user, Rooms $room): bool
     {
         /** @var string $showName */
         $showName = $this->parameterBag->get('laf_showName');
@@ -110,7 +110,7 @@ class UserNewRoomAddService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    function addUserSchedule(User $user, Rooms $room)
+    function addUserSchedule(User $user, Rooms $room): bool
     {
 
         /** @var string $showName */
@@ -142,7 +142,7 @@ class UserNewRoomAddService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    function addWaitinglist(User $user, Rooms $room)
+    function addWaitinglist(User $user, Rooms $room): bool
     {
         $content = $this->twig->render('email/waitingList.html.twig', ['user' => $user, 'room' => $room]);
         $subject = $this->translator->trans('[Videokonferenz] Hinzugefügt zur Warteliste');

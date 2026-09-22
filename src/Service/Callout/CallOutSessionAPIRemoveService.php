@@ -34,7 +34,7 @@ class CallOutSessionAPIRemoveService
      * the user refuse the call
      * the session is removed and a message is send to the lobbymoderator
      */
-    public function refuse($sessionId): array
+    public function refuse(?string $sessionId): array
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
@@ -56,7 +56,7 @@ class CallOutSessionAPIRemoveService
      * @return array<string, mixed>
      * An error occurred during calling a invited participant
      */
-    public function error($sessionId): array
+    public function error(?string $sessionId): array
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
@@ -80,7 +80,7 @@ class CallOutSessionAPIRemoveService
      * The inviter is informed about the unreachable of the invited phone
      * The difference between error and unreachable is only the message which is send to the lobbymoderator
      */
-    public function unreachable($sessionId): array
+    public function unreachable(?string $sessionId): array
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
@@ -104,7 +104,7 @@ class CallOutSessionAPIRemoveService
      * @return array<string, mixed>
      * This is a generic function to remove the callout session
      */
-    public function removeCalloutSession(?CalloutSession $calloutSession, $message): array
+    public function removeCalloutSession(?CalloutSession $calloutSession, string $message): array
     {
 
         $this->entityManager->remove($calloutSession);
@@ -125,7 +125,7 @@ class CallOutSessionAPIRemoveService
      * @return void
      * This function sends a refuse message to the lobbymoderator
      */
-    public function sendRefuseMessage(Rooms $room, $message): void
+    public function sendRefuseMessage(Rooms $room, string $message): void
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSendService->sendSnackbar($topic, $message, 'danger',2000);

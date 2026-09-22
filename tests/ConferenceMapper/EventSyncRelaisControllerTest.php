@@ -50,7 +50,7 @@ class EventSyncRelaisControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         self::assertEquals(
             '{"state":"STARTED","jwt":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoidGVzdHVpZDEyMzQiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlJvb20gVG9tb3Jyb3ciLCJpc0UyRUVFbmFibGVkIjpmYWxzZX0sInVzZXIiOnsibmFtZSI6IlVzZXIsIFRlc3QsIHRlc3RAbG9jYWwuZGUiLCJsYW5ndWFnZSI6ImRlIiwidGltZXpvbmUiOiJFdXJvcGUvQmVybGluIn19LCJtb2RlcmF0b3IiOmZhbHNlLCJsb2JieU1vZGVyYXRvciI6ZmFsc2UsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.t6J0ztASAcCIM98v4cvgqxm1Kdi9qGRvSt3FxO5Wbbo","room_name":"testuid1234@test.prosody.com","display_name":"User, Test, test@local.de"}',
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
     }
 
@@ -89,7 +89,7 @@ class EventSyncRelaisControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         self::assertEquals(
             '{"state":"WAITING","reason":"NOT_STARTED"}'
-            , $client->getResponse()->getContent()
+            , (string) $client->getResponse()->getContent()
         );
     }
 

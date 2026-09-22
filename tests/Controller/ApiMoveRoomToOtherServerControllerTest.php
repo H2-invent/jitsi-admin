@@ -32,7 +32,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode((string) $response->getContent(), true);
         self::assertTrue($data['error']);
         self::assertEquals('Room not found', $data['message']);
 
@@ -47,7 +47,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
         $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode((string) $response->getContent(), true);
         self::assertTrue($data['error']);
         self::assertEquals('Access denied', $data['message']);
 
@@ -66,7 +66,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode((string) $response->getContent(), true);
         self::assertTrue($data['error']);
         self::assertEquals('New Server not found', $data['message']);
 
@@ -90,7 +90,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode((string) $response->getContent(), true);
         self::assertFalse($data['error']);
         self::assertEquals('Room moved', $data['message']);
 
@@ -116,7 +116,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         ]);
 
         $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode((string) $response->getContent(), true);
         self::assertTrue($data['error']);
         self::assertEquals('Access denied', $data['message']);
 

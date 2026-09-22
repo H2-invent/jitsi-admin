@@ -72,7 +72,7 @@ class UserService
     /**
      * @return string
      */
-    function generateUrl(Rooms $room, User $user)
+    function generateUrl(Rooms $room, User $user): string
     {
         return $this->joinUrlGenerator->generateUrl($room, $user);
     }
@@ -80,7 +80,7 @@ class UserService
     /**
      * @return bool
      */
-    function addUser(User $user, Rooms $room)
+    function addUser(User $user, Rooms $room): bool
     {
         if (!$user->getUid()) {
             $user->setUid(md5(uniqid()));
@@ -102,7 +102,7 @@ class UserService
     /**
      * @return bool
      */
-    function addWaitinglist(User $user, Rooms $room)
+    function addWaitinglist(User $user, Rooms $room): bool
     {
         if (!$user->getUid()) {
             $user->setUid(md5(uniqid()));
@@ -115,7 +115,7 @@ class UserService
     /**
      * @return bool
      */
-    function editRoom(User $user, Rooms $room)
+    function editRoom(User $user, Rooms $room): bool
     {
         if ($room->getScheduleMeeting()) {
             return $this->userEditService->editRoomSchedule($user, $room);
@@ -129,7 +129,7 @@ class UserService
     /**
      * @return bool
      */
-    function removeRoom(User $user, Rooms $room)
+    function removeRoom(User $user, Rooms $room): bool
     {
         if ($room->getScheduleMeeting()) {
             $this->userRemoveService->removeRoomScheduling($user, $room);
@@ -146,7 +146,7 @@ class UserService
     /**
      * @return bool
      */
-    function notifyUser(User $user, Rooms $room)
+    function notifyUser(User $user, Rooms $room): bool
     {
         $url = $this->generateUrl($room, $user);
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);

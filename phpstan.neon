@@ -1,5 +1,8 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
 parameters:
-    level: 6
+    level: 7
     paths:
         - src
         - tests
@@ -7,6 +10,9 @@ parameters:
         jobSize: 20
         maximumNumberOfProcesses: 32
         minimumNumberOfJobsPerProcess: 2
+
+    symfony:
+        containerXmlPath: var/cache/test/App_KernelTestDebugContainer.xml
 
     ignoreErrors:
         # Doctrine populates generated $id values via reflection, so PHPStan cannot see the write.

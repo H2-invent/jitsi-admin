@@ -14,7 +14,7 @@ class CheckAuthorizationService
     /**
      * @param string $token
      */
-    public static function checkHEader(Request $request, $token): ?Response
+    public static function checkHEader(Request $request, string $token): ?Response
     {
         $authHeader = $request->headers->get('Authorization');
         if ($authHeader !== $token) {

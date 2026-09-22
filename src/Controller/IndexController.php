@@ -18,7 +18,9 @@ use App\Service\Theme\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -38,7 +40,7 @@ class IndexController extends JitsiAdminController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     #[Route(path: '/', name: 'index')]
-    public function index(Request $request)
+    public function index(Request $request): RedirectResponse|Response
     {
 
         if ($this->getUser() || $this->themeService->getApplicationProperties('laF_startpage') == 0) {

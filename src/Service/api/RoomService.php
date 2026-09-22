@@ -37,7 +37,7 @@ class RoomService
      * @param float $duration
      * @param string $name
      */
-    public function createRoom(User $user, Server $server, \DateTimeImmutable $start, $duration, $name): Rooms
+    public function createRoom(User $user, Server $server, \DateTimeImmutable $start, float $duration, ?string $name): Rooms
     {
         // We initialize the Room with the data;
 
@@ -64,7 +64,7 @@ class RoomService
      * @param float $duration
      * @param string $name
      */
-    public function editRoom(Rooms $room, Server $server, \DateTimeImmutable $start, $duration, $name): Rooms
+    public function editRoom(Rooms $room, Server $server, \DateTimeImmutable $start, float $duration, string $name): Rooms
     {
         // We initialize the Room with the data;
 
@@ -110,7 +110,7 @@ class RoomService
      * @param string $email
      * @return array<string, mixed>
      */
-    public function removeUserFromRoom(?Rooms $room, $email): array
+    public function removeUserFromRoom(?Rooms $room, string $email): array
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return ['error' => true, 'text' => 'Email incorrect'];
@@ -139,7 +139,7 @@ class RoomService
      * @param string $email
      * @return array<string, mixed>
      */
-    public function addUserToRoom(?Rooms $room, $email): array
+    public function addUserToRoom(?Rooms $room, string $email): array
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return ['error' => true, 'text' => 'Email incorrect'];

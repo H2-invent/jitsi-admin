@@ -578,7 +578,9 @@ class LdapUserServiceTest extends WebTestCase
     private function getParam(): void
     {
         $para = self::getContainer()->get(ParameterBagInterface::class);
-        $this->LDAPURL = $para->get('ldap_test_url');
+        /** @var string $ldapUrl */
+        $ldapUrl = $para->get('ldap_test_url');
+        $this->LDAPURL = $ldapUrl;
     }
 
 

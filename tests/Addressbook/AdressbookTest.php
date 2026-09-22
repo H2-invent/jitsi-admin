@@ -148,7 +148,7 @@ class AdressbookTest extends KernelTestCase
         $userRepo->findMyUserByIndex('test@local2.de', $user);
         $string = 'asdf';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
-        $res = $searchService->generateUserwithoutEmptyUser($userArr, $string);
+        $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(
             [
             ],

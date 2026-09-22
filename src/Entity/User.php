@@ -968,7 +968,7 @@ class User extends BaseUser
      * @param string $string
      * @return string
      */
-    public function getFormatedName($string)
+    public function getFormatedName(string $string): string
     {
         $this->formatName = new FormatName();
         return $this->formatName->formatName($string, $this);
@@ -1126,7 +1126,7 @@ class User extends BaseUser
     /**
      * @return array<int, string|null>
      */
-    public function getCategories()
+    public function getCategories(): array
     {
         $res = [];
 

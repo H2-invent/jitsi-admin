@@ -61,7 +61,7 @@ class SipTrunkGenerator
      * @param string $callerId
      * @return string|null
      */
-    public function createNewSIPNumber(Rooms $rooms, $callerId)
+    public function createNewSIPNumber(Rooms $rooms, string $callerId): ?string
     {
         try {
             $this->generateSipTrunk($rooms->getServer(), $rooms, $callerId);
@@ -80,7 +80,7 @@ class SipTrunkGenerator
      * @param string $callerId
      * @return string|null
      */
-    public function generateSipTrunk(Server $server, Rooms $rooms, $callerId)
+    public function generateSipTrunk(Server $server, Rooms $rooms, string $callerId): ?string
     {
         $this->rooms = $rooms;
         $this->server = $server;

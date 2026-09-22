@@ -82,7 +82,9 @@ class PermissionChangeServiceTest extends KernelTestCase
         $testUser = $userRepository->findOneBy(['email' => 'test@local2.de']);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
-        $this->assertEquals(true, $changePermissionService->toggleLobbyModerator($room->getModerator(), $testUser, $room)->getLobbyModerator());
+        $toggledUserRoom = $changePermissionService->toggleLobbyModerator($room->getModerator(), $testUser, $room);
+        $this->assertNotFalse($toggledUserRoom);
+        $this->assertEquals(true, $toggledUserRoom->getLobbyModerator());
         $this->assertEquals(false, $changePermissionService->toggleLobbyModerator($testUser, $testUser, $room));
         $userRoomRepo = self::getContainer()->get(RoomsUserRepository::class);
         $userRoom = $userRoomRepo->findOneBy(['user' => $testUser, 'room' => $room]);

@@ -29,7 +29,7 @@ class ScheduleNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/schedule/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[server]'] = (string) $server->getId();
         $form['scheduler[name]'] = '';
         $form['scheduler[duration]'] = "60";
 
@@ -37,7 +37,7 @@ class ScheduleNewTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => true,
                     'messages' => [
@@ -45,10 +45,10 @@ class ScheduleNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent(),
+            (string) $client->getResponse()->getContent(),
         );
 
-        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[server]'] = (string) $server->getId();
         $form['scheduler[name]'] = '198273987321';
         $form['scheduler[duration]'] = "60";
         $client->submit($form);
@@ -57,7 +57,7 @@ class ScheduleNewTest extends WebTestCase
         $modalUrl = base64_encode($urlGenerator->generate('schedule_admin', ['id' => $room->getId()]));
 
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -66,14 +66,14 @@ class ScheduleNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
 
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Terminplanung erfolgreich erstellt');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
     }
 
     public function testRemove(): void
@@ -88,7 +88,7 @@ class ScheduleNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/schedule/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[server]'] = (string) $server->getId();
         $form['scheduler[name]'] = '198273987321';
         $form['scheduler[duration]'] = "60";
         $client->submit($form);
@@ -98,7 +98,7 @@ class ScheduleNewTest extends WebTestCase
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
         $modalUrl = base64_encode($urlGenerator->generate('schedule_admin', ['id' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -107,7 +107,7 @@ class ScheduleNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
 
 
@@ -115,7 +115,7 @@ class ScheduleNewTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Terminplanung erfolgreich erstellt');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
 
         $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
@@ -146,7 +146,7 @@ class ScheduleNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/schedule/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[server]'] = (string) $server->getId();
         $form['scheduler[name]'] = '198273987321';
         $form['scheduler[duration]'] = "60";
         $client->submit($form);
@@ -156,7 +156,7 @@ class ScheduleNewTest extends WebTestCase
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
         $modalUrl = base64_encode($urlGenerator->generate('schedule_admin', ['id' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -165,7 +165,7 @@ class ScheduleNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
 
 
@@ -173,19 +173,19 @@ class ScheduleNewTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Terminplanung erfolgreich erstellt');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
 
         $client->request('GET', '/room/dashboard');
         $crawler = $client->request('GET', $urlGenerator->generate('schedule_admin_new', ['id' => $room->getId()]));
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[server]'] = (string) $server->getId();
         $form['scheduler[name]'] = '';
         $form['scheduler[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, bitte den Namen angeben.']]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => true, 'messages' => ['Fehler, bitte den Namen angeben.']]), (string) $client->getResponse()->getContent());
 
-        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[server]'] = (string) $server->getId();
         $form['scheduler[name]'] = '765456654456';
         $form['scheduler[duration]'] = "60";
         $client->submit($form);
@@ -195,7 +195,7 @@ class ScheduleNewTest extends WebTestCase
         $this->assertNotNull($room);
         $modalUrl = base64_encode($urlGenerator->generate('schedule_admin', ['id' => $room->getId()]));
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                     'redirectUrl' => $urlGenerator->generate('dashboard'),
@@ -204,14 +204,14 @@ class ScheduleNewTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
 
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Terminplanung erfolgreich bearbeitet');
-        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, $client->getResponse()->getContent() . '\'');
+        self::assertStringContainsString(' var modalUrl = \'' . $modalUrl, (string) $client->getResponse()->getContent() . '\'');
     }
 
     public function testTransformModal(): void

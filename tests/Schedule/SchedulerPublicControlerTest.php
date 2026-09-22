@@ -66,7 +66,7 @@ class SchedulerPublicControlerTest extends WebTestCase
         $date = (new \DateTimeImmutable())->modify('+10days');
         $date = $date->setTime(15, 00);
         $crawler = $client->request('GET', '/scheduler/public/creator/add?user_id=' . $user->getUid() . '&room_id=' . $umfrage->getUid() . '&date=' . $date->format('Y-m-d H:i'));
-        self::assertEquals(json_encode(['error' => false]), $client->getResponse()->getContent());
+        self::assertEquals(json_encode(['error' => false]), (string) $client->getResponse()->getContent());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $umfrage = $roomRepo->findOneBy(['name' => 'Termin finden: 0']);
         $schedule = $umfrage->getSchedulings()[0];
@@ -125,7 +125,7 @@ class SchedulerPublicControlerTest extends WebTestCase
         $date = $date->setTime(15, 00);
         $crawler = $client->request('GET', '/scheduler/public/creator/add?user_id=' . $user->getUid() . '&room_id=' . $umfrage->getUid() . '&date=' . $date->format('Y-m-dfailureH:i'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertEquals(json_encode(['error' => true]), $client->getResponse()->getContent());
+        self::assertEquals(json_encode(['error' => true]), (string) $client->getResponse()->getContent());
     }
 
 }

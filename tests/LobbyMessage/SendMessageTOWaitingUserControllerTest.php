@@ -38,10 +38,10 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
             }
         );
         $directSend->setMercurePublisher($hub);
-        $crawler = $client->request('POST', '/room/lobby/message/send', [], [], [], json_encode(['uid' => md5('1'), 'message' => $message->getId()]));
+        $crawler = $client->request('POST', '/room/lobby/message/send', [], [], [], (string) json_encode(['uid' => md5('1'), 'message' => $message->getId()]));
 
         self::assertResponseIsSuccessful();
-        self::assertEquals(['error' => false, 'message' => 'Die Nachricht wurde erfolgreich übermittelt.'], json_decode($client->getResponse()->getContent(), true));
+        self::assertEquals(['error' => false, 'message' => 'Die Nachricht wurde erfolgreich übermittelt.'], json_decode((string) $client->getResponse()->getContent(), true));
     }
     public function testSendToAll(): void
     {
@@ -68,10 +68,10 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
             }
         );
         $directSend->setMercurePublisher($hub);
-        $crawler = $client->request('POST', '/room/lobby/message/send/all', [], [], [], json_encode(['uid' => $room->getUidReal(), 'message' => $message->getId()]));
+        $crawler = $client->request('POST', '/room/lobby/message/send/all', [], [], [], (string) json_encode(['uid' => $room->getUidReal(), 'message' => $message->getId()]));
 
         self::assertResponseIsSuccessful();
-        self::assertEquals(['error' => false, 'message' => 'Die Nachricht wurde erfolgreich übermittelt.', 'counts' => 10], json_decode($client->getResponse()->getContent(), true));
+        self::assertEquals(['error' => false, 'message' => 'Die Nachricht wurde erfolgreich übermittelt.', 'counts' => 10], json_decode((string) $client->getResponse()->getContent(), true));
     }
     public function testSendToAllNoRoom(): void
     {
@@ -96,9 +96,9 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
         );
         $directSend->setMercurePublisher($hub);
         $client->loginUser($user);
-        $crawler = $client->request('POST', '/room/lobby/message/send/all', [], [], [], json_encode(['uid' => 'notFound', 'message' => $message->getId()]));
+        $crawler = $client->request('POST', '/room/lobby/message/send/all', [], [], [], (string) json_encode(['uid' => 'notFound', 'message' => $message->getId()]));
 
         self::assertResponseIsSuccessful();
-        self::assertEquals(['error' => true, 'message' => 'Bei der Übermittlung der Nachricht gab es einen Fehler.'], json_decode($client->getResponse()->getContent(), true));
+        self::assertEquals(['error' => true, 'message' => 'Bei der Übermittlung der Nachricht gab es einen Fehler.'], json_decode((string) $client->getResponse()->getContent(), true));
     }
 }

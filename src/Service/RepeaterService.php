@@ -317,7 +317,7 @@ class RepeaterService
      * @return Repeat|null
      * This function Prepares the repeater to have the new startdate
      */
-    public function prepareRepeater(Rooms $rooms)
+    public function prepareRepeater(Rooms $rooms): ?Repeat
     {
 
         $rooms->setEnddate($rooms->getStart()->modify('+' . $rooms->getDuration() . 'min'));
@@ -344,7 +344,7 @@ class RepeaterService
      * @throws \Twig\Error\SyntaxError
      * @author Emanuel Holzmann
      */
-    function sendEMail(Repeat $repeat, $template, $subject, $templateAttr = [], $method = 'REQUEST', $users = []): void
+    function sendEMail(Repeat $repeat, string $template, string $subject, array $templateAttr = [], string $method = 'REQUEST', array|Collection $users = []): void
     {
         if (sizeof($users) === 0) {
             $users = $repeat->getPrototyp()->getPrototypeUsers();
@@ -375,7 +375,7 @@ class RepeaterService
      * @return string
      * @author Emanuel Holzmann
      */
-    private function createIcs(Repeat $repeat, User $user, $method = 'REQUEST'): string
+    private function createIcs(Repeat $repeat, User $user, string $method = 'REQUEST'): string
     {
         $ics = new IcsService();
         $rooms = $repeat->getRooms();
@@ -572,7 +572,7 @@ class RepeaterService
      * @return Repeat
      */
     public
-    function cleanRepeater(Repeat $repeater)
+    function cleanRepeater(Repeat $repeater): Repeat
     {
 
         if ($repeater->getPrototyp()->getCallerRoom()) {
@@ -619,7 +619,7 @@ class RepeaterService
      * This Function creates the caller Id for each Room which is generated in the Repeater Session
      */
     public
-    function createNewCaller(Repeat $repeat)
+    function createNewCaller(Repeat $repeat): void
     {
         foreach ($repeat->getRooms() as $data) {
             $this->callerUserService->addCallerIdToRoom($data);

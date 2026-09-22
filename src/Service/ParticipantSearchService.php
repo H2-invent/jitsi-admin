@@ -21,7 +21,7 @@ class ParticipantSearchService
      * @param User[] $user
      * @return array<int, array<string, mixed>>
      */
-    public function generateUserwithoutEmptyUser($user)
+    public function generateUserwithoutEmptyUser(array $user): array
     {
         $res = [];
         foreach ($user as $data) {
@@ -44,7 +44,7 @@ class ParticipantSearchService
      * @param string $searchString
      * @return array<int, array<string, mixed>>
      */
-    public function generateUserwithEmptyUser($user, $searchString)
+    public function generateUserwithEmptyUser(array $user, string $searchString): array
     {
         $res = [];
         if (sizeof($user) === 0) {
@@ -74,7 +74,7 @@ class ParticipantSearchService
      * @param AddressGroup[] $group
      * @return array<int, array<string, mixed>>
      */
-    public function generateGroup($group)
+    public function generateGroup(array $group): array
     {
         $res = [];
         foreach ($group as $data) {
@@ -122,7 +122,7 @@ class ParticipantSearchService
      * @param array<string, mixed> $inputArr
      * @return array<string, mixed>
      */
-    public function filterForModerator(User $user, &$inputArr)
+    public function filterForModerator(User $user, array &$inputArr): array
     {
         try {
             if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))) {
@@ -139,7 +139,7 @@ class ParticipantSearchService
      * @param string $role
      * @return array<int, string>
      */
-    public function removeRoleFromArray($inputArr, $role)
+    public function removeRoleFromArray(array $inputArr, string $role): array
     {
         return \array_filter(
             $inputArr,

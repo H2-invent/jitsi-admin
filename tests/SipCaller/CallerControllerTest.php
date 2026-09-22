@@ -28,19 +28,19 @@ class CallerControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/room/123419');
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
-        $this->assertJsonStringEqualsJsonString(json_encode(['authorized' => false]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['authorized' => false]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/123419');
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
-        $this->assertJsonStringEqualsJsonString(json_encode(['authorized' => false]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['authorized' => false]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session');
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
-        $this->assertJsonStringEqualsJsonString(json_encode(['authorized' => false]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['authorized' => false]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session/left');
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
-        $this->assertJsonStringEqualsJsonString(json_encode(['authorized' => false]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['authorized' => false]), (string) $client->getResponse()->getContent());
     }
 
     public function testGetCallerRoom(): void
@@ -66,10 +66,10 @@ class CallerControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/api/v1/lobby/sip/room/123419');
         $this->assertResponseIsSuccessful();
 
-        $this->assertJsonStringEqualsJsonString(json_encode(['status' => 'HANGUP', 'reason' => 'TO_EARLY', 'endTime' => $room->getEndTimestamp(), 'startTime' => $room->getStartTimestamp(), 'links' => []]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['status' => 'HANGUP', 'reason' => 'TO_EARLY', 'endTime' => $room->getEndTimestamp(), 'startTime' => $room->getStartTimestamp(), 'links' => []]), (string) $client->getResponse()->getContent());
         $crawler = $client->request('GET', '/api/v1/lobby/sip/room/1234190');
         $this->assertResponseIsSuccessful();
-        $this->assertJsonStringEqualsJsonString(json_encode(['status' => 'ROOM_ID_UKNOWN', 'reason' => 'ROOM_ID_UKNOWN', 'links' => []]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['status' => 'ROOM_ID_UKNOWN', 'reason' => 'ROOM_ID_UKNOWN', 'links' => []]), (string) $client->getResponse()->getContent());
     }
 
     public function testGetCallerPin(): void
@@ -90,33 +90,33 @@ class CallerControllerTest extends WebTestCase
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, []);
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['pin', 'caller_id']]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['pin', 'caller_id']]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => '1234']);
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['caller_id']]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['caller_id']]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => '1234', 'caller_id' => '1234']);
         $this->assertResponseIsSuccessful();
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'auth_ok' => false,
                     'links' => []
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/12' . $id, ['pin' => '1234', 'caller_id' => '1234']);
         $this->assertResponseIsSuccessful();
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'auth_ok' => false,
                     'links' => []
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
@@ -126,7 +126,7 @@ class CallerControllerTest extends WebTestCase
         $session = $caller->getCallerSession();
         assertFalse($session->isIsSipVideoUser());
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'auth_ok' => true,
                     'links' => [
@@ -135,7 +135,7 @@ class CallerControllerTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
     }
 
@@ -162,7 +162,7 @@ class CallerControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session');
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['session_id']]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['session_id']]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session', ['session_id' => $caller->getCallerId()]);
         $this->assertResponseIsSuccessful();
@@ -191,7 +191,7 @@ class CallerControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session');
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['session_id']]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['session_id']]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session/left', ['session_id' => $caller->getCallerId()]);
         $this->assertResponseIsSuccessful();
@@ -235,7 +235,7 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
 
         $this->assertResponseIsSuccessful();
@@ -264,7 +264,7 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
         $this->assertResponseIsSuccessful();
 
@@ -289,7 +289,7 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
 
         $this->assertResponseIsSuccessful();
@@ -310,7 +310,7 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
         $this->assertResponseIsSuccessful();
     }
@@ -353,7 +353,7 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
 
         $this->assertResponseIsSuccessful();
@@ -369,7 +369,7 @@ class CallerControllerTest extends WebTestCase
                 "message" => [],
                 'links' => []
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
 
         $this->assertResponseIsSuccessful();
@@ -413,7 +413,7 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
 
         $this->assertResponseIsSuccessful();
@@ -438,7 +438,7 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
 
         $this->assertResponseIsSuccessful();
@@ -482,7 +482,7 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
         $this->assertResponseIsSuccessful();
 
@@ -506,7 +506,7 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
 
         $this->assertResponseIsSuccessful();
@@ -549,37 +549,37 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
         $this->assertResponseIsSuccessful();
 
         $crawler = $client->request('GET', $leafLink);
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => false,
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
         $crawler = $client->request('GET', $leafLink);
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'error' => true,
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
         $crawler = $client->request('GET', $sessionLink);
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'status' => 'HANGUP',
                     'reason' => 'WRONG_SESSION'
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
         $session = $this->getSessionfromLink($sessionLink);
 
@@ -610,12 +610,12 @@ class CallerControllerTest extends WebTestCase
         //enter the users pin
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
         $this->assertResponseIsSuccessful();
-        $sessionLink = json_decode($client->getResponse()->getContent(), true)['links']['session'];
-        $leafLink = json_decode($client->getResponse()->getContent(), true)['links']['left'];
+        $sessionLink = json_decode((string) $client->getResponse()->getContent(), true)['links']['session'];
+        $leafLink = json_decode((string) $client->getResponse()->getContent(), true)['links']['left'];
 
         //try entering again. the user should not be access again
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
-        $this->assertJsonStringEqualsJsonString(json_encode(['auth_ok' => false, 'links' => []]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['auth_ok' => false, 'links' => []]), (string) $client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
 
         $crawler = $client->request('GET', $sessionLink);
@@ -631,7 +631,7 @@ class CallerControllerTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
 
         $this->assertResponseIsSuccessful();

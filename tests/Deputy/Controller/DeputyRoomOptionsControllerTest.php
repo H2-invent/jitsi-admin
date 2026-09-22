@@ -41,8 +41,8 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/room/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
-        $form['room[moderator]'] = $manager->getId();
+        $form['room[server]'] = (string) $server->getId();
+        $form['room[moderator]'] = (string) $manager->getId();
         $form['room[name]'] = 'test for the supervisor';
         $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";

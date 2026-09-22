@@ -46,8 +46,8 @@ class OwnRoomJoinTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
-        $this->assertStringNotContainsString('https://privacy.dev', $client->getResponse()->getContent());
-        $this->assertStringContainsString('https://test.img', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('https://privacy.dev', (string) $client->getResponse()->getContent());
+        $this->assertStringContainsString('https://test.img', (string) $client->getResponse()->getContent());
     }
 
     public function test_hasStart_waitingTime_noModerator_no_Lobby_noServerLicense(): void
@@ -65,8 +65,8 @@ class OwnRoomJoinTest extends WebTestCase
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
-        $this->assertStringNotContainsString('https://privacy.dev', $client->getResponse()->getContent());
-        $this->assertStringContainsString('https://test.img', $client->getResponse()->getContent());
+        $this->assertStringNotContainsString('https://privacy.dev', (string) $client->getResponse()->getContent());
+        $this->assertStringContainsString('https://test.img', (string) $client->getResponse()->getContent());
     }
 
 
@@ -115,10 +115,10 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         self::assertResponseIsSuccessful();
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
     }
 
     public function test_hasStart_waitingTime_isModerator_no_LobbyWIthPrefix(): void
@@ -150,9 +150,9 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         self::assertResponseIsSuccessful();
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
 
     }
 
@@ -168,15 +168,15 @@ class OwnRoomJoinTest extends WebTestCase
         $manager->flush();
         $crawler = $client->request('GET', '/mywaiting/check/' . $room->getUid() . '/Test User 123/b');
         $this->assertResponseIsSuccessful();
-        $this->assertEquals('{"error":true}', $client->getResponse()->getContent());
+        $this->assertEquals('{"error":true}', (string) $client->getResponse()->getContent());
         $room->setStart((new \DateTimeImmutable())->modify('-10min'));
         $manager->persist($room);
         $manager->flush();
         $urlGenService = self::getContainer()->get(RoomService::class);
         $crawler = $client->request('GET', $url->generate('room_waiting', ['uid' => $room->getUid(), 'name' => 'Test User 123', 'type' => 'b']));
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, null, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, null, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
         $crawler = $client->request('GET', $url->generate('room_waiting', ['uid' => $room->getUid(), 'name' => 'Test User 123', 'type' => 'a']));
         $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', false)));
     }
@@ -198,15 +198,15 @@ class OwnRoomJoinTest extends WebTestCase
         $manager->flush();
         $crawler = $client->request('GET', '/mywaiting/check/' . $room->getUid() . '/Test User 123/b');
         $this->assertResponseIsSuccessful();
-        $this->assertEquals('{"error":true}', $client->getResponse()->getContent());
+        $this->assertEquals('{"error":true}', (string) $client->getResponse()->getContent());
         $room->setStart((new \DateTimeImmutable())->modify('-10min'));
         $manager->persist($room);
         $manager->flush();
         $urlGenService = self::getContainer()->get(RoomService::class);
         $crawler = $client->request('GET', $url->generate('room_waiting', ['uid' => $room->getUid(), 'name' => 'Test User 123', 'type' => 'b']));
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, null, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, null, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', $url->generate('room_waiting', ['uid' => $room->getUid(), 'name' => 'Test User 123', 'type' => 'a']));
         $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', false)));
@@ -237,9 +237,9 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertIsInt(sizeof($lobbyUser));
 
         self::assertResponseIsSuccessful();
-        self::assertStringContainsString("var type = 'b';", $client->getResponse()->getContent());
-        self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", $client->getResponse()->getContent());
-        self::assertStringNotContainsString("jwt", $client->getResponse()->getContent());
+        self::assertStringContainsString("var type = 'b';", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", (string) $client->getResponse()->getContent());
+        self::assertStringNotContainsString("jwt", (string) $client->getResponse()->getContent());
     }
 
     public function test_hasStart_isModerator_hasLobby(): void
@@ -268,11 +268,11 @@ class OwnRoomJoinTest extends WebTestCase
 
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
         self::assertIsInt(sizeof($lobbyUSer));
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString('room/lobby/start/moderator/b/' . $room->getUidReal(), $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString('room/lobby/start/moderator/b/' . $room->getUidReal(), (string) $client->getResponse()->getContent());
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -281,11 +281,11 @@ class OwnRoomJoinTest extends WebTestCase
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
         self::assertIsInt(sizeof($lobbyUSer));
         self::assertResponseIsSuccessful();
-        self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
     }
 
     public function test_hasStart_isModerator_hasLobbyWithPrefix(): void
@@ -323,10 +323,10 @@ class OwnRoomJoinTest extends WebTestCase
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
         self::assertIsInt(sizeof($lobbyUSer));
         self::assertResponseIsSuccessful();
-        self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
 
     }
 
@@ -354,10 +354,10 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         self::assertResponseIsSuccessful();
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
     }
     public function test_hasNoStart_isModerator_NoLobby_with_NamePreset(): void
     {
@@ -375,10 +375,10 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlGenService = self::getContainer()->get(RoomService::class);
-        self::assertStringContainsString( $urlGenService->generateJwt($room, $user, 'Testuser'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
-//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString( $urlGenService->generateJwt($room, $user, 'Testuser'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", (string) $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
     }
 
     public function test_hasNoStart_isModerator_NoLobby_with_NamePreset_and_Skip_Lobby(): void
@@ -397,10 +397,10 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlGenService = self::getContainer()->get(RoomService::class);
-        self::assertStringContainsString( $urlGenService->generateJwt($room, $user, 'Testuser',skipLobby: "true"), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
-//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString( $urlGenService->generateJwt($room, $user, 'Testuser',skipLobby: "true"), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", (string) $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
     }
     public function test_hasNoStart_isModerator_NoLobby_with_NamePreset_and_Skip_Lobby_and_enableMic(): void
     {
@@ -418,10 +418,10 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlGenService = self::getContainer()->get(RoomService::class);
-        self::assertStringContainsString($urlGenService->generateJwt($room, $user, 'Testuser',enableMic: "true"), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
-//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString($urlGenService->generateJwt($room, $user, 'Testuser',enableMic: "true"), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", (string) $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
     }
     public function test_hasNoStart_isModerator_NoLobby_with_NamePreset_and_Skip_Lobbby_and_enaleCamera(): void
     {
@@ -439,10 +439,10 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlGenService = self::getContainer()->get(RoomService::class);
-        self::assertStringContainsString($urlGenService->generateJwt($room, $user, 'Testuser',enableCamera: "true"), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
-//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString($urlGenService->generateJwt($room, $user, 'Testuser',enableCamera: "true"), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", (string) $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
     }
 
     public function test_hasNoStart_isModerator_NoLobbyWithPrefix(): void
@@ -474,9 +474,9 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         self::assertResponseIsSuccessful();
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
 
     }
 
@@ -517,10 +517,10 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         self::assertResponseIsSuccessful();
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, null, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-//       self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, null, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+//       self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
     }
 
     public function test_hasNoStart_noModerator_NoLobbyWithPrefix(): void
@@ -549,9 +549,9 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         self::assertResponseIsSuccessful();
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, null, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-       self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, null, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+       self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
 
     }
 
@@ -580,12 +580,12 @@ class OwnRoomJoinTest extends WebTestCase
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
         self::assertIsInt(sizeof($lobbyUSer));
         self::assertResponseIsSuccessful();
-        self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringNotContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringNotContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
     }
 
     public function test_NoStart_isModerator_hasLobbyWIthPrefix(): void
@@ -614,12 +614,12 @@ class OwnRoomJoinTest extends WebTestCase
         $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
         self::assertIsInt(sizeof($lobbyUSer));
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringNotContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringNotContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
 
-        self::assertStringContainsString('room/lobby/start/moderator/b/' . $room->getUidReal(), $client->getResponse()->getContent());
+        self::assertStringContainsString('room/lobby/start/moderator/b/' . $room->getUidReal(), (string) $client->getResponse()->getContent());
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -628,11 +628,11 @@ class OwnRoomJoinTest extends WebTestCase
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
         self::assertIsInt(sizeof($lobbyUSer));
         self::assertResponseIsSuccessful();
-        self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
-        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), $client->getResponse()->getContent());
-        self::assertStringNotContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', $client->getResponse()->getContent());
-        self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
-        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringNotContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("jwt: '" . $urlGenService->generateJwt($room, $user, 'Test User 123'), (string) $client->getResponse()->getContent());
+        self::assertStringNotContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Test User 123'", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", (string) $client->getResponse()->getContent());
 
     }
 
@@ -655,10 +655,10 @@ class OwnRoomJoinTest extends WebTestCase
         $lobbyUSer = $lobbyRepo->findBy(['showName' => 'Test User 123']);
         self::assertIsInt(sizeof($lobbyUSer));
 
-        self::assertStringContainsString("var type = 'b';", $client->getResponse()->getContent());
-        self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", $client->getResponse()->getContent());
-        self::assertStringContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', $client->getResponse()->getContent());
-        self::assertStringNotContainsString("jwt", $client->getResponse()->getContent());
+        self::assertStringContainsString("var type = 'b';", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', (string) $client->getResponse()->getContent());
+        self::assertStringNotContainsString("jwt", (string) $client->getResponse()->getContent());
 
         $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
@@ -668,10 +668,10 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertIsInt(sizeof($lobbyUSer));
 
         self::assertResponseIsSuccessful();
-        self::assertStringContainsString("var type = 'b';", $client->getResponse()->getContent());
-        self::assertStringContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', $client->getResponse()->getContent());
-        self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", $client->getResponse()->getContent());
-        self::assertStringNotContainsString("jwt", $client->getResponse()->getContent());
+        self::assertStringContainsString("var type = 'b';", (string) $client->getResponse()->getContent());
+        self::assertStringContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", (string) $client->getResponse()->getContent());
+        self::assertStringNotContainsString("jwt", (string) $client->getResponse()->getContent());
     }
     public function getRoomByName(string $name): Rooms
     {

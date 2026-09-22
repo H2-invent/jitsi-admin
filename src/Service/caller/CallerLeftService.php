@@ -24,7 +24,7 @@ class CallerLeftService
      * @param string $sessionId
      * @return bool
      */
-    public function callerLeft($sessionId)
+    public function callerLeft(string $sessionId): bool
     {
         $session = $this->em->getRepository(CallerSession::class)->findOneBy(['sessionId' => $sessionId]);
         if (!$session) {

@@ -55,7 +55,7 @@ class JoinService
      * @param bool|null $browserKlicked
      * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException|null
      */
-    public function join($search, &$snack, &$color, $appAllowed, $appKlicked, $browerAllowed, $browserKlicked)
+    public function join(array $search, string &$snack, string &$color, bool $appAllowed, ?bool $appKlicked, bool $browerAllowed, ?bool $browserKlicked): RedirectResponse|\Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException|null
     {
         $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
@@ -113,7 +113,7 @@ class JoinService
      * @return boolean
      * @author Andreas Holzmann
      */
-    function onlyWithUserAccount(?Rooms $room)
+    function onlyWithUserAccount(?Rooms $room): bool
     {
         if ($room) {
             /** @var mixed $onlyRegistered */
@@ -130,7 +130,7 @@ class JoinService
      * @return boolean
      * @author Andreas Holzmann
      */
-    function userAccountLogin(?Rooms $room, ?User $user)
+    function userAccountLogin(?Rooms $room, ?User $user): bool
     {
         if ($room) {
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference

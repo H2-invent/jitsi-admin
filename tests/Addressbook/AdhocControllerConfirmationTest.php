@@ -36,7 +36,7 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $room = $roomRepo->findAll();
         $room = $room[sizeof($room) - 1];
         self::assertResponseIsSuccessful();
-        assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId(), $client->getResponse()->getContent());
+        assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId(), (string) $client->getResponse()->getContent());
         self::assertEquals(
             1,
             $crawler->filter('option')->count()
@@ -77,7 +77,7 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $room = $room[sizeof($room) - 1];
         self::assertResponseIsSuccessful();
 
-        assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId() . '/' . $tagEnable->getId(), $client->getResponse()->getContent());
+        assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId() . '/' . $tagEnable->getId(), (string) $client->getResponse()->getContent());
         self::assertSelectorTextContains('option', 'Test Tag Enabled');
         self::assertEquals(
             1,
@@ -115,7 +115,7 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $tagEnable = $tagRepo->findOneBy(['title' => 'Test Tag Enabled']);
         $tag = $user->getServers()[0]->getTag();
         foreach ($tag as $data) {
-            assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId() . '/' . $data->getId(), $client->getResponse()->getContent());
+            assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId() . '/' . $data->getId(), (string) $client->getResponse()->getContent());
 
         }
     }

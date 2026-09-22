@@ -67,7 +67,7 @@ class RepeaterControllerTest extends WebTestCase
         $form['room[start]'] = '2022-04-10T12:00:00';
         $client->submit($form);
 
-        self::assertEquals('{"error":false,"redirectUrl":"\/room\/dashboard?snack=Sie%20haben%20erfolgreich%20einen%20Serientermin%20bearbeitet.\u0026color=success"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"redirectUrl":"\/room\/dashboard?snack=Sie%20haben%20erfolgreich%20einen%20Serientermin%20bearbeitet.\u0026color=success"}', (string) $client->getResponse()->getContent());
 
         $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
@@ -125,7 +125,9 @@ class RepeaterControllerTest extends WebTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
-        $max = (int)self::getContainer()->get(ParameterBagInterface::class)->get('laf_max_repeat');
+        /** @var int|string $rawMaxRepeat */
+        $rawMaxRepeat = self::getContainer()->get(ParameterBagInterface::class)->get('laf_max_repeat');
+        $max = (int) $rawMaxRepeat;
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
 
@@ -153,7 +155,9 @@ class RepeaterControllerTest extends WebTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
-        $max = (int)self::getContainer()->get(ParameterBagInterface::class)->get('laf_max_repeat');
+        /** @var int|string $rawMaxRepeat */
+        $rawMaxRepeat = self::getContainer()->get(ParameterBagInterface::class)->get('laf_max_repeat');
+        $max = (int) $rawMaxRepeat;
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
 

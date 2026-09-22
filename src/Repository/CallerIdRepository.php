@@ -54,7 +54,7 @@ class CallerIdRepository extends ServiceEntityRepository
     /**
      * @param string $pin
      */
-    public function findByRoomAndPin(Rooms $rooms, $pin): ?CallerId
+    public function findByRoomAndPin(Rooms $rooms, string $pin): ?CallerId
     {
         return $this->createQueryBuilder('c')
             ->innerJoin('c.room', 'room')

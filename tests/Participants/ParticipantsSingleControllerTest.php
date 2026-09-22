@@ -23,11 +23,11 @@ class ParticipantsSingleControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/room/participant/add/' . $room->getId());
         self::assertResponseIsSuccessful();
-        $crawler = $client->request('POST', '/room/participant/add_single/' . $room->getId(), content: json_encode(['participant' => ['test@local4.de']]));
+        $crawler = $client->request('POST', '/room/participant/add_single/' . $room->getId(), content: (string) json_encode(['participant' => ['test@local4.de']]));
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(4, $room->getUser()->count());
         self::assertResponseStatusCodeSame(200);
-        assertEquals('{"invalidMember":[],"validMember":["test@local4.de"]}', $client->getResponse()->getContent());
+        assertEquals('{"invalidMember":[],"validMember":["test@local4.de"]}', (string) $client->getResponse()->getContent());
     }
     public function testEmptyInvite(): void
     {
@@ -40,11 +40,11 @@ class ParticipantsSingleControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/room/participant/add/' . $room->getId());
         self::assertResponseIsSuccessful();
-        $crawler = $client->request('POST', '/room/participant/add_single/' . $room->getId(), content: json_encode(['wrongEntity' => ['test@local4.de']]));
+        $crawler = $client->request('POST', '/room/participant/add_single/' . $room->getId(), content: (string) json_encode(['wrongEntity' => ['test@local4.de']]));
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, $room->getUser()->count());
         self::assertResponseStatusCodeSame(200);
-        assertEquals('{"error":true}', $client->getResponse()->getContent());
+        assertEquals('{"error":true}', (string) $client->getResponse()->getContent());
     }
     public function testInvalidParticipantInvite(): void
     {
@@ -57,11 +57,11 @@ class ParticipantsSingleControllerTest extends WebTestCase
         $client->loginUser($organizer);
 
 
-        $crawler = $client->request('POST', '/room/participant/add_single/' . $room->getId(), content: json_encode(['participant' => ['test@local.de']]));
+        $crawler = $client->request('POST', '/room/participant/add_single/' . $room->getId(), content: (string) json_encode(['participant' => ['test@local.de']]));
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, $room->getUser()->count());
         self::assertResponseStatusCodeSame(200);
-        assertEquals('{"error":true}', $client->getResponse()->getContent());
+        assertEquals('{"error":true}', (string) $client->getResponse()->getContent());
     }
     public function testParticipantIsCreatorInvite(): void
     {
@@ -82,11 +82,11 @@ class ParticipantsSingleControllerTest extends WebTestCase
         $client->loginUser($organizer);
 
 
-        $crawler = $client->request('POST', '/room/participant/add_single/' . $room->getId(), content: json_encode(['participant' => ['test@local4.de']]));
+        $crawler = $client->request('POST', '/room/participant/add_single/' . $room->getId(), content: (string) json_encode(['participant' => ['test@local4.de']]));
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, $room->getUser()->count());
         self::assertResponseStatusCodeSame(200);
-        assertEquals('{"invalidMember":["test@local4.de"],"validMember":[]}', $client->getResponse()->getContent());
+        assertEquals('{"invalidMember":["test@local4.de"],"validMember":[]}', (string) $client->getResponse()->getContent());
     }
 
 }

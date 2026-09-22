@@ -110,7 +110,7 @@ class JoinController extends JitsiAdminController
      * @return boolean
      * @author Andreas Holzmann
      */
-    function onlyWithUserAccount(?Rooms $room)
+    function onlyWithUserAccount(?Rooms $room): bool
     {
         if ($room) {
             /** @var string|int|bool|null $laFOnlyRegisteredParticipents */
@@ -127,7 +127,7 @@ class JoinController extends JitsiAdminController
      * @return boolean
      * @author Andreas Holzmann
      */
-    function userAccountLogin(?Rooms $room, ?User $user)
+    function userAccountLogin(?Rooms $room, ?User $user): bool
     {
         if ($room) {
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference

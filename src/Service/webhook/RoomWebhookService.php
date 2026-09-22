@@ -39,9 +39,9 @@ class RoomWebhookService
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param array<string, mixed>|null $data
      */
-    public function startWebhook($data): ?string
+    public function startWebhook(?array $data): ?string
     {
         $res = 'No event defined';;
         if (isset($data['event_name'])) {
@@ -250,7 +250,7 @@ class RoomWebhookService
         ?string $breakoutRoomName,
         string  $roomJId,
         string  $occupantJId,
-                $joinedAt,
+                string $joinedAt,
         ?string $occupantName = null,
     ): ?string
     {

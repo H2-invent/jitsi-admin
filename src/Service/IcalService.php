@@ -107,7 +107,7 @@ class IcalService
      * @return mixed
      */
     public
-    function getRooms()
+    function getRooms(): mixed
     {
         return $this->rooms;
     }
@@ -116,7 +116,7 @@ class IcalService
      * @param mixed $rooms
      */
     public
-    function setRooms($rooms): void
+    function setRooms(mixed $rooms): void
     {
         $this->rooms = array_values($rooms);
     }

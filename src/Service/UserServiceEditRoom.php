@@ -40,7 +40,7 @@ class UserServiceEditRoom
     /**
      * @return bool
      */
-    function editRoom(User $user, Rooms $room)
+    function editRoom(User $user, Rooms $room): bool
     {
 
         $url = $this->urlGenerator->generateUrl($room, $user);
@@ -67,7 +67,7 @@ class UserServiceEditRoom
     /**
      * @return bool
      */
-    function editPersistantRoom(User $user, Rooms $room)
+    function editPersistantRoom(User $user, Rooms $room): bool
     {
 
         $url = $this->urlGenerator->generateUrl($room, $user);
@@ -92,7 +92,7 @@ class UserServiceEditRoom
     /**
      * @return bool
      */
-    function editRoomSchedule(User $user, Rooms $room)
+    function editRoomSchedule(User $user, Rooms $room): bool
     {
 
         //we have a shedule Meting. the participants only got a link to shedule their appointments

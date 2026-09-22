@@ -54,7 +54,7 @@ class ApplicationUrlGenerator extends AbstractExtension
      * @param bool $moderator
      * @return string
      */
-    public function createWhitebophirLink(Rooms $rooms, $moderator = false): string
+    public function createWhitebophirLink(Rooms $rooms, bool $moderator = false): string
     {
 
         return $this->externalApplication->whitebophirLink($rooms, $moderator);

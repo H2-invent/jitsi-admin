@@ -29,7 +29,7 @@ class EgressService
      * @param string $template
      * @return array{error: bool, message?: string, recordingId?: string|null}
      */
-    public function startEgress(Rooms $rooms, User $user, $template): array
+    public function startEgress(Rooms $rooms, User $user, string $template): array
     {
         $recording = $this->recordingRepository->findOneBy(['room' => $rooms, 'user' => $user]);
         if (!$recording) {

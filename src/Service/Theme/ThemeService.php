@@ -43,7 +43,7 @@ class ThemeService
     /**
      * @return mixed
      */
-    public function getTheme(?Rooms $room = null)
+    public function getTheme(?Rooms $room = null): mixed
     {
         if ($room) {
             if ($room->getHostUrl()) {
@@ -121,7 +121,7 @@ class ThemeService
      * @param string $property
      * @return mixed
      */
-    public function getThemeProperty($property)
+    public function getThemeProperty(string $property): mixed
     {
         $theme = $this->getTheme();
         if ($theme) {
@@ -134,7 +134,7 @@ class ThemeService
      * @param string $input
      * @return mixed
      */
-    public function getApplicationProperties($input)
+    public function getApplicationProperties(string $input): mixed
     {
 
         $variable = null;

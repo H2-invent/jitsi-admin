@@ -66,7 +66,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    function join(Rooms $room, ?User $user, $t, $userName): string
+    function join(Rooms $room, ?User $user, string $t, string $userName): string
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -93,7 +93,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    function joinUrl($t, Rooms $room, $name, $isModerator): string
+    function joinUrl(string $t, Rooms $room, string $name, bool $isModerator): string
     {
         return $this->createUrl($t, $room, $isModerator, null, $name);
     }
@@ -108,7 +108,7 @@ class RoomService
      * @return string
      */
     public
-    function createUrl($t, Rooms $room, $isModerator, ?User $user, $userName, $avatar = null): string
+    function createUrl(string $t, Rooms $room, bool $isModerator, ?User $user, string $userName, ?string $avatar = null): string
     {
         if ($t === 'a') {
             $type = 'jitsi-meet://';
@@ -138,13 +138,13 @@ class RoomService
      * @param bool $moderatorExplizit
      * @param string|null $avatarUrl
      * @param bool|string $noModerator
-     * @param bool|string $skipLobby
+     * @param bool|string|null $skipLobby
      * @param bool|string|null $enableMic
      * @param bool|string|null $enableCamera
      * @return string
      */
     public
-    function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): string
+    function generateJwt(Rooms $room, ?User $user, string $userName, bool $moderatorExplizit = false, ?string $avatarUrl = null, bool|string $noModerator=false, bool|string|null $skipLobby=false, bool|string|null $enableMic=null,bool|string|null $enableCamera=null): string
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -177,14 +177,14 @@ class RoomService
      * @param User|null $user
      * @param string|null $avatar
      * @param bool|string $noModerator
-     * @param bool|string $skipLobby
+     * @param bool|string|null $skipLobby
      * @param bool|string|null $enableMic
      * @param bool|string|null $enableCamera
      * @param bool $lobbyModerator
      * @return array<string, mixed>|null
      */
     public
-    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, ?User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null, $lobbyModerator=false): ?array
+    function genereateJwtPayload(string $userName, Rooms $room, Server $server, bool $moderator, ?User $user = null, ?string $avatar = null, bool|string $noModerator=false, bool|string|null $skipLobby=false, bool|string|null $enableMic=null,bool|string|null $enableCamera=null, bool $lobbyModerator=false): ?array
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {

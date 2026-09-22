@@ -172,7 +172,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     /**
      * @param string $providerKey
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey): ?Response
     {
 
         // change "app_homepage" to some route in your app

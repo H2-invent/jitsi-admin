@@ -41,7 +41,7 @@ class LdapUserService
      * @param bool $dryRun
      * @return User|null
      */
-    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType, $dryRun = false): ?User
+    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType, bool $dryRun = false): ?User
     {
         //Here we get the attributes from the LDAP (username, email, firstname, lastname)
         try {

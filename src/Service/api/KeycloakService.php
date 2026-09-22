@@ -18,7 +18,7 @@ class KeycloakService
      * @param string $email
      * @param string|null $keycloakId
      */
-    public function getUSer($email, $keycloakId = null): ?User
+    public function getUSer(string $email, ?string $keycloakId = null): ?User
     {
         $user = null;
         if ($keycloakId) {

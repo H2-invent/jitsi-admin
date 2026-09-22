@@ -40,7 +40,7 @@ class Utils extends AbstractExtension
      * @param string|null $string
      * @return mixed
      */
-    public function json_decode($string)
+    public function json_decode(?string $string): mixed
     {
         $res = json_decode($string ?? '', true);
         return $res;
@@ -54,7 +54,7 @@ class Utils extends AbstractExtension
     /**
      * @param string $string
      */
-    public function colorFromString($string): string
+    public function colorFromString(string $string): string
     {
 
         $code = dechex(crc32($string));

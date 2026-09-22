@@ -58,7 +58,7 @@ class Schedule extends AbstractExtension
      * @param int $type
      * @return int|null
      */
-    public function scheduleNumber(SchedulingTime $schedulingTime, $type): ?int
+    public function scheduleNumber(SchedulingTime $schedulingTime, int $type): ?int
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(['scheduleTime' => $schedulingTime, 'accept' => $type]);
         return sizeof($scheduleTimeUser);
@@ -68,7 +68,7 @@ class Schedule extends AbstractExtension
      * @param int $type
      * @return SchedulingTimeUser[]
      */
-    public function scheduleUser(SchedulingTime $schedulingTime, $type)
+    public function scheduleUser(SchedulingTime $schedulingTime, int $type): array
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(['scheduleTime' => $schedulingTime, 'accept' => $type]);
         return $scheduleTimeUser;
@@ -77,7 +77,7 @@ class Schedule extends AbstractExtension
     /**
      * @return Rooms[]
      */
-    public function myScheduledMeeting(User $user)
+    public function myScheduledMeeting(User $user): array
     {
         /** @var RoomsRepository $roomsRepository */
         $roomsRepository = $this->em->getRepository(Rooms::class);

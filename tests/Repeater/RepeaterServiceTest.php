@@ -1258,7 +1258,9 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertSame(3, substr_count($ics, 'RECURRENCE-ID:'));
 
         $rdateValue = null;
-        foreach (preg_split('/\r\n/', $ics) as $line) {
+        $icsLines = preg_split('/\r\n/', $ics);
+        self::assertIsArray($icsLines);
+        foreach ($icsLines as $line) {
             if (str_starts_with($line, 'RDATE:')) {
                 $rdateValue = substr($line, strlen('RDATE:'));
                 break;

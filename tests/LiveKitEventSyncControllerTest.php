@@ -132,7 +132,7 @@ class LiveKitEventSyncControllerTest extends WebTestCase
     public function testAuthenticationSuccess(): void
     {
         $client = static::createClient([], ['HTTP_AUTHORIZATION' => 'Bearer ' . $this->validToken]);
-        $crawler = $client->request('POST', '/livekit/event', [], [], [], json_encode($this->roomStarted));
+        $crawler = $client->request('POST', '/livekit/event', [], [], [], (string) json_encode($this->roomStarted));
 
         $this->assertResponseIsSuccessful();
     }
@@ -148,10 +148,10 @@ class LiveKitEventSyncControllerTest extends WebTestCase
     public function testCreateRoom(): void
     {
         $client = static::createClient([], ['HTTP_AUTHORIZATION' => 'Bearer ' . $this->validToken]);
-        $crawler = $client->request('POST', '/livekit/event', [],[],[],json_encode($this->roomStarted));
+        $crawler = $client->request('POST', '/livekit/event', [],[],[],(string) json_encode($this->roomStarted));
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error": false}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error": false}', (string) $client->getResponse()->getContent());
     }
 
     public function testDestroyRoom(): void
@@ -160,11 +160,11 @@ class LiveKitEventSyncControllerTest extends WebTestCase
         $crawler = $client->jsonRequest('POST', '/livekit/event', $this->roomStarted);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error": false}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error": false}', (string) $client->getResponse()->getContent());
         $crawler = $client->jsonRequest('POST', '/livekit/event', $this->roomFinished);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error": false}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error": false}', (string) $client->getResponse()->getContent());
     }
 
     public function testJoinRoom(): void
@@ -173,22 +173,22 @@ class LiveKitEventSyncControllerTest extends WebTestCase
         $crawler = $client->jsonRequest('POST', '/livekit/event', $this->roomStarted);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error": false}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error": false}', (string) $client->getResponse()->getContent());
 
         $crawler = $client->jsonRequest('POST', '/livekit/event', $this->userJoined);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error": false}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error": false}', (string) $client->getResponse()->getContent());
 
         $crawler = $client->jsonRequest('POST', '/livekit/event', $this->userLeft);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error": false}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error": false}', (string) $client->getResponse()->getContent());
 
         $crawler = $client->jsonRequest('POST', '/livekit/event', $this->roomFinished);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error": false}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error": false}', (string) $client->getResponse()->getContent());
     }
 
     public function testErrorRoom(): void
@@ -197,23 +197,23 @@ class LiveKitEventSyncControllerTest extends WebTestCase
         $crawler = $client->jsonRequest('POST', '/livekit/event', $this->roomFinished);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error":"Room Jitsi ID not found"}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error":"Room Jitsi ID not found"}', (string) $client->getResponse()->getContent());
 
         $crawler = $client->jsonRequest('POST', '/livekit/event', $this->userLeft);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error":"Wrong occupant ID. The occupant is not in the database"}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error":"Wrong occupant ID. The occupant is not in the database"}', (string) $client->getResponse()->getContent());
         $wrongIdOfUser = $this->userJoined;
         $wrongIdOfUser['room']['sid'] = 'invalidSID';
         $crawler = $client->jsonRequest('POST', '/livekit/event', $wrongIdOfUser);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error":"Room Jitsi ID not found"}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error":"Room Jitsi ID not found"}', (string) $client->getResponse()->getContent());
 
         $crawler = $client->jsonRequest('POST', '/livekit/event', $this->userJoined);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"error":"Room Jitsi ID not found"}', $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"error":"Room Jitsi ID not found"}', (string) $client->getResponse()->getContent());
     }
 }
 

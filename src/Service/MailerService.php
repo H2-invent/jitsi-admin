@@ -58,7 +58,7 @@ class MailerService
             return true;
         }
 
-        if ($this->parameter->get('DISALLOW_ALL_EMAILS') === 1) {
+        if ((int) $this->parameter->get('DISALLOW_ALL_EMAILS') === 1) {
             $this->logger->debug('Global email sending disabled.');
             return true;
         }
@@ -188,7 +188,7 @@ class MailerService
         }
 
         foreach ($attachments as $file) {
-            $email->attach($file['body'], UtilsHelper::slugifywithDot($file['filename']), $file['type']);
+            $email->attach($file['body'], UtilsHelper::slugifyWithDot($file['filename']), $file['type']);
         }
 
         if ($this->kernel->getEnvironment() !== 'dev') {
@@ -216,7 +216,7 @@ class MailerService
 
     private function applyReturnPath(Email $email, ?Rooms $rooms): void
     {
-        if ($this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') === 1 && $rooms?->getModerator()) {
+        if ((int) $this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') === 1 && $rooms?->getModerator()) {
             $moderatorEmail = $rooms->getModerator()->getEmail();
             if ($this->isValidEmail($moderatorEmail)) {
                 $email->returnPath($moderatorEmail);
