@@ -17,6 +17,7 @@ class ThemeUploadService
     public function __construct(
         private CheckSignature         $checkSignature,
         private CacheItemPoolInterface $cacheItemPool,
+        private Filesystem $filesystem,
         #[Autowire(param: 'app.theme.dir')]
         private readonly string $themeDir,
         #[Autowire(param: 'app.theme.cache_dir')]
@@ -46,9 +47,11 @@ class ThemeUploadService
             return ServiceResult::failure(ThemeUploadError::INVALID_THEME);
         }
 
-        $themePath = $signatureFile->getPathname();
-        $themeTargetPath = $this->themeDir . DIRECTORY_SEPARATOR . $signatureFile->getFilename();
-        $this->moveThemeToTargetPathAndRemoveTempFiles($themePath, $themeTargetPath, $extractionPath);
+        $this->moveSignatureFile($signatureFile);
+        $this->moveThemeFiles($extractionPath);
+        $this->removeExtractedFiles($extractionPath);
+
+        $this->cacheItemPool->clear();
 
         return ServiceResult::success();
     }
@@ -79,28 +82,32 @@ class ThemeUploadService
         return $foundFiles[0] ?? null;
     }
 
-    private function moveThemeToTargetPathAndRemoveTempFiles(string $themePath, string $themeTargetPath, string $extractionPath): void
+    private function moveSignatureFile(SplFileInfo $signatureFile): void
     {
-        $filesystem = new Filesystem();
-        $filesystem->remove($themeTargetPath);
-        $filesystem->copy($themePath, $themeTargetPath);
-        $filesystem->remove($themePath);
+        $signaturePath = $signatureFile->getPathname();
+        $signatureTargetPath = $this->themeDir . DIRECTORY_SEPARATOR . $signatureFile->getFilename();
 
-        $finder = new Finder();
-        $finder->depth('==0');
-        $finder->files()->in($extractionPath)->directories();
+        $this->filesystem->copy($signaturePath, $signatureTargetPath, true);
+        $this->filesystem->remove($signaturePath);
+    }
 
-        foreach ($finder as $assetDir) {
-            $dirName = $assetDir->getFilename();
-            if (str_starts_with($dirName, 'theme')) {
-                $dirName = str_replace("theme", '', $dirName);
-            }
-            $assetTargetPath = $this->publicDir . DIRECTORY_SEPARATOR . $dirName;
-            $filesystem->remove($assetTargetPath . '/*');
-            $filesystem->mirror($assetDir->getPath(), $assetTargetPath);
+    private function moveThemeFiles(string $extractionPath): void
+    {
+        $finder = (new Finder())
+            ->directories()
+            ->notPath('/theme$/') // skip over /theme/ subpath because we want what's inside
+            ->in($extractionPath)
+        ;
+
+        foreach ($finder as $directory) {
+            $themeName = $directory->getFilename();
+            $this->filesystem->remove($this->publicDir . DIRECTORY_SEPARATOR . $themeName);
+            $this->filesystem->mirror($directory->getPath(), $this->publicDir);
         }
+    }
 
-        $filesystem->remove($extractionPath);
-        $this->cacheItemPool->clear();
+    private function removeExtractedFiles(string $extractionPath): void
+    {
+        $this->filesystem->remove($extractionPath);
     }
 }
