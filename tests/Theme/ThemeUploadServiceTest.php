@@ -23,6 +23,7 @@ class ThemeUploadServiceTest extends TestCase
     private string $pathValidTheme = __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'validtheme.zip';
     private string $pathInvalidZip = __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'invalidzip.zip';
     private string $pathNoSignatureFile = __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'nosignaturefile.zip';
+    private string $pathNoThemeDirFile = __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'nothemedir.zip';
 
     protected function setUp(): void
     {
@@ -57,7 +58,7 @@ class ThemeUploadServiceTest extends TestCase
         $mockCheckSignature->expects($this->once())->method('verifySignature')->willReturn(true);
         $mockCacheItemPool = $this->createStub(CacheItemPoolInterface::class);
 
-        $themeUploadService = new ThemeUploadService($mockCheckSignature, $mockCacheItemPool, $this->workspaceTheme, $this->workspaceCache, $this->workspacePublic);
+        $themeUploadService = new ThemeUploadService($mockCheckSignature, $mockCacheItemPool, new Filesystem(), $this->workspaceTheme, $this->workspaceCache, $this->workspacePublic);
         $uploadThemeResult = $themeUploadService->uploadTheme($this->pathValidTheme);
 
         $themeFinder = (new Finder())->files()->in($this->workspaceTheme)->name('*.json.signed');
@@ -74,7 +75,7 @@ class ThemeUploadServiceTest extends TestCase
         $mockCheckSignature->method('verifySignature')->willReturn(true);
         $mockCacheItemPool = $this->createStub(CacheItemPoolInterface::class);
 
-        $themeUploadService = new ThemeUploadService($mockCheckSignature, $mockCacheItemPool, $this->workspaceTheme, $this->workspaceCache, $this->workspacePublic);
+        $themeUploadService = new ThemeUploadService($mockCheckSignature, $mockCacheItemPool, new Filesystem(), $this->workspaceTheme, $this->workspaceCache, $this->workspacePublic);
         $uploadThemeResult = $themeUploadService->uploadTheme($this->pathInvalidZip);
 
         self::assertFalse($uploadThemeResult->isSuccess());
@@ -87,8 +88,21 @@ class ThemeUploadServiceTest extends TestCase
         $mockCheckSignature->method('verifySignature')->willReturn(true);
         $mockCacheItemPool = $this->createStub(CacheItemPoolInterface::class);
 
-        $themeUploadService = new ThemeUploadService($mockCheckSignature, $mockCacheItemPool, $this->workspaceTheme, $this->workspaceCache, $this->workspacePublic);
+        $themeUploadService = new ThemeUploadService($mockCheckSignature, $mockCacheItemPool, new Filesystem(), $this->workspaceTheme, $this->workspaceCache, $this->workspacePublic);
         $uploadThemeResult = $themeUploadService->uploadTheme($this->pathNoSignatureFile);
+
+        self::assertFalse($uploadThemeResult->isSuccess());
+        self::assertSame(ThemeUploadError::NO_THEME_IN_ZIP, $uploadThemeResult->getErrorType());
+    }
+
+    public function testUploadNoThemeDir(): void
+    {
+        $mockCheckSignature = $this->createStub(CheckSignature::class);
+        $mockCheckSignature->method('verifySignature')->willReturn(true);
+        $mockCacheItemPool = $this->createStub(CacheItemPoolInterface::class);
+
+        $themeUploadService = new ThemeUploadService($mockCheckSignature, $mockCacheItemPool, new Filesystem(), $this->workspaceTheme, $this->workspaceCache, $this->workspacePublic);
+        $uploadThemeResult = $themeUploadService->uploadTheme($this->pathNoThemeDirFile);
 
         self::assertFalse($uploadThemeResult->isSuccess());
         self::assertSame(ThemeUploadError::NO_THEME_IN_ZIP, $uploadThemeResult->getErrorType());
@@ -100,7 +114,7 @@ class ThemeUploadServiceTest extends TestCase
         $mockCheckSignature->method('verifySignature')->willReturn(false);
         $mockCacheItemPool = $this->createStub(CacheItemPoolInterface::class);
 
-        $themeUploadService = new ThemeUploadService($mockCheckSignature, $mockCacheItemPool, $this->workspaceTheme, $this->workspaceCache, $this->workspacePublic);
+        $themeUploadService = new ThemeUploadService($mockCheckSignature, $mockCacheItemPool, new Filesystem(), $this->workspaceTheme, $this->workspaceCache, $this->workspacePublic);
         $uploadThemeResult = $themeUploadService->uploadTheme($this->pathValidTheme);
 
         self::assertFalse($uploadThemeResult->isSuccess());

@@ -15,7 +15,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class ThemeUploadService
 {
     public function __construct(
-        private CheckSignature         $checkSignature,
+        private CheckSignature $checkSignature,
         private CacheItemPoolInterface $cacheItemPool,
         private Filesystem $filesystem,
         #[Autowire(param: 'app.theme.dir')]
@@ -37,7 +37,8 @@ class ThemeUploadService
         }
 
         $signatureFile = $this->findSignatureFile($extractionPath);
-        if ($signatureFile === null) {
+        $themeDirectory = $this->findThemeDirectory($extractionPath);
+        if ($signatureFile === null || $themeDirectory === null) {
             return ServiceResult::failure(ThemeUploadError::NO_THEME_IN_ZIP);
         }
 
@@ -48,10 +49,8 @@ class ThemeUploadService
         }
 
         $this->moveSignatureFile($signatureFile);
-        $this->moveThemeFiles($extractionPath);
+        $this->moveThemeFiles($themeDirectory);
         $this->removeExtractedFiles($extractionPath);
-
-        $this->cacheItemPool->clear();
 
         return ServiceResult::success();
     }
@@ -72,8 +71,26 @@ class ThemeUploadService
 
     private function findSignatureFile(string $extractionPath): ?SplFileInfo
     {
-        $finder = new Finder();
-        $finder->files()->in($extractionPath)->name('*.json.signed');
+        $finder = (new Finder())
+            ->files()
+            ->name('*.json.signed')
+            ->in($extractionPath)
+        ;
+        if ($finder->count() !== 1) {
+            return null;
+        }
+        $foundFiles = iterator_to_array($finder, false);
+
+        return $foundFiles[0] ?? null;
+    }
+
+    private function findThemeDirectory(string $extractionPath): ?SplFileInfo
+    {
+        $finder = (new Finder())
+            ->directories()
+            ->name('theme')
+            ->in($extractionPath)
+        ;
         if ($finder->count() !== 1) {
             return null;
         }
@@ -91,23 +108,31 @@ class ThemeUploadService
         $this->filesystem->remove($signaturePath);
     }
 
-    private function moveThemeFiles(string $extractionPath): void
+    private function moveThemeFiles(SplFileInfo $themeDirectory): void
     {
         $finder = (new Finder())
-            ->directories()
-            ->notPath('/theme$/') // skip over /theme/ subpath because we want what's inside
-            ->in($extractionPath)
+            ->in($themeDirectory->getPathname())
+            ->depth(0)
         ;
+        foreach ($finder as $fileOrDir) {
+            $sourcePathName = $fileOrDir->getPathname();
+            $targetPathName = $this->publicDir . DIRECTORY_SEPARATOR . $fileOrDir->getFilename();
 
-        foreach ($finder as $directory) {
-            $themeName = $directory->getFilename();
-            $this->filesystem->remove($this->publicDir . DIRECTORY_SEPARATOR . $themeName);
-            $this->filesystem->mirror($directory->getPath(), $this->publicDir);
+            if ($fileOrDir->isFile()) {
+                $this->filesystem->copy($sourcePathName, $targetPathName, true);
+
+            } elseif ($fileOrDir->isDir()) {
+                $this->filesystem->mirror($sourcePathName, $targetPathName, options: [
+                    'override' => true,
+                    'delete' => true,
+                ]);
+            }
         }
     }
 
     private function removeExtractedFiles(string $extractionPath): void
     {
         $this->filesystem->remove($extractionPath);
+        $this->cacheItemPool->clear();
     }
 }
