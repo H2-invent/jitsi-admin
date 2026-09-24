@@ -71,7 +71,7 @@ class RoomServiceJWTTest extends KernelTestCase
         $server->setLiveKitServer(true)
             ->setUrl('testLivekit.de')
             ->setAppId('testID')
-            ->setAppSecret('testSecret');
+            ->setAppSecret('testSecrettestSecrettestSecrettestSecret');
         $rooms = new Rooms();
         $rooms->setServer($server);
         $rooms->setName('testRoom');
@@ -84,7 +84,7 @@ class RoomServiceJWTTest extends KernelTestCase
         openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
 
         self::assertEquals(
-            'testSecret',
+            'testSecrettestSecrettestSecrettestSecret',
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
@@ -169,7 +169,7 @@ class RoomServiceJWTTest extends KernelTestCase
         $server->setLiveKitServer(true)
             ->setUrl('testLivekit.de')
             ->setAppId('testID')
-            ->setAppSecret('testSecret');
+            ->setAppSecret('testSecrettestSecrettestSecrettestSecret');
         $server->setLivekitBackgroundImages(
             "[
     {
@@ -198,7 +198,7 @@ class RoomServiceJWTTest extends KernelTestCase
         openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
 
         self::assertEquals(
-            'testSecret',
+            'testSecrettestSecrettestSecrettestSecret',
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
@@ -279,7 +279,7 @@ class RoomServiceJWTTest extends KernelTestCase
         $server->setLiveKitServer(true)
             ->setUrl('testLivekit.de')
             ->setAppId('testID')
-            ->setAppSecret('testSecret');
+            ->setAppSecret('testSecrettestSecrettestSecrettestSecret');
         $server->setLivekitBackgroundImages(
             "[
    invalidJsonIshere
@@ -297,7 +297,7 @@ class RoomServiceJWTTest extends KernelTestCase
         openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
 
         self::assertEquals(
-            'testSecret',
+            'testSecrettestSecrettestSecrettestSecret',
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
@@ -366,7 +366,7 @@ invalidKey
         $server->setLiveKitServer(true)
             ->setUrl('testLivekit.de')
             ->setAppId('testID')
-            ->setAppSecret('testSecret');
+            ->setAppSecret('testSecrettestSecrettestSecrettestSecret');
         $rooms = new Rooms();
         $rooms->setServer($server);
         $rooms->setName('testRoom');

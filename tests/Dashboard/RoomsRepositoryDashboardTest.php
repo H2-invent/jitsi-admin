@@ -5,8 +5,8 @@ namespace App\Tests\Dashboard;
 use App\Entity\Rooms;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Middleware\Debug\DebugDataHolder;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class RoomsRepositoryDashboardTest extends KernelTestCase
@@ -307,26 +307,19 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
 
     private function captureRepeaterQueries(callable $fetch): array
     {
-        $em = $this->getContainer()->get(EntityManagerInterface::class);
-        $config = $em->getConnection()->getConfiguration();
-        $previous = $config->getSQLLogger();
+        $holder = $this->debugDataHolder();
 
-        $stack = new DebugStack();
-        $config->setSQLLogger($stack);
+        $holder->reset();
+        $rooms = $fetch();
+        $fetchQueries = $this->recordedQueries($holder);
 
-        try {
-            $rooms = $fetch();
-            $fetchQueries = $stack->queries;
-
-            $stack->queries = [];
-            foreach ($rooms as $room) {
-                $room->getRepeater();
-                $room->getRepeaterProtoype();
-            }
-            $accessQueries = $stack->queries;
-        } finally {
-            $config->setSQLLogger($previous);
+        $holder->reset();
+        foreach ($rooms as $room) {
+            $room->getRepeater();
+            $room->getRepeaterProtoype();
         }
+        $accessQueries = $this->recordedQueries($holder);
+        $holder->reset();
 
         return [$rooms, $fetchQueries, $accessQueries];
     }
@@ -432,35 +425,51 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
      */
     private function captureCollectionQueries(callable $fetch): array
     {
-        $em = $this->getContainer()->get(EntityManagerInterface::class);
-        $config = $em->getConnection()->getConfiguration();
-        $previous = $config->getSQLLogger();
+        $holder = $this->debugDataHolder();
 
-        $stack = new DebugStack();
-        $config->setSQLLogger($stack);
+        $holder->reset();
+        $rooms = $fetch();
+        $fetchQueries = $this->recordedQueries($holder);
 
-        try {
-            $rooms = $fetch();
-            $fetchQueries = $stack->queries;
-
-            $stack->queries = [];
-            foreach ($rooms as $room) {
-                $room->getUser()->count();
-                $room->getSchedulings()->count();
-                $room->getUploadedRecordings()->count();
-                $room->getRepeater();
-                $room->getRepeaterProtoype();
-                $room->getCallerRoom();
-                if ($room->getModerator()) {
-                    $room->getModerator()->getDeputy()->toArray();
-                }
+        $holder->reset();
+        foreach ($rooms as $room) {
+            $room->getUser()->count();
+            $room->getSchedulings()->count();
+            $room->getUploadedRecordings()->count();
+            $room->getRepeater();
+            $room->getRepeaterProtoype();
+            $room->getCallerRoom();
+            if ($room->getModerator()) {
+                $room->getModerator()->getDeputy()->toArray();
             }
-            $accessQueries = $stack->queries;
-        } finally {
-            $config->setSQLLogger($previous);
         }
+        $accessQueries = $this->recordedQueries($holder);
+        $holder->reset();
 
         return [$rooms, $fetchQueries, $accessQueries];
+    }
+
+    private function debugDataHolder(): DebugDataHolder
+    {
+        return $this->getContainer()->get('doctrine.debug_data_holder');
+    }
+
+    /**
+     * Flattens the queries captured by the DoctrineBundle debug middleware into a
+     * single list of records, each containing at least a "sql" key.
+     *
+     * @return array<int, array{sql: string, params: array, types: array, executionMS: float|null}>
+     */
+    private function recordedQueries(DebugDataHolder $holder): array
+    {
+        $queries = [];
+        foreach ($holder->getData() as $queriesForConnection) {
+            foreach ($queriesForConnection as $query) {
+                $queries[] = $query;
+            }
+        }
+
+        return $queries;
     }
 
     private function mainDashboardQuery(array $queries): ?string

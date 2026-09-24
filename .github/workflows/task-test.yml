@@ -20,6 +20,7 @@ jobs:
       - name: MySQL start
         run: |
           sudo /etc/init.d/mysql start
+          sudo mysql --user=root --password=root -e "CREATE DATABASE jitsiadmintest;"
           sudo mysql --user=root --password=root -e "CREATE USER 'jitsiadmintest'@'localhost' IDENTIFIED  BY 'password';"
           sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON jitsiadmintest.* TO 'jitsiadmintest'@'localhost';"
           sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;"

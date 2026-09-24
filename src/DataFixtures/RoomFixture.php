@@ -173,7 +173,7 @@ class RoomFixture extends Fixture
         $serverOriginal->addUser($user);
         $serverOriginal->setSlug('test');
         $serverOriginal->setLogoUrl('https://test.test');
-        $serverOriginal->setAppSecret('jitsiSecret');
+        $serverOriginal->setAppSecret('jitsiSecretjitsiSecretjitsiSecret12');
         $serverOriginal->setAppId('jitsiId');
         $serverOriginal->setJwtModeratorPosition(0);
         $serverOriginal->setPrivacyPolicy('https://privacy.dev');
@@ -188,7 +188,7 @@ class RoomFixture extends Fixture
         $server->addUser($user);
         $server->setSlug('test');
         $server->setLogoUrl('https://test.test');
-        $server->setAppSecret('');
+        $server->setAppSecret('jitsiSecretjitsiSecretjitsiSecret12');
         $server->setAppId('');
         $server->setJwtModeratorPosition(0);
         $server->setPrivacyPolicy('https://privacy.dev');
@@ -210,7 +210,7 @@ class RoomFixture extends Fixture
         $server->addUser($user);
         $server->setSlug('test2');
         $server->setLogoUrl('https://test.img');
-        $server->setAppSecret('jitsiSecret');
+        $server->setAppSecret('jitsiSecretjitsiSecretjitsiSecret12');
         $server->setAppId('jitsiId');
         $server->setJwtModeratorPosition(0);
         $server->setLicenseKey('f5c627f7ac98bef45fcfdd5fcade0246');

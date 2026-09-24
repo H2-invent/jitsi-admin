@@ -4,8 +4,10 @@ namespace App\Tests\CheckIpTest;
 
 use App\Service\CheckIPService;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Psr\Log\LoggerInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class CheckIpServiceTest extends TestCase
 {
    private CheckIPService $checkIPService;
