@@ -19,7 +19,7 @@ final class Version20221205155839 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === false) {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE log ADD room_id INT DEFAULT NULL');
             $this->addSql('ALTER TABLE log ADD CONSTRAINT FK_8F3F68C554177093 FOREIGN KEY (room_id) REFERENCES rooms (id)');
@@ -29,7 +29,7 @@ final class Version20221205155839 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === false) {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE log DROP FOREIGN KEY FK_8F3F68C554177093');
             $this->addSql('DROP INDEX IDX_8F3F68C554177093 ON log');

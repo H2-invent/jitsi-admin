@@ -19,7 +19,7 @@ class LobbyWaitungUser
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'lobbyWaitungUsers')]
     #[ORM\JoinColumn(nullable: false)]
     private $room;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
     #[ORM\Column(type: 'text')]
     private $uid;
@@ -28,7 +28,6 @@ class LobbyWaitungUser
     #[ORM\Column(type: 'text')]
     private $showName;
     #[ORM\OneToOne(targetEntity: CallerSession::class, mappedBy: 'lobbyWaitingUser', cascade: ['persist'])]
-    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private $callerSession;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $closeBrowser;
@@ -59,11 +58,11 @@ class LobbyWaitungUser
 
         return $this;
     }
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -103,14 +102,22 @@ class LobbyWaitungUser
     {
         return $this->callerSession;
     }
-    public function setCallerSession(CallerSession $callerSession): self
+    public function setCallerSession(?CallerSession $callerSession): self
     {
-        // set the owning side of the relation if necessary
-        if ($callerSession->getLobbyWaitingUser() !== $this) {
-            $callerSession->setLobbyWaitingUser($this);
+        if ($this->callerSession === $callerSession) {
+            return $this;
         }
 
+        $previousCallerSession = $this->callerSession;
         $this->callerSession = $callerSession;
+
+        if ($previousCallerSession?->getLobbyWaitingUser() === $this) {
+            $previousCallerSession->setLobbyWaitingUser(null);
+        }
+
+        if ($callerSession !== null && $callerSession->getLobbyWaitingUser() !== $this) {
+            $callerSession->setLobbyWaitingUser($this);
+        }
 
         return $this;
     }

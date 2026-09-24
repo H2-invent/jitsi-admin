@@ -31,9 +31,9 @@ class RoomCheckService
 
         $room = $this->setRoomProps($room);
         if ($room->getStart()) {
-            $now = (new \DateTime())->getTimestamp();
-            $start = (new \DateTime($room->getStart()->format('Y-m-d H:i:s'), $room->getTimeZone() ? new \DateTimeZone($room->getTimeZone()) : null))->getTimestamp();
-            $end = (new \DateTime((clone $room->getStart())->modify('+' . $room->getDuration() . 'min')->format('Y-m-d H:i:s'), $room->getTimeZone() ? new \DateTimeZone($room->getTimeZone()) : null))->getTimestamp();
+            $now = (new \DateTimeImmutable())->getTimestamp();
+            $start = (new \DateTimeImmutable($room->getStart()->format('Y-m-d H:i:s'), $room->getTimeZone() ? new \DateTimeZone($room->getTimeZone()) : null))->getTimestamp();
+            $end = (new \DateTimeImmutable($room->getStart()->modify('+' . $room->getDuration() . 'min')->format('Y-m-d H:i:s'), $room->getTimeZone() ? new \DateTimeZone($room->getTimeZone()) : null))->getTimestamp();
             if (($start < $now && $end < $now) && !$room->getPersistantRoom()) {
                 $error[] = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
             }
@@ -64,7 +64,7 @@ class RoomCheckService
             $room->setEnddate(null);
         } else {
             if ($room->getStart()) {
-                $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+                $room->setEnddate($room->getStart()->modify('+ ' . $room->getDuration() . ' minutes'));
             }
         }
         return $room;

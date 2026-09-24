@@ -22,7 +22,7 @@ use App\Service\ServerUserManagment;
 use App\Service\UserService;
 use App\Util\CsvHandler;
 use App\UtilsHelper;
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
@@ -253,7 +253,7 @@ class ScheduleController extends JitsiAdminController
             }
             $em = $this->doctrine->getManager();
             $scheduleTime = new SchedulingTime();
-            $scheduleTime->setTime(new DateTime($request->get('date')));
+            $scheduleTime->setTime(new DateTimeImmutable($request->get('date')));
             $scheduleTime->setScheduling($schedule);
             $schedule->setCompletedEmailSent(false);
             $em->persist($schedule);
@@ -414,7 +414,7 @@ class ScheduleController extends JitsiAdminController
             'Content-Disposition',
             HeaderUtils::makeDisposition(
                 HeaderUtils::DISPOSITION_ATTACHMENT,
-                preg_replace('/[[:^print:]]/', '', $room->getName()) . '-' . (new DateTime())->format('d-m-Y_H-i') . '.csv',
+                preg_replace('/[[:^print:]]/', '', $room->getName()) . '-' . (new DateTimeImmutable())->format('d-m-Y_H-i') . '.csv',
             )
         );
         return $response;

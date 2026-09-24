@@ -233,8 +233,8 @@ class ThemeService
     {
         $validUntil = $this->getThemeProperty('validUntil');
         if ($validUntil) {
-            $validDate = new \DateTime($validUntil);
-            $now = new \DateTime();
+            $validDate = new \DateTimeImmutable($validUntil);
+            $now = new \DateTimeImmutable();
             $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
             if ($daysDifff < $this->getApplicationProperties('SECURITY_THEME_REMINDER_DAYS')) {
                 $this->request->getSession()->getBag('flashes')->add(

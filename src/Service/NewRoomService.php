@@ -39,8 +39,6 @@ class NewRoomService
 
     public function newRoomService(Request $request, User $myUser): Rooms|Response
     {
-
-
         $servers = $this->serverUserManagment->getServersFromUser($myUser);
 
         $id = $request->get('id') ?? null;
@@ -132,7 +130,7 @@ class NewRoomService
                     JsonEncoder::FORMAT,
                     [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude])),
             );
-            $log->setCreatedAt(new \DateTime())
+            $log->setCreatedAt(new \DateTimeImmutable())
                 ->setUserName($myUser->getUid())
                 ->setMessage(json_encode($message))
                 ->setUser($myUser)

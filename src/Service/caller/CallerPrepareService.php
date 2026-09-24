@@ -42,7 +42,7 @@ class CallerPrepareService
      */
     public function deleteOldId()
     {
-        $now = (new \DateTime())->getTimestamp();
+        $now = (new \DateTimeImmutable())->getTimestamp();
         $oldCallerId = $this->em->getRepository(CallerRoom::class)->findPastRoomsWithCallerId($now);
         foreach ($oldCallerId as $data) {
             $this->em->remove($data);
@@ -57,7 +57,7 @@ class CallerPrepareService
      */
     public function addNewId()
     {
-        $now = (new \DateTime())->getTimestamp();
+        $now = (new \DateTimeImmutable())->getTimestamp();
         $futureRooms = $this->em->getRepository(Rooms::class)->findFutureRoomsWithNoCallerId($now);
         foreach ($futureRooms as $data) {
             $this->addCallerIdToRoom($data);
@@ -77,7 +77,7 @@ class CallerPrepareService
         if (!$callerId) {
             $callerId = new CallerRoom();
             $callerId->setRoom($rooms);
-            $callerId->setCreatedAt(new \DateTime());
+            $callerId->setCreatedAt(new \DateTimeImmutable());
             $callerId->setCallerId($this->generateRoomId(999999));
             $this->em->persist($callerId);
             $this->em->flush();
@@ -144,7 +144,7 @@ class CallerPrepareService
                 $callerID
                     ->setRoom($rooms)
                     ->setUser($data)
-                    ->setCreatedAt(new \DateTime())
+                    ->setCreatedAt(new \DateTimeImmutable())
                     ->setCallerId($this->generateCallerUserId($rooms, 999999));
                 $rooms->addCallerId($callerID);
             }
@@ -166,7 +166,7 @@ class CallerPrepareService
             $callerID
                 ->setRoom($prototype)
                 ->setUser($pUser)
-                ->setCreatedAt(new \DateTime())
+                ->setCreatedAt(new \DateTimeImmutable())
                 ->setCallerId($this->generateCallerUserId($prototype, 999999));
             foreach ($repeat->getRooms() as $room){
                 $callerIDClone = clone $callerID;

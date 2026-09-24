@@ -31,11 +31,11 @@ class User extends BaseUser
     private $email;
     #[ORM\Column(type: 'text', nullable: true)]
     private $keycloakId;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $createdAt;
     #[ORM\Column(type: 'text', nullable: true)]
     private $username;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $lastLogin;
     #[ORM\Column(type: 'text', nullable: true)]
     private $firstName;
@@ -59,7 +59,7 @@ class User extends BaseUser
     private $roomsAttributes;
     #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'user')]
     private $subscribers;
-    #[ORM\Column(type: 'array', nullable: true, name: 'keycloakGroup')]
+    #[ORM\Column(type: 'json', nullable: true, name: 'keycloakGroup')]
     private $groups = [];
     #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'user')]
     private $schedulingTimeUsers;
@@ -85,7 +85,7 @@ class User extends BaseUser
     private $ldapUserProperties;
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $timeZone;
-    #[ORM\Column(type: 'array', nullable: true)]
+    #[ORM\Column(type: 'json', nullable: true)]
     private $spezialProperties = [];
     #[ORM\ManyToMany(targetEntity: Rooms::class, inversedBy: 'favoriteUsers')]
     private $favorites;
@@ -100,7 +100,7 @@ class User extends BaseUser
      */
     #[ORM\OneToOne(targetEntity: Documents::class, cascade: ['persist', 'remove'])]
     private $profilePicture;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $updatedAt;
     #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'user', cascade: ['remove'])]
     private $callerIds;
@@ -131,7 +131,6 @@ class User extends BaseUser
     private Collection $AdressbookFavorites;
 
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'AdressbookFavorites')]
-    #[ORM\JoinTable(name: 'addressbook_favorites')]
     private Collection $isAdressbookFavoriteFrom;
 
     #[ORM\OneToMany(mappedBy: 'createdFrom', targetEntity: SchedulingTime::class)]
@@ -222,12 +221,12 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -246,12 +245,12 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getLastLogin(): ?\DateTimeInterface
+    public function getLastLogin(): ?\DateTimeImmutable
     {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?\DateTimeInterface $lastLogin): self
+    public function setLastLogin(?\DateTimeImmutable $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
 
@@ -922,12 +921,12 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

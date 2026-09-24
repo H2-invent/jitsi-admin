@@ -20,9 +20,10 @@ class CallerId
     private $user;
     #[ORM\Column(type: 'text')]
     private $callerId;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
     #[ORM\OneToOne(targetEntity: CallerSession::class, inversedBy: 'caller', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private $callerSession;
     public function getId(): ?int
     {
@@ -58,11 +59,11 @@ class CallerId
 
         return $this;
     }
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

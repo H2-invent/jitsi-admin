@@ -18,11 +18,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RoomsRepository extends ServiceEntityRepository
 {
+    private $timeZoneService;
     private $amountperLayz = 8;
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
+        $this->timeZoneService = $timeZoneService;
     }
 
     // /**
@@ -55,8 +57,8 @@ class RoomsRepository extends ServiceEntityRepository
     */
     public function findRoomsInFuture(User $user)
     {
-        $now = new \DateTime('now', TimeZoneService::getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
+        $now = $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
@@ -103,8 +105,8 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsInPast(User $user, $offset)
     {
-        $now = new \DateTime('now', TimeZoneService::getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
+        $now = $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         $rooms = $qb->select('r')
             ->addSelect('server')
@@ -193,8 +195,9 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRunningRooms(User $user)
     {
-        $now = new \DateTime('now', TimeZoneService::getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+
+        $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
+        $now = $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
@@ -244,9 +247,9 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findTodayRooms(User $user)
     {
-        $now = new \DateTime('now', new \DateTimeZone('utc'));
-        $midnight = new \DateTime('now', new \DateTimeZone('utc'));
-        $midnight->setTime(23, 59, 59);
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
+        $midnight = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
+        $midnight = $midnight->setTime(23, 59, 59);
         $qb = $this->createQueryBuilder('r');
 
         return $qb
@@ -349,7 +352,7 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsFutureAndPast(User $user, string $timeBack)
     {
-        $now = (new \DateTime('now', new \DateTimeZone('utc')))->modify($timeBack);
+        $now = (new \DateTimeImmutable('now', new \DateTimeZone('utc')))->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
 
         return $qb
@@ -377,8 +380,8 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsForDashboard(User $user)
     {
-        $now = new \DateTime('now', TimeZoneService::getTimeZone($user));
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
+        $now = $now->setTimezone(new \DateTimeZone('utc'));
 
         $qb = $this->createQueryBuilder('r');
         $qb->select('r')
@@ -617,15 +620,15 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('server = :server')
             ->andWhere('r.startUtc BETWEEN :now AND :future')
             ->setParameter('server', $server)
-            ->setParameter('now', new \DateTime('now', new \DateTimeZone('utc')))
-            ->setParameter('future', new \DateTime("+$minutes minutes", new \DateTimeZone('utc')))
+            ->setParameter('now', new \DateTimeImmutable('now', new \DateTimeZone('utc')))
+            ->setParameter('future', new \DateTimeImmutable("+$minutes minutes", new \DateTimeZone('utc')))
             ->getQuery()
             ->getResult();
     }
 
     public function findRoomsnotInPast()
     {
-        $now = (new \DateTime('now'))->getTimestamp();
+        $now = (new \DateTimeImmutable('now'))->getTimestamp();
         $qb = $this->createQueryBuilder('r');
         return $qb
             ->andWhere(

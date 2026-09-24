@@ -76,11 +76,11 @@ class CallerControllerSipVideoTest extends WebTestCase
         $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
 
@@ -90,9 +90,9 @@ class CallerControllerSipVideoTest extends WebTestCase
         $lobbyWaitinguser = $this->getLobbyWaitinguser($sessionLink);
         $crawler = $client->request('GET', '/room/lobby/acceptAll/' . $lobbyWaitinguser->getRoom()->getUidReal());
 
-        $httpClientMock = $this->createMock(HttpClientInterface::class);
+        $httpClientMock = $this->createStub(HttpClientInterface::class);
         // Beispiel Response
-        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
         $responseMock->method('toArray')->willReturn([
             "sessionId" => "4a258446-70ff-4096-b122-da904d3bc591",
             "type" => "SIP-JIBRI",

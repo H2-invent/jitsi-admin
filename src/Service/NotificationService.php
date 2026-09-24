@@ -69,7 +69,7 @@ class NotificationService
 
         $this->ics->addEvent(
             [
-                'uid' => md5($rooms->getUid()).'@'.parse_url($rooms->getHostUrl(), PHP_URL_HOST),
+                'uid' => md5($rooms->getUid() ?? '').'@'.parse_url($rooms->getHostUrl() ?? '', PHP_URL_HOST),
                 'location' => $this->translator->trans('meetling'),
                 'description' => $description,
                 'dtstart' => $rooms->getStartUtc(),

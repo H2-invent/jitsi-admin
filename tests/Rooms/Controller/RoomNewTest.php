@@ -54,7 +54,7 @@ class RoomNewTest extends WebTestCase
         $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.']]), $client->getResponse()->getContent());
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '198273987321';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $client->submit($form);
         $room = (static::getContainer()->get(RoomsRepository::class))->findOneBy(['name' => 198273987321]);
@@ -113,7 +113,7 @@ class RoomNewTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '198273987321';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $client->submit($form);
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
@@ -173,7 +173,7 @@ class RoomNewTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '198273987321';
-        $form['room[start]'] = (new \DateTime())->modify('+1hour')->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->modify('+1hour')->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $client->submit($form);
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
@@ -208,7 +208,7 @@ class RoomNewTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '';
-        $form['room[start]'] = (new \DateTime())->modify('+2hours')->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->modify('+2hours')->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $client->submit($form);
         $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, bitte den Namen angeben.']]), $client->getResponse()->getContent());
@@ -233,7 +233,7 @@ class RoomNewTest extends WebTestCase
 
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '765456654456';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
 
         $client->submit($form);
@@ -277,7 +277,7 @@ class RoomNewTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '198273987321';
-        $form['room[start]'] = (new \DateTime())->modify('+1hour')->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->modify('+1hour')->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $client->submit($form);
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
@@ -312,7 +312,7 @@ class RoomNewTest extends WebTestCase
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
         $form['room[name]'] = 'Roome Clone';
-        $form['room[start]'] = (new \DateTime())->modify('+2hours')->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->modify('+2hours')->format('Y-m-d H:i:s');
 
         $client->submit($form);
         $room = $roomRepo->findOneBy(['name' => 'Roome Clone']);
@@ -354,7 +354,7 @@ class RoomNewTest extends WebTestCase
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[agenda]'] = 'this is an agenda for this meeting';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $client->submit($form);
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
@@ -441,8 +441,8 @@ class RoomNewTest extends WebTestCase
             ->setUidParticipant(md5(uniqid()))
             ->setSequence(0)
             ->setDuration(60)
-            ->setStart(new \DateTime())
-            ->setEnddate((new \DateTime())->modify('+60min'))
+            ->setStart(new \DateTimeImmutable())
+            ->setEnddate((new \DateTimeImmutable())->modify('+60min'))
             ->setScheduleMeeting(false)
             ->setTimeZone('Europe/Berlin')
             ->setSlug('test');
@@ -451,11 +451,11 @@ class RoomNewTest extends WebTestCase
 
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test-running-room')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $em->persist($status);
         $em->flush();
 
@@ -463,7 +463,7 @@ class RoomNewTest extends WebTestCase
         $participant->setRoomStatus($status)
             ->setParticipantId('participant-1')
             ->setParticipantName('Participant One')
-            ->setEnteredRoomAt(new \DateTime())
+            ->setEnteredRoomAt(new \DateTimeImmutable())
             ->setInRoom(true);
         $em->persist($participant);
         $em->flush();

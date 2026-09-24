@@ -12,9 +12,9 @@ class RoomStatusParticipant
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private $enteredRoomAt;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $leftRoomAt;
     #[ORM\Column(type: 'boolean')]
     private $inRoom;
@@ -31,11 +31,11 @@ class RoomStatusParticipant
     {
         return $this->id;
     }
-    public function getEnteredRoomAt(): ?\DateTimeInterface
+    public function getEnteredRoomAt(): ?\DateTimeImmutable
     {
         return $this->enteredRoomAt;
     }
-    public function getEnteredRoomAtwithTimeZone(?User $user): ?\DateTimeInterface
+    public function getEnteredRoomAtwithTimeZone(?User $user): ?\DateTimeImmutable
     {
         $data = $this->getEnteredRoomAtUTC();
         if (!$data) {
@@ -44,29 +44,29 @@ class RoomStatusParticipant
         if ($user && $user->getTimeZone()) {
             $localTimezone = new \DateTimeZone($user->getTimeZone());
         } else {
-            $localTimezone = (new \DateTime())->getTimezone();
+            $localTimezone = (new \DateTimeImmutable())->getTimezone();
         }
-        $data->setTimeZone($localTimezone);
+        $data = $data->setTimeZone($localTimezone);
         return $data;
     }
-    public function getEnteredRoomAtUTC(): ?\DateTimeInterface
+    public function getEnteredRoomAtUTC(): ?\DateTimeImmutable
     {
         if (!$this->enteredRoomAt) {
             return null;
         }
-        return new \DateTime($this->enteredRoomAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+        return new \DateTimeImmutable($this->enteredRoomAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
-    public function setEnteredRoomAt(\DateTimeInterface $enteredRoomAt): self
+    public function setEnteredRoomAt(\DateTimeImmutable $enteredRoomAt): self
     {
         $this->enteredRoomAt = $enteredRoomAt;
 
         return $this;
     }
-    public function getLeftRoomAt(): ?\DateTimeInterface
+    public function getLeftRoomAt(): ?\DateTimeImmutable
     {
         return $this->leftRoomAt;
     }
-    public function getLeftRoomAtwithTimeZone(?User $user): ?\DateTimeInterface
+    public function getLeftRoomAtwithTimeZone(?User $user): ?\DateTimeImmutable
     {
         $data = $this->getLeftRoomAtUTC();
         if (!$data) {
@@ -75,19 +75,19 @@ class RoomStatusParticipant
         if ($user && $user->getTimeZone()) {
             $localTimezone = new \DateTimeZone($user->getTimeZone());
         } else {
-            $localTimezone = (new \DateTime())->getTimezone();
+            $localTimezone = (new \DateTimeImmutable())->getTimezone();
         }
-        $data->setTimeZone($localTimezone);
+        $data = $data->setTimeZone($localTimezone);
         return $data;
     }
-    public function getLeftRoomAtUTC(): ?\DateTimeInterface
+    public function getLeftRoomAtUTC(): ?\DateTimeImmutable
     {
         if (!$this->leftRoomAt) {
             return null;
         }
-        return new \DateTime($this->leftRoomAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+        return new \DateTimeImmutable($this->leftRoomAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
-    public function setLeftRoomAt(?\DateTimeInterface $leftRoomAt): self
+    public function setLeftRoomAt(?\DateTimeImmutable $leftRoomAt): self
     {
         $this->leftRoomAt = $leftRoomAt;
 

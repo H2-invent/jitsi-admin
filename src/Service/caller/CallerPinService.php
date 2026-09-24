@@ -55,7 +55,7 @@ class CallerPinService
         $this->loggger->debug('We create a session for the caller', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
         $session = new CallerSession();
         $session->setSessionId(md5($roomId . $pin . uniqid()))
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setAuthOk(false)
             ->setLobbyWaitingUser($lobbyUser)
             ->setCallerId($callerId)

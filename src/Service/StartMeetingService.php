@@ -224,7 +224,7 @@ class StartMeetingService
             $lobbyUser->setType($this->type);
             $lobbyUser->setUser($this->user);
             $lobbyUser->setRoom($this->room);
-            $lobbyUser->setCreatedAt(new \DateTime());
+            $lobbyUser->setCreatedAt(new \DateTimeImmutable());
             $lobbyUser->setUid(md5(uniqid()));
             $lobbyUser->setShowName($this->name);
             $this->em->persist($lobbyUser);
@@ -305,7 +305,7 @@ class StartMeetingService
             return true;
         }
 
-        $now = new \DateTime('now', new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         $start = (clone $room->getStartUtc())->modify('-30min');
         $endDate = clone $room->getEndDateUtc();
         if ($start < $now && $endDate > $now) {

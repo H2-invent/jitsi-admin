@@ -174,7 +174,7 @@ class SubcriptionService
     function createNewWaitinglist(User $user, Rooms $rooms)
     {
         $waitingList = new Waitinglist();
-        $waitingList->setUser($user)->setRoom($rooms)->setCreatedAt(new \DateTime());
+        $waitingList->setUser($user)->setRoom($rooms)->setCreatedAt(new \DateTimeImmutable());
         $this->em->persist($waitingList);
         $this->em->flush();
         $res['text'] = $this->translator->trans('Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.');

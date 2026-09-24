@@ -19,11 +19,11 @@ class WhiteBoardJwtServiceTest extends KernelTestCase
         self::assertEquals(
             JWT::encode(
                 [
-                    'iat' => (new \DateTime())->getTimestamp(),
-                    'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
+                    'iat' => (new \DateTimeImmutable())->getTimestamp(),
+                    'exp' => (new \DateTimeImmutable())->modify('+3days')->getTimestamp(),
                     'roles' => ['editor:' . $room->getUidReal()]
                 ],
-                'MY_SECRET',
+                'MY_SECRETMY_SECRETMY_SECRETMY_SECRET',
                 'HS256'
             ),
             $whiteboardService->createJwt($room)
@@ -31,11 +31,11 @@ class WhiteBoardJwtServiceTest extends KernelTestCase
         self::assertEquals(
             JWT::encode(
                 [
-                    'iat' => (new \DateTime())->getTimestamp(),
-                    'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
+                    'iat' => (new \DateTimeImmutable())->getTimestamp(),
+                    'exp' => (new \DateTimeImmutable())->modify('+3days')->getTimestamp(),
                     'roles' => ['moderator:' . $room->getUidReal()]
                 ],
-                'MY_SECRET',
+                'MY_SECRETMY_SECRETMY_SECRETMY_SECRET',
                 'HS256'
             ),
             $whiteboardService->createJwt($room, true)

@@ -51,8 +51,8 @@ class CallerServiceTest extends KernelTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
-        $room->setStart((new \DateTime())->modify('+2 hours'));
-        $room->setEnddate((new \DateTime())->modify('+4 hours'));
+        $room->setStart((new \DateTimeImmutable())->modify('+2 hours'));
+        $room->setEnddate((new \DateTimeImmutable())->modify('+4 hours'));
         $manager->persist($room);
         $manager->flush();
         self::assertEquals(['status' => 'HANGUP', 'reason' => 'TO_EARLY', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'links' => []], $callerService->findRoom($id));
