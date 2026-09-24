@@ -2,6 +2,7 @@
 
 namespace App\Service\Lobby;
 
+use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\RoomService;
 use Psr\Log\LoggerInterface;
@@ -230,6 +231,27 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
+    public function sendRoomTag(Rooms $room)
+    {
+        if ($room->getUidReal() === null) {
+            return false;
+        }
+
+        $html = null;
+        $tag = $room->getTag();
+
+        if ($tag !== null) {
+            $html = $this->twig->render('start/roomTag.html.twig', ['room' => $room]);
+        }
+        $data = [
+            'type' => 'tag',
+            'html' => $html,
+            'color' => $tag->getBackgroundColor(),
+        ];
+        $update = new Update($room->getUidReal(), json_encode($data, JSON_THROW_ON_ERROR));
+        return $this->sendUpdate($update);
+    }
+
 
     private function sendUpdate(Update $update)
     {
@@ -237,7 +259,7 @@ class DirectSendService
             $this->logger->debug('send Message via Websocket:', ['topic' => $update->getTopics(), 'data' => $update->getData()]);
             $res = $this->publisher->publish($update);
             return true;
-        } catch (RuntimeException $e) {
+        } catch (\Throwable $e) {
             $this->logger->error('Mercure Hub not available: ' . $e->getMessage());
             return false;
         }

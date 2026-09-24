@@ -160,6 +160,7 @@ parameters:
     app.log.loki.log_level: '%env(LOKI_LOG_LEVEL)%'
     app.transcription.openai.uri: '%env(OPENAI_API_URI)%'
     app.transcription.mistral.uri: '%env(MISTRAL_API_URI)%'
+    app.sip.caller_tag.id: '%env(default::SIP_CALLER_TAG_ID)%'
 
 services:
     Gaufrette\FilesystemInterface $recordingFilesystem:
