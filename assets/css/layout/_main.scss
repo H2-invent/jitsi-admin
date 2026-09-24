@@ -909,6 +909,7 @@ strong {
   border-radius: 0 0 15px 0;
   top: 0;
   left: 0;
+  text-wrap: nowrap;
 
   &:not(.forceShow) {
     transform: translateY(-110%);

@@ -6,9 +6,8 @@ namespace App\Service;
 use App\Entity\Rooms;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * When there's a SIP caller in the meeting, we change the Tag to make that obvious
@@ -16,13 +15,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CallerTagService
 {
     private const TAG_TITLE = 'sip.caller.tag';
-    private const TAG_COLOR = '#000';
-    private const TAG_BG_COLOR = '#ff5959';
+    private const TAG_COLOR = '#000'; // black
+    private const TAG_BG_COLOR = '#ff5959'; // pastel red
     private const TAG_PRIORITY = 100_000; // set high because it means lower priority and we want this out of the way of normal tags
 
     public function __construct(
         private readonly TagRepository $tagRepository,
         private readonly EntityManagerInterface $entityManager,
+        #[Autowire(param: 'app.sip.caller_tag.id')]
+        private readonly ?string $idSipCallerTag,
     )
     {
     }
@@ -37,23 +38,40 @@ class CallerTagService
 
     private function getOrCreateCallerTag(): Tag
     {
-        $callerTag = $this->tagRepository->findOneBy([
-            'title' => self::TAG_TITLE,
-            'color' => self::TAG_COLOR,
-            'backgroundColor' => self::TAG_BG_COLOR,
-            'priority' => self::TAG_PRIORITY,
-        ]);
+        if ($this->idSipCallerTag === null || $this->idSipCallerTag === '') {
+            $callerTag = $this->tagRepository->findOneBy(['title' => self::TAG_TITLE]);
+        } else {
+            $callerTag = $this->tagRepository->find((int)$this->idSipCallerTag);
+        }
 
-        return $callerTag ?? $this->createCallerTag();
+        if ($callerTag === null) {
+            return $this->createCallerTag();
+        }
+
+        return $this->updateCallerTag($callerTag);
+    }
+
+    private function updateCallerTag(Tag $callerTag): Tag
+    {
+        $callerTag
+            ->setColor(self::TAG_COLOR)
+            ->setBackgroundColor(self::TAG_BG_COLOR)
+            ->setDisabled(true)
+            ->setPriority(self::TAG_PRIORITY)
+        ;
+        // this only writes to DB if something has changed, so no unnecessary I/O
+        $this->entityManager->flush();
+
+        return $callerTag;
     }
 
     private function createCallerTag(): Tag
     {
         $callerTag = (new Tag())
             ->setTitle(self::TAG_TITLE)
-            ->setColor(self::TAG_COLOR) // pastel red
-            ->setBackgroundColor(self::TAG_BG_COLOR) // black
-            ->setDisabled(true) // FIXME does the rest still work? would be cool to have it be "hidden" for normal use
+            ->setColor(self::TAG_COLOR)
+            ->setBackgroundColor(self::TAG_BG_COLOR)
+            ->setDisabled(true)
             ->setPriority(self::TAG_PRIORITY)
         ;
 

@@ -1,10 +1,9 @@
 import md5 from "blueimp-md5";
 import $ from "jquery";
-import {tooltip} from 'mdb-ui-kit';
+import {initMDB, Tooltip} from 'mdb-ui-kit';
 import {setCookie} from "./cookie";
-import {checkIfIsMutable, zIndex} from "./createConference";
-import { Tooltip, initMDB } from "mdb-ui-kit";
-import {sendViaWebsocket} from "./websocket";
+import {checkIfIsMutable} from "./createConference";
+
 export class multiframe {
 
 
@@ -189,6 +188,9 @@ export class multiframe {
             if (multiframe) {
                 this.frame.style.borderColor = decoded.color;
             }
+
+        } else if (type === 'updateTag') {
+            this.updateTag(decoded);
 
         } else if (type === 'ack') {
             var messageId = decoded.messageId
@@ -440,5 +442,11 @@ export class multiframe {
     triggerOpenNewFrameOnOthers(data) {
         this.triggerEvent('openNewMultiframe', data)
 
+    }
+
+    updateTag(data) {
+        if (data.color) {
+            this.frame.style.borderColor = data.color;
+        }
     }
 }

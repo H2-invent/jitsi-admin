@@ -11,9 +11,18 @@ export function moveTag(frameDIv) {
 }
 
 export function updateTag(data) {
-    const tagElement = document.getElementById('tagContent'); //FIXME duplicate ids?
+    const frameTag = document.querySelector('#tagContent');
+    if (frameTag) {
+        frameTag.innerHTML = data.html ?? '';
+    }
 
-    tagElement.outerHTML = data.html;
-    tagElement.closest('.jitsiadminiframe').style.borderColor(data.color); //FIXME not working yet
+    // update the window border by posting message to outer frame
+    const message = JSON.stringify({
+        scope: 'jitsi-admin-iframe',
+        type: 'updateTag',
+        color: data.color,
+    });
+
+    window.parent.postMessage(message, '*');
 }
 

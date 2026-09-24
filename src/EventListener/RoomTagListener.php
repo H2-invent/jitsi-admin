@@ -11,14 +11,8 @@ use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Events;
 
 /**
- * Detects changes to the {@see Rooms::$tag} association during a Doctrine flush
- * and automatically publishes the (new or cleared) tag to the room's websocket
- * topic. This way no code path has to remember to trigger the update manually.
- *
- * The per-entity {@see Events::postUpdate} event collects the affected rooms
- * (using the UnitOfWork change set) while the entity graph is still consistent.
- * The {@see Events::postFlush} event then publishes the collected rooms once the
- * transaction has been fully written.
+ * Here we send updates via mercure if any tag has changed so we can update the multiframe window accordingly.
+ * We queue the rooms we should update first and send only on flush so we don't break any DB writes when mercure fails.
  */
 #[AsEntityListener(event: Events::postUpdate, entity: Rooms::class)]
 #[AsDoctrineListener(event: Events::postFlush)]
@@ -31,10 +25,6 @@ class RoomTagListener
     {
     }
 
-    /**
-     * Fires once per updated Rooms entity during the flush. If the tag
-     * association changed, the room is queued for publishing.
-     */
     public function postUpdate(Rooms $room, PostUpdateEventArgs $args): void
     {
         $unitOfWork = $args->getObjectManager()->getUnitOfWork();
@@ -45,22 +35,15 @@ class RoomTagListener
         }
     }
 
-    /**
-     * Fires once after the flush finished (transaction committed). Publishes the
-     * collected rooms. sendUpdate() swallows Mercure failures, so publishing here
-     * cannot break the surrounding transaction lifecycle.
-     */
     public function postFlush(PostFlushEventArgs $args): void
     {
         if ($this->roomsToPublish === []) {
             return;
         }
 
-        $rooms = $this->roomsToPublish;
-        $this->roomsToPublish = [];
-
-        foreach ($rooms as $room) {
+        foreach ($this->roomsToPublish as $id => $room) {
             $this->directSendService->sendRoomTag($room);
+            unset($this->roomsToPublish[$id]);
         }
     }
 
