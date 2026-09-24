@@ -233,6 +233,10 @@ class DirectSendService
 
     public function sendRoomTag(Rooms $room)
     {
+        if ($room->getUidReal() === null) {
+            return false;
+        }
+
         $html = null;
         $tag = $room->getTag();
 
