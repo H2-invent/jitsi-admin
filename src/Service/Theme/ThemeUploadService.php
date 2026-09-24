@@ -30,7 +30,8 @@ class ThemeUploadService
 
     public function uploadTheme(string $absoluteFilePathZip): ServiceResult
     {
-        $extractionPath = $this->cacheDir . DIRECTORY_SEPARATOR . md5(uniqid());
+        $randomString = md5(uniqid());
+        $extractionPath = "{$this->cacheDir}/{$randomString}";
         $success = $this->extractZipToPath($absoluteFilePathZip, $extractionPath);
         if (!$success) {
             return ServiceResult::failure(ThemeUploadError::INVALID_ZIP);
@@ -81,7 +82,7 @@ class ThemeUploadService
         }
         $foundFiles = iterator_to_array($finder, false);
 
-        return $foundFiles[0] ?? null;
+        return $foundFiles[0];
     }
 
     private function findThemeDirectory(string $extractionPath): ?SplFileInfo
@@ -96,13 +97,13 @@ class ThemeUploadService
         }
         $foundFiles = iterator_to_array($finder, false);
 
-        return $foundFiles[0] ?? null;
+        return $foundFiles[0];
     }
 
     private function moveSignatureFile(SplFileInfo $signatureFile): void
     {
         $signaturePath = $signatureFile->getPathname();
-        $signatureTargetPath = $this->themeDir . DIRECTORY_SEPARATOR . $signatureFile->getFilename();
+        $signatureTargetPath = "{$this->themeDir}/{$signatureFile->getFilename()}";
 
         $this->filesystem->copy($signaturePath, $signatureTargetPath, true);
         $this->filesystem->remove($signaturePath);
@@ -116,7 +117,7 @@ class ThemeUploadService
         ;
         foreach ($finder as $fileOrDir) {
             $sourcePathName = $fileOrDir->getPathname();
-            $targetPathName = $this->publicDir . DIRECTORY_SEPARATOR . $fileOrDir->getFilename();
+            $targetPathName = "{$this->publicDir}/{$fileOrDir->getFilename()}";
 
             if ($fileOrDir->isFile()) {
                 $this->filesystem->copy($sourcePathName, $targetPathName, true);
