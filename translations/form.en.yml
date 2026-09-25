@@ -70,6 +70,8 @@ option:
 lable.serverUrl: Conference Server URL
 label.appId: App ID
 label.appSecret: App secret
+label.showPassword: Show password
+label.hidePassword: Hide password
 label.scheduleMeeting: Create an appointment poll
 help:
   serverUrl: Enter without "https://" (such as meet.jit.si)
