@@ -70,6 +70,8 @@ option:
 lable.serverUrl: URL del servidor de conferencias
 label.appId: Id de aplicacion
 label.appSecret: Secreto de la aplicacion
+label.showPassword: Mostrar contraseña
+label.hidePassword: Ocultar contraseña
 label.scheduleMeeting: Consensuar una conferencia
 help:
   serverUrl: Acceder sin "https://" (ej. meet.jit.si)

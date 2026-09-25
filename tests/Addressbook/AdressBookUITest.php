@@ -2,10 +2,13 @@
 
 namespace App\Tests\Addressbook;
 
+use App\Entity\Server;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class AdressBookUITest extends WebTestCase
 {
@@ -28,6 +31,64 @@ class AdressBookUITest extends WebTestCase
         $this->assertEquals(
             3,
             $crawler->filter('.breakWord:contains("")')->count()
+        );
+        // With more than one server the phone icon is a server dropdown and each
+        // entry starts the ad-hoc call for that server.
+        self::assertGreaterThan(
+            0,
+            $crawler->filter('.adressbookline .icon > a.caretdown.dropdown-toggle[data-mdb-dropdown-init] i.fa-phone-volume')->count()
+        );
+        self::assertGreaterThan(
+            0,
+            $crawler->filter('.adressbookline .icon > .dropdown-menu > a.dropdown-item.adhocConfirm')->count()
+        );
+        self::assertEquals(
+            0,
+            $crawler->filter('.adressbookline .icon > a.adhocConfirm i.fa-phone-volume')->count()
+        );
+    }
+
+    public function testPhoneIconDependsOnServerCount(): void
+    {
+        $container = static::getContainer();
+        $userRepository = $container->get(UserRepository::class);
+        $viewer = $userRepository->findOneByUsername('test@local.de');
+        $contact = $userRepository->findOneByUsername('test2@local.de');
+
+        // The entry template reads app.user; make it resolvable for a direct render.
+        $container->get('security.token_storage')->setToken(
+            new UsernamePasswordToken($viewer, 'main', $viewer->getRoles())
+        );
+
+        $servers = $container->get('doctrine')->getRepository(Server::class)->findAll();
+        self::assertGreaterThanOrEqual(2, count($servers));
+
+        $twig = $container->get('twig');
+        $render = fn (array $serversForUser): Crawler => new Crawler($twig->render(
+            'addressbook/__addressBookEntry.html.twig',
+            ['u' => $contact, 'servers' => $serversForUser, 'theme' => false]
+        ));
+
+        // No servers: the green phone icon is not rendered at all.
+        $none = $render([]);
+        self::assertEquals(0, $none->filter('i.fa-phone-volume')->count());
+        self::assertEquals(0, $none->filter('a.caretdown')->count());
+
+        // Exactly one server: direct call, no dropdown and no down-arrow button.
+        $single = $render([$servers[0]]);
+        self::assertEquals(1, $single->filter('a.adhocConfirm i.fa-phone-volume')->count());
+        self::assertEquals(0, $single->filter('a.caretdown')->count());
+        self::assertEquals(0, $single->filter('.icon a[data-mdb-dropdown-init] i.fa-phone-volume')->count());
+
+        // More than one server: dropdown with one call entry per server.
+        $many = $render($servers);
+        self::assertEquals(
+            1,
+            $many->filter('a.caretdown.dropdown-toggle[data-mdb-dropdown-init] i.fa-phone-volume')->count()
+        );
+        self::assertEquals(
+            count($servers),
+            $many->filter('.icon > .dropdown-menu > a.dropdown-item.adhocConfirm')->count()
         );
     }
 

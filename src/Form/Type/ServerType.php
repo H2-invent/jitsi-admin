@@ -18,13 +18,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ServerType extends AbstractType
 {
@@ -33,10 +33,10 @@ class ServerType extends AbstractType
 
         $builder
             ->add('liveKitServer', CheckboxType::class, ['required' => false, 'label' => 'label.liveKitServer', 'translation_domain' => 'form', 'help' => 'help.liveKitServer'])
-            ->add('url', TextType::class, ['required' => true, 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
-            ->add('serverName', TextType::class, ['required' => true, 'label' => 'label.serverName', 'translation_domain' => 'form', 'help' => 'help.serverName'])
-            ->add('appId', TextType::class, ['required' => false, 'label' => 'label.appId', 'translation_domain' => 'form'])
-            ->add('appSecret', TextType::class, ['required' => false, 'label' => 'label.appSecret', 'translation_domain' => 'form'])
+            ->add('url', TextType::class, ['required' => true, 'constraints' => [new NotBlank()], 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
+            ->add('serverName', TextType::class, ['required' => true, 'constraints' => [new NotBlank()], 'label' => 'label.serverName', 'translation_domain' => 'form', 'help' => 'help.serverName'])
+            ->add('appId', TextType::class, ['required' => true, 'constraints' => [new NotBlank()], 'label' => 'label.appId', 'translation_domain' => 'form'])
+            ->add('appSecret', MaskedTextType::class, ['required' => true, 'constraints' => [new NotBlank()], 'label' => 'label.appSecret', 'translation_domain' => 'form'])
             ->add('corsHeader', CheckboxType::class, ['required' => false, 'label' => 'label.corsHeader', 'help' => 'help.corsHeader', 'translation_domain' => 'form'])
             ->add(
                 'keycloakGroups',
@@ -50,7 +50,6 @@ class ServerType extends AbstractType
                     'translation_domain' => 'form',
                 ]
             )
-            ->add('url', TextType::class, ['required' => true, 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
             ->add('featureEnableByJWT', CheckboxType::class, ['required' => false, 'label' => 'label.featureEnalbeByJwt', 'help' => 'help.featureEnalbeByJwt', 'translation_domain' => 'form'])
             ->add('enforceE2e', CheckboxType::class, ['required' => false, 'label' => 'label.enforceE2e', 'help' => 'help.enforceE2e', 'translation_domain' => 'form'])
             ->add('disallowFirefox', CheckboxType::class, ['required' => false, 'label' => 'label.disallowFirefox', 'help' => 'help.disallowFirefox', 'translation_domain' => 'form'])

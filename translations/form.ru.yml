@@ -70,6 +70,8 @@ option:
 lable.serverUrl: URL Конференц Сервера
 label.appId: ID приложения
 label.appSecret: App secret
+label.showPassword: Показать пароль
+label.hidePassword: Скрыть пароль
 label.scheduleMeeting: Создайте опрос о встрече
 help:
   serverUrl: 'Введите без "https: //" (например, meet.jit.si)'

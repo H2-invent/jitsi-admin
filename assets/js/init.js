@@ -77,7 +77,34 @@ function initGenerell() {
     });
     initWebsocket(websocketTopics);
     initLoadContent();
+    initPasswordToggle();
 
+}
+
+// Toggle password fields between masked and plaintext. Delegated on document so
+// it also works for fields inside modals that are loaded via AJAX.
+function initPasswordToggle() {
+    document.addEventListener('click', function (e) {
+        const toggle = e.target.closest('.toggle-password');
+        if (!toggle) {
+            return;
+        }
+        e.preventDefault();
+        const input = document.getElementById(toggle.getAttribute('data-password-target'));
+        if (!input) {
+            return;
+        }
+        const showPlaintext = input.type === 'password';
+        input.type = showPlaintext ? 'text' : 'password';
+        const icon = toggle.querySelector('i');
+        if (icon) {
+            icon.classList.toggle('fa-eye', !showPlaintext);
+            icon.classList.toggle('fa-eye-slash', showPlaintext);
+        }
+        toggle.setAttribute('aria-label', showPlaintext
+            ? (toggle.dataset.labelHide || '')
+            : (toggle.dataset.labelShow || ''));
+    });
 }
 
 export function wrapOneSelect(ele) {

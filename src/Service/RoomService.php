@@ -145,7 +145,15 @@ class RoomService
         if ($avatarUrl) {
             $avatar = $avatarUrl;
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera,$lobbyModerator), $room->getServer()->getAppSecret(), 'HS256');
+        $payload = $this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby, $enableMic, $enableCamera, $lobbyModerator);
+        if ($payload === null) {
+            // The server has no JWT credentials configured (e.g. an open Jitsi
+            // server or a LiveKit server that authenticates through the middleware).
+            // There is nothing to sign, so return an empty token instead of passing
+            // null to JWT::encode().
+            return '';
+        }
+        return JWT::encode($payload, $room->getServer()->getAppSecret(), 'HS256');
     }
 
     public
