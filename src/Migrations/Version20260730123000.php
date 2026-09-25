@@ -23,8 +23,10 @@ final class Version20260730123000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        // correlated subquery instead of UPDATE ... JOIN, which PostgreSQL does not support
         $this->addSql(
-            'UPDATE caller_session cs INNER JOIN lobby_waitung_user lwu ON lwu.caller_session_id = cs.id SET cs.lobby_waiting_user_id = lwu.id WHERE cs.lobby_waiting_user_id IS NULL'
+            'UPDATE caller_session SET lobby_waiting_user_id = (SELECT lwu.id FROM lobby_waitung_user lwu WHERE lwu.caller_session_id = caller_session.id)'
+            . ' WHERE lobby_waiting_user_id IS NULL AND EXISTS (SELECT 1 FROM lobby_waitung_user lwu WHERE lwu.caller_session_id = caller_session.id)'
         );
 
         $lobbyTable = $schema->getTable(self::TABLE_LOBBY);
@@ -60,8 +62,9 @@ final class Version20260730123000 extends AbstractMigration
             ->setDefault(null)
             ->setNotnull(false);
 
+        // caller_session.lobby_waiting_user_id is unique, so the subquery returns at most one row
         $this->addSql(
-            'UPDATE lobby_waitung_user lwu INNER JOIN caller_session cs ON cs.lobby_waiting_user_id = lwu.id SET lwu.caller_session_id = cs.id'
+            'UPDATE lobby_waitung_user SET caller_session_id = (SELECT cs.id FROM caller_session cs WHERE cs.lobby_waiting_user_id = lobby_waitung_user.id)'
         );
 
         $lobbyTable->addIndex(['caller_session_id'], self::IDX_LOBBY_CALLER);
