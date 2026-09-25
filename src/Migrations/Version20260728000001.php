@@ -18,25 +18,26 @@ final class Version20260728000001 extends AbstractMigration
     {
         $this->migrateColumn('fos_user', 'keycloakGroup');
         $this->migrateColumn('fos_user', 'spezial_properties');
-        $this->migrateColumn('`repeat`', 'weekday');
+        $this->migrateColumn('repeat', 'weekday');
     }
 
     public function down(Schema $schema): void
     {
         $this->reverseMigrateColumn('fos_user', 'keycloakGroup');
         $this->reverseMigrateColumn('fos_user', 'spezial_properties');
-        $this->reverseMigrateColumn('`repeat`', 'weekday');
+        $this->reverseMigrateColumn('repeat', 'weekday');
     }
 
     private function migrateColumn(string $table, string $column): void
     {
         // need to use raw SQL for this because the ORM layer would already deserialize the column
+        $quotedTable = $this->connection->quoteSingleIdentifier($table);
         $rows = $this->connection->executeQuery(
-            sprintf('SELECT id, `%s` FROM %s WHERE `%s` IS NOT NULL', $column, $table, $column)
+            sprintf('SELECT id, %s AS value FROM %s WHERE %s IS NOT NULL', $column, $quotedTable, $column)
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
-            $value = $row[$column];
+            $value = $row['value'];
             if ($value === null || $value === '') {
                 continue;
             }
@@ -45,7 +46,7 @@ final class Version20260728000001 extends AbstractMigration
                 $json = json_encode($unserialized, JSON_UNESCAPED_UNICODE);
                 // same here: need to use raw SQL for this because the ORM layer would serialize the column
                 $this->connection->executeStatement(
-                    sprintf('UPDATE %s SET `%s` = :json WHERE id = :id', $table, $column),
+                    sprintf('UPDATE %s SET %s = :json WHERE id = :id', $quotedTable, $column),
                     ['json' => $json, 'id' => $row['id']]
                 );
             }
@@ -55,12 +56,13 @@ final class Version20260728000001 extends AbstractMigration
     private function reverseMigrateColumn(string $table, string $column): void
     {
         // need to use raw SQL for this because the ORM layer would already deserialize the column
+        $quotedTable = $this->connection->quoteSingleIdentifier($table);
         $rows = $this->connection->executeQuery(
-            sprintf('SELECT id, `%s` FROM %s WHERE `%s` IS NOT NULL', $column, $table, $column)
+            sprintf('SELECT id, %s AS value FROM %s WHERE %s IS NOT NULL', $column, $quotedTable, $column)
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
-            $value = $row[$column];
+            $value = $row['value'];
             if ($value === null || $value === '') {
                 continue;
             }
@@ -69,7 +71,7 @@ final class Version20260728000001 extends AbstractMigration
                 $serialized = serialize($decoded);
                 // same here: need to use raw SQL for this because the ORM layer would serialize the column
                 $this->connection->executeStatement(
-                    sprintf('UPDATE %s SET `%s` = :serialized WHERE id = :id', $table, $column),
+                    sprintf('UPDATE %s SET %s = :serialized WHERE id = :id', $quotedTable, $column),
                     ['serialized' => $serialized, 'id' => $row['id']]
                 );
             }

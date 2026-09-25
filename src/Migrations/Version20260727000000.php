@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
@@ -22,9 +23,18 @@ final class Version20260727000000 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // The data has to be JSON before the column type changes.
-        $this->convertColumnToJson(self::TABLE_USER, 'keycloakGroup', true);
-        $this->convertColumnToJson(self::TABLE_USER, 'spezial_properties', true);
-        $this->convertColumnToJson(self::TABLE_REPEAT, 'weekday', false);
+        $this->convertColumnToJson('fos_user', 'keycloakGroup', true);
+        $this->convertColumnToJson('fos_user', 'spezial_properties', true);
+        $this->convertColumnToJson('repeat', 'weekday', false);
+
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
+            // DBAL generates "ALTER ... TYPE JSON" without USING, which PostgreSQL rejects for TEXT columns
+            $this->addSql('ALTER TABLE fos_user ALTER keycloakGroup TYPE JSON USING keycloakGroup::json');
+            $this->addSql('ALTER TABLE fos_user ALTER spezial_properties TYPE JSON USING spezial_properties::json');
+            $this->addSql('ALTER TABLE "repeat" ALTER weekday TYPE JSON USING weekday::json');
+
+            return;
+        }
 
         $jsonType = Type::getType(Types::JSON);
 
@@ -54,13 +64,15 @@ final class Version20260727000000 extends AbstractMigration
      */
     private function convertColumnToJson(string $table, string $column, bool $nullable): void
     {
-        // need to use raw SQL for this because the ORM layer would already deserialize the column
+        // need to use raw SQL for this because the ORM layer would already deserialize the column.
+        // Column names stay unquoted so PostgreSQL folds them to lower case like the original CREATE TABLE did.
+        $quotedTable = $this->connection->quoteSingleIdentifier($table);
         $rows = $this->connection->executeQuery(
-            sprintf('SELECT id, `%s` FROM %s WHERE `%s` IS NOT NULL', $column, $table, $column)
+            sprintf('SELECT id, %s AS value FROM %s WHERE %s IS NOT NULL', $column, $quotedTable, $column)
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
-            $value = $row[$column];
+            $value = $row['value'];
             if ($value === '') {
                 $json = $nullable ? null : '[]';
             } elseif (json_validate($value)) {
@@ -74,7 +86,7 @@ final class Version20260727000000 extends AbstractMigration
             }
 
             $this->connection->executeStatement(
-                sprintf('UPDATE %s SET `%s` = :json WHERE id = :id', $table, $column),
+                sprintf('UPDATE %s SET %s = :json WHERE id = :id', $quotedTable, $column),
                 ['json' => $json, 'id' => $row['id']]
             );
         }
