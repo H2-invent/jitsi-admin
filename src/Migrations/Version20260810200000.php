@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -19,6 +20,19 @@ final class Version20260810200000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
+            $this->addSql(
+                sprintf(
+                    'ALTER TABLE %s ALTER %s TYPE VARCHAR(255), ALTER %s SET NOT NULL',
+                    self::TABLE_NAME,
+                    self::COLUMN_NAME,
+                    self::COLUMN_NAME
+                )
+            );
+
+            return;
+        }
+
         $this->addSql(
             sprintf(
                 'ALTER TABLE %s MODIFY %s VARCHAR(255) NOT NULL',
@@ -30,6 +44,18 @@ final class Version20260810200000 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
+            $this->addSql(
+                sprintf(
+                    'ALTER TABLE %s ALTER %s TYPE TEXT',
+                    self::TABLE_NAME,
+                    self::COLUMN_NAME
+                )
+            );
+
+            return;
+        }
+
         $this->addSql(
             sprintf(
                 'ALTER TABLE %s MODIFY %s TEXT NOT NULL',
