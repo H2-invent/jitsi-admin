@@ -15,7 +15,7 @@ class CallerSession
     #[ORM\Column(type: 'text')]
     private $sessionId;
     #[ORM\OneToOne(targetEntity: LobbyWaitungUser::class, inversedBy: 'callerSession', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private $lobbyWaitingUser;
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
@@ -60,7 +60,20 @@ class CallerSession
     }
     public function setLobbyWaitingUser(?LobbyWaitungUser $lobbyWaitingUser): self
     {
+        if ($this->lobbyWaitingUser === $lobbyWaitingUser) {
+            return $this;
+        }
+
+        $previousLobbyWaitingUser = $this->lobbyWaitingUser;
         $this->lobbyWaitingUser = $lobbyWaitingUser;
+
+        if ($previousLobbyWaitingUser?->getCallerSession() === $this) {
+            $previousLobbyWaitingUser->setCallerSession(null);
+        }
+
+        if ($lobbyWaitingUser !== null && $lobbyWaitingUser->getCallerSession() !== $this) {
+            $lobbyWaitingUser->setCallerSession($this);
+        }
 
         return $this;
     }

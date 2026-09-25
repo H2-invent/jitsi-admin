@@ -20,14 +20,14 @@ final class Version20230113071007 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === false) {
             $this->addSql('ALTER TABLE fos_user ADD accept_terms_and_conditions TINYINT(1) DEFAULT NULL');
         }
     }
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === false) {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE fos_user DROP accept_terms_and_conditions');
         }

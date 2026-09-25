@@ -19,7 +19,7 @@ final class Version20220630120225 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this up() migration is auto-generated, please modify it to your needs
             if (!$schema->hasTable('caller_id')) {
                 $this->addSql('CREATE SEQUENCE caller_id_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -75,7 +75,7 @@ final class Version20220630120225 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this down() migration is auto-generated, please modify it to your needs
 //            $this->addSql('CREATE SCHEMA public');
             $this->addSql('ALTER TABLE caller_id DROP CONSTRAINT FK_A5626C526D04C84F');

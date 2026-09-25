@@ -2,6 +2,7 @@ name: jitsi-admin
 type: symfony
 docroot: public
 php_version: "8.4"
+nodejs_version: "24"
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: []
@@ -13,6 +14,10 @@ use_dns_when_possible: true
 composer_version: "2"
 web_environment: []
 corepack_enable: false
+hooks:
+  post-start:
+  - exec: cp .ddev/.env.test.local .env.test.local
+host_db_port: "59999"
 timezone: Europe/Berlin
 
 # Key features of DDEV's config.yaml:

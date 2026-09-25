@@ -11,6 +11,8 @@ use App\Repository\UserRepository;
 use App\Service\RoomService;
 use App\Service\StartMeetingService;
 use Doctrine\ORM\EntityManagerInterface;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -33,17 +35,22 @@ class StartServiceTest extends KernelTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        $jwtToCompare = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJyb29tIjp7Im5hbWUiOiJUZXN0TWVldGluZzogMSIsImlzRTJFRUVuYWJsZWQiOmZhbHNlfSwidXNlciI6eyJuYW1lIjoiVXNlciwgVGVzdCwgdGVzdEBsb2NhbC5kZSIsImxhbmd1YWdlIjoiZGUiLCJ0aW1lem9uZSI6IkV1cm9wZS9CZXJsaW4ifX0sIm1vZGVyYXRvciI6dHJ1ZSwibG9iYnlNb2RlcmF0b3IiOnRydWUsInRoZW1lIjp7ImNvbG9yU2NoZW1lIjoibGlnaHQifX0.DJWpfs5KQiT-3Emb6yvrd16N6zZ3WXkwjibu3gmwP1g';
-        self::assertEquals(
-            new RedirectResponse(
-                'jitsi-meet://meet.jit.si2/123456781?jwt='.$jwtToCompare.'#config.subject=%22testmeeting_1%22'
-            ),
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
-        );
-        self::assertStringContainsString(
-            $jwtToCompare,
-            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
-        );
+        $appSecret = $room->getServer()->getAppSecret();
+
+        $name = $user->getFormatedName($paramterBag->get('laf_showNameInConference'));
+        $response = $startService->startMeeting($room, $user, 'a', $name);
+        self::assertInstanceOf(RedirectResponse::class, $response);
+        self::assertStringContainsString('jitsi-meet://meet.jit.si2/123456781?jwt=', $response->getTargetUrl());
+        self::assertStringContainsString('#config.subject=%22testmeeting_1%22', $response->getTargetUrl());
+
+        preg_match('/jwt=([^#]+)/', $response->getTargetUrl(), $matches);
+        $jwt = $matches[1];
+        $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
+        self::assertEquals('123456781', $decoded->room);
+        self::assertEquals(true, $decoded->moderator);
+
+        $responseB = $startService->startMeeting($room, $user, 'b', $name);
+        self::assertStringContainsString($jwt, $responseB);
     }
 
     public function test_UserIsOrganizer_FixedRoom(): void
@@ -57,24 +64,29 @@ class StartServiceTest extends KernelTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        self::assertEquals(
-            new RedirectResponse(
-                'jitsi-meet://meet.jit.si2/561d6f51s6f?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiNTYxZDZmNTFzNmYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgUm9vbSBoYXMgbm8gcGFydGljaXBhbnRzIGFuZCBmaXhlZCByb29tIiwiaXNFMkVFRW5hYmxlZCI6ZmFsc2V9LCJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjp0cnVlLCJsb2JieU1vZGVyYXRvciI6dHJ1ZSwidGhlbWUiOnsiY29sb3JTY2hlbWUiOiJsaWdodCJ9fQ.-vnKggNy2dHRS6RthUOIu9jYL7o0j9h9mAInYAoC7ZA#config.subject=%22this_room_has_no_participants_and_fixed_room%22'
-            ),
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
-        );
-        self::assertStringContainsString(
-            "jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiNTYxZDZmNTFzNmYiLCJjb250ZXh0Ijp7InJvb20iOnsibmFtZSI6IlRoaXMgUm9vbSBoYXMgbm8gcGFydGljaXBhbnRzIGFuZCBmaXhlZCByb29tIiwiaXNFMkVFRW5hYmxlZCI6ZmFsc2V9LCJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIiwibGFuZ3VhZ2UiOiJkZSIsInRpbWV6b25lIjoiRXVyb3BlL0JlcmxpbiJ9fSwibW9kZXJhdG9yIjp0cnVlLCJsb2JieU1vZGVyYXRvciI6dHJ1ZSwidGhlbWUiOnsiY29sb3JTY2hlbWUiOiJsaWdodCJ9fQ.-vnKggNy2dHRS6RthUOIu9jYL7o0j9h9mAInYAoC7ZA'",
-            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
-        );
-        self::assertStringContainsString(
-            "<title>This Room has no participants and fixed room</title>",
-            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
-        );
-        self::assertStringContainsString(
-            "<title>This Room has no participants and fixed room</title>",
-            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
-        );
+        $appSecret = $room->getServer()->getAppSecret();
+
+        $name = $user->getFormatedName($paramterBag->get('laf_showNameInConference'));
+        $response = $startService->startMeeting($room, $user, 'a', $name);
+        self::assertInstanceOf(RedirectResponse::class, $response);
+        self::assertStringContainsString('jitsi-meet://meet.jit.si2/561d6f51s6f?jwt=', $response->getTargetUrl());
+        self::assertStringContainsString('#config.subject=%22this_room_has_no_participants_and_fixed_room%22', $response->getTargetUrl());
+
+        preg_match('/jwt=([^#]+)/', $response->getTargetUrl(), $matches);
+        $jwt = $matches[1];
+        $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
+        self::assertEquals('561d6f51s6f', $decoded->room);
+        self::assertEquals(true, $decoded->moderator);
+
+        $responseB = $startService->startMeeting($room, $user, 'b', $name);
+        self::assertStringContainsString('jwt', $responseB);
+        self::assertStringContainsString('<title>This Room has no participants and fixed room</title>', $responseB);
+
+        // Verify the browser-mode JWT
+        preg_match("/jwt: '([^']+)'/", $responseB, $browserMatches);
+        self::assertNotEmpty($browserMatches[1]);
+        $browserDecoded = JWT::decode($browserMatches[1], new Key($appSecret, 'HS256'));
+        self::assertEquals('561d6f51s6f', $browserDecoded->room);
     }
 
     public function test_RoomHasLobby_userisOrganizer(): void
