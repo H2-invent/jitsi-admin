@@ -19,10 +19,8 @@ final class Version20260814092541 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // 0 on MySQL/MariaDB, false on PostgreSQL (boolean column)
-        $false = $this->connection->getDatabasePlatform()->convertBooleans(false);
-        $this->addSql(sprintf('UPDATE rooms SET enable_transcription = %s WHERE enable_transcription IS NULL', $false));
-        $this->addSql(sprintf('UPDATE server SET enable_transcription = %s WHERE enable_transcription IS NULL', $false));
+        $this->addSql('UPDATE rooms SET enable_transcription = 0 WHERE enable_transcription IS NULL');
+        $this->addSql('UPDATE server SET enable_transcription = 0 WHERE enable_transcription IS NULL');
 
         $schema->getTable('rooms')
             ->modifyColumn('enable_transcription', [
