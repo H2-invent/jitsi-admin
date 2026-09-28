@@ -2,6 +2,7 @@ name: jitsi-admin
 type: symfony
 docroot: public
 php_version: "8.4"
+nodejs_version: "24"
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: []
