@@ -316,6 +316,33 @@ function initConfirmDirectSendHref() {
 }
 
 
+// Resend an invitation from the attendee dropdown via Ajax so the modal stays open.
+// The room_user_resend endpoint returns JSON for XMLHttpRequest calls and keeps its
+// redirect for regular (non-Ajax) requests.
+function initResendInvitation() {
+    document.addEventListener('click', function (e) {
+        const triggerElement = e.target.closest('.resendInvitation');
+
+        if (!triggerElement) {
+            return;
+        }
+
+        e.preventDefault();
+        const dropdownToggle = triggerElement.closest('li')?.querySelector('[data-mdb-dropdown-init]');
+
+        fetch(triggerElement.href, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+            .then(response => response.json())
+            .then(data => {
+                if (dropdownToggle) {
+                    Dropdown.getInstance(dropdownToggle)?.hide();
+                }
+                if (data.toast) {
+                    setSnackbar(data.message, '', data.color, false, '0x00', 5000);
+                }
+            });
+    });
+}
+
 function initAjaxSend(titleL, cancelL, okL) {
     title = titleL;
     cancel = cancelL;
@@ -325,6 +352,7 @@ function initAjaxSend(titleL, cancelL, okL) {
     initconfirmHref();
     initconfirmLoadOpenPopUp();
     initOpenInMultiframe();
+    initResendInvitation();
 }
 
 export function reloadPartial(url, target) {

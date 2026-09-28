@@ -83,7 +83,7 @@ class ThemeService
                     $item->expiresAfter(3600);
 
                     $finder = new Finder();
-                    $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name($url . '.' . 'theme.json.signed');
+                    $finder->files()->in($this->themeDir)->name($url . '.' . 'theme.json.signed');
                     if ($finder->count() > 0) {
                         $arr = iterator_to_array($finder);
                         $theme = reset($arr)->getContents();

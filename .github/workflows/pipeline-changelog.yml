@@ -5,7 +5,6 @@ on:
     types: [assigned, opened, edited, synchronize, reopened, labeled, unlabeled]
     branches:
       - master
-      - feature/development
       - release/*
       - unstable/*
       - hotfix/*
