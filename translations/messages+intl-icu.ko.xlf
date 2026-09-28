@@ -1588,6 +1588,10 @@
         <source>addhock.notification.noAnswer</source>
         <target state="translated">참가자가 응답하지 않았습니다.</target>
       </trans-unit>
+      <trans-unit id="ADHOC_DECLINED" resname="addhock.notification.declined">
+        <source>addhock.notification.declined</source>
+        <target state="translated">참가자가 통화를 거부했습니다.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="needs-translation">Ladezeit</target>

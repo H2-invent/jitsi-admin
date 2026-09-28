@@ -43,8 +43,14 @@ class AdhocMeetingWebsocketService
             ],
             [
                 'class' => 'btn btn-danger ',
-                'text' => '<i class="fas fa-phone-slash" ></i ></a > ',
-                'data' => [],
+                'text' => '<i class="fas fa-phone-slash"></i>',
+                'link' => $this->urlGen->generate('add_hoc_decline', ['roomId' => $room->getId()]),
+                'data' =>
+                    [
+                        // Marks the button so createDialog.js reports the refusal to the server
+                        // before closing the dialog, instead of just hiding it.
+                        'action' => 'adhoc-decline',
+                    ],
             ]
         ];
 

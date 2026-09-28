@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
+use App\Entity\Rooms;
 use App\Helper\JitsiAdminController;
+use App\Service\adhocmeeting\AdhocCallService;
 use App\Service\adhocmeeting\AdhocMeetingService;
 use App\Service\CreateHttpsUrl;
 use App\Service\OnlineStatus\OnlineStatusService;
@@ -43,6 +45,33 @@ class AdHocMeetingController extends JitsiAdminController
     {
         $tag = $server->getTag();
         return $this->render('add_hoc_meeting/__confirmation.html.twig', ['server' => $server, 'user' => $user, 'tag' => $tag]);
+    }
+
+    /**
+     * The callee refused the ringing ad-hoc call. Removes the waiting callout session and tells
+     * the caller right away, instead of letting the caller wait for the signaling timeout.
+     */
+    #[Route(path: 'decline/{roomId}', name: '_decline')]
+    public function decline(
+        #[MapEntity(id: 'roomId')] Rooms $room,
+        AdhocCallService $adhocCallService,
+    ): JsonResponse
+    {
+        $declined = $adhocCallService->markDeclined($this->getUser(), $room);
+
+        return new JsonResponse(['status' => $declined ? 'DECLINED' : 'NO_ACTIVE_CALL']);
+    }
+
+    /**
+     * The caller stopped the attempt (left/ended the conference) before the callee answered.
+     * Cancels all still ringing calls started by the current user so the callee stops ringing.
+     */
+    #[Route(path: 'cancel', name: '_cancel')]
+    public function cancel(AdhocCallService $adhocCallService): JsonResponse
+    {
+        $cancelled = $adhocCallService->cancelPendingCallsByInviter($this->getUser());
+
+        return new JsonResponse(['cancelled' => $cancelled]);
     }
 
     #[Route(path: 'meeting/{userId}/{serverId}/{tagId}', name: '_meeting')]

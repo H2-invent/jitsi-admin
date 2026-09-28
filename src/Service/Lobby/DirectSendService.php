@@ -215,13 +215,16 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendAdhocCallFailed($topic, $roomId)
+    public function sendAdhocCallFailed($topic, $roomId, string $reason = 'timeout')
     {
+        $message = $reason === 'declined'
+            ? $this->translator->trans('addhock.notification.declined')
+            : $this->translator->trans('addhock.notification.noAnswer');
         $data = [
             'type' => 'adhocCallFailed',
-            'reason' => 'timeout',
+            'reason' => $reason,
             'roomId' => $roomId,
-            'message' => $this->translator->trans('addhock.notification.noAnswer'),
+            'message' => $message,
         ];
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);

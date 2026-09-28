@@ -1583,6 +1583,10 @@
         <source>addhock.notification.noAnswer</source>
         <target state="translated">El participante no ha respondido.</target>
       </trans-unit>
+      <trans-unit id="ADHOC_DECLINED" resname="addhock.notification.declined">
+        <source>addhock.notification.declined</source>
+        <target state="translated">El participante rechazó la llamada.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">Tiempo de carga</target>

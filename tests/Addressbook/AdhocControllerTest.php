@@ -2,6 +2,7 @@
 
 namespace App\Tests\Addressbook;
 
+use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
@@ -203,6 +204,93 @@ class AdhocControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $response = json_decode($client->getResponse()->getContent(), true);
         self::assertArrayHasKey('popups', $response);
+    }
+
+    public function testDeclineAdhocMeetingNotifiesCaller(): void
+    {
+        $client = static::createClient();
+        // Keep the same kernel/container across the two requests so the Mercure mock set below
+        // is still the publisher used when the callee declines.
+        $client->disableReboot();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $caller = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $callee = $userRepo->findOneBy(['email' => 'test@local2.de']);
+
+        $directSend = self::getContainer()->get(DirectSendService::class);
+        $adhocCallFailed = null;
+        $directSend->setMercurePublisher(new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update) use (&$adhocCallFailed): string {
+                $data = json_decode($update->getData(), true);
+                if (($data['type'] ?? null) === 'adhocCallFailed') {
+                    $adhocCallFailed = ['topics' => $update->getTopics(), 'data' => $data];
+                }
+                return 'id';
+            }
+        ));
+
+        // Start the ad-hoc call as the caller, which creates the room and waiting callout session.
+        $client->loginUser($caller);
+        $this->mockPresence(true);
+        $client->request('GET', '/room/adhoc/meeting/' . $callee->getId() . '/' . $caller->getServers()[0]->getId());
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'Konferenz mit Test1, 1234, User, Test']);
+        self::assertNotNull($room);
+
+        // The callee actively refuses the ringing call.
+        $client->loginUser($callee);
+        $client->request('GET', '/room/adhoc/decline/' . $room->getId());
+
+        self::assertResponseIsSuccessful();
+        self::assertEquals('DECLINED', json_decode($client->getResponse()->getContent(), true)['status']);
+        self::assertNotNull($adhocCallFailed);
+        self::assertEquals(['personal/' . $caller->getUid()], $adhocCallFailed['topics']);
+        self::assertEquals('declined', $adhocCallFailed['data']['reason']);
+        self::assertNull(
+            self::getContainer()->get(CalloutSessionRepository::class)->findOneBy(['room' => $room, 'user' => $callee])
+        );
+    }
+
+    public function testCancelAdhocMeetingStopsCalleeRinging(): void
+    {
+        $client = static::createClient();
+        // Keep the same kernel/container across the two requests so the Mercure mock set below
+        // is still the publisher used when the caller cancels.
+        $client->disableReboot();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $caller = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $callee = $userRepo->findOneBy(['email' => 'test@local2.de']);
+
+        $directSend = self::getContainer()->get(DirectSendService::class);
+        $closeDialogTopics = [];
+        $directSend->setMercurePublisher(new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update) use (&$closeDialogTopics): string {
+                $data = json_decode($update->getData(), true);
+                if (($data['type'] ?? null) === 'closeDialog') {
+                    $closeDialogTopics = array_merge($closeDialogTopics, $update->getTopics());
+                }
+                return 'id';
+            }
+        ));
+
+        // Start the ad-hoc call as the caller, which creates the room and waiting callout session.
+        $client->loginUser($caller);
+        $this->mockPresence(true);
+        $client->request('GET', '/room/adhoc/meeting/' . $callee->getId() . '/' . $caller->getServers()[0]->getId());
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'Konferenz mit Test1, 1234, User, Test']);
+        self::assertNotNull($room);
+
+        // The caller leaves/stops the attempt before the callee answers.
+        $client->request('GET', '/room/adhoc/cancel');
+
+        self::assertResponseIsSuccessful();
+        self::assertEquals(1, json_decode($client->getResponse()->getContent(), true)['cancelled']);
+        self::assertContains('personal/' . $callee->getUid(), $closeDialogTopics);
+        self::assertNull(
+            self::getContainer()->get(CalloutSessionRepository::class)->findOneBy(['room' => $room, 'user' => $callee])
+        );
     }
 
     public function testcreateAdhocMeetingReceiverOfflineByPresence(): void
