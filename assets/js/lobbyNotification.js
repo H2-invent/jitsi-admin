@@ -18,6 +18,7 @@ import {initAllComponents} from "./confirmation";
 import {showDialog} from "./createDialog";
 import Swal from 'sweetalert2';
 import {closeIframeByRoomId} from './createConference';
+import {startCallerRingtone, stopCallerRingtone} from './callerSound';
 
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
@@ -74,6 +75,7 @@ function masterNotify(data) {
     } else if (data.type === 'adhocCallFailed') {
         adhocCallFailed(data);
     } else if (data.type === 'closeDialog') {
+        stopCallerRingtone();
         Swal.close();
     } else {
         console.log()('Error, Please reload the page')
@@ -82,7 +84,16 @@ function masterNotify(data) {
 
 function adhocCallFailed(data) {
     closeIframeByRoomId(data.roomId);
-    const message = (typeof adhocNoAnswerMessage !== 'undefined' && adhocNoAnswerMessage) ? adhocNoAnswerMessage : data.message;
+    // The websocket message is produced in the callee's request context, so its locale may not
+    // match the caller's page. Prefer the caller's own translated global when it is available.
+    let message = data.message;
+    if (data.reason === 'declined') {
+        if (typeof adhocDeclinedMessage !== 'undefined' && adhocDeclinedMessage) {
+            message = adhocDeclinedMessage;
+        }
+    } else if (typeof adhocNoAnswerMessage !== 'undefined' && adhocNoAnswerMessage) {
+        message = adhocNoAnswerMessage;
+    }
     Swal.fire({
         icon: 'error',
         text: message
@@ -208,8 +219,7 @@ function playSound(data) {
     setTimeout(function () {
         TabUtils.lockFunction('notification' + data.messageId, function () {
             if (data.soundName === 'caller'){
-                var audio = new Audio(callerSound);
-                audio.play();
+                startCallerRingtone();
             }else if (data.soundName === 'notfication'){
                 var audio = new Audio(notificationSound);
                 audio.play();
@@ -253,6 +263,7 @@ function callAddhock(data) {
 function stopCallerPlay() {
     callersoundplay.pause();
     callersoundplay.currentTime = 0;
+    stopCallerRingtone();
 }
 
 export {masterNotify, initNotofication, stopCallerPlay}

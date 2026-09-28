@@ -1594,6 +1594,10 @@
         <source>addhock.notification.noAnswer</source>
         <target state="translated">The participant did not answer.</target>
       </trans-unit>
+      <trans-unit id="ADHOC_DECLINED" resname="addhock.notification.declined">
+        <source>addhock.notification.declined</source>
+        <target state="translated">The participant declined the call.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">Loading time</target>

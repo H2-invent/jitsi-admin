@@ -1604,6 +1604,10 @@
         <source>addhock.notification.noAnswer</source>
         <target>Der Teilnehmer hat nicht geantwortet.</target>
       </trans-unit>
+      <trans-unit id="ADHOC_DECLINED" resname="addhock.notification.declined">
+        <source>addhock.notification.declined</source>
+        <target>Der Teilnehmer hat den Anruf abgelehnt.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target>Ladezeit</target>

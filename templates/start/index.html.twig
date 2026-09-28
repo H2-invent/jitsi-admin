@@ -120,6 +120,9 @@
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var websocketTopics = "{{ getJwtforWebsocket([room.uidReal],app.user) }}";
         var websocketUrl = "{{ getUrlforWebsocket() }}";
+        {% if app.user %}
+        var adhocCancelUrl = "{{ path('add_hoc_cancel') }}";
+        {% endif %}
 
     </script>
 
