@@ -152,6 +152,50 @@ class CallerControllerTest extends WebTestCase
         );
     }
 
+    public function testGetCallerRoomAndPinWithE2EE(): void
+    {
+        $client = static::createClient([], ['HTTP_authorization' => 'Bearer 123456']);
+
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $id = '123419';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $caller = $room->getCallerIds()[0];
+        $room->setIsE2EEEnabled(true);
+        $manager->persist($room);
+        $manager->flush();
+
+        // caller_room tells asterisk to hang up and why, so a dedicated announcement can be played
+        $client->request('GET', '/api/v1/lobby/sip/room/' . $id);
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'status' => 'HANGUP',
+                    'reason' => 'E2EE_ENABLED',
+                    'e2ee_enabled' => true,
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'links' => []
+                ]
+            ),
+            $client->getResponse()->getContent()
+        );
+
+        // the protected flow refuses the room as well, even with a valid pin
+        $client->request('POST', '/api/v1/lobby/sip/protected/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(['auth_ok' => false, 'reason' => 'E2EE_ENABLED', 'links' => []]),
+            $client->getResponse()->getContent()
+        );
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        self::assertNull($room->getCallerIds()[0]->getCallerSession());
+        self::assertEquals(0, sizeof($room->getLobbyWaitungUsers()));
+    }
+
     public function testGetCallerPinTotalOpenRoomWithoutPin(): void
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer 123456']);

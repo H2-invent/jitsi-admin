@@ -7,6 +7,7 @@
 * Revert layout change for Manage Participants dialog and implemented associated Ajax functionality
 * SIP dial-in now distinguishes between rooms with and without a lobby. `/api/v1/lobby/sip/room/{roomId}` returns the new field `lobby_enabled` and points to the matching follow-up endpoint: rooms with a lobby use `/api/v1/lobby/sip/protected/{roomId}` and require the personal pin, rooms without a lobby use the new `/api/v1/lobby/sip/open/{roomId}` and connect the caller directly, without a lobby entry and without a caller session
 * SIP_CALLER_SHOW_IN_FRONTEND` now also controls the dial-in mode, not just the display. While it is disabled, rooms **with** an active lobby answer `HANGUP` / `NO_PIN_CONFIGURED`, because without the personal pin the lobby cannot be passed. Rooms without a lobby are unaffected
+* SIP dial-in is blocked for conferences with active end-to-end encryption. The dashboard shows the dial-in numbers struck through and explains why the dial-in is not possible
 
 ### 🐛 Bug Fixes:
 * Prevent server change for active meetings rooms

@@ -27,7 +27,7 @@ class CallerServiceTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
 
-        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'total_open_rooms' => false, 'pin_required' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));
+        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'e2ee_enabled' => false, 'total_open_rooms' => false, 'pin_required' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));
     }
     public function testGetPersistantRoomSuccess(): void
     {
@@ -43,7 +43,7 @@ class CallerServiceTest extends KernelTestCase
         $callerPrepareService->addCallerIdToRoom($room);
         $room = $roomRepo->findOneBy(['name' => 'This is a fixed room']);
         $id = $room->getCallerRoom()->getCallerId();
-        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'total_open_rooms' => false, 'pin_required' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));
+        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'e2ee_enabled' => false, 'total_open_rooms' => false, 'pin_required' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));
     }
     public function testGetRoomWithLobbyButWithoutPersonalPin(): void
     {
@@ -107,6 +107,7 @@ class CallerServiceTest extends KernelTestCase
                     'endTime' => $room->getEndTimestamp(),
                     'roomName' => $room->getName(),
                     'lobby_enabled' => true,
+                    'e2ee_enabled' => false,
                     'total_open_rooms' => false,
                     'pin_required' => true,
                     'links' => ['pin' => $urlGen->generate('caller_protected', ['roomId' => $id])]
@@ -147,6 +148,7 @@ class CallerServiceTest extends KernelTestCase
                     'endTime' => $room->getEndTimestamp(),
                     'roomName' => $room->getName(),
                     'lobby_enabled' => true,
+                    'e2ee_enabled' => false,
                     'total_open_rooms' => true,
                     'pin_required' => false,
                     'links' => ['pin' => $urlGen->generate('caller_protected', ['roomId' => $id])]
@@ -156,6 +158,108 @@ class CallerServiceTest extends KernelTestCase
         } finally {
             $room->setLobby($lobbyBefore);
             $room->setTotalOpenRooms($totalOpenRoomsBefore);
+            $manager->persist($room);
+            $manager->flush();
+        }
+    }
+
+    public function testGetRoomWithE2EEEnabledForTheRoom(): void
+    {
+        $kernel = self::bootKernel();
+        $callerService = self::getContainer()->get(CallerFindRoomService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '12340';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $e2eeBefore = $room->isE2EEEnabled();
+
+        try {
+            $room->setIsE2EEEnabled(true);
+            $manager->persist($room);
+            $manager->flush();
+
+            // Phone participants can not decrypt E2EE media, so the caller is refused with a dedicated reason.
+            self::assertEquals(
+                [
+                    'status' => 'HANGUP',
+                    'reason' => 'E2EE_ENABLED',
+                    'e2ee_enabled' => true,
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'links' => []
+                ],
+                $callerService->findRoom($id)
+            );
+        } finally {
+            $room->setIsE2EEEnabled($e2eeBefore);
+            $manager->persist($room);
+            $manager->flush();
+        }
+    }
+
+    public function testGetRoomWithE2EEEnforcedByTheServer(): void
+    {
+        $kernel = self::bootKernel();
+        $callerService = self::getContainer()->get(CallerFindRoomService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '12340';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $enforceBefore = $server->isEnforceE2e();
+
+        try {
+            $server->setEnforceE2e(true);
+            $manager->persist($server);
+            $manager->flush();
+
+            // The server enforcement blocks the dial-in even when the room itself has E2EE disabled.
+            self::assertFalse($room->isE2EEEnabled());
+            self::assertEquals(
+                [
+                    'status' => 'HANGUP',
+                    'reason' => 'E2EE_ENABLED',
+                    'e2ee_enabled' => true,
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'links' => []
+                ],
+                $callerService->findRoom($id)
+            );
+        } finally {
+            $server->setEnforceE2e($enforceBefore);
+            $manager->persist($server);
+            $manager->flush();
+        }
+    }
+
+    public function testGetPinRoomWithE2EE(): void
+    {
+        $kernel = self::bootKernel();
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '123419';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $caller = $room->getCallerIds()[0];
+        $e2eeBefore = $room->isE2EEEnabled();
+
+        try {
+            $room->setIsE2EEEnabled(true);
+            $manager->persist($room);
+            $manager->flush();
+
+            // The pin service refuses to open a caller session for an E2EE room even with a valid pin.
+            self::assertNull($callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345'));
+            self::assertEquals(0, sizeof($room->getLobbyWaitungUsers()));
+        } finally {
+            $room->setIsE2EEEnabled($e2eeBefore);
             $manager->persist($room);
             $manager->flush();
         }
