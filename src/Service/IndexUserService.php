@@ -15,9 +15,7 @@ class IndexUserService
             $index .= strtolower($user->getFirstName() ?? '') . ' ';
             $index .= strtolower($user->getLastName() ?? '');
             if (is_iterable($user->getSpezialProperties())) {
-                $specialProperties = $user->getSpezialProperties();
-                ksort($specialProperties);
-                foreach ($specialProperties as $value) {
+                foreach ($user->getSpezialProperties() as $key => $value) {
                     $index .= ' ';
                     $value = preg_replace('/[^.@a-zA-Z0-9]/', '', $value);
                     $index .= strtolower($value);
