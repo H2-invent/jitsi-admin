@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
@@ -22,9 +24,18 @@ final class Version20260727000000 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // The data has to be JSON before the column type changes.
-        $this->convertColumnToJson(self::TABLE_USER, 'keycloakGroup', true);
-        $this->convertColumnToJson(self::TABLE_USER, 'spezial_properties', true);
-        $this->convertColumnToJson(self::TABLE_REPEAT, 'weekday', false);
+        $this->convertColumnToJson('fos_user', 'keycloakGroup', true);
+        $this->convertColumnToJson('fos_user', 'spezial_properties', true);
+        $this->convertColumnToJson('repeat', 'weekday', false);
+
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
+            // DBAL generates "ALTER ... TYPE JSON" without USING, which PostgreSQL rejects for TEXT columns
+            $this->addSql('ALTER TABLE fos_user ALTER keycloakGroup TYPE JSON USING keycloakGroup::json');
+            $this->addSql('ALTER TABLE fos_user ALTER spezial_properties TYPE JSON USING spezial_properties::json');
+            $this->addSql('ALTER TABLE "repeat" ALTER weekday TYPE JSON USING weekday::json');
+
+            return;
+        }
 
         $jsonType = Type::getType(Types::JSON);
 
@@ -48,19 +59,21 @@ final class Version20260727000000 extends AbstractMigration
         $repeatTable->modifyColumn('weekday', ['Type' => $textType, 'NotNull' => true]);
     }
 
+    public function postDown(Schema $schema): void
+    {
+        // Runs after the schema changes of down(): only a TEXT column accepts the PHP-serialized values again.
+        $this->convertColumnToSerialized('fos_user', 'keycloakGroup');
+        $this->convertColumnToSerialized('fos_user', 'spezial_properties');
+        $this->convertColumnToSerialized('repeat', 'weekday');
+    }
+
     /**
      * Converts PHP-serialized values (DC2Type:array) to JSON. Values that are already
      * valid JSON are left untouched, empty strings become NULL (or [] if not nullable).
      */
     private function convertColumnToJson(string $table, string $column, bool $nullable): void
     {
-        // need to use raw SQL for this because the ORM layer would already deserialize the column
-        $rows = $this->connection->executeQuery(
-            sprintf('SELECT id, `%s` FROM %s WHERE `%s` IS NOT NULL', $column, $table, $column)
-        )->fetchAllAssociative();
-
-        foreach ($rows as $row) {
-            $value = $row[$column];
+        foreach ($this->fetchValues($table, $column) as $id => $value) {
             if ($value === '') {
                 $json = $nullable ? null : '[]';
             } elseif (json_validate($value)) {
@@ -73,10 +86,53 @@ final class Version20260727000000 extends AbstractMigration
                 $json = json_encode($unserialized, JSON_UNESCAPED_UNICODE);
             }
 
-            $this->connection->executeStatement(
-                sprintf('UPDATE %s SET `%s` = :json WHERE id = :id', $table, $column),
-                ['json' => $json, 'id' => $row['id']]
-            );
+            $this->updateValue($table, $column, $id, $json);
         }
+    }
+
+    /**
+     * Converts JSON values back to PHP-serialized values (DC2Type:array).
+     */
+    private function convertColumnToSerialized(string $table, string $column): void
+    {
+        foreach ($this->fetchValues($table, $column) as $id => $value) {
+            if ($value === '') {
+                continue;
+            }
+
+            $decoded = json_decode($value, true);
+            if ($decoded === null && $value !== 'null') {
+                continue;
+            }
+
+            $this->updateValue($table, $column, $id, serialize($decoded));
+        }
+    }
+
+    /**
+     * Reads the raw column values through DBAL, the ORM would already (de)serialize them.
+     * @return array<int, string>
+     */
+    private function fetchValues(string $table, string $column): array
+    {
+        return $this->connection->createQueryBuilder()
+            ->select('id', $column)
+            ->from($this->connection->quoteSingleIdentifier($table))
+            ->where($column . ' IS NOT NULL')
+            ->executeQuery()
+            ->fetchAllKeyValue()
+        ;
+    }
+
+    private function updateValue(string $table, string $column, int|string $id, ?string $value): void
+    {
+        $this->connection->createQueryBuilder()
+            ->update($this->connection->quoteSingleIdentifier($table))
+            ->set($column, ':value')
+            ->where('id = :id')
+            ->setParameter('value', $value)
+            ->setParameter('id', $id, ParameterType::INTEGER)
+            ->executeStatement()
+        ;
     }
 }
