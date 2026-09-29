@@ -6,7 +6,11 @@
     {% if theme == false %}
         {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
     {% else %}
+        {% if theme.logoConference is defined %}
         {% set logo_small = theme.logoConference %}
+            {% else %}
+                {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
+            {% endif %}
     {% endif %}
 {% endif %}
 

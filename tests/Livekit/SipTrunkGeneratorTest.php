@@ -8,10 +8,12 @@ use App\Service\livekit\SipTrunkGenerator;
 use App\Service\LivekitRoomNameGenerator;
 use Firebase\JWT\JWT;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class SipTrunkGeneratorTest extends TestCase
 {
     private $httpClient;
@@ -34,7 +36,7 @@ class SipTrunkGeneratorTest extends TestCase
         $this->rooms = $this->createMock(Rooms::class);
         $this->server = $this->createMock(Server::class);
         $this->server->method('getUrl')->willReturn('testurl.com');
-        $this->server->method('getAppSecret')->willReturn('secret');
+        $this->server->method('getAppSecret')->willReturn('secretsecretsecretsecretsecretsecret12');
         $this->server->method('getAppId')->willReturn('key1');
         $this->rooms->method('getUid')->willReturn('test_room');
         $this->livekitUrlgenerator->method('getLiveKitName')->willReturn('test_room@localhost:8000');
@@ -147,7 +149,7 @@ class SipTrunkGeneratorTest extends TestCase
 
         // Server URL und App Secret einrichten
         $this->server->method('getUrl')->willReturn('mocked_url.com');
-        $this->server->method('getAppSecret')->willReturn('mocked_secret');
+        $this->server->method('getAppSecret')->willReturn('mocked_secretmocked_secretmocked_secret12');
         $this->server->method('getAppId')->willReturn('mocked_id');
 
         $result = $this->sipTrunkGenerator->sendPostRequest($this->server, $endpoint, $payload);

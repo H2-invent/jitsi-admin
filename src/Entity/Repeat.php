@@ -29,7 +29,7 @@ class Repeat
     private $rooms;
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'repeaterUsers')]
     private $participants;
-    #[ORM\Column(type: 'array')]
+    #[ORM\Column(type: 'json')]
     private $weekday = [];
     #[ORM\Column(type: 'integer', nullable: true)]
     private $weeks;

@@ -6,6 +6,7 @@ use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
 use App\Service\FormatName;
 use App\Service\Lobby\ToModeratorWebsocketService;
+use App\Service\livekit\SipTrunkGenerator;
 use App\Service\RoomService;
 use App\Service\Theme\ThemeService;
 use App\Service\webhook\RoomStatusFrontendService;
@@ -37,6 +38,7 @@ class CallerSessionService
         private FormatName                    $formatName,
         private ThemeService                  $themeService,
         private JitsiComponentSelectorService $jitsiComponentSelectorService,
+        private SipTrunkGenerator             $sipTrunkGenerator,
     )
     {
         $this->em = $entityManager;
@@ -80,7 +82,7 @@ class CallerSessionService
             return $this->sessionAccepted(session: $session);
         }
 
-        if (!$session->getLobbyWaitingUser() && $authOk === false) {
+        if ($session->getCaller()->getRoom()->getLobby() && !$session->getLobbyWaitingUser() && $authOk === false) {
             $this->loggger->debug('The Session was declined by the lobbymoderator', ['sessionId' => $sessionId]);
             $this->cleanUpSession($session);
             return $this->sessionDeclined(session: $session);
@@ -88,24 +90,24 @@ class CallerSessionService
 
 
         if ($closed == false && $started == false && $authOk == false) {
-            $this->loggger->debug('The Room is not startd and the User hast to wait. The user is not accepted', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()]);
+            $this->loggger->debug('The Room is not startd and the User hast to wait. The user is not accepted', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
             return $this->sessionWaiting(session: $session, started: false);
         }
 
         if ($authOk == false && $started == true) {
-            $this->loggger->debug('The Room is  startd and the User hast to wait. The user is not accepted', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()]);
+            $this->loggger->debug('The Room is  startd and the User hast to wait. The user is not accepted', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
             return $this->sessionWaiting(session: $session, started: true);
         }
 
         if ($closed == true) {
-            $this->loggger->debug('The user is called to hangup. The Meeting has finished while he was waiting', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()]);
+            $this->loggger->debug('The user is called to hangup. The Meeting has finished while he was waiting', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
 
             $this->cleanUpSession($session);
             return $this->sessionMeetingFinished(session: $session);
         }
 
 
-        $this->loggger->error('Error. an UNKNOWN state occured.', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()]);
+        $this->loggger->error('Error. an UNKNOWN state occured.', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
 
         $this->cleanUpSession($session);
         return $this->sessionError(session: $session);
@@ -116,16 +118,23 @@ class CallerSessionService
         $this->loggger->debug('We start to destroy the caller session', ['sessionID' => $callerSession->getSessionId()]);
         try {
             $lobbyWaitungUser = $callerSession->getLobbyWaitingUser();
+
             if ($lobbyWaitungUser) {
                 $this->loggger->debug('There is a Lobbyuser. we send a refres to the lobbymoderator', ['room' => $lobbyWaitungUser->getRoom()->getId()]);
                 $this->toModerator->refreshLobby($lobbyWaitungUser);
                 $this->toModerator->participantLeftLobby($lobbyWaitungUser);
-                $this->em->remove($lobbyWaitungUser);
+                $callerSession->setLobbyWaitingUser(null);
             }
 
             $this->loggger->debug('The Callersession is destroyed', ['room' => $callerSession->getSessionId()]);
-            $callerId = $callerSession->getCaller();
-            $callerId->setCallerSession(null);
+            $callerSession->setCaller(null);
+
+            // Flush the owning-side FK changes before deleting referenced rows.
+            $this->em->flush();
+
+            if ($lobbyWaitungUser) {
+                $this->em->remove($lobbyWaitungUser);
+            }
             $this->em->remove($callerSession);
             $this->em->flush();
         } catch (\Exception $exception) {
@@ -178,6 +187,15 @@ class CallerSessionService
                 'left' => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
             ]
         ];
+        $room = $session->getCaller()->getRoom();
+        if ($room->getServer() && $room->getServer()->isLiveKitServer()) {
+            try {
+                $res['sip_trunk'] = $this->sipTrunkGenerator->createNewSIPNumber($room, $session->getCallerId());
+            } catch (\Exception $exception) {
+                $this->loggger->error($exception->getMessage(), ['sessionId' => $session->getSessionId(), 'callerId' => $session->getCallerId()]);
+            }
+        }
+
         if ($session->isIsSipVideoUser()) {
             try {
                 $this->jitsiComponentSelectorService->setBaseUrlFromServer($session->getCaller()->getRoom()->getServer());

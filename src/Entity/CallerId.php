@@ -23,6 +23,7 @@ class CallerId
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
     #[ORM\OneToOne(targetEntity: CallerSession::class, inversedBy: 'caller', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private $callerSession;
     public function getId(): ?int
     {

@@ -20,13 +20,14 @@ jobs:
       - name: MySQL start
         run: |
           sudo /etc/init.d/mysql start
+          sudo mysql --user=root --password=root -e "CREATE DATABASE jitsiadmintest;"
           sudo mysql --user=root --password=root -e "CREATE USER 'jitsiadmintest'@'localhost' IDENTIFIED  BY 'password';"
           sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON jitsiadmintest.* TO 'jitsiadmintest'@'localhost';"
           sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;"
       # endregion mysql_start
       # region load_artifact
       - name: Download Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: artifact_${{github.run_number}}
 

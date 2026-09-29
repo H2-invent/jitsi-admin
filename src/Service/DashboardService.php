@@ -7,6 +7,9 @@ use App\Entity\User;
 
 class DashboardService
 {
+    /**
+     * @param Rooms[] $rooms
+     */
     public function categorizeRooms(array $rooms, User $user): array
     {
         $nowUtc = new \DateTime('now', new \DateTimeZone('utc'));
@@ -34,16 +37,15 @@ class DashboardService
                 $endTs = $room->getEndDateUtc() ? $room->getEndDateUtc()->getTimestamp() : 0;
                 $nowTs = $nowUtc->getTimestamp();
                 $todayEndTs = $todayEndUtc->getTimestamp();
+                $hasParticipants = $this->hasActiveParticipants($room);
 
-                if ($startTs < $nowTs && $endTs > $nowTs) {
+                if ($hasParticipants || ($startTs < $nowTs && $endTs > $nowTs)) {
                     $roomsNow[] = $room;
                 }
-                if ($endTs > $nowTs) {
+                if ($hasParticipants || ($endTs > $nowTs)) {
                     $roomsFuture[$room->getStartwithTimeZone($user)->format('Ymd')][] = $room;
                 }
-                if ($endTs <= $todayEndTs && $startTs >= $nowTs) {
-                    $roomsToday[] = $room;
-                } elseif ($endTs >= $nowTs && $startTs <= $todayEndTs) {
+                if ($hasParticipants || ($endTs <= $todayEndTs && $startTs >= $nowTs) || ($endTs >= $nowTs && $startTs <= $todayEndTs)) {
                     $roomsToday[] = $room;
                 }
             }
@@ -81,12 +83,27 @@ class DashboardService
                 if ($startWindow > $now || $end < $now) {
                     $result[$room->getId()] = sprintf(
                         'Der Beitritt ist nur von %s bis %s möglich',
-                        $room->getStartwithTimeZone($user)->modify('-30min')->format('d.m.Y H:i'),
-                        $room->getEndwithTimeZone($user)->format('d.m.Y H:i')
+                        (clone $room->getStartwithTimeZone($user))->modify('-30min')->format('d.m.Y H:i'),
+                        (clone $room->getEndwithTimeZone($user))->format('d.m.Y H:i')
                     );
                 }
             }
         }
         return $result;
+    }
+
+    private function hasActiveParticipants(Rooms $room): bool
+    {
+        foreach ($room->getRoomstatuses() as $roomStatus) {
+            if ($roomStatus->getDestroyed() === true) {
+                continue;
+            }
+            foreach ($roomStatus->getRoomStatusParticipants() as $participant) {
+                if ($participant->getInRoom() === true) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
