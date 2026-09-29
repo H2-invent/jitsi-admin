@@ -80,7 +80,7 @@ class CalloutService
             return $callout;
         }
         $this->logger->debug('Send Callout message to websocket so the called user is invited');
-        $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
+        $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms, $webCall);
 
         // A browser (web) call does not need a phone number, so it is tracked regardless of
         // whether the user can be dialed by the SIP callout system.

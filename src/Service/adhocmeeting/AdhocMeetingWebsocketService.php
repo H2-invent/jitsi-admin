@@ -25,12 +25,23 @@ class AdhocMeetingWebsocketService
     }
 
 //todo umbau auf dialog kein toast mehr
-    public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room): void
+    public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room, bool $webCall = false): void
     {
         $topic = 'personal/' . $reciever->getUid();
         $header = $this->translator->trans('addhock.notification.title');
         $text = $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]);
         $dialogType = 'question';
+        // Only the web ad-hoc flow lets the callee's browser enforce the configured ringing
+        // duration; phone callouts are continued by the SIP callout system.
+        $timeoutExtra = [];
+        $timeout = null;
+        if ($webCall) {
+            $timeout = $this->getSignalingDuration();
+            $timeoutExtra = [
+                'timeout' => $timeout,
+                'timeoutUrl' => $this->urlGen->generate('add_hoc_timeout', ['roomId' => $room->getId()]),
+            ];
+        }
         $button = [
             [
                 'class' => 'btn btn-success ' . ($this->theme->getApplicationProperties('LAF_USE_MULTIFRAME') == 1 ? 'startIframe' : ''),
@@ -68,7 +79,8 @@ class AdhocMeetingWebsocketService
             $header,
             $text,
             $dialogType,
-            $button
+            $button,
+            $timeoutExtra
         );
         $this->directSendService->sendBrowserPush(
             $topic,
@@ -80,7 +92,15 @@ class AdhocMeetingWebsocketService
         $this->directSendService->sendPlaySound(
             $topic,
             'caller',
-            md5(uniqid())
+            md5(uniqid()),
+            $timeout ? ['timeout' => $timeout] : []
         );
+    }
+
+    private function getSignalingDuration(): int
+    {
+        $duration = (int)$this->parameterBag->get('ADHOC_CALL_SIGNALING_DURATION');
+
+        return $duration > 0 ? $duration : 30;
     }
 }

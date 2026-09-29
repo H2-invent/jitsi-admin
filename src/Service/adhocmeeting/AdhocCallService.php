@@ -75,6 +75,39 @@ class AdhocCallService
         return true;
     }
 
+    /**
+     * The callee's browser reached the end of the configured signaling duration without answering.
+     * Driven from the client so the caller is notified and the ringtone stops even when the
+     * server-side delayed timeout message was not processed.
+     */
+    public function markTimedOut(User $callee, Rooms $room): bool
+    {
+        if ($this->isNonAdhocRoom($room)) {
+            return false;
+        }
+
+        $calloutSession = $this->findWaitingSession($callee, $room);
+        if (!$calloutSession) {
+            return false;
+        }
+
+        $caller = $calloutSession->getInvitedFrom();
+
+        $this->entityManager->remove($calloutSession);
+        // End the room so a late join from the still open ringing dialog is rejected.
+        $room->setEnddate(new \DateTime());
+        $this->entityManager->persist($room);
+        $this->entityManager->flush();
+
+        if ($caller) {
+            $this->directSendService->sendAdhocCallFailed('personal/' . $caller->getUid(), $room->getId(), 'timeout');
+        }
+        // Stop the ringtone on the callee's other tabs/devices as well.
+        $this->directSendService->sendCloseDialog('personal/' . $callee->getUid());
+
+        return true;
+    }
+
     private function findWaitingSession(User $user, Rooms $room): ?CalloutSession
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)
