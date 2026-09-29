@@ -23,8 +23,20 @@ final class Version20260730123000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $lobbyUserOfSession = $this->connection->createQueryBuilder()
+            ->select('lwu.id')
+            ->from(self::TABLE_LOBBY, 'lwu')
+            ->where('lwu.caller_session_id = ' . self::TABLE_CALLER . '.id')
+            ->getSQL()
+        ;
+
         $this->addSql(
-            'UPDATE caller_session cs INNER JOIN lobby_waitung_user lwu ON lwu.caller_session_id = cs.id SET cs.lobby_waiting_user_id = lwu.id WHERE cs.lobby_waiting_user_id IS NULL'
+            $this->connection->createQueryBuilder()
+                ->update(self::TABLE_CALLER)
+                ->set('lobby_waiting_user_id', '(' . $lobbyUserOfSession . ')')
+                ->where('lobby_waiting_user_id IS NULL')
+                ->andWhere('EXISTS (' . $lobbyUserOfSession . ')')
+                ->getSQL()
         );
 
         $lobbyTable = $schema->getTable(self::TABLE_LOBBY);
@@ -60,10 +72,6 @@ final class Version20260730123000 extends AbstractMigration
             ->setDefault(null)
             ->setNotnull(false);
 
-        $this->addSql(
-            'UPDATE lobby_waitung_user lwu INNER JOIN caller_session cs ON cs.lobby_waiting_user_id = lwu.id SET lwu.caller_session_id = cs.id'
-        );
-
         $lobbyTable->addIndex(['caller_session_id'], self::IDX_LOBBY_CALLER);
         $lobbyTable->addForeignKeyConstraint(
             self::TABLE_CALLER,
@@ -72,5 +80,22 @@ final class Version20260730123000 extends AbstractMigration
             ['onDelete' => 'SET NULL'],
             self::FK_LOBBY_CALLER,
         );
+    }
+
+    public function postDown(Schema $schema): void
+    {
+        // Runs after the schema changes of down(): caller_session_id only exists again at this point.
+        $sessionOfLobbyUser = $this->connection->createQueryBuilder()
+            ->select('cs.id')
+            ->from(self::TABLE_CALLER, 'cs')
+            ->where('cs.lobby_waiting_user_id = ' . self::TABLE_LOBBY . '.id')
+            ->getSQL()
+        ;
+
+        $this->connection->createQueryBuilder()
+            ->update(self::TABLE_LOBBY)
+            ->set('caller_session_id', '(' . $sessionOfLobbyUser . ')')
+            ->executeStatement()
+        ;
     }
 }
