@@ -98,6 +98,36 @@ class AdhocCallServiceTest extends KernelTestCase
         self::assertFalse($adhocCallService->markDeclined($callee, $room));
     }
 
+    public function testMarkTimedOutNotifiesCallerStopsRingAndEndsRoom(): void
+    {
+        self::bootKernel();
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $caller = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $callee = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+
+        $session = $this->createSession($em, $room, $callee, $caller, 'adhoc-timeout-callee', CalloutSession::$RINGING);
+
+        $directSend = $this->createMock(DirectSendService::class);
+        $directSend->expects(self::once())
+            ->method('sendAdhocCallFailed')
+            ->with('personal/' . $caller->getUid(), $room->getId(), 'timeout');
+        $directSend->expects(self::once())
+            ->method('sendCloseDialog')
+            ->with('personal/' . $callee->getUid());
+
+        $adhocCallService = new AdhocCallService($em, $directSend);
+        $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
+
+        self::assertTrue($adhocCallService->markTimedOut($callee, $room));
+        self::assertNull($calloutRepo->findOneBy(['uid' => 'adhoc-timeout-callee']));
+        self::assertLessThanOrEqual(time(), (int)$room->getEnddate()->format('U'));
+        // A second timeout is a no-op because the session is already gone.
+        self::assertFalse($adhocCallService->markTimedOut($callee, $room));
+    }
+
     public function testCancelPendingCallsByInviterStopsRingingCallees(): void
     {
         self::bootKernel();

@@ -74,6 +74,26 @@ class AdHocMeetingController extends JitsiAdminController
         return new JsonResponse(['cancelled' => $cancelled]);
     }
 
+    /**
+     * The callee's ringing dialog reached the configured signaling duration without an answer.
+     * Marks the call as timed out and tells the caller, independent of the messenger worker.
+     */
+    #[Route(path: 'timeout/{roomId}', name: '_timeout')]
+    public function timeout(
+        #[MapEntity(id: 'roomId')] Rooms $room,
+        AdhocCallService $adhocCallService,
+    ): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return new JsonResponse(['status' => 'UNAUTHORIZED'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $timedOut = $adhocCallService->markTimedOut($user, $room);
+
+        return new JsonResponse(['status' => $timedOut ? 'NO_ANSWER' : 'ANSWERED']);
+    }
+
     #[Route(path: 'meeting/{userId}/{serverId}/{tagId}', name: '_meeting')]
     #[Route(path: 'meeting/{userId}/{serverId}', name: '_meeting_no_tag')]
     public function index(

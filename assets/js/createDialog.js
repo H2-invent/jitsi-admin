@@ -1,6 +1,17 @@
 import Swal from 'sweetalert2';
 import {stopCallerRingtone} from './callerSound';
 
+// Deadline for the ringing ad-hoc call. Cleared as soon as the dialog closes (answered, declined
+// or Esc) so a late timer cannot report a missed call after the callee picked up.
+let adhocTimeoutId = null;
+
+function clearAdhocTimeout() {
+    if (adhocTimeoutId) {
+        clearTimeout(adhocTimeoutId);
+        adhocTimeoutId = null;
+    }
+}
+
 export function showDialog(data) {
     if (data.type !== 'dialog') return;
 
@@ -22,6 +33,7 @@ export function showDialog(data) {
         // caller ringtone whenever this (ringing) dialog closes.
         willClose: () => {
             stopCallerRingtone();
+            clearAdhocTimeout();
         },
         didRender: () => {
             data.buttons.forEach((button, index) => {
@@ -41,6 +53,19 @@ export function showDialog(data) {
                     Swal.close();
                 });
             });
+
+            // Ringing ad-hoc calls carry the configured signaling duration (ADHOC_CALL_SIGNALING_DURATION).
+            // When it elapses without an answer the backend is told so, which notifies the caller
+            // and stops the ring on every device - independent of the messenger worker.
+            clearAdhocTimeout();
+            if (data.timeout && data.timeoutUrl) {
+                adhocTimeoutId = setTimeout(() => {
+                    adhocTimeoutId = null;
+                    stopCallerRingtone();
+                    fetch(data.timeoutUrl).catch(() => {
+                    }).finally(() => Swal.close());
+                }, data.timeout * 1000);
+            }
         }
     });
 }

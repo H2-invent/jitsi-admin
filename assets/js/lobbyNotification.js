@@ -219,7 +219,7 @@ function playSound(data) {
     setTimeout(function () {
         TabUtils.lockFunction('notification' + data.messageId, function () {
             if (data.soundName === 'caller'){
-                startCallerRingtone();
+                startCallerRingtone(data.timeout);
             }else if (data.soundName === 'notfication'){
                 var audio = new Audio(notificationSound);
                 audio.play();

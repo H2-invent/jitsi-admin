@@ -293,6 +293,81 @@ class AdhocControllerTest extends WebTestCase
         );
     }
 
+    public function testTimeoutAdhocMeetingNotifiesCallerAndStopsRinging(): void
+    {
+        $client = static::createClient();
+        // Keep the same kernel/container across the requests so the Mercure mock set below is
+        // still the publisher used when the callee's browser reports the timeout.
+        $client->disableReboot();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $caller = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $callee = $userRepo->findOneBy(['email' => 'test@local2.de']);
+
+        $directSend = self::getContainer()->get(DirectSendService::class);
+        $adhocCallFailed = null;
+        $closeDialogTopics = [];
+        $directSend->setMercurePublisher(new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update) use (&$adhocCallFailed, &$closeDialogTopics): string {
+                $data = json_decode($update->getData(), true);
+                if (($data['type'] ?? null) === 'adhocCallFailed') {
+                    $adhocCallFailed = ['topics' => $update->getTopics(), 'data' => $data];
+                } elseif (($data['type'] ?? null) === 'closeDialog') {
+                    $closeDialogTopics = array_merge($closeDialogTopics, $update->getTopics());
+                }
+                return 'id';
+            }
+        ));
+
+        // Start the ad-hoc call as the caller, which creates the room and the waiting callout session.
+        $client->loginUser($caller);
+        $this->mockPresence(true);
+        $client->request('GET', '/room/adhoc/meeting/' . $callee->getId() . '/' . $caller->getServers()[0]->getId());
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'Konferenz mit Test1, 1234, User, Test']);
+        self::assertNotNull($room);
+
+        // The callee's browser reaches the configured signaling duration without answering.
+        $client->loginUser($callee);
+        $client->request('GET', '/room/adhoc/timeout/' . $room->getId());
+
+        self::assertResponseIsSuccessful();
+        self::assertEquals('NO_ANSWER', json_decode($client->getResponse()->getContent(), true)['status']);
+        // The caller is told that the call was not answered.
+        self::assertNotNull($adhocCallFailed);
+        self::assertEquals(['personal/' . $caller->getUid()], $adhocCallFailed['topics']);
+        self::assertEquals('timeout', $adhocCallFailed['data']['reason']);
+        // The callee's ringing dialog is closed on every device.
+        self::assertContains('personal/' . $callee->getUid(), $closeDialogTopics);
+        // The waiting session is gone, so the scheduled messenger timeout becomes a no-op.
+        self::assertNull(
+            self::getContainer()->get(CalloutSessionRepository::class)->findOneBy(['room' => $room, 'user' => $callee])
+        );
+    }
+
+    public function testTimeoutAdhocMeetingWithoutWaitingSessionIsNoop(): void
+    {
+        $client = static::createClient();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $callee = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $client->loginUser($callee);
+
+        $directSend = self::getContainer()->get(DirectSendService::class);
+        $directSend->setMercurePublisher(new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                return 'id';
+            }
+        ));
+
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
+        $client->request('GET', '/room/adhoc/timeout/' . $room->getId());
+
+        self::assertResponseIsSuccessful();
+        self::assertEquals('ANSWERED', json_decode($client->getResponse()->getContent(), true)['status']);
+    }
+
     public function testcreateAdhocMeetingReceiverOfflineByPresence(): void
     {
         $client = static::createClient();
