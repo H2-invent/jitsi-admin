@@ -16,10 +16,10 @@ class Star
 
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'stars')]
     #[ORM\JoinColumn(nullable: false)]
-    private Server $server;
+    private ?Server $server = null;
 
     #[ORM\Column(type: 'integer')]
-    private int $star;
+    private ?int $star = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $comment = null;

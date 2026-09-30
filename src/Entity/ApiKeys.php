@@ -14,13 +14,13 @@ class ApiKeys
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $clientId;
+    private ?string $clientId = null;
 
     #[ORM\Column(type: 'text')]
-    private string $clientSecret;
+    private ?string $clientSecret = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function getId(): ?int
     {

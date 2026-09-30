@@ -17,14 +17,14 @@ class Scheduling
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $uid;
+    private ?string $uid = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'schedulings')]
     #[ORM\JoinColumn(nullable: false)]
-    private Rooms $room;
+    private ?Rooms $room = null;
 
     /**
      * @var Collection<int, SchedulingTime>

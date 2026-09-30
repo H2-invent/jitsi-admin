@@ -16,7 +16,7 @@ class RoomStatus
     private ?int $id = null;
 
     #[ORM\Column(type: 'boolean')]
-    private bool $created;
+    private ?bool $created = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $RoomCreatedAt = null;
@@ -28,10 +28,10 @@ class RoomStatus
     private ?\DateTimeImmutable $destroyedAt = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * @var Collection<int, RoomStatusParticipant>
@@ -44,7 +44,7 @@ class RoomStatus
     private ?Rooms $room = null;
 
     #[ORM\Column(type: 'text')]
-    private string $jitsiRoomId;
+    private ?string $jitsiRoomId = null;
 
     public function __construct()
     {

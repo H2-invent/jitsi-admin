@@ -14,23 +14,23 @@ class RoomStatusParticipant
     private ?int $id = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $enteredRoomAt;
+    private ?\DateTimeImmutable $enteredRoomAt = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $leftRoomAt = null;
 
     #[ORM\Column(type: 'boolean')]
-    private bool $inRoom;
+    private ?bool $inRoom = null;
 
     #[ORM\ManyToOne(targetEntity: RoomStatus::class, inversedBy: 'roomStatusParticipants')]
     #[ORM\JoinColumn(nullable: false)]
-    private RoomStatus $roomStatus;
+    private ?RoomStatus $roomStatus = null;
 
     #[ORM\Column(type: 'text')]
-    private string $participantId;
+    private ?string $participantId = null;
 
     #[ORM\Column(type: 'text')]
-    private string $participantName;
+    private ?string $participantName = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $dominantSpeakerTime = null;

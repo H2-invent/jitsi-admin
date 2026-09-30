@@ -74,7 +74,7 @@ class Repeat
     private ?int $RepeatYearly = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $startDate;
+    private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'repeaterProtoype', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]

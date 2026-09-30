@@ -16,11 +16,11 @@ class RoomsUser
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomsAttributes')]
     #[ORM\JoinColumn(nullable: false)]
-    private User $user;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'userAttributes', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private Rooms $room;
+    private ?Rooms $room = null;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $shareDisplay = null;

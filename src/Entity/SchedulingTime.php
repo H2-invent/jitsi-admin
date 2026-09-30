@@ -16,11 +16,11 @@ class SchedulingTime
     private ?int $id = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $time;
+    private ?\DateTimeImmutable $time = null;
 
     #[ORM\ManyToOne(targetEntity: Scheduling::class, inversedBy: 'schedulingTimes')]
     #[ORM\JoinColumn(nullable: false)]
-    private Scheduling $scheduling;
+    private ?Scheduling $scheduling = null;
 
     /**
      * @var Collection<int, SchedulingTimeUser>

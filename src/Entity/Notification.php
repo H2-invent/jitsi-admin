@@ -14,17 +14,17 @@ class Notification
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $title;
+    private ?string $title = null;
 
     #[ORM\Column(type: 'text')]
-    private string $text;
+    private ?string $text = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
-    private User $user;
+    private ?User $user = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $url = null;

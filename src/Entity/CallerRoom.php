@@ -14,14 +14,14 @@ class CallerRoom
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $callerId;
+    private ?string $callerId = null;
 
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'callerRoom')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Rooms $room = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function getId(): ?int
     {

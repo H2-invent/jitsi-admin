@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserBase implements UserInterface
 {
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private string $uuid;
+    private ?string $uuid = null;
 
     /**
      * @var array<int, string>

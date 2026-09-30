@@ -16,11 +16,11 @@ class AddressGroup
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $name;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'AddressGroupLeader')]
     #[ORM\JoinColumn(nullable: false)]
-    private User $leader;
+    private ?User $leader = null;
 
     /**
      * @var Collection<int, User>
@@ -29,7 +29,7 @@ class AddressGroup
     private Collection $member;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;

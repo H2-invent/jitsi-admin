@@ -14,17 +14,17 @@ class CallerSession
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $sessionId;
+    private ?string $sessionId = null;
 
     #[ORM\OneToOne(targetEntity: LobbyWaitungUser::class, inversedBy: 'callerSession', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private ?LobbyWaitungUser $lobbyWaitingUser = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: 'boolean')]
-    private bool $authOk;
+    private ?bool $authOk = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $callerId = null;

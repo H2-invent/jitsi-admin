@@ -14,10 +14,10 @@ class LdapUserProperties
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $ldapHost;
+    private ?string $ldapHost = null;
 
     #[ORM\Column(type: 'text')]
-    private string $ldapDn;
+    private ?string $ldapDn = null;
 
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'ldapUserProperties', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -27,7 +27,7 @@ class LdapUserProperties
     private ?string $rdn = null;
 
     #[ORM\Column(type: 'text')]
-    private string $ldapNumber;
+    private ?string $ldapNumber = null;
 
     public function getId(): ?int
     {
