@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Service\ldap\LdapUserService;
+use App\Service\Ldap\LdapUserService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

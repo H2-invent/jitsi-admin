@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Rooms;
-use App\Service\webhook\RoomStatusFrontendService;
+use App\Service\Webhook\RoomStatusFrontendService;
 
 class CheckMaxUserService
 {

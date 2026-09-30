@@ -7,7 +7,7 @@ use App\Entity\Recording;
 use App\Entity\Rooms;
 use App\Repository\RecordingRepository;
 
-use App\Service\livekit\EgressService;
+use App\Service\Livekit\EgressService;
 use App\Service\LivekitRoomNameGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Livekit\DirectFileOutput;

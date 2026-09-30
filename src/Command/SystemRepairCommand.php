@@ -6,7 +6,7 @@ use App\Controller\DashboardController;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Service\ldap\LdapUserService;
+use App\Service\Ldap\LdapUserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Command\Command;

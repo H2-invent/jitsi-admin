@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Helper\JitsiAdminController;
-use App\Service\caller\CallerSessionService;
+use App\Service\Caller\CallerSessionService;
 use App\Service\CheckLobbyPermissionService;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\LobbyUtils;

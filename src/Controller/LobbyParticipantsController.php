@@ -11,7 +11,7 @@ use App\Service\Lobby\CreateLobbyUserService;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\Lobby\ToParticipantWebsocketService;
-use App\Service\webhook\RoomStatusFrontendService;
+use App\Service\Webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;

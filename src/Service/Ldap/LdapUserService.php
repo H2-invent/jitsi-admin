@@ -1,0 +1,309 @@
+<?php
+
+namespace App\Service\Ldap;
+
+use App\DataType\LdapType;
+use App\Entity\LdapUserProperties;
+use App\Entity\User;
+use App\Repository\UserRepository;
+use App\Service\IndexUserService;
+use App\Service\UserCreatorService;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Ldap\Entry;
+use Symfony\Component\Ldap\Exception\ConnectionException;
+use Symfony\Component\Ldap\Exception\LdapException;
+use Symfony\Component\Ldap\Ldap;
+
+class LdapUserService
+{
+    /** @var EntityManagerInterface */
+    private $em;
+    /** @var UserCreatorService */
+    private $userCreationService;
+    /** @var IndexUserService */
+    private $indexer;
+    /** @var LoggerInterface */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger, EntityManagerInterface $entityManager, UserCreatorService $userCreationService, IndexUserService $indexUserService)
+    {
+        $this->em = $entityManager;
+        $this->userCreationService = $userCreationService;
+        $this->indexer = $indexUserService;
+        $this->logger = $logger;
+    }
+
+    /**
+     * This function retrieves the user
+     */
+    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType, bool $dryRun = false): ?User
+    {
+        //Here we get the attributes from the LDAP (username, email, firstname, lastname)
+        try {
+            $uid = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
+            $email = $entry->getAttribute($ldapType->getMapper()['email'])[0] ?? '';
+            $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0] ?? null;
+            $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0] ?? null;
+            /** @var UserRepository $userRepository */
+            $userRepository = $this->em->getRepository(User::class);
+            $user = $userRepository->findUsersfromLdapdn($entry->getDn());
+            if (!$user) {
+                $user = $userRepository->findOneBy(['username' => $uid]);
+            }
+            if (!$user) {
+                $user = $this->userCreationService->createUser($email, $uid, $firstName, $lastName, $dryRun);
+                $user->setUid(md5(uniqid()));
+            }
+            if (!$user->getLdapUserProperties()) {
+                $ldap = new LdapUserProperties();
+                $ldap->setLdapHost($ldapType->getUrl());
+                $ldap->setLdapDn($entry->getDn());
+                $user->setLdapUserProperties($ldap);
+                $ldap->setLdapNumber($ldapType->getSerVerId());
+            }
+            try {
+                if ($ldapType->getRdn()) {
+                    $user->getLdapUserProperties()->setRdn($ldapType->getRdn() . '=' . $entry->getAttribute($ldapType->getRdn())[0]);
+                }
+            }catch (\Exception $exception){
+                $this->logger->error($exception->getMessage());
+            }
+
+            $specialField = $this->getSpezialPropertiesFields(ldapType: $ldapType, entry: $entry);
+
+            $user->setSpezialProperties($specialField);
+
+            $user->setEmail($email);
+            $user->setFirstName($firstName);
+            $user->setLastName($lastName);
+            $user->setUsername($uid);
+            $user->setIsSipVideoUser($ldapType->getISSIPVIDEO());
+            $user->setIndexer($this->indexer->indexUser($user));
+            if (!$dryRun) {
+                $this->em->persist($user);
+                $this->em->flush();
+            }
+            return $user;
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage(), ['file' => $exception->getFile(), 'line' => $exception->getLine()]);
+        }
+        return null;
+    }
+
+    /**
+     * This function connects all users in the Database with the adressbook of all available other users.
+     * So everyon can search for everyone in the whole jitsi-admin system
+     *
+     * @return User[]
+     */
+    public function connectUserwithAllUSersInAdressbock(): array
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->em->getRepository(User::class);
+        $allUSer = $userRepository->findUsersfromLdapService();
+        foreach ($allUSer as $data) {
+            foreach ($allUSer as $data2) {
+                $data->addAddressbook($data2);
+            }
+            $this->em->persist($data);
+        }
+        $this->em->flush();
+        return $allUSer;
+    }
+
+    /**
+     *This Function removes the own user from the adressbook
+     *
+     * @return User[]
+     */
+    public function cleanUpAdressbook(): array
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->em->getRepository(User::class);
+        $allUSer = $userRepository->findUsersfromLdapService();
+        foreach ($allUSer as $data) {
+            foreach ($allUSer as $data2) {
+                if ($data === $data2) {
+                    if (in_array($data2, $data->getAddressbook()->toArray())) {
+                        $data->removeAddressbook($data2);
+                    }
+                }
+            }
+            $this->em->persist($data);
+        }
+        $this->em->flush();
+        return $allUSer;
+    }
+
+    /**
+     * returns all valid users from the database which are in the ldap and the Database
+     */
+    public function syncDeletedUser(LdapType $ldapType): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->em->getRepository(User::class);
+        $usersInSystemFromLdapId = $userRepository->findUsersByLdapServerId($ldapType->getSerVerId());
+        $userListInLdap = $ldapType->retrieveUser();
+
+
+        $dnlist = $this->createDNListFromLdapResult($userListInLdap);
+        foreach ($usersInSystemFromLdapId as $user) {
+            if (!in_array($user->getLdapUserProperties()->getLdapDn(),$dnlist)){
+                $this->deleteUser(user: $user);
+            }
+        }
+    }
+
+
+    /**
+     * @param Entry[] $ldapEntry
+     * @return string[]
+     */
+    private function createDNListFromLdapResult(array $ldapEntry): array
+    {
+        $dnList = [];
+        foreach ($ldapEntry as $data){
+           $dnList[] = $data->getDn();
+        }
+        return $dnList;
+    }
+
+    /**
+     * Search for the USer in LDAP
+     */
+    public function checkUserInLdap(User $user, LdapType $ldap): ?Entry
+    {
+
+        $ldapProps = $user->getLdapUserProperties();
+        if ($ldapProps === null) {
+            return null;
+        }
+
+        // feste Base-DN, z.B. "ou=users,dc=example,dc=com"
+        $baseDn = $ldap->getUserDn();
+
+        // eindeutiges Attribut (z. B. uid / sAMAccountName)
+        $username = ldap_escape(
+            $ldapProps->getUser()->getUsername(),
+            '',
+            LDAP_ESCAPE_FILTER
+        );
+
+        // sauberer Filter
+        $filter = sprintf(
+            '(&%s(%s=%s))',
+            $ldap->buildObjectClass(), // z.B. (objectClass=person)
+            $ldap->getUserNameAttribute(), // z.B. uid
+            $username
+        );
+
+        try {
+            $query  = $ldap->getLdap()->query($baseDn, $filter);
+            $result = $query->execute();
+        } catch (ConnectionException $e) {
+            // LDAP nicht erreichbar → KEIN Löschen
+            return null;
+        } catch (LdapException $e) {
+            // echter LDAP-Fehler → eskalieren, nicht raten
+            return  null;
+        }
+
+        $entries = $result->toArray();
+
+        if (count($entries) === 0) {
+            // User existiert definitiv nicht mehr
+            $this->deleteUser($user);
+            return null;
+        }
+
+        // Mehr als ein Treffer wäre ein Datenfehler
+        return $entries[0];
+    }
+
+    /**
+     * Delete User and remove all Addressbooks entrys
+     */
+    public function deleteUser(User $user): void
+    {
+        foreach ($user->getAddressbookInverse() as $u) {
+            $u->removeAddressbook($user);
+            $this->em->persist($u);
+        }
+        foreach ($user->getRooms() as $r) {
+            $user->removeRoom($r);
+        }
+        $rooms = $user->getRoomModerator();
+        foreach ($rooms as $r) {
+            foreach ($r->getUser() as $u) {
+                $r->removeUser($u);
+            }
+            $this->em->persist($r);
+        }
+
+        foreach ($user->getRoomModerator() as $r) {
+            $user->removeRoomModerator($r);
+        }
+        foreach ($user->getCreatorOf() as $r) {
+            $user->removeCreatorOf($r);
+        }
+        foreach ($user->getNotifications() as $data) {
+            $user->removeNotification($data);
+            $this->em->remove($data);
+        }
+        foreach ($user->getServers() as $server) {
+            $user->removeServer($server);
+        }
+        foreach ($user->getServerAdmins() as $server) {
+            foreach ($server->getUser() as $serverUser) {
+                $serverUser->removeServer($server);
+            }
+            $user->removeServerAdmin($server);
+        }
+        foreach ($user->getRoomsAttributes() as $attribute) {
+            $user->removeRoomsAttributes($attribute);
+            $this->em->remove($attribute);
+        }
+        foreach ($user->getLobbyWaitungUsers() as $data) {
+            $user->removeLobbyWaitungUser($data);
+            $this->em->remove($data);
+        }
+        if ($user->getLdapUserProperties()) {
+            $this->em->remove($user->getLdapUserProperties());
+        }
+        foreach ($user->getManagerElement() as $depElement) {
+            $this->em->remove($depElement);
+        }
+
+        foreach ($user->getDeputiesElement() as $depElement) {
+            $this->em->remove($depElement);
+        }
+        foreach ($user->getLogs() as $logElement) {
+            $user->removeLog($logElement);
+            $logElement->setUser($logElement->getRoom()->getModerator());
+           $this->em->persist($logElement);
+        }
+
+        $this->em->persist($user);
+        $this->em->flush();
+        $this->em->remove($user);
+        $this->em->flush();
+    }
+
+    /**
+     * @return array<array-key, string>
+     */
+    public function getSpezialPropertiesFields(LdapType $ldapType, Entry $entry): array
+    {
+        $specialField = [];
+        foreach ($ldapType->getSpecialFields() as $key => $data) {
+            if ($entry->getAttribute($data)) {
+                $specialField[$key] = $entry->getAttribute($data)[0];
+            } else {
+                $specialField[$key] = '';
+            }
+        }
+        return $specialField;
+    }
+}
+

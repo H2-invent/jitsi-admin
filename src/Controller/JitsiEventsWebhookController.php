@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Helper\JitsiAdminController;
-use App\Service\api\CheckAuthorizationService;
-use App\Service\webhook\RoomWebhookService;
+use App\Service\Api\CheckAuthorizationService;
+use App\Service\Webhook\RoomWebhookService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Service\caller\CallerPrepareService;
+use App\Service\Caller\CallerPrepareService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

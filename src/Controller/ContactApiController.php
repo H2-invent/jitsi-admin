@@ -9,7 +9,7 @@ use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use App\Service\ParticipantSearchService;
 use App\Service\ServerUserManagment;
-use App\Service\webhook\RoomStatusFrontendService;
+use App\Service\Webhook\RoomStatusFrontendService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

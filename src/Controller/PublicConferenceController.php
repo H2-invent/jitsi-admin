@@ -7,7 +7,7 @@ use App\Form\Type\PublicConferenceType;
 use App\Helper\JitsiAdminController;
 use App\Service\PublicConference\PublicConferenceService;
 use App\Service\Theme\ThemeService;
-use App\Service\webhook\RoomStatusFrontendService;
+use App\Service\Webhook\RoomStatusFrontendService;
 use App\UtilsHelper;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;

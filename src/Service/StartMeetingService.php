@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Repository\RoomStatusParticipantRepository;
 use App\Service\Jigasi\JigasiService;
 use App\Service\Lobby\ToModeratorWebsocketService;
-use App\Service\webhook\RoomStatusFrontendService;
+use App\Service\Webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
