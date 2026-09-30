@@ -21,7 +21,7 @@ class LdapUserProperties
 
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'ldapUserProperties', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private User $user;
+    private ?User $user = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $rdn = null;

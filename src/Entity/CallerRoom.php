@@ -18,7 +18,7 @@ class CallerRoom
 
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'callerRoom')]
     #[ORM\JoinColumn(nullable: false)]
-    private Rooms $room;
+    private ?Rooms $room = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
