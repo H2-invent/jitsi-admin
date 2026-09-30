@@ -4,7 +4,7 @@ namespace App\Tests\Livekit;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
-use App\Service\livekit\SipTrunkGenerator;
+use App\Service\Livekit\SipTrunkGenerator;
 use App\Service\LivekitRoomNameGenerator;
 use Firebase\JWT\JWT;
 use PHPUnit\Framework\MockObject\MockObject;

@@ -2,11 +2,11 @@
 
 namespace App\Tests\LDAP;
 
-use App\dataType\LdapType;
+use App\DataType\LdapType;
 use App\Entity\LdapUserProperties;
 use App\Entity\User;
 use App\Service\IndexUserService;
-use App\Service\ldap\LdapUserService;
+use App\Service\Ldap\LdapUserService;
 use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;

@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Form\CalendlyTokenType;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\api\RoomService;
-use App\Service\calendly\CallendlyConnect;
+use App\Service\Api\RoomService;
+use App\Service\Calendly\CallendlyConnect;
 
 use App\Service\JoinUrlGeneratorService;
 use App\Service\RemoveRoomService;

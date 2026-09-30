@@ -7,7 +7,7 @@ use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
 use App\Enums\RepeatTypeEnum;
-use App\Service\caller\CallerPrepareService;
+use App\Service\Caller\CallerPrepareService;
 use App\Service\Jigasi\JigasiService;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;

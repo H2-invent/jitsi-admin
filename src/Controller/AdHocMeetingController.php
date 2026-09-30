@@ -6,7 +6,7 @@ use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
 use App\Helper\JitsiAdminController;
-use App\Service\adhocmeeting\AdhocMeetingService;
+use App\Service\AdHocMeeting\AdhocMeetingService;
 use App\Service\CreateHttpsUrl;
 use App\Service\ServerUserManagment;
 use Doctrine\Persistence\ManagerRegistry;

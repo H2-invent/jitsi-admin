@@ -10,7 +10,7 @@ use App\Entity\Repeat;
 use App\Entity\Subscriber;
 use App\Entity\Waitinglist;
 use App\Repository\RoomsRepository;
-use App\Service\caller\CallerPrepareService;
+use App\Service\Caller\CallerPrepareService;
 use App\Service\RemoveRoomService;
 use App\Service\RepeaterService;
 use Doctrine\ORM\EntityManagerInterface;

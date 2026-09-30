@@ -4,7 +4,7 @@ namespace App\Tests\Calendly;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Service\calendly\CallendlyConnect;
+use App\Service\Calendly\CallendlyConnect;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;

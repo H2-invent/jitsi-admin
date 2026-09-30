@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Helper\JitsiAdminController;
-use App\Service\adressbookFavoriteService\AdressbookFavoriteService;
+use App\Service\AdressbookFavoriteService\AdressbookFavoriteService;
 use App\Service\Deputy\DeputyService;
 use App\Service\UserCreatorService;
 use Doctrine\Persistence\ManagerRegistry;

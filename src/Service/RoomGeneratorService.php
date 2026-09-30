@@ -6,7 +6,7 @@ use App\Entity\CallerRoom;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
-use App\Service\caller\CallerPrepareService;
+use App\Service\Caller\CallerPrepareService;
 use App\Service\Theme\ThemeService;
 use App\Util\InputSettings;
 use Doctrine\ORM\EntityManagerInterface;

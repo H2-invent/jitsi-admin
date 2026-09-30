@@ -2,7 +2,7 @@
 
 namespace App\Tests\LDAP;
 
-use App\dataType\LdapType;
+use App\DataType\LdapType;
 use App\Entity\CallerId;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Notification;
@@ -13,8 +13,8 @@ use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
 use App\Service\IndexUserService;
-use App\Service\ldap\LdapService;
-use App\Service\ldap\LdapUserService;
+use App\Service\Ldap\LdapService;
+use App\Service\Ldap\LdapUserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

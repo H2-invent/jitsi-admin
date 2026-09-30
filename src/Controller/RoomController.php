@@ -15,7 +15,7 @@ use App\Service\RoomGeneratorService;
 use App\Service\SchedulingService;
 use App\Service\ServerUserManagment;
 use App\Service\UserService;
-use App\Service\webhook\RoomStatusFrontendService;
+use App\Service\Webhook\RoomStatusFrontendService;
 use App\UtilsHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

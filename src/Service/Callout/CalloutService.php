@@ -8,7 +8,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
-use App\Service\adhocmeeting\AdhocMeetingWebsocketService;
+use App\Service\AdHocMeeting\AdhocMeetingWebsocketService;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;

@@ -5,7 +5,7 @@ namespace App\Tests\JitsiEvents\service;
 use App\Entity\RoomStatusParticipant;
 use App\Repository\RoomsRepository;
 use App\Repository\RoomStatusRepository;
-use App\Service\webhook\RoomWebhookService;
+use App\Service\Webhook\RoomWebhookService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class JitsiEventsServiceTest extends KernelTestCase

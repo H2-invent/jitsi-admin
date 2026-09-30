@@ -12,7 +12,7 @@ namespace App\Service;
 use App\Entity\CallerId;
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Service\caller\CallerPrepareService;
+use App\Service\Caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
