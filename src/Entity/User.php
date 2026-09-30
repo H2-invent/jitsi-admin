@@ -30,7 +30,7 @@ class User extends BaseUser
     protected ?string $plainPassword = null;
 
     #[ORM\Column(type: 'text')]
-    private string $email;
+    private ?string $email = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $keycloakId = null;

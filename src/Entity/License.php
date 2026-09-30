@@ -17,16 +17,16 @@ class License
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $licenseKey;
+    private ?string $licenseKey = null;
 
     #[ORM\Column(type: 'text')]
-    private string $license;
+    private ?string $license = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $validUntil;
+    private ?\DateTimeImmutable $validUntil = null;
 
     #[ORM\Column(type: 'text')]
-    private string $url;
+    private ?string $url = null;
 
     public function getId(): ?int
     {

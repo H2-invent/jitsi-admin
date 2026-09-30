@@ -18,7 +18,7 @@ class Server
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $url;
+    private ?string $url = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $appId = null;
@@ -67,7 +67,7 @@ class Server
     private ?string $smtpSenderName = null;
 
     #[ORM\Column(type: 'text')]
-    private string $slug;
+    private ?string $slug = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $privacyPolicy = null;
@@ -106,10 +106,10 @@ class Server
     private Collection $OwnRoomUSer;
 
     #[ORM\Column(type: 'integer')]
-    private int $jwtModeratorPosition;
+    private ?int $jwtModeratorPosition = null;
 
     #[ORM\Column(type: 'text')]
-    private string $serverName;
+    private ?string $serverName = null;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $corsHeader = null;

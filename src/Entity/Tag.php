@@ -16,7 +16,7 @@ class Tag
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $title;
+    private ?string $title = null;
 
     /**
      * @var Collection<int, Rooms>

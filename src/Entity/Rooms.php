@@ -19,7 +19,7 @@ class Rooms
     private ?int $id = null;
 
     #[ORM\Column(type: 'text')]
-    private string $name;
+    private ?string $name = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $start = null;
@@ -36,10 +36,10 @@ class Rooms
 
     #[ORM\ManyToOne(targetEntity: Server::class, fetch: 'EAGER', inversedBy: 'rooms')]
     #[ORM\JoinColumn(nullable: false)]
-    private Server $server;
+    private ?Server $server = null;
 
     #[ORM\Column(type: 'text')]
-    private string $uid;
+    private ?string $uid = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator')]
     #[ORM\JoinColumn(nullable: true)]
@@ -47,10 +47,10 @@ class Rooms
     private ?User $moderator = null;
 
     #[ORM\Column(type: 'float')]
-    private float $duration;
+    private ?float $duration = null;
 
     #[ORM\Column(type: 'integer')]
-    private int $sequence;
+    private ?int $sequence = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $uidReal = null;

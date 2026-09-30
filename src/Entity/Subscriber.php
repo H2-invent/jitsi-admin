@@ -15,14 +15,14 @@ class Subscriber
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'subscribers')]
     #[ORM\JoinColumn(nullable: false)]
-    private User $user;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'subscribers')]
     #[ORM\JoinColumn(nullable: false)]
-    private Rooms $room;
+    private ?Rooms $room = null;
 
     #[ORM\Column(type: 'text')]
-    private string $uid;
+    private ?string $uid = null;
 
     public function getId(): ?int
     {

@@ -15,10 +15,10 @@ class KeycloakGroupsToServers
 
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'keycloakGroups', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
-    private Server $server;
+    private ?Server $server = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $keycloakGroup;
+    private ?string $keycloakGroup = null;
 
     public function getId(): ?int
     {

@@ -20,19 +20,19 @@ class LobbyWaitungUser
 
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'lobbyWaitungUsers')]
     #[ORM\JoinColumn(nullable: false)]
-    private Rooms $room;
+    private ?Rooms $room = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: 'text')]
-    private string $uid;
+    private ?string $uid = null;
 
     #[ORM\Column(type: 'string', length: 5)]
-    private string $type;
+    private ?string $type = null;
 
     #[ORM\Column(type: 'text')]
-    private string $showName;
+    private ?string $showName = null;
 
     #[ORM\OneToOne(targetEntity: CallerSession::class, mappedBy: 'lobbyWaitingUser', cascade: ['persist'])]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]

@@ -15,17 +15,17 @@ class CallerId
 
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'callerIds')]
     #[ORM\JoinColumn(nullable: false)]
-    private Rooms $room;
+    private ?Rooms $room = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'callerIds')]
     #[ORM\JoinColumn(nullable: false)]
-    private User $user;
+    private ?User $user = null;
 
     #[ORM\Column(type: 'text')]
-    private string $callerId;
+    private ?string $callerId = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\OneToOne(targetEntity: CallerSession::class, inversedBy: 'caller', cascade: ['persist', 'remove'])]
     private ?CallerSession $callerSession = null;

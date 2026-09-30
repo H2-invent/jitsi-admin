@@ -15,11 +15,11 @@ class SchedulingTimeUser
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'schedulingTimeUsers')]
     #[ORM\JoinColumn(nullable: false)]
-    private User $user;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: SchedulingTime::class, inversedBy: 'schedulingTimeUsers')]
     #[ORM\JoinColumn(nullable: false)]
-    private SchedulingTime $scheduleTime;
+    private ?SchedulingTime $scheduleTime = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $accept = null;
