@@ -6,12 +6,14 @@ import {initStartWhiteboard} from "../startWhiteboard";
 import {showPlayPause} from "../moderatorIframe";
 import {initStarSend} from "../endModal";
 import {initRecording} from "./egress";
+import {CallerTag} from "../callerTag";
 
 export class LivekitUtils {
     conferenceRunning = false;
     conferencePaused = false;
     micLastStateOn = false;
     cameraLastStateON = false;
+    callerTag;
 
     constructor(parent, url, videoOn = null, cameralabel = null, miclabel = null) {
         this.videoOn = videoOn;
@@ -24,7 +26,7 @@ export class LivekitUtils {
         this.conferencePaused = false;
         this.micLastStateOn = true;
         this.cameraLastStateON = true;
-        this.api.addEventListener('LocalParticipantConnected', () => {
+        this.api.addEventListener('LocalParticipantConnected', (event) => {
             enterMeeting();
             initStartWhiteboard();
             showPlayPause();
@@ -38,6 +40,7 @@ export class LivekitUtils {
                 e.stopImmediatePropagation();
                 return closeTabText;
             }
+            this.callerTag = new CallerTag(event.detail?.numberOfPhoneCallers ?? 0);
         });
 
         this.api.addEventListener('LocalParticipantDisconnected', () => {
@@ -46,6 +49,18 @@ export class LivekitUtils {
             console.log('The user left the meeting');
             this.conferenceRunning = false;
         });
+
+        this.api.addEventListener('RemoteParticipantConnected', (event) => {
+            if (event.detail?.numberOfPhoneCallers !== null && event.detail?.numberOfPhoneCallers !== undefined) {
+                this.callerTag?.updateAmountOfPhoneCallers(event.detail?.numberOfPhoneCallers);
+            }
+        });
+        this.api.addEventListener('RemoteParticipantDisconnected', (event) => {
+            if (event.detail?.numberOfPhoneCallers !== null && event.detail?.numberOfPhoneCallers !== undefined) {
+                this.callerTag?.updateAmountOfPhoneCallers(event.detail?.numberOfPhoneCallers);
+            }
+        });
+
         this.api.addEventListener('mousemove', () => {
             this.toolbar.sidebarAction();
         });

@@ -44,14 +44,13 @@
 {% endblock %}
 
 <div id="frame">
-    {% if room.tag is not null %}
-        <p class="floating-tag
-{{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'transparent-bg':'' }}
-{{ getApplicationProperties('LAF_FLOATING_TAG_FORCE_SHOW')==1?'forceShow':'' }}
-
-" id="tagContent"
-           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
-    {% endif %}
+    {# render element even when room.tag is null so we can dynamically change it from JS (see callerTag.js) #}
+    <p class="floating-tag {{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'transparent-bg':'' }} {{ getApplicationProperties('LAF_FLOATING_TAG_FORCE_SHOW')==1?'forceShow':'' }} {{ room.tag is null ? 'd-none' : '' }}"
+       id="tagContent"
+       style="color: {{ room.tag is not null ? room.tag.color : '' }}; background-color: {{ room.tag is not null ? room.tag.backgroundColor : '' }}"
+    >
+        {{ room.tag is not null ? room.tag.title|trans : '' }}
+    </p>
     <div class="w-100" id="jitsiWindow">
 
     </div>
