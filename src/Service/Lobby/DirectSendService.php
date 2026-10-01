@@ -2,7 +2,6 @@
 
 namespace App\Service\Lobby;
 
-use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\RoomService;
 use Psr\Log\LoggerInterface;
@@ -237,7 +236,7 @@ class DirectSendService
             $this->logger->debug('send Message via Websocket:', ['topic' => $update->getTopics(), 'data' => $update->getData()]);
             $res = $this->publisher->publish($update);
             return true;
-        } catch (\Throwable $e) {
+        } catch (RuntimeException $e) {
             $this->logger->error('Mercure Hub not available: ' . $e->getMessage());
             return false;
         }
