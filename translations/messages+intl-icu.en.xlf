@@ -2221,6 +2221,10 @@
         <source>browser.warning.text</source>
         <target state="translated">Your current browser is not supprted. Please use a modern browser which fully supports WebRTC.</target>
       </trans-unit>
+      <trans-unit id="bLnK2xT" resname="browser.link.text">
+        <source>browser.link.text</source>
+        <target state="translated">Copy this link into a Chromium/Safari based browser:</target>
+      </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
         <target state="translated">Continue with Edge</target>

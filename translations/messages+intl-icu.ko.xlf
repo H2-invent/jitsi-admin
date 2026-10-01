@@ -2222,6 +2222,10 @@
         <source>browser.warning.text</source>
         <target state="translated">현재 사용 중인 브라우저는 지원되지 않습니다. WebRTC를 완전히 지원하는 최신 브라우저로 변경해 주세요.</target>
       </trans-unit>
+      <trans-unit id="bLnK2xT" resname="browser.link.text">
+        <source>browser.link.text</source>
+        <target state="translated">이 링크를 Chromium/Safari 기반 브라우저에 복사하세요:</target>
+      </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
         <target state="translated">Edge로 계속하기</target>

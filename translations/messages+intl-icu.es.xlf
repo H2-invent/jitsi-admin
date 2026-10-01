@@ -2211,6 +2211,10 @@
         <source>browser.warning.text</source>
         <target state="translated">Su navegador actual no es compatible. Por favor, utilice un navegador moderno que sea totalmente compatible con WebRTC.</target>
       </trans-unit>
+      <trans-unit id="bLnK2xT" resname="browser.link.text">
+        <source>browser.link.text</source>
+        <target state="translated">Copie este enlace en un navegador basado en Chromium/Safari:</target>
+      </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
         <target state="translated">Continuar con Edge</target>
