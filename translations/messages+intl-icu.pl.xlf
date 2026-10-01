@@ -2218,6 +2218,10 @@
         <source>browser.warning.text</source>
         <target state="translated">Twoja bieżąca przeglądarka nie jest obsługiwana. Przejdź na nowoczesną przeglądarkę, która w pełni obsługuje WebRTC.</target>
       </trans-unit>
+      <trans-unit id="bLnK2xT" resname="browser.link.text">
+        <source>browser.link.text</source>
+        <target state="translated">Skopiuj ten link do przeglądarki opartej na Chromium/Safari:</target>
+      </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
         <target state="translated">Kontynuuj z Edge</target>

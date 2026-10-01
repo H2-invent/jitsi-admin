@@ -2213,6 +2213,10 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>browser.warning.text</source>
         <target state="translated">Votre navigateur actuel n'est pas pris en charge. Veuillez passer à un navigateur moderne qui supporte pleinement WebRTC.</target>
       </trans-unit>
+      <trans-unit id="bLnK2xT" resname="browser.link.text">
+        <source>browser.link.text</source>
+        <target state="translated">Copiez ce lien dans un navigateur basé sur Chromium/Safari :</target>
+      </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
         <target state="translated">Continuer avec Edge</target>
