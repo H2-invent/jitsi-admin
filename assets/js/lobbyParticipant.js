@@ -13,7 +13,6 @@ import {initGenerell} from './init';
 import {leaveMeeting, socket} from './websocket';
 import {close, inIframe, initModeratorIframe} from './moderatorIframe';
 import {initStarSend} from './endModal';
-import {moveTag} from './tag';
 import Swal from 'sweetalert2'
 
 import {JitsiUtils} from "./jitsiUtils";
@@ -280,6 +279,17 @@ function askHangup() {
     return true;
 }
 
+function moveTag(frameDIv) {
+    var tagContent = document.getElementById('tagContent');
+    if (tagContent){
+        tagContent.classList.forEach(function (e) {
+            tagContent.classList.remove(e);
+        })
+        tagContent.classList.add('floating-tag');
+
+        frameDIv.prepend(tagContent);
+    }
+}
 
 
 

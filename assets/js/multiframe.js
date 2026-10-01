@@ -145,7 +145,7 @@ export class multiframe {
         // Sicherstellen, dass die Nachricht aus dem erwarteten iframe kommt
         if (event.source === this.iframe.contentWindow) {
             // Beispiel: Ausgabe der Daten an die Konsole
-            console.log("Nachricht vom iframe empfangen:", event.data);
+            console.log("Nachricht vom iframe empfangen (Multiframe):", event.data);
         } else {
             return;
         }
@@ -445,8 +445,6 @@ export class multiframe {
     }
 
     updateTag(data) {
-        if (data.color) {
-            this.frame.style.borderColor = data.color;
-        }
+        this.frame.style.borderColor = data.color ?? '';
     }
 }

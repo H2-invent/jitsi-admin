@@ -4,7 +4,6 @@ namespace App\Service\caller;
 
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
-use App\Service\CallerTagService;
 use App\Service\FormatName;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\livekit\SipTrunkGenerator;
@@ -40,7 +39,6 @@ class CallerSessionService
         private ThemeService                  $themeService,
         private JitsiComponentSelectorService $jitsiComponentSelectorService,
         private SipTrunkGenerator             $sipTrunkGenerator,
-        private readonly CallerTagService     $callerTagService,
     )
     {
         $this->em = $entityManager;
@@ -199,8 +197,6 @@ class CallerSessionService
                $this->loggger->error($exception->getMessage());
             }
         }
-
-        $this->callerTagService->addCallerTagToRoom($room);
 
         return $res;
     }

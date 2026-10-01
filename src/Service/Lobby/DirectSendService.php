@@ -231,28 +231,6 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendRoomTag(Rooms $room)
-    {
-        if ($room->getUidReal() === null) {
-            return false;
-        }
-
-        $html = null;
-        $tag = $room->getTag();
-
-        if ($tag !== null) {
-            $html = $this->twig->render('start/roomTag.html.twig', ['room' => $room]);
-        }
-        $data = [
-            'type' => 'tag',
-            'html' => $html,
-            'color' => $tag->getBackgroundColor(),
-        ];
-        $update = new Update($room->getUidReal(), json_encode($data, JSON_THROW_ON_ERROR));
-        return $this->sendUpdate($update);
-    }
-
-
     private function sendUpdate(Update $update)
     {
         try {
