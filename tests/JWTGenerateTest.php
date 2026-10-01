@@ -10,11 +10,13 @@ use App\Service\Theme\ThemeService;
 use App\Service\UserPreferenceProvider;
 use DG\BypassFinals;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Clock\MockClock;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -26,6 +28,7 @@ final class JWTGenerateTest extends TestCase
 {
     private const APP_ID = 'test-app-id';
     private const APP_SECRET = 'test-app-secret-at-the-very-minimum-32-bytes';
+    private const JWT_LIFETIME_IN_SEC = 3600;
 
     private ThemeService&MockObject $themeService;
     private RoomService $roomService;
@@ -45,16 +48,24 @@ final class JWTGenerateTest extends TestCase
             ->method('getColorScheme')
             ->willReturn('dark');
 
+        $parameterBag = $this->createStub(ParameterBagInterface::class);
+        $parameterBag
+            ->method('get')
+            ->willReturnMap([
+                ['JWT_LIFETIME_IN_SEC', self::JWT_LIFETIME_IN_SEC],
+            ]);
+
         $this->roomService = new RoomService(
             $this->createStub(UploaderHelper::class),
             $this->createStub(LoggerInterface::class),
-            $this->createStub(ParameterBagInterface::class),
+            $parameterBag,
             $this->createStub(CacheInterface::class),
             $this->createStub(HttpClientInterface::class),
             $this->createStub(SluggerInterface::class),
             $userPreferences,
             $this->createStub(LivekitRoomNameGenerator::class),
             $this->themeService,
+            new MockClock(),
         );
     }
 
@@ -77,7 +88,7 @@ final class JWTGenerateTest extends TestCase
             true,
         );
 
-        self::assertSame($this->expectedPayload(), $payload);
+        $this->assertPayloadMatchesExpected($this->expectedPayload(), $payload);
     }
 
     public function testGenereateJwtPayloadUsesMicrophoneAndCameraSettingsFromFunction(): void
@@ -101,7 +112,7 @@ final class JWTGenerateTest extends TestCase
             enableCamera: 'false'
         );
 
-        self::assertSame($this->expectedPayload(), $payload);
+        $this->assertPayloadMatchesExpected($this->expectedPayload(), $payload);
     }
     public function testGenereateJwtPayloadUsesMicrophoneAndCameraSettingsNotSet(): void
     {
@@ -121,7 +132,7 @@ final class JWTGenerateTest extends TestCase
         $expected = $this->expectedPayload();
         unset($expected['settings']);
 
-        self::assertSame($expected, $payload);
+        $this->assertPayloadMatchesExpected($expected, $payload);
     }
 
     public function testGenereateJwtPayloadPrefersExplicitSettingsOverTheme(): void
@@ -151,7 +162,7 @@ final class JWTGenerateTest extends TestCase
             'isCameraEnabled' => true,
         ];
 
-        self::assertSame($expected, $payload);
+        $this->assertPayloadMatchesExpected($expected, $payload);
     }
 
     public function testGenerateJwtSignsPayloadContainingThemeSettings(): void
@@ -173,10 +184,20 @@ final class JWTGenerateTest extends TestCase
             true,
         );
 
-        self::assertSame(
-            JWT::encode($this->expectedPayload(), self::APP_SECRET, 'HS256'),
-            $jwt,
-        );
+        $decoded = json_decode(json_encode(JWT::decode($jwt, new Key(self::APP_SECRET, 'HS256'))), true);
+
+        $this->assertPayloadMatchesExpected($this->expectedPayload(), $decoded);
+    }
+
+    private function assertPayloadMatchesExpected(array $expected, array $actual): void
+    {
+        self::assertArrayHasKey('iat', $actual);
+        self::assertArrayHasKey('exp', $actual);
+        self::assertSame(self::JWT_LIFETIME_IN_SEC, $actual['exp'] - $actual['iat']);
+
+        unset($actual['iat'], $actual['exp']);
+
+        self::assertSame($expected, $actual);
     }
 
     /**
