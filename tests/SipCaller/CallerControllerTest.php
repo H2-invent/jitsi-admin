@@ -43,6 +43,19 @@ class CallerControllerTest extends WebTestCase
         $this->assertJsonStringEqualsJsonString(json_encode(['authorized' => false]), $client->getResponse()->getContent());
     }
 
+    public function testAuthorizedWithServerApiKey(): void
+    {
+        // The room server API key is accepted; the global SIP_CALLER_SECRET remains only as a
+        // deprecated fallback.
+        $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApi']);
+
+        $client->request('GET', '/api/v1/lobby/sip/room/123419');
+        $this->assertResponseIsSuccessful();
+
+        $client->request('GET', '/api/v1/lobby/sip/room/123419', [], [], ['HTTP_authorization' => 'Bearer wrong-key']);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+    }
+
     public function testGetCallerRoom(): void
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer 123456']);
@@ -137,6 +150,93 @@ class CallerControllerTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
+    }
+
+    public function testGetCallerRoomAndPinWithE2EE(): void
+    {
+        $client = static::createClient([], ['HTTP_authorization' => 'Bearer 123456']);
+
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $id = '123419';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $caller = $room->getCallerIds()[0];
+        $room->setIsE2EEEnabled(true);
+        $manager->persist($room);
+        $manager->flush();
+
+        // caller_room tells asterisk to hang up and why, so a dedicated announcement can be played
+        $client->request('GET', '/api/v1/lobby/sip/room/' . $id);
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'status' => 'HANGUP',
+                    'reason' => 'E2EE_ENABLED',
+                    'e2ee_enabled' => true,
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'links' => []
+                ]
+            ),
+            $client->getResponse()->getContent()
+        );
+
+        // the protected flow refuses the room as well, even with a valid pin
+        $client->request('POST', '/api/v1/lobby/sip/protected/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(['auth_ok' => false, 'reason' => 'E2EE_ENABLED', 'links' => []]),
+            $client->getResponse()->getContent()
+        );
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        self::assertNull($room->getCallerIds()[0]->getCallerSession());
+        self::assertEquals(0, sizeof($room->getLobbyWaitungUsers()));
+    }
+
+    public function testGetCallerPinTotalOpenRoomWithoutPin(): void
+    {
+        $client = static::createClient([], ['HTTP_authorization' => 'Bearer 123456']);
+
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $sessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+        $id = '123419';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $room->setLobby(true);
+        $room->setTotalOpenRooms(true);
+        $manager->persist($room);
+        $manager->flush();
+
+        // the pin is not required for a total open room, but the phone number is
+        $crawler = $client->request('POST', '/api/v1/lobby/sip/protected/' . $id, []);
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertJsonStringEqualsJsonString(json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['caller_id']]), $client->getResponse()->getContent());
+
+        $crawler = $client->request('POST', '/api/v1/lobby/sip/protected/' . $id, ['caller_id' => '012345']);
+        $this->assertResponseIsSuccessful();
+        $session = $sessionRepo->findOneBy(['callerId' => '012345']);
+        self::assertNotNull($session);
+        self::assertNull($session->getCaller()->getUser());
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'auth_ok' => true,
+                    'links' => [
+                        'session' => '/api/v1/lobby/sip/session?session_id=' . $session->getSessionId(),
+                        'left' => '/api/v1/lobby/sip/session/left?session_id=' . $session->getSessionId()
+                    ]
+                ]
+            ),
+            $client->getResponse()->getContent()
+        );
+
+        // a wrong pin is still declined
+        $crawler = $client->request('POST', '/api/v1/lobby/sip/protected/' . $id, ['pin' => 'wrong', 'caller_id' => '012345']);
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonStringEqualsJsonString(json_encode(['auth_ok' => false, 'links' => []]), $client->getResponse()->getContent());
     }
 
     public function testGetCallerSession(): void
@@ -603,17 +703,16 @@ class CallerControllerTest extends WebTestCase
         $room->setLobby(true);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[1];
-        //enter the room and check if the room is okay
+        // Check room access and then submit the caller PIN.
         $crawler = $client->request('GET', '/api/v1/lobby/sip/room/' . $id);
         $this->assertResponseIsSuccessful();
 
-        //enter the users pin
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
         $this->assertResponseIsSuccessful();
         $sessionLink = json_decode($client->getResponse()->getContent(), true)['links']['session'];
         $leafLink = json_decode($client->getResponse()->getContent(), true)['links']['left'];
 
-        //try entering again. the user should not be access again
+        // Reusing the same PIN should be rejected.
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
         $this->assertJsonStringEqualsJsonString(json_encode(['auth_ok' => false, 'links' => []]), $client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();

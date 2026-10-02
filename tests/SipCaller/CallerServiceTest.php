@@ -2,12 +2,15 @@
 
 namespace App\Tests\SipCaller;
 
+use App\Repository\CallerIdRepository;
 use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Service\caller\CallerFindRoomService;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerPrepareService;
+use App\Service\caller\CallerSessionService;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -24,7 +27,7 @@ class CallerServiceTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
 
-        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'links' => ['pin' => $urlGen->generate('caller_pin', ['roomId' => $id])]], $callerService->findRoom($id));
+        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'e2ee_enabled' => false, 'total_open_rooms' => false, 'pin_required' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));
     }
     public function testGetPersistantRoomSuccess(): void
     {
@@ -40,8 +43,228 @@ class CallerServiceTest extends KernelTestCase
         $callerPrepareService->addCallerIdToRoom($room);
         $room = $roomRepo->findOneBy(['name' => 'This is a fixed room']);
         $id = $room->getCallerRoom()->getCallerId();
-        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'links' => ['pin' => $urlGen->generate('caller_pin', ['roomId' => $id])]], $callerService->findRoom($id));
+        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'e2ee_enabled' => false, 'total_open_rooms' => false, 'pin_required' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));
     }
+    public function testGetRoomWithLobbyButWithoutPersonalPin(): void
+    {
+        $kernel = self::bootKernel();
+        $callerService = self::getContainer()->get(CallerFindRoomService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '12340';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $lobbyBefore = $room->getLobby();
+
+        try {
+            $room->setLobby(true);
+            $manager->persist($room);
+            $manager->flush();
+
+            // The test env hides personal PINs, so the protected flow cannot complete.
+            self::assertEquals(
+                [
+                    'status' => 'HANGUP',
+                    'reason' => 'NO_PIN_CONFIGURED',
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'links' => []
+                ],
+                $callerService->findRoom($id)
+            );
+        } finally {
+            // Shared fixtures require restoring the room state after each test.
+            $room->setLobby($lobbyBefore);
+            $manager->persist($room);
+            $manager->flush();
+        }
+    }
+
+    public function testGetRoomWithLobbyAndPersonalPin(): void
+    {
+        $kernel = self::bootKernel();
+        $themeService = $this->createMock(ThemeService::class);
+        $themeService->method('getApplicationProperties')->willReturn(1);
+        self::getContainer()->set(ThemeService::class, $themeService);
+
+        $callerService = self::getContainer()->get(CallerFindRoomService::class);
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $id = '12340';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $lobbyBefore = $room->getLobby();
+
+        try {
+            $room->setLobby(true);
+            $manager->persist($room);
+            $manager->flush();
+
+            self::assertEquals(
+                [
+                    'status' => 'ACCEPTED',
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'roomName' => $room->getName(),
+                    'lobby_enabled' => true,
+                    'e2ee_enabled' => false,
+                    'total_open_rooms' => false,
+                    'pin_required' => true,
+                    'links' => ['pin' => $urlGen->generate('caller_protected', ['roomId' => $id])]
+                ],
+                $callerService->findRoom($id)
+            );
+        } finally {
+            $room->setLobby($lobbyBefore);
+            $manager->persist($room);
+            $manager->flush();
+        }
+    }
+
+    public function testGetRoomWithLobbyAndTotalOpenRoomWithoutPersonalPin(): void
+    {
+        $kernel = self::bootKernel();
+        $callerService = self::getContainer()->get(CallerFindRoomService::class);
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '12340';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $lobbyBefore = $room->getLobby();
+        $totalOpenRoomsBefore = $room->getTotalOpenRooms();
+
+        try {
+            $room->setLobby(true);
+            $room->setTotalOpenRooms(true);
+            $manager->persist($room);
+            $manager->flush();
+
+            // The test env hides personal PINs, but a total open room needs no PIN and continues with the protected flow.
+            self::assertEquals(
+                [
+                    'status' => 'ACCEPTED',
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'roomName' => $room->getName(),
+                    'lobby_enabled' => true,
+                    'e2ee_enabled' => false,
+                    'total_open_rooms' => true,
+                    'pin_required' => false,
+                    'links' => ['pin' => $urlGen->generate('caller_protected', ['roomId' => $id])]
+                ],
+                $callerService->findRoom($id)
+            );
+        } finally {
+            $room->setLobby($lobbyBefore);
+            $room->setTotalOpenRooms($totalOpenRoomsBefore);
+            $manager->persist($room);
+            $manager->flush();
+        }
+    }
+
+    public function testGetRoomWithE2EEEnabledForTheRoom(): void
+    {
+        $kernel = self::bootKernel();
+        $callerService = self::getContainer()->get(CallerFindRoomService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '12340';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $e2eeBefore = $room->isE2EEEnabled();
+
+        try {
+            $room->setIsE2EEEnabled(true);
+            $manager->persist($room);
+            $manager->flush();
+
+            // Phone participants can not decrypt E2EE media, so the caller is refused with a dedicated reason.
+            self::assertEquals(
+                [
+                    'status' => 'HANGUP',
+                    'reason' => 'E2EE_ENABLED',
+                    'e2ee_enabled' => true,
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'links' => []
+                ],
+                $callerService->findRoom($id)
+            );
+        } finally {
+            $room->setIsE2EEEnabled($e2eeBefore);
+            $manager->persist($room);
+            $manager->flush();
+        }
+    }
+
+    public function testGetRoomWithE2EEEnforcedByTheServer(): void
+    {
+        $kernel = self::bootKernel();
+        $callerService = self::getContainer()->get(CallerFindRoomService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '12340';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $enforceBefore = $server->isEnforceE2e();
+
+        try {
+            $server->setEnforceE2e(true);
+            $manager->persist($server);
+            $manager->flush();
+
+            // The server enforcement blocks the dial-in even when the room itself has E2EE disabled.
+            self::assertFalse($room->isE2EEEnabled());
+            self::assertEquals(
+                [
+                    'status' => 'HANGUP',
+                    'reason' => 'E2EE_ENABLED',
+                    'e2ee_enabled' => true,
+                    'startTime' => $room->getStartTimestamp(),
+                    'endTime' => $room->getEndTimestamp(),
+                    'links' => []
+                ],
+                $callerService->findRoom($id)
+            );
+        } finally {
+            $server->setEnforceE2e($enforceBefore);
+            $manager->persist($server);
+            $manager->flush();
+        }
+    }
+
+    public function testGetPinRoomWithE2EE(): void
+    {
+        $kernel = self::bootKernel();
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '123419';
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $caller = $room->getCallerIds()[0];
+        $e2eeBefore = $room->isE2EEEnabled();
+
+        try {
+            $room->setIsE2EEEnabled(true);
+            $manager->persist($room);
+            $manager->flush();
+
+            // The pin service refuses to open a caller session for an E2EE room even with a valid pin.
+            self::assertNull($callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345'));
+            self::assertEquals(0, sizeof($room->getLobbyWaitungUsers()));
+        } finally {
+            $room->setIsE2EEEnabled($e2eeBefore);
+            $manager->persist($room);
+            $manager->flush();
+        }
+    }
+
     public function testGetrromToEarly(): void
     {
         $kernel = self::bootKernel();
@@ -130,6 +353,76 @@ class CallerServiceTest extends KernelTestCase
         self::assertEquals('User, Test, test@local.de', $lobbyWaitingUser->getShowName());
         self::assertEquals(1, sizeof($room->getLobbyWaitungUsers()));
         self::assertEquals(null, $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345'));
+    }
+
+    public function testGetPinClosedRoomWithoutPin(): void
+    {
+        $kernel = self::bootKernel();
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+
+        self::assertNull($callerPinService->createNewCallerSession('123419', null, '012345'));
+        self::assertEquals(0, sizeof($room->getLobbyWaitungUsers()));
+    }
+
+    public function testGetPinTotalOpenRoomWithoutPin(): void
+    {
+        $kernel = self::bootKernel();
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $callerSessionService = self::getContainer()->get(CallerSessionService::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '123419';
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $callerIdRepo = self::getContainer()->get(CallerIdRepository::class);
+        $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $room->setLobby(true);
+        $room->setTotalOpenRooms(true);
+        $manager->persist($room);
+        $manager->flush();
+
+        // without a phone number the caller can not be identified
+        self::assertNull($callerPinService->createNewCallerSession($id, null, null));
+
+        $session = $callerPinService->createNewCallerSession($id, null, '012345');
+        self::assertNotNull($session);
+        self::assertFalse($session->getAuthOk());
+        self::assertFalse($session->getCallerIdVerified());
+        self::assertEquals('012345', $session->getShowName());
+        self::assertEquals('012345', $session->getCallerId());
+
+        // the call-in user is created from the phone number and has no user
+        $caller = $session->getCaller();
+        self::assertNotNull($caller);
+        self::assertNull($caller->getUser());
+        self::assertEquals('012345', $caller->getCallerId());
+        self::assertEquals($room, $caller->getRoom());
+
+        $lobbyWaitingUser = $session->getLobbyWaitingUser();
+        self::assertNotNull($lobbyWaitingUser);
+        self::assertNull($lobbyWaitingUser->getUser());
+        self::assertEquals('c', $lobbyWaitingUser->getType());
+        self::assertEquals('012345', $lobbyWaitingUser->getShowName());
+        self::assertEquals(1, sizeof($lobbyUSerRepo->findBy(['room' => $room])));
+
+        // a second caller gets an own call-in user and an own lobby user
+        $session2 = $callerPinService->createNewCallerSession($id, null, '098765');
+        self::assertNotNull($session2);
+        self::assertNotEquals($session->getSessionId(), $session2->getSessionId());
+        self::assertEquals(2, sizeof($lobbyUSerRepo->findBy(['room' => $room])));
+        self::assertEquals(2, sizeof($callerIdRepo->findBy(['room' => $room, 'user' => null])));
+
+        // the caller waits in the lobby until the moderator accepts him
+        $status = $callerSessionService->getSessionStatus($session->getSessionId());
+        self::assertEquals('WAITING', $status['status']);
+
+        // the call-in user without a user is removed together with the session
+        self::assertTrue($callerSessionService->cleanUpSession($session));
+        self::assertEquals(1, sizeof($callerIdRepo->findBy(['room' => $room, 'user' => null])));
+        self::assertEquals(1, sizeof($lobbyUSerRepo->findBy(['room' => $room])));
     }
 
     public function testGetPinRoomCorrectPinCorrectSetSipVideoTrue(): void

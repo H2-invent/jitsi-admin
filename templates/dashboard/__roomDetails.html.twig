@@ -88,12 +88,34 @@
         {% endif %}<a href="{{ path('room_favorite_toogle',{'uid':room.uidReal}) }}"><i
                     class="{{ room in app.user.favorites?'fa':'far' }} fa-star"></i> </a>
         {% if getApplicationProperties('SIP_SHOW_ROOMNUMBER_IN_DETAILS') == 1 and  room.callerRoom and getJigasiNumber(room)|length > 0 %}
+            {% if room.isE2EEActive %}
+            {# Phone participants can not decrypt E2EE media, so the dial-in is shown struck through and the api refuses the call #}
+            <a tabindex="0"
+               class="sipDialInBlocked text-muted"
+                data-mdb-popover-init
+               data-mdb-html="true"
+               title="{{ 'email.sip.number'|trans }}"
+               data-mdb-content="
+               <p>{{ 'room.dashboard.sip.e2ee.blocked'|trans }}</p>
+               <p><s>{{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</s></p>
+    {% for key,n in getJigasiNumber(room) %}
+    {% for number in n %}
+    <p><s>({{ key }}) {{ number }}</s></p>
+            <br>
+
+        {% endfor %}
+        {% endfor %}"><i
+                        class="fa fa-phone-slash"></i></a>
+            {% else %}
             <a tabindex="0"
                 data-mdb-popover-init
                data-mdb-html="true"
                title="{{ 'email.sip.number'|trans }}"
                data-mdb-content="
-               <p>{{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</p>
+               <p>{{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</p>
+               {% if room.lobby and getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and app.user and sipPinFromRoomAndUser(room, app.user) is not null %}
+               <p>{{ 'email.sip.personalpin'|trans }}: {{ sipPinFromRoomAndUser(room, app.user).callerId|addRepetiveCharacters(' ',3) }}#</p>
+               {% endif %}
     {% for key,n in getJigasiNumber(room) %}
     {% for number in n %}
     <p> ({{ key }}) {{ number }} </p>
@@ -102,6 +124,7 @@
         {% endfor %}
         {% endfor %}"><i
                         class="fa fa-phone"></i></a>
+            {% endif %}
         {% endif %}
 
         <a tabindex="0"

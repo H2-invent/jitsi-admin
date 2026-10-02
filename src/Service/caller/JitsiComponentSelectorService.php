@@ -89,17 +89,23 @@ class JitsiComponentSelectorService
     }
 
 
-    public function fetchComponentKey(Rooms $room, User $user)
+    /**
+     * @param User|null $user the user is null for anonymous callers, then the display name is required
+     */
+    public function fetchComponentKey(Rooms $room, ?User $user, ?string $displayName = null)
     {
         if (!$this->baseUrl) {
             $this->setBaseUrlFromServer($room->getServer());;
+        }
+        if ($user) {
+            $displayName = $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'));
         }
 
         $res = $this->fetchComponentSelectorResult(
             baseUrl: $room->getServer()->getUrl(),
             roomName: $room->getUid(),
-            displayName: $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')),
-            jwt: $room->getServer()->getAppId() ? $this->roomService->generateJwt(room: $room, user: $user, userName: $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))) : null
+            displayName: $displayName ?? '',
+            jwt: $room->getServer()->getAppId() ? $this->roomService->generateJwt(room: $room, user: $user, userName: $displayName ?? '') : null
         );
         if (isset($res['componentKey'])) {
             return $res['componentKey'];

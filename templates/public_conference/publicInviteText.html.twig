@@ -17,7 +17,7 @@
 ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ getJigasiPin(room)|addRepetiveCharacters(' ',3) }}# ({{ number }},,,,{{ getJigasiPin(room)}})
 
             {% elseif  room.callerRoom  %}
-({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}# ({{ number }},,,,{{ room.callerRoom.callerId}})
+({{ key }}) {{ number }} {{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}# ({{ number }},,,,{{ room.callerRoom.callerId}})
 
             {% endif %}
         {% endfor %}
