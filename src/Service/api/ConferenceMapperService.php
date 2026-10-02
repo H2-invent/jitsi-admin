@@ -54,13 +54,20 @@ class ConferenceMapperService
             if ($apiKey !== $server->getApiKey()) {
                 return ['error' => true, 'text' => 'AUTHORIZATION_FAILED'];
             }
+        }
 
-            if (!$started) {
-                return [
-                    'state' => 'WAITING',
-                    'reason' => 'NOT_STARTED'
-                ];
-            }
+        // Phone participants can not decrypt E2EE media, so no JWT or SIP trunk is handed out for such rooms.
+        if ($room->isE2EEActive()) {
+            $this->logger->info('SIP dial-in refused because E2EE is active for the room', ['room' => $room->getId(), 'callerId' => $callerId]);
+
+            return ['error' => true, 'reason' => 'E2EE_ENABLED'];
+        }
+
+        if (!$started) {
+            return [
+                'state' => 'WAITING',
+                'reason' => 'NOT_STARTED'
+            ];
         }
         $user = null;
         if ($callerId){
