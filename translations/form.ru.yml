@@ -143,6 +143,7 @@ label:
   timezone: Часовой пояс
   serverName: Название сервера
   lobby: Активировать комнату
+  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
   secondEmail: CC-E-Mail
   profilImage: Изображение профиля (отображается на собрании Jitsi-Meet Meeting)
   corsHeader: CORS-Header oder frame-ancestor Header
