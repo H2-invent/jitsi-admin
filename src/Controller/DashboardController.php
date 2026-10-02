@@ -129,8 +129,8 @@ class DashboardController extends JitsiAdminController
         }
 
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
-        $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
-        $tomorrow = (clone $today)->modify('+1day');
+        $today = (new \DateTimeImmutable('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
+        $tomorrow = $today->modify('+1day');
         $favorites = $this->doctrine->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
         foreach ($favorites as $room) {
             $roomIds[] = $room->getId();
@@ -160,7 +160,7 @@ class DashboardController extends JitsiAdminController
                 $this->addFlash($request->get('color'), $request->get('snack'));
             }
         }
-        $date = new \DateTime();
+        $date = new \DateTimeImmutable();
         $timestamp = $date->getTimestamp();
         $form = $this->createForm(
             SecondEmailType::class,

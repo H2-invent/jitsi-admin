@@ -36,7 +36,7 @@ class License extends AbstractExtension
         return $this->licenseService->verify($server);
     }
 
-    public function validateUntilLicense(Server $server): \DateTime
+    public function validateUntilLicense(Server $server): \DateTimeImmutable
     {
         return $this->licenseService->validUntil($server);
     }

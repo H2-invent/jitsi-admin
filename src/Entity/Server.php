@@ -80,7 +80,7 @@ class Server
      */
     #[ORM\OneToOne(targetEntity: Documents::class, cascade: ['persist', 'remove'])]
     private $serverBackgroundImage;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $updatedAt;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -653,12 +653,12 @@ class Server
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

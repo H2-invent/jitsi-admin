@@ -21,7 +21,7 @@ class StarControllerTest extends WebTestCase
         $starRepo = self::getContainer()->get(StarRepository::class);
         $stars = $starRepo->findAll();
         self::assertEquals(1, sizeof($stars));
-        self::assertEquals((new \DateTime())->format('d.m.YTH:i'), $stars[0]->getCreatedAt()->format('d.m.YTH:i'));
+        self::assertEquals((new \DateTimeImmutable())->format('d.m.YTH:i'), $stars[0]->getCreatedAt()->format('d.m.YTH:i'));
         self::assertEquals('windows', $stars[0]->getOs());
         self::assertEquals('opera', $stars[0]->getBrowser());
     }

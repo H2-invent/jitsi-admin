@@ -56,7 +56,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         $form['room[server]'] = $server->getId();
         $form['room[moderator]'] = $this->manager->getId();
         $form['room[name]'] = 'test for the supervisor';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
 
         $this->client->submit($form);
@@ -131,7 +131,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         $form['room[server]'] = $server->getId();
         $form['room[moderator]'] = $this->manager->getId();
         $form['room[name]'] = 'test for the supervisor';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
 
         $this->client->submit($form);
@@ -158,7 +158,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
         $form['room[name]'] = 'test for the supervisor';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
 
 

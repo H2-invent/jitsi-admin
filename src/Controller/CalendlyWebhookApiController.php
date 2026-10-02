@@ -168,10 +168,10 @@ class CalendlyWebhookApiController extends AbstractController
                         }
                         if ($server) {
 
-                            $startTime = new \DateTime($body['payload']['scheduled_event']['start_time'], new \DateTimeZone('UTC'));
-                            $startTime->setTimezone(new \DateTimeZone($body['payload']['timezone']));
-                            $endTime = new \DateTime($body['payload']['scheduled_event']['end_time'], new \DateTimeZone('UTC'));
-                            $endTime->setTimezone(new \DateTimeZone($body['payload']['timezone']));
+                            $startTime = new \DateTimeImmutable($body['payload']['scheduled_event']['start_time'], new \DateTimeZone('UTC'));
+                            $startTime = $startTime->setTimezone(new \DateTimeZone($body['payload']['timezone']));
+                            $endTime = new \DateTimeImmutable($body['payload']['scheduled_event']['end_time'], new \DateTimeZone('UTC'));
+                            $endTime = $endTime->setTimezone(new \DateTimeZone($body['payload']['timezone']));
                             $duration = $startTime->diff($endTime);
                             $eventNAme = $body['payload']['scheduled_event']['name'] . ' | ' . $body['payload']['name'] . ' from calendly';
                             $newRoom = $this->roomService->createRoom($user, $server, $startTime, $duration->i, $eventNAme);

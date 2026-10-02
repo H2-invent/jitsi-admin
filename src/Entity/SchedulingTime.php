@@ -14,7 +14,7 @@ class SchedulingTime
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private $time;
     #[ORM\ManyToOne(targetEntity: Scheduling::class, inversedBy: 'schedulingTimes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -32,11 +32,11 @@ class SchedulingTime
     {
         return $this->id;
     }
-    public function getTime(): ?\DateTimeInterface
+    public function getTime(): ?\DateTimeImmutable
     {
         return $this->time;
     }
-    public function setTime(\DateTimeInterface $time): self
+    public function setTime(\DateTimeImmutable $time): self
     {
         $this->time = $time;
 
@@ -79,14 +79,14 @@ class SchedulingTime
 
         return $this;
     }
-    public function getTimeWithTimeZone(User $user): ?\DateTimeInterface
+    public function getTimeWithTimeZone(User $user): ?\DateTimeImmutable
     {
         $timeZone = $this->scheduling->getRoom()->getTimeZone() ? new \DateTimeZone($this->scheduling->getRoom()->getTimeZone()) : null;
-        $time = new \DateTime($this->time->format('Y-m-d H:i:s'), $timeZone);
+        $time = new \DateTimeImmutable($this->time->format('Y-m-d H:i:s'), $timeZone);
         $usrTimeZone = $user->getTimeZone() ? new \DateTimeZone($user->getTimeZone()) : null;
         if ($timeZone) {
             if ($usrTimeZone) {
-                $time->setTimezone($usrTimeZone);
+                $time = $time->setTimezone($usrTimeZone);
             }
         }
         return $time;

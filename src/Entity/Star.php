@@ -20,7 +20,7 @@ class Star
     private $star;
     #[ORM\Column(type: 'text', nullable: true)]
     private $comment;
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $createdAt;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -62,11 +62,11 @@ class Star
 
         return $this;
     }
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

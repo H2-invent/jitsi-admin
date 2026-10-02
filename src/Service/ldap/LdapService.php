@@ -248,7 +248,7 @@ class LdapService
                             $deputy = $this->em->getRepository(Deputy::class)->findOneBy(['manager' => $l, 'deputy' => $mem->getUser()]);
                             if (!$deputy) {
                                 $deputy = new Deputy();
-                                $deputy->setCreatedAt(new \DateTime())
+                                $deputy->setCreatedAt(new \DateTimeImmutable())
                                     ->setDeputy($mem->getUser())
                                     ->setManager($l);
                             }

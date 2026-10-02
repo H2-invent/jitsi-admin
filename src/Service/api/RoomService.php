@@ -36,7 +36,7 @@ class RoomService
         $this->userCreatorService = $userCreatorService;
     }
 
-    public function createRoom(User $user, Server $server, \DateTime $start, $duration, $name)
+    public function createRoom(User $user, Server $server, \DateTimeImmutable $start, $duration, $name)
     {
         // We initialize the Room with the data;
 
@@ -49,7 +49,7 @@ class RoomService
         $room->setSequence(0);
         $room->setUidReal(md5(uniqid('h2-invent', true)));
         $room->setStart($start);
-        $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+        $room->setEnddate($room->getStart()->modify('+ ' . $room->getDuration() . ' minutes'));
         $room->setServer($server);
         $room = $this->roomGeneratorService->createCallerId($room);
         $this->em->persist($room);
@@ -59,7 +59,7 @@ class RoomService
         return $room;
     }
 
-    public function editRoom(Rooms $room, Server $server, \DateTime $start, $duration, $name)
+    public function editRoom(Rooms $room, Server $server, \DateTimeImmutable $start, $duration, $name)
     {
         // We initialize the Room with the data;
 
@@ -68,7 +68,7 @@ class RoomService
         $room->setDuration($duration);
         $room->setSequence(0);
         $room->setStart($start);
-        $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+        $room->setEnddate($room->getStart()->modify('+ ' . $room->getDuration() . ' minutes'));
         $room->setServer($server);
 
         $this->em->persist($room);

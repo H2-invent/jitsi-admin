@@ -53,13 +53,13 @@ class CalloutSessionAPIService
         $this->logger->debug('lastdialed',
             [
                 $calloutSession->getLastDialed(),
-                (new \DateTime())->format('U'),
-                (intval((new \DateTime())->format('U')) - $calloutSession->getLastDialed())
+                (new \DateTimeImmutable())->format('U'),
+                (intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed())
             ]);
-        if ($calloutSession->getLastDialed() && ((intval((new \DateTime())->format('U')) - $calloutSession->getLastDialed()) < $this->parameterBag->get('CALLOUT_WAITING_TIME'))) {
+        if ($calloutSession->getLastDialed() && ((intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed()) < $this->parameterBag->get('CALLOUT_WAITING_TIME'))) {
             return null;
         } else {
-            $calloutSession->setLastDialed((new \DateTime())->format('U'));
+            $calloutSession->setLastDialed((new \DateTimeImmutable())->format('U'));
             $this->entityManager->persist($calloutSession);
             $this->entityManager->flush();
         }

@@ -49,7 +49,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $lobbyUser = new LobbyWaitungUser();
         $lobbyUser->setRoom($room);
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setUser($user2);
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $lobbyUser->setType('a');
@@ -106,7 +106,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser = new LobbyWaitungUser();
         $lobbyUser->setRoom($room);
         $lobbyUser->setType('a');
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setUser($user2);
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
@@ -151,7 +151,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser = new LobbyWaitungUser();
         $lobbyUser->setRoom($room);
         $lobbyUser->setType('a');
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setUser($user2);
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
@@ -227,7 +227,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser = new LobbyWaitungUser();
         $lobbyUser->setType('a');
         $lobbyUser->setRoom($room);
-        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser->setUser($user2);
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
         $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
@@ -235,7 +235,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser2 = new LobbyWaitungUser();
         $lobbyUser2->setType('a');
         $lobbyUser2->setRoom($room);
-        $lobbyUser2->setCreatedAt(new \DateTime());
+        $lobbyUser2->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser2->setUser($moderator);
         $lobbyUser2->setUid('lkdsjhflkjlkdsfghhgfjflkjdslkjflkjdslkjf');
         $lobbyUser2->setShowName($moderator->getFirstName() . ' ' . $moderator->getLastName());

@@ -18,8 +18,8 @@ class WhiteboardJwtService
     {
         $ui = $this->uidHelper->getUid($rooms);
         $payload = [
-            'iat' => (new \DateTime())->getTimestamp(),
-            'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
+            'iat' => (new \DateTimeImmutable())->getTimestamp(),
+            'exp' => (new \DateTimeImmutable())->modify('+3days')->getTimestamp(),
             'roles' => [($isModerator ? 'moderator' : 'editor') . ':' . $ui]
         ];
         return JWT::encode($payload, $this->parameterBag->get('WHITEBOARD_SECRET'),'HS256');

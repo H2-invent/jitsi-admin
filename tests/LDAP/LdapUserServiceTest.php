@@ -261,8 +261,8 @@ class LdapUserServiceTest extends WebTestCase
         $room = new Rooms();
         $room->setModerator($user);
         $room->addUser($user);
-        $room->setStart(new \DateTime());
-        $room->setEnddate((new \DateTime())->modify('+60min'));
+        $room->setStart(new \DateTimeImmutable());
+        $room->setEnddate((new \DateTimeImmutable())->modify('+60min'));
         $room->setDuration(60);
         $room->setName('testRaum');
         $room->setServer($server);
@@ -522,7 +522,7 @@ class LdapUserServiceTest extends WebTestCase
         $lobbyUSer = new LobbyWaitungUser();
         $lobbyUSer->setUser($user);
         $lobbyUSer->setRoom($room);
-        $lobbyUSer->setCreatedAt(new \DateTime());
+        $lobbyUSer->setCreatedAt(new \DateTimeImmutable());
         $lobbyUSer->setUid('test');
         $lobbyUSer->setShowName('test');
         $lobbyUSer->setType('a');
@@ -530,7 +530,7 @@ class LdapUserServiceTest extends WebTestCase
         $em->flush();
 
         $wait = new Waitinglist();
-        $wait->setCreatedAt(new \DateTime());
+        $wait->setCreatedAt(new \DateTimeImmutable());
         $wait->setRoom($room);
         $wait->setUser($user);
 
@@ -539,7 +539,7 @@ class LdapUserServiceTest extends WebTestCase
 
         $user->addFavorite($room);
         $notification = new Notification();
-        $notification->setCreatedAt(new \DateTime());
+        $notification->setCreatedAt(new \DateTimeImmutable());
         $notification->setUser($user);
         $notification->setUrl('test');
         $notification->setText('test');
@@ -549,7 +549,7 @@ class LdapUserServiceTest extends WebTestCase
 
         $callerID = new CallerId();
         $callerID->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setUser($user)
             ->setCallerId('tesstId');
         $em->persist($callerID);

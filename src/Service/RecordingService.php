@@ -108,7 +108,7 @@ class RecordingService
         // Datenbankeintrag erstellen
         $uploadedFileEntity = new UploadedRecording();
         $uploadedFileEntity->setFilename($fileName)
-            ->setDisplayName((new \DateTime())->format('d.m.Y H:i') . '.mp4')
+            ->setDisplayName((new \DateTimeImmutable())->format('d.m.Y H:i') . '.mp4')
             ->setRoom($room)
             ->setCreatedAt(new \DateTimeImmutable())
             ->setType('video/mp4')

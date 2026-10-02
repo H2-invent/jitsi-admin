@@ -22,7 +22,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('123456');
-        $callerId->setCreatedAt(new \DateTime());
+        $callerId->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($callerId);
         $manager->flush();
         self::assertTrue($callerPrpareService->checkRandomId('123456'));
@@ -39,7 +39,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('1');
-        $callerId->setCreatedAt(new \DateTime());
+        $callerId->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($callerId);
         $manager->flush();
         $callerPrpareService->generateRoomId(1);
@@ -56,7 +56,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('1');
-        $callerId->setCreatedAt(new \DateTime());
+        $callerId->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($callerId);
         $manager->flush();
         $callerPrpareService->generateRoomId(1);

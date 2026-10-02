@@ -39,7 +39,7 @@ class EventSyncRelaisControllerTest extends WebTestCase
         $callerRoom = new CallerRoom();
         $callerRoom->setRoom($room)
             ->setCallerId('555555')
-            ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTimeImmutable());
         $room->setUid('testUID1234');
         $room->getServer()->setJitsiEventSyncUrl('http://example.com')->setJigasiProsodyDomain('test.prosody.com');
         $manager->persist($room);
@@ -86,7 +86,7 @@ class EventSyncRelaisControllerTest extends WebTestCase
         $callerRoom = new CallerRoom();
         $callerRoom->setRoom($room)
             ->setCallerId('555555')
-            ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTimeImmutable());
         $room->getServer()->setJitsiEventSyncUrl('http://example.com');
         $manager->persist($room);
         $manager->persist($callerRoom);

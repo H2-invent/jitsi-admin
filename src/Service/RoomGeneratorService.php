@@ -84,7 +84,7 @@ class RoomGeneratorService
     {
         $roomCaller = new CallerRoom();
         $roomCaller->setCallerId($this->callerPrepareService->generateRoomId(999999));
-        $roomCaller->setCreatedAt(new \DateTime());
+        $roomCaller->setCreatedAt(new \DateTimeImmutable());
         $room->setCallerRoom($roomCaller);
         return $room;
     }

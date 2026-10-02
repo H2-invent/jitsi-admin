@@ -43,7 +43,7 @@ class SystemRepairCommand extends Command
         $this->io = $io;
         $io->info('We try to repair the system.....');
         $this->logFileFile = fopen($this->logfile, "a") or die("Unable to open file!");
-        fwrite($this->logFileFile, sprintf(PHP_EOL . PHP_EOL . 'Repair on %s' . PHP_EOL, (new \DateTime())->format('d.m.Y H:i')));
+        fwrite($this->logFileFile, sprintf(PHP_EOL . PHP_EOL . 'Repair on %s' . PHP_EOL, (new \DateTimeImmutable())->format('d.m.Y H:i')));
         $count = 0;
         $user = $this->em->getRepository(User::class)->findAll();
         $io->info('--------We start with the users------');
@@ -69,7 +69,7 @@ class SystemRepairCommand extends Command
         $this->em->flush();
         $lobbyWaitingUser = $this->em->getRepository(LobbyWaitungUser::class)->findAll();
         foreach ($lobbyWaitingUser as $waitingUser) {
-            if ($waitingUser->getCreatedAt() < (new \DateTime())->modify('-10days')) {
+            if ($waitingUser->getCreatedAt() < (new \DateTimeImmutable())->modify('-10days')) {
                 $count++;
                 $this->em->remove($waitingUser);
             }
