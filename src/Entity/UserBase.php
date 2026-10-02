@@ -42,7 +42,11 @@ class UserBase implements UserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string)$this->uuid;
+        if (!$this->uuid) {
+            throw new \LogicException('Cannot build the user identifier: uuid is not set.');
+        }
+
+        return $this->uuid;
     }
 
     /**
