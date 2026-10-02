@@ -143,6 +143,7 @@ label:
   timezone: Strefa czasowa
   serverName: Nazwa serwera
   lobby: Poczekalnia
+  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
   secondEmail: Dodatkowy adres e-mail
   profilImage: Zdjęcie profilowe (będzie wyświetlane na spotkaniu Jitsi-Meet)
   corsHeader: Nagłówek CORS lub nagłówek ancestor-frame
