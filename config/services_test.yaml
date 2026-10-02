@@ -2,9 +2,6 @@ services:
     App\Tests\Functional\Fixtures\HubStub:
         decorates: mercure.hub.default
 
-    # Freeze the clock used by RoomService for the whole PHP process so generated
-    # JWTs are deterministic across the kernel reboots the test client performs
-    # between requests (app-generated and test-generated tokens must match).
     app.test.clock:
         class: App\Tests\Clock\FixedClock
 
