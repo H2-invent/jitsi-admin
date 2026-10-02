@@ -58,6 +58,7 @@ class RoomGeneratorService
         $room->setTotalOpenRooms($this->themeService->getApplicationProperties(InputSettings::DEACTIVATE_PARTICIPANTS_LIST_DEFAULT));
         $room->setDissallowScreenshareGlobal($this->themeService->getApplicationProperties(InputSettings::DISALLOW_SCREENSHARE_DEFAULT));
         $room->setLobby($this->themeService->getApplicationProperties(InputSettings::ALLOW_LOBBY_DEFAULT));
+        $room->setIsE2EEEnabled((bool)$this->themeService->getApplicationProperties(InputSettings::E2EE_DEFAULT));
         $room->setMaxUser($this->themeService->getApplicationProperties(InputSettings::ALLOW_SET_MAX_USERS_DEFAULT) != '' ? InputSettings::ALLOW_SET_MAX_USERS_DEFAULT : null);
         //end default values
 
