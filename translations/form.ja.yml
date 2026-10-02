@@ -143,6 +143,7 @@ label:
   timezone: タイムゾーン
   serverName: サーバ名
   lobby: ロビーを有効化
+  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
   secondEmail: メールのCC
   profilImage: プロフィール写真(会議で表示する)
   corsHeader: CORSもしくは親フレームヘッダー
