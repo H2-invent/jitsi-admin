@@ -13,7 +13,3 @@ parameters:
 
     symfony:
         containerXmlPath: var/cache/test/App_KernelTestDebugContainer.xml
-
-    ignoreErrors:
-        # Doctrine populates generated $id values via reflection, so PHPStan cannot see the write.
-        - '#^Property App\\Entity\\[^:]+::\$id is never written, only read\.$#'

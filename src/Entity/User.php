@@ -953,7 +953,11 @@ class User extends BaseUser
 
     public function getUserIdentifier(): string
     {
-        return $this->username ?: '';
+        if (!$this->username) {
+            throw new \LogicException('Cannot build the user identifier: username is not set.');
+        }
+
+        return $this->username;
     }
 
     /**
