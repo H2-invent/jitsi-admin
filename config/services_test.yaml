@@ -2,5 +2,10 @@ services:
     App\Tests\Functional\Fixtures\HubStub:
         decorates: mercure.hub.default
 
+    app.test.clock:
+        class: App\Tests\Clock\FixedClock
+
+    Psr\Clock\ClockInterface: '@app.test.clock'
+
 parameters:
     ldap_test_url: '%env(ldap_test_url)%'
