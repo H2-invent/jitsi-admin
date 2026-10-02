@@ -53,7 +53,7 @@ jobs:
     needs:
       - version
       - test
-    uses: ./.github/workflows/task-release.yml
+    uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './nodejs/Dockerfile-prod'
@@ -125,7 +125,7 @@ jobs:
     needs:
       - version
       - test
-    uses: ./.github/workflows/task-upload-docker-hub.yml
+    uses: ./.github/workflows/task-release.yml
     with:
       version: ${{ needs.version.outputs.version }}
       prerelease: false
@@ -137,6 +137,6 @@ jobs:
       - test
       - docker_prod_core
       - docker_prod_websocket
-    uses: ./.github/workflows/task-upload-docker-hub.yml
+    uses: ./.github/workflows/task-wiki-release.yml
     with:
       version: ${{ needs.version.outputs.version }}
