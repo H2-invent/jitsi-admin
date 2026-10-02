@@ -2222,10 +2222,6 @@
         <source>browser.warning.text</source>
         <target state="needs-translation">Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</target>
       </trans-unit>
-      <trans-unit id="bLnK2xT" resname="browser.link.text">
-        <source>browser.link.text</source>
-        <target state="translated">Copiați acest link într-un browser bazat pe Chromium/Safari:</target>
-      </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
         <target state="needs-translation">Weiter mit Edge</target>

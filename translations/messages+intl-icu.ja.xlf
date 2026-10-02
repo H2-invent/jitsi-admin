@@ -2216,10 +2216,6 @@
         <source>browser.warning.text</source>
         <target state="translated">現在ご使用のブラウザはサポートされていません。 WebRTC を完全にサポートする最新のブラウザに切り替えてください。</target>
       </trans-unit>
-      <trans-unit id="bLnK2xT" resname="browser.link.text">
-        <source>browser.link.text</source>
-        <target state="translated">このリンクをChromium/Safariベースのブラウザにコピーしてください：</target>
-      </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
         <target state="translated">Edgeで続ける</target>
