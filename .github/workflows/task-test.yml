@@ -50,3 +50,59 @@ jobs:
         run: composer test
       # endregion phpunit
       # endregion test
+
+  run_postgres_migrations:
+    runs-on: ubuntu-latest
+
+    # region declare_services
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: jitsiadmintest
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: jitsiadmintest
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U jitsiadmintest"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    # endregion declare_services
+
+    env:
+      DATABASE_URL: "postgresql://jitsiadmintest:password@127.0.0.1:5432/jitsiadmintest?serverVersion=18&charset=utf8"
+
+    steps:
+      # region load_artifact
+      - name: Download Artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: artifact_${{github.run_number}}
+
+      - name: Unzip Artifact
+        run: unzip -qq artifact_${{github.run_number}}.zip -d .
+      # endregion load_artifact
+
+      - name: Update PHP Version and tools
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ vars.PHP_VERSION }}
+          extensions: pdo_pgsql
+          ini-values: date.timezone ="Europe/Berlin"
+          tools: composer:v2
+
+      # region postgres_migrations
+      - name: Run all migrations on an empty PostgreSQL database
+        run: php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --env=test
+
+      - name: Show migration status
+        if: always()
+        run: php bin/console doctrine:migrations:status --env=test
+
+      # Informational only: reports where the entity mapping and the migrated PostgreSQL schema differ
+      - name: Validate schema against the entity mapping
+        continue-on-error: true
+        run: php bin/console doctrine:schema:validate --env=test
+      # endregion postgres_migrations
