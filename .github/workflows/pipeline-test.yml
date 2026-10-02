@@ -1,0 +1,13 @@
+name: Test Pipeline
+
+on: [push]
+
+jobs:
+
+  artifact:
+    uses: ./.github/workflows/task-artifact.yml
+
+  test:
+    uses: ./.github/workflows/task-test.yml
+    needs:
+      - artifact
