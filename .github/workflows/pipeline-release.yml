@@ -54,7 +54,6 @@ jobs:
       - version
       - test
     uses: ./.github/workflows/task-upload-docker-hub.yml
-    if: needs.version.outputs.skip != 'true'
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './nodejs/Dockerfile-prod'
