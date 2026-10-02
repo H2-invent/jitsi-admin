@@ -17,8 +17,6 @@ jobs:
 
   artifact:
     if: needs.version.outputs.skip != 'true'
-    needs:
-      - version
     uses: ./.github/workflows/task-artifact.yml
     needs:
       - version
