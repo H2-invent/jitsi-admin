@@ -143,6 +143,7 @@ label:
   timezone: Fuseau horaire
   serverName: Nom du serveur
   lobby: Activer le Lobby
+  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
   secondEmail: E-mail CC
   profilImage: Photo de profil (sera affichée lors de la réunion Jitsi-Meet)
   corsHeader: Header Cors ou Header Frame-ancestor
