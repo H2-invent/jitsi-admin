@@ -2,16 +2,18 @@
 
 namespace App\Tests\Calendly;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\Calendly\CallendlyConnect;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use App\Service\Calendly\CallendlyConnect;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use function PHPUnit\Framework\assertStringContainsString;
 
+#[AllowMockObjectsWithoutExpectations]
 class CalendlyWebhookApiControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
@@ -20,11 +22,9 @@ class CalendlyWebhookApiControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->callendlyConnectMock = $this->createMock(CallendlyConnect::class);
+        $this->callendlyConnectMock = $this->createStub(CallendlyConnect::class);
         $this->testuser=( self::getContainer()->get(UserRepository::class))->findOneBy(['email' => 'test@local.de']);
-//        self::getContainer()->set(UserRepository::class, $this->userRepositoryMock);
         self::getContainer()->set(CallendlyConnect::class, $this->callendlyConnectMock);
-//        self::getContainer()->set(EntityManagerInterface::class, $this->entityManagerMock);
     }
 
     public function testConnectWithValidToken(): void

@@ -373,7 +373,7 @@ class RepeaterService
         $firstRoom = $repeat->getRooms()->first();
         $ics->addEvent(
             [
-                'uid' => md5($repeat->getUid()) . '@' . parse_url($repeat->getPrototyp()->getHostUrl(), PHP_URL_HOST),
+                'uid' => md5($repeat->getUid() ?? '') . '@' . parse_url($repeat->getPrototyp()->getHostUrl() ?? '', PHP_URL_HOST),
                 'location' => $this->translator->trans('meetling Konferenz'),
                 'description' => $description,
                 'dtstart' => $firstRoom->getStartUtc(),
@@ -396,7 +396,7 @@ class RepeaterService
             $url = $this->joinUrlGeneratorService->generateUrl($room, $user);
             $ics->addEvent(
                 [
-                    'uid' => md5($repeat->getUid()) . '@' . parse_url($repeat->getPrototyp()->getHostUrl(), PHP_URL_HOST),
+                    'uid' => md5($repeat->getUid() ?? '') . '@' . parse_url($repeat->getPrototyp()->getHostUrl() ?? '', PHP_URL_HOST),
                     'location' => $this->translator->trans('meetling Konferenz'),
                     'description' => $description,
                     'dtstart' => $room->getStartUtc(),

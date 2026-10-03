@@ -19,7 +19,7 @@ final class Version20220729101954 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE rooms ADD secondary_name TEXT DEFAULT NULL');
         }
@@ -27,7 +27,7 @@ final class Version20220729101954 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE rooms DROP secondary_name');
         }

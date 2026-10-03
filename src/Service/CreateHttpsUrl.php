@@ -68,7 +68,7 @@ class CreateHttpsUrl
         return str_replace('http://', 'https://', $res);
     }
 
-    public function replaceSchemeOfAbsolutUrl(string $url): string
+    public function replaceSchemeOfAbsolutUrl($url)
     {
         $baseUrl = $this->paramterBag->get('laF_baseUrl');
         $scheme  = parse_url($baseUrl, PHP_URL_SCHEME);

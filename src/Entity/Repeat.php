@@ -46,7 +46,7 @@ class Repeat
     /**
      * @var array<int, mixed>
      */
-    #[ORM\Column(type: 'array')]
+    #[ORM\Column(type: 'json')]
     private array $weekday = [];
 
     #[ORM\Column(type: 'integer', nullable: true)]

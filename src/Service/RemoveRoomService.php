@@ -40,6 +40,11 @@ class RemoveRoomService
             }
             $this->em->persist($room);
             foreach ($room->getLobbyWaitungUsers() as $data) {
+                if ($data->getCallerSession()) {
+                    $session = $data->getCallerSession();
+                    $session->setLobbyWaitingUser(null);
+                    $this->em->persist($session);
+                }
                 $room->removeLobbyWaitungUser($data);
             }
             $this->em->persist($room);

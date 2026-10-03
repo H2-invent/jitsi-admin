@@ -104,7 +104,7 @@ class User extends BaseUser
     /**
      * @var array<int|string, mixed>|null
      */
-    #[ORM\Column(type: 'array', nullable: true, name: 'keycloakGroup')]
+    #[ORM\Column(type: 'json', nullable: true, name: 'keycloakGroup')]
     private ?array $groups = [];
 
     /**
@@ -167,7 +167,7 @@ class User extends BaseUser
     /**
      * @var array<string, mixed>|null
      */
-    #[ORM\Column(type: 'array', nullable: true)]
+    #[ORM\Column(type: 'json', nullable: true)]
     private ?array $spezialProperties = [];
 
     /**

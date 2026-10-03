@@ -14,12 +14,14 @@ class CsvHandlerTest extends TestCase
      * @param array<int, array<string, mixed>> $arrayData
      * @param array<int, string> $expectedCsv
      */
+    #[DataProvider('providerForGenerate')]
     public function testGenerate(array $arrayData, array $expectedCsv, ?string $seperator): void
     {
         $this->assertSame($expectedCsv, CsvHandler::generateFromArray($arrayData, $seperator));
     }
 
 
+    #[DataProvider('providerForGenerateWillThrowException')]
     /**
      * @dataProvider providerForGenerateWillThrowException
      * @param array<mixed> $arrayData

@@ -40,8 +40,6 @@ class NewRoomService
 
     public function newRoomService(Request $request, User $myUser): Rooms|Response
     {
-
-
         $servers = $this->serverUserManagment->getServersFromUser($myUser);
 
         $id = $request->get('id') ?? null;

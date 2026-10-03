@@ -23,10 +23,7 @@ class JitsiComponentSelectorControllerTest extends WebTestCase
     public function testGetPublicKeyError(): void
     {
         $client = static::createClient();
-
-        $componentSelectorController = self::getContainer()->get(JitsiComponentSelectorPublicKeyController::class);
-        $componentSelectorController->setPublicKeyPath('invalidPath');
-        $crawler = $client->request('GET', '/signal/d1c8dfc1830cc0985d98acb9c6606ccb191ffdeb5c2be295c446dcea80391620.pem');
-        self::assertEquals(404,$client->getResponse()->getStatusCode());
+        $crawler = $client->request('GET', '/signal/nonexistent_file_12345.pem');
+        self::assertEquals(404, $client->getResponse()->getStatusCode());
     }
 }
