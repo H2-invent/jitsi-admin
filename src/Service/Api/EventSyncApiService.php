@@ -7,7 +7,7 @@ use App\Repository\RoomStatusRepository;
 class EventSyncApiService
 {
     public function __construct(
-        private RoomStatusRepository $roomStatusRepository
+        private readonly RoomStatusRepository $roomStatusRepository
     )
     {
     }

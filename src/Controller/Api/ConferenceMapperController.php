@@ -21,13 +21,13 @@ class ConferenceMapperController extends JitsiAdminController
         TranslatorInterface             $translator,
         LoggerInterface                 $logger,
         ParameterBagInterface           $parameterBag,
-        private ConferenceMapperService $conferenceMapperService
+        private readonly ConferenceMapperService $conferenceMapperService
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route('/api/v1/conferenceMapper', name: 'app_conference_mapper', methods: 'GET')]
+    #[\Symfony\Component\Routing\Attribute\Route('/api/v1/conferenceMapper', name: 'app_conference_mapper', methods: 'GET')]
     public function index(Request $request): Response
     {
         return new JsonResponse(

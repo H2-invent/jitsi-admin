@@ -13,17 +13,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JitsiAdminController extends AbstractController
 {
-    protected ManagerRegistry $doctrine;
-    protected TranslatorInterface $translator;
-    protected LoggerInterface $logger;
-    protected ParameterBagInterface $parameterBag;
-
-    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag)
+    public function __construct(protected ManagerRegistry $doctrine, protected TranslatorInterface $translator, protected LoggerInterface $logger, protected ParameterBagInterface $parameterBag)
     {
-        $this->doctrine = $managerRegistry;
-        $this->translator = $translator;
-        $this->logger = $logger;
-        $this->parameterBag = $parameterBag;
     }
 
     /**

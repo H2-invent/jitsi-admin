@@ -16,19 +16,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:index:user', 'This command reindex the user and the addressbookgroups name')]
 class IndexUserCommand extends Command
 {
-    private EntityManagerInterface $em;
-    private IndexUserService $indexer;
-    private IndexGroupsService $groupIndexer;
     protected function configure(): void
     {
     }
 
-    public function __construct(EntityManagerInterface $entityManager, IndexUserService $indexUserService, IndexGroupsService $indexGroupsService, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em, private readonly IndexUserService $indexer, private readonly IndexGroupsService $groupIndexer, ?string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
-        $this->indexer = $indexUserService;
-        $this->groupIndexer = $indexGroupsService;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -29,12 +29,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SchedulerType extends AbstractType
 {
-    private const DURATION_LABEL_FORMAT = 'option.%dmin';
+    private const string DURATION_LABEL_FORMAT = 'option.%dmin';
 
     public function __construct(
-        private LoggerInterface        $logger,
-        private ThemeService           $themeService,
-        private TranslatorInterface    $translator,
+        private readonly LoggerInterface        $logger,
+        private readonly ThemeService           $themeService,
+        private readonly TranslatorInterface    $translator,
     ) {
     }
 
@@ -50,7 +50,7 @@ class SchedulerType extends AbstractType
             $durations[sprintf(self::DURATION_LABEL_FORMAT, $i)] = $i;
         }
 
-        $time = (new DateTimeImmutable())->getTimestamp();
+        $time = new DateTimeImmutable()->getTimestamp();
         $room = $options['data'];
         $during = false;
         if ($room->getStartTimestamp() && $room->getStartTimestamp() < $time && !$room->getRepeaterProtoype()) {
@@ -248,11 +248,9 @@ class SchedulerType extends AbstractType
                     'label.moderator',
                     [
                         'class' => User::class,
-                        'choice_label' => function (User $user) {
-                            return $user->getFormatedName(
-                                $this->themeService->getApplicationProperties('laf_showNameFrontend')
-                            );
-                        },
+                        'choice_label' => fn(User $user) => $user->getFormatedName(
+                            $this->themeService->getApplicationProperties('laf_showNameFrontend')
+                        ),
                         'choices' => $organisators,
                     ],
                 ),

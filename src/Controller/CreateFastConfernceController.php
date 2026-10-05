@@ -18,7 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateFastConfernceController extends AbstractController
 {
-    private ?Server $server;
+    private readonly ?Server $server;
 
     public function __construct(
 
@@ -34,7 +34,7 @@ class CreateFastConfernceController extends AbstractController
     }
 
     #[Route('/room/create/fast/confernce', name: 'app_create_fast_confernce')]
-    public function index(Request $request): Response
+    public function index(): Response
     {
         try {
             if ($this->server) {
@@ -62,7 +62,7 @@ class CreateFastConfernceController extends AbstractController
                 $this->addFlash('danger', $this->translator->trans('Fehler'));
                 return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $this->addFlash('danger', $this->translator->trans('Fehler'));
             return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
         }

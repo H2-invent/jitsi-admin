@@ -10,24 +10,9 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-class Utils extends AbstractExtension
+class Utils
 {
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('addRepetiveCharacters', [$this, 'addRepetiveCharacters']),
-            new TwigFilter('json_decode', [$this, 'json_decode']),
-            new TwigFilter('colorFromString', [$this, 'colorFromString']),
-        ];
-    }
-
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('roomIsReadOnly', [$this, 'roomIsReadOnly'])
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFilter(name: 'addRepetiveCharacters')]
     public function addRepetiveCharacters(string $string, string $character, int $sequence): string
     {
         if ($sequence < 1) {
@@ -36,17 +21,20 @@ class Utils extends AbstractExtension
         return chunk_split($string, $sequence, $character);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'json_decode')]
     public function json_decode(?string $string): mixed
     {
         $res = json_decode($string ?? '', true);
         return $res;
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'roomIsReadOnly')]
     public function roomIsReadOnly(Rooms $rooms, User $user): bool
     {
         return UtilsHelper::isRoomReadOnly($rooms, $user);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'colorFromString')]
     public function colorFromString(string $string): string
     {
 

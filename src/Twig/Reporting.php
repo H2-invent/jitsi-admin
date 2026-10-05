@@ -6,16 +6,9 @@ namespace App\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class Reporting extends AbstractExtension
+class Reporting
 {
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getTotalSpeakingTime', [$this, 'getTotalSpeakingTime']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'getTotalSpeakingTime')]
     public function getTotalSpeakingTime(\App\Entity\RoomStatus $roomStatus): int
     {
         $time = 0;

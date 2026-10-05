@@ -16,12 +16,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CallOutSessionAPIHoldService
 {
     public function __construct(
-        private EntityManagerInterface      $entityManager,
-        private ToModeratorWebsocketService $toModeratorWebsocketService,
-        private DirectSendService           $directSendService,
-        private TranslatorInterface         $translator,
-        private ThemeService                $themeService,
-        private UrlGeneratorInterface       $urlGenerator,
+        private readonly EntityManagerInterface      $entityManager,
+        private readonly ToModeratorWebsocketService $toModeratorWebsocketService,
+        private readonly DirectSendService           $directSendService,
+        private readonly TranslatorInterface         $translator,
+        private readonly ThemeService                $themeService,
+        private readonly UrlGeneratorInterface       $urlGenerator,
     )
     {
     }

@@ -11,9 +11,9 @@ class RemoveRoomService
 {
 
     public function __construct(
-        private EntityManagerInterface $em,
-        private UserService            $userService,
-        private LoggerInterface        $logger,
+        private readonly EntityManagerInterface $em,
+        private readonly UserService            $userService,
+        private readonly LoggerInterface        $logger,
     )
     {
 

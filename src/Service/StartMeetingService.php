@@ -23,29 +23,8 @@ use Twig\Environment;
 
 class StartMeetingService
 {
-    /**
-     * @var RoomService
-     */
-    private $roomService;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGen;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    /**
-     * @var Environment
-     */
-    private $twig;
     private string $url;
-    private ?Rooms $room;
+    private ?Rooms $room = null;
     /** @var User|null */
     private $user;
     /** @var string|null */
@@ -53,43 +32,25 @@ class StartMeetingService
     /** @var string|null */
     private $name;
     private ?LobbyWaitungUser $lobbyUser;
-    private JigasiService $jigasiService;
-
-    /**
-     * @var ToModeratorWebsocketService
-     */
-    private $toModerator;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
 
 
     public function __construct(
-        private RequestStack                    $flashBag,
-        LoggerInterface                         $logger,
-        ToModeratorWebsocketService             $toModeratorWebsocketService,
-        Environment                             $environment,
-        RoomService                             $roomService,
-        EntityManagerInterface                  $entityManager,
-        UrlGeneratorInterface                   $urlGenerator,
-        TranslatorInterface                     $translator,
-        JigasiService                           $jigasiService,
-        private RoomStatusFrontendService       $roomStatusFrontendService,
-        private CheckIPService                  $checkIPService,
-        private CheckMaxUserService             $checkMaxUserService,
-        private RoomStatusParticipantRepository $participantRepository,
+        private readonly RequestStack                    $flashBag,
+        private readonly LoggerInterface                         $logger,
+        private readonly ToModeratorWebsocketService             $toModerator,
+        private readonly Environment                             $twig,
+        private readonly RoomService                             $roomService,
+        private readonly EntityManagerInterface                  $em,
+        private readonly UrlGeneratorInterface                   $urlGen,
+        private readonly TranslatorInterface                     $translator,
+        private readonly JigasiService                           $jigasiService,
+        private readonly RoomStatusFrontendService       $roomStatusFrontendService,
+        private readonly CheckIPService                  $checkIPService,
+        private readonly CheckMaxUserService             $checkMaxUserService,
+        private readonly RoomStatusParticipantRepository $participantRepository,
     )
     {
-        $this->roomService = $roomService;
-        $this->em = $entityManager;
-        $this->urlGen = $urlGenerator;
-        $this->translator = $translator;
-        $this->twig = $environment;
-        $this->toModerator = $toModeratorWebsocketService;
-        $this->logger = $logger;
         $this->lobbyUser = null;
-        $this->jigasiService = $jigasiService;
     }
 
     /**

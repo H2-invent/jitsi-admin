@@ -90,7 +90,7 @@ class RoomStatus
             if ($this->room && $this->room->getTimeZone()) {
                 $localTimezone = new \DateTimeZone($this->room->getTimeZone());
             } else {
-                $localTimezone = (new \DateTimeImmutable())->getTimezone();
+                $localTimezone = new \DateTimeImmutable()->getTimezone();
             }
         }
         $data = $data->setTimeZone($localTimezone);
@@ -122,7 +122,7 @@ class RoomStatus
             if ($this->room && $this->room->getTimeZone()) {
                 $localTimezone = new \DateTimeZone($this->room->getTimeZone());
             } else {
-                $localTimezone = (new \DateTimeImmutable())->getTimezone();
+                $localTimezone = new \DateTimeImmutable()->getTimezone();
             }
         }
         $data = $data->setTimeZone($localTimezone);

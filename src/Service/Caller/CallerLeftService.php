@@ -9,15 +9,8 @@ use Psr\Log\LoggerInterface;
 
 class CallerLeftService
 {
-    private EntityManagerInterface $em;
-    private LoggerInterface $loggger;
-    private CallerSessionService $sessionService;
-
-    public function __construct(CallerSessionService $callerSessionService, LoggerInterface $logger, EntityManagerInterface $entityManager)
+    public function __construct(private readonly CallerSessionService $sessionService, private readonly LoggerInterface $loggger, private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
-        $this->loggger = $logger;
-        $this->sessionService = $callerSessionService;
     }
 
     public function callerLeft(string $sessionId): bool

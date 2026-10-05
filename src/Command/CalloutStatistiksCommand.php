@@ -21,16 +21,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class CalloutStatistiksCommand extends Command
 {
     public function __construct(
-        private CalloutSessionRepository $calloutSessionRepository
+        private readonly CalloutSessionRepository $calloutSessionRepository
     )
     {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Zeigt eine Tabelle mit CalloutSessions an');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

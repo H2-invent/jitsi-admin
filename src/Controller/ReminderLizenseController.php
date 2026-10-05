@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ReminderLizenseController extends JitsiAdminController
 {
-    #[Route(path: '/reminder/lizense', name: 'reminder_lizense')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/reminder/lizense', name: 'reminder_lizense')]
     public function index(LoggerInterface $logger, Request $request, MailerService $mailerService, ParameterBagInterface $parameterBag): Response
     {
         if ($request->get('token') !== $parameterBag->get('cronToken')) {
@@ -25,7 +25,7 @@ class ReminderLizenseController extends JitsiAdminController
             return new JsonResponse($message);
         }
         $counter = 0;
-        $back = (new \DateTimeImmutable())->modify('+5 days');
+        $back = new \DateTimeImmutable()->modify('+5 days');
         $now = new \DateTimeImmutable();
         /** @var LicenseRepository $licenseRepository */
         $licenseRepository = $this->doctrine->getRepository(License::class);

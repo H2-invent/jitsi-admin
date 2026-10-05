@@ -9,16 +9,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CreateHttpsUrl
 {
-    private ParameterBagInterface $paramterBag;
-    private RequestStack $request;
-    private LoggerInterface $logger;
-    private string $baseUrl;
+    private readonly string $baseUrl;
 
-    public function __construct(LoggerInterface $logger, RequestStack $requestStack, ParameterBagInterface $parameterBag)
+    public function __construct(private readonly LoggerInterface $logger, private readonly RequestStack $request, private ParameterBagInterface $paramterBag)
     {
-        $this->paramterBag = $parameterBag;
-        $this->request = $requestStack;
-        $this->logger = $logger;
         /** @var string $baseUrl */
         $baseUrl = $this->paramterBag->get('laF_baseUrl');
         $this->baseUrl = $baseUrl;

@@ -15,17 +15,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CronService
 {
-    private LoggerInterface $logger;
-
-    public function __construct(LoggerInterface $logger, private ParameterBagInterface $parameterBag)
+    public function __construct(private readonly LoggerInterface $logger, private readonly ParameterBagInterface $parameterBag)
     {
-        $this->logger = $logger;
     }
 
     /**
      * @return array<string, mixed>|false
      */
-    function check(Request $request): array|bool
+    public function check(Request $request): array|bool
     {
         $message = false;
 

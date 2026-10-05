@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class WhiteboardJwtService
 {
-    public function __construct(private ParameterBagInterface $parameterBag, private UidHelper $uidHelper)
+    public function __construct(private readonly ParameterBagInterface $parameterBag, private readonly UidHelper $uidHelper)
     {
     }
 
@@ -18,8 +18,8 @@ class WhiteboardJwtService
     {
         $ui = $this->uidHelper->getUid($rooms);
         $payload = [
-            'iat' => (new \DateTimeImmutable())->getTimestamp(),
-            'exp' => (new \DateTimeImmutable())->modify('+3days')->getTimestamp(),
+            'iat' => new \DateTimeImmutable()->getTimestamp(),
+            'exp' => new \DateTimeImmutable()->modify('+3days')->getTimestamp(),
             'roles' => [($isModerator ? 'moderator' : 'editor') . ':' . $ui]
         ];
         /** @var string $secret */

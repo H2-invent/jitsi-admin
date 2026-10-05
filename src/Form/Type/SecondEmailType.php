@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SecondEmailType extends AbstractType
 {
-    public function __construct(private ThemeService $themeService)
+    public function __construct(private readonly ThemeService $themeService)
     {
     }
 

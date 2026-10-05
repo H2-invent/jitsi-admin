@@ -15,11 +15,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:removeServerAndGroups')]
 class RemoveServerAndGroupsCommand extends Command
 {
-    private EntityManagerInterface $em;
-    public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em, ?string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
     }
 
     protected function configure(): void

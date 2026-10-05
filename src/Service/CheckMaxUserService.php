@@ -10,14 +10,14 @@ class CheckMaxUserService
 
 
     public function __construct(
-        private RoomStatusFrontendService $roomStatusFrontendService,
+        private readonly RoomStatusFrontendService $roomStatusFrontendService,
 
     )
     {
 
     }
 
-    function isAllowedToEnter(Rooms $rooms): bool
+    public function isAllowedToEnter(Rooms $rooms): bool
     {
         $var = $rooms->getMaxUser();
         if ($rooms->getMaxUser() === null){

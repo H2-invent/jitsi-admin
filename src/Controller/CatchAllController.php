@@ -8,9 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CatchAllController extends AbstractController
 {
-    /**
-     * @Route("/redirect-to-default", name="redirect_to_default")
-     */
+    #[Route(path: '/redirect-to-default', name: 'redirect_to_default')]
     public function redirectToDefault(string $catchall): RedirectResponse
     {
         $firstPart = explode('/',$catchall)[0];

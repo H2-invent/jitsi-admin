@@ -17,14 +17,14 @@ use Twig\Environment;
 class SchedulingService
 {
     public function __construct(
-        private EntityManagerInterface       $em,
-        private UserService                  $userService,
-        private TranslatorInterface          $translator,
-        private Environment                  $environment,
-        private MailerService                $mailerService,
-        private SchedulingTimeRepository     $schedulingTimeRepository,
-        private EntityManagerInterface       $entityManager,
-        private SchedulingTimeUserRepository $schedulingTimeUserRepository,
+        private readonly EntityManagerInterface       $em,
+        private readonly UserService                  $userService,
+        private readonly TranslatorInterface          $translator,
+        private readonly Environment                  $environment,
+        private readonly MailerService                $mailerService,
+        private readonly SchedulingTimeRepository     $schedulingTimeRepository,
+        private readonly EntityManagerInterface       $entityManager,
+        private readonly SchedulingTimeUserRepository $schedulingTimeUserRepository,
     )
     {
     }

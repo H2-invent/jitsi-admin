@@ -12,12 +12,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:migrateTimeZone', 'This command creates a UTC Time from the local start time. This command ist only one time important when you migrate to version ^0.71.xx')]
 class MigrateTimeZoneCommand extends Command
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em, ?string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
     }
 
     protected function configure(): void
@@ -35,12 +32,12 @@ class MigrateTimeZoneCommand extends Command
             if ($data->getStart()) {
                 $dateStart = new \DateTimeImmutable($data->getStart()->format('Y-m-d H:i:s'), $timezone);
                 $data->setStartUtc($dateStart->setTimezone(new \DateTimeZone('utc')));
-                $data->setStartTimestamp((new \DateTimeImmutable($data->getStart()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
+                $data->setStartTimestamp(new \DateTimeImmutable($data->getStart()->format('Y-m-d H:i:s'), $timezone)->getTimestamp());
             }
             if ($data->getEnddate()) {
                 $dateEnd = new \DateTimeImmutable($data->getEnddate()->format('Y-m-d H:i:s'), $timezone);
                 $data->setEndDateUtc($dateEnd->setTimezone(new \DateTimeZone('utc')));
-                $data->setEndTimestamp((new \DateTimeImmutable($data->getEnddate()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
+                $data->setEndTimestamp(new \DateTimeImmutable($data->getEnddate()->format('Y-m-d H:i:s'), $timezone)->getTimestamp());
             }
             $this->em->persist($data);
         }

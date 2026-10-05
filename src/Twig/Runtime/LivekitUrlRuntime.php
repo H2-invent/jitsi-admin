@@ -11,7 +11,7 @@ class LivekitUrlRuntime implements RuntimeExtensionInterface
 {
 
     public function __construct(
-        private LivekitRoomNameGenerator $livekitRoomNameGenerator,
+        private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
     )
     {
     }

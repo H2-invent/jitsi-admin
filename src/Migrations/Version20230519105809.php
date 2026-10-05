@@ -12,7 +12,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230519105809 extends AbstractMigration
 {
-    private const TABLE_NAME = 'cron_job';
+    private const string TABLE_NAME = 'cron_job';
 
     public function getDescription(): string
     {

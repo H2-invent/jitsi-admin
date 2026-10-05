@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class PublicConferenceService
 {
-    public function __construct(private EntityManagerInterface $entityManager, private RequestStack $requestStack, private CallerPrepareService $callerPrepareService)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly RequestStack $requestStack, private readonly CallerPrepareService $callerPrepareService)
     {
     }
 

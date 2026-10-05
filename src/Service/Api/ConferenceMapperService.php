@@ -17,13 +17,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class ConferenceMapperService
 {
     public function __construct(
-        private RoomStatusFrontendService $roomStatusFrontendService,
-        private RoomService               $roomService,
-        private UserRepository            $userRepository,
-        private ParameterBagInterface     $parameterBag,
+        private readonly RoomStatusFrontendService $roomStatusFrontendService,
+        private readonly RoomService               $roomService,
+        private readonly UserRepository            $userRepository,
+        private readonly ParameterBagInterface     $parameterBag,
         private HttpClientInterface       $httpClient,
-        private LoggerInterface           $logger,
-        private SipTrunkGenerator         $sipTrunkGenerator
+        private readonly LoggerInterface           $logger,
+        private readonly SipTrunkGenerator         $sipTrunkGenerator
     )
     {
     }
@@ -81,7 +81,7 @@ class ConferenceMapperService
         if ($room->getServer()->isLiveKitServer()) {
             try {
                 $res['sip_trunk'] = $this->sipTrunkGenerator->createNewSIPNumber($room,$callerId);
-            }catch (\Exception $exception){
+            }catch (\Exception){
                 $res['sip_trunk'] = 'error during fetching sip trunk from livekit';
             }
         }

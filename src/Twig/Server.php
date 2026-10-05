@@ -8,27 +8,16 @@ use App\Service\ServerUserManagment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class Server extends AbstractExtension
+class Server
 {
-    private ServerUserManagment $serverUserManagment;
-    public function __construct(ServerUserManagment $serverUserManagment)
+    public function __construct(private readonly ServerUserManagment $serverUserManagment)
     {
-        $this->serverUserManagment = $serverUserManagment;
-    }
-
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getServer', [$this, 'getServer']),
-            new TwigFunction('getActualConference', [$this, 'getActualConference']),
-            new TwigFunction('getActualParticipants', [$this, 'getActualParticipants']),
-        ];
     }
 
     /**
      * @return \App\Entity\Server[]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'getServer')]
     public function getServer(User $user): array
     {
 
@@ -37,6 +26,7 @@ class Server extends AbstractExtension
     /**
      * @return \App\Entity\Rooms[]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'getActualConference')]
     public function getActualConference(\App\Entity\Server $server): array
     {
 
@@ -45,6 +35,7 @@ class Server extends AbstractExtension
     /**
      * @return \App\Entity\RoomStatusParticipant[]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'getActualParticipants')]
     public function getActualParticipants(\App\Entity\Server $server): array
     {
         return $this->serverUserManagment->getActualParticipantsFromServer($server);

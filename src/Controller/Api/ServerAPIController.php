@@ -16,10 +16,10 @@ use Symfony\Component\Routing\Attribute\Route;
 class ServerAPIController extends AbstractController
 {
     public function __construct(
-        private ServerRepository $serverRepository,
-        private EntityManagerInterface $entityManager,
-        private RoomsRepository $roomsRepository,
-        private BearerTokenAuthHelper $bearerTokenAuthHelper,
+        private readonly ServerRepository $serverRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly RoomsRepository $roomsRepository,
+        private readonly BearerTokenAuthHelper $bearerTokenAuthHelper,
     )
     {
     }
@@ -28,7 +28,7 @@ class ServerAPIController extends AbstractController
     public function index(Request $request): Response
     {
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
-        $server = $this->serverRepository->findOneBy(array('apiKey'=>$apiKey,'isAllowedToCloneForAutoscale'=>true));
+        $server = $this->serverRepository->findOneBy(['apiKey'=>$apiKey,'isAllowedToCloneForAutoscale'=>true]);
         if (!$server) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found. The server mus be allowed to be cloned to autoscale',
             'hint'=>'use the command php bin/console app:server:allowTo #serverid to allow to clone']);
@@ -59,7 +59,7 @@ class ServerAPIController extends AbstractController
     public function getRooms(Request $request): Response
     {
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
-        $server = $this->serverRepository->findOneBy(array('apiKey'=>$apiKey));
+        $server = $this->serverRepository->findOneBy(['apiKey'=>$apiKey]);
         if (!$server) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
         }

@@ -16,28 +16,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ThemeService
 {
-    private ParameterBagInterface $parameterBag;
-    private LoggerInterface $logger;
-    private RequestStack $request;
-    private CheckSignature $checkSignature;
-    private CacheInterface $cache;
-
     public function __construct(
-        CacheInterface              $filesystemAdapter,
-        CheckSignature              $checkSignature,
-        RequestStack                $request,
-        ParameterBagInterface       $parameterBag,
-        LoggerInterface             $logger,
-        private TranslatorInterface $translator,
+        private readonly CacheInterface              $cache,
+        private readonly CheckSignature              $checkSignature,
+        private readonly RequestStack                $request,
+        private readonly ParameterBagInterface       $parameterBag,
+        private readonly LoggerInterface             $logger,
+        private readonly TranslatorInterface $translator,
         #[Autowire(param: 'app.theme.dir')]
-        private readonly string $themeDir,
+        private readonly string $themeDir
     )
     {
-        $this->parameterBag = $parameterBag;
-        $this->logger = $logger;
-        $this->request = $request;
-        $this->checkSignature = $checkSignature;
-        $this->cache = $filesystemAdapter;
     }
 
     public function getTheme(?Rooms $room = null): mixed
@@ -109,7 +98,7 @@ class ThemeService
                 }
             );
             return $value;
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
         }
         return false;
     }
@@ -164,7 +153,7 @@ class ThemeService
      */
     public function getAllThemes(): array
     {
-        $finder = (new Finder())
+        $finder = new Finder()
             ->files()
             ->in($this->themeDir)
             ->name('*.json.signed')
@@ -183,7 +172,7 @@ class ThemeService
                     'title'      => null,
                     'validUntil' => null,
                     'validUntilTs' => null,
-                    'modified'   => (new \DateTimeImmutable())->setTimestamp($file->getMTime()),
+                    'modified'   => new \DateTimeImmutable()->setTimestamp($file->getMTime()),
                     'size'       => $file->getSize(),
                     'error'      => 'Invalid JSON',
                 ];
@@ -211,7 +200,7 @@ class ThemeService
                 'validUntil'   => $validUntil,     // DateTimeImmutable|null
                 'validUntilRaw'=> $validUntilStr,  // string|null (falls Format kaputt)
                 'validUntilTs' => $validUntilTs,   // int|null (zum Sortieren)
-                'modified'     => (new \DateTimeImmutable())->setTimestamp($file->getMTime()),
+                'modified'     => new \DateTimeImmutable()->setTimestamp($file->getMTime()),
                 'size'         => $file->getSize(),
                 'error'        => null,
             ];
@@ -242,7 +231,7 @@ class ThemeService
                 $flashBag = $this->request->getSession()->getBag('flashes');
                 $flashBag->add(
                     $daysDifff > 0 ? 'warning' : 'danger',
-                    $this->translator->trans('theme.invalid.', array('{days}' => $daysDifff))
+                    $this->translator->trans('theme.invalid.', ['{days}' => $daysDifff])
                 );
             }
             return $daysDifff;

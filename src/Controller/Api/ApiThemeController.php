@@ -18,9 +18,9 @@ final class ApiThemeController extends AbstractController
 {
     public function __construct(
         #[Autowire(param: 'API_TOKEN_BEARER_THEME')]
-        private string $themeApiBearerToken,
-        private BearerTokenAuthHelper $bearerTokenAuthHelper,
-        private ThemeUploadService $themeUploadService,
+        private readonly string $themeApiBearerToken,
+        private readonly BearerTokenAuthHelper $bearerTokenAuthHelper,
+        private readonly ThemeUploadService $themeUploadService,
     )
     {
     }

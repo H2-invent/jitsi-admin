@@ -30,12 +30,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class IndexController extends JitsiAdminController
 {
-    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private ThemeService $themeService)
+    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private readonly ThemeService $themeService)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route(path: '/', name: 'index')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/', name: 'index')]
     public function index(Request $request): RedirectResponse|Response
     {
 

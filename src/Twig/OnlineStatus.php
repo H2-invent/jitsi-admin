@@ -9,31 +9,24 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class OnlineStatus extends AbstractExtension
+class OnlineStatus
 {
     public function __construct(
-        private OnlineStatusService $onlineStatusService,
-        private TranslatorInterface $translator,
+        private readonly OnlineStatusService $onlineStatusService,
+        private readonly TranslatorInterface $translator,
     )
     {
 
     }
 
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getOnlineStatus', [$this, 'getOnlineStatus']),
-            new TwigFunction('getOnlineStatusString', [$this, 'getOnlineStatusString']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'getOnlineStatus')]
     public function getOnlineStatus(User $user): string
     {
 
         return $this->onlineStatusService->getUserStatus(user: $user) === 1 ? 'online' : 'offline';
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'getOnlineStatusString')]
     public function getOnlineStatusString(User $user): string
     {
 

@@ -12,7 +12,7 @@ namespace App\Service;
  */
 class IcsService
 {
-    private const DT_UTC_FORMAT = 'Ymd\THis\Z';
+    private const string DT_UTC_FORMAT = 'Ymd\THis\Z';
 
     /** @var string REQUEST|PUBLISH|CANCEL */
     private string $method = 'REQUEST';
@@ -225,7 +225,7 @@ class IcsService
     public function toUtcZ(\DateTimeImmutable|string $value): string
     {
         if ($value instanceof \DateTimeInterface) {
-            $dt = (new \DateTimeImmutable($value->format('c')))->setTimezone(new \DateTimeZone('UTC'));
+            $dt = new \DateTimeImmutable($value->format('c'))->setTimezone(new \DateTimeZone('UTC'));
             return $dt->format(self::DT_UTC_FORMAT);
         }
 

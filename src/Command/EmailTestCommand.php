@@ -15,19 +15,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:email:test', 'This commands sends an email from a choosen server.')]
 class EmailTestCommand extends Command
 {
-    private MailerService $mailerService;
-    private EntityManagerInterface $em;
     protected function configure(): void
     {
         $this
             ->addArgument('serverId', InputArgument::OPTIONAL, 'Server ID from where the amil should be send')
             ->addArgument('email', InputArgument::OPTIONAL, 'Email to where the email schoueld be sent');
     }
-    public function __construct(EntityManagerInterface $entityManager, MailerService $mailerService, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em, private readonly MailerService $mailerService, ?string $name = null)
     {
         parent::__construct($name);
-        $this->mailerService = $mailerService;
-        $this->em = $entityManager;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

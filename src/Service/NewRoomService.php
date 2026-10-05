@@ -25,15 +25,15 @@ class NewRoomService
 {
 
     public function __construct(
-        private RoomsRepository        $roomsRepository,
-        private TranslatorInterface    $translator,
-        private UrlGeneratorInterface  $urlGenerator,
-        private ServerRepository       $serverRepository,
-        private ServerUserManagment    $serverUserManagment,
-        private RoomGeneratorService   $roomGeneratorService,
-        private RequestStack           $requestStack,
-        private SerializerInterface    $serializer,
-        private EntityManagerInterface $entityManager
+        private readonly RoomsRepository        $roomsRepository,
+        private readonly TranslatorInterface    $translator,
+        private readonly UrlGeneratorInterface  $urlGenerator,
+        private readonly ServerRepository       $serverRepository,
+        private readonly ServerUserManagment    $serverUserManagment,
+        private readonly RoomGeneratorService   $roomGeneratorService,
+        private readonly RequestStack           $requestStack,
+        private readonly SerializerInterface    $serializer,
+        private readonly EntityManagerInterface $entityManager
     )
     {
     }
@@ -105,7 +105,7 @@ class NewRoomService
 
         if ($room->getCreator() !== $room->getModerator()) {
             $log = new Log();
-            $exclude = array(
+            $exclude = [
                 'user',
                 'server',
                 'userAttributes',
@@ -121,8 +121,8 @@ class NewRoomService
                 'callerIds',
                 'tag',
                 'creator',
-                'logs');
-            $message = array(
+                'logs'];
+            $message = [
                 'roomId' => $room->getId(),
                 'userName' => $myUser->getUid(),
                 'state' => 'room Edit',
@@ -132,7 +132,7 @@ class NewRoomService
                 'newObject' => json_decode($this->serializer->serialize($room,
                     JsonEncoder::FORMAT,
                     [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude])),
-            );
+            ];
             $log->setCreatedAt(new \DateTimeImmutable())
                 ->setUserName($myUser->getUid())
                 ->setMessage((string) json_encode($message))

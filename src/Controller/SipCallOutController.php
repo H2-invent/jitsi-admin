@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/room/callout/', name: 'sip_call_out_')]
+#[\Symfony\Component\Routing\Attribute\Route('/room/callout/', name: 'sip_call_out_')]
 class SipCallOutController extends JitsiAdminController
 {
     public function __construct(
@@ -28,15 +28,15 @@ class SipCallOutController extends JitsiAdminController
         TranslatorInterface                 $translator,
         LoggerInterface                     $logger,
         ParameterBagInterface               $parameterBag,
-        private RoomAddService              $roomAddService,
-        private CalloutService              $calloutService,
-        private ToModeratorWebsocketService $toModeratorWebsocketService,
+        private readonly RoomAddService              $roomAddService,
+        private readonly CalloutService              $calloutService,
+        private readonly ToModeratorWebsocketService $toModeratorWebsocketService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route('invite/{roomUid}', name: 'invite', methods: 'POST')]
+    #[\Symfony\Component\Routing\Attribute\Route('invite/{roomUid}', name: 'invite', methods: 'POST')]
     public function invite(string $roomUid, Request $request): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomUid]);

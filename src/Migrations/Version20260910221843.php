@@ -16,10 +16,10 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20260910221843 extends AbstractMigration
 {
-    private const COMMENT = '(DC2Type:datetime_immutable)';
+    private const string COMMENT = '(DC2Type:datetime_immutable)';
 
     /** @var array<string, list<string>> */
-    private const COLUMNS = [
+    private const array COLUMNS = [
         'rooms' => ['start', 'enddate', 'start_utc', 'end_date_utc'],
         'fos_user' => ['created_at', 'last_login', 'updated_at'],
         'room_status' => ['room_created_at', 'destroyed_at', 'created_at', 'updated_at'],

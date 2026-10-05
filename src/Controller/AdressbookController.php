@@ -23,15 +23,15 @@ class AdressbookController extends JitsiAdminController
         TranslatorInterface               $translator,
         LoggerInterface                   $logger,
         ParameterBagInterface             $parameterBag,
-        private AdressbookFavoriteService $adressbookFavoriteService,
-        private DeputyService             $deputyService,
-        private UserCreatorService        $userCreatorService,
+        private readonly AdressbookFavoriteService $adressbookFavoriteService,
+        private readonly DeputyService             $deputyService,
+        private readonly UserCreatorService        $userCreatorService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route(path: '/room/adressbook/remove', name: 'adressbook_remove_user')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/adressbook/remove', name: 'adressbook_remove_user')]
     public function index(Request $request): Response
     {
         $user = $this->doctrine->getRepository(User::class)->find($request->get('id'));
@@ -45,7 +45,7 @@ class AdressbookController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: '/room/adressbook/remove-ajax', name: 'adressbook_remove_user_ajax', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/adressbook/remove-ajax', name: 'adressbook_remove_user_ajax', methods: ['POST'])]
     public function removeAjax(Request $request, TranslatorInterface $translator): Response
     {
         $user = $this->doctrine->getRepository(User::class)->find($request->get('id'));
@@ -62,7 +62,7 @@ class AdressbookController extends JitsiAdminController
         return new JsonResponse(['ok' => true]);
     }
 
-    #[Route(path: '/room/adressbook/add-ajax', name: 'adressbook_add_user_ajax', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/adressbook/add-ajax', name: 'adressbook_add_user_ajax', methods: ['POST'])]
     public function addAjax(Request $request, TranslatorInterface $translator): Response
     {
         $email = trim($request->get('email', ''));
@@ -100,7 +100,7 @@ class AdressbookController extends JitsiAdminController
         return new JsonResponse(['ok' => true]);
     }
 
-    #[Route(path: '/room/adressbook/new-contact', name: 'adressbook_new_contact')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/adressbook/new-contact', name: 'adressbook_new_contact')]
     public function newContactModal(): Response
     {
         return $this->render('addressbook/__newContactModal.html.twig');

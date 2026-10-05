@@ -14,11 +14,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:tag:enable', 'Enter the ID of  the Tag you wish to enable. Check out with app:tag:list')]
 class TagEnableCommand extends Command
 {
-    private EntityManagerInterface $em;
-    public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em, ?string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
     }
 
     protected function configure(): void

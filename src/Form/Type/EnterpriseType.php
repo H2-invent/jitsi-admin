@@ -64,12 +64,10 @@ class EnterpriseType extends AbstractType
 
             ->add('tag', EntityType::class, [
                 'class' => Tag::class,
-                'query_builder' => function (EntityRepository $er): QueryBuilder {
-                    return $er->createQueryBuilder('t')
-                        ->andWhere('t.disabled =:false')
-                        ->setParameter(':false',false)
-                        ->orderBy('t.title', 'ASC');
-                },
+                'query_builder' => fn(EntityRepository $er): QueryBuilder => $er->createQueryBuilder('t')
+                    ->andWhere('t.disabled =:false')
+                    ->setParameter(':false',false)
+                    ->orderBy('t.title', 'ASC'),
                 'choice_label' => 'title',
                 'multiple' => true,
                 'expanded'=>true,

@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ChangeLogControllerDeputy extends JitsiAdminController
 {
-    #[Route('room/change/log', name: 'app_change_log')]
+    #[\Symfony\Component\Routing\Attribute\Route('room/change/log', name: 'app_change_log')]
     public function index(Request $request): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room_id'));

@@ -23,31 +23,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LobbyModeratorController extends JitsiAdminController
 {
-    private ToModeratorWebsocketService $toModerator;
-    private ToParticipantWebsocketService $toParticipant;
-    private DirectSendService $directSend;
-    private CheckLobbyPermissionService $checkLobbyPermissionService;
-
     public function __construct(
         ManagerRegistry               $managerRegistry,
         TranslatorInterface           $translator,
         LoggerInterface               $logger,
         ParameterBagInterface         $parameterBag,
-        DirectSendService             $directSendService,
-        ToParticipantWebsocketService $toParticipantWebsocketService,
-        ToModeratorWebsocketService   $toModeratorWebsocketService,
-        CheckLobbyPermissionService   $checkLobbyPermissionService
+        private readonly DirectSendService             $directSend,
+        private readonly ToParticipantWebsocketService $toParticipant,
+        private readonly ToModeratorWebsocketService   $toModerator,
+        private readonly CheckLobbyPermissionService   $checkLobbyPermissionService
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
-        $this->toModerator = $toModeratorWebsocketService;
-        $this->toParticipant = $toParticipantWebsocketService;
-        $this->directSend = $directSendService;
-        $this->checkLobbyPermissionService = $checkLobbyPermissionService;
     }
 
 
-    #[Route(path: '/room/lobby/moderator/{type}/{uid}', name: 'lobby_moderator', defaults: ['type' => 'a'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/lobby/moderator/{type}/{uid}', name: 'lobby_moderator', defaults: ['type' => 'a'])]
     public function index(Request $request, string $uid, string $type): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $uid]);
@@ -70,7 +61,7 @@ class LobbyModeratorController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: '/room/lobby/start/moderator/{t}/{room}', name: 'lobby_moderator_start')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/lobby/start/moderator/{t}/{room}', name: 'lobby_moderator_start')]
     public function startMeeting(string $room, string $t, RoomService $roomService, Request $request): Response
     {
         $roomL = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $room]);
@@ -85,7 +76,7 @@ class LobbyModeratorController extends JitsiAdminController
         return $this->redirect($url);
     }
 
-    #[Route(path: '/room/lobby/accept/{wUid}', name: 'lobby_moderator_accept')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/lobby/accept/{wUid}', name: 'lobby_moderator_accept')]
     public function accept(Request $request, string $wUid, CallerSessionService $callerSessionService): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $wUid]);
@@ -109,7 +100,7 @@ class LobbyModeratorController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.success'), 'color' => 'success']);
     }
 
-    #[Route(path: '/room/lobby/acceptAll/{roomId}', name: 'lobby_moderator_accept_all')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/lobby/acceptAll/{roomId}', name: 'lobby_moderator_accept_all')]
     public function acceptAll(Request $request, string $roomId, CallerSessionService $callerSessionService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomId]);
@@ -134,7 +125,7 @@ class LobbyModeratorController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.all.success'), 'color' => 'success']);
     }
 
-    #[Route(path: '/room/lobby/decline/{wUid}', name: 'lobby_moderator_decline')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/lobby/decline/{wUid}', name: 'lobby_moderator_decline')]
     public function decline(string $wUid, Request $request): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $wUid]);
@@ -166,7 +157,7 @@ class LobbyModeratorController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'message' => $this->translator->trans('lobby.moderator.decline.success'), 'color' => 'success']);
     }
 
-    #[Route(path: '/lobby/moderator/endMeeting/{roomUid}', name: 'lobby_Moderator_endMeeting')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/lobby/moderator/endMeeting/{roomUid}', name: 'lobby_Moderator_endMeeting')]
     public function broadcastWebsocketEndMeeting(string $roomUid, LobbyUtils $lobbyUtils, Request $request): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomUid]);

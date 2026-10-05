@@ -19,8 +19,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ServerAllowToCloneCommand extends Command
 {
     public function __construct(
-        private ServerRepository $serverRepository,
-        private EntityManagerInterface $entityManager,
+        private readonly ServerRepository $serverRepository,
+        private readonly EntityManagerInterface $entityManager,
     )
     {
         parent::__construct();

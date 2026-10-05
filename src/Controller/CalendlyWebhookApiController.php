@@ -28,17 +28,17 @@ class CalendlyWebhookApiController extends AbstractController
 {
 
     public function __construct(
-        private CallendlyConnect        $callendlyConnect,
-        private TranslatorInterface     $translator,
-        private EntityManagerInterface  $entityManager,
-        private UserRepository          $userRepository,
-        private RoomsRepository         $roomsRepository,
-        private ServerUserManagment     $serverUserManagment,
-        private RoomService             $roomService,
-        private RoomAddService          $roomAddService,
-        private JoinUrlGeneratorService $joinUrlGeneratorService,
-        private LoggerInterface         $logger,
-        private RemoveRoomService       $removeRoomService,
+        private readonly CallendlyConnect        $callendlyConnect,
+        private readonly TranslatorInterface     $translator,
+        private readonly EntityManagerInterface  $entityManager,
+        private readonly UserRepository          $userRepository,
+        private readonly RoomsRepository         $roomsRepository,
+        private readonly ServerUserManagment     $serverUserManagment,
+        private readonly RoomService             $roomService,
+        private readonly RoomAddService          $roomAddService,
+        private readonly JoinUrlGeneratorService $joinUrlGeneratorService,
+        private readonly LoggerInterface         $logger,
+        private readonly RemoveRoomService       $removeRoomService,
     )
     {
     }
@@ -103,7 +103,7 @@ class CalendlyWebhookApiController extends AbstractController
                 }
 
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
 
 
         }
@@ -153,7 +153,7 @@ class CalendlyWebhookApiController extends AbstractController
 
             $userCalendly = $body['created_by'];
             $this->logger->debug('searchgin for calendly User', ['calendly_user' => $userCalendly]);
-            $user = $this->userRepository->findOneBy(array('calendly_user_uri' => $userCalendly));
+            $user = $this->userRepository->findOneBy(['calendly_user_uri' => $userCalendly]);
             $this->logger->debug('calendly user found', ['user' => $user->getId()]);
             if ($user) {
                 $event = $body['event'];

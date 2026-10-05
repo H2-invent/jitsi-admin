@@ -21,7 +21,7 @@ class OnlineStatusController extends JitsiAdminController
         TranslatorInterface         $translator,
         LoggerInterface             $logger,
         ParameterBagInterface       $parameterBag,
-        private OnlineStatusService $onlineStatusService,)
+        private readonly OnlineStatusService $onlineStatusService,)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
@@ -29,7 +29,7 @@ class OnlineStatusController extends JitsiAdminController
     public static int $ONLINE = 1;
     public static int $OFFLINE = 0;
 
-    #[Route('/room/online/status', name: 'app_online_status')]
+    #[\Symfony\Component\Routing\Attribute\Route('/room/online/status', name: 'app_online_status')]
     public function index(Request $request): Response
     {
         $em = $this->doctrine->getManager();

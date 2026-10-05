@@ -20,24 +20,11 @@ use Twig\Environment;
 
 class UserServiceEditRoom
 {
-    private Environment $twig;
-    private NotificationService $notificationService;
-    private UrlGeneratorInterface $url;
-    private TranslatorInterface $translator;
-    private PushService $pushService;
-    private JoinUrlGeneratorService $urlGenerator;
-
-    public function __construct(JoinUrlGeneratorService $joinUrlGeneratorService, PushService $pushService, TranslatorInterface $translator, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly JoinUrlGeneratorService $urlGenerator, private readonly PushService $pushService, private readonly TranslatorInterface $translator, private readonly Environment $twig, private readonly NotificationService $notificationService, private readonly UrlGeneratorInterface $url)
     {
-        $this->twig = $environment;
-        $this->notificationService = $notificationService;
-        $this->url = $urlGenerator;
-        $this->translator = $translator;
-        $this->pushService = $pushService;
-        $this->urlGenerator = $joinUrlGeneratorService;
     }
 
-    function editRoom(User $user, Rooms $room): bool
+    public function editRoom(User $user, Rooms $room): bool
     {
 
         $url = $this->urlGenerator->generateUrl($room, $user);
@@ -61,7 +48,7 @@ class UserServiceEditRoom
 
         return true;
     }
-    function editPersistantRoom(User $user, Rooms $room): bool
+    public function editPersistantRoom(User $user, Rooms $room): bool
     {
 
         $url = $this->urlGenerator->generateUrl($room, $user);
@@ -83,7 +70,7 @@ class UserServiceEditRoom
 
         return true;
     }
-    function editRoomSchedule(User $user, Rooms $room): bool
+    public function editRoomSchedule(User $user, Rooms $room): bool
     {
 
         //we have a shedule Meting. the participants only got a link to shedule their appointments

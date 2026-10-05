@@ -26,7 +26,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ParticipantController extends JitsiAdminController
 {
 
-    #[Route(path: '/room/participant/search', name: 'search_participant')]
+    public function __construct(protected \Doctrine\Persistence\ManagerRegistry $doctrine, protected \Symfony\Contracts\Translation\TranslatorInterface $translator, protected \Psr\Log\LoggerInterface $logger, protected \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag, private readonly \Doctrine\Persistence\ManagerRegistry $managerRegistry)
+    {
+        parent::__construct($doctrine, $translator, $logger, $parameterBag);
+    }
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/participant/search', name: 'search_participant')]
     public function index(Request $request, ParticipantSearchService $participantSearchService, UserCreatorService $userCreatorService): Response
     {
         $string = $request->get('search');
@@ -48,7 +52,7 @@ class ParticipantController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route(path: '/room/participant/add/{room}', name: 'room_add_user')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/participant/add/{room}', name: 'room_add_user')]
     public function roomAddUser(Request $request, RoomAddService $roomAddService, Rooms $room): Response
     {
         $newMember = [];
@@ -81,7 +85,7 @@ class ParticipantController extends JitsiAdminController
         return $this->render('room/attendeeModal.twig', ['form' => $form->createView(), 'title' => $title, 'room' => $room]);
     }
 
-    #[Route(path: '/room/participant/add_single/{room}', name: 'room_add_user_single', methods: "POST")]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/participant/add_single/{room}', name: 'room_add_user_single', methods: "POST")]
     public function roomAddUserSingle(Request $request, RoomAddService $roomAddService, Rooms $room, RepeaterService $repeaterService): JsonResponse
     {
         $invalidMember = [];
@@ -128,11 +132,11 @@ class ParticipantController extends JitsiAdminController
         return new JsonResponse(['invalidMember' => $invalidMember,'validMember'=>$validMember]);
     }
 
-    #[Route(path: '/room/participant/past', name: 'room_past_user')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/participant/past', name: 'room_past_user')]
     public function roompastUser(Request $request, ThemeService $themeService): Response
     {
 
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        $room = $this->managerRegistry->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room) && $themeService->getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') === 0) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
@@ -142,7 +146,7 @@ class ParticipantController extends JitsiAdminController
     }
 
 
-    #[Route(path: '/room/participant/remove', name: 'room_user_remove')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/participant/remove', name: 'room_user_remove')]
     public function roomUserRemove(Request $request, RoomAddService $roomAddService): Response
     {
 
@@ -159,7 +163,7 @@ class ParticipantController extends JitsiAdminController
 
 
 
-    #[Route(path: '/room/participant/resend', name: 'room_user_resend')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/participant/resend', name: 'room_user_resend')]
     public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService): Response
     {
         $isAjax = $request->isXmlHttpRequest();

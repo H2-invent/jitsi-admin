@@ -14,16 +14,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Exception\NotBoundException;
 
-#[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:sync', 'This commands syncs a ldap server with users database')]
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'app:ldap:sync', description: 'This commands syncs a ldap server with users database')]
 class SyncLdapCommand extends Command
 {
-    /** @var string */
-    protected static $defaultName = 'app:ldap:sync';
-    /** @var string */
-    protected static $defaultDescription = 'This commands syncs a ldap server with users database';
-
     public function __construct(
-        private LdapService $ldapService,
+        private readonly LdapService $ldapService,
         ?string              $name = null
     )
     {

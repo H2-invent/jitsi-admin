@@ -13,8 +13,8 @@ class DeputyService
     static int $IS_NOT_DEPUTY = 2;
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private DirectSendService      $directSendService
+        private readonly EntityManagerInterface $entityManager,
+        private readonly DirectSendService      $directSendService
     )
     {
     }

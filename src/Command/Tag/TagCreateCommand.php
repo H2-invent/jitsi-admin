@@ -17,12 +17,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:tag:create', 'Add a short description for your command')]
 class TagCreateCommand extends Command
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager, private TagRepository $tagRepository, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em, private readonly TagRepository $tagRepository, ?string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
     }
 
     protected function configure(): void
@@ -41,7 +38,7 @@ class TagCreateCommand extends Command
         $tag = new Tag();
         if ($title) {
             $io->note(sprintf('You passed the title for the tag: %s', $title));
-            $tagOld = $this->tagRepository->findOneBy(array('title' => $title));
+            $tagOld = $this->tagRepository->findOneBy(['title' => $title]);
             if ($tagOld) {
                 $io->error('The Tag is already defined');
                 return Command::FAILURE;
@@ -71,7 +68,7 @@ class TagCreateCommand extends Command
         if ($fontcolor) {
             $io->note(sprintf('You passed the Fontcolor: %s', $fontcolor));
         } else {
-            $fontcolorQ = new Question('Enter the font color (ex #790619)', $tag->getColor() ? $tag->getColor() : '#790619');
+            $fontcolorQ = new Question('Enter the font color (ex #790619)', $tag->getColor() ?: '#790619');
             $fontcolor = $io->askQuestion($fontcolorQ);
         }
         $tag->setColor($fontcolor);
@@ -81,7 +78,7 @@ class TagCreateCommand extends Command
         if ($bgcolor) {
             $io->note(sprintf('You passed the backgroundcolor: %s', $bgcolor));
         } else {
-            $backgroundcolorQ = new Question('Enter the background color (ex #fdd8de)', $tag->getBackgroundColor() ? $tag->getBackgroundColor() : '#fdd8de');
+            $backgroundcolorQ = new Question('Enter the background color (ex #fdd8de)', $tag->getBackgroundColor() ?: '#fdd8de');
             $bgcolor = $io->askQuestion($backgroundcolorQ);
         }
 

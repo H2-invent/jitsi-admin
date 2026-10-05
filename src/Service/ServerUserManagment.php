@@ -16,15 +16,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ServerUserManagment
 {
-    private EntityManagerInterface $em;
-    private ParameterBagInterface $parameter;
-    private ThemeService $themeService;
-
-    public function __construct(ThemeService $themeService, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager)
+    public function __construct(private readonly ThemeService $themeService, private readonly ParameterBagInterface $parameter, private readonly EntityManagerInterface $em)
     {
-        $this->parameter = $parameterBag;
-        $this->em = $entityManager;
-        $this->themeService = $themeService;
     }
 
     /**
@@ -97,7 +90,7 @@ class ServerUserManagment
                     $servers = $serTmp;
                 }
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
         }
 
         return $servers;

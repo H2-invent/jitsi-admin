@@ -34,20 +34,16 @@ use Twig\Environment;
 
 class RecordingController extends AbstractController
 {
-    private FilesystemInterface $filesystem;
-    private EntityManagerInterface $entityManager;
-    private string $expectedBearerToken;
+    private readonly string $expectedBearerToken;
 
     public function __construct(
-        FilesystemInterface                  $recordingFilesystem,
-        EntityManagerInterface               $entityManager,
-        private LoggerInterface              $logger,
-        private UploadedRecordingRepository  $uploadedRecordingRepository,
+        private readonly FilesystemInterface                  $recordingFilesystem,
+        private readonly EntityManagerInterface               $entityManager,
+        private readonly LoggerInterface              $logger,
+        private readonly UploadedRecordingRepository  $uploadedRecordingRepository,
         private readonly RecordingService    $recordingService,
     )
     {
-        $this->filesystem = $recordingFilesystem; // Filesystem für die Aufnahmen
-        $this->entityManager = $entityManager;
         $this->expectedBearerToken = $_ENV['RECORDING_UPLOAD_TOKEN']; // Token aus Umgebungsvariablen
     }
 
@@ -133,7 +129,7 @@ class RecordingController extends AbstractController
             }
 
             // Überprüfe, ob die Datei im Dateisystem existiert
-            if (!$this->filesystem->has($uploadedFile->getFilename())) {
+            if (!$this->recordingFilesystem->has($uploadedFile->getFilename())) {
                 return new JsonResponse(['error' => 'File not found in path'], Response::HTTP_NOT_FOUND);
             }
 
@@ -141,9 +137,9 @@ class RecordingController extends AbstractController
             $extension = $this->getFileExtensionFromMimeType($uploadedFile->getType());
             // Adapter abrufen (LocalAdapter)
             // Den Adapter holen
-            $file = $this->filesystem->get($filename);
+            $file = $this->recordingFilesystem->get($filename);
             $response = new StreamedResponse(function () use ($filename) {
-                $stream = $this->filesystem->createStream($filename);
+                $stream = $this->recordingFilesystem->createStream($filename);
                 $stream->open(new StreamMode('rb'));
                 while (!$stream->eof()){
                     $chunk = $stream->read(8 * 1024);
@@ -156,7 +152,7 @@ class RecordingController extends AbstractController
 
             $response->headers->set('Content-Type', $uploadedFile->getType());
             $response->headers->set('Content-Disposition', 'attachment; filename="' . $uploadedFile->getRoom()->getName() . '.' . $extension . '"');
-            $response->headers->set('Content-Length', (string) $this->filesystem->size($uploadedFile->getFilename()));
+            $response->headers->set('Content-Length', (string) $this->recordingFilesystem->size($uploadedFile->getFilename()));
 
             return $response;
         } catch (\Exception $e) {
@@ -198,8 +194,8 @@ class RecordingController extends AbstractController
             $this->entityManager->remove($uploadedFile);
             $this->entityManager->flush();
             // Überprüfen, ob die Datei existiert
-            if ($this->filesystem->has($uploadedFile->getFilename())) {
-                $this->filesystem->delete($uploadedFile->getFilename());
+            if ($this->recordingFilesystem->has($uploadedFile->getFilename())) {
+                $this->recordingFilesystem->delete($uploadedFile->getFilename());
             }
 
             return new JsonResponse(['error' => false]);

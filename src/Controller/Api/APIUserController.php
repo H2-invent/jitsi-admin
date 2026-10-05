@@ -26,13 +26,13 @@ class APIUserController extends JitsiAdminController
         TranslatorInterface $translator,
         LoggerInterface $logger,
         ParameterBagInterface $parameterBag,
-        private BearerTokenAuthHelper $bearerTokenAuthHelper,
+        private readonly BearerTokenAuthHelper $bearerTokenAuthHelper,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route(path: '/api/v1/getAllEntries', name: 'apiV1_getAllEntries')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/getAllEntries', name: 'apiV1_getAllEntries')]
     public function index(): Response
     {
         /** @var RoomsRepository $roomsRepository */
@@ -53,8 +53,8 @@ class APIUserController extends JitsiAdminController
         return $response;
     }
 
-    #[Route(path: '/api/v1/info/{uidReal}', name: 'apiV1_roomGetUser', methods: ['GET'])]
-    public function getRoomInformations(Request $request, string $uidReal, RoomService $roomService): Response
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/info/{uidReal}', name: 'apiV1_roomGetUser', methods: ['GET'])]
+    public function getRoomInformations(string $uidReal, RoomService $roomService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $uidReal]);
         $response = new JsonResponse($roomService->generateRoomInfo($room));
@@ -62,7 +62,7 @@ class APIUserController extends JitsiAdminController
         return $response;
     }
 
-    #[Route(path: '/api/v1/user', name: 'apiV1_roomAddUser', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/user', name: 'apiV1_roomAddUser', methods: ['POST'])]
     public function addUserToRoom(Request $request, RoomService $roomService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);
@@ -74,7 +74,7 @@ class APIUserController extends JitsiAdminController
         return new JsonResponse($roomService->addUserToRoom($room, $email));
     }
 
-    #[Route(path: '/api/v1/user', name: 'apiV1_roomDeleteUser', methods: ['DELETE'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/user', name: 'apiV1_roomDeleteUser', methods: ['DELETE'])]
     public function removeUserFromRoom(LicenseService $licenseService, Request $request, RoomService $roomService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);

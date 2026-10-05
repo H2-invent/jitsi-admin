@@ -8,23 +8,15 @@ use App\Service\Whiteboard\WhiteboardJwtService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class WhiteBoardJwt extends AbstractExtension
+class WhiteBoardJwt
 {
     public function __construct(
-        private WhiteboardJwtService  $whiteboardJwtService,
+        private readonly WhiteboardJwtService  $whiteboardJwtService,
     )
     {
     }
 
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getJwtforWhiteboard', [$this, 'getJwtforWhiteboard']),
-
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'getJwtforWhiteboard')]
     public function getJwtforWhiteboard(Rooms $room, bool $isModerator = false): string
     {
         return $this->whiteboardJwtService->createJwt($room, $isModerator);

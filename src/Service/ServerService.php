@@ -21,20 +21,11 @@ use Twig\Environment;
 
 class ServerService
 {
-    private EntityManagerInterface $em;
-    private NotificationService $notification;
-    private Environment $twig;
-    private TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, Environment $environment, NotificationService $notificationService)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $em, private readonly Environment $twig, private readonly NotificationService $notification)
     {
-        $this->em = $entityManager;
-        $this->notification = $notificationService;
-        $this->twig = $environment;
-        $this->translator = $translator;
     }
 
-    function addPermission(Server $server, User $user): bool
+    public function addPermission(Server $server, User $user): bool
     {
         $content = $this->twig->render('email/serverPermission.html.twig', ['user' => $user, 'server' => $server]);
         $subject = $this->translator->trans('[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt');
@@ -42,7 +33,7 @@ class ServerService
 
         return true;
     }
-    function makeSlug(string $urlString): ?string
+    public function makeSlug(string $urlString): ?string
     {
         $counter = 0;
         $slug = UtilsHelper::slugify($urlString);

@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230915133758 extends AbstractMigration
 {
-    private const TABLE_NAME = 'rooms';
-    private const COLUMN_NAME = 'max_user';
+    private const string TABLE_NAME = 'rooms';
+    private const string COLUMN_NAME = 'max_user';
     public function getDescription(): string
     {
         return '';

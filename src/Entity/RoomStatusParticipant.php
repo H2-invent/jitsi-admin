@@ -52,7 +52,7 @@ class RoomStatusParticipant
         if ($user && $user->getTimeZone()) {
             $localTimezone = new \DateTimeZone($user->getTimeZone());
         } else {
-            $localTimezone = (new \DateTimeImmutable())->getTimezone();
+            $localTimezone = new \DateTimeImmutable()->getTimezone();
         }
         $data = $data->setTimeZone($localTimezone);
         return $data;
@@ -80,7 +80,7 @@ class RoomStatusParticipant
         if ($user && $user->getTimeZone()) {
             $localTimezone = new \DateTimeZone($user->getTimeZone());
         } else {
-            $localTimezone = (new \DateTimeImmutable())->getTimezone();
+            $localTimezone = new \DateTimeImmutable()->getTimezone();
         }
         $data = $data->setTimeZone($localTimezone);
         return $data;

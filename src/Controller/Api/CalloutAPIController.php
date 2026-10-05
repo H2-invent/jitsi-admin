@@ -17,18 +17,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/api/v1/call/out', name: 'callout_api_')]
+#[\Symfony\Component\Routing\Attribute\Route('/api/v1/call/out', name: 'callout_api_')]
 class CalloutAPIController extends JitsiAdminController
 {
-    private string $token;
+    private readonly string $token;
 
     public function __construct(
         ManagerRegistry                      $managerRegistry,
         TranslatorInterface                  $translator,
         LoggerInterface                      $logger,
         ParameterBagInterface                $parameterBag,
-        private CalloutSessionAPIService     $calloutSessionAPIService,
-        private CallOutSessionAPIDialService $callOutSessionAPIDialService,
+        private readonly CalloutSessionAPIService     $calloutSessionAPIService,
+        private readonly CallOutSessionAPIDialService $callOutSessionAPIDialService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -37,7 +37,7 @@ class CalloutAPIController extends JitsiAdminController
         $this->token = 'Bearer ' . $sipCallerSecret;
     }
 
-    #[Route('/', name: 'pool')]
+    #[\Symfony\Component\Routing\Attribute\Route('/', name: 'pool')]
     public function index(Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -48,7 +48,7 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($calloutSessions);
     }
 
-    #[Route('/dial/', name: 'dial_pool', methods: 'GET')]
+    #[\Symfony\Component\Routing\Attribute\Route('/dial/', name: 'dial_pool', methods: 'GET')]
     public function dialPool(Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -60,7 +60,7 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/dial/{calloutSessionId}', name: 'dial')]
+    #[\Symfony\Component\Routing\Attribute\Route('/dial/{calloutSessionId}', name: 'dial')]
     public function dial(string $calloutSessionId, Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -72,7 +72,7 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/refuse/{calloutSessionId}', name: 'refuse')]
+    #[\Symfony\Component\Routing\Attribute\Route('/refuse/{calloutSessionId}', name: 'refuse')]
     public function refuse(string $calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -83,7 +83,7 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/error/{calloutSessionId}', name: 'error')]
+    #[\Symfony\Component\Routing\Attribute\Route('/error/{calloutSessionId}', name: 'error')]
     public function error(string $calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -94,7 +94,7 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/unreachable/{calloutSessionId}', name: 'unreachable')]
+    #[\Symfony\Component\Routing\Attribute\Route('/unreachable/{calloutSessionId}', name: 'unreachable')]
     public function unreachable(string $calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -106,7 +106,7 @@ class CalloutAPIController extends JitsiAdminController
     }
 
 
-    #[Route('/timeout/{calloutSessionId}', name: 'timeout')]
+    #[\Symfony\Component\Routing\Attribute\Route('/timeout/{calloutSessionId}', name: 'timeout')]
     public function timeout(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -118,7 +118,7 @@ class CalloutAPIController extends JitsiAdminController
     }
 
 
-    #[Route('/later/{calloutSessionId}', name: 'later')]
+    #[\Symfony\Component\Routing\Attribute\Route('/later/{calloutSessionId}', name: 'later')]
     public function later(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -129,7 +129,7 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/occupied/{calloutSessionId}', name: 'occupied')]
+    #[\Symfony\Component\Routing\Attribute\Route('/occupied/{calloutSessionId}', name: 'occupied')]
     public function occupied(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -140,7 +140,7 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/ringing/{calloutSessionId}', name: 'ringing')]
+    #[\Symfony\Component\Routing\Attribute\Route('/ringing/{calloutSessionId}', name: 'ringing')]
     public function ringing(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -151,7 +151,7 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/on_hold/', name: 'on_hold_pool', methods: 'GET')]
+    #[\Symfony\Component\Routing\Attribute\Route('/on_hold/', name: 'on_hold_pool', methods: 'GET')]
     public function onHoldPool(Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -163,7 +163,7 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/back/{calloutSessionId}', name: 'back', methods: 'GET')]
+    #[\Symfony\Component\Routing\Attribute\Route('/back/{calloutSessionId}', name: 'back', methods: 'GET')]
     public function back(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);

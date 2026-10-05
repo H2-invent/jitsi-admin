@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/room/theme', name: 'app_theme_')]
+#[\Symfony\Component\Routing\Attribute\Route('/room/theme', name: 'app_theme_')]
 class ThemeController extends AbstractController
 {
     public function __construct(
@@ -16,7 +16,7 @@ class ThemeController extends AbstractController
     {
     }
 
-    #[Route('/overview', name: 'overview', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route('/overview', name: 'overview', methods: ['GET'])]
     public function showThemes(): Response
     {
         $applicationProperties = $this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP');

@@ -15,15 +15,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ManifestController extends JitsiAdminController
 {
-    private ThemeService $themeService;
-
-    public function __construct(ThemeService $themeService, ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag)
+    public function __construct(private readonly ThemeService $themeService, ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
-        $this->themeService = $themeService;
     }
 
-    #[Route(path: '/site.webmanifest', name: 'app_manifest')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/site.webmanifest', name: 'app_manifest')]
     public function index(): Response
     {
         $url = '/room/dashboard';

@@ -20,10 +20,10 @@ class CallendlyConnect
     const WEBHOOK_ROUTE = 'webhook_subscriptions';
 
     public function __construct(
-        private HttpClientInterface $httpClient,
-        private TranslatorInterface $translator,
-        private ParameterBagInterface $parameterBag,
-        private UrlGeneratorInterface $urlGenerator,
+        private readonly HttpClientInterface $httpClient,
+        private readonly TranslatorInterface $translator,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly UrlGeneratorInterface $urlGenerator,
     )
     {
     }
@@ -50,13 +50,13 @@ class CallendlyConnect
 
             // Gibt relevante Informationen zurück
             return $data;
-        } catch (ClientExceptionInterface $e) {
+        } catch (ClientExceptionInterface) {
             // Fehler bei Client-Request (z. B. 400 oder 401)
             throw new \RuntimeException($this->translator->trans('calendly.connect.wrongToken'));
-        } catch (ServerExceptionInterface|TransportExceptionInterface $e) {
+        } catch (ServerExceptionInterface|TransportExceptionInterface) {
             // Fehler bei der Serverantwort oder Netzwerkproblemen
             throw new \RuntimeException($this->translator->trans('calendly.connect.netWorkError'));
-        } catch (RedirectionExceptionInterface $e) {
+        } catch (RedirectionExceptionInterface) {
             // Fehler bei Weiterleitungen
             throw new \RuntimeException($this->translator->trans('calendly.connect.redirectError'));
         }

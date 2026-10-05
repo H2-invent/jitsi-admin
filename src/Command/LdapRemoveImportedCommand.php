@@ -16,23 +16,19 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:removeServer', 'This command removes the Users from the selected LDAP. This Command also removes the users  from the global adressbook and removes all created conferences of the users. The users are not able to login after this action')]
 class LdapRemoveImportedCommand extends Command
 {
-    private LdapUserService $ldapUserService;
     /** @var array<int, string> */
     private array $LDAPSERVERID;
     /** @var array<int, string> */
     private array $URL;
-    private EntityManagerInterface $em;
-    public function __construct(LdapUserService $ldapUserService, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, ?string $name = null)
+    public function __construct(private readonly LdapUserService $ldapUserService, ParameterBagInterface $parameterBag, private readonly EntityManagerInterface $em, ?string $name = null)
     {
         parent::__construct($name);
-        $this->ldapUserService = $ldapUserService;
         /** @var string $ldapServerIndividualName */
         $ldapServerIndividualName = $parameterBag->get('ldap_server_individualName');
         /** @var string $ldapUrl */
         $ldapUrl = $parameterBag->get('ldap_url');
         $this->LDAPSERVERID = explode(',', $ldapServerIndividualName);
         $this->URL = explode(';', $ldapUrl);
-        $this->em = $entityManager;
     }
 
     protected function configure(): void

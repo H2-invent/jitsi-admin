@@ -21,13 +21,13 @@ use Twig\Environment;
 class UserNewRoomAddService
 {
     public function __construct(
-        private JoinUrlGeneratorService $urlGenerator,
-        private PushService             $pushService,
-        private TranslatorInterface     $translator,
-        private Environment             $twig,
-        private NotificationService     $notificationService,
-        private UrlGeneratorInterface   $url,
-        private ParameterBagInterface   $parameterBag
+        private readonly JoinUrlGeneratorService $urlGenerator,
+        private readonly PushService             $pushService,
+        private readonly TranslatorInterface     $translator,
+        private readonly Environment             $twig,
+        private readonly NotificationService     $notificationService,
+        private readonly UrlGeneratorInterface   $url,
+        private readonly ParameterBagInterface   $parameterBag
     )
     {
     }
@@ -39,7 +39,7 @@ class UserNewRoomAddService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    function addUserToRoom(User $user, Rooms $room): bool
+    public function addUserToRoom(User $user, Rooms $room): bool
     {
         /** @var string $showName */
         $showName = $this->parameterBag->get('laf_showName');
@@ -71,7 +71,7 @@ class UserNewRoomAddService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    function addUserToPersistantRoom(User $user, Rooms $room): bool
+    public function addUserToPersistantRoom(User $user, Rooms $room): bool
     {
         /** @var string $showName */
         $showName = $this->parameterBag->get('laf_showName');
@@ -101,7 +101,7 @@ class UserNewRoomAddService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    function addUserSchedule(User $user, Rooms $room): bool
+    public function addUserSchedule(User $user, Rooms $room): bool
     {
 
         /** @var string $showName */
@@ -130,7 +130,7 @@ class UserNewRoomAddService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    function addWaitinglist(User $user, Rooms $room): bool
+    public function addWaitinglist(User $user, Rooms $room): bool
     {
         $content = $this->twig->render('email/waitingList.html.twig', ['user' => $user, 'room' => $room]);
         $subject = $this->translator->trans('[Videokonferenz] Hinzugefügt zur Warteliste');

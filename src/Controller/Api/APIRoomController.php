@@ -28,13 +28,13 @@ class APIRoomController extends JitsiAdminController
         TranslatorInterface $translator,
         LoggerInterface $logger,
         ParameterBagInterface $parameterBag,
-        private BearerTokenAuthHelper $bearerTokenAuthHelper,
+        private readonly BearerTokenAuthHelper $bearerTokenAuthHelper,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route(path: '/api/v1/room', name: 'api_room_create', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/room', name: 'api_room_create', methods: ['POST'])]
     public function index(UserCreatorService $userCreatorService, LicenseService $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
     {
 
@@ -65,14 +65,14 @@ class APIRoomController extends JitsiAdminController
         // We initialize the Room with the data;
         try {
             $room = $roomService->createRoom($user, $server, $start, $duration, $name);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return new JsonResponse(['error' => true]);
         }
 
         return new JsonResponse(['error' => false, 'uid' => $room->getUidReal(), 'text' => 'Meeting erfolgreich angelegt']);
     }
 
-    #[Route(path: '/api/v1/room', name: 'apiV1_roomDelete', methods: ['DELETE'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/room', name: 'apiV1_roomDelete', methods: ['DELETE'])]
     public function removeRoom(Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
 
@@ -89,7 +89,7 @@ class APIRoomController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'text' => 'Erfolgreich gelöscht']);
     }
 
-    #[Route(path: '/api/v1/room', name: 'api_room_edit', methods: ['PUT'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/room', name: 'api_room_edit', methods: ['PUT'])]
     public function editRoom(LicenseService  $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
 
@@ -118,7 +118,7 @@ class APIRoomController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'uid' => $room->getUidReal(), 'text' => 'Meeting erfolgreich geändert']);
     }
 
-    #[Route(path: '/api/v1/serverInfo', name: 'api_user_get_server', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/serverInfo', name: 'api_user_get_server', methods: ['GET'])]
     public function getServers(ServerUserManagment  $serverUserManagment, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
     {
 

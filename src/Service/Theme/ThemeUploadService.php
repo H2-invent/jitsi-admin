@@ -15,8 +15,8 @@ use Symfony\Component\Finder\SplFileInfo;
 class ThemeUploadService
 {
     public function __construct(
-        private CheckSignature         $checkSignature,
-        private CacheItemPoolInterface $cacheItemPool,
+        private readonly CheckSignature         $checkSignature,
+        private readonly CacheItemPoolInterface $cacheItemPool,
         #[Autowire(param: 'app.theme.dir')]
         private readonly string $themeDir,
         #[Autowire(param: 'app.theme.cache_dir')]

@@ -24,14 +24,14 @@ use Symfony\Component\Routing\Attribute\Route;
 class EgressController extends AbstractController
 {
     public function __construct(
-        private LoggerInterface        $logger,
-        private EgressService $egressService,
+        private readonly LoggerInterface        $logger,
+        private readonly EgressService $egressService,
     )
     {
     }
 
     #[Route('/room/start/egress/{uidReal}/{template}', name: 'app_start_egress')]
-    public function index(Request $request, ?Rooms $rooms, string $template): Response
+    public function index(?Rooms $rooms, string $template): Response
     {
         if (!$rooms || !$rooms->getServer()->isLiveKitServer() || $this->getUser() !== $rooms->getModerator()) {
             $this->logger->debug('Room not found');
@@ -42,7 +42,7 @@ class EgressController extends AbstractController
     }
 
     #[Route('/room/stop/egress/{recordingId}', name: 'app_stop_egress')]
-    public function stop(Request $request, ?Recording $recording): Response
+    public function stop(?Recording $recording): Response
     {
         if (!$recording || $recording->getUser() !== $this->getUser()) {
             throw new NotFoundHttpException('Recording not found');

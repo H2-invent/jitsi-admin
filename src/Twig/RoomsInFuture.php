@@ -9,25 +9,16 @@ use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-class RoomsInFuture extends AbstractExtension
+class RoomsInFuture
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
-    }
-
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('roomsinFuture', [$this, 'roomsinFuture']),
-        ];
     }
 
     /**
      * @return Rooms[]
      */
+    #[\Twig\Attribute\AsTwigFilter(name: 'roomsinFuture')]
     public function roomsinFuture(Server $server): array
     {
         $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));

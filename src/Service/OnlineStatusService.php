@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class OnlineStatusService
 {
     public function __construct(
-        private ParameterBagInterface $parameterBag,
+        private readonly ParameterBagInterface $parameterBag,
     )
     {
     }

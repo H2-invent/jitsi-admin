@@ -36,23 +36,18 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 class RoomService
 {
 
-    private string $identity;
-    private const DEFAULT_JWT_LIFETIME_IN_SEC = 3600;
-
-    private const MAX_LOBBY_CHAT_MESSAGES = 20;
+    private readonly string $identity;
 
     public function __construct(
-        private UploaderHelper $uploaderHelper,
-        private LoggerInterface               $logger,
-        private ParameterBagInterface $parameterBag,
-        private CacheInterface        $cache,
+        private readonly UploaderHelper $uploaderHelper,
+        private readonly LoggerInterface               $logger,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly CacheInterface        $cache,
         private HttpClientInterface   $httpClient,
-        private SluggerInterface      $slugger,
-        private UserPreferenceProvider $userPreferences,
+        private readonly SluggerInterface      $slugger,
+        private readonly UserPreferenceProvider $userPreferences,
         private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
-        private ThemeService $themeService,
-        private ClockInterface $clock,
-        private PredefinedLobbyMessagesRepository $predefinedLobbyMessagesRepository
+        private readonly ThemeService $themeService
     )
     {
         $this->identity = time().'_'.ByteString::fromRandom(8);
@@ -70,7 +65,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    function join(Rooms $room, ?User $user, string $t, string $userName): string
+    public function join(Rooms $room, ?User $user, string $t, string $userName): string
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -92,7 +87,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    function joinUrl(string $t, Rooms $room, string $name, bool $isModerator): string
+    public function joinUrl(string $t, Rooms $room, string $name, bool $isModerator): string
     {
         return $this->createUrl($t, $room, $isModerator, null, $name);
     }
@@ -245,7 +240,7 @@ class RoomService
                         $payload['backgroundImages'] = $backgroundImages;
                     }
 
-                } catch (\Exception $exception) {
+                } catch (\Exception) {
                     $this->logger->error('Invalid JSON in background images');
                 }
             }

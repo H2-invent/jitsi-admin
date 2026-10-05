@@ -7,16 +7,9 @@ use App\Entity\User;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class Time extends AbstractExtension
+class Time
 {
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getTime', [$this, 'getTime']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'getTime')]
     public function getTime(User $user): \DateTimeImmutable
     {
         $now = new \DateTimeImmutable('now', new \DateTimeZone($user->getTimeZone()));

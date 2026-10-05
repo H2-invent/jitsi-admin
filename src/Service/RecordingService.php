@@ -73,7 +73,7 @@ class RecordingService
         $this->localFilesystem->remove($finalPath);
 
         // Chunks suchen
-        $chunks = (new Finder())
+        $chunks = new Finder()
             ->files()
             ->in($tempDir)
             ->name('chunk_*')
@@ -119,7 +119,7 @@ class RecordingService
         // Datenbankeintrag erstellen
         $uploadedFileEntity = new UploadedRecording();
         $uploadedFileEntity->setFilename($fileName)
-            ->setDisplayName((new \DateTimeImmutable())->format('d.m.Y H:i') . '.mp4')
+            ->setDisplayName(new \DateTimeImmutable()->format('d.m.Y H:i') . '.mp4')
             ->setRoom($room)
             ->setCreatedAt(new \DateTimeImmutable())
             ->setType('video/mp4')

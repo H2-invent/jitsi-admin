@@ -14,14 +14,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class AdressbookFavoriteController extends AbstractController
 {
     public function __construct(
-        private AdressbookFavoriteService       $adressbookFavoriteService,
-        private TranslatorInterface             $translator,
+        private readonly AdressbookFavoriteService       $adressbookFavoriteService,
+        private readonly TranslatorInterface             $translator,
         private readonly EntityManagerInterface $entityManager,
     )
     {
     }
 
-    #[Route('/room/adressbook/favorite/{userId}', name: 'app_adressbook_favorite')]
+    #[\Symfony\Component\Routing\Attribute\Route('/room/adressbook/favorite/{userId}', name: 'app_adressbook_favorite')]
     public function index(string $userId): Response
     {
         $userToAdd = $this->entityManager->getRepository(User::class)->findOneBy(['uid' => $userId]);
@@ -37,13 +37,13 @@ class AdressbookFavoriteController extends AbstractController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route('/room/adressbook/favorite-ajax/{userId}', name: 'app_adressbook_favorite_ajax', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route('/room/adressbook/favorite-ajax/{userId}', name: 'app_adressbook_favorite_ajax', methods: ['POST'])]
     public function favoriteAjax(TranslatorInterface $translator, string $userId): Response
     {
         $userToAdd = $this->entityManager->getRepository(User::class)->findOneBy(['uid' => $userId]);
 
         if (!$userToAdd) {
-            return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], 404);
+            return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
         }
         /** @var User $user */
         $user = $this->getUser();

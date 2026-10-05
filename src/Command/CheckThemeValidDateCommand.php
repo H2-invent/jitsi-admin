@@ -20,8 +20,8 @@ use Symfony\Component\Finder\Finder;
 class CheckThemeValidDateCommand extends Command
 {
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private MailerService         $mailerService,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly MailerService         $mailerService,
         ?string                        $name = null)
     {
         parent::__construct($name);

@@ -12,12 +12,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:cron:sendReminder')]
 class CronSendReminderCommand extends Command
 {
-    private ReminderService $reminderService;
-
-    public function __construct(ReminderService $reminderService, ?string $name = null)
+    public function __construct(private readonly ReminderService $reminderService, ?string $name = null)
     {
         parent::__construct($name);
-        $this->reminderService = $reminderService;
     }
 
     protected function configure():void
@@ -50,8 +47,8 @@ class CronSendReminderCommand extends Command
         $io->writeln('Hinweis: ' . $res['hinweis']);
         $io->writeln('Konferenzen: ' . $res['Konferenzen']);
         $io->writeln('Emails: ' . $res['Emails']);
-        $io->writeln('Datum: ' . (new \DateTimeImmutable())->format('d.m.Y'));
-        $io->writeln('Zeit: ' . (new \DateTimeImmutable())->format('H:i'));
+        $io->writeln('Datum: ' . new \DateTimeImmutable()->format('d.m.Y'));
+        $io->writeln('Zeit: ' . new \DateTimeImmutable()->format('H:i'));
         if (!$res['error']) {
             $io->success('Erfolgreich versandt');
             return Command::SUCCESS;

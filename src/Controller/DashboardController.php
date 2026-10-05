@@ -46,9 +46,9 @@ class DashboardController extends JitsiAdminController
         TranslatorInterface $translator,
         LoggerInterface $logger,
         ParameterBagInterface $parameterBag,
-        private ThemeService $themeService,
-        private ServerRepository $serverRepository,
-        private UserCreatorService $userCreatorService,
+        private readonly ThemeService $themeService,
+        private readonly ServerRepository $serverRepository,
+        private readonly UserCreatorService $userCreatorService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -82,7 +82,7 @@ class DashboardController extends JitsiAdminController
     /**
      * @return RedirectResponse|Response
      */
-    #[Route(path: '/room/dashboard', name: 'dashboard')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/dashboard', name: 'dashboard')]
     public function dashboard(
         Request                      $request,
         ServerUserManagment          $serverUserManagment,
@@ -131,7 +131,7 @@ class DashboardController extends JitsiAdminController
         }
 
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
-        $today = (new \DateTimeImmutable('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
+        $today = new \DateTimeImmutable('now')->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
         $tomorrow = $today->modify('+1day');
         $favorites = $roomsRepository->findFavoriteRooms($this->getUser());
         foreach ($favorites as $room) {
@@ -241,8 +241,8 @@ class DashboardController extends JitsiAdminController
     /**
      * @return RedirectResponse|Response
      */
-    #[Route(path: '/room/dashboard/lazy/{type}/{offset}', name: 'dashboard_lazy')]
-    public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, string $type, string $offset): Response
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/dashboard/lazy/{type}/{offset}', name: 'dashboard_lazy')]
+    public function dashboardLayzLoad(ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, string $type, string $offset): Response
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         /** @var RoomsRepository $roomsRepository */
@@ -272,7 +272,7 @@ class DashboardController extends JitsiAdminController
         return new JsonResponse(['error' => true]);
     }
 
-    #[Route(path: '/room/dashboard/adressbook-fragment', name: 'dashboard_adressbook_fragment')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/dashboard/adressbook-fragment', name: 'dashboard_adressbook_fragment')]
     public function adressbookFragment(ServerUserManagment $serverUserManagment): Response
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());

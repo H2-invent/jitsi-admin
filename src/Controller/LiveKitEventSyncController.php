@@ -21,16 +21,16 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class LiveKitEventSyncController extends AbstractController
 {
 
-    private WebhookReceiver $webhookReceiver;
+    private readonly WebhookReceiver $webhookReceiver;
 
     public function __construct(
-        private RoomWebhookService   $webhookService,
-        private LoggerInterface      $logger,
-        private RoomsRepository      $roomsRepository,
-        private EgressService        $egressService,
-        private RoomStatusRepository $roomStatusRepository,
-        private HttpClientInterface $httpClient,
-        private ParameterBagInterface $parameterBag,
+        private readonly RoomWebhookService   $webhookService,
+        private readonly LoggerInterface      $logger,
+        private readonly RoomsRepository      $roomsRepository,
+        private readonly EgressService        $egressService,
+        private readonly RoomStatusRepository $roomStatusRepository,
+        private readonly HttpClientInterface $httpClient,
+        private readonly ParameterBagInterface $parameterBag,
     )
     {
         $this->webhookReceiver = new WebhookReceiver('test', 'test');
@@ -52,7 +52,7 @@ class LiveKitEventSyncController extends AbstractController
             $this->logger->debug('livekit error', ['message' => 'Invalid event token found']);
 
             $array = ['authorized' => false];
-            $response = new JsonResponse($array, 401);
+            $response = new JsonResponse($array, \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
             return $response;
         }
 

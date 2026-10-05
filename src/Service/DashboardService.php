@@ -14,7 +14,7 @@ class DashboardService
     public function categorizeRooms(array $rooms, User $user): array
     {
         $nowUtc = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
-        $todayEndUtc = (new \DateTimeImmutable('now', new \DateTimeZone('utc')))->setTime(23, 59, 59);
+        $todayEndUtc = new \DateTimeImmutable('now', new \DateTimeZone('utc'))->setTime(23, 59, 59);
 
         $roomsFuture = [];
         $roomsNow = [];

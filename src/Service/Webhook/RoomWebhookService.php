@@ -17,25 +17,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class RoomWebhookService
 {
-    private EntityManagerInterface $em;
-    private LoggerInterface $logger;
-    private ParameterBagInterface $paramterBag;
-    private LobbyUtils $lobbyUtils;
-
-    public function __construct(
-        LobbyUtils                         $lobbyUtils,
-        EntityManagerInterface             $entityManager,
-        LoggerInterface                    $logger,
-        ParameterBagInterface              $parameterBag,
-        private SendSummaryViaEmailService $sendSummaryViaEmailService,
-        private ThemeService               $themeService,
-        private EgressService              $egressService
-    )
+    public function __construct(private readonly LobbyUtils                         $lobbyUtils, private readonly EntityManagerInterface             $em, private readonly LoggerInterface                    $logger, private readonly ParameterBagInterface              $paramterBag, private readonly SendSummaryViaEmailService $sendSummaryViaEmailService, private readonly ThemeService               $themeService, private readonly EgressService              $egressService)
     {
-        $this->em = $entityManager;
-        $this->logger = $logger;
-        $this->paramterBag = $parameterBag;
-        $this->lobbyUtils = $lobbyUtils;
     }
 
     /**

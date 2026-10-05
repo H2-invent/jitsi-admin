@@ -21,60 +21,16 @@ use Twig\Environment;
 
 class UserService
 {
-    private ParameterBagInterface $parameterBag;
-    private Environment $twig;
-    private NotificationService $notificationService;
-    private UrlGeneratorInterface $url;
-    private TranslatorInterface $translator;
-    private EntityManagerInterface $em;
-    private PushService $pushService;
-    private LicenseService $licenseService;
-    private UserNewRoomAddService $userAddService;
-    private UserServiceEditRoom $userEditService;
-    private UserServiceRemoveRoom $userRemoveService;
-    private CallerPrepareService $callerUserService;
-    private CreateHttpsUrl $createHttpsUrl;
-    private JoinUrlGeneratorService $joinUrlGenerator;
-
-    public function __construct(
-        CreateHttpsUrl          $createHttpsUrl,
-        CallerPrepareService    $callerPrepareService,
-        UserServiceRemoveRoom   $userServiceRemoveRoom,
-        UserServiceEditRoom     $userEditService,
-        UserNewRoomAddService   $userNewRoomAddService,
-        LicenseService          $licenseService,
-        PushService             $pushService,
-        EntityManagerInterface  $entityManager,
-        TranslatorInterface     $translator,
-        ParameterBagInterface   $parameterBag,
-        Environment             $environment,
-        NotificationService     $notificationService,
-        UrlGeneratorInterface   $urlGenerator,
-        JoinUrlGeneratorService $joinUrlGeneratorService
-    )
+    public function __construct(private readonly CreateHttpsUrl          $createHttpsUrl, private readonly CallerPrepareService    $callerUserService, private readonly UserServiceRemoveRoom   $userRemoveService, private readonly UserServiceEditRoom     $userEditService, private readonly UserNewRoomAddService   $userAddService, private readonly LicenseService          $licenseService, private readonly PushService             $pushService, private readonly EntityManagerInterface  $em, private readonly TranslatorInterface     $translator, private readonly ParameterBagInterface   $parameterBag, private readonly Environment             $twig, private readonly NotificationService     $notificationService, private readonly UrlGeneratorInterface   $url, private readonly JoinUrlGeneratorService $joinUrlGenerator)
     {
-        $this->parameterBag = $parameterBag;
-        $this->twig = $environment;
-        $this->notificationService = $notificationService;
-        $this->url = $urlGenerator;
-        $this->translator = $translator;
-        $this->em = $entityManager;
-        $this->pushService = $pushService;
-        $this->licenseService = $licenseService;
-        $this->userAddService = $userNewRoomAddService;
-        $this->userEditService = $userEditService;
-        $this->userRemoveService = $userServiceRemoveRoom;
-        $this->callerUserService = $callerPrepareService;
-        $this->createHttpsUrl = $createHttpsUrl;
-        $this->joinUrlGenerator = $joinUrlGeneratorService;
     }
 
-    function generateUrl(Rooms $room, User $user): string
+    public function generateUrl(Rooms $room, User $user): string
     {
         return $this->joinUrlGenerator->generateUrl($room, $user);
     }
 
-    function addUser(User $user, Rooms $room): bool
+    public function addUser(User $user, Rooms $room): bool
     {
         if (!$user->getUid()) {
             $user->setUid(md5(uniqid()));
@@ -93,7 +49,7 @@ class UserService
         }
     }
 
-    function addWaitinglist(User $user, Rooms $room): bool
+    public function addWaitinglist(User $user, Rooms $room): bool
     {
         if (!$user->getUid()) {
             $user->setUid(md5(uniqid()));
@@ -103,7 +59,7 @@ class UserService
         return $this->userAddService->addWaitinglist($user, $room);
     }
 
-    function editRoom(User $user, Rooms $room): bool
+    public function editRoom(User $user, Rooms $room): bool
     {
         if ($room->getScheduleMeeting()) {
             return $this->userEditService->editRoomSchedule($user, $room);
@@ -114,7 +70,7 @@ class UserService
         }
     }
 
-    function removeRoom(User $user, Rooms $room): bool
+    public function removeRoom(User $user, Rooms $room): bool
     {
         if ($room->getScheduleMeeting()) {
             $this->userRemoveService->removeRoomScheduling($user, $room);
@@ -128,7 +84,7 @@ class UserService
         return true;
     }
 
-    function notifyUser(User $user, Rooms $room): bool
+    public function notifyUser(User $user, Rooms $room): bool
     {
         $url = $this->generateUrl($room, $user);
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);

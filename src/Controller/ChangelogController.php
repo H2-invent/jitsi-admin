@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ChangelogController extends AbstractController
 {
-    #[Route('/changelog', name: 'app_changelog')]
+    #[\Symfony\Component\Routing\Attribute\Route('/changelog', name: 'app_changelog')]
     public function index(): Response
     {
         return $this->render(

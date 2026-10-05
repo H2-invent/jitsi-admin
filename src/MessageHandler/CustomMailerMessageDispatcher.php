@@ -18,10 +18,10 @@ use Symfony\Component\Mime\Email;
 class CustomMailerMessageDispatcher
 {
     public function __construct(
-        private MailerInterface        $mailer,
-        private ParameterBagInterface  $parameterBag,
-        private EntityManagerInterface $entityManager,
-        private LoggerInterface        $logger
+        private readonly MailerInterface        $mailer,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly LoggerInterface        $logger
     )
     {
     }
@@ -48,7 +48,7 @@ class CustomMailerMessageDispatcher
         $sender = $this->parameterBag->get('registerEmailAdress');
         /** @var string $senderName */
         $senderName = $this->parameterBag->get('registerEmailName');
-        $message = (new Email())
+        $message = new Email()
             ->subject('Invalid email address ')
             ->from(new Address($sender, $senderName))
             ->to($to)

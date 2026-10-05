@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class InstallerCommand extends Command
 {
     # region properties
-    private string $projectDir;
+    private readonly string $projectDir;
 
     private QuestionHelper $helper;
 
@@ -62,7 +62,7 @@ class InstallerCommand extends Command
             $this->writeWebsocketConfFile($baseConfig);
             $this->writeEnvFile($baseConfig, $dbConfig, $smtpConfig, $keycloakConfig);
             $this->removeKeycloakProdConfig($baseConfig);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             return Command::FAILURE;
         }
 

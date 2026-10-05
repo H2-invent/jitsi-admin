@@ -14,12 +14,12 @@ use Doctrine\ORM\EntityManagerInterface;
 class SetupInitialService
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private UserCreatorService $userCreatorService,
-        private ServerRepository $serverRepository,
-        private ServerService $serverService,
-        private KeycloakGroupsToServersRepository $keycloakGroupsToServersRepository,
-        private EntityManagerInterface $entityManager,
+        private readonly UserRepository $userRepository,
+        private readonly UserCreatorService $userCreatorService,
+        private readonly ServerRepository $serverRepository,
+        private readonly ServerService $serverService,
+        private readonly KeycloakGroupsToServersRepository $keycloakGroupsToServersRepository,
+        private readonly EntityManagerInterface $entityManager,
     )
     {
     }
@@ -73,7 +73,7 @@ class SetupInitialService
             return $server;
         }
 
-        $server = (new Server())
+        $server = new Server()
             ->setServerName($data['name'])
             ->setSlug($this->serverService->makeSlug($data['url']))
             ->setUrl($data['url'])
@@ -104,7 +104,7 @@ class SetupInitialService
             if ($entity !== null) {
                 continue;
             }
-            $entity = (new KeycloakGroupsToServers())
+            $entity = new KeycloakGroupsToServers()
                 ->setKeycloakGroup($group)
                 ->setServer($server)
             ;

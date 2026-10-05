@@ -8,23 +8,13 @@ use App\Service\CreateHttpsUrl;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class HttpsAbsolutUrl extends AbstractExtension
+class HttpsAbsolutUrl
 {
-    private CreateHttpsUrl $httpsUrl;
-
-    public function __construct(CreateHttpsUrl $createHttpsUrl)
+    public function __construct(private readonly CreateHttpsUrl $httpsUrl)
     {
-        $this->httpsUrl = $createHttpsUrl;
     }
 
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('httpsAbolutUrl', [$this, 'httpsAbolutUrl']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'httpsAbolutUrl')]
     public function httpsAbolutUrl(string $url, ?Rooms $rooms = null): string
     {
         return $this->httpsUrl->createHttpsUrl($url, $rooms);

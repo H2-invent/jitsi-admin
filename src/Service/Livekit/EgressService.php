@@ -17,10 +17,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class EgressService
 {
     public function __construct(
-        private RecordingRepository    $recordingRepository,
-        private EntityManagerInterface $entityManager,
-        private LoggerInterface        $logger,
-        private LivekitRoomNameGenerator $livekitRoomNameGenerator,
+        private readonly RecordingRepository    $recordingRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly LoggerInterface        $logger,
+        private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
     )
     {
     }
@@ -35,7 +35,7 @@ class EgressService
             $recording = new Recording();
             $recording->setRoom($rooms)
                 ->setUser($user)
-                ->setUid(md5(uniqid((string) rand(), true)))
+                ->setUid(md5(uniqid((string) random_int(0, mt_getrandmax()), true)))
                 ->setCreatedAt(new \DateTimeImmutable());
             try {
                 $egressClient = new EgressServiceClient(
@@ -46,7 +46,7 @@ class EgressService
                 $res = $egressClient->startRoomCompositeEgress(
                     $this->livekitRoomNameGenerator->getLiveKitName($recording->getRoom()),
                     $template,
-                    (new EncodedFileOutput())
+                    new EncodedFileOutput()
                         ->setFilepath('/out/' . $recording->getUid() . '.mp4')
                         ->setFileType(EncodedFileType::MP4)
                 );
@@ -76,7 +76,7 @@ class EgressService
                         $this->stopEgress($liveKitRecording);
                     }
                 }
-            }catch (\Exception $exception){
+            }catch (\Exception){
 
             }
         }

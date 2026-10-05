@@ -15,9 +15,9 @@ class JitsiComponentSelectorPublicKeyController extends AbstractController
     private string $publicKeyPath;
 
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private KernelInterface       $kernel,
-        private LoggerInterface       $logger)
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly KernelInterface       $kernel,
+        private readonly LoggerInterface       $logger)
     {
         $dir = $this->kernel->getProjectDir();
         /** @var string $publicPath */
@@ -33,7 +33,7 @@ class JitsiComponentSelectorPublicKeyController extends AbstractController
         $this->publicKeyPath = $publicKeyPath;
     }
 
-    #[Route('/signal/{keyfile}', name: 'app_jitsi_component_selector_public_key')]
+    #[\Symfony\Component\Routing\Attribute\Route('/signal/{keyfile}', name: 'app_jitsi_component_selector_public_key')]
     public function index(string $keyfile): Response
     {
         if (!str_ends_with($keyfile, '.pem')) {

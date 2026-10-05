@@ -15,14 +15,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RoomAddService
 {
     public function __construct(
-        private UserCreatorService      $userCreatorService,
-        private RepeaterService         $repeaterService,
-        private EntityManagerInterface  $em,
-        private UserService             $userService,
-        private TranslatorInterface     $translator,
-        private PermissionChangeService $permissionChangeService,
-        private FavoriteService         $favoriteService,
-        private LoggerInterface         $logger,
+        private readonly UserCreatorService      $userCreatorService,
+        private readonly RepeaterService         $repeaterService,
+        private readonly EntityManagerInterface  $em,
+        private readonly UserService             $userService,
+        private readonly TranslatorInterface     $translator,
+        private readonly PermissionChangeService $permissionChangeService,
+        private readonly FavoriteService         $favoriteService,
+        private readonly LoggerInterface         $logger,
     )
     {
     }

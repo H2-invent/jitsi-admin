@@ -9,29 +9,20 @@ use App\Service\RoomService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class Jwt extends AbstractExtension
+class Jwt
 {
-    private RoomService $roomService;
-    public function __construct(RoomService $roomService)
+    public function __construct(private readonly RoomService $roomService)
     {
-        $this->roomService = $roomService;
     }
 
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('jwtFromRoom', [$this, 'jwtFromRoom']),
-            new TwigFunction('urlFromRoom', [$this, 'urlFromRoom']),
-            new TwigFunction('generateEncryptedSecret', [$this, 'generateEncryptedSecret']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'jwtFromRoom')]
     public function jwtFromRoom(?User $user, Rooms $rooms, string $name, bool $moderatorExplizit = false,bool $noModerator=false, string|bool|null $skipLobby=false,string|bool|null $enableMic = null, string|bool|null $enableCamera=null): string
     {
 
         return $this->roomService->generateJwt($rooms, $user, $name, $moderatorExplizit, noModerator: $noModerator,skipLobby: $skipLobby,enableMic: $enableMic,enableCamera: $enableCamera);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'urlFromRoom')]
     public function urlFromRoom(?User $user, Rooms $rooms, string $name, string $t): string
     {
         if ($user) {
@@ -40,6 +31,7 @@ class Jwt extends AbstractExtension
             return $this->roomService->joinUrl($t, $rooms, $name, false);
         }
     }
+    #[\Twig\Attribute\AsTwigFunction(name: 'generateEncryptedSecret')]
     public function generateEncryptedSecret( Rooms $rooms): ?string
     {
         return $this->roomService->generateEncryptedSecret($rooms->getServer());

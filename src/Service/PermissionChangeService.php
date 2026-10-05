@@ -21,13 +21,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PermissionChangeService
 {
     public function __construct(
-        private ParameterBagInterface  $parameterBag,
-        private UrlGeneratorInterface  $urlGen,
-        private RepeaterService        $repeaterService,
-        private EntityManagerInterface $em,
-        private DirectSendService      $websocketService,
-        private TranslatorInterface    $translator,
-        private ThemeService           $themeService
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly UrlGeneratorInterface  $urlGen,
+        private readonly RepeaterService        $repeaterService,
+        private readonly EntityManagerInterface $em,
+        private readonly DirectSendService      $websocketService,
+        private readonly TranslatorInterface    $translator,
+        private readonly ThemeService           $themeService
     )
     {
     }
@@ -36,7 +36,7 @@ class PermissionChangeService
      *  When this function is called then a user is allowed to share the screen or is not alloed to share the screen
      * The Function toggle this attribute
      */
-    function toggleShareScreen(User $oldUser, User $user, Rooms $rooms): bool
+    public function toggleShareScreen(User $oldUser, User $user, Rooms $rooms): bool
     {
         $repeater = false;
         if ($rooms->getRepeater()) {
@@ -69,7 +69,7 @@ class PermissionChangeService
      *   When this function is called then a user is set as an moderator
      * The Function toggle this attribute
      */
-    function toggleModerator(User $oldUser, User $user, Rooms $rooms): bool
+    public function toggleModerator(User $oldUser, User $user, Rooms $rooms): bool
     {
 
         $repeater = false;
@@ -109,7 +109,7 @@ class PermissionChangeService
      * The Function toggle this attribute
      * @return RoomsUser|false
      */
-    function toggleLobbyModerator(User $oldUser, User $user, Rooms $rooms): RoomsUser|bool
+    public function toggleLobbyModerator(User $oldUser, User $user, Rooms $rooms): RoomsUser|bool
     {
         $repeater = false;
         if ($rooms->getRepeater()) {
@@ -159,7 +159,7 @@ class PermissionChangeService
      * When this function is called then a user is allowed to send private mesages or is not alloed to send private messages.
      * The Function toggle this attribute
      */
-    function togglePrivateMessage(User $oldUser, User $user, Rooms $rooms): bool
+    public function togglePrivateMessage(User $oldUser, User $user, Rooms $rooms): bool
     {
         $repeater = false;
         if ($rooms->getRepeater()) {

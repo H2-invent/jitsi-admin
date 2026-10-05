@@ -17,21 +17,8 @@ use Symfony\Component\Ldap\Ldap;
 
 class LdapUserService
 {
-    /** @var EntityManagerInterface */
-    private $em;
-    /** @var UserCreatorService */
-    private $userCreationService;
-    /** @var IndexUserService */
-    private $indexer;
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function __construct(LoggerInterface $logger, EntityManagerInterface $entityManager, UserCreatorService $userCreationService, IndexUserService $indexUserService)
+    public function __construct(private readonly LoggerInterface $logger, private readonly EntityManagerInterface $em, private readonly UserCreatorService $userCreationService, private readonly IndexUserService $indexer)
     {
-        $this->em = $entityManager;
-        $this->userCreationService = $userCreationService;
-        $this->indexer = $indexUserService;
-        $this->logger = $logger;
     }
 
     /**
@@ -185,7 +172,7 @@ class LdapUserService
 
         // eindeutiges Attribut (z. B. uid / sAMAccountName)
         $username = ldap_escape(
-            $ldapProps->getUser()->getUsername(),
+            $ldapProps->getUser()->getUserIdentifier(),
             '',
             LDAP_ESCAPE_FILTER
         );
@@ -201,10 +188,10 @@ class LdapUserService
         try {
             $query  = $ldap->getLdap()->query($baseDn, $filter);
             $result = $query->execute();
-        } catch (ConnectionException $e) {
+        } catch (ConnectionException) {
             // LDAP nicht erreichbar → KEIN Löschen
             return null;
-        } catch (LdapException $e) {
+        } catch (LdapException) {
             // echter LDAP-Fehler → eskalieren, nicht raten
             return  null;
         }

@@ -14,13 +14,13 @@ use Symfony\Component\Security\Core\Security;
 
 class SendMessageToWaitingUser
 {
-    private mixed $isAllowedToCreateCustom;
+    private readonly mixed $isAllowedToCreateCustom;
 
     public function __construct(
-        private EntityManagerInterface        $entityManager,
-        private ToParticipantWebsocketService $toParticipantWebsocketService,
-        private ThemeService                  $themeService,
-        private LoggerInterface               $logger,
+        private readonly EntityManagerInterface        $entityManager,
+        private readonly ToParticipantWebsocketService $toParticipantWebsocketService,
+        private readonly ThemeService                  $themeService,
+        private readonly LoggerInterface               $logger,
     )
     {
         $this->isAllowedToCreateCustom = $this->themeService->getApplicationProperties('LAF_LOBBY_ALLOW_CUSTOM_MESSAGES');

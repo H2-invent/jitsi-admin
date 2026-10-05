@@ -9,16 +9,9 @@ use App\Entity\User;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class SipCallIn extends AbstractExtension
+class SipCallIn
 {
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('sipPinFromRoomAndUser', [$this, 'sipPinFromRoomAndUser'])
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'sipPinFromRoomAndUser')]
     public function sipPinFromRoomAndUser(Rooms $rooms, User $user): ?CallerId
     {
         foreach ($user->getCallerIds() as $data) {

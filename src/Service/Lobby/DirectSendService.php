@@ -10,16 +10,8 @@ use Symfony\Component\Mercure\Update;
 
 class DirectSendService
 {
-    private HubInterface $publisher;
-    private LoggerInterface $logger;
-
-    public function __construct(
-        HubInterface          $publisher,
-        LoggerInterface       $logger,
-    )
+    public function __construct(private HubInterface          $publisher, private readonly LoggerInterface       $logger)
     {
-        $this->publisher = $publisher;
-        $this->logger = $logger;
     }
 
     public function setMercurePublisher(HubInterface $hub): void

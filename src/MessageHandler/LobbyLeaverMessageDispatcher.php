@@ -12,19 +12,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class LobbyLeaverMessageDispatcher
 {
-    private LoggerInterface $logger;
-    private ToModeratorWebsocketService $toModerator;
-    private EntityManagerInterface $em;
-
-    public function __construct(
-        LoggerInterface             $logger,
-        ToModeratorWebsocketService $toModerator,
-        EntityManagerInterface      $entityManager
-    )
+    public function __construct(private readonly LoggerInterface             $logger, private readonly ToModeratorWebsocketService $toModerator, private readonly EntityManagerInterface      $em)
     {
-        $this->logger = $logger;
-        $this->toModerator = $toModerator;
-        $this->em = $entityManager;
     }
 
     public function __invoke(LobbyLeaverMessage $lobbyLeaverMessage): void

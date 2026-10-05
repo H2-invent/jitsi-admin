@@ -15,16 +15,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class JoinUrlGeneratorService
 {
-    private UrlGeneratorInterface $url;
-    private CreateHttpsUrl $createHttps;
-
-    public function __construct(CreateHttpsUrl $createHttpsUrl, UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly CreateHttpsUrl $createHttps, private readonly UrlGeneratorInterface $url)
     {
-        $this->url = $urlGenerator;
-        $this->createHttps = $createHttpsUrl;
     }
 
-    function generateUrl(Rooms $room, User $user): string
+    public function generateUrl(Rooms $room, User $user): string
     {
 
         $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());

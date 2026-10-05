@@ -17,38 +17,14 @@ use Twig\Environment;
 
 class RepeaterService
 {
-    private EntityManagerInterface $em;
-    private MailerService $mailer;
-
-
-
-    private TranslatorInterface $translator;
-    private Environment $twig;
-    private CallerPrepareService $callerUserService;
-
-    public function __construct(
-        CallerPrepareService            $callerPrepareService,
-
-        Environment                     $environment,
-        TranslatorInterface             $translator,
-        MailerService                   $mailerService,
-        EntityManagerInterface          $entityManager,
-        private JoinUrlGeneratorService $joinUrlGeneratorService,
-        private JigasiService $jigasiService,
-    )
+    public function __construct(private readonly CallerPrepareService            $callerUserService, private readonly Environment                     $twig, private readonly TranslatorInterface             $translator, private readonly MailerService                   $mailer, private readonly EntityManagerInterface          $em, private readonly JoinUrlGeneratorService $joinUrlGeneratorService, private readonly JigasiService $jigasiService)
     {
-        $this->em = $entityManager;
-        $this->mailer = $mailerService;
-        $this->translator = $translator;
-        $this->twig = $environment;
-
-        $this->callerUserService = $callerPrepareService;
     }
 
     /**
      * @author Emanuel Holzmann
      */
-    function createNewRepeater(Repeat $repeat): Repeat
+    public function createNewRepeater(Repeat $repeat): Repeat
     {
 
         $userAttribute = $repeat->getPrototyp()->getUserAttributes()->toArray();
@@ -86,7 +62,7 @@ class RepeaterService
     /**
      * @author Emanuel Holzmann
      */
-    function createDaily(Repeat $repeat): Repeat
+    public function createDaily(Repeat $repeat): Repeat
     {
         //hier bauen wir alle X tage einen neuenRoom
         $start = $repeat->getStartDate();
@@ -107,7 +83,7 @@ class RepeaterService
     /**
      * @author Emanuel Holzmann
      */
-    function createWeekly(Repeat $repeat): Repeat
+    public function createWeekly(Repeat $repeat): Repeat
     {
 
         $start = $repeat->getStartDate();
@@ -128,7 +104,7 @@ class RepeaterService
     /**
      * @author Emanuel Holzmann
      */
-    function createMontly(Repeat $repeat): Repeat
+    public function createMontly(Repeat $repeat): Repeat
     {
 
         $start = $repeat->getStartDate();
@@ -149,7 +125,7 @@ class RepeaterService
     /**
      * @author Emanuel Holzmann
      */
-    function createMontlyRelative(Repeat $repeat): Repeat
+    public function createMontlyRelative(Repeat $repeat): Repeat
     {
 
         $s = $repeat->getStartDate();
@@ -189,7 +165,7 @@ class RepeaterService
     /**
      * @author Emanuel Holzmann
      */
-    function createYearly(Repeat $repeat): Repeat
+    public function createYearly(Repeat $repeat): Repeat
     {
         $s = $repeat->getStartDate();
         $prototype = $repeat->getPrototyp();
@@ -209,7 +185,7 @@ class RepeaterService
      * This function creates yearly relative roomy for a repeater
      * @author Emanuel Holzmann
      */
-    function createYearlyRelative(Repeat $repeat): Repeat
+    public function createYearlyRelative(Repeat $repeat): Repeat
     {
 
         $s = $repeat->getStartDate();
@@ -249,7 +225,7 @@ class RepeaterService
      * This function clones the prototype and sets all paramters which are necesarry
      * @author Emanuel Holzmann
      */
-    function createClonedRoom(Rooms $prototype, Repeat $repeat, \DateTimeImmutable $start): Rooms
+    public function createClonedRoom(Rooms $prototype, Repeat $repeat, \DateTimeImmutable $start): Rooms
     {
 
         $room = clone $prototype;
@@ -319,7 +295,7 @@ class RepeaterService
      * @throws \Twig\Error\SyntaxError
      * @author Emanuel Holzmann
      */
-    function sendEMail(Repeat $repeat, string $template, string $subject, array $templateAttr = [], string $method = 'REQUEST', array|Collection $users = []): void
+    public function sendEMail(Repeat $repeat, string $template, string $subject, array $templateAttr = [], string $method = 'REQUEST', array|Collection $users = []): void
     {
         if (sizeof($users) === 0) {
             $users = $repeat->getPrototyp()->getPrototypeUsers();

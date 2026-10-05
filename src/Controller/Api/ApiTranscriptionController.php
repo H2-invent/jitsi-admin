@@ -17,7 +17,7 @@ final class ApiTranscriptionController extends AbstractController
 {
     public function __construct(
         #[Autowire(param: 'API_TOKEN_BEARER_TRANSCRIPTION')]
-        private string $transcriptionApiBearerToken,
+        private readonly string $transcriptionApiBearerToken,
         private readonly BearerTokenAuthHelper $bearerTokenAuthHelper,
         private readonly RoomsRepository $roomsRepository,
         private readonly TranscriptionService $transcriptionService,

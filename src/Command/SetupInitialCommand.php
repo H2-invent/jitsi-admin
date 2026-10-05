@@ -23,16 +23,16 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 )]
 class SetupInitialCommand extends Command
 {
-    private const JSON_FILE_NAME = 'initial-setup.json';
+    private const string JSON_FILE_NAME = 'initial-setup.json';
 
-    private string $jsonFileLocation;
+    private readonly string $jsonFileLocation;
 
     public function __construct(
         #[Autowire(param: 'kernel.project_dir')]
         string $projectDir,
-        private Filesystem $filesystem,
-        private ValidatorInterface $validator,
-        private SetupInitialService $setupInitialService,
+        private readonly Filesystem $filesystem,
+        private readonly ValidatorInterface $validator,
+        private readonly SetupInitialService $setupInitialService,
     )
     {
         parent::__construct();
@@ -74,9 +74,9 @@ class SetupInitialCommand extends Command
      */
     private function validateJsonStructure(array $json, SymfonyStyle $io): bool
     {
-        $Constraints = new Constraints\Collection([
+        $Constraints = new Constraints\Collection(fields: [
             'username' => [new Constraints\NotBlank(), new Constraints\Email()],
-            'server' => new Constraints\Collection([
+            'server' => new Constraints\Collection(fields: [
                 'name' => new Constraints\NotBlank(),
                 'url' => new Constraints\NotBlank(),
                 'app_id' => new Constraints\NotBlank(),

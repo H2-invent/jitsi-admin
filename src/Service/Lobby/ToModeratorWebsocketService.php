@@ -10,15 +10,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ToModeratorWebsocketService
 {
-    private UrlGeneratorInterface $urlgenerator;
-    private TranslatorInterface $translator;
-    private DirectSendService $directSend;
-
-    public function __construct(DirectSendService $directSendService, UrlGeneratorInterface $urlGenerator, TranslatorInterface $translator)
+    public function __construct(private readonly DirectSendService $directSend, private readonly UrlGeneratorInterface $urlgenerator, private readonly TranslatorInterface $translator)
     {
-        $this->urlgenerator = $urlGenerator;
-        $this->translator = $translator;
-        $this->directSend = $directSendService;
     }
 
     public function newParticipantInLobby(LobbyWaitungUser $lobbyWaitungUser): void

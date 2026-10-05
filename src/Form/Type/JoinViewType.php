@@ -18,10 +18,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class JoinViewType extends AbstractType
 {
-    private ThemeService $themeService;
-    public function __construct(ThemeService $themeService)
+    public function __construct(private readonly ThemeService $themeService)
     {
-        $this->themeService = $themeService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

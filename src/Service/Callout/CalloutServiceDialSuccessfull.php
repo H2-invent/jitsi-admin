@@ -12,8 +12,8 @@ use Psr\Log\LoggerInterface;
 class CalloutServiceDialSuccessfull
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private LoggerInterface        $logger,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly LoggerInterface        $logger,
     )
     {
     }

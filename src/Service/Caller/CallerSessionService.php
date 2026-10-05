@@ -17,37 +17,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CallerSessionService
 {
-    private EntityManagerInterface $em;
-    private RoomStatusFrontendService $roomStatus;
-    private LoggerInterface $loggger;
-    private ToModeratorWebsocketService $toModerator;
-    private RoomService $roomService;
-    private UrlGeneratorInterface $urlGen;
-    private RequestStack $requestStack;
-
     private int $particpants;
 
-    public function __construct(
-        RequestStack                          $requestStack,
-        UrlGeneratorInterface                 $urlGenerator,
-        RoomService                           $roomService,
-        ToModeratorWebsocketService           $toModeratorWebsocketService,
-        LoggerInterface                       $logger,
-        RoomStatusFrontendService             $roomStatusFrontendService,
-        EntityManagerInterface                $entityManager,
-        private FormatName                    $formatName,
-        private ThemeService                  $themeService,
-        private JitsiComponentSelectorService $jitsiComponentSelectorService,
-        private SipTrunkGenerator             $sipTrunkGenerator,
-    )
+    public function __construct(private readonly RequestStack                          $requestStack, private readonly UrlGeneratorInterface                 $urlGen, private readonly RoomService                           $roomService, private readonly ToModeratorWebsocketService           $toModerator, private readonly LoggerInterface                       $loggger, private readonly RoomStatusFrontendService             $roomStatus, private readonly EntityManagerInterface                $em, private readonly FormatName                    $formatName, private readonly ThemeService                  $themeService, private readonly JitsiComponentSelectorService $jitsiComponentSelectorService, private readonly SipTrunkGenerator             $sipTrunkGenerator)
     {
-        $this->em = $entityManager;
-        $this->roomStatus = $roomStatusFrontendService;
-        $this->loggger = $logger;
-        $this->toModerator = $toModeratorWebsocketService;
-        $this->roomService = $roomService;
-        $this->urlGen = $urlGenerator;
-        $this->requestStack = $requestStack;
     }
 
     /**

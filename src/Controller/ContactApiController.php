@@ -20,16 +20,16 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 class ContactApiController extends AbstractController
 {
     public function __construct(
-        private ParticipantSearchService $participantSearchService,
-        private UploaderHelper           $uploaderHelper,
-        private ServerUserManagment      $serverUserManagment,
-        private TagRepository            $tagRepository,
-        private RoomsRepository          $roomsRepository,
+        private readonly ParticipantSearchService $participantSearchService,
+        private readonly UploaderHelper           $uploaderHelper,
+        private readonly ServerUserManagment      $serverUserManagment,
+        private readonly TagRepository            $tagRepository,
+        private readonly RoomsRepository          $roomsRepository,
     )
     {
     }
 
-    #[Route('/room/contact/api', name: 'app_contact_api')]
+    #[\Symfony\Component\Routing\Attribute\Route('/room/contact/api', name: 'app_contact_api')]
     public function index(): Response
     {
         /** @var User $user */
@@ -65,7 +65,7 @@ class ContactApiController extends AbstractController
     }
 
 
-    #[Route('/room/fixed_rooms/api', name: 'app_fixed_rooms_api')]
+    #[\Symfony\Component\Routing\Attribute\Route('/room/fixed_rooms/api', name: 'app_fixed_rooms_api')]
     public function fixedRooms(): Response
     {
         /** @var User $user */

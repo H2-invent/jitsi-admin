@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class TestNotificationController extends AbstractController
 {
     public function __construct(
-        private DirectSendService $directSendService
+        private readonly DirectSendService $directSendService
     )
     {
     }

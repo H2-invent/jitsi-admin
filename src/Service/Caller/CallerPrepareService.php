@@ -14,11 +14,8 @@ use Prophecy\Call\Call;
 
 class CallerPrepareService
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
     /**
@@ -36,7 +33,7 @@ class CallerPrepareService
      */
     public function deleteOldId(): array
     {
-        $now = (new \DateTimeImmutable())->getTimestamp();
+        $now = new \DateTimeImmutable()->getTimestamp();
         /** @var CallerRoomRepository $callerRoomRepository */
         $callerRoomRepository = $this->em->getRepository(CallerRoom::class);
         $oldCallerId = $callerRoomRepository->findPastRoomsWithCallerId($now);
@@ -53,7 +50,7 @@ class CallerPrepareService
      */
     public function addNewId(): array
     {
-        $now = (new \DateTimeImmutable())->getTimestamp();
+        $now = new \DateTimeImmutable()->getTimestamp();
         /** @var RoomsRepository $roomsRepository */
         $roomsRepository = $this->em->getRepository(Rooms::class);
         $futureRooms = $roomsRepository->findFutureRoomsWithNoCallerId($now);
@@ -90,7 +87,7 @@ class CallerPrepareService
     {
         $finding = false;
         do {
-            $rand = strval(rand(0, $max));
+            $rand = strval(random_int(0, $max));
             $length = strlen(strval($max));
             $rand = str_pad($rand, $length, '0');
             $finding = $this->checkRandomId($rand);
@@ -182,7 +179,7 @@ class CallerPrepareService
     {
         $finding = false;
         do {
-            $rand = strval(rand(0, $max));
+            $rand = strval(random_int(0, $max));
             $length = strlen(strval($max));
             $rand = str_pad($rand, $length, '0');
             $finding = $this->checkRandomCallerUserId($rand, $rooms);

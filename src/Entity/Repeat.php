@@ -14,9 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RepeatRepository::class)]
 #[ORM\Table(name: '`repeat`')]
-class Repeat
+class Repeat implements \Stringable
 {
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->id;
     }
