@@ -20,25 +20,12 @@ use Twig\Environment;
 
 class UserServiceRemoveRoom
 {
-    private Environment $twig;
-    private NotificationService $notificationService;
-    private UrlGeneratorInterface $url;
-    private TranslatorInterface $translator;
-    private JoinUrlGeneratorService $urlGenerator;
-    private PushService $pushService;
-
-    public function __construct(PushService $pushService, JoinUrlGeneratorService $joinUrlGeneratorService, TranslatorInterface $translator, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly PushService $pushService, private readonly JoinUrlGeneratorService $urlGenerator, private readonly TranslatorInterface $translator, private readonly Environment $twig, private readonly NotificationService $notificationService, private readonly UrlGeneratorInterface $url)
     {
-        $this->twig = $environment;
-        $this->notificationService = $notificationService;
-        $this->url = $urlGenerator;
-        $this->translator = $translator;
-        $this->urlGenerator = $joinUrlGeneratorService;
-        $this->pushService = $pushService;
     }
 
 
-    function removeRoom(User $user, Rooms $room): bool
+    public function removeRoom(User $user, Rooms $room): bool
     {
 
         $url = $this->urlGenerator->generateUrl($room, $user);
@@ -62,7 +49,7 @@ class UserServiceRemoveRoom
         return true;
     }
 
-    function removePersistantRoom(User $user, Rooms $room): bool
+    public function removePersistantRoom(User $user, Rooms $room): bool
     {
         $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
         $subject = $this->translator->trans('[Videokonferenz] Videokonferenz abgesagt');
@@ -82,7 +69,7 @@ class UserServiceRemoveRoom
         return true;
     }
 
-    function removeRoomScheduling(User $user, Rooms $room): bool
+    public function removeRoomScheduling(User $user, Rooms $room): bool
     {
 
         $content = $this->twig->render('email/removeSchedule.html.twig', ['user' => $user, 'room' => $room,]);

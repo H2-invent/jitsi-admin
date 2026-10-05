@@ -51,68 +51,68 @@ class CalloutApiActionControllerUnauthorizedTest extends WebTestCase
     public function testDialin(): void
     {
         $crawler = $this->client->request('GET', '/api/v1/call/out/dial/ksdlfjlkfds');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
 
     public function testUnrecheable(): void
     {
         $crawler = $this->client->request('GET', '/api/v1/call/out/unreachable/ksdlfjlkfds');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
 
     public function testBack(): void
     {
         $crawler = $this->client->request('GET', '/api/v1/call/out/back/ksdlfjlkfds');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
 
     public function testError(): void
     {
 
         $crawler = $this->client->request('GET', '/api/v1/call/out/error/ksdlfjlkfds');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
     public function testrefuse(): void
     {
 
         $crawler = $this->client->request('GET', '/api/v1/call/out/refuse/ksdlfjlkfds');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
 
     public function testTimeout(): void
     {
 
         $crawler = $this->client->request('GET', '/api/v1/call/out/timeout/ksdlfjlkfds');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
 
     public function testLater(): void
     {
 
         $crawler = $this->client->request('GET', '/api/v1/call/out/later/ksdlfjlkfds');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
     public function testOccupied(): void
     {
 
         $crawler = $this->client->request('GET', '/api/v1/call/out/occupied/ksdlfjlkfds');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
     public function testRinging(): void
     {
 
         $crawler = $this->client->request('GET', '/api/v1/call/out/ringing/ksdlfjlkfds');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDial(): void
     {
         $crawler = $this->client->request('GET', '/api/v1/call/out/dial/');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
     public function testOnHoldPool(): void
     {
         $crawler = $this->client->request('GET', '/api/v1/call/out/on_hold/');
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
     }
 }

@@ -28,7 +28,7 @@ use function Symfony\Component\String\s;
 
 class ShareLinkController extends JitsiAdminController
 {
-    #[Route(path: '/room/share/link/{id}', name: 'share_link')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/share/link/{id}', name: 'share_link')]
     public function index(
         Rooms $rooms
     ): Response
@@ -39,7 +39,7 @@ class ShareLinkController extends JitsiAdminController
         return $this->render('share_link/__shareLinkModal.html.twig', ['room' => $rooms]);
     }
 
-    #[Route(path: '/room/share/link/accetwaitinglist/{id}', name: 'accept_waitingList')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/share/link/accetwaitinglist/{id}', name: 'accept_waitingList')]
     public function waitinglistAccept(
         Waitinglist $waitinglist,
         SubcriptionService $subcriptionService,
@@ -55,7 +55,7 @@ class ShareLinkController extends JitsiAdminController
         return new JsonResponse(['error' => true]);
     }
 
-    #[Route(path: '/subscribe/self/{uid}', name: 'public_subscribe_participant')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/subscribe/self/{uid}', name: 'public_subscribe_participant')]
     public function participants(string $uid, Request $request, SubcriptionService $subcriptionService, TranslatorInterface $translator, PexelService $pexelService): Response
     {
         $moderator = false;
@@ -108,7 +108,7 @@ class ShareLinkController extends JitsiAdminController
     }
 
 
-    #[Route(path: '/subscribe/optIn/{uid}', name: 'public_subscribe_doupleOptIn')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/subscribe/optIn/{uid}', name: 'public_subscribe_doupleOptIn')]
     public function doupleoptin(string $uid, SubcriptionService $subcriptionService, TranslatorInterface $translator, UserService $userService, PexelService $pexelService): Response
     {
         $subscriber = $this->doctrine->getRepository(Subscriber::class)->findOneBy(['uid' => $uid]);

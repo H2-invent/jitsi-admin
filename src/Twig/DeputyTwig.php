@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class DeputyTwig extends AbstractExtension
+class DeputyTwig
 {
     /**
      * @var array<int|string, array<int|string, Deputy>>
@@ -19,21 +19,13 @@ class DeputyTwig extends AbstractExtension
     private array $deputyCache = [];
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ParameterBagInterface  $parameterBag
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ParameterBagInterface  $parameterBag
     )
     {
     }
 
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('deputyIsFromLDAP', [$this, 'deputyIsFromLDAP']),
-            new TwigFunction('userIsDisallowedToMakeDeputy', [$this, 'userIsDisallowedToMakeDeputy']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'deputyIsFromLDAP')]
     public function deputyIsFromLDAP(User $manager, User $deputy): bool
     {
         if (!isset($this->deputyCache[$manager->getId()])) {
@@ -47,6 +39,7 @@ class DeputyTwig extends AbstractExtension
         return $dep !== null && $dep->isIsFromLdap() === true;
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'userIsDisallowedToMakeDeputy')]
     public function userIsDisallowedToMakeDeputy(User $user): bool
     {
         if (!$user->getLdapUserProperties()) {

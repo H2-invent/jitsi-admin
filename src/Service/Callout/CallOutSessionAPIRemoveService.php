@@ -18,12 +18,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CallOutSessionAPIRemoveService
 {
     public function __construct(
-        private EntityManagerInterface      $entityManager,
-        private ToModeratorWebsocketService $toModeratorWebsocketService,
-        private RoomAddService              $roomAddService,
-        private DirectSendService           $directSendService,
-        private TranslatorInterface         $translator,
-        private ThemeService                $themeService,
+        private readonly EntityManagerInterface      $entityManager,
+        private readonly ToModeratorWebsocketService $toModeratorWebsocketService,
+        private readonly RoomAddService              $roomAddService,
+        private readonly DirectSendService           $directSendService,
+        private readonly TranslatorInterface         $translator,
+        private readonly ThemeService                $themeService,
     )
     {
     }

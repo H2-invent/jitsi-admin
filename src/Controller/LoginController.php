@@ -25,20 +25,20 @@ class LoginController extends JitsiAdminController
         TranslatorInterface    $translator,
         LoggerInterface        $logger,
         ParameterBagInterface  $parameterBag,
-        private CreateHttpsUrl $createHttpsUrl)
+        private readonly CreateHttpsUrl $createHttpsUrl)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route(path: '/login/auth0_login', name: 'login_auth0')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/login/auth0_login', name: 'login_auth0')]
     public function index(
         ClientRegistry $clientRegistry): Response
     {
         return $clientRegistry->getClient('auth0_main')->redirect(['user'], []);
     }
 
-    #[Route(path: '/login/auth0_login/check', name: 'connect_auth0_check')]
-    public function check(ClientRegistry $clientRegistry, Request $request): void
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/login/auth0_login/check', name: 'connect_auth0_check')]
+    public function check(ClientRegistry $clientRegistry): void
     {
         // ** if you want to *authenticate* the user, then
         // leave this method blank and create a Guard authenticator
@@ -54,14 +54,14 @@ class LoginController extends JitsiAdminController
             // e.g. $name = $user->getFirstName();
             die;
             // ...
-        } catch (IdentityProviderException $e) {
+        } catch (IdentityProviderException) {
             // something went wrong!
             // probably you should return the reason to the user
             die;
         }
     }
 
-    #[Route(path: '/room/logout_keycloak', name: 'logout_keycloak')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/logout_keycloak', name: 'logout_keycloak')]
     public function logout(
         ClientRegistry $clientRegistry,
         Request        $request,

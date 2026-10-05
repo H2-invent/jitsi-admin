@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20260604062353 extends AbstractMigration
 {
-    private const TABLE_NAME = 'rooms';
-    private const COLUMN_NAME = 'is_e2ee_enabled';
+    private const string TABLE_NAME = 'rooms';
+    private const string COLUMN_NAME = 'is_e2ee_enabled';
 
     public function getDescription(): string
     {

@@ -10,7 +10,7 @@ class DbConfig implements ConvertToEnvironmentInterface
 
     private static string $DNS_FORMAT = '%s://%s:%s@%s:%d/%s?serverVersion=%s';
 
-    private const ENVIRONMENT = [
+    private const array ENVIRONMENT = [
         'DATABASE_URL' => 'dsn',
     ];
 

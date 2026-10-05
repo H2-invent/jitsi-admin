@@ -6,15 +6,9 @@ namespace App\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class ServerStarView extends AbstractExtension
+class ServerStarView
 {
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('showAverageStar', [$this, 'showAverageStar']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'showAverageStar')]
     public function showAverageStar(\App\Entity\Server $server): float|int
     {
         $star = 0;

@@ -6,7 +6,7 @@ class BasicConfig implements ConvertToEnvironmentInterface
 {
     use ConvertToEnvironmentTrait;
 
-    private const ENVIRONMENT = [
+    private const array ENVIRONMENT = [
         'MERCURE_URL' => 'mercureUrl',
         'MERCURE_PUBLIC_URL' => 'baseUrl',
         'MERCURE_JWT_SECRET' => 'secret',

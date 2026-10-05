@@ -14,21 +14,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class IcalService
 {
 
-    private EntityManagerInterface $em;
-    private UserService $userService;
     private ?User $user = null;
-    private TranslatorInterface $translator;
     /** @var Rooms[] */
     private array $rooms = [];
-    private JigasiService $jigasiService;
 
-    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, UserService $userService, JigasiService $jigasiService)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $em, private readonly UserService $userService, private readonly JigasiService $jigasiService)
     {
-
-        $this->em = $entityManager;
-        $this->userService = $userService;
-        $this->translator = $translator;
-        $this->jigasiService = $jigasiService;
     }
 
     public function getIcal(User $user): string

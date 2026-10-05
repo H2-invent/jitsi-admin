@@ -13,10 +13,10 @@ class SendSummaryViaEmailService
     private Rooms $rooms;
 
     public function __construct(
-        private MailerService        $mailerService,
-        private CreateSummaryService $createSummaryService,
-        private TranslatorInterface  $translator,
-        private Environment          $environment
+        private readonly MailerService        $mailerService,
+        private readonly CreateSummaryService $createSummaryService,
+        private readonly TranslatorInterface  $translator,
+        private readonly Environment          $environment
     )
     {
     }

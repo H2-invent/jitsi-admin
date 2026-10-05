@@ -16,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AddressGroupController extends JitsiAdminController
 {
-    #[Route(path: 'room/address/group/new', name: 'address_group_new')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/address/group/new', name: 'address_group_new')]
     public function new(Request $request, TranslatorInterface $translator, IndexGroupsService $indexGroupsService): Response
     {
         $addressGroup = new AddressGroup();
@@ -49,7 +49,7 @@ class AddressGroupController extends JitsiAdminController
                 $this->addFlash('success', $translator->trans('Kontaktgruppe erfolgreich angelegt'));
                 return $this->redirectToRoute('dashboard');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $this->addFlash('danger', $snack);
             return $this->redirectToRoute('dashboard');
@@ -64,7 +64,7 @@ class AddressGroupController extends JitsiAdminController
         );
     }
 
-    #[Route(path: 'room/address/group/new-ajax', name: 'address_group_new_ajax', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/address/group/new-ajax', name: 'address_group_new_ajax', methods: ['POST'])]
     public function newAjax(Request $request, TranslatorInterface $translator, IndexGroupsService $indexGroupsService): Response
     {
         $addressGroup = new AddressGroup();
@@ -94,7 +94,7 @@ class AddressGroupController extends JitsiAdminController
                 $this->doctrine->getManager()->refresh($this->getUser());
                 return $this->render('addressbook/__addressGroups.html.twig');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return new JsonResponse(['error' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')], Response::HTTP_BAD_REQUEST);
         }
 
@@ -107,7 +107,7 @@ class AddressGroupController extends JitsiAdminController
         return new JsonResponse(['errors' => $errors], Response::HTTP_BAD_REQUEST);
     }
 
-    #[Route(path: 'room/address/group/remove', name: 'address_group_remove')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/address/group/remove', name: 'address_group_remove')]
     public function remove(Request $request, TranslatorInterface $translator): Response
     {
         $addressGroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
@@ -121,7 +121,7 @@ class AddressGroupController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: 'room/address/group/remove-ajax', name: 'address_group_remove_ajax', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/address/group/remove-ajax', name: 'address_group_remove_ajax', methods: ['POST'])]
     public function removeAjax(Request $request, TranslatorInterface $translator): Response
     {
         $addressGroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);

@@ -39,7 +39,7 @@ class RoomControllerTest extends WebTestCase
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'No Right']);
         $client->request('GET', '/room/new?id=' . $room->getId());
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
     public function testEditRight(): void
     {
@@ -69,6 +69,6 @@ class RoomControllerTest extends WebTestCase
         $client->loginUser($testUser);
 
         $client->request('GET', '/room/new?id=-1');
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 }

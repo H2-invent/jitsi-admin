@@ -10,8 +10,8 @@ class OAuthRedirectListener
 {
 
     public function __construct(
-        private RouterInterface $router,
-        private SessionInterface $session
+        private readonly RouterInterface $router,
+        private readonly SessionInterface $session
     ) {}
 
     public function onKernelRequest(RequestEvent $event): void

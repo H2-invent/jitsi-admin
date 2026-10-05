@@ -60,7 +60,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/b/' . $room->getId()));
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 
     public function testJoinConferenceOpenCorrectuserUserIsNoLoginUserCorrectRoomNumber(): void
@@ -81,7 +81,7 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertSelectorTextContains('title', 'TestMeeting: 1');
         $this->assertStringContainsString('<title>TestMeeting: 1</title>', (string) $client->getResponse()->getContent());
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
     public function testJoinConferenceClosedCorrectUserUserIsNotLoginUserCorrectRoomNumber(): void
@@ -98,8 +98,8 @@ class JoinPublicTest extends WebTestCase
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local3.de']);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
-        $room->setStart((new \DateTimeImmutable())->modify('+2 hours'));
-        $room->setEnddate((new \DateTimeImmutable())->modify('+4 hours'));
+        $room->setStart(new \DateTimeImmutable()->modify('+2 hours'));
+        $room->setEnddate(new \DateTimeImmutable()->modify('+4 hours'));
         $manager = $this->getContainer()->get(EntityManagerInterface::class);
         $manager->persist($room);
         $manager->flush();

@@ -39,13 +39,9 @@ class ThemeUploadType extends AbstractType
                 // unmapped fields can't define their validation using annotations
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
-                    new File([
-                        'maxSize' => '20m',
-                        'mimeTypes' => [
-                            'application/zip',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid Zip file',
-                    ])
+                    new File(maxSize: '20m', mimeTypes: [
+                        'application/zip',
+                    ], mimeTypesMessage: 'Please upload a valid Zip file')
                 ],
             ])
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'Upload theme', 'translation_domain' => 'form']);

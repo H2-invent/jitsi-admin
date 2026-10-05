@@ -9,14 +9,9 @@ use App\UtilsHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class CheckIfUserIsAllowdToOrganize extends AbstractExtension
+class CheckIfUserIsAllowdToOrganize
 {
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('isAllowedToOrganize', [$this, 'isAllowedToOrganize'])
-        ];
-    }
+    #[\Twig\Attribute\AsTwigFunction(name: 'isAllowedToOrganize')]
     public function isAllowedToOrganize(Rooms $rooms, ?User $user): bool
     {
         return UtilsHelper::isAllowedToOrganizeRoom($user, $rooms);

@@ -24,8 +24,8 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 final class JWTGenerateTest extends TestCase
 {
-    private const APP_ID = 'test-app-id';
-    private const APP_SECRET = 'test-app-secret-at-the-very-minimum-32-bytes';
+    private const string APP_ID = 'test-app-id';
+    private const string APP_SECRET = 'test-app-secret-at-the-very-minimum-32-bytes';
 
     private ThemeService&MockObject $themeService;
     private RoomService $roomService;

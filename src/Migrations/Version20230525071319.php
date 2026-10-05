@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230525071319 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'disallow_firefox';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'disallow_firefox';
     public function getDescription(): string
     {
         return '';

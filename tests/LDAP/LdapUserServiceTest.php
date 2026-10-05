@@ -262,7 +262,7 @@ class LdapUserServiceTest extends WebTestCase
         $room->setModerator($user);
         $room->addUser($user);
         $room->setStart(new \DateTimeImmutable());
-        $room->setEnddate((new \DateTimeImmutable())->modify('+60min'));
+        $room->setEnddate(new \DateTimeImmutable()->modify('+60min'));
         $room->setDuration(60);
         $room->setName('testRaum');
         $room->setServer($server);

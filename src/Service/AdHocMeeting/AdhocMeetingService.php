@@ -18,13 +18,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class AdhocMeetingService
 {
     public function __construct(
-        private EntityManagerInterface       $em,
-        private RoomGeneratorService         $roomGeneratorService,
-        private ParameterBagInterface        $parameterBag,
-        private TranslatorInterface          $translator,
-        private UserService                  $userService,
-        private ThemeService                 $theme,
-        private CalloutService               $calloutService,
+        private readonly EntityManagerInterface       $em,
+        private readonly RoomGeneratorService         $roomGeneratorService,
+        private readonly ParameterBagInterface        $parameterBag,
+        private readonly TranslatorInterface          $translator,
+        private readonly UserService                  $userService,
+        private readonly ThemeService                 $theme,
+        private readonly CalloutService               $calloutService,
     )
     {
 

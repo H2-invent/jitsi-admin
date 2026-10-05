@@ -39,7 +39,7 @@ class TranscriptionService
     public function addNewTranscription(Rooms $room, string $text): Transcription
     {
         $header = $this->getHeader($room);
-        $transcription = (new Transcription())
+        $transcription = new Transcription()
             ->setRoom($room)
             ->setText($header . $text)
         ;

@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class LobbyMessageCreateCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, private PredefinedLobbyMessagesRepository $predefinedLobbyMessagesRepository, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly PredefinedLobbyMessagesRepository $predefinedLobbyMessagesRepository, ?string $name = null)
     {
         parent::__construct($name);
     }
@@ -39,7 +39,7 @@ class LobbyMessageCreateCommand extends Command
 
         if ($text) {
             $io->note(sprintf('We create a new Predefined message with the text: %s', $text));
-            $messageOld = $this->predefinedLobbyMessagesRepository->findOneBy(array('text' => $text));
+            $messageOld = $this->predefinedLobbyMessagesRepository->findOneBy(['text' => $text]);
             if ($messageOld){
                 $io->error('The message is already defined');
 

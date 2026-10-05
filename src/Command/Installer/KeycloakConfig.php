@@ -8,7 +8,7 @@ class KeycloakConfig implements ConvertToEnvironmentInterface
 {
     use ConvertToEnvironmentTrait;
 
-    private const ENVIRONMENT = [
+    private const array ENVIRONMENT = [
         'OAUTH_KEYCLOAK_CLIENT_ID' => 'clientId',
         'OAUTH_KEYCLOAK_CLIENT_SECRET' => 'clientSecret',
         'OAUTH_KEYCLOAK_SERVER' => 'url',

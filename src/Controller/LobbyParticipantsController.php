@@ -28,25 +28,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LobbyParticipantsController extends JitsiAdminController
 {
-    private ToModeratorWebsocketService $toModerator;
-    private CreateLobbyUserService $createLobbyUserService;
-
     public function __construct(
         ManagerRegistry                $managerRegistry,
         TranslatorInterface            $translator,
         LoggerInterface                $logger,
         ParameterBagInterface          $parameterBag,
-        CreateLobbyUserService         $createLobbyUserService,
-        ToModeratorWebsocketService    $toModeratorWebsocketService,
-        private EntityManagerInterface $entityManager
+        private readonly CreateLobbyUserService         $createLobbyUserService,
+        private readonly ToModeratorWebsocketService    $toModerator,
+        private readonly EntityManagerInterface $entityManager
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
-        $this->toModerator = $toModeratorWebsocketService;
-        $this->createLobbyUserService = $createLobbyUserService;
     }
 
-    #[Route(path: '/lobby/participants/{type}/{roomUid}/{userUid}', name: 'lobby_participants_wait', defaults: ['type' => 'a'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/lobby/participants/{type}/{roomUid}/{userUid}', name: 'lobby_participants_wait', defaults: ['type' => 'a'])]
     public function index(string $roomUid, string $userUid, string $type, RoomStatusFrontendService $roomStatusFrontendService): Response
     {
 
@@ -63,7 +58,7 @@ class LobbyParticipantsController extends JitsiAdminController
         ]);
     }
 
-    #[Route(path: '/lobby/healthcheck/participants/{userUid}', name: 'lobby_participants_healthCheck')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/lobby/healthcheck/participants/{userUid}', name: 'lobby_participants_healthCheck')]
     public function healthcheck(string $userUid): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
@@ -74,7 +69,7 @@ class LobbyParticipantsController extends JitsiAdminController
         return new JsonResponse(['error' => true]);
     }
 
-    #[Route(path: '/lobby/websocket/ready/{userUid}', name: 'lobby_participants_websocket_ready')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/lobby/websocket/ready/{userUid}', name: 'lobby_participants_websocket_ready')]
     public function websokcket_ready(string $userUid): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
@@ -92,7 +87,7 @@ class LobbyParticipantsController extends JitsiAdminController
         return new JsonResponse(['error' => true]);
     }
 
-    #[Route(path: '/lobby/renew/participants/{userUid}', name: 'lobby_participants_renew')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/lobby/renew/participants/{userUid}', name: 'lobby_participants_renew')]
     public function renew(string $userUid): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
@@ -104,7 +99,7 @@ class LobbyParticipantsController extends JitsiAdminController
         return new JsonResponse(['error' => true, 'message' => $this->translator->trans('Fehler')]);
     }
 
-    #[Route(path: '/lobby/leave/participants/{userUid}', name: 'lobby_participants_leave')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/lobby/leave/participants/{userUid}', name: 'lobby_participants_leave')]
     public function remove(string $userUid, MessageBusInterface $bus): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
@@ -121,7 +116,7 @@ class LobbyParticipantsController extends JitsiAdminController
         return new JsonResponse(['error' => true]);
     }
 
-    #[Route(path: '/lobby/browser/leave/participants/{userUid}', name: 'lobby_participants_browser_leave')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/lobby/browser/leave/participants/{userUid}', name: 'lobby_participants_browser_leave')]
     public function browser(string $userUid, MessageBusInterface $bus): Response
     {
 

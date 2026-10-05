@@ -19,35 +19,27 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CallerController extends JitsiAdminController
 {
-    private string $token;
-    private CallerFindRoomService $callerRoomService;
-    private CallerPinService $callerPinService;
-    private CallerSessionService $callerSessionService;
-    private CallerLeftService $callerLeftService;
+    private readonly string $token;
 
     public function __construct(
         ManagerRegistry                       $managerRegistry,
         TranslatorInterface                   $translator,
         LoggerInterface                       $logger,
         ParameterBagInterface                 $parameterBag,
-        CallerLeftService                     $callerLeftService,
-        CallerSessionService                  $callerSessionService,
-        CallerPinService                      $callerPinService,
-        CallerFindRoomService                 $callerFindRoomService,
+        private readonly CallerLeftService                     $callerLeftService,
+        private readonly CallerSessionService                  $callerSessionService,
+        private readonly CallerPinService                      $callerPinService,
+        private readonly CallerFindRoomService                 $callerRoomService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
-        $this->callerRoomService = $callerFindRoomService;
-        $this->callerPinService = $callerPinService;
-        $this->callerSessionService = $callerSessionService;
-        $this->callerLeftService = $callerLeftService;
         /** @var string $sipCallerSecret */
         $sipCallerSecret = $parameterBag->get('SIP_CALLER_SECRET');
         $this->token = 'Bearer ' . $sipCallerSecret;
     }
 
 
-    #[Route(path: '/api/v1/lobby/sip/room/{roomId}', name: 'caller_room', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/lobby/sip/room/{roomId}', name: 'caller_room', methods: ['GET'])]
     public
     function findRoom(Request $request, string $roomId): Response
     {
@@ -58,7 +50,7 @@ class CallerController extends JitsiAdminController
         return new JsonResponse($this->callerRoomService->findRoom($roomId));
     }
 
-    #[Route(path: '/api/v1/lobby/sip/pin/{roomId}', name: 'caller_pin', methods: ['POST', 'GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/lobby/sip/pin/{roomId}', name: 'caller_pin', methods: ['POST', 'GET'])]
     public
     function findPin(Request $request, string $roomId): Response
     {
@@ -76,7 +68,7 @@ class CallerController extends JitsiAdminController
             $error['argument'][] = 'caller_id';
         }
         if (sizeof($error) > 0) {
-            return new JsonResponse($error, 404);
+            return new JsonResponse($error, \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
         }
         $session = $this->callerPinService->createNewCallerSession($roomId, $request->get('pin'), $request->get('caller_id'), $request->get('is_video')?:false);
         if (!$session) {
@@ -96,7 +88,7 @@ class CallerController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route(path: '/api/v1/lobby/sip/session', name: 'caller_session', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/lobby/sip/session', name: 'caller_session', methods: ['GET'])]
     public
     function findSession(Request $request): Response
     {
@@ -111,14 +103,14 @@ class CallerController extends JitsiAdminController
             $error['argument'][] = 'session_id';
         }
         if (sizeof($error) > 0) {
-            return new JsonResponse($error, 404);
+            return new JsonResponse($error, \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
         }
 
         $res = $this->callerSessionService->getSessionStatus($request->get('session_id'));
         return new JsonResponse($res);
     }
 
-    #[Route(path: '/api/v1/lobby/sip/session/left', name: 'caller_left', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/lobby/sip/session/left', name: 'caller_left', methods: ['GET'])]
     public
     function leftSession(Request $request): Response
     {
@@ -134,7 +126,7 @@ class CallerController extends JitsiAdminController
             $error['argument'][] = 'session_id';
         }
         if (sizeof($error) > 0) {
-            return new JsonResponse($error, 404);
+            return new JsonResponse($error, \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
         }
 
         return new JsonResponse(['error' => $this->callerLeftService->callerLeft($request->get('session_id'))]);

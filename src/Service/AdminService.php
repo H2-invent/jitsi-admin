@@ -17,11 +17,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class AdminService
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
     /**

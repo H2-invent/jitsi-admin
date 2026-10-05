@@ -14,11 +14,11 @@ class AdhocMeetingWebsocketService
 {
     public function __construct(
 
-        private ParameterBagInterface $parameterBag,
-        private TranslatorInterface   $translator,
-        private DirectSendService     $directSendService,
-        private UrlGeneratorInterface $urlGen,
-        private ThemeService          $theme,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly TranslatorInterface   $translator,
+        private readonly DirectSendService     $directSendService,
+        private readonly UrlGeneratorInterface $urlGen,
+        private readonly ThemeService          $theme,
     )
     {
 

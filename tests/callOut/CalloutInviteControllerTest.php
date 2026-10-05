@@ -62,6 +62,6 @@ class CalloutInviteControllerTest extends WebTestCase
 
         $crawler = $client->request('POST', '/room/callout/invite/' . $room->getUidReal(), ['uid' => 'newUser@local.de']);
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
 }

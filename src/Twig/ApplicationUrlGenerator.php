@@ -12,27 +12,18 @@ use Psr\Log\LoggerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class ApplicationUrlGenerator extends AbstractExtension
+class ApplicationUrlGenerator
 {
     public function __construct(
-        private ExternalApplication      $externalApplication,
-        private ParticipantSearchService $participantSearchService,
-        private LoggerInterface          $logger,
+        private readonly ExternalApplication      $externalApplication,
+        private readonly ParticipantSearchService $participantSearchService,
+        private readonly LoggerInterface          $logger,
     )
     {
     }
 
-    public function getFunctions(): array
-    {
 
-        return [
-            new TwigFunction('createWhitebophirLink', [$this, 'createWhitebophirLink']),
-            new TwigFunction('createEtherpadLink', [$this, 'createEtherpadLink']),
-
-        ];
-    }
-
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'createEtherpadLink')]
     public function createEtherpadLink(Rooms $rooms, User|LobbyWaitungUser|null $user = null): string
     {
         try {
@@ -49,6 +40,7 @@ class ApplicationUrlGenerator extends AbstractExtension
         }
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'createWhitebophirLink')]
     public function createWhitebophirLink(Rooms $rooms, bool $moderator = false): string
     {
 

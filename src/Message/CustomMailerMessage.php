@@ -6,16 +6,13 @@ use Symfony\Component\Mime\Email;
 
 class CustomMailerMessage
 {
-    private string $dsn;
     private Email $email;
     private mixed $absender;
     private mixed $roomId;
     private mixed $to;
 
-    public function __construct(string $dsn)
+    public function __construct(private string $dsn)
     {
-
-        $this->dsn = $dsn;
     }
 
     public function send(Email $email): self

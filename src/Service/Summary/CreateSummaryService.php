@@ -15,12 +15,12 @@ use Twig\Environment;
 class CreateSummaryService
 {
     public function __construct(
-        private Environment          $environment,
+        private readonly Environment          $environment,
         private HttpClientInterface  $httpClient,
-        private ThemeService         $themeService,
-        private WhiteboardJwtService $whiteboardJwtService,
-        private KernelInterface      $appKernel,
-        private LoggerInterface      $logger
+        private readonly ThemeService         $themeService,
+        private readonly WhiteboardJwtService $whiteboardJwtService,
+        private readonly KernelInterface      $appKernel,
+        private readonly LoggerInterface      $logger
     )
     {
     }

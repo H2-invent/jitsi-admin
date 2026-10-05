@@ -14,8 +14,8 @@ use function Aws\flatmap;
  */
 final class Version20240510092733 extends AbstractMigration
 {
-    private const TABLE_NAME = 'caller_session';
-    private const COLUMN_NAME = 'is_sip_video_user';
+    private const string TABLE_NAME = 'caller_session';
+    private const string COLUMN_NAME = 'is_sip_video_user';
     public function getDescription(): string
     {
         return '';

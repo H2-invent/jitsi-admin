@@ -18,20 +18,18 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:system:repair', 'Add a short description for your command')]
 class SystemRepairCommand extends Command
 {
-    private EntityManagerInterface $em;
     private SymfonyStyle $io;
     private string $logfile = 'repairLog.txt';
     /** @var resource */
     private $logFileFile;
 
     public function __construct(
-        private LdapUserService $ldapUserService,
-        EntityManagerInterface $entityManager,
-        private CacheItemPoolInterface $cacheItemPool,
+        private readonly LdapUserService $ldapUserService,
+        private readonly EntityManagerInterface $em,
+        private readonly CacheItemPoolInterface $cacheItemPool,
         ?string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
     }
 
     protected function configure(): void
@@ -48,7 +46,7 @@ class SystemRepairCommand extends Command
             die("Unable to open file!");
         }
         $this->logFileFile = $logFileFile;
-        fwrite($this->logFileFile, sprintf(PHP_EOL . PHP_EOL . 'Repair on %s' . PHP_EOL, (new \DateTimeImmutable())->format('d.m.Y H:i')));
+        fwrite($this->logFileFile, sprintf(PHP_EOL . PHP_EOL . 'Repair on %s' . PHP_EOL, new \DateTimeImmutable()->format('d.m.Y H:i')));
         $count = 0;
         $user = $this->em->getRepository(User::class)->findAll();
         $io->info('--------We start with the users------');
@@ -74,7 +72,7 @@ class SystemRepairCommand extends Command
         $this->em->flush();
         $lobbyWaitingUser = $this->em->getRepository(LobbyWaitungUser::class)->findAll();
         foreach ($lobbyWaitingUser as $waitingUser) {
-            if ($waitingUser->getCreatedAt() < (new \DateTimeImmutable())->modify('-10days')) {
+            if ($waitingUser->getCreatedAt() < new \DateTimeImmutable()->modify('-10days')) {
                 $count++;
                 $this->em->remove($waitingUser);
             }
@@ -96,7 +94,7 @@ class SystemRepairCommand extends Command
         foreach ($waitingUser as $data) {
             try {
                 $session = $data->getCallerSession();
-            } catch (\Exception $exception) {
+            } catch (\Exception) {
                 $this->em->remove($data);
                 $count++;
             }

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/room/deputy', name: 'app_deputy_')]
+#[\Symfony\Component\Routing\Attribute\Route('/room/deputy', name: 'app_deputy_')]
 class DeputyController extends JitsiAdminController
 {
     public function __construct(
@@ -21,13 +21,13 @@ class DeputyController extends JitsiAdminController
         TranslatorInterface   $translator,
         LoggerInterface       $logger,
         ParameterBagInterface $parameterBag,
-        private DeputyService $deputyService,
+        private readonly DeputyService $deputyService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route('/toggle/{deputyUid}', name: 'add')]
+    #[\Symfony\Component\Routing\Attribute\Route('/toggle/{deputyUid}', name: 'add')]
     public function index(string $deputyUid): Response
     {
         $user = $this->getUser();
@@ -42,7 +42,7 @@ class DeputyController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route('/toggle-ajax/{deputyUid}', name: 'add_ajax', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route('/toggle-ajax/{deputyUid}', name: 'add_ajax', methods: ['POST'])]
     public function toggleAjax(string $deputyUid): Response
     {
         $user = $this->getUser();

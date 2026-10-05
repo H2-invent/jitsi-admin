@@ -11,10 +11,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class CallOutSessionAPIDialService
 {
     public function __construct(
-        private EntityManagerInterface      $entityManager,
-        private UrlGeneratorInterface       $urlGenerator,
-        private CalloutService              $calloutService,
-        private ToModeratorWebsocketService $toModeratorWebsocketService,
+        private readonly EntityManagerInterface      $entityManager,
+        private readonly UrlGeneratorInterface       $urlGenerator,
+        private readonly CalloutService              $calloutService,
+        private readonly ToModeratorWebsocketService $toModeratorWebsocketService,
     )
     {
     }

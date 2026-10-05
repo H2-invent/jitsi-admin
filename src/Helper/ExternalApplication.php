@@ -9,9 +9,9 @@ use App\Service\Whiteboard\WhiteboardJwtService;
 class ExternalApplication
 {
     public function __construct(
-        private WhiteboardJwtService $whiteboardJwtService,
-        private ThemeService         $themeService,
-        private UidHelper            $uidHelper,
+        private readonly WhiteboardJwtService $whiteboardJwtService,
+        private readonly ThemeService         $themeService,
+        private readonly UidHelper            $uidHelper,
     )
     {
     }

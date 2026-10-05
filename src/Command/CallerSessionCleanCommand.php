@@ -21,13 +21,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class CallerSessionCleanCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, private CallerSessionService $callerSessionService, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly CallerSessionService $callerSessionService, ?string $name = null)
     {
         parent::__construct($name);
-    }
-
-    protected function configure(): void
-    {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -52,7 +48,7 @@ class CallerSessionCleanCommand extends Command
         try {
             //find the session
             $session = $this->entityManager->getRepository(CallerSession::class)->find($id);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $io->error('No such ID');
             return Command::FAILURE;
         }

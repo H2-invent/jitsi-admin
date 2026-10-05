@@ -12,7 +12,7 @@ use Symfony\Component\Mercure\Update;
 class HubStub implements HubInterface
 {
     public function __construct(
-        private HubInterface $inner,
+        private readonly HubInterface $inner,
     ) {
     }
 

@@ -7,23 +7,16 @@ use OzdemirBurak\Iris\Color\Hex;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-class ColorUtils extends AbstractExtension
+class ColorUtils
 {
 
 
-    public function getFilters(): array
-    {
-
-        return [
-            new TwigFilter('color_lighten', [$this, 'color_lighten']),
-
-        ];
-    }
+    #[\Twig\Attribute\AsTwigFilter(name: 'color_lighten')]
     public function color_lighten(string $color,float $percent):string{
         try {
             $hex = new Hex(trim($color));
             return $hex->brighten($percent);
-        }catch (\Exception $exception){
+        }catch (\Exception){
             return $color;
         }
 

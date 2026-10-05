@@ -14,7 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ChangePermissionsController extends JitsiAdminController
 {
-    #[Route(path: '/room/change/permissions/shareScreen', name: 'change_permissions_screenShare')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/change/permissions/shareScreen', name: 'change_permissions_screenShare')]
     public function shareScreen(Request $request, TranslatorInterface $translator, PermissionChangeService $permissionChangeService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
@@ -35,7 +35,7 @@ class ChangePermissionsController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: '/room/change/permissions/privateMessage', name: 'change_permissions_privateMessage')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/change/permissions/privateMessage', name: 'change_permissions_privateMessage')]
     public function privateMesage(Request $request, TranslatorInterface $translator, PermissionChangeService $permissionChangeService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
@@ -56,7 +56,7 @@ class ChangePermissionsController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: '/room/addModerator', name: 'room_add_moderator')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/addModerator', name: 'room_add_moderator')]
     public function roomTransferModerator(Request $request, PermissionChangeService $permissionChangeService, TranslatorInterface $translator): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
@@ -77,7 +77,7 @@ class ChangePermissionsController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: '/room/change/lobbyModerator', name: 'room_add_lobby_moderator')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/change/lobbyModerator', name: 'room_add_lobby_moderator')]
     public function roomTransferLobbyModerator(Request $request, PermissionChangeService $permissionChangeService, TranslatorInterface $translator): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));

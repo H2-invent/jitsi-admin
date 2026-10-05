@@ -1227,7 +1227,7 @@ class RepeaterServiceTest extends KernelTestCase
         $repeat = $repeaterService->createNewRepeater($repeat);
 
         $captured = [];
-        $mailer = $this->createMock(MailerService::class);
+        $mailer = $this->createStub(MailerService::class);
         $mailer->method('sendEmail')->willReturnCallback(function (...$args) use (&$captured) {
             $captured[] = $args;
             return true;

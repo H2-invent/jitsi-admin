@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StarService
 {
-    public function __construct(private LoggerInterface $logger, private EntityManagerInterface $em)
+    public function __construct(private readonly LoggerInterface $logger, private readonly EntityManagerInterface $em)
     {
     }
 

@@ -22,7 +22,7 @@ class FormatName
             }
 
             try {
-                if (strpos($data, 'specialField') !== false) {
+                if (str_contains($data, 'specialField')) {
                     $spezialfield = $fieldName;
                     // we have a spezialField to read
                     if (isset($user->getSpezialProperties()[$spezialfield]) && $user->getSpezialProperties()[$spezialfield] !== '') {
@@ -53,7 +53,7 @@ class FormatName
                 if ($splitedName[$key] === '') {
                     unset($splitedName[$key]);
                 }
-            } catch (\Exception $exception) {
+            } catch (\Exception) {
                 $value = '';
             }
         }

@@ -9,33 +9,25 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class WebsocketJwt extends AbstractExtension
+class WebsocketJwt
 {
     public function __construct(
-        private WebsocketJwtService   $websocketJwtService,
-        private ParameterBagInterface $parameterBag
+        private readonly WebsocketJwtService   $websocketJwtService,
+        private readonly ParameterBagInterface $parameterBag
     )
     {
-    }
-
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getJwtforWebsocket', [$this, 'getJwtforWebsocket']),
-            new TwigFunction('getUrlforWebsocket', [$this, 'getUrlforWebsocket']),
-
-        ];
     }
 
     /**
      * @param array<int, string> $rooms
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'getJwtforWebsocket')]
     public function getJwtforWebsocket(array $rooms, ?User $user): string
     {
         return $this->websocketJwtService->createJwt($rooms, $user);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'getUrlforWebsocket')]
     public function getUrlforWebsocket(): string
     {
         /** @var string $path */

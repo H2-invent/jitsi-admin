@@ -19,7 +19,7 @@ class JitsiWebhookControllerTest extends WebTestCase
         $client = static::createClient([],['HTTP_AUTHORIZATION' => 'Bearer abcdef']);
         $crawler = $client->request('POST', '/jitsi/events/room/created',);
 
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode());
     }
     public function testCreateRoom(): void
     {

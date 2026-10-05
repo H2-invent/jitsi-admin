@@ -10,23 +10,13 @@ use Twig\Extension\AbstractExtension;
 use Twig\Markup;
 use Twig\TwigFilter;
 
-class Name extends AbstractExtension
+class Name
 {
-    private ParticipantSearchService $participantSearchService;
-
-    public function __construct(ParticipantSearchService $participantSearchService)
+    public function __construct(private readonly ParticipantSearchService $participantSearchService)
     {
-        $this->participantSearchService = $participantSearchService;
     }
 
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('nameOfUser', [$this, 'nameOfUser']),
-            new TwigFilter('nameOfUserNoSymbol', [$this, 'nameOfUserNoSymbol']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFilter(name: 'nameOfUser')]
     public function nameOfUser(User|LobbyWaitungUser $user): Markup
     {
         if ($user instanceof LobbyWaitungUser) {
@@ -41,6 +31,7 @@ class Name extends AbstractExtension
             'utf-8'
         );
     }
+    #[\Twig\Attribute\AsTwigFilter(name: 'nameOfUserNoSymbol')]
     public function nameOfUserNoSymbol(User|LobbyWaitungUser $user): ?string
     {
         if ($user instanceof LobbyWaitungUser) {

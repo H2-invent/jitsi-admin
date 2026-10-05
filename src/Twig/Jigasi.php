@@ -8,29 +8,22 @@ use App\Service\Jigasi\JigasiService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class Jigasi extends AbstractExtension
+class Jigasi
 {
-    public function __construct(private JigasiService $jigasiService)
+    public function __construct(private readonly JigasiService $jigasiService)
     {
-    }
-
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getJigasiNumber', [$this, 'getJigasiNumber']),
-            new TwigFunction('getJigasiPin', [$this, 'getJigasiPin']),
-        ];
     }
 
     /**
      * @return array<mixed>|null
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'getJigasiNumber')]
     public function getJigasiNumber(?Rooms $rooms = null): ?array
     {
         return $this->jigasiService->getNumber($rooms);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'getJigasiPin')]
     public function getJigasiPin(?Rooms $rooms = null): ?string
     {
         return $this->jigasiService->getRoomPin($rooms);

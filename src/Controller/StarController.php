@@ -18,13 +18,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StarController extends JitsiAdminController
 {
-    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private StarService $starService)
+    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private readonly StarService $starService)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
 
-    #[Route(path: '/star/submit', name: 'app_star', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/star/submit', name: 'app_star', methods: ['GET'])]
     public function index(Request $request): Response
     {
         return $this->starService->createStar(

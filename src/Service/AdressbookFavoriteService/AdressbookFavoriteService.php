@@ -14,9 +14,9 @@ class AdressbookFavoriteService
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private TranslatorInterface             $translator,
-        private LoggerInterface                 $logger,
-        private ParticipantSearchService        $participantSearchService
+        private readonly TranslatorInterface             $translator,
+        private readonly LoggerInterface                 $logger,
+        private readonly ParticipantSearchService        $participantSearchService
     )
     {
     }
@@ -61,13 +61,7 @@ class AdressbookFavoriteService
             try {
                 $this->addFavorite($addUser, $favoriteUser);
                 return ['success', $this->translator->trans('addressbook.favorite.add.success', ['{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser)])];
-            } catch (UserAlreadyAdressbookFavoriteException $exception) {
-                $this->logger->debug($exception->getMessage());
-                return ['danger', $this->translator->trans('addressbook.favorite.add.failure')];
-            } catch (UserNotInAdressbookException $exception) {
-                $this->logger->debug($exception->getMessage());
-                return ['danger', $this->translator->trans('addressbook.favorite.add.failure')];
-            } catch (\Exception $exception) {
+            } catch (UserAlreadyAdressbookFavoriteException|UserNotInAdressbookException|\Exception $exception) {
                 $this->logger->debug($exception->getMessage());
                 return ['danger', $this->translator->trans('addressbook.favorite.add.failure')];
             }

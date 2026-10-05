@@ -62,7 +62,7 @@ class MailerServiceTest extends KernelTestCase
             ->setServer($this->server)
             ->setStart(new \DateTimeImmutable())
             ->setDuration(60)
-            ->setEnddate((new \DateTimeImmutable())->modify('+60min'));
+            ->setEnddate(new \DateTimeImmutable()->modify('+60min'));
     }
 
     public function testCreateMailer(): void

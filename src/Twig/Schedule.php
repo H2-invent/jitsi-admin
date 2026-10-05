@@ -14,25 +14,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class Schedule extends AbstractExtension
+class Schedule
 {
-    private EntityManagerInterface $em;
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('scheduleNumber', [$this, 'scheduleNumber']),
-            new TwigFunction('scheduleUser', [$this, 'scheduleUser']),
-            new TwigFunction('scheduleOwnJoice', [$this, 'scheduleOwnJoice']),
-            new TwigFunction('scheduleUserHasVoted', [$this, 'scheduleUserHasVoted']),
-            new TwigFunction('myScheduledMeeting', [$this, 'myScheduledMeeting']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'scheduleOwnJoice')]
     public function scheduleOwnJoice(User $user, SchedulingTime $schedulingTime): ?int
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findOneBy(['user' => $user, 'scheduleTime' => $schedulingTime]);
@@ -42,6 +30,7 @@ class Schedule extends AbstractExtension
             return $scheduleTimeUser->getAccept();
         }
     }
+    #[\Twig\Attribute\AsTwigFunction(name: 'scheduleUserHasVoted')]
     public function scheduleUserHasVoted(User $user, Rooms $rooms): ?bool
     {
         /** @var SchedulingTimeUserRepository $schedulingTimeUserRepository */
@@ -54,6 +43,7 @@ class Schedule extends AbstractExtension
         }
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'scheduleNumber')]
     public function scheduleNumber(SchedulingTime $schedulingTime, int $type): ?int
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(['scheduleTime' => $schedulingTime, 'accept' => $type]);
@@ -63,6 +53,7 @@ class Schedule extends AbstractExtension
     /**
      * @return SchedulingTimeUser[]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'scheduleUser')]
     public function scheduleUser(SchedulingTime $schedulingTime, int $type): array
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(['scheduleTime' => $schedulingTime, 'accept' => $type]);
@@ -72,6 +63,7 @@ class Schedule extends AbstractExtension
     /**
      * @return Rooms[]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'myScheduledMeeting')]
     public function myScheduledMeeting(User $user): array
     {
         /** @var RoomsRepository $roomsRepository */

@@ -108,12 +108,12 @@ class RoomServiceJWTTest extends KernelTestCase
                 'context' =>
                     [
                         'user' =>
-                            array(
+                            [
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
-                            ),
+                            ],
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
@@ -238,12 +238,12 @@ class RoomServiceJWTTest extends KernelTestCase
                 'context' =>
                     [
                         'user' =>
-                            array(
+                            [
                                 'identity' => $payload['context']['user']['identity'],
                                 'name' => 'Testuser',
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
-                            ),
+                            ],
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
@@ -325,14 +325,14 @@ class RoomServiceJWTTest extends KernelTestCase
                 'context' =>
                     [
                         'user' =>
-                            array(
+                            [
                                 'name' => 'Testuser',
 
                                 'identity' => $payload['context']['user']['identity'],
 
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
-                            ),
+                            ],
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
@@ -400,12 +400,12 @@ invalidKey
                 'context' =>
                     [
                         'user' =>
-                            array(
+                            [
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
-                            ),
+                            ],
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,

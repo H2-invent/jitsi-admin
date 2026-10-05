@@ -16,11 +16,11 @@ use Psr\Log\LoggerInterface;
 class CalloutService
 {
     public function __construct(
-        private EntityManagerInterface       $entityManager,
-        private ThemeService                 $themeService,
-        private LobbyWaitungUserRepository   $lobbyWaitungUserRepository,
-        private AdhocMeetingWebsocketService $adhocMeetingWebsocketService,
-        private LoggerInterface              $logger,
+        private readonly EntityManagerInterface       $entityManager,
+        private readonly ThemeService                 $themeService,
+        private readonly LobbyWaitungUserRepository   $lobbyWaitungUserRepository,
+        private readonly AdhocMeetingWebsocketService $adhocMeetingWebsocketService,
+        private readonly LoggerInterface              $logger,
     )
     {
     }
@@ -134,7 +134,7 @@ class CalloutService
     public
     function isalreadyInTheConfernce(?User $user, ?Rooms $rooms): bool
     {
-        $lobbyUser = $this->lobbyWaitungUserRepository->findOneBy(array('user' => $user, 'room'=>$rooms));
+        $lobbyUser = $this->lobbyWaitungUserRepository->findOneBy(['user' => $user, 'room'=>$rooms]);
         if ($lobbyUser) {
             return true;
         }

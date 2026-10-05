@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/room/adhoc/', name: 'add_hoc')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/room/adhoc/', name: 'add_hoc')]
 class AdHocMeetingController extends JitsiAdminController
 {
     public function __construct(
@@ -27,13 +27,13 @@ class AdHocMeetingController extends JitsiAdminController
         TranslatorInterface $translator,
         LoggerInterface $logger,
         ParameterBagInterface $parameterBag,
-        private CreateHttpsUrl $createHttpsUrl,
+        private readonly CreateHttpsUrl $createHttpsUrl,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route(path: 'confirmation/{userId}/{serverId}', name: '_confirm')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'confirmation/{userId}/{serverId}', name: '_confirm')]
     public function confirmation(
         #[MapEntity(id: 'userId')] User   $user,
         #[MapEntity(id: 'serverId')] Server $server,
@@ -43,8 +43,8 @@ class AdHocMeetingController extends JitsiAdminController
         return $this->render('add_hoc_meeting/__confirmation.html.twig', ['server' => $server, 'user' => $user, 'tag' => $tag]);
     }
 
-    #[Route(path: 'meeting/{userId}/{serverId}/{tagId}', name: '_meeting')]
-    #[Route(path: 'meeting/{userId}/{serverId}', name: '_meeting_no_tag')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'meeting/{userId}/{serverId}/{tagId}', name: '_meeting')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'meeting/{userId}/{serverId}', name: '_meeting_no_tag')]
     public function index(
         #[MapEntity(id: 'userId')] User                $user,
         #[MapEntity(id: 'serverId')] Server              $server,

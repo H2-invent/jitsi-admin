@@ -93,7 +93,7 @@ class ScheduleNewTest extends WebTestCase
         $form['scheduler[duration]'] = "60";
         $client->submit($form);
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => '198273987321'));
+        $room = $roomRepo->findOneBy(['name' => '198273987321']);
         self::assertNotNull($room);
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
         $modalUrl = base64_encode($urlGenerator->generate('schedule_admin', ['id' => $room->getId()]));
@@ -226,24 +226,24 @@ class ScheduleNewTest extends WebTestCase
         $manger = self::getContainer()->get(EntityManagerInterface::class);
         $uid = "1234567890";
         $scheduleTimerRoomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $scheduleTimerRoomRepo->findOneBy(array('uid' => '123456789100'));
+        $room = $scheduleTimerRoomRepo->findOneBy(['uid' => '123456789100']);
         $room->addUser($testUser2);
         foreach ($room->getSchedulings()[0]->getSchedulingTimes() as $schedulingTime) {
-            $schedulingTimeUser = (new SchedulingTimeUser())->setUser($testUser)->setScheduleTime($schedulingTime)->setAccept(0);
+            $schedulingTimeUser = new SchedulingTimeUser()->setUser($testUser)->setScheduleTime($schedulingTime)->setAccept(0);
             $manger->persist($schedulingTimeUser);
             $schedulingTime->addSchedulingTimeUser($schedulingTimeUser);
             $manger->persist($schedulingTime);
         }
 
-        $sche1 = (new SchedulingTimeUser())->setUser($testUser2)->setScheduleTime($room->getSchedulings()[0]->getSchedulingTimes()[0])->setAccept(0);
+        $sche1 = new SchedulingTimeUser()->setUser($testUser2)->setScheduleTime($room->getSchedulings()[0]->getSchedulingTimes()[0])->setAccept(0);
         $manger->persist($sche1);
         $room->getSchedulings()[0]->getSchedulingTimes()[0]->addSchedulingTimeUser($sche1);
         $manger->persist($room);
-        $sche2 = (new SchedulingTimeUser())->setUser($testUser2)->setScheduleTime($room->getSchedulings()[0]->getSchedulingTimes()[1])->setAccept(1);
+        $sche2 = new SchedulingTimeUser()->setUser($testUser2)->setScheduleTime($room->getSchedulings()[0]->getSchedulingTimes()[1])->setAccept(1);
         $manger->persist($sche2);
         $room->getSchedulings()[0]->getSchedulingTimes()[1]->addSchedulingTimeUser($sche2);
         $manger->persist($room);
-        $sche3 = (new SchedulingTimeUser())->setUser($testUser2)->setScheduleTime($room->getSchedulings()[0]->getSchedulingTimes()[2])->setAccept(2);
+        $sche3 = new SchedulingTimeUser()->setUser($testUser2)->setScheduleTime($room->getSchedulings()[0]->getSchedulingTimes()[2])->setAccept(2);
         $manger->persist($sche3);
         $room->getSchedulings()[0]->getSchedulingTimes()[1]->addSchedulingTimeUser($sche3);
         $manger->persist($room);

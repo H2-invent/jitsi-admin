@@ -16,7 +16,7 @@ class CheckAuthorizationService
         $authHeader = $request->headers->get('Authorization');
         if ($authHeader !== $token) {
             $array = ['authorized' => false];
-            $response = new JsonResponse($array, 401);
+            $response = new JsonResponse($array, \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
 
             return $response;
         }

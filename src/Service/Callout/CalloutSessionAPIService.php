@@ -15,13 +15,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CalloutSessionAPIService
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private TranslatorInterface    $translator,
-        private ThemeService           $themeService,
-        private UrlGeneratorInterface  $urlGenerator,
-        private CalloutService         $calloutService,
-        private ParameterBagInterface  $parameterBag,
-        private LoggerInterface        $logger,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly TranslatorInterface    $translator,
+        private readonly ThemeService           $themeService,
+        private readonly UrlGeneratorInterface  $urlGenerator,
+        private readonly CalloutService         $calloutService,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly LoggerInterface        $logger,
     )
     {
     }
@@ -53,15 +53,15 @@ class CalloutSessionAPIService
         $this->logger->debug('lastdialed',
             [
                 $calloutSession->getLastDialed(),
-                (new \DateTimeImmutable())->format('U'),
-                (intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed())
+                new \DateTimeImmutable()->format('U'),
+                (intval(new \DateTimeImmutable()->format('U')) - $calloutSession->getLastDialed())
             ]);
         /** @var int|string $caloutWaitingTime */
         $caloutWaitingTime = $this->parameterBag->get('CALLOUT_WAITING_TIME');
-        if ($calloutSession->getLastDialed() && ((intval((new \DateTimeImmutable())->format('U')) - $calloutSession->getLastDialed()) < (int) $caloutWaitingTime)) {
+        if ($calloutSession->getLastDialed() && ((intval(new \DateTimeImmutable()->format('U')) - $calloutSession->getLastDialed()) < (int) $caloutWaitingTime)) {
             return null;
         } else {
-            $calloutSession->setLastDialed((float) (new \DateTimeImmutable())->format('U'));
+            $calloutSession->setLastDialed((float) new \DateTimeImmutable()->format('U'));
             $this->entityManager->persist($calloutSession);
             $this->entityManager->flush();
         }

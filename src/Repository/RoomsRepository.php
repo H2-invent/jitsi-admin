@@ -21,13 +21,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RoomsRepository extends ServiceEntityRepository
 {
-    private TimeZoneService $timeZoneService;
     private int $amountperLayz = 8;
 
-    public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
+    public function __construct(ManagerRegistry $registry, private readonly TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
-        $this->timeZoneService = $timeZoneService;
     }
 
     // /**
@@ -377,7 +375,7 @@ class RoomsRepository extends ServiceEntityRepository
      */
     public function findRoomsFutureAndPast(User $user, string $timeBack): array
     {
-        $now = (new \DateTimeImmutable('now', new \DateTimeZone('utc')))->modify($timeBack);
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'))->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
 
         return $qb
@@ -668,7 +666,7 @@ class RoomsRepository extends ServiceEntityRepository
      */
     public function findRoomsnotInPast(): array
     {
-        $now = (new \DateTimeImmutable('now'))->getTimestamp();
+        $now = new \DateTimeImmutable('now')->getTimestamp();
         $qb = $this->createQueryBuilder('r');
         return $qb
             ->andWhere(

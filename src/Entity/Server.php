@@ -811,9 +811,7 @@ class Server
     public function getTag(): Collection
     {
         $data = $this->tag->toArray();
-        usort($data, function (Tag $a, Tag $b) {
-            return $a->getPriority() <=> $b->getPriority();
-        });
+        usort($data, fn(Tag $a, Tag $b) => $a->getPriority() <=> $b->getPriority());
         $res = [];
         foreach ($data as $datum) {
             if (!$datum->getDisabled()) {

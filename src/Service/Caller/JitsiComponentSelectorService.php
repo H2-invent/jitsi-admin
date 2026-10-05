@@ -27,11 +27,11 @@ class JitsiComponentSelectorService
 
     public function __construct(
         private HttpClientInterface   $httpClient,
-        private ThemeService          $themeService,
-        private RoomService           $roomService,
-        private ParameterBagInterface $parameterBag,
-        private KernelInterface       $kernel,
-        private LoggerInterface       $logger)
+        private readonly ThemeService          $themeService,
+        private readonly RoomService           $roomService,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly KernelInterface       $kernel,
+        private readonly LoggerInterface       $logger)
     {
         try {
             $this->baseUrl = null;
@@ -61,7 +61,7 @@ class JitsiComponentSelectorService
                 $this->publicKey = file_get_contents($publicKeyPath);
             }
 
-        }catch (\Exception $exception){
+        }catch (\Exception){
 
         }
 

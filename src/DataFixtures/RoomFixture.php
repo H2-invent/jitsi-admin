@@ -231,7 +231,7 @@ class RoomFixture extends Fixture
             $room->setDuration(60);
             $room->setDissallowPrivateMessage(true);
             $room->setDissallowScreenshareGlobal(true);
-            $start = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('+' . ($i * 2 + 1) . 'minutes');
+            $start = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('+' . ($i * 2 + 1) . 'minutes');
             $end = $start->modify('+60min');
             $room->setStart($start);
             $room->setEnddate($end);
@@ -298,7 +298,7 @@ class RoomFixture extends Fixture
             $room->setDuration(60);
             $room->setDissallowPrivateMessage(true);
             $room->setDissallowScreenshareGlobal(true);
-            $start = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('America/Adak'))->modify('+' . ($i * 2) . 'minutes');
+            $start = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('America/Adak'))->modify('+' . ($i * 2) . 'minutes');
             $end = $start->modify('+60min');
             $room->setStart($start);
             $room->setEnddate($end);
@@ -328,7 +328,7 @@ class RoomFixture extends Fixture
         $room->setDuration(60);
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
-        $start = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('Europe/Berlin'));
+        $start = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('Europe/Berlin'));
         $end = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
@@ -348,7 +348,7 @@ class RoomFixture extends Fixture
         $room->setDuration(60);
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
-        $start = (new \DateTimeImmutable('tomorrow'))->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(10, 0);
+        $start = new \DateTimeImmutable('tomorrow')->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(10, 0);
         $end = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
@@ -372,7 +372,7 @@ class RoomFixture extends Fixture
         $room->setDuration(60);
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
-        $start = (new \DateTimeImmutable('yesterday'))->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(10, 0);
+        $start = new \DateTimeImmutable('yesterday')->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(10, 0);
         $end = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
@@ -401,7 +401,7 @@ class RoomFixture extends Fixture
         $room->setDuration(60);
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
-        $start = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('-10min');
+        $start = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('-10min');
         $end = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
@@ -448,7 +448,7 @@ class RoomFixture extends Fixture
             ->setParticipantName('aus der Konferenz 1 Stunde')
             ->setRoomStatus($roomStatus)
             ->setEnteredRoomAt(new \DateTimeImmutable())
-            ->setLeftRoomAt((new \DateTimeImmutable())->modify('+1hour'));
+            ->setLeftRoomAt(new \DateTimeImmutable()->modify('+1hour'));
         $manager->persist($roomStatusPart);
         $manager->flush();
 
@@ -459,27 +459,27 @@ class RoomFixture extends Fixture
             ->setParticipantName('aus der Konferenz 1 Tag')
             ->setRoomStatus($roomStatus)
             ->setEnteredRoomAt(new \DateTimeImmutable())
-            ->setLeftRoomAt((new \DateTimeImmutable())->modify('+1day'));
+            ->setLeftRoomAt(new \DateTimeImmutable()->modify('+1day'));
         $manager->persist($roomStatusPart);
         $manager->flush();
 
 
         $roomStatus = new RoomStatus();
         $roomStatus->setCreated(true)
-            ->setRoomCreatedAt((new \DateTimeImmutable())->modify('-2hours'))
+            ->setRoomCreatedAt(new \DateTimeImmutable()->modify('-2hours'))
             ->setRoom($room)
             ->setJitsiRoomId('test@test.de')
             ->setUpdatedAt(new \DateTimeImmutable())
             ->setCreatedAt(new \DateTimeImmutable())
             ->setDestroyed(true)
-            ->setDestroyedAt((new \DateTimeImmutable())->modify('-1hour'));
+            ->setDestroyedAt(new \DateTimeImmutable()->modify('-1hour'));
         $manager->persist($roomStatus);
         $manager->flush();
 
         $roomStatusPart = new RoomStatusParticipant();
-        $roomStatusPart->setEnteredRoomAt((new \DateTimeImmutable())->modify('-2hours'))
+        $roomStatusPart->setEnteredRoomAt(new \DateTimeImmutable()->modify('-2hours'))
             ->setInRoom(false)
-            ->setLeftRoomAt((new \DateTimeImmutable())->modify('-1hour'))
+            ->setLeftRoomAt(new \DateTimeImmutable()->modify('-1hour'))
             ->setParticipantId('inderKonferenz@test.de')
             ->setParticipantName('beim letzen mal')
             ->setRoomStatus($roomStatus)
@@ -567,7 +567,7 @@ class RoomFixture extends Fixture
         $room->setDuration(60);
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
-        $start = (new \DateTimeImmutable('tomorrow'))->setTimezone(new \DateTimeZone('Europe/Berlin'));
+        $start = new \DateTimeImmutable('tomorrow')->setTimezone(new \DateTimeZone('Europe/Berlin'));
         $end = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
@@ -591,7 +591,7 @@ class RoomFixture extends Fixture
         $room1->setDuration(60);
         $room1->setDissallowPrivateMessage(true);
         $room1->setDissallowScreenshareGlobal(true);
-        $start = (new \DateTimeImmutable('tomorrow'))->setTimezone(new \DateTimeZone('Europe/Berlin'));
+        $start = new \DateTimeImmutable('tomorrow')->setTimezone(new \DateTimeZone('Europe/Berlin'));
         $end = $start->modify('+60min');
         $room1->setStart($start);
         $room1->setEnddate($end);
@@ -630,7 +630,7 @@ class RoomFixture extends Fixture
         $room->setDuration(60);
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
-        $start = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('-10min');
+        $start = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('-10min');
         $end = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);

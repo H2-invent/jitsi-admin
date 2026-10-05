@@ -26,7 +26,7 @@ class IpJoinTest extends WebTestCase
 
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode());
         self::assertSelectorTextContains('.joinPageHeader','Zu viele Teilnehmenden');
     }
     public function testBlockedIp(): void
@@ -45,7 +45,7 @@ class IpJoinTest extends WebTestCase
 
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode());
         self::assertSelectorTextContains('.joinPageHeader','Zugriff nicht erlaubt');
     }
     public function testAllowedIp(): void
@@ -64,7 +64,7 @@ class IpJoinTest extends WebTestCase
 
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
         // Verify the JWT payload in the response
         preg_match("/jwt: '([^']+)'/", $content, $matches);
@@ -89,7 +89,7 @@ class IpJoinTest extends WebTestCase
 
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
         preg_match("/jwt: '([^']+)'/", $content, $matches);
         self::assertNotEmpty($matches[1]);

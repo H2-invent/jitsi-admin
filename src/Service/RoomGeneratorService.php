@@ -15,19 +15,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RoomGeneratorService
 {
-    private ParameterBagInterface $parameterBag;
-    private CallerPrepareService $callerPrepareService;
-    private EntityManagerInterface $em;
-    private RequestStack $requestStack;
-    private ThemeService $themeService;
-
-    public function __construct(RequestStack $requestStack, ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager, ThemeService $themeService)
+    public function __construct(private readonly RequestStack $requestStack, private readonly ParameterBagInterface $parameterBag, private readonly CallerPrepareService $callerPrepareService, private readonly EntityManagerInterface $em, private readonly ThemeService $themeService)
     {
-        $this->parameterBag = $parameterBag;
-        $this->callerPrepareService = $callerPrepareService;
-        $this->em = $entityManager;
-        $this->requestStack = $requestStack;
-        $this->themeService = $themeService;
     }
 
     public function createRoom(User $user, ?Server $server = null): Rooms
@@ -39,7 +28,7 @@ class RoomGeneratorService
         $room->setServer($server);
         $room->addUser($user);
         $room->setDuration(60);
-        $room->setUid(rand(01, 99) . time());
+        $room->setUid(random_int(01, 99) . time());
         $room->setModerator($user);
         $room->setCreator($user);
         $room->setSequence(0);

@@ -67,7 +67,7 @@ class Documents implements \Serializable
 
     public function __serialize()
     {
-        return array('id' => $this->getId());
+        return ['id' => $this->getId()];
     }
 
     public function __unserialize(mixed $data)

@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StartController extends JitsiAdminController
 {
-    #[Route(path: '/room/join/{t}/{room}', name: 'room_join')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/join/{t}/{room}', name: 'room_join')]
     public function joinRoom(RoomService $roomService, string $room, string $t, StartMeetingService $startMeetingService): NotFoundHttpException|RedirectResponse|Response
     {
         $roomL = $this->doctrine->getRepository(Rooms::class)->find($room);
@@ -22,7 +22,7 @@ class StartController extends JitsiAdminController
         $showNameInConference = $this->parameterBag->get('laf_showNameInConference');
         return $startMeetingService->startMeeting($roomL, $this->getUser(), $t, $this->getUser()->getFormatedName($showNameInConference));
     }
-    #[Route(path: '/room/checkCors', name: 'room_check_cors')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/checkCors', name: 'room_check_cors')]
     public function checkCorsRoom(Request $request, RoomService $roomService): Response
     {
         $weiterleitung = 'https://' . $request->get('url') . '/testRoom';

@@ -11,9 +11,9 @@ class TransferOwnershipService
 {
 
     public function __construct(
-        private EntityManagerInterface  $entityManager,
-        private PermissionChangeService $permissionChangeService,
-        private RoomsUserRepository     $roomsUserRepository,
+        private readonly EntityManagerInterface  $entityManager,
+        private readonly PermissionChangeService $permissionChangeService,
+        private readonly RoomsUserRepository     $roomsUserRepository,
     )
     {
     }

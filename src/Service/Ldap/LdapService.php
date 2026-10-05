@@ -13,8 +13,6 @@ use Symfony\Component\Ldap\Entry;
 
 class LdapService
 {
-    private LdapUserService $ldapUserService;
-    private EntityManagerInterface $em;
     /**
      * @var LdapType[]
      */
@@ -98,13 +96,11 @@ class LdapService
     private $LDAP_IS_SIP_VIDEO;
 
     public function __construct(
-        LdapUserService               $ldapUserService,
-        EntityManagerInterface        $entityManager,
-        private ParameterBagInterface $parameterBag,
-        private LoggerInterface       $logger,)
+        private readonly LdapUserService               $ldapUserService,
+        private readonly EntityManagerInterface        $em,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly LoggerInterface       $logger,)
     {
-        $this->ldapUserService = $ldapUserService;
-        $this->em = $entityManager;
         $this->ldaps = [];
     }
 
@@ -144,7 +140,7 @@ class LdapService
                 $this->LDAP_SPECIALFIELD[] = json_decode($data, true);
             }
             return sizeof($this->URL);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return false;
         }
     }
@@ -176,7 +172,7 @@ class LdapService
                 $ldap->setLDAPDEPUTYGROUPFILTER($this->LDAP_DEPUTY_GROUP_FILTER[$count] !== '' ? $this->LDAP_DEPUTY_GROUP_FILTER[$count] : null);
                 try {
                     $ldap->setISSIPVIDEO($this->LDAP_IS_SIP_VIDEO[$count] === 'true');
-                } catch (\Exception $exception) {
+                } catch (\Exception) {
 
                 }
 

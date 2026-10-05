@@ -29,13 +29,13 @@ class MailerService
     private ?CustomMailerMessage $customMailer = null;
 
     public function __construct(
-        private MessageBusInterface   $bus,
-        private LicenseService        $licenseService,
-        private LoggerInterface       $logger,
-        private ParameterBagInterface $parameter,
-        private KernelInterface       $kernel,
-        private MailerInterface       $mailer,
-        private ThemeService          $themeService
+        private readonly MessageBusInterface   $bus,
+        private readonly LicenseService        $licenseService,
+        private readonly LoggerInterface       $logger,
+        private readonly ParameterBagInterface $parameter,
+        private readonly KernelInterface       $kernel,
+        private readonly MailerInterface       $mailer,
+        private readonly ThemeService          $themeService
     ) {}
 
     /**
@@ -122,7 +122,7 @@ class MailerService
                 $this->logger->info('Sending via Custom Mailer');
                 $this->bus->dispatch(
                     $this->customMailer->send($email),
-                    [new DelayStamp(rand(1000, 10000))]
+                    [new DelayStamp(random_int(1000, 10000))]
                 );
             } else {
                 $this->mailer->send($email);
@@ -177,7 +177,7 @@ class MailerService
         array $attachments,
         array $cc
     ): Email {
-        $email = (new Email())
+        $email = new Email()
             ->subject($subject)
             ->from(new Address($fromEmail, $fromName))
             ->to($to)

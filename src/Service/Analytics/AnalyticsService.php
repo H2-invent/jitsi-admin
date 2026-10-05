@@ -16,10 +16,10 @@ class AnalyticsService
 {
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private HttpClientInterface    $httpClient,
-        private ParameterBagInterface  $parameterBag,
-        private ThemeService           $themeService,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly HttpClientInterface    $httpClient,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly ThemeService           $themeService,
     )
     {
     }
@@ -102,7 +102,7 @@ class AnalyticsService
                         ]
                     );
                     $res = true;
-                } catch (\Exception $exception) {
+                } catch (\Exception) {
                     $res = false;
                 }
                 return $res;

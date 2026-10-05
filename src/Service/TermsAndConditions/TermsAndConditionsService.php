@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 class TermsAndConditionsService
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ThemeService           $themeService
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ThemeService           $themeService
     )
     {
     }

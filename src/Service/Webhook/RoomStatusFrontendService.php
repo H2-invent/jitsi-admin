@@ -11,11 +11,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class RoomStatusFrontendService
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
     public function isRoomCreated(Rooms $rooms): bool
@@ -55,13 +52,7 @@ class RoomStatusFrontendService
                 return false;
             }
         }
-        foreach ($status as $data) {
-            if ($data->getDestroyedUtc() > $rooms->getStartUtc()) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($status, fn($data) => $data->getDestroyedUtc() > $rooms->getStartUtc());
     }
 
     /**
@@ -191,9 +182,7 @@ class RoomStatusFrontendService
                 ->getQuery()
                 ->getResult();
             foreach ($startResults as $row) {
-                if (!isset($roomStarts[$row['roomId']])) {
-                    $roomStarts[$row['roomId']] = $row['startUtc'];
-                }
+                $roomStarts[$row['roomId']] ??= $row['startUtc'];
             }
         }
 

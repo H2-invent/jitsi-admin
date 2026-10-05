@@ -32,30 +32,8 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
 {
     use TargetPathTrait;
 
-    private ClientRegistry $clientRegistry;
-    private EntityManagerInterface $em;
-    private RouterInterface $router;
-    private UserCreatorService $userCreatorService;
-    private IndexUserService $indexer;
-    private LoggerInterface $logger;
-
-    public function __construct(
-        LoggerInterface               $logger,
-        IndexUserService              $indexUserService,
-        UserCreatorService            $userCreatorService,
-        ClientRegistry                $clientRegistry,
-        EntityManagerInterface        $em,
-        RouterInterface               $router,
-        private CreateHttpsUrl        $createHttpsUrl,
-        private UrlGeneratorInterface $urlGenerator,
-    )
+    public function __construct(private LoggerInterface               $logger, private IndexUserService              $indexer, private UserCreatorService            $userCreatorService, private ClientRegistry                $clientRegistry, private EntityManagerInterface        $em, private RouterInterface               $router, private CreateHttpsUrl        $createHttpsUrl, private UrlGeneratorInterface $urlGenerator)
     {
-        $this->clientRegistry = $clientRegistry;
-        $this->em = $em;
-        $this->router = $router;
-        $this->userCreatorService = $userCreatorService;
-        $this->indexer = $indexUserService;
-        $this->logger = $logger;
     }
 
     public function supports(Request $request): bool
@@ -81,10 +59,10 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
                     try {
                         //When the keycloak USer delivers a
                         $email = $keycloakUser->getEmail();
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         try {
                             $email = $keycloakUser->toArray()['preferred_username'];
-                        } catch (\Exception $e) {
+                        } catch (\Exception) {
                         }
                     }
                     $id = $keycloakUser->getId();
@@ -93,7 +71,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
                     $this->logger->debug($firstName);
                     $lastName = $keycloakUser->toArray()['family_name'];
                     $this->logger->debug($lastName);
-                    $username = isset($keycloakUser->toArray()['preferred_username']) ? $keycloakUser->toArray()['preferred_username'] : null;
+                    $username = $keycloakUser->toArray()['preferred_username'] ?? null;
                     $this->logger->debug($username);
                     $groups = null;
                     if (isset($keycloakUser->toArray()['groups'])) {

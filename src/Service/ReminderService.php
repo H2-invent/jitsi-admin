@@ -9,13 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ReminderService
 {
-    private EntityManagerInterface $em;
-    private UserService $userService;
-
-    public function __construct(EntityManagerInterface $entityManager, UserService $userService)
+    public function __construct(private readonly EntityManagerInterface $em, private readonly UserService $userService)
     {
-        $this->em = $entityManager;
-        $this->userService = $userService;
     }
 
     /**
@@ -25,7 +20,7 @@ class ReminderService
     public function sendReminder(?array $filter): array
     {
         set_time_limit(600);
-        $now = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('utc'));
         $now10 = $now->modify('+ 10 minutes');
 
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');

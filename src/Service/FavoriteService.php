@@ -10,11 +10,8 @@ use Symfony\Component\HttpClient\HttpClient;
 
 class FavoriteService
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
     public function changeFavorite(User $user, Rooms $room): bool
@@ -36,7 +33,7 @@ class FavoriteService
     public function cleanFavorites(User $user): void
     {
         $favorites = $user->getFavorites();
-        $now = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('utc'));
         $changed = false;
         foreach ($favorites as $favorite) {
             if (!$favorite->getUser()->contains($user)
@@ -61,7 +58,7 @@ class FavoriteService
             $browser->followMetaRefresh(true);
             $link = $browser->request('GET', 'https://h2-invent.github.io/jitsi-admin/');
             $res = $link->text();
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
         }
     }
 }

@@ -8,7 +8,7 @@ use Monolog\LogRecord;
 
 class ExcludeHealthCheckHandler extends FilterHandler
 {
-    private const EXCLUDED_ROUTE = 'health_check';
+    private const string EXCLUDED_ROUTE = 'health_check';
 
     public function isHandling(LogRecord $record): bool
     {

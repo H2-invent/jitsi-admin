@@ -14,8 +14,8 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20250207091515 extends AbstractMigration
 {
 
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'enable_recording';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'enable_recording';
     public function getDescription(): string
     {
         return '';

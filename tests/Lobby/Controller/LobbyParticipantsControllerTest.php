@@ -30,9 +30,7 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                return 'id';
-            }
+            fn(Update $update): string => 'id'
         );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
@@ -76,9 +74,7 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                return 'id';
-            }
+            fn(Update $update): string => 'id'
         );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
@@ -113,9 +109,7 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                return 'id';
-            }
+            fn(Update $update): string => 'id'
         );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
@@ -152,9 +146,7 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                return 'id';
-            }
+            fn(Update $update): string => 'id'
         );
         $directSend->setMercurePublisher($hub);
         $lobbyUserRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
@@ -191,9 +183,7 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                return 'id';
-            }
+            fn(Update $update): string => 'id'
         );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);

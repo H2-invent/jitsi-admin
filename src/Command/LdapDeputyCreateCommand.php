@@ -18,8 +18,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class LdapDeputyCreateCommand extends Command
 {
     public function __construct(
-        private LdapService       $ldapService,
-        private DebutyLdapService $debutyLdapService,
+        private readonly LdapService       $ldapService,
+        private readonly DebutyLdapService $debutyLdapService,
         ?string                    $name = null
     )
     {

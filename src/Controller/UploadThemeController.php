@@ -19,18 +19,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-#[Route('/room/upload/theme/', name: 'app_upload_theme_')]
+#[\Symfony\Component\Routing\Attribute\Route('/room/upload/theme/', name: 'app_upload_theme_')]
 class UploadThemeController extends AbstractController
 {
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private ThemeService $themeService,
-        private ThemeUploadService $themeUploadService,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ThemeService $themeService,
+        private readonly ThemeUploadService $themeUploadService,
     )
     {
     }
 
-    #[Route('form', name: 'form', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route('form', name: 'form', methods: ['GET'])]
     public function index(): Response
     {
         if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
@@ -49,7 +49,7 @@ class UploadThemeController extends AbstractController
         ]);
     }
 
-    #[Route('save', name: 'save', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route('save', name: 'save', methods: ['POST'])]
     public function save(Request $request): Response
     {
         $form = $this->createForm(ThemeUploadType::class);

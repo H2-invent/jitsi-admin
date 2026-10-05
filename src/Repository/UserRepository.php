@@ -19,7 +19,7 @@ class UserRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry               $registry,
-        private LoggerInterface       $logger,)
+        private readonly LoggerInterface       $logger,)
     {
         parent::__construct($registry, User::class);
     }

@@ -10,31 +10,19 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-class License extends AbstractExtension
+class License
 {
-    private LicenseService $licenseService;
-
-    public function __construct(LicenseService $licenseService)
+    public function __construct(private readonly LicenseService $licenseService)
     {
-        $this->licenseService = $licenseService;
     }
 
-    /**
-     * @return array<TwigFilter>
-     */
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('validateLicense', [$this, 'validateLicense']),
-            new TwigFilter('validateUntilLicense', [$this, 'validateUntilLicense']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFilter(name: 'validateLicense')]
     public function validateLicense(Server $server): bool
     {
         return $this->licenseService->verify($server);
     }
 
+    #[\Twig\Attribute\AsTwigFilter(name: 'validateUntilLicense')]
     public function validateUntilLicense(Server $server): \DateTimeImmutable
     {
         return $this->licenseService->validUntil($server);

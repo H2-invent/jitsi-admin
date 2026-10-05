@@ -13,12 +13,12 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20250105094616 extends AbstractMigration
 {
-    private const TABLE_NAME = 'recording';
-    private const COLUMN_NAME_ROOM_ID = 'room_id';
-    private const COLUMN_NAME_USER_ID = 'user_id';
-    private const COLUMN_RECORDING_ID = 'recording_id';
-    private const COLUMN_NAME_CREATED_AT = 'created_at';
-    private const COLUMN_UID = 'uid';
+    private const string TABLE_NAME = 'recording';
+    private const string COLUMN_NAME_ROOM_ID = 'room_id';
+    private const string COLUMN_NAME_USER_ID = 'user_id';
+    private const string COLUMN_RECORDING_ID = 'recording_id';
+    private const string COLUMN_NAME_CREATED_AT = 'created_at';
+    private const string COLUMN_UID = 'uid';
     public function getDescription(): string
     {
         return '';

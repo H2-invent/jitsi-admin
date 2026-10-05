@@ -16,13 +16,13 @@ class SubcriptionService
 {
 
     public function __construct(
-        private UserService            $userService,
-        private NotificationService    $notifier,
-        private EntityManagerInterface $em,
-        private Environment            $twig,
-        private TranslatorInterface    $translator,
-        private UserCreatorService     $userCreationService,
-        private ThemeService           $themeService
+        private readonly UserService            $userService,
+        private readonly NotificationService    $notifier,
+        private readonly EntityManagerInterface $em,
+        private readonly Environment            $twig,
+        private readonly TranslatorInterface    $translator,
+        private readonly UserCreatorService     $userCreationService,
+        private readonly ThemeService           $themeService
     )
     {
     }
@@ -135,7 +135,7 @@ class SubcriptionService
                 $this->em->remove($subscriber);
                 $this->em->flush();
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $res['message'] = $this->translator->trans('Fehler, Bitte klicken Sie den link erneut an.');
             $res['title'] = $this->translator->trans('Fehler');
         }
@@ -147,7 +147,7 @@ class SubcriptionService
      * @return array{text: string, color: string, error: bool, sub: Subscriber}
      * creates a new subscriber element
      */
-    function createNewSubscriber(User $user, Rooms $rooms): array
+    public function createNewSubscriber(User $user, Rooms $rooms): array
     {
         $subscriber = new Subscriber();
         $subscriber->setUser($user)->setRoom($rooms)->setUid(md5(uniqid()));
@@ -164,7 +164,7 @@ class SubcriptionService
      * @return array{text: string, color: string, error: bool}
      * creates a new Waiinglist element and sends the email with the waiting list to the subscriber
      */
-    function createNewWaitinglist(User $user, Rooms $rooms): array
+    public function createNewWaitinglist(User $user, Rooms $rooms): array
     {
         $waitingList = new Waitinglist();
         $waitingList->setUser($user)->setRoom($rooms)->setCreatedAt(new \DateTimeImmutable());
@@ -181,7 +181,7 @@ class SubcriptionService
      * @param Rooms $rooms
      * creates a new roomUser element and sends the email with the room infos  to the subscriber
      */
-    function createUserRoom(User $user, Rooms $rooms): void
+    public function createUserRoom(User $user, Rooms $rooms): void
     {
         $user->addRoom($rooms);
         $this->em->persist($user);

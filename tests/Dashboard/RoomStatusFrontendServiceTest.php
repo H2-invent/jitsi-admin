@@ -146,11 +146,11 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $roomStatus = new RoomStatus();
         $roomStatus->setCreated(true)
-            ->setRoomCreatedAt((new \DateTimeImmutable())->modify('-3 hours'))
+            ->setRoomCreatedAt(new \DateTimeImmutable()->modify('-3 hours'))
             ->setRoom($room)
             ->setJitsiRoomId('testclosed@test.de')
             ->setDestroyed(true)
-            ->setDestroyedAt((new \DateTimeImmutable())->modify('-1 hour'))
+            ->setDestroyedAt(new \DateTimeImmutable()->modify('-1 hour'))
             ->setUpdatedAt(new \DateTimeImmutable())
             ->setCreatedAt(new \DateTimeImmutable());
         $em->persist($roomStatus);
@@ -238,18 +238,18 @@ class RoomStatusFrontendServiceTest extends KernelTestCase
 
         $roomStatus1 = new RoomStatus();
         $roomStatus1->setCreated(true)
-            ->setRoomCreatedAt((new \DateTimeImmutable())->modify('-3 hours'))
+            ->setRoomCreatedAt(new \DateTimeImmutable()->modify('-3 hours'))
             ->setRoom($room)
             ->setJitsiRoomId('partial1@test.de')
             ->setDestroyed(true)
-            ->setDestroyedAt((new \DateTimeImmutable())->modify('-2 hours'))
+            ->setDestroyedAt(new \DateTimeImmutable()->modify('-2 hours'))
             ->setUpdatedAt(new \DateTimeImmutable())
             ->setCreatedAt(new \DateTimeImmutable());
         $em->persist($roomStatus1);
 
         $roomStatus2 = new RoomStatus();
         $roomStatus2->setCreated(true)
-            ->setRoomCreatedAt((new \DateTimeImmutable())->modify('-1 hour'))
+            ->setRoomCreatedAt(new \DateTimeImmutable()->modify('-1 hour'))
             ->setRoom($room)
             ->setJitsiRoomId('partial2@test.de')
             ->setDestroyed(null)

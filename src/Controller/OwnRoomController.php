@@ -134,7 +134,7 @@ class OwnRoomController extends JitsiAdminController
                             $wui = $request->cookies->get('waitinguser');
                         }
                         $res = $startMeetingService->createLobbyParticipantResponse($wui);
-                        $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTimeImmutable())->modify('+6 hours')));
+                        $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), new \DateTimeImmutable()->modify('+6 hours')));
                     }
                 } else {
                     if ($this->getUser() === $room->getModerator()) {
@@ -155,7 +155,7 @@ class OwnRoomController extends JitsiAdminController
                             $wui = $request->cookies->get('waitinguser');
                         }
                         $res = $startMeetingService->createLobbyParticipantResponse($wui);
-                        $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTimeImmutable())->modify('+6 hours')));
+                        $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), new \DateTimeImmutable()->modify('+6 hours')));
                     }
                 } else {//Der Raum hat keine Lobby Aktiviert -->
                     // Der Fall hier: 1. Keine Zeit angegeben,
@@ -167,7 +167,7 @@ class OwnRoomController extends JitsiAdminController
             if ($res instanceof NotFoundHttpException) {
                 throw $res;
             }
-            $res->headers->setCookie(new Cookie('name', $name, (new \DateTimeImmutable())->modify('+365 days')));
+            $res->headers->setCookie(new Cookie('name', $name, new \DateTimeImmutable()->modify('+365 days')));
             return $res;
         }
 
@@ -211,8 +211,7 @@ class OwnRoomController extends JitsiAdminController
     #[Route(path: '/room/enterLink/{uid}', name: 'room_enter_link')]
     public function link(
         #[MapEntity(mapping: ['uid' => 'uid'])]
-        Rooms   $rooms,
-        Request $request
+        Rooms   $rooms
     ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {

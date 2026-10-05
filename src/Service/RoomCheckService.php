@@ -9,13 +9,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomCheckService
 {
-    private TranslatorInterface $translator;
-    private EntityManagerInterface $em;
-
-    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $em)
     {
-        $this->translator = $translator;
-        $this->em = $entityManager;
     }
 
     /**
@@ -34,9 +29,9 @@ class RoomCheckService
 
         $room = $this->setRoomProps($room);
         if ($room->getStart()) {
-            $now = (new \DateTimeImmutable())->getTimestamp();
-            $start = (new \DateTimeImmutable($room->getStart()->format('Y-m-d H:i:s'), $room->getTimeZone() ? new \DateTimeZone($room->getTimeZone()) : null))->getTimestamp();
-            $end = (new \DateTimeImmutable($room->getStart()->modify('+' . $room->getDuration() . 'min')->format('Y-m-d H:i:s'), $room->getTimeZone() ? new \DateTimeZone($room->getTimeZone()) : null))->getTimestamp();
+            $now = new \DateTimeImmutable()->getTimestamp();
+            $start = new \DateTimeImmutable($room->getStart()->format('Y-m-d H:i:s'), $room->getTimeZone() ? new \DateTimeZone($room->getTimeZone()) : null)->getTimestamp();
+            $end = new \DateTimeImmutable($room->getStart()->modify('+' . $room->getDuration() . 'min')->format('Y-m-d H:i:s'), $room->getTimeZone() ? new \DateTimeZone($room->getTimeZone()) : null)->getTimestamp();
             if (($start < $now && $end < $now) && !$room->getPersistantRoom()) {
                 $error[] = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
             }
@@ -44,12 +39,12 @@ class RoomCheckService
         return $room;
     }
 
-    function setRoomProps(Rooms $room): Rooms
+    public function setRoomProps(Rooms $room): Rooms
     {
         if ($room->getPersistantRoom()) {
             $counter = 0;
             $slug = UtilsHelper::slugify($room->getName());
-            $tmp = $slug . '-' . rand(10, 1000);
+            $tmp = $slug . '-' . random_int(10, 1000);
             if (!$room->getSlug()) {
                 while (true) {
                     $roomTmp = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $tmp]);
@@ -59,7 +54,7 @@ class RoomCheckService
                         break;
                     } else {
                         $counter++;
-                        $tmp = $slug . '-' . rand(10, 1000);
+                        $tmp = $slug . '-' . random_int(10, 1000);
                     }
                 }
             }

@@ -9,12 +9,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class PexelService
 {
-    private HttpClientInterface $client;
-    private ParameterBagInterface $parameterBag;
-    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag)
+    public function __construct(private readonly HttpClientInterface $client, private readonly ParameterBagInterface $parameterBag)
     {
-        $this->client = $httpClient;
-        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -36,7 +32,7 @@ class PexelService
                         $item->expiresAfter(intval($refreshTime));
 
                         $s = [];
-                        $hour = (new \DateTimeImmutable())->format('H');
+                        $hour = new \DateTimeImmutable()->format('H');
                         if ($hour < 7) {
                             $s = ['night', 'northern lights'];
                         } elseif ($hour < 9) {
@@ -53,7 +49,7 @@ class PexelService
 
                         $response = $this->client->request(
                             'GET',
-                            'https://api.pexels.com/v1/search?query=' . $s[rand(0, sizeof($s) - 1)] . '&per_page=80',
+                            'https://api.pexels.com/v1/search?query=' . $s[random_int(0, sizeof($s) - 1)] . '&per_page=80',
                             [
                                 'headers' => [
                                     'Authorization' => $this->parameterBag->get('laF_pexel_api_key'),
@@ -64,8 +60,8 @@ class PexelService
                     }
                 );
                 $imageArr = json_decode($value, true)['photos'];
-                $image = $imageArr[rand(0, sizeof($imageArr) - 1)];
-            } catch (\Exception $e) {
+                $image = $imageArr[random_int(0, sizeof($imageArr) - 1)];
+            } catch (\Exception) {
             }
         }
         return $image;

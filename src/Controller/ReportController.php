@@ -12,17 +12,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/room/report', name: 'app_report')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/room/report', name: 'app_report')]
 class ReportController extends AbstractController
 {
-    private TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
-    #[Route(path: '/{id}', name: '_create')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/{id}', name: '_create')]
     public function create(
         #[MapEntity(mapping: ['id' => 'id'])]
         ?Rooms $room
@@ -33,7 +30,7 @@ class ReportController extends AbstractController
         if (!UtilsHelper::isAllowedToOrganizeRoom($user, $room)) {
             throw  new NotFoundHttpException('Room not Found');
         }
-        $timeZone = $user->getTimeZone() ? $user->getTimeZone() : (new \DateTime())->getTimezone()->getName();
+        $timeZone = $user->getTimeZone() ?: new \DateTime()->getTimezone()->getName();
         return $this->render(
             'report/index.html.twig',
             [

@@ -19,21 +19,12 @@ use Twig\Environment;
 
 class NotificationService
 {
-    private MailerService $mailer;
-
     private IcsService $ics;
-
-    private TranslatorInterface $translator;
-    private JigasiService $jigasiService;
-    public function __construct(MailerService $mailerService, TranslatorInterface $translator, JigasiService $jigasiService)
+    public function __construct(private readonly MailerService $mailer, private readonly TranslatorInterface $translator, private readonly JigasiService $jigasiService)
     {
-        $this->mailer = $mailerService;
-
-        $this->translator = $translator;
-        $this->jigasiService = $jigasiService;
     }
 
-    function createIcs(Rooms $rooms, User $user, string $url, string $method = 'REQUEST'): string
+    public function createIcs(Rooms $rooms, User $user, string $url, string $method = 'REQUEST'): string
     {
         $this->ics = new IcsService();
 
@@ -92,7 +83,7 @@ class NotificationService
     /**
      * @param array<mixed> $attachement
      */
-    function sendNotification(string $content, string $subject, User $user, Server $server, ?Rooms $rooms = null, array $attachement = []): bool
+    public function sendNotification(string $content, string $subject, User $user, Server $server, ?Rooms $rooms = null, array $attachement = []): bool
     {
         return $this->mailer->sendEmail(
             $user,
@@ -106,7 +97,7 @@ class NotificationService
     }
 
 
-    function sendCron(string $content, string $subject, User $user, Server $server, Rooms $rooms): bool
+    public function sendCron(string $content, string $subject, User $user, Server $server, Rooms $rooms): bool
     {
         return $this->mailer->sendEmail(
             $user,

@@ -7,12 +7,12 @@ use Psr\Log\LoggerInterface;
 class CheckIPService
 {
     public function __construct(
-        private LoggerInterface $logger,
+        private readonly LoggerInterface $logger,
     )
     {
     }
 
-    function isIPInRange(string $ipToCheck, ?string $ipRange): bool
+    public function isIPInRange(string $ipToCheck, ?string $ipRange): bool
     {
 
         $this->logger->info($ipToCheck);
@@ -24,8 +24,8 @@ class CheckIPService
         $ipToCheckBinary = inet_pton($ipToCheck);
         foreach ($rangeList as $range) {
             // Zerlege die IP-Range in Netzwerk- und Subnetzmaske
-            if (strpos($range, '/') !== false) {
-                list($network, $subnetMask) = explode('/', $range);
+            if (str_contains($range, '/')) {
+                [$network, $subnetMask] = explode('/', $range);
 
                 // Konvertiere die IP-Adressen und Subnetzmasken in binäre Darstellung
                 $networkBinary = inet_pton($network);
@@ -33,7 +33,7 @@ class CheckIPService
                 if (!$ipToCheckBinary || !$networkBinary) {
                     break;
                 }
-                $subnetMaskBinary = pack('N', pow(2, 32) - pow(2, 32 - (int)$subnetMask));
+                $subnetMaskBinary = pack('N', 2 ** 32 - 2 ** (32 - (int)$subnetMask));
 
                 // Wende die Subnetzmaske an
                 $networkBinaryMasked = $networkBinary & $subnetMaskBinary;

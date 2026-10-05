@@ -38,26 +38,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomType extends AbstractType
 {
-    private ParameterBagInterface $parameterBag;
-    private LoggerInterface $logger;
-    private ThemeService $theme;
-    private TranslatorInterface $translator;
-    private EntityManagerInterface $entityManager;
-
-
-    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, LoggerInterface $logger, ThemeService $themeService, TranslatorInterface $translator)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly ParameterBagInterface $parameterBag, private readonly LoggerInterface $logger, private readonly ThemeService $theme, private readonly TranslatorInterface $translator)
     {
-        $this->parameterBag = $parameterBag;
-        $this->logger = $logger;
-        $this->theme = $themeService;
-        $this->translator = $translator;
-        $this->entityManager = $entityManager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-        $time = (new \DateTimeImmutable())->getTimestamp();
+        $time = new \DateTimeImmutable()->getTimestamp();
         $room = $options['data'];
         $during = false;
         if ($room->getStartTimestamp() && $room->getStartTimestamp() <= $time && !$room->getRepeaterProtoype()) {
@@ -232,9 +220,7 @@ class RoomType extends AbstractType
                 EntityType::class,
                 [
                     'class' => User::class,
-                    'choice_label' => function (User $user) {
-                        return $user->getFormatedName($this->theme->getApplicationProperties('laf_showNameFrontend'));
-                    },
+                    'choice_label' => fn(User $user) => $user->getFormatedName($this->theme->getApplicationProperties('laf_showNameFrontend')),
                     'choices' => $organisators,
                     'required' => true,
                     'label' => 'label.moderator',
@@ -269,7 +255,7 @@ class RoomType extends AbstractType
         );
 
         $resolver->setDefault('attr', function (Options $options) {
-            $attr = array('id' => 'newRoom_form');
+            $attr = ['id' => 'newRoom_form'];
             /** @var bool|float|int|string|null $allowEditTag */
             $allowEditTag = $this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG);
             /** @var bool|float|int|string|null $allowTag */

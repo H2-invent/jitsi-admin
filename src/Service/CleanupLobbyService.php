@@ -8,11 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CleanupLobbyService
 {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
     /**
@@ -20,7 +17,7 @@ class CleanupLobbyService
      */
     public function cleanUp(int|string $maxOld = 72): array
     {
-        $date = (new \DateTimeImmutable())->modify('-' . $maxOld . 'hours');
+        $date = new \DateTimeImmutable()->modify('-' . $maxOld . 'hours');
         $sessions = [];
 
         /** @var LobbyWaitungUserRepository $repo */

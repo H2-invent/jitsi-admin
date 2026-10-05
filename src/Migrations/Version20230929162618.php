@@ -12,8 +12,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230929162618 extends AbstractMigration
 {
-    private const TABLE_NAME = 'room_status';
-    private const COLUMN_NAME = 'room_id';
+    private const string TABLE_NAME = 'room_status';
+    private const string COLUMN_NAME = 'room_id';
 
     public function getDescription(): string
     {

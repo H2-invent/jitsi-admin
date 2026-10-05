@@ -21,23 +21,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinController extends JitsiAdminController
 {
-    private JoinService $joinService;
-
     public function __construct(
         ManagerRegistry       $managerRegistry,
         TranslatorInterface   $translator,
         LoggerInterface       $logger,
         ParameterBagInterface $parameterBag,
-        JoinService           $joinService
+        private readonly JoinService           $joinService
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
-        $this->joinService = $joinService;
     }
 
-    #[Route(path: '/join/{slug}', name: 'join_index')]
-    #[Route(path: '/join/{slug}/{uid}', name: 'join_index_uid')]
-    #[Route(path: '/join', name: 'join_index_no_slug')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/join/{slug}', name: 'join_index')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/join/{slug}/{uid}', name: 'join_index_uid')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/join', name: 'join_index_no_slug')]
     public function index(Request $request, TranslatorInterface $translator, RoomService $roomService, ?string $slug = null, ?string $uid = null): Response
     {
         $data = [];
@@ -110,7 +107,7 @@ class JoinController extends JitsiAdminController
      * @return boolean
      * @author Andreas Holzmann
      */
-    function onlyWithUserAccount(?Rooms $room): bool
+    public function onlyWithUserAccount(?Rooms $room): bool
     {
         if ($room) {
             /** @var string|int|bool|null $laFOnlyRegisteredParticipents */
@@ -127,7 +124,7 @@ class JoinController extends JitsiAdminController
      * @return boolean
      * @author Andreas Holzmann
      */
-    function userAccountLogin(?Rooms $room, ?User $user): bool
+    public function userAccountLogin(?Rooms $room, ?User $user): bool
     {
         if ($room) {
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference

@@ -16,15 +16,11 @@ use H2Entwicklung\Signature\CheckSignature;
 
 class LicenseService
 {
-    private EntityManagerInterface $em;
-    private CheckSignature $checkSignature;
-    public function __construct(CheckSignature $checkSignature, EntityManagerInterface $entityManager)
+    public function __construct(private readonly CheckSignature $checkSignature, private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
-        $this->checkSignature = $checkSignature;
     }
 
-    function verify(?Server $server): bool
+    public function verify(?Server $server): bool
     {
         return true;
     }
@@ -48,7 +44,7 @@ class LicenseService
 
         $license = new License();
         $license->setUrl($licenseArr['server_url']);
-        $license->setValidUntil((new \DateTimeImmutable($licenseArr['valid_until']))->setTime(23, 59, 59));
+        $license->setValidUntil(new \DateTimeImmutable($licenseArr['valid_until'])->setTime(23, 59, 59));
         $license->setLicenseKey($licenseArr['license_key']);
         $license->setLicense($licenseString);
 

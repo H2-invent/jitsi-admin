@@ -8,26 +8,18 @@ use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class PredefinedMessages extends AbstractExtension
+class PredefinedMessages
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager
     )
     {
-    }
-
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getPredefinedMessages', [$this, 'getPredefinedMessages']),
-
-        ];
     }
 
     /**
      * @return PredefinedLobbyMessages[]
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'getPredefinedMessages')]
     public function getPredefinedMessages(): array
     {
 

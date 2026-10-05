@@ -14,10 +14,10 @@ class JigasiService
 {
     public function __construct(
         private HttpClientInterface    $client,
-        private LoggerInterface        $logger,
-        private LicenseService         $licenseService,
-        private CacheInterface         $cache,
-        private KernelInterface        $kernel
+        private readonly LoggerInterface        $logger,
+        private readonly LicenseService         $licenseService,
+        private readonly CacheInterface         $cache,
+        private readonly KernelInterface        $kernel
     )
     {
     }
@@ -67,7 +67,7 @@ class JigasiService
                     $item->expiresAfter(3600);
                     try {
                         $pin = $this->pingJigasi($rooms);
-                    } catch (\Exception $exception) {
+                    } catch (\Exception) {
                         $item->expiresAfter(1);
                         return null;
                     }

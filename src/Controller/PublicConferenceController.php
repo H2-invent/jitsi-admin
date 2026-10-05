@@ -28,10 +28,10 @@ class PublicConferenceController extends JitsiAdminController
         TranslatorInterface               $translator,
         LoggerInterface                   $logger,
         ParameterBagInterface             $parameterBag,
-        private ThemeService              $themeService,
-        private RequestStack              $requestStack,
-        private RoomStatusFrontendService $roomStatusFrontendService,
-        private PublicConferenceService   $publicConferenceService,
+        private readonly ThemeService              $themeService,
+        private readonly RequestStack              $requestStack,
+        private readonly RoomStatusFrontendService $roomStatusFrontendService,
+        private readonly PublicConferenceService   $publicConferenceService,
 
 
     )
@@ -40,7 +40,7 @@ class PublicConferenceController extends JitsiAdminController
         $this->server = $this->doctrine->getRepository(Server::class)->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
     }
 
-    #[Route('/m', name: 'app_public_form')]
+    #[\Symfony\Component\Routing\Attribute\Route('/m', name: 'app_public_form')]
     public function index(Request $request): Response
     {
         if (!$this->server) {
@@ -72,7 +72,7 @@ class PublicConferenceController extends JitsiAdminController
         );
     }
 
-    #[Route('/m/{confId}', name: 'app_public_conference')]
+    #[\Symfony\Component\Routing\Attribute\Route('/m/{confId}', name: 'app_public_conference')]
     public function startMeeting(string $confId, Request $request): Response
     {
         $room = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);

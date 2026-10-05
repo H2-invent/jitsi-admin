@@ -12,11 +12,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:migrateToAdressbook')]
 class MigrateToAdressbookCommand extends Command
 {
-    protected EntityManagerInterface $em;
-    public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
+    public function __construct(protected EntityManagerInterface $em, ?string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
     }
 
     protected function configure(): void

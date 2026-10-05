@@ -9,21 +9,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserCreatorService
 {
-    private EntityManagerInterface $em;
-    private IndexUserService $indexer;
-    private ParameterBagInterface $parameterBag;
-    private ThemeService $themeService;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        IndexUserService       $indexUserService,
-        ParameterBagInterface  $parameterBag,
-        ThemeService           $themeService,
-    ) {
-        $this->em           = $entityManager;
-        $this->indexer      = $indexUserService;
-        $this->parameterBag = $parameterBag;
-        $this->themeService = $themeService;
+    public function __construct(private readonly EntityManagerInterface $em, private readonly IndexUserService       $indexer, private readonly ParameterBagInterface  $parameterBag, private readonly ThemeService           $themeService)
+    {
     }
 
     public function createUser(string $email, ?string $userName, ?string $firstName = null, ?string $lastName = null, bool $dryrun = false): User

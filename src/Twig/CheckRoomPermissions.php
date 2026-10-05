@@ -10,21 +10,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class CheckRoomPermissions extends AbstractExtension
+class CheckRoomPermissions
 {
-    private EntityManagerInterface $em;
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('roomPermissions', [$this, 'roomPermissions']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'roomPermissions')]
     public function roomPermissions(User $user, Rooms $rooms): ?RoomsUser
     {
         $permissions = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $rooms]);

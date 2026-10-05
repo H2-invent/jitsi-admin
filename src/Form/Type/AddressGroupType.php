@@ -20,11 +20,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddressGroupType extends AbstractType
 {
-    private ParticipantSearchService $participantSearchService;
-
-    public function __construct(ParticipantSearchService $participantSearchService)
+    public function __construct(private readonly ParticipantSearchService $participantSearchService)
     {
-        $this->participantSearchService = $participantSearchService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -37,29 +34,21 @@ class AddressGroupType extends AbstractType
                 'member',
                 UserLineType::class,
                 [
-                    'choice_indexerName' => function (User $user) {
-                        return $user->getIndexer();
-                    },
-                    'choice_nameNoIcon' => function (User $user) {
-                        return $this->participantSearchService->buildShowInFrontendStringNoString($user);
-                    },
+                    'choice_indexerName' => fn(User $user) => $user->getIndexer(),
+                    'choice_nameNoIcon' => $this->participantSearchService->buildShowInFrontendStringNoString(...),
                     'label' => 'label.addressgroupMember',
                     'class' => User::class,
                     'multiple' => true,
                     'expanded' => true,
                     'label_html' => true,
-                    'choice_label' => function (User $user) {
-                        return $this->participantSearchService->buildShowInFrontendString($user);
-                    },
+                    'choice_label' => $this->participantSearchService->buildShowInFrontendString(...),
                     'choices' => $user->getAddressbook(),
                     'translation_domain' => 'form',
-                    'choice_attr' => function (User $user) {
-                        // adds a class like attending_yes, attending_no, etc
-                        return [
-                            'data-indexer' => $user->getIndexer(),
-                            'data-labelNoIcon' => $this->participantSearchService->buildShowInFrontendStringNoString($user)
-                        ];
-                    },
+                    'choice_attr' => // adds a class like attending_yes, attending_no, etc
+                    fn(User $user) => [
+                        'data-indexer' => $user->getIndexer(),
+                        'data-labelNoIcon' => $this->participantSearchService->buildShowInFrontendStringNoString($user)
+                    ],
                 ]
             )
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);

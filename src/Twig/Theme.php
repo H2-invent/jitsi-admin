@@ -8,31 +8,22 @@ use App\Service\Theme\ThemeService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class Theme extends AbstractExtension
+class Theme
 {
-    private ThemeService $themeService;
-    public function __construct(ThemeService $themeService)
+    public function __construct(private readonly ThemeService $themeService)
     {
-        $this->themeService = $themeService;
-    }
-
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getThemeProperties', [$this, 'getThemeProperties']),
-            new TwigFunction('getApplicationProperties', [$this, 'getApplicationProperties']),
-        ];
     }
 
     /**
      * @return array<string, mixed>|false
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'getThemeProperties')]
     public function getThemeProperties(?Rooms $rooms = null): array|bool
     {
         return $this->themeService->getTheme($rooms);
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'getApplicationProperties')]
     public function getApplicationProperties(string $input): mixed
     {
         return $this->themeService->getApplicationProperties($input);

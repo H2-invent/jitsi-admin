@@ -26,7 +26,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RepeaterController extends JitsiAdminController
 {
-    #[Route(path: '/room/repeater/new', name: 'repeater_new')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/repeater/new', name: 'repeater_new')]
     public function index(ParameterBagInterface $parameterBag, Request $request, RepeaterService $repeaterService): Response
     {
 
@@ -78,7 +78,7 @@ class RepeaterController extends JitsiAdminController
                 $this->addFlash('success', $snack);
                 return $this->redirectToRoute('dashboard');
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $this->addFlash('danger', $snack);
             return $this->redirectToRoute('dashboard');
@@ -91,7 +91,7 @@ class RepeaterController extends JitsiAdminController
         );
     }
 
-    #[Route(path: '/room/repeater/edit/repeat', name: 'repeater_edit_repeater')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/repeater/edit/repeat', name: 'repeater_edit_repeater')]
     public function editRepeater(ParameterBagInterface $parameterBag, Request $request, RepeaterService $repeaterService, RoomAddService $roomAddService): Response
     {
         $repeater = $this->doctrine->getRepository(Repeat::class)->find($request->get('repeat'));
@@ -132,7 +132,7 @@ class RepeaterController extends JitsiAdminController
                 $this->addFlash('success', $snack);
                 return $this->redirectToRoute('dashboard');
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $this->addFlash('danger', $snack);
             return $this->redirectToRoute('dashboard');
@@ -145,7 +145,7 @@ class RepeaterController extends JitsiAdminController
         );
     }
 
-    #[Route(path: '/room/repeater/remove', name: 'repeater_remove')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/repeater/remove', name: 'repeater_remove')]
     public function removeRepeater(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService): Response
     {
 
@@ -178,7 +178,7 @@ class RepeaterController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: '/room/repeater/edit/room', name: 'repeater_edit_room')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/repeater/edit/room', name: 'repeater_edit_room')]
     public function editPrototype(Request $request, RepeaterService $repeaterService, ServerUserManagment $serverUserManagment): Response
     {
         $title = $this->translator->trans('Alle Serienelement der Serie bearbeiten');
@@ -236,7 +236,7 @@ class RepeaterController extends JitsiAdminController
                 $res = $this->generateUrl('dashboard', ['snack' => $snack, 'color' => 'success']);
                 return new JsonResponse(['error' => false, 'redirectUrl' => $res]);
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $this->addFlash('danger', $snack);
             $res = $this->generateUrl('dashboard');

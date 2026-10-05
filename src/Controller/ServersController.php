@@ -33,7 +33,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class ServersController extends JitsiAdminController
 {
-    #[Route(path: '/server/add', name: 'servers_add')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/server/add', name: 'servers_add')]
     public function serverAdd(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator): Response
     {
         $originalKeycloakGroups = new ArrayCollection();
@@ -91,7 +91,7 @@ class ServersController extends JitsiAdminController
         return $this->render('servers/__addServerModal.html.twig', ['form' => $form->createView(), 'title' => $title, 'server' => $server]);
     }
 
-    #[Route(path: '/server/enterprise', name: 'servers_enterprise')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/server/enterprise', name: 'servers_enterprise')]
     public function serverEnterprise(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator, LicenseService $licenseService): Response
     {
 
@@ -136,7 +136,7 @@ class ServersController extends JitsiAdminController
         return $this->render('servers/__serverEnterpriseModal.html.twig', ['form' => $form->createView(), 'title' => $title, 'server' => $server]);
     }
 
-    #[Route(path: '/server/add-user', name: 'server_add_user')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/server/add-user', name: 'server_add_user')]
     public function roomAddUser(Request $request, ServerService $serverService, TranslatorInterface $translator, UserCreatorService $userCreatorService): Response
     {
         $newMember = [];
@@ -171,7 +171,7 @@ class ServersController extends JitsiAdminController
         return $this->render('servers/permissionModal.html.twig', ['form' => $form->createView(), 'title' => $title, 'users' => $server->getUser(), 'server' => $server]);
     }
 
-    #[Route(path: '/server/user/remove', name: 'server_user_remove')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/server/user/remove', name: 'server_user_remove')]
     public function serverUserRemove(Request $request, TranslatorInterface $translator): Response
     {
 
@@ -189,7 +189,7 @@ class ServersController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: '/server/delete', name: 'server_delete')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/server/delete', name: 'server_delete')]
     public function serverDelete(Request $request, TranslatorInterface $translator, ServerService $serverService): Response
     {
 
@@ -213,7 +213,7 @@ class ServersController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: '/server/check/email', name: 'server_check_email')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/server/check/email', name: 'server_check_email')]
     public function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService): Response
     {
 
@@ -242,7 +242,7 @@ class ServersController extends JitsiAdminController
                     return $this->redirectToRoute('dashboard');
                 }
                 $transport = Transport::fromDsn($dsn);
-                $message = (new Email())
+                $message = new Email()
                     ->subject($translator->trans('Testmail vom Jitsi-Admin') . ' | ' . $server->getUrl())
                     ->from(new Address($server->getSmtpEmail(), $server->getSmtpSenderName()))
                     ->to($this->getUser()->getEmail())

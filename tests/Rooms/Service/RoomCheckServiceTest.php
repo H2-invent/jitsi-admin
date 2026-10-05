@@ -31,12 +31,12 @@ class RoomCheckServiceTest extends KernelTestCase
         $checkService->checkRoom($room, $error);
         self::assertEquals([], $error);
         $error = [];
-        $room->setStart((new \DateTimeImmutable())->modify('-30min'));
+        $room->setStart(new \DateTimeImmutable()->modify('-30min'));
         $room->setDuration(60);
         $checkService->checkRoom($room, $error);
         self::assertEquals([], $error);
         $error = [];
-        $room->setStart((new \DateTimeImmutable())->modify('-70min'));
+        $room->setStart(new \DateTimeImmutable()->modify('-70min'));
         $room->setDuration(60);
         $checkService->checkRoom($room, $error);
         self::assertEquals(['Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.'], $error);
@@ -46,7 +46,7 @@ class RoomCheckServiceTest extends KernelTestCase
         $room->setDuration(60);
         $checkService->checkRoom($room, $error);
         self::assertEquals([], $error);
-        self::assertEquals((new \DateTimeImmutable())->modify('+60min')->format('H:i:s'), $room->getEnddate()->format('H:i:s'));
+        self::assertEquals(new \DateTimeImmutable()->modify('+60min')->format('H:i:s'), $room->getEnddate()->format('H:i:s'));
         self::assertStringStartsNotWith('test123-', $room->getUid());
         self::assertStringStartsNotWith('test123-', (string)$room->getSlug());
         $error = [];

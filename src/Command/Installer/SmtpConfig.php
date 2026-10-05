@@ -10,7 +10,7 @@ class SmtpConfig implements ConvertToEnvironmentInterface
 
     private static string $DSN = 'smtp://%s:%s@%s:%d';
 
-    private const ENVIRONMENT = [
+    private const array ENVIRONMENT = [
         'MAILER_DSN' => 'dsn',
         'DEFAULT_EMAIL' => 'sender',
     ];

@@ -10,19 +10,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ToParticipantWebsocketService
 {
-    private UrlGeneratorInterface $urlgenerator;
-    private ParameterBagInterface $parameterBag;
-    private TranslatorInterface $translator;
-    private RoomService $roomService;
-    private DirectSendService $directSend;
-
-    public function __construct(DirectSendService $directSendService, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, TranslatorInterface $translator)
+    public function __construct(private DirectSendService $directSend, private readonly RoomService $roomService, private readonly UrlGeneratorInterface $urlgenerator, private readonly ParameterBagInterface $parameterBag, private readonly TranslatorInterface $translator)
     {
-        $this->urlgenerator = $urlGenerator;
-        $this->parameterBag = $parameterBag;
-        $this->translator = $translator;
-        $this->roomService = $roomService;
-        $this->directSend = $directSendService;
     }
 
     public function setDirectSend(DirectSendService $directSendService): void

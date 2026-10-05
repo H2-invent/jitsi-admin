@@ -12,7 +12,7 @@ use Twig\Extension\RuntimeExtensionInterface;
 class LivekitRecordingRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
-        private RecordingRepository $recordingRepository
+        private readonly RecordingRepository $recordingRepository
     )
     {
 

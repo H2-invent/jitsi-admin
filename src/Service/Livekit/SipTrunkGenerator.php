@@ -21,7 +21,7 @@ class SipTrunkGenerator
     public function __construct(
         private HttpClientInterface $httpClient,
         private LoggerInterface     $logger,
-        private LivekitRoomNameGenerator $livekitRoomNameGenerator
+        private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator
     )
     {
     }
@@ -73,7 +73,7 @@ class SipTrunkGenerator
     {
         $this->rooms = $rooms;
         $this->server = $server;
-        $this->sipTrunkNumber = (new \DateTimeImmutable())->format('U').rand(10, 99);
+        $this->sipTrunkNumber = new \DateTimeImmutable()->format('U').random_int(10, 99);
         $payload = [
             'trunk' => [
                 'name' => $this->livekitRoomNameGenerator->getLiveKitName($rooms),

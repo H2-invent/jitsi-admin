@@ -16,10 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/room/lobby/message', name: 'lobby_send_message')]
+#[\Symfony\Component\Routing\Attribute\Route('/room/lobby/message', name: 'lobby_send_message')]
 class SendMessageToLobbyWaitingUserController extends JitsiAdminController
 {
-    #[Route('/send', name: '_to_waitinguser', methods: 'POST')]
+    #[\Symfony\Component\Routing\Attribute\Route('/send', name: '_to_waitinguser', methods: 'POST')]
     public function index(SendMessageToWaitingUser $sendMessageToWaitingUser, Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -27,7 +27,7 @@ class SendMessageToLobbyWaitingUserController extends JitsiAdminController
         return new JsonResponse(['error' => !$res, 'message' => !$res ? $this->translator->trans('lobby.message.failed') : $this->translator->trans('lobby.message.success')]);
     }
 
-    #[Route('/send/all', name: '_to_waitinguser_all', methods: 'POST')]
+    #[\Symfony\Component\Routing\Attribute\Route('/send/all', name: '_to_waitinguser_all', methods: 'POST')]
     public function sendToAll(SendMessageToWaitingUser $sendMessageToWaitingUser, Request $request): Response
     {
         $data = json_decode($request->getContent(), true);

@@ -11,12 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class SendProtokollController extends AbstractController
 {
     public function __construct(
-        private SendSummaryViaEmailService $sendSummaryViaEmailService
+        private readonly SendSummaryViaEmailService $sendSummaryViaEmailService
     )
     {
     }
 
-    #[Route('room/send/summary/{id}', name: 'app_send_summary')]
+    #[\Symfony\Component\Routing\Attribute\Route('room/send/summary/{id}', name: 'app_send_summary')]
     public function index(Rooms $room): Response
     {
         if($room->getModerator() === $this->getUser()){

@@ -160,7 +160,7 @@ class ScheduleControllerTest extends KernelTestCase
             ->willReturn($lastname1);
 
         $user1
-            ->expects(self::exactly(3))
+            ->expects(self::exactly(2))
             ->method('getId')
             ->willReturn(1);
 
@@ -185,7 +185,7 @@ class ScheduleControllerTest extends KernelTestCase
             ->willReturn($lastname2);
 
         $user2
-            ->expects(self::exactly(5))
+            ->expects(self::exactly(4))
             ->method('getId')
             ->willReturn(2);
 
@@ -210,7 +210,7 @@ class ScheduleControllerTest extends KernelTestCase
             ->willReturn($lastname3);
 
         $user3
-            ->expects(self::exactly(3))
+            ->expects(self::exactly(2))
             ->method('getId')
             ->willReturn(0);
 

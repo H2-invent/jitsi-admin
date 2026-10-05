@@ -31,7 +31,7 @@ class CalloutApiControllerTest extends WebTestCase
             ]
         );
         $crawler = $client->request('GET', '/api/v1/call/out/');
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode());
     }
 
     public function testResponsePoolWitCallout(): void

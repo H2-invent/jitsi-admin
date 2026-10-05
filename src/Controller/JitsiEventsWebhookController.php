@@ -16,15 +16,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JitsiEventsWebhookController extends JitsiAdminController
 {
-    private string $token;
-    private RoomWebhookService $webhookService;
+    private readonly string $token;
 
     public function __construct(
         ManagerRegistry       $managerRegistry,
         TranslatorInterface   $translator,
         LoggerInterface       $logger,
         ParameterBagInterface $parameterBag,
-        RoomWebhookService    $roomCreatedWebhookService
+        private readonly RoomWebhookService    $webhookService
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -32,10 +31,9 @@ class JitsiEventsWebhookController extends JitsiAdminController
         /** @var string $jitsiEventsToken */
         $jitsiEventsToken = $parameterBag->get('JITSI_EVENTS_TOKEN');
         $this->token = 'Bearer ' . $jitsiEventsToken;
-        $this->webhookService = $roomCreatedWebhookService;
     }
 
-    #[Route(path: '/jitsi/events/room/created', name: 'jitsi_events_webhook_create', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/jitsi/events/room/created', name: 'jitsi_events_webhook_create', methods: ['POST'])]
     public function create(Request $request, LoggerInterface $logger): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -51,7 +49,7 @@ class JitsiEventsWebhookController extends JitsiAdminController
         return new JsonResponse($arr);
     }
 
-    #[Route(path: '/jitsi/events/room/destroyed', name: 'jitsi_events_webhook_destroy', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/jitsi/events/room/destroyed', name: 'jitsi_events_webhook_destroy', methods: ['POST'])]
     public function destroy(Request $request, LoggerInterface $logger): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -67,7 +65,7 @@ class JitsiEventsWebhookController extends JitsiAdminController
         return new JsonResponse($arr);
     }
 
-    #[Route(path: '/jitsi/events/occupant/joined', name: 'jitsi_events_webhook_joined', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/jitsi/events/occupant/joined', name: 'jitsi_events_webhook_joined', methods: ['POST'])]
     public function joined(Request $request, LoggerInterface $logger): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -84,7 +82,7 @@ class JitsiEventsWebhookController extends JitsiAdminController
         return new JsonResponse($arr);
     }
 
-    #[Route(path: '/jitsi/events/occupant/left', name: 'jitsi_events_webhook_left', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/jitsi/events/occupant/left', name: 'jitsi_events_webhook_left', methods: ['POST'])]
     public function left(Request $request, LoggerInterface $logger): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);

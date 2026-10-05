@@ -17,21 +17,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginControllerKeycloak extends JitsiAdminController
 {
-    private ThemeService $themeService;
-
     public function __construct(
-        ThemeService           $themeService,
+        private readonly ThemeService           $themeService,
         ManagerRegistry        $managerRegistry,
         TranslatorInterface    $translator,
         LoggerInterface        $logger,
         ParameterBagInterface  $parameterBag,
-        private CreateHttpsUrl $createHttpsUrl)
+        private readonly CreateHttpsUrl $createHttpsUrl)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
-        $this->themeService = $themeService;
     }
 
-    #[Route(path: '/login', name: 'login_keycloak')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/login', name: 'login_keycloak')]
     public function index(ClientRegistry $clientRegistry): Response
     {
 
@@ -45,7 +42,7 @@ class LoginControllerKeycloak extends JitsiAdminController
     }
 
 
-    #[Route(path: '/register', name: 'register_keycloak')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/register', name: 'register_keycloak')]
     public function register(ClientRegistry $clientRegistry, CreateHttpsUrl $createHttpsUrl): Response
     {
         $options = ['redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('connect_keycloak_check',[],UrlGenerator::ABSOLUTE_URL))];
@@ -63,12 +60,12 @@ class LoginControllerKeycloak extends JitsiAdminController
     }
 
 
-    public function check(ClientRegistry $clientRegistry, Request $request): void
+    public function check(ClientRegistry $clientRegistry): void
     {
     }
 
-    #[Route(path: '/login/keycloak_edit', name: 'connect_keycloak_edit')]
-    public function edit(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService): Response
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/login/keycloak_edit', name: 'connect_keycloak_edit')]
+    public function edit(ClientRegistry $clientRegistry, ThemeService $themeService): Response
     {
         $url = $this->getParameter('KEYCLOAK_URL');
         if ($this->themeService->getThemeProperty('idp_provider')) {
@@ -80,8 +77,8 @@ class LoginControllerKeycloak extends JitsiAdminController
     }
 
 
-    #[Route(path: '/login/keycloak_password', name: 'connect_keycloak_password')]
-    public function password(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService): Response
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/login/keycloak_password', name: 'connect_keycloak_password')]
+    public function password(ClientRegistry $clientRegistry, ThemeService $themeService): Response
     {
         $url = $this->getParameter('KEYCLOAK_URL');
         if ($this->themeService->getThemeProperty('idp_provider')) {

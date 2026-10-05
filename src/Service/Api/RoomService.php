@@ -15,22 +15,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RoomService
 {
-    private EntityManagerInterface $em;
-    private UserService $userService;
-    private UrlGeneratorInterface $urlGenerator;
-    private UserCreatorService $userCreatorService;
-
-    public function __construct(
-        UserCreatorService           $userCreatorService,
-        UrlGeneratorInterface        $urlGenerator,
-        EntityManagerInterface       $entityManager,
-        UserService                  $userService,
-        private RoomGeneratorService $roomGeneratorService)
+    public function __construct(private readonly UserCreatorService           $userCreatorService, private readonly UrlGeneratorInterface        $urlGenerator, private readonly EntityManagerInterface       $em, private readonly UserService                  $userService, private readonly RoomGeneratorService $roomGeneratorService)
     {
-        $this->em = $entityManager;
-        $this->userService = $userService;
-        $this->urlGenerator = $urlGenerator;
-        $this->userCreatorService = $userCreatorService;
     }
 
     public function createRoom(User $user, Server $server, \DateTimeImmutable $start, float $duration, ?string $name): Rooms
@@ -41,7 +27,7 @@ class RoomService
         $room->setName($name);
         $room->addUser($user);
         $room->setDuration($duration);
-        $room->setUid(rand(01, 99) . time());
+        $room->setUid(random_int(01, 99) . time());
         $room->setModerator($user);
         $room->setSequence(0);
         $room->setUidReal(md5(uniqid('h2-invent', true)));

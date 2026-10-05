@@ -26,7 +26,7 @@ class CsvHandler
             throw new InvalidArgumentException(self::$ARRAY_LAYERS_NOT_EQUAL);
         }
 
-        $seperator = $seperator ?? self::$DEFAULT_SEPERATOR;
+        $seperator ??= self::$DEFAULT_SEPERATOR;
 
         $csv = [self::getCsvLineFromArray(array_keys($data[0]), $seperator)];
 

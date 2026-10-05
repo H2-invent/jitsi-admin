@@ -8,21 +8,13 @@ use App\Service\FormatName;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class NameWithFormat extends AbstractExtension
+class NameWithFormat
 {
-    private FormatName $formateName;
-    public function __construct(FormatName $formatName)
+    public function __construct(private readonly FormatName $formateName)
     {
-        $this->formateName = $formatName;
     }
 
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('nameOfUserwithFormat', [$this, 'nameOfUserwithFormat']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'nameOfUserwithFormat')]
     public function nameOfUserwithFormat(User $user, string $string): string
     {
         return $this->formateName->formatName($string, $user);

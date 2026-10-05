@@ -9,8 +9,8 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20260810200000 extends AbstractMigration
 {
-    private const TABLE_NAME = 'keycloak_groups_to_servers';
-    private const COLUMN_NAME = 'keycloak_group';
+    private const string TABLE_NAME = 'keycloak_groups_to_servers';
+    private const string COLUMN_NAME = 'keycloak_group';
 
     public function getDescription(): string
     {

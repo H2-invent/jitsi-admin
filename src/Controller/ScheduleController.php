@@ -46,7 +46,7 @@ class ScheduleController extends JitsiAdminController
         TranslatorInterface       $translator,
         LoggerInterface           $logger,
         ParameterBagInterface     $parameterBag,
-        private SchedulingService $schedulingService)
+        private readonly SchedulingService $schedulingService)
     {
         parent::__construct(
             $managerRegistry,
@@ -55,7 +55,7 @@ class ScheduleController extends JitsiAdminController
             $parameterBag,);
     }
 
-    #[Route(path: 'room/schedule/new', name: 'schedule_admin_new')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/schedule/new', name: 'schedule_admin_new')]
     public function new(
         RoomGeneratorService $roomGeneratorService,
         Request              $request,
@@ -185,10 +185,9 @@ class ScheduleController extends JitsiAdminController
         );
     }
 
-    #[Route(path: 'room/schedule/admin/participants/{id}', name: 'schedule_admin_participants', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/schedule/admin/participants/{id}', name: 'schedule_admin_participants', methods: ['GET'])]
     public function participants(
-        Rooms   $rooms,
-        Request $request
+        Rooms   $rooms
     ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
@@ -200,10 +199,9 @@ class ScheduleController extends JitsiAdminController
         return $res;
     }
 
-    #[Route(path: 'room/schedule/admin/{id}', name: 'schedule_admin', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/schedule/admin/{id}', name: 'schedule_admin', methods: ['GET'])]
     public function index(
         Rooms   $rooms,
-        Request $request,
     ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
@@ -216,10 +214,9 @@ class ScheduleController extends JitsiAdminController
             ]
         );
     }
-    #[Route(path: 'room/schedule/selectBest/{id}', name: 'schedule_admin_select_best', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/schedule/selectBest/{id}', name: 'schedule_admin_select_best', methods: ['GET'])]
     public function selectBest(
         Rooms   $rooms,
-        Request $request,
     ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
@@ -233,7 +230,7 @@ class ScheduleController extends JitsiAdminController
         );
     }
 
-    #[Route(path: 'room/schedule/admin/add/{id}', name: 'schedule_admin_add', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/schedule/admin/add/{id}', name: 'schedule_admin_add', methods: ['POST'])]
     public function add(
         Rooms   $rooms,
         Request $request
@@ -259,17 +256,16 @@ class ScheduleController extends JitsiAdminController
             $em->persist($schedule);
             $em->persist($scheduleTime);
             $em->flush();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return new JsonResponse(['error' => true]);
         }
         $this->schedulingService->sendEmailWhenNewSchedulingTime(schedulingTime: $scheduleTime);
         return new JsonResponse(['error' => false]);
     }
 
-    #[Route(path: 'room/schedule/admin/remove/{id}', name: 'schedule_admin_remove', methods: ['DELETE'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/schedule/admin/remove/{id}', name: 'schedule_admin_remove', methods: ['DELETE'])]
     public function remove(
-        SchedulingTime $schedulingTime,
-        Request        $request): Response
+        SchedulingTime $schedulingTime): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $schedulingTime->getScheduling()->getRoom())) {
             throw new NotFoundHttpException('Room not found');
@@ -282,17 +278,16 @@ class ScheduleController extends JitsiAdminController
 
             $em->remove($schedulingTime);
             $em->flush();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return new JsonResponse(['error' => true]);
         }
 
         return new JsonResponse(['error' => false]);
     }
 
-    #[Route(path: 'room/schedule/admin/choose/{id}', name: 'schedule_admin_choose', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/schedule/admin/choose/{id}', name: 'schedule_admin_choose', methods: ['GET'])]
     public function choose(
         SchedulingTime      $schedulingTime,
-        Request             $request,
         SchedulingService   $schedulingService,
         TranslatorInterface $translator
     ): Response
@@ -310,7 +305,7 @@ class ScheduleController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: 'schedule/{scheduleId}/{userId}', name: 'schedule_public_main', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'schedule/{scheduleId}/{userId}', name: 'schedule_public_main', methods: ['GET'])]
     public function public(
         #[MapEntity(mapping: ['scheduleId' => 'uid'])]
         Scheduling          $scheduling,
@@ -339,7 +334,7 @@ class ScheduleController extends JitsiAdminController
         );
     }
 
-    #[Route(path: 'schedule/vote', name: 'schedule_public_vote', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'schedule/vote', name: 'schedule_public_vote', methods: ['POST'])]
     public function vote(
         Request                      $request,
         TranslatorInterface          $translator,
@@ -384,7 +379,7 @@ class ScheduleController extends JitsiAdminController
         return !(!$allowMaybe && $vote === 2);
     }
 
-    #[Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
     public function generateVoteCsv(
         Rooms $room
 
@@ -414,7 +409,7 @@ class ScheduleController extends JitsiAdminController
             'Content-Disposition',
             HeaderUtils::makeDisposition(
                 HeaderUtils::DISPOSITION_ATTACHMENT,
-                preg_replace('/[[:^print:]]/', '', $room->getName()) . '-' . (new DateTimeImmutable())->format('d-m-Y_H-i') . '.csv',
+                preg_replace('/[[:^print:]]/', '', $room->getName()) . '-' . new DateTimeImmutable()->format('d-m-Y_H-i') . '.csv',
             )
         );
         return $response;
@@ -441,13 +436,10 @@ class ScheduleController extends JitsiAdminController
             $name = implode(' ', [$user->getFirstName(), $user->getLastName()]);
 
             // Füge den Nutzer zum Array hinzu, wenn er noch nicht erfasst wurde
-            if (!isset($votings['user'][$userId])) {
-                $votings['user'][$userId] = [
-                    'Name' => $name,
-                    'Email' => $user->getEmail(),
-                ];
-
-            }
+            $votings['user'][$userId] ??= [
+                'Name' => $name,
+                'Email' => $user->getEmail(),
+            ];
         }
         foreach ($room->getSchedulings() as $scheduling) {
             foreach ($scheduling->getSchedulingTimes() as $schedulingTime) {
@@ -459,12 +451,10 @@ class ScheduleController extends JitsiAdminController
                     $name = implode(' ', [$user->getFirstName(), $user->getLastName()]);
                     $vote = $this->getVoteString($schedulingTimeUser->getAccept());
 
-                    if (!isset($votings['user'][(int)$user->getId()])) {
-                        $votings['user'][(int)$user->getId()] = [
-                            'Name' => $name,
-                            'Email' => $user->getEmail(),
-                        ];
-                    }
+                    $votings['user'][(int)$user->getId()] ??= [
+                        'Name' => $name,
+                        'Email' => $user->getEmail(),
+                    ];
 
                     $votings['user'][(int)$user->getId()][$schedulingTimeString] = $vote;
                 }

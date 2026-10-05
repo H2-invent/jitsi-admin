@@ -14,23 +14,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class CallerPinService
 {
-    private EntityManagerInterface $em;
-    private CreateLobbyUserService $createLobbyUserService;
-    private LoggerInterface $loggger;
-    private ParameterBagInterface $parameterBag;
-
-    public function __construct(
-        LoggerInterface                       $logger,
-        EntityManagerInterface                $entityManager,
-        CreateLobbyUserService                $createLobbyUserService,
-        ParameterBagInterface                 $parameterBag,
-        private CalloutServiceDialSuccessfull $calloutServiceDialSuccessfull,
-    )
+    public function __construct(private readonly LoggerInterface                       $loggger, private readonly EntityManagerInterface                $em, private readonly CreateLobbyUserService                $createLobbyUserService, private readonly ParameterBagInterface                 $parameterBag, private readonly CalloutServiceDialSuccessfull $calloutServiceDialSuccessfull)
     {
-        $this->em = $entityManager;
-        $this->createLobbyUserService = $createLobbyUserService;
-        $this->loggger = $logger;
-        $this->parameterBag = $parameterBag;
     }
 
     public function createNewCallerSession(string $roomId, string $pin, string $callerId, bool $isSipVideo = false): ?CallerSession
@@ -88,7 +73,7 @@ class CallerPinService
                 $phoneNumber = $properties[$key];
             }
 
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return false;
         }
         if (isset($phoneNumber) && $this->clean($callerID) === $this->clean($phoneNumber)) {

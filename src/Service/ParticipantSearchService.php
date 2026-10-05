@@ -10,11 +10,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ParticipantSearchService
 {
-    private ParameterBagInterface $parameterBag;
-
-    public function __construct(ParameterBagInterface $parameterBag, private ThemeService $themeService, private LoggerInterface $logger)
+    public function __construct(private readonly ParameterBagInterface $parameterBag, private readonly ThemeService $themeService, private readonly LoggerInterface $logger)
     {
-        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -141,9 +138,7 @@ class ParticipantSearchService
     {
         return \array_filter(
             $inputArr,
-            static function ($element) use ($role) {
-                return $element !== $role;
-            }
+            static fn($element) => $element !== $role
         );
     }
 }

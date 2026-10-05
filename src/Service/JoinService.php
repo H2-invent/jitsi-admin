@@ -20,29 +20,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinService
 {
-    private ParameterBagInterface $parameterBag;
-    private EntityManagerInterface $em;
-    private TranslatorInterface $translator;
-    private UrlGeneratorInterface $urlGenerator;
-    private StartMeetingService $startService;
-    private RequestStack $session;
-
-
-    public function __construct(
-        RequestStack  $requestStack,
-        StartMeetingService $startMeetingService,
-        UrlGeneratorInterface $urlGenerator,
-        ParameterBagInterface $parameterBag,
-        EntityManagerInterface $entityManager,
-        TranslatorInterface $translator
-    )
+    public function __construct(private readonly RequestStack  $session, private readonly StartMeetingService $startService, private readonly UrlGeneratorInterface $urlGenerator, private readonly ParameterBagInterface $parameterBag, private readonly EntityManagerInterface $em, private readonly TranslatorInterface $translator)
     {
-        $this->parameterBag = $parameterBag;
-        $this->em = $entityManager;
-        $this->translator = $translator;
-        $this->urlGenerator = $urlGenerator;
-        $this->startService = $startMeetingService;
-        $this->session = $requestStack;
     }
 
     /**
@@ -106,7 +85,7 @@ class JoinService
      * @return boolean
      * @author Andreas Holzmann
      */
-    function onlyWithUserAccount(?Rooms $room): bool
+    public function onlyWithUserAccount(?Rooms $room): bool
     {
         if ($room) {
             $onlyRegistered = $this->parameterBag->get('laF_onlyRegisteredParticipents');
@@ -122,7 +101,7 @@ class JoinService
      * @return boolean
      * @author Andreas Holzmann
      */
-    function userAccountLogin(?Rooms $room, ?User $user): bool
+    public function userAccountLogin(?Rooms $room, ?User $user): bool
     {
         if ($room) {
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference

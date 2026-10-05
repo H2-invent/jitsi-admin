@@ -7,23 +7,15 @@ use App\Service\PexelService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class ImagePexels extends AbstractExtension
+class ImagePexels
 {
-    private PexelService $pexelsService;
-    public function __construct(PexelService $pexelService)
+    public function __construct(private readonly PexelService $pexelsService)
     {
-        $this->pexelsService = $pexelService;
-    }
-
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('pexelsImage', [$this, 'pexelsImage']),
-        ];
     }
     /**
      * @return array<string, mixed>|null
      */
+    #[\Twig\Attribute\AsTwigFunction(name: 'pexelsImage')]
     public function pexelsImage(): ?array
     {
 

@@ -27,19 +27,19 @@ class CallerControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/room/123419');
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString((string) json_encode(['authorized' => false]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/123419');
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString((string) json_encode(['authorized' => false]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session');
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString((string) json_encode(['authorized' => false]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session/left');
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString((string) json_encode(['authorized' => false]), (string) $client->getResponse()->getContent());
     }
 
@@ -55,8 +55,8 @@ class CallerControllerTest extends WebTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
-        $room->setStart((new \DateTimeImmutable())->modify('+2 hours'));
-        $room->setEnddate((new \DateTimeImmutable())->modify('+4 hours'));
+        $room->setStart(new \DateTimeImmutable()->modify('+2 hours'));
+        $room->setEnddate(new \DateTimeImmutable()->modify('+4 hours'));
         $manager->persist($room);
         $manager->flush();
         $callerPrepareService->createUserCallerIDforRoom($room);
@@ -89,11 +89,11 @@ class CallerControllerTest extends WebTestCase
 
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, []);
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['pin', 'caller_id']]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => '1234']);
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['caller_id']]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => '1234', 'caller_id' => '1234']);
@@ -161,7 +161,7 @@ class CallerControllerTest extends WebTestCase
         $session = $caller->getCallerSession();
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session');
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['session_id']]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session', ['session_id' => $caller->getCallerId()]);
@@ -190,7 +190,7 @@ class CallerControllerTest extends WebTestCase
         $session = $caller->getCallerSession();
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session');
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString((string) json_encode(['error' => 'MISSING_ARGUMENT', 'argument' => ['session_id']]), (string) $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/api/v1/lobby/sip/session/left', ['session_id' => $caller->getCallerId()]);
@@ -589,7 +589,7 @@ class CallerControllerTest extends WebTestCase
     /**
      * @return array<int, mixed>
      */
-    function startWorkflow(KernelBrowser $client): array
+    public function startWorkflow(KernelBrowser $client): array
     {
 
         $callerLEftService = self::getContainer()->get(CallerLeftService::class);
@@ -639,7 +639,7 @@ class CallerControllerTest extends WebTestCase
         return [$sessionLink, $leafLink];
     }
 
-    function getLobbyWaitinguser(string $link): ?LobbyWaitungUser
+    public function getLobbyWaitinguser(string $link): ?LobbyWaitungUser
     {
         $sessionId = explode('=', $link);
         $sessionId = $sessionId[sizeof($sessionId) - 1];
@@ -654,7 +654,7 @@ class CallerControllerTest extends WebTestCase
         return $lobbyUser;
     }
 
-    function getSessionfromLink(string $link): ?CallerSession
+    public function getSessionfromLink(string $link): ?CallerSession
     {
         $sessionId = explode('=', $link);
         $sessionId = $sessionId[sizeof($sessionId) - 1];

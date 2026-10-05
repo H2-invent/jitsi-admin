@@ -13,18 +13,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/room/ownership', name: 'room_change_ownership')]
+#[\Symfony\Component\Routing\Attribute\Route('/room/ownership', name: 'room_change_ownership')]
 class ChangeOwnershipController extends AbstractController
 {
     public function __construct(
-        private TransferOwnershipService $transferOwnershipService,
-        private TranslatorInterface      $translator,
-        private RoomsUserRepository      $roomsUserRepository,
+        private readonly TransferOwnershipService $transferOwnershipService,
+        private readonly TranslatorInterface      $translator,
+        private readonly RoomsUserRepository      $roomsUserRepository,
     )
     {
     }
 
-    #[Route('/{newOwner}/{roomId}', name: '_index')]
+    #[\Symfony\Component\Routing\Attribute\Route('/{newOwner}/{roomId}', name: '_index')]
     public function index(
         #[MapEntity(mapping: ['newOwner' => 'id'])]
         User  $newOwner,

@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version202310111127033 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'disable_whiteboard';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'disable_whiteboard';
     public function getDescription(): string
     {
         return '';

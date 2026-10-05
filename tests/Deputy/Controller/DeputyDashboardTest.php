@@ -27,7 +27,7 @@ class DeputyDashboardTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = (string) $server->getId();
         $form['room[name]'] = 'test von deputy';
-        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d') . 'T' . (new \DateTimeImmutable())->format('H:i');
+        $form['room[start]'] = new \DateTimeImmutable()->format('Y-m-d') . 'T' . new \DateTimeImmutable()->format('H:i');
         $form['room[duration]'] = "60";
         $client->submit($form);
 
@@ -94,7 +94,7 @@ class DeputyDashboardTest extends WebTestCase
         $form['room[server]'] = (string) $server->getId();
         $form['room[moderator]'] = (string) $master->getId();
         $form['room[name]'] = 'test von deputy';
-        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d') . 'T' . (new \DateTimeImmutable())->format('H:i');
+        $form['room[start]'] = new \DateTimeImmutable()->format('Y-m-d') . 'T' . new \DateTimeImmutable()->format('H:i');
         $form['room[duration]'] = "60";
         $client->submit($form);
 

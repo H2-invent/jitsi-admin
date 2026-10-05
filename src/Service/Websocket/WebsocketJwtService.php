@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class WebsocketJwtService
 {
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private OnlineStatusService   $onlineStatusService,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly OnlineStatusService   $onlineStatusService,
     )
     {
     }
@@ -26,9 +26,9 @@ class WebsocketJwtService
             'aud' => 'jitsi-admin',
             'sub' => $user ? $user->getUid() : null,
             'status' => $user ? $this->onlineStatusService->getUserStatus($user) : 0,
-            'iat' => (new \DateTimeImmutable())->getTimestamp(),
-            'nbf' => (new \DateTimeImmutable())->getTimestamp(),
-            'exp' => (new \DateTimeImmutable())->modify('+3days')->getTimestamp(),
+            'iat' => new \DateTimeImmutable()->getTimestamp(),
+            'nbf' => new \DateTimeImmutable()->getTimestamp(),
+            'exp' => new \DateTimeImmutable()->modify('+3days')->getTimestamp(),
             'rooms' => $rooms
         ];
 
