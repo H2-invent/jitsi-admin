@@ -60,7 +60,7 @@ class CreateHttpsUrl
     public function generateAbsolutUrl(string $baseUrl, string $url = ''): string
     {
         $isStrictHttps = str_contains($this->baseUrl, 'https://');
-        $res = $baseUrl . $url;
+        $res           = $baseUrl . $url;
         if (!$isStrictHttps) {
             return $res;
         }

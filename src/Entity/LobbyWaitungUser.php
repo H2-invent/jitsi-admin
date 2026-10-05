@@ -35,7 +35,6 @@ class LobbyWaitungUser
     private ?string $showName = null;
 
     #[ORM\OneToOne(targetEntity: CallerSession::class, mappedBy: 'lobbyWaitingUser', cascade: ['persist'])]
-    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?CallerSession $callerSession = null;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
