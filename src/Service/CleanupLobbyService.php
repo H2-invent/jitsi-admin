@@ -21,7 +21,6 @@ class CleanupLobbyService
     public function cleanUp(int|string $maxOld = 72): array
     {
         $date = (new \DateTimeImmutable())->modify('-' . $maxOld . 'hours');
-        $oldestData = $this->em->getRepository(LobbyWaitungUser::class)->findOldLobbyWaitinguser($date);
         $sessions = [];
 
         /** @var LobbyWaitungUserRepository $repo */

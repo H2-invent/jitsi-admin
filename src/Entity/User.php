@@ -247,7 +247,6 @@ class User extends BaseUser
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'AdressbookFavorites')]
-    #[ORM\JoinTable(name: 'addressbook_favorites')]
     private Collection $isAdressbookFavoriteFrom;
 
     /**
