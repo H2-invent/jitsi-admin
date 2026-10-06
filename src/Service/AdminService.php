@@ -40,11 +40,14 @@ class AdminService
 
         for ($x = 0; $x <= 60; $x++) {
             $date = $firstDate->modify('+' . $x . 'days');
+            $key  = (int) $date->format('Ymd');
 
-            $chart[$date->format('Ymd')]['date']              = $date;
-            $chart[$date->format('Ymd')]['participants']      = 0;
-            $chart[$date->format('Ymd')]['rooms']             = 0;
-            $chart[$date->format('Ymd')]['participants_real'] = 0;
+            $entry = [
+                'date'              => $date,
+                'participants'      => 0,
+                'rooms'             => 0,
+                'participants_real' => 0,
+            ];
 
             foreach ($rooms as $data) {
                 if ($data->getScheduleMeeting() != true
@@ -52,16 +55,18 @@ class AdminService
                     && !$data->getRepeaterProtoype()
                     && $data->getStart()->format('Ymd') === $date->format('Ymd')
                 ) {
-                    $chart[$date->format('Ymd')]['rooms']        = $chart[$date->format('Ymd')]['rooms'] + 1;
-                    $chart[$date->format('Ymd')]['participants'] = $chart[$date->format('Ymd')]['participants'] + count($data->getUser());
+                    $entry['rooms']        = $entry['rooms'] + 1;
+                    $entry['participants'] = $entry['participants'] + count($data->getUser());
                 }
             }
 
             foreach ($participants as $p) {
                 if ($p->getEnteredRoomAt()->format('Ymd') === $date->format('Ymd')) {
-                    $chart[$date->format('Ymd')]['participants_real'] = $chart[$date->format('Ymd')]['participants_real'] + 1;
+                    $entry['participants_real'] = $entry['participants_real'] + 1;
                 }
             }
+
+            $chart[$key] = $entry;
         }
 
         return $chart;

@@ -98,7 +98,7 @@ class PermissionChangeServiceTest extends KernelTestCase
         $this->assertEquals(false, $userRoom->getModerator());
         $this->assertEquals(false, $userRoom->getPrivateMessage());
         $this->assertEquals(false, $userRoom->getShareDisplay());
-        $this->assertNotNull($changePermissionService->toggleLobbyModerator($room->getModerator(), $testUser, $room));
+        $this->assertNotFalse($changePermissionService->toggleLobbyModerator($room->getModerator(), $testUser, $room));
         $this->assertEquals(false, $userRoom->getLobbyModerator());
         self::assertEquals(0, sizeof($lobbyWaitungRepo->findBy(['user' => $testUser, 'room' => $room])));
     }

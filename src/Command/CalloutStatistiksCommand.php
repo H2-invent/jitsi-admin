@@ -30,12 +30,13 @@ class CalloutStatistiksCommand extends Command
         $table->setHeaders(['Room', 'User', 'Created At', 'Invited From', 'State', 'Left Retries', 'Last Dialed']);
 
         foreach ($calloutSessions as $session) {
+            $state = $session->getState();
             $table->addRow([
                 $session->getRoom() ? $session->getRoom()->getName() : 'N/A',
                 $session->getUser() ? $session->getUser()->getUsername() : 'N/A',
                 $session->getCreatedAt() ? $session->getCreatedAt()->format('Y-m-d H:i:s') : 'N/A',
                 $session->getInvitedFrom() ? $session->getInvitedFrom()->getUsername() : 'N/A',
-                CalloutSession::$STATE[$session->getState()],
+                $state !== null ? CalloutSession::$STATE[$state] : 'N/A',
                 $session->getLeftRetries(),
                 $session->getLastDialed(),
             ]);

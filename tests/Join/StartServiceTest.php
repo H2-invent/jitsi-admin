@@ -46,6 +46,9 @@ class StartServiceTest extends KernelTestCase
         self::assertStringContainsString('#config.subject=%22testmeeting_1%22', $response->getTargetUrl());
 
         preg_match('/jwt=([^#]+)/', $response->getTargetUrl(), $matches);
+        if (!isset($matches[1])) {
+            self::fail('JWT not found in redirect URL');
+        }
         $jwt = $matches[1];
         $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
         self::assertEquals('123456781', $decoded->room);
@@ -77,6 +80,9 @@ class StartServiceTest extends KernelTestCase
         self::assertStringContainsString('#config.subject=%22this_room_has_no_participants_and_fixed_room%22', $response->getTargetUrl());
 
         preg_match('/jwt=([^#]+)/', $response->getTargetUrl(), $matches);
+        if (!isset($matches[1])) {
+            self::fail('JWT not found in redirect URL');
+        }
         $jwt = $matches[1];
         $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
         self::assertEquals('561d6f51s6f', $decoded->room);
@@ -88,7 +94,9 @@ class StartServiceTest extends KernelTestCase
 
         // Verify the browser-mode JWT
         preg_match("/jwt: '([^']+)'/", $responseB, $browserMatches);
-        self::assertNotEmpty($browserMatches[1]);
+        if (!isset($browserMatches[1])) {
+            self::fail('JWT not found in response');
+        }
         $browserDecoded = JWT::decode($browserMatches[1], new Key($appSecret, 'HS256'));
         self::assertEquals('561d6f51s6f', $browserDecoded->room);
     }

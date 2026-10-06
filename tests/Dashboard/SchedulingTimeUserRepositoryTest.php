@@ -54,10 +54,12 @@ class SchedulingTimeUserRepositoryTest extends KernelTestCase
         $this->createVote($em, $roomRepo, 'Termin finden: 0', $user, 1);
         $em->flush();
 
-        $result = $repo->findVotesForUserAndRooms($user, [$room->getId()]);
+        $roomId = $room->getId();
+        $this->assertNotNull($roomId);
+        $result = $repo->findVotesForUserAndRooms($user, [$roomId]);
 
-        $this->assertArrayHasKey($room->getId(), $result);
-        $this->assertTrue($result[$room->getId()]);
+        $this->assertArrayHasKey($roomId, $result);
+        $this->assertTrue($result[$roomId]);
     }
 
     public function testFindVotesForUserAndRoomsReturnsEmptyWhenNoVotes(): void
@@ -160,11 +162,13 @@ class SchedulingTimeUserRepositoryTest extends KernelTestCase
         $this->createVote($em, $roomRepo, 'Termin finden: 0', $user, 1);
         $em->flush();
 
+        $roomId = $room->getId();
+        $this->assertNotNull($roomId);
         $single = $repo->findVotesForUserAndRoom($room, $user);
-        $batch = $repo->findVotesForUserAndRooms($user, [$room->getId()]);
+        $batch = $repo->findVotesForUserAndRooms($user, [$roomId]);
 
         $this->assertNotEmpty($single);
-        $this->assertArrayHasKey($room->getId(), $batch);
-        $this->assertTrue($batch[$room->getId()]);
+        $this->assertArrayHasKey($roomId, $batch);
+        $this->assertTrue($batch[$roomId]);
     }
 }

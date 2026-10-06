@@ -68,7 +68,6 @@ class SipTrunkGeneratorTest extends TestCase
 
         // Überprüfen, ob die SIP-Trunk-Nummer korrekt zurückgegeben wird
         $this->assertNotNull($sipNumber);
-        $this->assertIsString($sipNumber);
     }
 
     public function testGenerateSipTrunk(): void

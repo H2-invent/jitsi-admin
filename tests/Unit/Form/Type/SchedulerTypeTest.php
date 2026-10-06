@@ -172,6 +172,9 @@ class SchedulerTypeTest extends KernelTestCase
         return $this->createStub(Rooms::class);
     }
 
+    /**
+     * @return MockObject&FormBuilderInterface<mixed>
+     */
     private function getFormBuilder(): MockObject&FormBuilderInterface
     {
         return $this->createMock(FormBuilderInterface::class);

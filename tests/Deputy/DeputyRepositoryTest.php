@@ -59,12 +59,17 @@ class DeputyRepositoryTest extends KernelTestCase
 
         $result = $deputyRepo->findForManager($manager);
 
+        $deputyUser1Id = $deputyUser1->getId();
+        $deputyUser2Id = $deputyUser2->getId();
+        $this->assertNotNull($deputyUser1Id);
+        $this->assertNotNull($deputyUser2Id);
+
         $this->assertCount(2, $result);
-        $this->assertArrayHasKey($deputyUser1->getId(), $result);
-        $this->assertArrayHasKey($deputyUser2->getId(), $result);
-        $this->assertSame($deputy1->getId(), $result[$deputyUser1->getId()]->getId());
-        $this->assertSame($deputy2->getId(), $result[$deputyUser2->getId()]->getId());
-        $this->assertFalse($result[$deputyUser1->getId()]->isIsFromLdap());
-        $this->assertTrue($result[$deputyUser2->getId()]->isIsFromLdap());
+        $this->assertArrayHasKey($deputyUser1Id, $result);
+        $this->assertArrayHasKey($deputyUser2Id, $result);
+        $this->assertSame($deputy1->getId(), $result[$deputyUser1Id]->getId());
+        $this->assertSame($deputy2->getId(), $result[$deputyUser2Id]->getId());
+        $this->assertFalse($result[$deputyUser1Id]->isIsFromLdap());
+        $this->assertTrue($result[$deputyUser2Id]->isIsFromLdap());
     }
 }

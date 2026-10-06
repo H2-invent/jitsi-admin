@@ -18,7 +18,7 @@ class LobbyMessageCommandTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:lobby:message:create');
         $commandTester = new CommandTester($command);
-        $commandTester->setInputs([10, 'yes']);
+        $commandTester->setInputs(['10', 'yes']);
         $commandTester->execute(['text' => 'Neue Nachricht']);
         $commandTester->assertCommandIsSuccessful();
         $em = self::getContainer()->get(EntityManagerInterface::class);
@@ -38,7 +38,7 @@ class LobbyMessageCommandTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:lobby:message:create');
         $commandTester = new CommandTester($command);
-        $commandTester->setInputs(['neue Nachricht', 10, 'no']);
+        $commandTester->setInputs(['neue Nachricht', '10', 'no']);
         $commandTester->execute([]);
         $commandTester->assertCommandIsSuccessful();
         $em = self::getContainer()->get(EntityManagerInterface::class);

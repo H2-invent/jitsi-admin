@@ -78,7 +78,7 @@ class RoomStatusFrontendService
 
         $result = [];
         foreach ($statuses as $status) {
-            $result[$status['roomId']] = true;
+            $result[(int) $status['roomId']] = true;
         }
 
         return $result;
@@ -104,7 +104,7 @@ class RoomStatusFrontendService
 
         $result = [];
         foreach ($statuses as $status) {
-            $result[$status['roomId']] = true;
+            $result[(int) $status['roomId']] = true;
         }
 
         return $result;
@@ -132,7 +132,7 @@ class RoomStatusFrontendService
 
         $result = [];
         foreach ($occupants as $o) {
-            $result[$o['roomId']][] = $o['participantName'];
+            $result[(int) $o['roomId']][] = $o['participantName'];
         }
 
         return $result;
@@ -205,12 +205,8 @@ class RoomStatusFrontendService
             if (!isset($latestDestroyedMap[$roomId]) || !isset($roomStarts[$roomId])) {
                 continue;
             }
-            $destroyedTs     = $latestDestroyedMap[$roomId] instanceof \DateTimeInterface
-                ? $latestDestroyedMap[$roomId]->getTimestamp()
-                : strtotime((string)$latestDestroyedMap[$roomId]);
-            $startTs         = $roomStarts[$roomId] instanceof \DateTimeInterface
-                ? $roomStarts[$roomId]->getTimestamp()
-                : strtotime((string)$roomStarts[$roomId]);
+            $destroyedTs     = strtotime($latestDestroyedMap[$roomId]);
+            $startTs         = $roomStarts[$roomId]->getTimestamp();
             $result[$roomId] = $destroyedTs > $startTs;
         }
 

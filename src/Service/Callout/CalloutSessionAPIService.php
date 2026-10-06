@@ -71,9 +71,10 @@ class CalloutSessionAPIService
 
         $pin    = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
         $roomId = $calloutSession->getRoom()->getCallerRoom();
-        if ($pin && $roomId) {
+        $state  = $calloutSession->getState();
+        if ($pin && $roomId && $state !== null) {
             return [
-                'state'           => CalloutSession::$STATE[$calloutSession->getState()],
+                'state'           => CalloutSession::$STATE[$state],
                 'call_number'     => $this->calloutService->getCallerIdForUser($calloutSession->getUser()),
                 'sip_room_number' => $roomId->getCallerId(),
                 'sip_pin'         => $pin->getCallerId(),

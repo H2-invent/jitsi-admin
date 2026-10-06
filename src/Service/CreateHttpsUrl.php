@@ -29,25 +29,24 @@ class CreateHttpsUrl
             return $this->generateAbsolutUrl($url);
         }
 
-        if ($this->paramterBag->get('LAF_DEV_URL') !== '') {
-            /** @var string $lafDevUrl */
-            $lafDevUrl = $this->paramterBag->get('LAF_DEV_URL');
+        $lafDevUrl = (string)$this->paramterBag->get('LAF_DEV_URL');
+        if ($lafDevUrl !== '') {
             return $lafDevUrl . $url;
-        } else {
-            try {
-                if ($rooms && $rooms->getHostUrl()) {
-                    return $this->generateAbsolutUrl($rooms->getHostUrl(), $url);
-                } elseif ($rooms && !$rooms->getHostUrl()) {
-                    return $this->baseUrl . $url;
-                } elseif ($this->request->getCurrentRequest()) {
-                    return $this->generateAbsolutUrl($this->request->getCurrentRequest()->getSchemeAndHttpHost(), $url);
-                } else {
-                    return $this->baseUrl . $url;
-                }
-            } catch (\Exception $exception) {
-                $this->logger->error($exception->getMessage());
+        }
+
+        try {
+            if ($rooms && $rooms->getHostUrl()) {
+                return $this->generateAbsolutUrl($rooms->getHostUrl(), $url);
+            } elseif ($rooms && !$rooms->getHostUrl()) {
+                return $this->baseUrl . $url;
+            } elseif ($this->request->getCurrentRequest()) {
+                return $this->generateAbsolutUrl($this->request->getCurrentRequest()->getSchemeAndHttpHost(), $url);
+            } else {
                 return $this->baseUrl . $url;
             }
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
+            return $this->baseUrl . $url;
         }
     }
 

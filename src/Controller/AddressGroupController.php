@@ -6,7 +6,6 @@ use App\Entity\AddressGroup;
 use App\Form\Type\AddressGroupType;
 use App\Helper\JitsiAdminController;
 use App\Service\IndexGroupsService;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -101,9 +100,7 @@ class AddressGroupController extends JitsiAdminController
 
         $errors = [];
         foreach ($form->getErrors(true) as $error) {
-            if ($error instanceof FormError) {
-                $errors[] = $error->getMessage();
-            }
+            $errors[] = $error->getMessage();
         }
 
         return new JsonResponse(['errors' => $errors], Response::HTTP_BAD_REQUEST);

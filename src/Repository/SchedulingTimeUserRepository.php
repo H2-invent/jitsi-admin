@@ -10,11 +10,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<SchedulingTimeUser>
- *
- * @method SchedulingTimeUser|null find($id, $lockMode = null, $lockVersion = null)
- * @method SchedulingTimeUser|null findOneBy(array $criteria, array $orderBy = null)
- * @method SchedulingTimeUser[]    findAll()
- * @method SchedulingTimeUser[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class SchedulingTimeUserRepository extends ServiceEntityRepository
 {

@@ -47,16 +47,20 @@ class JoinServiceTest extends KernelTestCase
         $res = $roomService->join($room, $room->getModerator(), 'a', 'Test User');
         $slugyfy = UtilsHelper::slugify($room->getName());
         preg_match('/jwt=([^#]+)/', $res, $matches);
+        if (!isset($matches[1])) {
+            self::fail('JWT not found in join URL');
+        }
         $urlJwt = $matches[1];
-        self::assertNotEmpty($urlJwt);
         $urlDecoded = JWT::decode($urlJwt, new Key($appSecret, 'HS256'));
         self::assertEquals(true, $urlDecoded->moderator);
         self::assertStringContainsString($slugyfy, $res);
 
         $res = $roomService->join($room, $room->getModerator(), 'b', 'Test User');
         preg_match('/jwt=([^#]+)/', $res, $matches);
+        if (!isset($matches[1])) {
+            self::fail('JWT not found in join URL');
+        }
         $urlJwt2 = $matches[1];
-        self::assertNotEmpty($urlJwt2);
         $urlDecoded2 = JWT::decode($urlJwt2, new Key($appSecret, 'HS256'));
         self::assertEquals(true, $urlDecoded2->moderator);
         self::assertStringContainsString($slugyfy, $res);

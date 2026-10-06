@@ -90,7 +90,6 @@ class LobbyParticipantsControllerTest extends WebTestCase
         self::assertNotNull($lobbyUser);
         $urlRenew = $urlGenerator->generate('lobby_participants_renew', ['userUid' => $lobbyUser->getUid()]);
         $this->assertStringContainsString('href="' . $urlRenew, (string) $client->getResponse()->getContent());
-        self::assertNotNull($lobbyUser);
         $crawler = $client->request('GET', $urlRenew);
         self::assertEquals('{"error":false,"message":"Sie haben Ihren Beitritt erfolgreich angefordert.","color":"success"}', (string) $client->getResponse()->getContent());
     }

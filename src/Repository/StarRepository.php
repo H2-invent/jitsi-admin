@@ -5,14 +5,9 @@ namespace App\Repository;
 use App\Entity\Star;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Star|null find($id, $lockMode = null, $lockVersion = null)
- * @method Star|null findOneBy(array $criteria, array $orderBy = null)
- * @method Star[]    findAll()
- * @method Star[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @extends ServiceEntityRepository<Star>
  */
 class StarRepository extends ServiceEntityRepository
@@ -23,26 +18,24 @@ class StarRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws ORMException
      * @throws OptimisticLockException
      */
     public function add(Star $entity, bool $flush = true): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
     /**
-     * @throws ORMException
      * @throws OptimisticLockException
      */
     public function remove(Star $entity, bool $flush = true): void
     {
-        $this->_em->remove($entity);
+        $this->getEntityManager()->remove($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 

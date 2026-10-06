@@ -27,6 +27,9 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @extends AbstractType<Rooms>
+ */
 class SchedulerType extends AbstractType
 {
     private const string DURATION_LABEL_FORMAT = 'option.%dmin';

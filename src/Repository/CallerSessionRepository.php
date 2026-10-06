@@ -9,10 +9,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method CallerSession|null find($id, $lockMode = null, $lockVersion = null)
- * @method CallerSession|null findOneBy(array $criteria, array $orderBy = null)
- * @method CallerSession[]    findAll()
- * @method CallerSession[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @extends ServiceEntityRepository<CallerSession>
  */
 class CallerSessionRepository extends ServiceEntityRepository

@@ -7,11 +7,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method CallerRoom|null find($id, $lockMode = null, $lockVersion = null)
- * @method CallerRoom|null findOneBy(array $criteria, array $orderBy = null)
- * @method CallerRoom[]    findAll()
- * @method CallerRoom[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @extends ServiceEntityRepository<CallerRoom>
  */
 class CallerRoomRepository extends ServiceEntityRepository

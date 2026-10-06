@@ -1106,18 +1106,31 @@ class RepeaterServiceTest extends KernelTestCase
             'daily without days' => [RepeatTypeEnum::DAILY, []],
             'weekly without weeks' => [RepeatTypeEnum::WEEKLY, []],
             'monthly without months' => [RepeatTypeEnum::MONTHLY, []],
-            'monthly relative without number' => [RepeatTypeEnum::MONTHLY_RELATIVE, ['setRepeatMonthlyRelativeHowOften' => 1, 'setRepatMonthRelativWeekday' => RepeatWeekdayEnum::MONDAY]],
-            'monthly relative without weekday' => [RepeatTypeEnum::MONTHLY_RELATIVE, ['setRepeatMonthlyRelativeHowOften' => 1, 'setRepatMonthRelativNumber' => RepeatNumberEnum::FIRST]],
-            'monthly relative without how often' => [RepeatTypeEnum::MONTHLY_RELATIVE, ['setRepatMonthRelativWeekday' => RepeatWeekdayEnum::MONDAY, 'setRepatMonthRelativNumber' => RepeatNumberEnum::FIRST]],
+            'monthly relative without number' => [RepeatTypeEnum::MONTHLY_RELATIVE, [
+                fn (Repeat $repeat) => $repeat->setRepeatMonthlyRelativeHowOften(1),
+                fn (Repeat $repeat) => $repeat->setRepatMonthRelativWeekday(RepeatWeekdayEnum::MONDAY),
+            ]],
+            'monthly relative without weekday' => [RepeatTypeEnum::MONTHLY_RELATIVE, [
+                fn (Repeat $repeat) => $repeat->setRepeatMonthlyRelativeHowOften(1),
+                fn (Repeat $repeat) => $repeat->setRepatMonthRelativNumber(RepeatNumberEnum::FIRST),
+            ]],
+            'monthly relative without how often' => [RepeatTypeEnum::MONTHLY_RELATIVE, [
+                fn (Repeat $repeat) => $repeat->setRepatMonthRelativWeekday(RepeatWeekdayEnum::MONDAY),
+                fn (Repeat $repeat) => $repeat->setRepatMonthRelativNumber(RepeatNumberEnum::FIRST),
+            ]],
             'yearly without years' => [RepeatTypeEnum::YEARLY, []],
-            'yearly relative without month' => [RepeatTypeEnum::YEARLY_RELATIVE, ['setRepeatYearlyRelativeHowOften' => 1, 'setRepeatYearlyRelativeWeekday' => RepeatWeekdayEnum::MONDAY, 'setRepeatYearlyRelativeNumber' => RepeatNumberEnum::FIRST]],
+            'yearly relative without month' => [RepeatTypeEnum::YEARLY_RELATIVE, [
+                fn (Repeat $repeat) => $repeat->setRepeatYearlyRelativeHowOften(1),
+                fn (Repeat $repeat) => $repeat->setRepeatYearlyRelativeWeekday(RepeatWeekdayEnum::MONDAY),
+                fn (Repeat $repeat) => $repeat->setRepeatYearlyRelativeNumber(RepeatNumberEnum::FIRST),
+            ]],
             'yearly relative empty' => [RepeatTypeEnum::YEARLY_RELATIVE, []],
         ];
-        foreach ($cases as $label => [$repeatType, $fields]) {
+        foreach ($cases as $label => [$repeatType, $setters]) {
             $repeat = new Repeat();
             $repeat->setRepeatType($repeatType);
-            foreach ($fields as $setter => $value) {
-                $repeat->{$setter}($value);
+            foreach ($setters as $setter) {
+                $setter($repeat);
             }
             self::assertFalse($repeaterService->checkData($repeat), $label);
         }

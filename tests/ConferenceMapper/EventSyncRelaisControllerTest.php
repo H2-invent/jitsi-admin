@@ -50,7 +50,9 @@ class EventSyncRelaisControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/api/v1/conferenceMapper?confid=555555&callerid=12345678',);
 
         $this->assertResponseIsSuccessful();
-        $result = json_decode($client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $content = $client->getResponse()->getContent();
+        self::assertIsString($content);
+        $result = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         self::assertEquals('STARTED', $result['state']);
         self::assertEquals('testuid1234@test.prosody.com', $result['room_name']);
         self::assertEquals('User, Test, test@local.de', $result['display_name']);

@@ -49,6 +49,9 @@ class LobbyToParticipantsTest extends KernelTestCase
                     self::assertEquals(5000, $data['timeout']);
 
                     preg_match('/jwt=([^#]+)/', $data['url'], $matches);
+                    if (!isset($matches[1])) {
+                        self::fail('JWT not found in URL');
+                    }
                     $jwt = $matches[1];
                     $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
                     self::assertEquals('12313231ghjgfdsdf', $decoded->room);

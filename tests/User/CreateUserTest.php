@@ -34,7 +34,6 @@ class CreateUserTest extends KernelTestCase
         self::assertNotNull($userFind);
 
         $user = $userCreator->createUser('testmedryRun@mail.com', 'testme', 'firstname', 'lastname', true);
-        self::assertNotNull($user);
         $userFind = $userRepo->findOneBy(['email' => 'testmedryRun@mail.com']);
         self::assertNull($userFind);
     }

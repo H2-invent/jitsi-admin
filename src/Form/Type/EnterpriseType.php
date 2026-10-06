@@ -10,6 +10,7 @@
 namespace App\Form\Type;
 
 use App\Entity\AuditTomAbteilung;
+use App\Entity\Server;
 use App\Entity\Tag;
 use App\Service\Transcription\TranscriptionProvider;
 use Doctrine\ORM\EntityRepository;
@@ -26,6 +27,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @extends AbstractType<Server>
+ */
 class EnterpriseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

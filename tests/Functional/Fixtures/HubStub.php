@@ -6,7 +6,6 @@ namespace App\Tests\Functional\Fixtures;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Jwt\FactoryTokenProvider;
 use Symfony\Component\Mercure\Jwt\TokenFactoryInterface;
-use Symfony\Component\Mercure\Jwt\TokenProviderInterface;
 use Symfony\Component\Mercure\Update;
 
 class HubStub implements HubInterface
@@ -32,12 +31,6 @@ class HubStub implements HubInterface
     {
         // TODO: Implement proper getPublicUrl() method.
         return 'test';
-    }
-
-    public function getProvider(): TokenProviderInterface
-    {
-        // TODO: Implement proper getProvider() method.
-        return $this->inner->getProvider();
     }
 
     public function getFactory(): ?TokenFactoryInterface

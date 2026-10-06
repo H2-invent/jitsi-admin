@@ -22,7 +22,6 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
 
         $rooms = $roomRepo->findRoomsForDashboard($user);
 
-        $this->assertIsArray($rooms);
         $this->assertGreaterThan(0, count($rooms));
 
         $hasPersistent = false;
@@ -104,7 +103,6 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
 
         $rooms = $roomRepo->findRoomsInPast($user, 0);
 
-        $this->assertIsArray($rooms);
         $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         foreach ($rooms as $room) {
             $this->assertNotNull($room->getEndDateUtc());
@@ -228,7 +226,6 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
 
         $rooms = $roomRepo->findRoomsForDashboard($deputy);
 
-        $this->assertIsArray($rooms);
     }
 
     public function testPersistentRoomsAlwaysIncluded(): void
@@ -465,7 +462,7 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
      * Flattens the queries captured by the DoctrineBundle debug middleware into a
      * single list of records, each containing at least a "sql" key.
      *
-     * @return array<int, array{sql: string, params: array, types: array, executionMS: float|null}>
+     * @return array<int, array{sql: string, params: array<mixed>, types: array<mixed>, executionMS: float|null}>
      */
     private function recordedQueries(DebugDataHolder $holder): array
     {
