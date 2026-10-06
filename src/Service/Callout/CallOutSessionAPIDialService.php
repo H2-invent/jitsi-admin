@@ -141,7 +141,7 @@ class CallOutSessionAPIDialService
         $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
 
         return [
-            'status' => CalloutSession::$STATE[$calloutSession->getState()],
+            'status' => CalloutSession::$STATE[CalloutSession::$DIALED],
             'links'  => $this->generateLinkList(calloutSession: $calloutSession, pin: $pin),
         ];
     }

@@ -9,11 +9,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Deputy>
- *
- * @method Deputy|null find($id, $lockMode = null, $lockVersion = null)
- * @method Deputy|null findOneBy(array $criteria, array $orderBy = null)
- * @method Deputy[]    findAll()
- * @method Deputy[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class DeputyRepository extends ServiceEntityRepository
 {

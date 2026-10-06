@@ -10,11 +10,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<CalloutSession>
- *
- * @method CalloutSession|null find($id, $lockMode = null, $lockVersion = null)
- * @method CalloutSession|null findOneBy(array $criteria, array $orderBy = null)
- * @method CalloutSession[]    findAll()
- * @method CalloutSession[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class CalloutSessionRepository extends ServiceEntityRepository
 {

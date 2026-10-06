@@ -8,11 +8,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method AddressGroup|null find($id, $lockMode = null, $lockVersion = null)
- * @method AddressGroup|null findOneBy(array $criteria, array $orderBy = null)
- * @method AddressGroup[]    findAll()
- * @method AddressGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @extends ServiceEntityRepository<AddressGroup>
  */
 class AddressGroupRepository extends ServiceEntityRepository

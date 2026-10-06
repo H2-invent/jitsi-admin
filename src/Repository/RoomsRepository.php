@@ -11,11 +11,6 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Rooms|null find($id, $lockMode = null, $lockVersion = null)
- * @method Rooms|null findOneBy(array $criteria, array $orderBy = null)
- * @method Rooms[]    findAll()
- * @method Rooms[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @extends ServiceEntityRepository<Rooms>
  */
 class RoomsRepository extends ServiceEntityRepository

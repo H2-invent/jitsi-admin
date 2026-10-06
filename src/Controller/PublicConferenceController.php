@@ -105,8 +105,7 @@ class PublicConferenceController extends JitsiAdminController
             }
         }
 
-        /** @var string $lastConfEncoded */
-        $lastConfEncoded = json_encode($lastConf);
+        $lastConfEncoded = json_encode($lastConf, flags: JSON_THROW_ON_ERROR);
         $response->headers->setCookie(
             Cookie::create(
                 'LAST_CONFERENCE',

@@ -8,11 +8,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method CallerId|null find($id, $lockMode = null, $lockVersion = null)
- * @method CallerId|null findOneBy(array $criteria, array $orderBy = null)
- * @method CallerId[]    findAll()
- * @method CallerId[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @extends ServiceEntityRepository<CallerId>
  */
 class CallerIdRepository extends ServiceEntityRepository

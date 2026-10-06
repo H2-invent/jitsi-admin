@@ -82,40 +82,29 @@ class CallerSessionService
             return $this->sessionDeclined(session: $session);
         }
 
-        if ($closed == false && $started == false && $authOk == false) {
+        if ($closed == false && $started == false) {
             $this->loggger->debug(
-                'The Room is not startd and the User hast to wait. The user is not accepted',
+                'The Room is not started and the User hast to wait. The user is not accepted',
                 ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
             );
             return $this->sessionWaiting(session: $session, started: false);
         }
 
-        if ($authOk == false && $started == true) {
+        if ($started == true) {
             $this->loggger->debug(
-                'The Room is  startd and the User hast to wait. The user is not accepted',
+                'The Room is started and the User hast to wait. The user is not accepted',
                 ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
             );
             return $this->sessionWaiting(session: $session, started: true);
         }
 
-        if ($closed == true) {
-            $this->loggger->debug(
-                'The user is called to hangup. The Meeting has finished while he was waiting',
-                ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
-            );
-
-            $this->cleanUpSession($session);
-            return $this->sessionMeetingFinished(session: $session);
-        }
-
-
-        $this->loggger->error(
-            'Error. an UNKNOWN state occured.',
+        $this->loggger->debug(
+            'The user is called to hangup. The Meeting has finished while he was waiting',
             ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
         );
-        $this->cleanUpSession($session);
 
-        return $this->sessionError(session: $session);
+        $this->cleanUpSession($session);
+        return $this->sessionMeetingFinished(session: $session);
     }
 
     public function cleanUpSession(CallerSession $callerSession): bool
@@ -259,21 +248,6 @@ class CallerSessionService
             'links'                  => [
                 'session' => $this->urlGen->generate('caller_session', ['session_id' => $session->getSessionId()]),
                 'left'    => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
-            ]
-        ];
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private function sessionError(CallerSession $session): array
-    {
-        return [
-            'status'  => 'HANGUP',
-            'reason'  => 'ERROR',
-            'message' => $this->createMessageElement($session),
-            'links'   => [
-                'left' => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
             ]
         ];
     }
