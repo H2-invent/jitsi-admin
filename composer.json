@@ -164,7 +164,7 @@
     "post-update-cmd": [
       "@auto-scripts"
     ],
-    "phpstan": "vendor/bin/phpstan -c phpstan.neon",
+    "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
     "db-drop": "php bin/console doctrine:database:drop --force --if-exists",
     "db-create": "php bin/console doctrine:database:create",
     "db-migrate": "php bin/console doctrine:migrations:migrate -n",
