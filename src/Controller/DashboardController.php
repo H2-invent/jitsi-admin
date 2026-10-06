@@ -31,7 +31,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -42,32 +41,33 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class DashboardController extends JitsiAdminController
 {
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        TranslatorInterface $translator,
-        LoggerInterface $logger,
-        ParameterBagInterface $parameterBag,
-        private readonly ThemeService $themeService,
-        private readonly ServerRepository $serverRepository,
+        ManagerRegistry                     $managerRegistry,
+        TranslatorInterface                 $translator,
+        LoggerInterface                     $logger,
+        ParameterBagInterface               $parameterBag,
+        private readonly ThemeService       $themeService,
+        private readonly ServerRepository   $serverRepository,
         private readonly UserCreatorService $userCreatorService,
-    )
-    {
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
     private function initializeUserFields(): void
     {
-        $user = $this->getUser();
-        $em = $this->doctrine->getManager();
+        $user    = $this->getUser();
+        $em      = $this->doctrine->getManager();
         $changed = false;
 
         if (!$user->getUid()) {
             $user->setUid(md5(uniqid()));
             $changed = true;
         }
+
         if (!$user->getOwnRoomUid()) {
             $user->setOwnRoomUid(md5(uniqid()));
             $changed = true;
         }
+
         if (!$user->getTimezone()) {
             $user->setTimezone(date_default_timezone_get());
             $changed = true;
@@ -93,19 +93,19 @@ class DashboardController extends JitsiAdminController
         RoomStatusFrontendService    $roomStatusFrontendService,
         DashboardService             $dashboardService,
         SchedulingTimeUserRepository $schedulingTimeUserRepository,
-    ): Response
-    {
+    ): Response {
         if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
             return $this->redirectToRoute('app_terms_and_conditions');
         }
+
         $stopwatch = new Stopwatch();
-        $start = $stopwatch->start('dashboard');
+        $start     = $stopwatch->start('dashboard');
         if ($request->get('join_room') && $request->get('type')) {
             return $this->redirectToRoute(
                 'room_join',
                 [
                     'room' => $request->get('join_room'),
-                    't' => $request->get('type'),
+                    't'    => $request->get('type'),
                 ],
             );
         }
@@ -115,7 +115,7 @@ class DashboardController extends JitsiAdminController
 
         /** @var RoomsRepository $roomsRepository */
         $roomsRepository = $this->doctrine->getRepository(Rooms::class);
-        $allRooms = $roomsRepository->findRoomsForDashboard($this->getUser());
+        $allRooms        = $roomsRepository->findRoomsForDashboard($this->getUser());
         [
             'roomsFuture'     => $roomsFuture,
             'roomsNow'        => $roomsNow,
@@ -130,21 +130,21 @@ class DashboardController extends JitsiAdminController
             $roomIds[] = $room->getId();
         }
 
-        $servers = $serverUserManagment->getServersFromUser($this->getUser());
-        $today = new \DateTimeImmutable('now')->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
-        $tomorrow = $today->modify('+1day');
+        $servers   = $serverUserManagment->getServersFromUser($this->getUser());
+        $today     = new \DateTimeImmutable('now')->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
+        $tomorrow  = $today->modify('+1day');
         $favorites = $roomsRepository->findFavoriteRooms($this->getUser());
         foreach ($favorites as $room) {
             $roomIds[] = $room->getId();
         }
 
-        $uniqueRoomIds = array_unique($roomIds);
-        $roomStatusOpenMap = $roomStatusFrontendService->getRoomCreatedStatusMap($uniqueRoomIds);
+        $uniqueRoomIds          = array_unique($roomIds);
+        $roomStatusOpenMap      = $roomStatusFrontendService->getRoomCreatedStatusMap($uniqueRoomIds);
         $roomStatusOccupantsMap = $roomStatusFrontendService->getRoomOccupantsMap($uniqueRoomIds);
-        $roomStatusClosedMap = $roomStatusFrontendService->getRoomClosedStatusMap($uniqueRoomIds);
-        $roomHasStatusMap = $roomStatusFrontendService->getRoomHasStatusMap($uniqueRoomIds);
+        $roomStatusClosedMap    = $roomStatusFrontendService->getRoomClosedStatusMap($uniqueRoomIds);
+        $roomHasStatusMap       = $roomStatusFrontendService->getRoomHasStatusMap($uniqueRoomIds);
 
-        $allDisplayedRooms = array_merge($allRooms, $roomsPast, $favorites);
+        $allDisplayedRooms     = array_merge($allRooms, $roomsPast, $favorites);
         $roomClosedForStartMap = $dashboardService->getRoomClosedForStartMap(
             $allDisplayedRooms,
             $this->getUser(),
@@ -162,9 +162,10 @@ class DashboardController extends JitsiAdminController
                 $this->addFlash($request->get('color'), $request->get('snack'));
             }
         }
-        $date = new \DateTimeImmutable();
-        $timestamp = $date->getTimestamp();
-        $form = $this->createForm(
+
+        $date         = new \DateTimeImmutable();
+        $timestamp    = $date->getTimestamp();
+        $form         = $this->createForm(
             SecondEmailType::class,
             $this->getUser(),
             [
@@ -177,29 +178,30 @@ class DashboardController extends JitsiAdminController
         $res = $this->render(
             'dashboard/index.html.twig',
             [
-                'secondEmailForm' => $form->createView(),
-                'roomsFuture' => $roomsFuture,
-                'roomsPast' => $roomsPast,
-                'runningRooms' => $roomsNow,
-                'persistantRooms' => $persistantRooms,
-                'todayRooms' => $roomsToday,
-                'servers' => $servers,
-                'today' => $today,
-                'tomorrow' => $tomorrow,
-                'favorite' => $favorites,
-                'scheduledRooms' => $scheduledRooms,
-                'roomStatusOpenMap' => $roomStatusOpenMap,
-                'roomStatusOccupantsMap' => $roomStatusOccupantsMap,
-                'roomStatusClosedMap' => $roomStatusClosedMap,
-                'roomHasStatusMap' => $roomHasStatusMap,
-                'roomClosedMapForStart' => $roomClosedForStartMap,
+                'secondEmailForm'         => $form->createView(),
+                'roomsFuture'             => $roomsFuture,
+                'roomsPast'               => $roomsPast,
+                'runningRooms'            => $roomsNow,
+                'persistantRooms'         => $persistantRooms,
+                'todayRooms'              => $roomsToday,
+                'servers'                 => $servers,
+                'today'                   => $today,
+                'tomorrow'                => $tomorrow,
+                'favorite'                => $favorites,
+                'scheduledRooms'          => $scheduledRooms,
+                'roomStatusOpenMap'       => $roomStatusOpenMap,
+                'roomStatusOccupantsMap'  => $roomStatusOccupantsMap,
+                'roomStatusClosedMap'     => $roomStatusClosedMap,
+                'roomHasStatusMap'        => $roomHasStatusMap,
+                'roomClosedMapForStart'   => $roomClosedForStartMap,
                 'scheduleUserHasVotedMap' => $scheduleUserHasVotedMap,
-                'timestamp' => $timestamp,
-                'time' => $timer->getDuration(),
-                'publicServer' => $publicServer,
-                'doAllowUserCreation' => $this->userCreatorService->doAllowUserCreation(),
+                'timestamp'               => $timestamp,
+                'time'                    => $timer->getDuration(),
+                'publicServer'            => $publicServer,
+                'doAllowUserCreation'     => $this->userCreatorService->doAllowUserCreation(),
             ],
         );
+
         $analyticsService->sendAnalytics();
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')) {
             $res = $this->redirectToRoute('dashboard');
@@ -215,6 +217,7 @@ class DashboardController extends JitsiAdminController
                 )
             );
         }
+
         if (!$request->isXmlHttpRequest()) {
             if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
                 $groups = $this->getUser()->getGroups();
@@ -224,8 +227,6 @@ class DashboardController extends JitsiAdminController
             } else {
                 $this->themeService->checkRemainingDays();
             }
-
-
         }
         $res->headers->setCookie(
             Cookie::create(
@@ -235,6 +236,7 @@ class DashboardController extends JitsiAdminController
                 '/',  // Path.
             )
         );
+
         return $res;
     }
 
@@ -242,19 +244,25 @@ class DashboardController extends JitsiAdminController
      * @return RedirectResponse|Response
      */
     #[\Symfony\Component\Routing\Attribute\Route(path: '/room/dashboard/lazy/{type}/{offset}', name: 'dashboard_lazy')]
-    public function dashboardLayzLoad(ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, string $type, string $offset): Response
-    {
+    public function dashboardLayzLoad(
+        ServerUserManagment   $serverUserManagment,
+        ParameterBagInterface $parameterBag,
+        FavoriteService       $favoriteService,
+        string                $type,
+        string                $offset
+    ): Response {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         /** @var RoomsRepository $roomsRepository */
         $roomsRepository = $this->doctrine->getRepository(Rooms::class);
+
         if ($type === 'fixed') {
             $persistantRooms = $roomsRepository->getMyPersistantRooms($this->getUser(), $offset);
             return $this->render(
                 'dashboard/__lazyFixed.html.twig',
                 [
                     'persistantRooms' => $persistantRooms,
-                    'servers' => $servers,
-                    'offset' => $offset
+                    'servers'         => $servers,
+                    'offset'          => $offset
                 ]
             );
         } elseif ($type === 'past') {
@@ -263,8 +271,8 @@ class DashboardController extends JitsiAdminController
                 'dashboard/__lazyPast.html.twig',
                 [
                     'roomsPast' => $roomsPast,
-                    'servers' => $servers,
-                    'offset' => $offset
+                    'servers'   => $servers,
+                    'offset'    => $offset
                 ]
             );
         }
@@ -276,8 +284,9 @@ class DashboardController extends JitsiAdminController
     public function adressbookFragment(ServerUserManagment $serverUserManagment): Response
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
+
         return $this->render('addressbook/__addressBook.html.twig', [
-            'servers' => $servers,
+            'servers'             => $servers,
             'doAllowUserCreation' => $this->userCreatorService->doAllowUserCreation(),
         ]);
     }

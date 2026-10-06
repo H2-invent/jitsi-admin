@@ -23,12 +23,11 @@ class MigrateTimeZoneCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io    = new SymfonyStyle($input, $output);
         $rooms = $this->em->getRepository(Rooms::class)->findAll();
 
         foreach ($rooms as $data) {
             $timezone = $data->getTimeZone() ? new \DateTimeZone($data->getTimeZone()) : null;
-
             if ($data->getStart()) {
                 $dateStart = new \DateTimeImmutable($data->getStart()->format('Y-m-d H:i:s'), $timezone);
                 $data->setStartUtc($dateStart->setTimezone(new \DateTimeZone('utc')));

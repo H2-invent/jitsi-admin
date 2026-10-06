@@ -21,6 +21,7 @@ class EmailTestCommand extends Command
             ->addArgument('serverId', InputArgument::OPTIONAL, 'Server ID from where the amil should be send')
             ->addArgument('email', InputArgument::OPTIONAL, 'Email to where the email schoueld be sent');
     }
+
     public function __construct(private readonly EntityManagerInterface $em, private readonly MailerService $mailerService, ?string $name = null)
     {
         parent::__construct($name);
@@ -43,7 +44,16 @@ class EmailTestCommand extends Command
         }
         $user = new User();
         $user->setEmail($email);
-        $this->mailerService->sendEmail($user, 'Test-Email from command', sprintf('<h1>This email was send from a command</h1><br><p>Server:%s<br>SMTP-Host:%s<br>Check the From header to make sure the server is correct</p>', $server->getUrl(), $server->getSmtpHost()), $server);
+        $this->mailerService->sendEmail(
+            $user,
+            'Test-Email from command',
+            sprintf(
+                '<h1>This email was send from a command</h1><br><p>Server:%s<br>SMTP-Host:%s<br>Check the From header to make sure the server is correct</p>',
+                $server->getUrl(),
+                $server->getSmtpHost()
+            ),
+            $server
+        );
 
 
         return Command::SUCCESS;

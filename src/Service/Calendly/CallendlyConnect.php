@@ -11,21 +11,19 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use function OpenTelemetry\Instrumentation\hook;
 
 class CallendlyConnect
 {
-    const BASE_URL = 'https://api.calendly.com/';
-    const INFO_ROUTE = 'users/me';
+    const BASE_URL      = 'https://api.calendly.com/';
+    const INFO_ROUTE    = 'users/me';
     const WEBHOOK_ROUTE = 'webhook_subscriptions';
 
     public function __construct(
-        private readonly HttpClientInterface $httpClient,
-        private readonly TranslatorInterface $translator,
+        private readonly HttpClientInterface   $httpClient,
+        private readonly TranslatorInterface   $translator,
         private readonly ParameterBagInterface $parameterBag,
         private readonly UrlGeneratorInterface $urlGenerator,
-    )
-    {
+    ) {
     }
 
     /**
@@ -40,7 +38,7 @@ class CallendlyConnect
                 [
                     'headers' => [
                         'Authorization' => 'Bearer ' . $token,
-                        'Accept' => 'application/json',
+                        'Accept'        => 'application/json',
                     ],
                 ]
             );
@@ -72,12 +70,12 @@ class CallendlyConnect
             // Bereite die Anfrage-Payload vor
             /** @var string $lafBaseUrl */
             $lafBaseUrl = $this->parameterBag->get('laF_baseUrl');
-            $payload = [
-                'url' => str_replace('localhost', 'h2-invent.com', $lafBaseUrl) . $this->urlGenerator->generate('app_calendly_webhook_api'),
-                'events' => ['invitee.created','invitee.canceled'],
+            $payload    = [
+                'url'          => str_replace('localhost', 'h2-invent.com', $lafBaseUrl) . $this->urlGenerator->generate('app_calendly_webhook_api'),
+                'events'       => ['invitee.created', 'invitee.canceled'],
                 'organization' => $user->getCalendlyOrgUri(),
-                'user' => $user->getCalendlyUserUri(),
-                'scope' => 'user',
+                'user'         => $user->getCalendlyUserUri(),
+                'scope'        => 'user',
             ];
 
             // Sende die Anfrage
@@ -87,9 +85,9 @@ class CallendlyConnect
                 [
                     'headers' => [
                         'Authorization' => 'Bearer ' . $user->getCalendlyToken(),
-                        'Content-Type' => 'application/json',
+                        'Content-Type'  => 'application/json',
                     ],
-                    'json' => $payload,
+                    'json'    => $payload,
                 ]
             );
 
@@ -98,7 +96,7 @@ class CallendlyConnect
         } catch (ClientExceptionInterface $e) {
             // Fehler bei der Anfrage (z. B. 400 oder 401)
             throw new \RuntimeException('Ungültige Anfrage oder Token: ' . $e->getMessage());
-        } catch (ServerExceptionInterface | TransportExceptionInterface $e) {
+        } catch (ServerExceptionInterface|TransportExceptionInterface $e) {
             // Fehler bei der Serverantwort oder Netzwerkproblemen
             throw new \RuntimeException('Fehler beim Aufruf der Calendly-API: ' . $e->getMessage());
         } catch (RedirectionExceptionInterface $e) {
@@ -106,6 +104,7 @@ class CallendlyConnect
             throw new \RuntimeException('Weiterleitungsfehler bei der Calendly-API: ' . $e->getMessage());
         }
     }
+
     /**
      * @return array<mixed>
      */
@@ -115,11 +114,10 @@ class CallendlyConnect
         try {
             // Bereite die Anfrage-Payload vor
             $payload = [
-                'user'=>$user->getCalendlyUserUri(),
+                'user'         => $user->getCalendlyUserUri(),
                 'organization' => $user->getCalendlyOrgUri(),
-                'scope' => 'user',
+                'scope'        => 'user',
             ];
-
 
             // Sende die Anfrage
             $response = $this->httpClient->request(
@@ -128,21 +126,18 @@ class CallendlyConnect
                 [
                     'headers' => [
                         'Authorization' => 'Bearer ' . $user->getCalendlyToken(),
-                        'Content-Type' => 'application/json',
+                        'Content-Type'  => 'application/json',
                     ],
-                    'json' => $payload,
+                    'json'    => $payload,
                 ]
             );
 
             // Konvertiere die Antwort in ein Array und gebe sie zurück
-            $hooks =  $response->toArray();
-
-
-            return $hooks;
+            return $response->toArray();
         } catch (ClientExceptionInterface $e) {
             // Fehler bei der Anfrage (z. B. 400 oder 401)
             throw new \RuntimeException('Ungültige Anfrage oder Token: ' . $e->getMessage());
-        } catch (ServerExceptionInterface | TransportExceptionInterface $e) {
+        } catch (ServerExceptionInterface|TransportExceptionInterface $e) {
             // Fehler bei der Serverantwort oder Netzwerkproblemen
             throw new \RuntimeException('Fehler beim Aufruf der Calendly-API: ' . $e->getMessage());
         } catch (RedirectionExceptionInterface $e) {
@@ -155,17 +150,17 @@ class CallendlyConnect
      * @return array<mixed>
      */
     public function cleanWebhooks(
-        User $user,
+        User   $user,
         string $webhookId
     ): array {
         try {
             $response = $this->httpClient->request(
                 'DELETE',
-                self::BASE_URL . self::WEBHOOK_ROUTE.'/'.array_reverse(explode('/', $webhookId))[0],
+                self::BASE_URL . self::WEBHOOK_ROUTE . '/' . array_reverse(explode('/', $webhookId))[0],
                 [
                     'headers' => [
                         'Authorization' => 'Bearer ' . $user->getCalendlyToken(),
-                        'Content-Type' => 'application/json',
+                        'Content-Type'  => 'application/json',
                     ],
                 ]
             );
@@ -175,7 +170,7 @@ class CallendlyConnect
         } catch (ClientExceptionInterface $e) {
             // Fehler bei der Anfrage (z. B. 400 oder 401)
             throw new \RuntimeException('Ungültige Anfrage oder Token: ' . $e->getMessage());
-        } catch (ServerExceptionInterface | TransportExceptionInterface $e) {
+        } catch (ServerExceptionInterface|TransportExceptionInterface $e) {
             // Fehler bei der Serverantwort oder Netzwerkproblemen
             throw new \RuntimeException('Fehler beim Aufruf der Calendly-API: ' . $e->getMessage());
         } catch (RedirectionExceptionInterface $e) {
@@ -183,5 +178,4 @@ class CallendlyConnect
             throw new \RuntimeException('Weiterleitungsfehler bei der Calendly-API: ' . $e->getMessage());
         }
     }
-
 }

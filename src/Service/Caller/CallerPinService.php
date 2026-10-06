@@ -14,8 +14,13 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class CallerPinService
 {
-    public function __construct(private readonly LoggerInterface                       $loggger, private readonly EntityManagerInterface                $em, private readonly CreateLobbyUserService                $createLobbyUserService, private readonly ParameterBagInterface                 $parameterBag, private readonly CalloutServiceDialSuccessfull $calloutServiceDialSuccessfull)
-    {
+    public function __construct(
+        private readonly LoggerInterface               $loggger,
+        private readonly EntityManagerInterface        $em,
+        private readonly CreateLobbyUserService        $createLobbyUserService,
+        private readonly ParameterBagInterface         $parameterBag,
+        private readonly CalloutServiceDialSuccessfull $calloutServiceDialSuccessfull
+    ) {
     }
 
     public function createNewCallerSession(string $roomId, string $pin, string $callerId, bool $isSipVideo = false): ?CallerSession
@@ -25,16 +30,21 @@ class CallerPinService
             $this->loggger->error('Room not found', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
             return null;
         }
-        $room = $callerRoom->getRoom();
+
         /** @var CallerIdRepository $callerIdRepository */
         $callerIdRepository = $this->em->getRepository(CallerId::class);
-        $callInUser = $callerIdRepository->findByRoomAndPin($room, $pin);
+        $room               = $callerRoom->getRoom();
+        $callInUser         = $callerIdRepository->findByRoomAndPin($room, $pin);
         if (!$callInUser) {
             $this->loggger->error('PIN not found for the room', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
             return null;
         }
+
         if ($callInUser->getCallerSession()) {
-            $this->loggger->error('The Session is already used. Only one Session per PIN is allowed', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
+            $this->loggger->error(
+                'The Session is already used. Only one Session per PIN is allowed',
+                ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]
+            );
             return null;
         }
         $lobbyUser = $this->createLobbyUserService->createNewLobbyUser($callInUser->getUser(), $callInUser->getRoom(), 'c', true);
@@ -58,6 +68,7 @@ class CallerPinService
         $this->em->flush();
         $this->loggger->debug('Session was successfully build', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
         $this->calloutServiceDialSuccessfull->dialSuccessfull($lobbyUser->getUser(), $room);
+
         return $session;
     }
 
@@ -72,13 +83,13 @@ class CallerPinService
             if (isset($properties[$key])) {
                 $phoneNumber = $properties[$key];
             }
-
         } catch (\Exception) {
             return false;
         }
         if (isset($phoneNumber) && $this->clean($callerID) === $this->clean($phoneNumber)) {
             return true;
         }
+
         return false;
     }
 
@@ -87,7 +98,8 @@ class CallerPinService
         $string = (string)$string;
 
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
-        $res = preg_replace('/[^0-9]/', '', $string); // Removes special chars.
+        $res    = preg_replace('/[^0-9]/', '', $string); // Removes special chars.
+
         return $res;
     }
 }

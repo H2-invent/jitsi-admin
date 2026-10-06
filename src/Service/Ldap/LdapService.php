@@ -96,11 +96,11 @@ class LdapService
     private $LDAP_IS_SIP_VIDEO;
 
     public function __construct(
-        private readonly LdapUserService               $ldapUserService,
-        private readonly EntityManagerInterface        $em,
-        private readonly ParameterBagInterface $parameterBag,
-        private readonly LoggerInterface       $logger,)
-    {
+        private readonly LdapUserService        $ldapUserService,
+        private readonly EntityManagerInterface $em,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly LoggerInterface        $logger,
+    ) {
         $this->ldaps = [];
     }
 
@@ -114,24 +114,24 @@ class LdapService
     public function readLdapConfig(): bool|int
     {
         try {
-            $this->URL = explode(';', $this->getStringParameter('ldap_url'));
-            $this->LOGIN = explode(';', $this->getStringParameter('ldap_bind_dn'));
-            $this->PASSWORD = explode(';', $this->getStringParameter('ldap_password'));
-            $this->USERDN = explode(';', $this->getStringParameter('ldap_user_dn'));
-            $this->SCOPE = explode(';', $this->getStringParameter('ldap_search_scope'));
-            $this->OBJECTCLASSES = explode(';', $this->getStringParameter('ldap_user_object_classes'));
-            $this->USERNAMEATTRIBUTE = explode(';', $this->getStringParameter('ldap_userName_attribute'));
-            $this->RDN = explode(',', $this->getStringParameter('ldap_rdn_ldap_attribute'));
-            $this->BINDTYPE = explode(',', $this->getStringParameter('ldap_bind_type'));
-            $this->LDAPSERVERID = explode(',', $this->getStringParameter('ldap_server_individualName'));
-            $this->LDAPFILTER = explode(';', $this->getStringParameter('ldap_filter'));
-            $this->LDAP_DEPUTY_GROUP_DN = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_DN'));
-            $this->LDAP_DEPUTY_GROUP_LEADER = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_LEADER'));
-            $this->LDAP_DEPUTY_GROUP_MEMBERS = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_MEMBERS'));
+            $this->URL                           = explode(';', $this->getStringParameter('ldap_url'));
+            $this->LOGIN                         = explode(';', $this->getStringParameter('ldap_bind_dn'));
+            $this->PASSWORD                      = explode(';', $this->getStringParameter('ldap_password'));
+            $this->USERDN                        = explode(';', $this->getStringParameter('ldap_user_dn'));
+            $this->SCOPE                         = explode(';', $this->getStringParameter('ldap_search_scope'));
+            $this->OBJECTCLASSES                 = explode(';', $this->getStringParameter('ldap_user_object_classes'));
+            $this->USERNAMEATTRIBUTE             = explode(';', $this->getStringParameter('ldap_userName_attribute'));
+            $this->RDN                           = explode(',', $this->getStringParameter('ldap_rdn_ldap_attribute'));
+            $this->BINDTYPE                      = explode(',', $this->getStringParameter('ldap_bind_type'));
+            $this->LDAPSERVERID                  = explode(',', $this->getStringParameter('ldap_server_individualName'));
+            $this->LDAPFILTER                    = explode(';', $this->getStringParameter('ldap_filter'));
+            $this->LDAP_DEPUTY_GROUP_DN          = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_DN'));
+            $this->LDAP_DEPUTY_GROUP_LEADER      = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_LEADER'));
+            $this->LDAP_DEPUTY_GROUP_MEMBERS     = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_MEMBERS'));
             $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
-            $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_FILTER'));
-            $this->LDAP_IS_SIP_VIDEO = explode(';', $this->getStringParameter('LDAP_IS_SIP_VIDEO'));
-            $tmp = explode(';', $this->getStringParameter('ldap_attribute_mapper'));
+            $this->LDAP_DEPUTY_GROUP_FILTER      = explode(';', $this->getStringParameter('LDAP_DEPUTY_GROUP_FILTER'));
+            $this->LDAP_IS_SIP_VIDEO             = explode(';', $this->getStringParameter('LDAP_IS_SIP_VIDEO'));
+            $tmp                                 = explode(';', $this->getStringParameter('ldap_attribute_mapper'));
             foreach ($tmp as $data) {
                 $this->MAPPER[] = json_decode($data, true);
             }
@@ -173,7 +173,6 @@ class LdapService
                 try {
                     $ldap->setISSIPVIDEO($this->LDAP_IS_SIP_VIDEO[$count] === 'true');
                 } catch (\Exception) {
-
                 }
 
                 $duplicate = false;
@@ -188,9 +187,7 @@ class LdapService
 
                 $count++;
             }
-
         }
-
 
         return sizeof($this->ldaps);
     }
@@ -220,6 +217,7 @@ class LdapService
                 return false;
             }
         }
+
         return true;
     }
 
@@ -228,6 +226,7 @@ class LdapService
     {
         $this->readLdapConfig();
         $this->createLdapConnections();
+
         return true;
     }
 
@@ -243,7 +242,6 @@ class LdapService
      */
     public function fetchLdap(LdapType $ldap, bool $dryRun = false): array
     {
-
         $user = null;
 
         try {
@@ -270,6 +268,7 @@ class LdapService
             }
         }
         $res = array_unique($res, SORT_REGULAR);
+
         return $res;
     }
 
@@ -284,13 +283,13 @@ class LdapService
         foreach ($entrys as $data) {
             foreach ($this->ldaps as $ldap) {
                 $members = $data->getAttribute($ldap->getLDAPDEPUTYGROUPMEMBERS());
-                $leader = $data->getAttribute($ldap->getLDAPDEPUTYGROUPLEADER());
+                $leader  = $data->getAttribute($ldap->getLDAPDEPUTYGROUPLEADER());
                 foreach ($leader as $lead) {
                     $l = $this->em->getRepository(LdapUserProperties::class)->findOneBy(['ldapDn' => $lead, 'ldapNumber' => $ldap->getSerVerId()]);
                     if ($l) {
                         $l = $l->getUser();
                         foreach ($members as $mem) {
-                            $mem = $this->em->getRepository(LdapUserProperties::class)->findOneBy(['ldapDn' => $mem, 'ldapNumber' => $ldap->getSerVerId()]);
+                            $mem    = $this->em->getRepository(LdapUserProperties::class)->findOneBy(['ldapDn' => $mem, 'ldapNumber' => $ldap->getSerVerId()]);
                             $deputy = $this->em->getRepository(Deputy::class)->findOneBy(['manager' => $l, 'deputy' => $mem->getUser()]);
                             if (!$deputy) {
                                 $deputy = new Deputy();

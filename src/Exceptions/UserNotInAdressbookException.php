@@ -2,8 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Entity\User;
-
 class UserNotInAdressbookException extends \Exception
 {
     public function __construct()
@@ -13,6 +11,5 @@ class UserNotInAdressbookException extends \Exception
 
     public function customMessage(): void
     {
-
     }
 }

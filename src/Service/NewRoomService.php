@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Log;
 use App\Entity\Rooms;
-use App\Entity\Server;
 use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
@@ -34,15 +33,14 @@ class NewRoomService
         private readonly RequestStack           $requestStack,
         private readonly SerializerInterface    $serializer,
         private readonly EntityManagerInterface $entityManager
-    )
-    {
+    ) {
     }
 
     public function newRoomService(Request $request, User $myUser): Rooms|Response
     {
         $servers = $this->serverUserManagment->getServersFromUser($myUser);
 
-        $id = $request->get('id') ?? null;
+        $id   = $request->get('id') ?? null;
         $edit = ($id !== null);
 
         if ($edit) {
@@ -86,6 +84,7 @@ class NewRoomService
                 $room->setServer($tmp);
             }
         }
+
         return $room;
     }
 
@@ -102,9 +101,8 @@ class NewRoomService
 
     public function writeLogInDatabase(Rooms $roomold, Rooms $room, User $myUser): void
     {
-
         if ($room->getCreator() !== $room->getModerator()) {
-            $log = new Log();
+            $log     = new Log();
             $exclude = [
                 'user',
                 'server',
@@ -121,21 +119,30 @@ class NewRoomService
                 'callerIds',
                 'tag',
                 'creator',
-                'logs'];
+                'logs'
+            ];
             $message = [
-                'roomId' => $room->getId(),
-                'userName' => $myUser->getUid(),
-                'state' => 'room Edit',
-                'oldObject' => json_decode($this->serializer->serialize($roomold,
-                    JsonEncoder::FORMAT,
-                    [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude])),
-                'newObject' => json_decode($this->serializer->serialize($room,
-                    JsonEncoder::FORMAT,
-                    [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude])),
+                'roomId'    => $room->getId(),
+                'userName'  => $myUser->getUid(),
+                'state'     => 'room Edit',
+                'oldObject' => json_decode(
+                    $this->serializer->serialize(
+                        $roomold,
+                        JsonEncoder::FORMAT,
+                        [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude]
+                    )
+                ),
+                'newObject' => json_decode(
+                    $this->serializer->serialize(
+                        $room,
+                        JsonEncoder::FORMAT,
+                        [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude]
+                    )
+                ),
             ];
             $log->setCreatedAt(new \DateTimeImmutable())
                 ->setUserName($myUser->getUid())
-                ->setMessage((string) json_encode($message))
+                ->setMessage((string)json_encode($message))
                 ->setUser($myUser)
                 ->setRoom($room);
 

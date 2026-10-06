@@ -6,9 +6,7 @@ namespace App\Twig;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\User;
 use App\Service\ParticipantSearchService;
-use Twig\Extension\AbstractExtension;
 use Twig\Markup;
-use Twig\TwigFilter;
 
 class Name
 {
@@ -31,6 +29,7 @@ class Name
             'utf-8'
         );
     }
+
     #[\Twig\Attribute\AsTwigFilter(name: 'nameOfUserNoSymbol')]
     public function nameOfUserNoSymbol(User|LobbyWaitungUser $user): ?string
     {

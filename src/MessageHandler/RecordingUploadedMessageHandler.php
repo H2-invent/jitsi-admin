@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\MessageHandler;
@@ -15,8 +16,7 @@ class RecordingUploadedMessageHandler
 {
     public function __construct(
         private readonly RecordingService $service,
-    )
-    {
+    ) {
     }
 
     public function __invoke(RecordingUploadedMessage $message): void

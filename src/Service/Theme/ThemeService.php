@@ -17,16 +17,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ThemeService
 {
     public function __construct(
-        private readonly CacheInterface              $cache,
-        private readonly CheckSignature              $checkSignature,
-        private readonly RequestStack                $request,
-        private readonly ParameterBagInterface       $parameterBag,
-        private readonly LoggerInterface             $logger,
-        private readonly TranslatorInterface $translator,
+        private readonly CacheInterface        $cache,
+        private readonly CheckSignature        $checkSignature,
+        private readonly RequestStack          $request,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly LoggerInterface       $logger,
+        private readonly TranslatorInterface   $translator,
         #[Autowire(param: 'app.theme.dir')]
-        private readonly string $themeDir
-    )
-    {
+        private readonly string                $themeDir
+    ) {
     }
 
     public function getTheme(?Rooms $room = null): mixed
@@ -65,7 +64,6 @@ class ThemeService
         }
 
 
-
         /** @var string $projectDir */
         $projectDir = $this->parameterBag->get('kernel.project_dir');
 
@@ -80,7 +78,7 @@ class ThemeService
                     if ($finder->count() > 0) {
                         $arr = iterator_to_array($finder);
                         /** @var \Symfony\Component\Finder\SplFileInfo $file */
-                        $file = reset($arr);
+                        $file  = reset($arr);
                         $theme = $file->getContents();
 
                         $valid = $this->checkSignature->verifySignature($theme);
@@ -100,6 +98,7 @@ class ThemeService
             return $value;
         } catch (\Exception) {
         }
+
         return false;
     }
 
@@ -109,12 +108,12 @@ class ThemeService
         if ($theme) {
             return $theme[$property] ?? null;
         }
+
         return null;
     }
 
     public function getApplicationProperties(string $input): mixed
     {
-
         $variable = null;
         if ($this->parameterBag->has($input)) {
             /** @var string $variable */
@@ -125,10 +124,10 @@ class ThemeService
 
         if ($tmp !== null) {
             $res = json_decode($tmp, true);
-            if ($res=== null) {
+            if ($res === null) {
                 return $tmp;
             }
-            if ($res === false){
+            if ($res === false) {
                 return $res;
             }
             return $res;
@@ -139,12 +138,14 @@ class ThemeService
             $res = json_decode($variable, true);
         }
 
-        if ($res=== null) {
+        if ($res === null) {
             return $variable;
         }
-        if ($res === false){
+
+        if ($res === false) {
             return $res;
         }
+
         return $res;
     }
 
@@ -168,13 +169,13 @@ class ThemeService
             if (!\is_array($data)) {
                 // kaputte Datei -> trotzdem listen, aber markieren
                 $themes[] = [
-                    'filename'   => $file->getFilename(),
-                    'title'      => null,
-                    'validUntil' => null,
+                    'filename'     => $file->getFilename(),
+                    'title'        => null,
+                    'validUntil'   => null,
                     'validUntilTs' => null,
-                    'modified'   => new \DateTimeImmutable()->setTimestamp($file->getMTime()),
-                    'size'       => $file->getSize(),
-                    'error'      => 'Invalid JSON',
+                    'modified'     => new \DateTimeImmutable()->setTimestamp($file->getMTime()),
+                    'size'         => $file->getSize(),
+                    'error'        => 'Invalid JSON',
                 ];
                 continue;
             }
@@ -182,32 +183,32 @@ class ThemeService
             $validUntilStr = $data['entry']['validUntil'] ?? null;
 
             // robust: validUntil kann fehlen oder Müll sein
-            $validUntil = null;
+            $validUntil   = null;
             $validUntilTs = null;
             if (\is_string($validUntilStr) && $validUntilStr !== '') {
                 $dt = \DateTimeImmutable::createFromFormat('Y-m-d', $validUntilStr) ?: null;
                 if ($dt) {
-                    $validUntil = $dt;
+                    $validUntil   = $dt;
                     $validUntilTs = $dt->getTimestamp();
                 }
             }
 
             $themes[] = [
-                'filename'     => $file->getFilename(),
-                'title'        => $data['entry']['title'] ?? null,
-                'primaryColor' => $data['entry']['primaryColor'] ?? null,
-                'signature' => $data['signature']?? null,
-                'validUntil'   => $validUntil,     // DateTimeImmutable|null
-                'validUntilRaw'=> $validUntilStr,  // string|null (falls Format kaputt)
-                'validUntilTs' => $validUntilTs,   // int|null (zum Sortieren)
-                'modified'     => new \DateTimeImmutable()->setTimestamp($file->getMTime()),
-                'size'         => $file->getSize(),
-                'error'        => null,
+                'filename'      => $file->getFilename(),
+                'title'         => $data['entry']['title'] ?? null,
+                'primaryColor'  => $data['entry']['primaryColor'] ?? null,
+                'signature'     => $data['signature'] ?? null,
+                'validUntil'    => $validUntil,     // DateTimeImmutable|null
+                'validUntilRaw' => $validUntilStr,  // string|null (falls Format kaputt)
+                'validUntilTs'  => $validUntilTs,   // int|null (zum Sortieren)
+                'modified'      => new \DateTimeImmutable()->setTimestamp($file->getMTime()),
+                'size'          => $file->getSize(),
+                'error'         => null,
             ];
         }
 
         // Optional: nach validUntil sortieren (frühestes zuerst), dann filename
-        usort($themes, static function(array $a, array $b): int {
+        usort($themes, static function (array $a, array $b): int {
             $at = $a['validUntilTs'] ?? PHP_INT_MAX;
             $bt = $b['validUntilTs'] ?? PHP_INT_MAX;
             if ($at === $bt) {
@@ -224,7 +225,7 @@ class ThemeService
         $validUntil = $this->getThemeProperty('validUntil');
         if ($validUntil) {
             $validDate = new \DateTimeImmutable($validUntil);
-            $now = new \DateTimeImmutable();
+            $now       = new \DateTimeImmutable();
             $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
             if ($daysDifff < $this->getApplicationProperties('SECURITY_THEME_REMINDER_DAYS')) {
                 /** @var FlashBagInterface $flashBag */
@@ -236,6 +237,7 @@ class ThemeService
             }
             return $daysDifff;
         }
+
         return null;
     }
 
@@ -246,7 +248,7 @@ class ThemeService
     {
         /** @var string $projectDir */
         $projectDir = $this->parameterBag->get('kernel.project_dir');
-        $finder = new Finder();
+        $finder     = new Finder();
         $finder->files()->in($projectDir . '/theme/')->name('*.theme.json.signed');
         if (!$finder->hasResults()) {
             return false;
@@ -256,15 +258,15 @@ class ThemeService
         $arr = iterator_to_array($finder);
 
         foreach ($arr as $file) {
-
             $theme = $file->getContents();
 
-            $tmp = [
+            $tmp   = [
                 $file->getFilename(),
             ];
             $tmp[] = json_decode($theme, true)['entry']['validUntil'];
             $res[] = $tmp;
         }
+
         return $res;
     }
 }

@@ -29,20 +29,21 @@ class AdminService
         $rooms = $this->em->getRepository(Rooms::class)->findBy(['server' => $server]);
 
 
-        $chart = [];
+        $chart     = [];
         $firstDate = new \DateTimeImmutable();
         $firstDate = $firstDate->modify('-30 days');
-        $lastDate = new \DateTimeImmutable();
-        $lastDate = $lastDate->modify('+30 days');
+        $lastDate  = new \DateTimeImmutable();
+        $lastDate  = $lastDate->modify('+30 days');
         /** @var RoomStatusParticipantRepository $participantRepository */
         $participantRepository = $this->em->getRepository(RoomStatusParticipant::class);
-        $participants = $participantRepository->findParticipantsByServer($server, $firstDate, $lastDate);
+        $participants          = $participantRepository->findParticipantsByServer($server, $firstDate, $lastDate);
+
         for ($x = 0; $x <= 60; $x++) {
             $date = $firstDate->modify('+' . $x . 'days');
 
-            $chart[$date->format('Ymd')]['date'] = $date;
-            $chart[$date->format('Ymd')]['participants'] = 0;
-            $chart[$date->format('Ymd')]['rooms'] = 0;
+            $chart[$date->format('Ymd')]['date']              = $date;
+            $chart[$date->format('Ymd')]['participants']      = 0;
+            $chart[$date->format('Ymd')]['rooms']             = 0;
             $chart[$date->format('Ymd')]['participants_real'] = 0;
 
             foreach ($rooms as $data) {
@@ -51,7 +52,7 @@ class AdminService
                     && !$data->getRepeaterProtoype()
                     && $data->getStart()->format('Ymd') === $date->format('Ymd')
                 ) {
-                    $chart[$date->format('Ymd')]['rooms'] = $chart[$date->format('Ymd')]['rooms'] + 1;
+                    $chart[$date->format('Ymd')]['rooms']        = $chart[$date->format('Ymd')]['rooms'] + 1;
                     $chart[$date->format('Ymd')]['participants'] = $chart[$date->format('Ymd')]['participants'] + count($data->getUser());
                 }
             }
@@ -62,6 +63,7 @@ class AdminService
                 }
             }
         }
+
         return $chart;
     }
 }

@@ -10,8 +10,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PushService
 {
-    public function __construct(private readonly EntityManagerInterface $em, private readonly UrlGeneratorInterface $urlGenerator, private readonly DirectSendService $directSend)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly UrlGeneratorInterface  $urlGenerator,
+        private readonly DirectSendService      $directSend
+    ) {
     }
 
     public function generatePushNotification(string $title, string $text, User $user, ?string $url = null, string $id = '0x00'): bool
@@ -27,19 +30,21 @@ class PushService
      */
     public function getNotification(User $user): array
     {
-        $res = [];
+        $res          = [];
         $notification = $this->em->getRepository(Notification::class)->findBy(['user' => $user], ['createdAt' => 'desc']);
 
         foreach ($notification as $data) {
-            $tmp = [
-                'id' => $data->getId(),
+            $tmp   = [
+                'id'    => $data->getId(),
                 'title' => $data->getTitle(),
-                'text' => $data->getText(),
-                'url' => $data->getUrl() ?: $this->urlGenerator->generate('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)];
+                'text'  => $data->getText(),
+                'url'   => $data->getUrl() ?: $this->urlGenerator->generate('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            ];
             $res[] = $tmp;
             $this->em->remove($data);
         }
         $this->em->flush();
+
         return $res;
     }
 }

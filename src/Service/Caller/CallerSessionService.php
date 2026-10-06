@@ -5,8 +5,8 @@ namespace App\Service\Caller;
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
 use App\Service\FormatName;
-use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\Livekit\SipTrunkGenerator;
+use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\RoomService;
 use App\Service\Theme\ThemeService;
 use App\Service\Webhook\RoomStatusFrontendService;
@@ -19,8 +19,19 @@ class CallerSessionService
 {
     private int $particpants;
 
-    public function __construct(private readonly RequestStack                          $requestStack, private readonly UrlGeneratorInterface                 $urlGen, private readonly RoomService                           $roomService, private readonly ToModeratorWebsocketService           $toModerator, private readonly LoggerInterface                       $loggger, private readonly RoomStatusFrontendService             $roomStatus, private readonly EntityManagerInterface                $em, private readonly FormatName                    $formatName, private readonly ThemeService                  $themeService, private readonly JitsiComponentSelectorService $jitsiComponentSelectorService, private readonly SipTrunkGenerator             $sipTrunkGenerator)
-    {
+    public function __construct(
+        private readonly RequestStack                  $requestStack,
+        private readonly UrlGeneratorInterface         $urlGen,
+        private readonly RoomService                   $roomService,
+        private readonly ToModeratorWebsocketService   $toModerator,
+        private readonly LoggerInterface               $loggger,
+        private readonly RoomStatusFrontendService     $roomStatus,
+        private readonly EntityManagerInterface        $em,
+        private readonly FormatName                    $formatName,
+        private readonly ThemeService                  $themeService,
+        private readonly JitsiComponentSelectorService $jitsiComponentSelectorService,
+        private readonly SipTrunkGenerator             $sipTrunkGenerator
+    ) {
     }
 
     /**
@@ -42,19 +53,26 @@ class CallerSessionService
                 'reason' => 'WRONG_SESSION',
             ];
         }
+
         $this->particpants = sizeof($this->roomStatus->numberOfOccupants($session->getCaller()->getRoom()));
-        $closed = $this->roomStatus->isRoomClosed($session->getCaller()->getRoom());
-        $started = $this->roomStatus->isRoomCreated($session->getCaller()->getRoom());
-        $authOk = $session->getAuthOk();
+        $closed            = $this->roomStatus->isRoomClosed($session->getCaller()->getRoom());
+        $started           = $this->roomStatus->isRoomCreated($session->getCaller()->getRoom());
+        $authOk            = $session->getAuthOk();
 
         if ($session->getForceFinish()) {
-            $this->loggger->debug('The user is called to hangup. The Moderator has ended the meeting for all participants', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId()]);
+            $this->loggger->debug(
+                'The user is called to hangup. The Moderator has ended the meeting for all participants',
+                ['sessionId' => $sessionId, 'callerId' => $session->getCallerId()]
+            );
             $this->cleanUpSession($session);
             return $this->sessionMeetingFinished(session: $session);
         }
 
         if ($authOk || (!$session->getCaller()->getRoom()->getLobby() && $started)) {
-            $this->loggger->debug('The user is accepted and is allowed to enter the room', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'user' => $session->getCaller()->getUser()->getId()]);
+            $this->loggger->debug(
+                'The user is accepted and is allowed to enter the room',
+                ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'user' => $session->getCaller()->getUser()->getId()]
+            );
             return $this->sessionAccepted(session: $session);
         }
 
@@ -64,28 +82,39 @@ class CallerSessionService
             return $this->sessionDeclined(session: $session);
         }
 
-
         if ($closed == false && $started == false && $authOk == false) {
-            $this->loggger->debug('The Room is not startd and the User hast to wait. The user is not accepted', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
+            $this->loggger->debug(
+                'The Room is not startd and the User hast to wait. The user is not accepted',
+                ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
+            );
             return $this->sessionWaiting(session: $session, started: false);
         }
 
         if ($authOk == false && $started == true) {
-            $this->loggger->debug('The Room is  startd and the User hast to wait. The user is not accepted', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
+            $this->loggger->debug(
+                'The Room is  startd and the User hast to wait. The user is not accepted',
+                ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
+            );
             return $this->sessionWaiting(session: $session, started: true);
         }
 
         if ($closed == true) {
-            $this->loggger->debug('The user is called to hangup. The Meeting has finished while he was waiting', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
+            $this->loggger->debug(
+                'The user is called to hangup. The Meeting has finished while he was waiting',
+                ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
+            );
 
             $this->cleanUpSession($session);
             return $this->sessionMeetingFinished(session: $session);
         }
 
 
-        $this->loggger->error('Error. an UNKNOWN state occured.', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]);
-
+        $this->loggger->error(
+            'Error. an UNKNOWN state occured.',
+            ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
+        );
         $this->cleanUpSession($session);
+
         return $this->sessionError(session: $session);
     }
 
@@ -118,6 +147,7 @@ class CallerSessionService
             return false;
         }
         $this->loggger->debug('The Callersession is sucessfully destroyed', ['room' => $callerSession->getSessionId()]);
+
         return true;
     }
 
@@ -131,6 +161,7 @@ class CallerSessionService
             $this->em->flush();
             return true;
         }
+
         return false;
     }
 
@@ -140,10 +171,10 @@ class CallerSessionService
     private function sessionMeetingFinished(CallerSession $session): array
     {
         return [
-            'status' => 'HANGUP',
-            'reason' => 'MEETING_HAS_FINISHED',
+            'status'  => 'HANGUP',
+            'reason'  => 'MEETING_HAS_FINISHED',
             'message' => $this->createMessageElement($session),
-            'links' => [
+            'links'   => [
                 'left' => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
             ]
         ];
@@ -154,21 +185,29 @@ class CallerSessionService
      */
     private function sessionAccepted(CallerSession $session): array
     {
-        $res = [
-            'status' => 'ACCEPTED',
-            'reason' => 'ACCEPTED_BY_MODERATOR',
+        $res  = [
+            'status'                 => 'ACCEPTED',
+            'reason'                 => 'ACCEPTED_BY_MODERATOR',
             'number_of_participants' => $this->particpants,
-            'status_of_meeting' => 'STARTED',
-            'message' => $this->createMessageElement($session),
-            'room_name' => $session->getCaller()->getRoom()->getUid(),
-            'displayname' => $this->formatName->formatName($this->themeService->getApplicationProperties('laf_showNameInConference'), $session->getCaller()->getUser()),
-            'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
+            'status_of_meeting'      => 'STARTED',
+            'message'                => $this->createMessageElement($session),
+            'room_name'              => $session->getCaller()->getRoom()->getUid(),
+            'displayname'            => $this->formatName->formatName(
+                $this->themeService->getApplicationProperties('laf_showNameInConference'),
+                $session->getCaller()->getUser()
+            ),
+            'jwt'                    => $this->roomService->generateJwt(
+                $session->getCaller()->getRoom(),
+                $session->getCaller()->getUser(),
+                $session->getShowName()
+            ),
 
             'links' => [
                 'session' => $this->urlGen->generate('caller_session', ['session_id' => $session->getSessionId()]),
-                'left' => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
+                'left'    => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
             ]
         ];
+
         $room = $session->getCaller()->getRoom();
         if ($room->getServer() && $room->getServer()->isLiveKitServer()) {
             try {
@@ -181,9 +220,12 @@ class CallerSessionService
         if ($session->isIsSipVideoUser()) {
             try {
                 $this->jitsiComponentSelectorService->setBaseUrlFromServer($session->getCaller()->getRoom()->getServer());
-                $res['componentKey'] = $this->jitsiComponentSelectorService->fetchComponentKey($session->getCaller()->getRoom(), $session->getCaller()->getUser());
-            }catch (\Exception $exception){
-               $this->loggger->error($exception->getMessage());
+                $res['componentKey'] = $this->jitsiComponentSelectorService->fetchComponentKey(
+                    $session->getCaller()->getRoom(),
+                    $session->getCaller()->getUser()
+                );
+            } catch (\Exception $exception) {
+                $this->loggger->error($exception->getMessage());
             }
         }
 
@@ -196,10 +238,10 @@ class CallerSessionService
     private function sessionDeclined(CallerSession $session): array
     {
         return [
-            'status' => 'HANGUP',
-            'reason' => 'DECLINED',
+            'status'  => 'HANGUP',
+            'reason'  => 'DECLINED',
             'message' => $this->createMessageElement($session),
-            'links' => []
+            'links'   => []
         ];
     }
 
@@ -209,14 +251,14 @@ class CallerSessionService
     private function sessionWaiting(CallerSession $session, bool $started): array
     {
         return [
-            'status' => 'WAITING',
-            'reason' => 'NOT_ACCEPTED',
+            'status'                 => 'WAITING',
+            'reason'                 => 'NOT_ACCEPTED',
             'number_of_participants' => $this->particpants,
-            'status_of_meeting' => $started ? 'STARTED' : 'NOT_STARTED',
-            'message' => $this->createMessageElement($session),
-            'links' => [
+            'status_of_meeting'      => $started ? 'STARTED' : 'NOT_STARTED',
+            'message'                => $this->createMessageElement($session),
+            'links'                  => [
                 'session' => $this->urlGen->generate('caller_session', ['session_id' => $session->getSessionId()]),
-                'left' => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
+                'left'    => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
             ]
         ];
     }
@@ -227,10 +269,10 @@ class CallerSessionService
     private function sessionError(CallerSession $session): array
     {
         return [
-            'status' => 'HANGUP',
-            'reason' => 'ERROR',
+            'status'  => 'HANGUP',
+            'reason'  => 'ERROR',
             'message' => $this->createMessageElement($session),
-            'links' => [
+            'links'   => [
                 'left' => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
             ]
         ];

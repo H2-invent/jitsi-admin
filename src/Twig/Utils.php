@@ -6,9 +6,6 @@ namespace App\Twig;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\UtilsHelper;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
 
 class Utils
 {
@@ -37,7 +34,6 @@ class Utils
     #[\Twig\Attribute\AsTwigFilter(name: 'colorFromString')]
     public function colorFromString(string $string): string
     {
-
         $code = dechex(crc32($string));
         $code = substr($code, 0, 6);
         return $code;

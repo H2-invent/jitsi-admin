@@ -17,12 +17,11 @@ class SendMessageToWaitingUser
     private readonly mixed $isAllowedToCreateCustom;
 
     public function __construct(
-        private readonly EntityManagerInterface        $entityManager,
+        private readonly EntityManagerInterface $entityManager,
         private readonly ToParticipantWebsocketService $toParticipantWebsocketService,
-        private readonly ThemeService                  $themeService,
-        private readonly LoggerInterface               $logger,
-    )
-    {
+        private readonly ThemeService $themeService,
+        private readonly LoggerInterface $logger,
+    ) {
         $this->isAllowedToCreateCustom = $this->themeService->getApplicationProperties('LAF_LOBBY_ALLOW_CUSTOM_MESSAGES');
     }
 
@@ -40,6 +39,7 @@ class SendMessageToWaitingUser
                 $success = false;
             };
         }
+
         return ['counter' => $counter, 'success' => $success];
     }
 
@@ -50,6 +50,7 @@ class SendMessageToWaitingUser
             $this->logger->error('NO user found for uid', ['uid' => $uid]);
             return false;
         }
+
         if (UtilsHelper::isAllowedToOrganizeLobby($user, $waitingUser->getRoom())) {
             if (is_int($message)) {
                 $this->logger->debug('Send Message from id', ['id' => $message]);
@@ -58,6 +59,7 @@ class SendMessageToWaitingUser
                 $this->logger->debug('Send Message from string', ['id' => $message]);
                 $res = $this->createMessageFromString($message, $this->isAllowedToCreateCustom);
             }
+
             if ($res) {
                 $this->logger->debug('Send Message via websocket', ['uid' => $waitingUser->getUid(), 'message' => $res]);
                 if ($waitingUser->getCallerSession()) {
@@ -68,7 +70,11 @@ class SendMessageToWaitingUser
                     $this->entityManager->persist($callerSession);
                     $this->entityManager->flush();
                 }
-                $this->toParticipantWebsocketService->sendMessage($waitingUser, $res, $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')));
+                $this->toParticipantWebsocketService->sendMessage(
+                    $waitingUser,
+                    $res,
+                    $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))
+                );
             }
 
             return (bool)$res;
@@ -85,6 +91,7 @@ class SendMessageToWaitingUser
             $this->logger->debug('Fetch message from id', ['message' => $id]);
             return null;
         }
+
         $this->logger->debug('Fetch message from id', ['message' => $message->getText()]);
         return $message->getText();
     }
@@ -95,6 +102,7 @@ class SendMessageToWaitingUser
             $this->logger->debug('We create a custom message from a string');
             return $message;
         }
+
         $this->logger->debug('No custom messages are allowed');
         return null;
     }

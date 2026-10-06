@@ -13,12 +13,14 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
 use Symfony\Component\Ldap\Exception\LdapException;
-use Symfony\Component\Ldap\Ldap;
 
 class LdapUserService
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly EntityManagerInterface $em, private readonly UserCreatorService $userCreationService, private readonly IndexUserService $indexer)
-    {
+    public function __construct(private readonly LoggerInterface        $logger,
+                                private readonly EntityManagerInterface $em,
+                                private readonly UserCreatorService     $userCreationService,
+                                private readonly IndexUserService       $indexer
+    ) {
     }
 
     /**
@@ -28,20 +30,23 @@ class LdapUserService
     {
         //Here we get the attributes from the LDAP (username, email, firstname, lastname)
         try {
-            $uid = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
-            $email = $entry->getAttribute($ldapType->getMapper()['email'])[0] ?? '';
+            $uid       = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
+            $email     = $entry->getAttribute($ldapType->getMapper()['email'])[0] ?? '';
             $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0] ?? null;
-            $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0] ?? null;
+            $lastName  = $entry->getAttribute($ldapType->getMapper()['lastName'])[0] ?? null;
+
             /** @var UserRepository $userRepository */
             $userRepository = $this->em->getRepository(User::class);
-            $user = $userRepository->findUsersfromLdapdn($entry->getDn());
+            $user           = $userRepository->findUsersfromLdapdn($entry->getDn());
             if (!$user) {
                 $user = $userRepository->findOneBy(['username' => $uid]);
             }
+
             if (!$user) {
                 $user = $this->userCreationService->createUser($email, $uid, $firstName, $lastName, $dryRun);
                 $user->setUid(md5(uniqid()));
             }
+
             if (!$user->getLdapUserProperties()) {
                 $ldap = new LdapUserProperties();
                 $ldap->setLdapHost($ldapType->getUrl());
@@ -49,11 +54,12 @@ class LdapUserService
                 $user->setLdapUserProperties($ldap);
                 $ldap->setLdapNumber($ldapType->getSerVerId());
             }
+
             try {
                 if ($ldapType->getRdn()) {
                     $user->getLdapUserProperties()->setRdn($ldapType->getRdn() . '=' . $entry->getAttribute($ldapType->getRdn())[0]);
                 }
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 $this->logger->error($exception->getMessage());
             }
 
@@ -75,6 +81,7 @@ class LdapUserService
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage(), ['file' => $exception->getFile(), 'line' => $exception->getLine()]);
         }
+
         return null;
     }
 
@@ -88,7 +95,7 @@ class LdapUserService
     {
         /** @var UserRepository $userRepository */
         $userRepository = $this->em->getRepository(User::class);
-        $allUSer = $userRepository->findUsersfromLdapService();
+        $allUSer        = $userRepository->findUsersfromLdapService();
         foreach ($allUSer as $data) {
             foreach ($allUSer as $data2) {
                 $data->addAddressbook($data2);
@@ -96,6 +103,7 @@ class LdapUserService
             $this->em->persist($data);
         }
         $this->em->flush();
+
         return $allUSer;
     }
 
@@ -108,7 +116,7 @@ class LdapUserService
     {
         /** @var UserRepository $userRepository */
         $userRepository = $this->em->getRepository(User::class);
-        $allUSer = $userRepository->findUsersfromLdapService();
+        $allUSer        = $userRepository->findUsersfromLdapService();
         foreach ($allUSer as $data) {
             foreach ($allUSer as $data2) {
                 if ($data === $data2) {
@@ -120,6 +128,7 @@ class LdapUserService
             $this->em->persist($data);
         }
         $this->em->flush();
+
         return $allUSer;
     }
 
@@ -129,14 +138,13 @@ class LdapUserService
     public function syncDeletedUser(LdapType $ldapType): void
     {
         /** @var UserRepository $userRepository */
-        $userRepository = $this->em->getRepository(User::class);
+        $userRepository          = $this->em->getRepository(User::class);
         $usersInSystemFromLdapId = $userRepository->findUsersByLdapServerId($ldapType->getSerVerId());
-        $userListInLdap = $ldapType->retrieveUser();
+        $userListInLdap          = $ldapType->retrieveUser();
+        $dnlist                  = $this->createDNListFromLdapResult($userListInLdap);
 
-
-        $dnlist = $this->createDNListFromLdapResult($userListInLdap);
         foreach ($usersInSystemFromLdapId as $user) {
-            if (!in_array($user->getLdapUserProperties()->getLdapDn(),$dnlist)){
+            if (!in_array($user->getLdapUserProperties()->getLdapDn(), $dnlist)) {
                 $this->deleteUser(user: $user);
             }
         }
@@ -150,9 +158,10 @@ class LdapUserService
     private function createDNListFromLdapResult(array $ldapEntry): array
     {
         $dnList = [];
-        foreach ($ldapEntry as $data){
-           $dnList[] = $data->getDn();
+        foreach ($ldapEntry as $data) {
+            $dnList[] = $data->getDn();
         }
+
         return $dnList;
     }
 
@@ -161,7 +170,6 @@ class LdapUserService
      */
     public function checkUserInLdap(User $user, LdapType $ldap): ?Entry
     {
-
         $ldapProps = $user->getLdapUserProperties();
         if ($ldapProps === null) {
             return null;
@@ -193,7 +201,7 @@ class LdapUserService
             return null;
         } catch (LdapException) {
             // echter LDAP-Fehler → eskalieren, nicht raten
-            return  null;
+            return null;
         }
 
         $entries = $result->toArray();
@@ -217,9 +225,11 @@ class LdapUserService
             $u->removeAddressbook($user);
             $this->em->persist($u);
         }
+
         foreach ($user->getRooms() as $r) {
             $user->removeRoom($r);
         }
+
         $rooms = $user->getRoomModerator();
         foreach ($rooms as $r) {
             foreach ($r->getUser() as $u) {
@@ -231,33 +241,41 @@ class LdapUserService
         foreach ($user->getRoomModerator() as $r) {
             $user->removeRoomModerator($r);
         }
+
         foreach ($user->getCreatorOf() as $r) {
             $user->removeCreatorOf($r);
         }
+
         foreach ($user->getNotifications() as $data) {
             $user->removeNotification($data);
             $this->em->remove($data);
         }
+
         foreach ($user->getServers() as $server) {
             $user->removeServer($server);
         }
+
         foreach ($user->getServerAdmins() as $server) {
             foreach ($server->getUser() as $serverUser) {
                 $serverUser->removeServer($server);
             }
             $user->removeServerAdmin($server);
         }
+
         foreach ($user->getRoomsAttributes() as $attribute) {
             $user->removeRoomsAttributes($attribute);
             $this->em->remove($attribute);
         }
+
         foreach ($user->getLobbyWaitungUsers() as $data) {
             $user->removeLobbyWaitungUser($data);
             $this->em->remove($data);
         }
+
         if ($user->getLdapUserProperties()) {
             $this->em->remove($user->getLdapUserProperties());
         }
+
         foreach ($user->getManagerElement() as $depElement) {
             $this->em->remove($depElement);
         }
@@ -265,10 +283,11 @@ class LdapUserService
         foreach ($user->getDeputiesElement() as $depElement) {
             $this->em->remove($depElement);
         }
+
         foreach ($user->getLogs() as $logElement) {
             $user->removeLog($logElement);
             $logElement->setUser($logElement->getRoom()->getModerator());
-           $this->em->persist($logElement);
+            $this->em->persist($logElement);
         }
 
         $this->em->persist($user);
@@ -290,6 +309,7 @@ class LdapUserService
                 $specialField[$key] = '';
             }
         }
+
         return $specialField;
     }
 }

@@ -5,15 +5,13 @@ namespace App\Controller;
 use App\Service\Theme\ThemeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 #[\Symfony\Component\Routing\Attribute\Route('/room/theme', name: 'app_theme_')]
 class ThemeController extends AbstractController
 {
     public function __construct(
         private readonly ThemeService $themeService,
-    )
-    {
+    ) {
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/overview', name: 'overview', methods: ['GET'])]
@@ -22,7 +20,7 @@ class ThemeController extends AbstractController
         $applicationProperties = $this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP');
         if ($applicationProperties !== '') {
             /** @var \App\Entity\User $user */
-            $user = $this->getUser();
+            $user   = $this->getUser();
             $groups = $user->getGroups();
             if (!$groups || !in_array($applicationProperties, $groups)) {
                 $this->addFlash('danger', 'Permission denied');
@@ -30,11 +28,11 @@ class ThemeController extends AbstractController
                 return $this->redirectToRoute('index');
             }
         }
-
         $themes = $this->themeService->getAllThemes();
+
         return $this->render('theme/overview.html.twig', [
             'themes' => $themes,
-            'now' => new \DateTimeImmutable('today'),
+            'now'    => new \DateTimeImmutable('today'),
         ]);
     }
 }

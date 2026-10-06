@@ -21,7 +21,8 @@ final readonly class UserPreferenceProvider
         private RequestStack          $requestStack,
         private ParameterBagInterface $parameters,
         private Security              $security,
-    ) {}
+    ) {
+    }
 
     /**
      * Returns 'dark' or 'light'.
@@ -51,8 +52,7 @@ final readonly class UserPreferenceProvider
     {
         /** @var string $defaultLocale */
         $defaultLocale = $this->parameters->get('kernel.default_locale');
-        return $this->requestStack->getCurrentRequest()?->getLocale()
-            ?? $defaultLocale;
+        return $this->requestStack->getCurrentRequest()?->getLocale() ?? $defaultLocale;
     }
 
     /**

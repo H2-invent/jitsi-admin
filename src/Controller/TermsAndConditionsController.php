@@ -6,7 +6,6 @@ use App\Helper\JitsiAdminController;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\Theme\ThemeService;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class TermsAndConditionsController extends JitsiAdminController
 {
@@ -21,6 +20,7 @@ class TermsAndConditionsController extends JitsiAdminController
                 ]
             );
         }
+
         return $this->redirectToRoute('dashboard');
     }
 
@@ -28,6 +28,7 @@ class TermsAndConditionsController extends JitsiAdminController
     public function accept(TermsAndConditionsService $termsAndConditionsService): Response
     {
         $termsAndConditionsService->acceptTerms($this->getUser());
+
         return $this->redirectToRoute('dashboard');
     }
 }

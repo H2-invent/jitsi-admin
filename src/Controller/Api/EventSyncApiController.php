@@ -7,15 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 #[\Symfony\Component\Routing\Attribute\Route('/api/v1/event/sync', name: 'app_event_sync_api')]
 class EventSyncApiController extends AbstractController
 {
     public function __construct(
         private readonly EventSyncApiService $eventSyncApiService,
-    )
-    {
+    ) {
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/', name: 'index')]

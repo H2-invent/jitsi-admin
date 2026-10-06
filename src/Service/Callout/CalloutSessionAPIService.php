@@ -22,8 +22,7 @@ class CalloutSessionAPIService
         private readonly CalloutService         $calloutService,
         private readonly ParameterBagInterface  $parameterBag,
         private readonly LoggerInterface        $logger,
-    )
-    {
+    ) {
     }
 
     /**
@@ -34,13 +33,14 @@ class CalloutSessionAPIService
     public function getCalloutPool(): array
     {
         $calloutSession = $this->findCalloutSessionByState(CalloutSession::$INITIATED);
-        $res = [];
+        $res            = [];
         foreach ($calloutSession as $data) {
             $tmp = $this->buildCallerSessionPoolArray($data);
             if ($tmp) {
                 $res[] = $tmp;
             }
         }
+
         return ['calls' => $res];
     }
 
@@ -50,39 +50,46 @@ class CalloutSessionAPIService
      */
     public function buildCallerSessionPoolArray(CalloutSession $calloutSession): ?array
     {
-        $this->logger->debug('lastdialed',
+        $this->logger->debug(
+            'lastdialed',
             [
                 $calloutSession->getLastDialed(),
                 new \DateTimeImmutable()->format('U'),
                 (intval(new \DateTimeImmutable()->format('U')) - $calloutSession->getLastDialed())
-            ]);
+            ]
+        );
+
         /** @var int|string $caloutWaitingTime */
         $caloutWaitingTime = $this->parameterBag->get('CALLOUT_WAITING_TIME');
-        if ($calloutSession->getLastDialed() && ((intval(new \DateTimeImmutable()->format('U')) - $calloutSession->getLastDialed()) < (int) $caloutWaitingTime)) {
+        if ($calloutSession->getLastDialed() && ((intval(new \DateTimeImmutable()->format('U')) - $calloutSession->getLastDialed()) < (int)$caloutWaitingTime)) {
             return null;
         } else {
-            $calloutSession->setLastDialed((float) new \DateTimeImmutable()->format('U'));
+            $calloutSession->setLastDialed((float)new \DateTimeImmutable()->format('U'));
             $this->entityManager->persist($calloutSession);
             $this->entityManager->flush();
         }
-        $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
+
+        $pin    = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
         $roomId = $calloutSession->getRoom()->getCallerRoom();
         if ($pin && $roomId) {
             return [
-                'state' => CalloutSession::$STATE[$calloutSession->getState()],
-                'call_number' => $this->calloutService->getCallerIdForUser($calloutSession->getUser()),
+                'state'           => CalloutSession::$STATE[$calloutSession->getState()],
+                'call_number'     => $this->calloutService->getCallerIdForUser($calloutSession->getUser()),
                 'sip_room_number' => $roomId->getCallerId(),
-                'sip_pin' => $pin->getCallerId(),
-                'display_name' => $this->translator->trans(
+                'sip_pin'         => $pin->getCallerId(),
+                'display_name'    => $this->translator->trans(
                     'Sie wurden von {name} eingeladen',
-                    ['{name}' => $calloutSession->getInvitedFrom()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))
+                    [
+                        '{name}' => $calloutSession->getInvitedFrom()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))
                     ]
                 ),
-                'tag' => $calloutSession->getRoom()->getTag()?->getTitle(),
-                'organisator' => $calloutSession->getRoom()->getModerator()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')),
-                'title' => $calloutSession->getRoom()->getName(),
-                'is_video' => (bool)$calloutSession->getUser()->getIsSipVideoUser(),
-                'links' => [
+                'tag'             => $calloutSession->getRoom()->getTag()?->getTitle(),
+                'organisator'     => $calloutSession->getRoom()->getModerator()->getFormatedName(
+                    $this->themeService->getApplicationProperties('laf_showNameFrontend')
+                ),
+                'title'           => $calloutSession->getRoom()->getName(),
+                'is_video'        => (bool)$calloutSession->getUser()->getIsSipVideoUser(),
+                'links'           => [
                     'dial' => $this->urlGenerator->generate(
                         'callout_api_dial',
                         [
@@ -92,6 +99,7 @@ class CalloutSessionAPIService
                 ]
             ];
         }
+
         return [];
     }
 
@@ -114,13 +122,14 @@ class CalloutSessionAPIService
     public function getDialPool(): array
     {
         $calloutSession = $this->findCalloutSessionByState(CalloutSession::$DIALED);
-        $res = [];
+        $res            = [];
         foreach ($calloutSession as $data) {
             $tmp = $this->buildCallerSessionPoolArray($data);
             if ($tmp) {
                 $res[] = $tmp;
             }
         }
+
         return ['calls' => $res];
     }
 
@@ -132,14 +141,15 @@ class CalloutSessionAPIService
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
-        $calloutSession = $calloutSessionRepository->findonHoldCalloutSessions();
-        $res = [];
+        $calloutSession           = $calloutSessionRepository->findonHoldCalloutSessions();
+        $res                      = [];
         foreach ($calloutSession as $data) {
             $tmp = $this->buildCallerSessionPoolArray($data);
             if ($tmp) {
                 $res[] = $tmp;
             }
         }
+
         return ['calls' => $res];
     }
 }

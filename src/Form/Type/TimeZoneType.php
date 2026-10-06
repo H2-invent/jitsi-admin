@@ -17,12 +17,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TimeZoneType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options):void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
-            ->add('timeZone', \Symfony\Component\Form\Extension\Core\Type\TimezoneType::class, ['required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form'])
-            ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-outline-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);
+            ->add(
+                'timeZone',
+                \Symfony\Component\Form\Extension\Core\Type\TimezoneType::class,
+                ['required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form']
+            )
+            ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-outline-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -10,7 +10,7 @@ use Symfony\Component\Mercure\Update;
 
 class DirectSendService
 {
-    public function __construct(private HubInterface          $publisher, private readonly LoggerInterface       $logger)
+    public function __construct(private HubInterface $publisher, private readonly LoggerInterface $logger)
     {
     }
 
@@ -22,136 +22,154 @@ class DirectSendService
     public function sendSnackbar(string $topic, string $text, string $color, ?int $closeAfterMs = null): string
     {
         $data = [
-            'type' => 'snackbar',
+            'type'    => 'snackbar',
             'message' => $text,
-            'color' => $color,
+            'color'   => $color,
 
         ];
-        if ($closeAfterMs){
-            $data[ 'closeAfter'] = $closeAfterMs;
+        if ($closeAfterMs) {
+            $data['closeAfter'] = $closeAfterMs;
         }
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->publisher->publish($update);
     }
 
     /**
      * @param array<int, array<string, mixed>> $buttons
      */
-    public function sendDialog(string $topic, string $header, string $text, string $type='question', array $buttons=[]): string
+    public function sendDialog(string $topic, string $header, string $text, string $type = 'question', array $buttons = []): string
     {
         $data = [
-            'type' => 'dialog',
-            'header' => $header,
-            'text' => $text,
-            'buttons' => $buttons,
+            'type'       => 'dialog',
+            'header'     => $header,
+            'text'       => $text,
+            'buttons'    => $buttons,
             'dialogType' => $type
 
         ];
+        $update = new Update($topic, (string)json_encode($data));
 
-        $update = new Update($topic, (string) json_encode($data));
         return $this->publisher->publish($update);
     }
 
     public function sendMessage(string $topic, string $message, string $from): string
     {
-        $data = [
-            'type' => 'message',
+        $data   = [
+            'type'    => 'message',
             'message' => $message,
-            'from' => $from
+            'from'    => $from
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->publisher->publish($update);
     }
 
     public function sendReloadPage(string $topic, mixed $timeout): string
     {
-        $data = [
-            'type' => 'reload',
+        $data   = [
+            'type'    => 'reload',
             'timeout' => $timeout,
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->publisher->publish($update);
     }
 
-    public function sendBrowserNotification(string $topic, string $title, string $message, string $pushMessage, string|int $id, string $color, ?int $closeAfterMs = null): string
-    {
+    public function sendBrowserNotification(
+        string     $topic,
+        string     $title,
+        string     $message,
+        string     $pushMessage,
+        string|int $id,
+        string     $color,
+        ?int       $closeAfterMs = null
+    ): string {
         $data = [
-            'type' => 'notification',
-            'title' => $title,
-            'message' => $message,
+            'type'             => 'notification',
+            'title'            => $title,
+            'message'          => $message,
             'pushNotification' => $pushMessage,
-            'messageId' => $id,
-            'color' => $color,
+            'messageId'        => $id,
+            'color'            => $color,
         ];
-        if ($closeAfterMs){
-            $data[ 'closeAfter'] = $closeAfterMs;
+        if ($closeAfterMs) {
+            $data['closeAfter'] = $closeAfterMs;
         }
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->publisher->publish($update);
     }
 
-    public function sendBrowserPush(string $topic, string $title,  string $pushMessage, string|int $id): string
+    public function sendBrowserPush(string $topic, string $title, string $pushMessage, string|int $id): string
     {
-        $data = [
-            'type' => 'browserPush',
-            'title' => $title,
+        $data   = [
+            'type'             => 'browserPush',
+            'title'            => $title,
             'pushNotification' => $pushMessage,
-            'messageId' => $id,
+            'messageId'        => $id,
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->publisher->publish($update);
     }
-    public function sendPlaySound(string $topic, string $soundName,  string|int $id): string
+
+    public function sendPlaySound(string $topic, string $soundName, string|int $id): string
     {
-        $data = [
-            'type' => 'playSound',
+        $data   = [
+            'type'      => 'playSound',
             'soundName' => $soundName,
             'messageId' => $id,
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->publisher->publish($update);
     }
+
     public function sendCleanBrowserNotification(string $topic, string|int $id): string
     {
-        $data = [
-            'type' => 'cleanNotification',
+        $data   = [
+            'type'      => 'cleanNotification',
             'messageId' => $id,
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->publisher->publish($update);
     }
 
     public function sendModal(string $topic, string $content): bool
     {
-
-        $data = [
-            'type' => 'modal',
+        $data   = [
+            'type'    => 'modal',
             'content' => $content,
 
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->sendUpdate($update);
     }
 
     public function sendRedirect(string $topic, string $url, mixed $timeout = 1000): bool
     {
-        $data = [
-            'type' => 'redirect',
-            'url' => $url,
+        $data   = [
+            'type'    => 'redirect',
+            'url'     => $url,
             'timeout' => $timeout,
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->sendUpdate($update);
     }
 
     public function sendEndMeeting(string $topic, string $url, mixed $timeout = 1000): bool
     {
-        $data = [
-            'type' => 'endMeeting',
-            'url' => $url,
+        $data   = [
+            'type'    => 'endMeeting',
+            'url'     => $url,
             'timeout' => $timeout
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->sendUpdate($update);
     }
 
@@ -160,36 +178,39 @@ class DirectSendService
      */
     public function sendNewJitsiMeeting(string $topic, array $options): bool
     {
-        $data = [
-            'type' => 'newJitsi',
+        $data   = [
+            'type'    => 'newJitsi',
             'options' => $options,
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->sendUpdate($update);
     }
 
     public function sendRefresh(string $topic, string $url): bool
     {
-        $data = [
-            'type' => 'refresh',
+        $data   = [
+            'type'      => 'refresh',
             'reloadUrl' => $url,
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->sendUpdate($update);
     }
 
     public function sendCallAdhockmeeding(string $title, string $topic, string $message, string $pushMesage, int|string $time, string|int $id): bool
     {
-        $data = [
-            'type' => 'call',
-            'title' => $title,
-            'message' => $message,
+        $data   = [
+            'type'        => 'call',
+            'title'       => $title,
+            'message'     => $message,
             'pushMessage' => $pushMesage,
-            'time' => $time,
-            'color' => 'success',
-            'messageId' => $id
+            'time'        => $time,
+            'color'       => 'success',
+            'messageId'   => $id
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->sendUpdate($update);
     }
 
@@ -201,10 +222,11 @@ class DirectSendService
 
     public function sendRefreshDashboard(string $topic): bool
     {
-        $data = [
+        $data   = [
             'type' => 'refreshDashboard',
         ];
-        $update = new Update($topic, (string) json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->sendUpdate($update);
     }
 

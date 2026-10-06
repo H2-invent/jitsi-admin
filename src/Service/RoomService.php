@@ -34,23 +34,22 @@ class RoomService
 {
 
     private readonly string $identity;
+
     public function __construct(
-        private readonly UploaderHelper $uploaderHelper,
-        private readonly LoggerInterface               $logger,
-        private readonly ParameterBagInterface $parameterBag,
-        private readonly CacheInterface        $cache,
-        private HttpClientInterface   $httpClient,
-        private readonly SluggerInterface      $slugger,
-        private readonly UserPreferenceProvider $userPreferences,
+        private readonly UploaderHelper           $uploaderHelper,
+        private readonly LoggerInterface          $logger,
+        private readonly ParameterBagInterface    $parameterBag,
+        private readonly CacheInterface           $cache,
+        private HttpClientInterface               $httpClient,
+        private readonly SluggerInterface         $slugger,
+        private readonly UserPreferenceProvider   $userPreferences,
         private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
-        private readonly ThemeService $themeService
-    )
-    {
-        $this->identity = time().'_'.ByteString::fromRandom(8);
+        private readonly ThemeService             $themeService
+    ) {
+        $this->identity = time() . '_' . ByteString::fromRandom(8);
     }
 
-    public
-    function setHttpClient(HttpClientInterface $httpClient): self
+    public function setHttpClient(HttpClientInterface $httpClient): self
     {
         $this->httpClient = $httpClient;
         return $this;
@@ -65,17 +64,17 @@ class RoomService
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
-
         $moderator = false;
         if (($user !== null && $room->getModerator() === $user) || $roomUser->getModerator()) {
             $moderator = true;
         }
+
         $avatar = null;
         if ($user && $user->getProfilePicture()) {
             $avatar = $this->uploaderHelper->asset($user->getProfilePicture(), 'documentFile');
         }
-        $url = $this->createUrl($t, $room, $moderator, $user, $userName, $avatar);
-        return $url;
+
+        return $this->createUrl($t, $room, $moderator, $user, $userName, $avatar);
     }
 
     /**
@@ -88,78 +87,119 @@ class RoomService
         return $this->createUrl($t, $room, $isModerator, null, $name);
     }
 
-    public
-    function createUrl(string $t, Rooms $room, bool $isModerator, ?User $user, string $userName, ?string $avatar = null): string
-    {
+    public function createUrl(
+        string  $t,
+        Rooms   $room,
+        bool    $isModerator,
+        ?User   $user,
+        string  $userName,
+        ?string $avatar = null
+    ): string {
         if ($t === 'a') {
             $type = 'jitsi-meet://';
         } else {
             $type = 'https://';
         }
-        $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
-        $serverUrl = $room->getServer()->getUrl();
-        $serverUrl = str_replace(['https://', 'http://'], '', $serverUrl);
+        $roomUser         = $this->findUserRoomAttributeForRoomAndUser($user, $room);
+        $serverUrl        = $room->getServer()->getUrl();
+        $serverUrl        = str_replace(['https://', 'http://'], '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
-        $roomName = $this->getRoomName($room);
-        $url = $jitsi_server_url . '/' . $roomName;
+        $roomName         = $this->getRoomName($room);
+        $url              = $jitsi_server_url . '/' . $roomName;
 
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
             $token = $this->generateJwt($room, $user, $userName, $isModerator, $avatar);
-            $url = $url . '?jwt=' . $token;
+            $url   = $url . '?jwt=' . $token;
         }
 
-        $url = $url . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22';
-        return $url;
+        return $url . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22';
     }
 
-    public
-    function generateJwt(Rooms $room, ?User $user, string $userName, bool $moderatorExplizit = false, ?string $avatarUrl = null, bool|string $noModerator=false, bool|string|null $skipLobby=false, bool|string|null $enableMic=null,bool|string|null $enableCamera=null): string
-    {
+    public function generateJwt(
+        Rooms            $room,
+        ?User            $user,
+        string           $userName,
+        bool             $moderatorExplizit = false,
+        ?string          $avatarUrl = null,
+        bool|string      $noModerator = false,
+        bool|string|null $skipLobby = false,
+        bool|string|null $enableMic = null,
+        bool|string|null $enableCamera = null
+    ): string {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
         $moderator = false;
         if (($user !== null && $room->getModerator() === $user) || $roomUser->getModerator()) {
             $moderator = true;
         }
+
         if ($moderatorExplizit === true) {
             $moderator = true;
         }
+
         $lobbyModerator = false;
         if (($user !== null && $room->getModerator() === $user) || $roomUser->getLobbyModerator()) {
             $lobbyModerator = true;
         }
+
         $avatar = null;
         if ($user && $user->getProfilePicture()) {
             $avatar = $this->uploaderHelper->asset($user->getProfilePicture(), 'documentFile');
         }
+
         if ($avatarUrl) {
             $avatar = $avatarUrl;
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera,$lobbyModerator), $room->getServer()->getAppSecret(), 'HS256');
+
+        return JWT::encode(
+            $this->genereateJwtPayload(
+                $userName,
+                $room,
+                $room->getServer(),
+                $moderator,
+                $user,
+                $avatar,
+                $noModerator,
+                $skipLobby,
+                $enableMic,
+                $enableCamera,
+                $lobbyModerator
+            ),
+            $room->getServer()->getAppSecret(),
+            'HS256'
+        );
     }
 
     /**
      * @return array<string, mixed>|null
      */
-    public
-    function genereateJwtPayload(string $userName, Rooms $room, Server $server, bool $moderator, ?User $user = null, ?string $avatar = null, bool|string $noModerator=false, bool|string|null $skipLobby=false, bool|string|null $enableMic=null,bool|string|null $enableCamera=null, bool $lobbyModerator=false): ?array
-    {
+    public function genereateJwtPayload(
+        string           $userName,
+        Rooms            $room,
+        Server           $server,
+        bool             $moderator,
+        ?User            $user = null,
+        ?string          $avatar = null,
+        bool|string      $noModerator = false,
+        bool|string|null $skipLobby = false,
+        bool|string|null $enableMic = null,
+        bool|string|null $enableCamera = null,
+        bool             $lobbyModerator = false
+    ): ?array {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
             return null;
         }
         $roomName = $this->getRoomName($room);
 
-
         $payload = [
-
-            "aud" => "jitsi_admin",
-            "iss" => $room->getServer()->getAppId(),
-            "sub" => $room->getServer()->getUrl(),
-            "room" => $roomName,
+            "aud"     => "jitsi_admin",
+            "iss"     => $room->getServer()->getAppId(),
+            "sub"     => $room->getServer()->getUrl(),
+            "room"    => $roomName,
             "context" => [
                 'room' => [
-                    'name'=>$room->getName(),
+                    'name'          => $room->getName(),
                     'isE2EEEnabled' => $server->isEnforceE2e() || $room->isE2EEEnabled(),
                 ],
                 'user' => [
@@ -167,48 +207,51 @@ class RoomService
 
                 ],
             ],
-
         ];
-        if ($skipLobby === "true"){
+
+        if ($skipLobby === "true") {
             $payload['context']['user']['skipLobby'] = true;
         }
-        if ($enableMic!== null){
-            $payload['settings']['isMicrophoneEnabled'] = $enableMic==='true';
-        }else{
+
+        if ($enableMic !== null) {
+            $payload['settings']['isMicrophoneEnabled'] = $enableMic === 'true';
+        } else {
             $themeMicrophoneEnabled = $this->themeService->getThemeProperty('isMicrophoneEnabled');
-            if ($themeMicrophoneEnabled !== null){
+            if ($themeMicrophoneEnabled !== null) {
                 $payload['settings']['isMicrophoneEnabled'] = filter_var($themeMicrophoneEnabled, FILTER_VALIDATE_BOOLEAN);
             }
         }
-        if ($enableCamera!== null){
-            $payload['settings']['isCameraEnabled'] = $enableCamera==='true';
-        }else{
+
+        if ($enableCamera !== null) {
+            $payload['settings']['isCameraEnabled'] = $enableCamera === 'true';
+        } else {
             $themeCameraEnabled = $this->themeService->getThemeProperty('isCameraEnabled');
-            if ($themeCameraEnabled !== null){
+            if ($themeCameraEnabled !== null) {
                 $payload['settings']['isCameraEnabled'] = filter_var($themeCameraEnabled, FILTER_VALIDATE_BOOLEAN);
             }
         }
-        if ($userName === 'Meetling' && $server->isLiveKitServer()){
-           $payload['context']['user']['name'] = '';
+
+        if ($userName === 'Meetling' && $server->isLiveKitServer()) {
+            $payload['context']['user']['name'] = '';
         }
-        if ($server->getJigasiNumberUrl()){
+
+        if ($server->getJigasiNumberUrl()) {
             try {
-                $dialInNumbers = json_decode($server->getJigasiNumberUrl(),true);
-                $payload['context']['room']['dialIn']['numbers']=$dialInNumbers['numbers'];
-                $payload['context']['room']['dialIn']['pin']=$room->getCallerRoom()->getCallerId();
-            }catch (\Exception $exception){
+                $dialInNumbers                                   = json_decode($server->getJigasiNumberUrl(), true);
+                $payload['context']['room']['dialIn']['numbers'] = $dialInNumbers['numbers'];
+                $payload['context']['room']['dialIn']['pin']     = $room->getCallerRoom()->getCallerId();
+            } catch (\Exception $exception) {
                 $this->logger->error($exception->getMessage());
             }
-
-
         }
+
         if ($server->isLiveKitServer()) {
             try {
                 $encSecret = $this->generateEncryptedSecret($server);
                 if ($encSecret) {
                     $payload['livekit'] = [
                         "host" => $server->getUrl(),
-                        "key" => $server->getAppId(),
+                        "key"  => $server->getAppId(),
                     ];
                 }
             } catch (InvalidSSLKeyExeption) {
@@ -223,32 +266,34 @@ class RoomService
                     if ($backgroundImages) {
                         $payload['backgroundImages'] = $backgroundImages;
                     }
-
                 } catch (\Exception) {
                     $this->logger->error('Invalid JSON in background images');
                 }
             }
-            $payload['context']['user']['identity'] = 'meetling_'.$this->slugger->slug($userName).'_'.$this->identity;
+            $payload['context']['user']['identity'] = 'meetling_' . $this->slugger->slug($userName) . '_' . $this->identity;
         }
+
         if (!$avatar) {
             $this->logger->debug('profile picure is added to the jwt');
             if ($roomUser->getUser() && $roomUser->getUser()->getProfilePicture()) {
                 $avatar = $this->uploaderHelper->asset($roomUser->getUser()->getProfilePicture(), 'documentFile');
             }
         }
+
         if ($avatar) {
             $payload['context']['user']['avatar'] = $avatar;
-            if ($room->getServer()->isLiveKitServer()){
-                $payload['context']['user']['avatarAway']='https://www3.h2-invent.com/user_away.webp';
+            if ($room->getServer()->isLiveKitServer()) {
+                $payload['context']['user']['avatarAway'] = 'https://www3.h2-invent.com/user_away.webp';
             }
         }
-        if (!$noModerator){
+
+        if (!$noModerator) {
             if ($room->getServer()->getJwtModeratorPosition() == 0) {
                 $this->logger->debug('We add moderator rights to the root claim');
-                $payload['moderator'] = $moderator;
+                $payload['moderator']      = $moderator;
                 $payload['lobbyModerator'] = $lobbyModerator;
             } elseif ($room->getServer()->getJwtModeratorPosition() == 1) {
-                $payload['context']['user']['moderator'] = $moderator;
+                $payload['context']['user']['moderator']      = $moderator;
                 $payload['context']['user']['lobbyModerator'] = $lobbyModerator;
             }
         }
@@ -257,7 +302,7 @@ class RoomService
         $payload['context']['user']['timezone'] = $this->userPreferences->getTimezone();
 
         $screen = [
-            'screen-sharing' => true,
+            'screen-sharing'  => true,
             'private-message' => true,
 
         ];
@@ -283,8 +328,7 @@ class RoomService
         return $payload;
     }
 
-    public
-    function generateEncryptedSecret(Server $server): ?string
+    public function generateEncryptedSecret(Server $server): ?string
     {
         if (!$server->isLiveKitServer()) {
             return null;
@@ -296,7 +340,7 @@ class RoomService
         $cacheKey = 'livekit_public_key_' . $server->getId();
         /** @var string $livekitBaseUrl */
         $livekitBaseUrl = $this->parameterBag->get('LIVEKIT_BASE_URL');
-        $url = ($server->getLivekitMiddlewareUrl() ?: $livekitBaseUrl) . '/public.pem';
+        $url            = ($server->getLivekitMiddlewareUrl() ?: $livekitBaseUrl) . '/public.pem';
 
         // Fetch the public key from cache or download if not cached
         $publicKey = $this->cache->get($cacheKey, function (ItemInterface $item) use ($url) {
@@ -314,7 +358,6 @@ class RoomService
         });
 
         $secret = $server->getAppSecret();
-
         if (!empty($publicKey)) {
             $this->logger->debug('Public KEy fetched. the secret is ow encrypted', ['public key' => $publicKey]);
             try {
@@ -324,29 +367,25 @@ class RoomService
                     throw new \Exception("Encryption of secret failed");
                 }
                 $encSecret = base64_encode($encryptedSecret);
-
             } catch (\Exception $exception) {
                 $this->logger->error('There was an error encryptiong the secret', ['error' => $exception->getMessage()]);
                 throw new InvalidSSLKeyExeption();
-
             }
-
         }
+
         return urlencode($encSecret);
     }
 
-    public
-    function findUserRoomAttributeForRoomAndUser(?User $user, ?Rooms $rooms): RoomsUser
-    {
+    public function findUserRoomAttributeForRoomAndUser(
+        ?User  $user,
+        ?Rooms $rooms
+    ): RoomsUser {
         $roomUser = new RoomsUser();
         if (!$user || !$rooms) {
             return $roomUser;
         }
 
-        $roomUser->setUser($user)
-            ->setRoom($rooms);
-
-
+        $roomUser->setUser($user)->setRoom($rooms);
         foreach ($user->getRoomsAttributes() as $data) {
             if ($data->getRoom() === $rooms) {
                 return $data;

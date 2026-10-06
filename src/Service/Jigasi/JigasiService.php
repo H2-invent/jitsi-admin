@@ -13,13 +13,12 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class JigasiService
 {
     public function __construct(
-        private HttpClientInterface    $client,
-        private readonly LoggerInterface        $logger,
-        private readonly LicenseService         $licenseService,
-        private readonly CacheInterface         $cache,
-        private readonly KernelInterface        $kernel
-    )
-    {
+        private HttpClientInterface      $client,
+        private readonly LoggerInterface $logger,
+        private readonly LicenseService  $licenseService,
+        private readonly CacheInterface  $cache,
+        private readonly KernelInterface $kernel
+    ) {
     }
 
     public function setClient(HttpClientInterface $client): void
@@ -32,11 +31,12 @@ class JigasiService
         if (!$rooms) {
             return null;
         }
+
         $server = $rooms->getServer();
         if ($server && $this->licenseService->verify($server) && $server->getJigasiNumberUrl()) {
             try {
                 $responseArr = json_decode($server->getJigasiNumberUrl(), true);
-                $numbers = null;
+                $numbers     = null;
 
                 if (isset($responseArr['numbers'])) {
                     $numbers = $responseArr['numbers'];
@@ -47,6 +47,7 @@ class JigasiService
             }
             return $numbers;
         }
+
         return null;
     }
 
@@ -55,6 +56,7 @@ class JigasiService
         if (!$rooms) {
             return null;
         }
+
         $server = $rooms->getServer();
         if ($server && $this->licenseService->verify($server) && $server->getJigasiApiUrl()) {
             if ($this->kernel->getEnvironment() === 'test') {
@@ -76,6 +78,7 @@ class JigasiService
             );
             return $sipPin;
         }
+
         return null;
     }
 
@@ -84,16 +87,17 @@ class JigasiService
         if (!$rooms) {
             return null;
         }
+
         $response = null;
-        $server = $rooms->getServer();
+        $server   = $rooms->getServer();
         if ($server && $this->licenseService->verify($server) && $server->getJigasiApiUrl()) {
             try {
-                $response = $this->client->request(
+                $response    = $this->client->request(
                     'GET',
                     $server->getJigasiApiUrl() . '?conference=' . $rooms->getUid() . '@' . $server->getJigasiProsodyDomain() . '&url=https://' . $server->getUrl() . '/' . $rooms->getUid()
                 );
                 $responseArr = json_decode($response->getContent(), true);
-                $pin = $responseArr['id'];
+                $pin         = $responseArr['id'];
                 return $pin;
             } catch (\Exception $exception) {
                 if ($response && $response->getStatusCode() === 200) {
@@ -103,6 +107,7 @@ class JigasiService
                 return null;
             }
         }
+
         return null;
     }
 
@@ -113,6 +118,7 @@ class JigasiService
         $stringSanitize = preg_replace('/^(.*?)\{/', '{', $stringSanitize);
         $stringSanitize = preg_replace('/([^}]*)$/', '', $stringSanitize);
         $stringSanitize = trim(preg_replace('/\s\s+/m', ' ', $stringSanitize));
+
         return $stringSanitize;
     }
 }

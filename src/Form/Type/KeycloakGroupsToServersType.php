@@ -12,9 +12,9 @@ class KeycloakGroupsToServersType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
-            ->add('keycloakGroup', TextType::class, ['required' => true, 'label' => 'Name', 'attr' => ['class' => 'd-inline w-75'],]); // 'label' => 'label.keycloakGroup', 'translation_domain' => 'form', 'help' =>
+            ->add('keycloakGroup', TextType::class, ['required' => true, 'label' => 'Name', 'attr' => ['class' => 'd-inline w-75'],]
+            ); // 'label' => 'label.keycloakGroup', 'translation_domain' => 'form', 'help' =>
         // ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 

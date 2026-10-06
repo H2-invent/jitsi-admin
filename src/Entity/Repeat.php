@@ -18,8 +18,9 @@ class Repeat implements \Stringable
 {
     public function __toString(): string
     {
-        return (string) $this->id;
+        return (string)$this->id;
     }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -103,35 +104,42 @@ class Repeat implements \Stringable
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $uid = null;
+
     public function __construct()
     {
-        $this->rooms = new ArrayCollection();
+        $this->rooms        = new ArrayCollection();
         $this->participants = new ArrayCollection();
     }
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getRepetation(): ?int
     {
         return $this->repetation;
     }
+
     public function setRepetation(?int $repetation): self
     {
         $this->repetation = $repetation;
 
         return $this;
     }
+
     public function getRepeatUntil(): ?\DateTimeImmutable
     {
         return $this->repeatUntil;
     }
+
     public function setRepeatUntil(?\DateTimeImmutable $repeatUntil): self
     {
         $this->repeatUntil = $repeatUntil;
 
         return $this;
     }
+
     /**
      * @return Collection<int, Rooms>
      */
@@ -139,6 +147,7 @@ class Repeat implements \Stringable
     {
         return $this->rooms;
     }
+
     public function addRoom(Rooms $room): self
     {
         if (!$this->rooms->contains($room)) {
@@ -148,6 +157,7 @@ class Repeat implements \Stringable
 
         return $this;
     }
+
     public function removeRoom(Rooms $room): self
     {
         if ($this->rooms->removeElement($room)) {
@@ -159,6 +169,7 @@ class Repeat implements \Stringable
 
         return $this;
     }
+
     /**
      * @return Collection<int, User>
      */
@@ -166,6 +177,7 @@ class Repeat implements \Stringable
     {
         return $this->participants;
     }
+
     public function addParticipant(User $participant): self
     {
         if (!$this->participants->contains($participant)) {
@@ -174,12 +186,14 @@ class Repeat implements \Stringable
 
         return $this;
     }
+
     public function removeParticipant(User $participant): self
     {
         $this->participants->removeElement($participant);
 
         return $this;
     }
+
     /**
      * @return array<int, mixed>|null
      */
@@ -187,6 +201,7 @@ class Repeat implements \Stringable
     {
         return $this->weekday;
     }
+
     /**
      * @param array<int, mixed> $weekday
      */
@@ -196,170 +211,204 @@ class Repeat implements \Stringable
 
         return $this;
     }
+
     public function getWeeks(): ?int
     {
         return $this->weeks;
     }
+
     public function setWeeks(?int $weeks): self
     {
         $this->weeks = $weeks;
 
         return $this;
     }
+
     public function getMonths(): ?int
     {
         return $this->months;
     }
+
     public function setMonths(?int $months): self
     {
         $this->months = $months;
 
         return $this;
     }
+
     public function getDays(): ?int
     {
         return $this->days;
     }
+
     public function setDays(?int $days): self
     {
         $this->days = $days;
 
         return $this;
     }
+
     public function getRepeatType(): ?RepeatTypeEnum
     {
         return $this->repeatType;
     }
+
     public function setRepeatType(RepeatTypeEnum $repeatType): self
     {
         $this->repeatType = $repeatType;
 
         return $this;
     }
+
     public function getRepeaterDays(): ?int
     {
         return $this->repeaterDays;
     }
+
     public function setRepeaterDays(?int $repeaterDays): self
     {
         $this->repeaterDays = $repeaterDays;
 
         return $this;
     }
+
     public function getRepeaterWeeks(): ?int
     {
         return $this->repeaterWeeks;
     }
+
     public function setRepeaterWeeks(?int $repeaterWeeks): self
     {
         $this->repeaterWeeks = $repeaterWeeks;
 
         return $this;
     }
+
     public function getRepeatMontly(): ?int
     {
         return $this->RepeatMontly;
     }
+
     public function setRepeatMontly(?int $RepeatMontly): self
     {
         $this->RepeatMontly = $RepeatMontly;
 
         return $this;
     }
+
     public function getRepeatYearly(): ?int
     {
         return $this->RepeatYearly;
     }
+
     public function setRepeatYearly(?int $RepeatYearly): self
     {
         $this->RepeatYearly = $RepeatYearly;
 
         return $this;
     }
+
     public function getStartDate(): ?\DateTimeImmutable
     {
         return $this->startDate;
     }
+
     public function setStartDate(\DateTimeImmutable $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
+
     public function getPrototyp(): ?Rooms
     {
         return $this->prototyp;
     }
+
     public function setPrototyp(?Rooms $prototyp): self
     {
         $this->prototyp = $prototyp;
 
         return $this;
     }
+
     public function getRepatMonthRelativNumber(): ?RepeatNumberEnum
     {
         return $this->repatMonthRelativNumber;
     }
+
     public function setRepatMonthRelativNumber(?RepeatNumberEnum $repatMonthRelativNumber): self
     {
         $this->repatMonthRelativNumber = $repatMonthRelativNumber;
 
         return $this;
     }
+
     public function getRepatMonthRelativWeekday(): ?RepeatWeekdayEnum
     {
         return $this->repatMonthRelativWeekday;
     }
+
     public function setRepatMonthRelativWeekday(?RepeatWeekdayEnum $repatMonthRelativWeekday): self
     {
         $this->repatMonthRelativWeekday = $repatMonthRelativWeekday;
 
         return $this;
     }
+
     public function getRepeatYearlyRelativeNumber(): ?RepeatNumberEnum
     {
         return $this->repeatYearlyRelativeNumber;
     }
+
     public function setRepeatYearlyRelativeNumber(?RepeatNumberEnum $repeatYearlyRelativeNumber): self
     {
         $this->repeatYearlyRelativeNumber = $repeatYearlyRelativeNumber;
 
         return $this;
     }
+
     public function getRepeatYearlyRelativeMonth(): ?RepeatMonthEnum
     {
         return $this->repeatYearlyRelativeMonth;
     }
+
     public function setRepeatYearlyRelativeMonth(?RepeatMonthEnum $repeatYearlyRelativeMonth): self
     {
         $this->repeatYearlyRelativeMonth = $repeatYearlyRelativeMonth;
 
         return $this;
     }
+
     public function getRepeatYearlyRelativeWeekday(): ?RepeatWeekdayEnum
     {
         return $this->repeatYearlyRelativeWeekday;
     }
+
     public function setRepeatYearlyRelativeWeekday(?RepeatWeekdayEnum $repeatYearlyRelativeWeekday): self
     {
         $this->repeatYearlyRelativeWeekday = $repeatYearlyRelativeWeekday;
 
         return $this;
     }
+
     public function getRepeatMonthlyRelativeHowOften(): ?int
     {
         return $this->repeatMonthlyRelativeHowOften;
     }
+
     public function setRepeatMonthlyRelativeHowOften(?int $repeatMonthlyRelativeHowOften): self
     {
         $this->repeatMonthlyRelativeHowOften = $repeatMonthlyRelativeHowOften;
 
         return $this;
     }
+
     public function getRepeatYearlyRelativeHowOften(): ?int
     {
         return $this->repeatYearlyRelativeHowOften;
     }
+
     public function setRepeatYearlyRelativeHowOften(?int $repeatYearlyRelativeHowOften): self
     {
         $this->repeatYearlyRelativeHowOften = $repeatYearlyRelativeHowOften;

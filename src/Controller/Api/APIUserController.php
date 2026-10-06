@@ -9,26 +9,23 @@ use App\Repository\RoomsRepository;
 use App\Service\Api\RoomService;
 use App\Service\InviteService;
 use App\Service\LicenseService;
-use App\Service\UserService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class APIUserController extends JitsiAdminController
 {
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        TranslatorInterface $translator,
-        LoggerInterface $logger,
-        ParameterBagInterface $parameterBag,
+        ManagerRegistry                        $managerRegistry,
+        TranslatorInterface                    $translator,
+        LoggerInterface                        $logger,
+        ParameterBagInterface                  $parameterBag,
         private readonly BearerTokenAuthHelper $bearerTokenAuthHelper,
-    )
-    {
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
@@ -37,52 +34,58 @@ class APIUserController extends JitsiAdminController
     {
         /** @var RoomsRepository $roomsRepository */
         $roomsRepository = $this->doctrine->getRepository(Rooms::class);
-        $rooms = $roomsRepository->findRoomsForUser($this->getUser());
-        $res = [];
+        $rooms           = $roomsRepository->findRoomsForUser($this->getUser());
+        $res             = [];
+
         foreach ($rooms as $data) {
-            $tmp = [
-                'title' => $data->getName(),
-                'start' => $data->getStart()->format('Y-m-d') . 'T' . $data->getStart()->format('H:i:s'),
-                'end' => $data->getEnddate()->format('Y-m-d') . 'T' . $data->getEnddate()->format('H:i:s'),
+            $tmp   = [
+                'title'  => $data->getName(),
+                'start'  => $data->getStart()->format('Y-m-d') . 'T' . $data->getStart()->format('H:i:s'),
+                'end'    => $data->getEnddate()->format('Y-m-d') . 'T' . $data->getEnddate()->format('H:i:s'),
                 'allDay' => false
             ];
             $res[] = $tmp;
         }
+
         $response = new JsonResponse($res);
         $response->headers->set('Access-Control-Allow-Origin', '*');
+
         return $response;
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/info/{uidReal}', name: 'apiV1_roomGetUser', methods: ['GET'])]
     public function getRoomInformations(string $uidReal, RoomService $roomService): Response
     {
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $uidReal]);
+        $room     = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $uidReal]);
         $response = new JsonResponse($roomService->generateRoomInfo($room));
         $response->headers->set('Access-Control-Allow-Origin', '*');
+
         return $response;
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/user', name: 'apiV1_roomAddUser', methods: ['POST'])]
     public function addUserToRoom(Request $request, RoomService $roomService): Response
     {
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);
+        $room   = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         if ($room->getServer()->getApiKey() !== $apiKey) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
         }
         $email = $request->get('email');
+
         return new JsonResponse($roomService->addUserToRoom($room, $email));
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/api/v1/user', name: 'apiV1_roomDeleteUser', methods: ['DELETE'])]
     public function removeUserFromRoom(LicenseService $licenseService, Request $request, RoomService $roomService): Response
     {
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);
+        $room   = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
         if ($room->getServer()->getApiKey() !== $apiKey || !$licenseService->verify($room->getServer())) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
         }
         $email = $request->get('email');
+
         return new JsonResponse($roomService->removeUserFromRoom($room, $email));
     }
 }

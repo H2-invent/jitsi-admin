@@ -13,8 +13,7 @@ class LivekitRoomNameGenerator
         #[Autowire(param: 'laF_baseUrl')]
         private string $baseUrl,
         private readonly RequestStack $requestStack,
-    )
-    {
+    ) {
         $this->baseUrl = str_replace(['https://', 'http://'], '', $this->baseUrl);
     }
 

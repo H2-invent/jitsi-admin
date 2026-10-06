@@ -5,8 +5,6 @@ namespace App\Twig;
 
 use App\Entity\User;
 use App\Service\ServerUserManagment;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class Server
 {
@@ -20,18 +18,18 @@ class Server
     #[\Twig\Attribute\AsTwigFunction(name: 'getServer')]
     public function getServer(User $user): array
     {
-
         return $this->serverUserManagment->getServersFromUser($user);
     }
+
     /**
      * @return \App\Entity\Rooms[]
      */
     #[\Twig\Attribute\AsTwigFunction(name: 'getActualConference')]
     public function getActualConference(\App\Entity\Server $server): array
     {
-
         return $this->serverUserManagment->getActualConference($server);
     }
+
     /**
      * @return \App\Entity\RoomStatusParticipant[]
      */

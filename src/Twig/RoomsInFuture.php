@@ -6,8 +6,6 @@ namespace App\Twig;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use Doctrine\ORM\EntityManagerInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 
 class RoomsInFuture
 {
@@ -22,7 +20,7 @@ class RoomsInFuture
     public function roomsinFuture(Server $server): array
     {
         $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
-        $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
+        $qb  = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
         $qb->andWhere('rooms.server = :server')
             ->andWhere('rooms.showRoomOnJoinpage = true')
             ->leftJoin('rooms.repeaterProtoype', 'repeaterProtoype')

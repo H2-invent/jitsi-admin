@@ -5,8 +5,6 @@ namespace App\Twig;
 
 use App\Entity\User;
 use App\Service\FormatName;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class NameWithFormat
 {

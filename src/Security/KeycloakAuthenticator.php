@@ -32,8 +32,16 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
 {
     use TargetPathTrait;
 
-    public function __construct(private LoggerInterface               $logger, private IndexUserService              $indexer, private UserCreatorService            $userCreatorService, private ClientRegistry                $clientRegistry, private EntityManagerInterface        $em, private RouterInterface               $router, private CreateHttpsUrl        $createHttpsUrl, private UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        private LoggerInterface        $logger,
+        private IndexUserService       $indexer,
+        private UserCreatorService     $userCreatorService,
+        private ClientRegistry         $clientRegistry,
+        private EntityManagerInterface $em,
+        private RouterInterface        $router,
+        private CreateHttpsUrl         $createHttpsUrl,
+        private UrlGeneratorInterface  $urlGenerator
+    ) {
     }
 
     public function supports(Request $request): bool
@@ -44,10 +52,13 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
 
     public function authenticate(Request $request): Passport
     {
-        $client = $this->clientRegistry->getClient('keycloak_main');
+        $client      = $this->clientRegistry->getClient('keycloak_main');
         $accessToken = $this->fetchAccessToken($client, [
-            'redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->urlGenerator->generate('connect_keycloak_check', [], UrlGenerator::ABSOLUTE_URL))
+            'redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl(
+                $this->urlGenerator->generate('connect_keycloak_check', [], UrlGenerator::ABSOLUTE_URL)
+            )
         ]);
+
         $request->getSession()->set('id_token', $accessToken->getValues()['id_token']);
         $passport = new SelfValidatingPassport(
             new UserBadge(
@@ -55,7 +66,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
                 function () use ($accessToken, $client) {
                     /** @var KeycloakResourceOwner $keycloakUser */
                     $keycloakUser = $client->fetchUserFromToken($accessToken);
-                    $email = null;
+                    $email        = null;
                     try {
                         //When the keycloak USer delivers a
                         $email = $keycloakUser->getEmail();
@@ -149,7 +160,6 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey): ?Response
     {
-
         // change "app_homepage" to some route in your app
         $targetUrl = $this->getTargetPath($request->getSession(), 'main');
         if (!$targetUrl) {

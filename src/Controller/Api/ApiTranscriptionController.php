@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -17,12 +18,11 @@ final class ApiTranscriptionController extends AbstractController
 {
     public function __construct(
         #[Autowire(param: 'API_TOKEN_BEARER_TRANSCRIPTION')]
-        private readonly string $transcriptionApiBearerToken,
+        private readonly string                $transcriptionApiBearerToken,
         private readonly BearerTokenAuthHelper $bearerTokenAuthHelper,
-        private readonly RoomsRepository $roomsRepository,
-        private readonly TranscriptionService $transcriptionService,
-    )
-    {
+        private readonly RoomsRepository       $roomsRepository,
+        private readonly TranscriptionService  $transcriptionService,
+    ) {
     }
 
     #[Route('/api/v1/transcription', name: 'app_api_transcription_create', methods: ['POST'])]
@@ -34,7 +34,7 @@ final class ApiTranscriptionController extends AbstractController
         }
 
         $roomUid = $request->get('roomUid');
-        $room = $this->roomsRepository->findOneBy(['uidReal' => $roomUid]);
+        $room    = $this->roomsRepository->findOneBy(['uidReal' => $roomUid]);
         if ($room === null) {
             return new JsonResponse(['error' => true, 'text' => 'Could not find room'], Response::HTTP_NOT_FOUND);
         }

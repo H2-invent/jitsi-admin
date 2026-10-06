@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -33,9 +32,10 @@ class TagCreateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io    = new SymfonyStyle($input, $output);
         $title = $input->getArgument('title');
-        $tag = new Tag();
+        $tag   = new Tag();
+
         if ($title) {
             $io->note(sprintf('You passed the title for the tag: %s', $title));
             $tagOld = $this->tagRepository->findOneBy(['title' => $title]);
@@ -45,8 +45,8 @@ class TagCreateCommand extends Command
             }
             $tag->setDisabled(false);
         } else {
-            $titleQ = new Question('Enter the Tag Name: ', 'Demo Tag');
-            $title = $io->askQuestion($titleQ);
+            $titleQ   = new Question('Enter the Tag Name: ', 'Demo Tag');
+            $title    = $io->askQuestion($titleQ);
             $disableQ = new ConfirmationQuestion('Do you want to DISABLE the Tag', false);
             $tag->setDisabled($io->askQuestion($disableQ));
         }
@@ -54,12 +54,11 @@ class TagCreateCommand extends Command
         $tag->setTitle($title);
 
         $prio = $input->getArgument('prio');
-
         if ($prio) {
             $io->note(sprintf('You passed the priority: %d', $prio));
         } else {
             $prioQ = new Question('Enter the Priority (The Lowest will be shown first and is the default)', 0);
-            $prio = intval($io->askQuestion($prioQ));
+            $prio  = intval($io->askQuestion($prioQ));
         }
 
         $tag->setPriority(priority: $prio);
@@ -69,7 +68,7 @@ class TagCreateCommand extends Command
             $io->note(sprintf('You passed the Fontcolor: %s', $fontcolor));
         } else {
             $fontcolorQ = new Question('Enter the font color (ex #790619)', $tag->getColor() ?: '#790619');
-            $fontcolor = $io->askQuestion($fontcolorQ);
+            $fontcolor  = $io->askQuestion($fontcolorQ);
         }
         $tag->setColor($fontcolor);
 
@@ -79,7 +78,7 @@ class TagCreateCommand extends Command
             $io->note(sprintf('You passed the backgroundcolor: %s', $bgcolor));
         } else {
             $backgroundcolorQ = new Question('Enter the background color (ex #fdd8de)', $tag->getBackgroundColor() ?: '#fdd8de');
-            $bgcolor = $io->askQuestion($backgroundcolorQ);
+            $bgcolor          = $io->askQuestion($backgroundcolorQ);
         }
 
         $tag->setBackgroundColor($bgcolor);

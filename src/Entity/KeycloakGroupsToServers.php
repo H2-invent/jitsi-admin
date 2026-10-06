@@ -24,20 +24,24 @@ class KeycloakGroupsToServers
     {
         return $this->id;
     }
+
     public function getServer(): ?Server
     {
         return $this->server;
     }
+
     public function setServer(?Server $server): self
     {
         $this->server = $server;
 
         return $this;
     }
+
     public function getKeycloakGroup(): ?string
     {
         return $this->keycloakGroup;
     }
+
     public function setKeycloakGroup(string $keycloakGroup): self
     {
         $this->keycloakGroup = $keycloakGroup;

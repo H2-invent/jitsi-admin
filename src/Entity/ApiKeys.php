@@ -26,30 +26,36 @@ class ApiKeys
     {
         return $this->id;
     }
+
     public function getClientId(): ?string
     {
         return $this->clientId;
     }
+
     public function setClientId(string $clientId): self
     {
         $this->clientId = $clientId;
 
         return $this;
     }
+
     public function getClientSecret(): ?string
     {
         return $this->clientSecret;
     }
+
     public function setClientSecret(string $clientSecret): self
     {
         $this->clientSecret = $clientSecret;
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
+
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;

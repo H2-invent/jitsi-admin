@@ -35,9 +35,9 @@ class LicenseService
             return ['error' => true, 'text' => 'Invalid Signature'];
         }
 
-        $data = json_decode($licenseString, true);
+        $data       = json_decode($licenseString, true);
         $licenseArr = $data['entry'];
-        $license = $this->em->getRepository(License::class)->findOneBy(['licenseKey' => $licenseArr['license_key']]);
+        $license    = $this->em->getRepository(License::class)->findOneBy(['licenseKey' => $licenseArr['license_key']]);
         if ($license) {
             return ['error' => true, 'text' => 'Licensekey already added'];
         }

@@ -8,20 +8,19 @@ class EventSyncApiService
 {
     public function __construct(
         private readonly RoomStatusRepository $roomStatusRepository
-    )
-    {
+    ) {
     }
 
     /**
      * @return array{status: string}
      */
-    public function getCallerSessionFromUid(string $uid):array
+    public function getCallerSessionFromUid(string $uid): array
     {
         $roomStatus = $this->roomStatusRepository->findRoomStatusByUid($uid);
-        if ($roomStatus){
-            return ['status'=>'ROOM_STARTED'];
-        }else{
-            return ['status'=>'ROOM_CLOSED'];
+        if ($roomStatus) {
+            return ['status' => 'ROOM_STARTED'];
+        } else {
+            return ['status' => 'ROOM_CLOSED'];
         }
     }
 }

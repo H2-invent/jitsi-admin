@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Transcription\Provider\Mistral;
@@ -25,7 +26,7 @@ class VoxtralMiniTranscriber extends AbstractTranscriber
         /** @var array{text: string} $response */
         $response = $client->request('POST', 'v1/audio/transcriptions', [
             'model' => 'voxtral-mini-latest',
-            'file' => fopen($chunkPath, 'rb'),
+            'file'  => fopen($chunkPath, 'rb'),
         ]);
 
         return $response['text'];

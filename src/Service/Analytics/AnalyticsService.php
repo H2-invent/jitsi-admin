@@ -20,8 +20,7 @@ class AnalyticsService
         private readonly HttpClientInterface    $httpClient,
         private readonly ParameterBagInterface  $parameterBag,
         private readonly ThemeService           $themeService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -29,7 +28,7 @@ class AnalyticsService
      */
     public function gatherInformations(): array
     {
-        $em = $this->entityManager;
+        $em  = $this->entityManager;
         $res = ['data' => 'jitsi-admin'];
 
         $qb = $em->createQueryBuilder();
@@ -90,12 +89,11 @@ class AnalyticsService
                 $item->expiresAfter(12 * 60 * 60);
                 try {
                     $data = $this->gatherInformations();
-                    $res = false;
                     $this->httpClient->request(
                         'POST',
                         'https://stats.jitsi-admin.de/analytics',
                         [
-                            'body' => [
+                            'body'    => [
                                 'data' => json_encode($data)
                             ],
                             'timeout' => 10
@@ -108,6 +106,5 @@ class AnalyticsService
                 return $res;
             });
         }
-
     }
 }

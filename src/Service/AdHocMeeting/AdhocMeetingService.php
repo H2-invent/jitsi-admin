@@ -18,33 +18,33 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class AdhocMeetingService
 {
     public function __construct(
-        private readonly EntityManagerInterface       $em,
-        private readonly RoomGeneratorService         $roomGeneratorService,
-        private readonly ParameterBagInterface        $parameterBag,
-        private readonly TranslatorInterface          $translator,
-        private readonly UserService                  $userService,
-        private readonly ThemeService                 $theme,
-        private readonly CalloutService               $calloutService,
-    )
-    {
-
+        private readonly EntityManagerInterface $em,
+        private readonly RoomGeneratorService   $roomGeneratorService,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly TranslatorInterface    $translator,
+        private readonly UserService            $userService,
+        private readonly ThemeService           $theme,
+        private readonly CalloutService         $calloutService,
+    ) {
     }
 
     public function createAdhocMeeting(User $creator, User $reciever, Server $server, ?Tag $tag = null): ?Rooms
     {
         /** @var string $showName */
         $showName = $this->parameterBag->get('laf_showName');
-        $room = $this->roomGeneratorService->createRoom($creator, $server);
+        $room     = $this->roomGeneratorService->createRoom($creator, $server);
         if ($tag) {
             $room->setTag($tag);
         } else {
             $room->setTag(null);
         }
+
         $now = new \DateTimeImmutable('now', TimeZoneService::getTimeZone($creator));
         $room->setStart($now);
         if ($this->theme->getApplicationProperties('allowTimeZoneSwitch') == 1) {
             $room->setTimeZone($creator->getTimeZone());
         }
+
         $room->setEnddate($now->modify('+ 1 hour'));
         $room->setDuration(60);
         $room->setName($this->translator->trans('Konferenz mit {n}', ['{n}' => $creator->getFormatedName($showName)]));
@@ -59,7 +59,7 @@ class AdhocMeetingService
         $this->userService->addUser($reciever, $room);
         $this->userService->addUser($creator, $room);
         $this->calloutService->initCalloutSession($room, $reciever, $creator);
+
         return $room;
     }
-
 }

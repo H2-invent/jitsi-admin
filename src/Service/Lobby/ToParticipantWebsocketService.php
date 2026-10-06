@@ -10,8 +10,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ToParticipantWebsocketService
 {
-    public function __construct(private DirectSendService $directSend, private readonly RoomService $roomService, private readonly UrlGeneratorInterface $urlgenerator, private readonly ParameterBagInterface $parameterBag, private readonly TranslatorInterface $translator)
-    {
+    public function __construct(private DirectSendService              $directSend,
+                                private readonly RoomService           $roomService,
+                                private readonly UrlGeneratorInterface $urlgenerator,
+                                private readonly ParameterBagInterface $parameterBag,
+                                private readonly TranslatorInterface   $translator
+    ) {
     }
 
     public function setDirectSend(DirectSendService $directSendService): void
@@ -22,8 +26,8 @@ class ToParticipantWebsocketService
     public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser): void
     {
         $options = [];
-        $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
-        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success',2000);
+        $topic   = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
+        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success', 2000);
         $appUrl = $this->roomService->join(
             $lobbyWaitungUser->getRoom(),
             $lobbyWaitungUser->getUser(),
@@ -32,8 +36,6 @@ class ToParticipantWebsocketService
         );
 
         if ($lobbyWaitungUser->getType() === 'b') {
-
-
             if ($lobbyWaitungUser->getRoom()->getServer()->getAppId()) {
                 $options['jwt'] = $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
             }
@@ -54,19 +56,18 @@ class ToParticipantWebsocketService
             $this->directSend->sendRedirect($topic, $appUrl, 5000);
             $this->directSend->sendRedirect($topic, '/', 6000);
         }
-
     }
 
     public function sendDecline(LobbyWaitungUser $lobbyWaitungUser): void
     {
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
-        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger',2000);
+        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger', 2000);
         $this->directSend->sendRedirect($topic, $this->urlgenerator->generate('index'), $this->parameterBag->get('laf_lobby_popUpDuration'));
     }
+
     public function sendMessage(LobbyWaitungUser $lobbyWaitungUser, ?string $message, string $from): void
     {
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
-        $this->directSend->sendSnackbar($topic,$message,'red',10000);
-
+        $this->directSend->sendSnackbar($topic, $message, 'red', 10000);
     }
 }

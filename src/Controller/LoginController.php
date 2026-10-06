@@ -14,26 +14,25 @@ use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginController extends JitsiAdminController
 {
     public function __construct(
-        ManagerRegistry        $managerRegistry,
-        TranslatorInterface    $translator,
-        LoggerInterface        $logger,
-        ParameterBagInterface  $parameterBag,
-        private readonly CreateHttpsUrl $createHttpsUrl)
-    {
+        ManagerRegistry                 $managerRegistry,
+        TranslatorInterface             $translator,
+        LoggerInterface                 $logger,
+        ParameterBagInterface           $parameterBag,
+        private readonly CreateHttpsUrl $createHttpsUrl
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/login/auth0_login', name: 'login_auth0')]
     public function index(
-        ClientRegistry $clientRegistry): Response
-    {
+        ClientRegistry $clientRegistry
+    ): Response {
         return $clientRegistry->getClient('auth0_main')->redirect(['user'], []);
     }
 
@@ -67,30 +66,28 @@ class LoginController extends JitsiAdminController
         Request        $request,
         CreateHttpsUrl $createHttpsUrl,
         ThemeService   $themeService,
-    ): Response
-    {
+    ): Response {
         $provider = new Keycloak(
             [
                 'authServerUrl' => $this->getParameter('KEYCLOAK_URL'),
-                'realm' => $this->getParameter('KEYCLOAK_REALM'),
-                'clientId' => $this->getParameter('KEYCLOAK_ID'),
-                'clientSecret' => $this->getParameter('KEYCLOAK_SECRET'),
+                'realm'         => $this->getParameter('KEYCLOAK_REALM'),
+                'clientId'      => $this->getParameter('KEYCLOAK_ID'),
+                'clientSecret'  => $this->getParameter('KEYCLOAK_SECRET'),
             ]
         );
 
-        $options = ['post_logout_redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('app_logout', [], UrlGenerator::ABSOLUTE_URL))];
-
+        $options = [
+            'post_logout_redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl(
+                $this->generateUrl('app_logout', [], UrlGenerator::ABSOLUTE_URL)
+            )
+        ];
 
         $options['id_token_hint'] = $request->getSession()->get('id_token');
-
         if ($themeService->getApplicationProperties('idp_provider')) {
             $options['kc_idp_hint'] = $themeService->getApplicationProperties('idp_provider');
         }
+        $url = $provider->getLogoutUrl($options);
 
-
-        $url = $provider->getLogoutUrl(
-            $options
-        );
         return $this->redirect($url);
     }
 }

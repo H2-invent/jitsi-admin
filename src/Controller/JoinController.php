@@ -16,19 +16,17 @@ use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinController extends JitsiAdminController
 {
     public function __construct(
-        ManagerRegistry       $managerRegistry,
-        TranslatorInterface   $translator,
-        LoggerInterface       $logger,
-        ParameterBagInterface $parameterBag,
-        private readonly JoinService           $joinService
-    )
-    {
+        ManagerRegistry              $managerRegistry,
+        TranslatorInterface          $translator,
+        LoggerInterface              $logger,
+        ParameterBagInterface        $parameterBag,
+        private readonly JoinService $joinService
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
@@ -37,15 +35,15 @@ class JoinController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route(path: '/join', name: 'join_index_no_slug')]
     public function index(Request $request, TranslatorInterface $translator, RoomService $roomService, ?string $slug = null, ?string $uid = null): Response
     {
-        $data = [];
+        $data   = [];
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['slug' => $slug]);
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
         $dataStr = $request->get('data', '');
-        $snack = $request->get('snack');
-        $color = 'success';
+        $snack   = $request->get('snack');
+        $color   = 'success';
         $dataAll = base64_decode($dataStr);
-        $data = [];
-        $room = null;
+        $data    = [];
+        $room    = null;
 
         parse_str($dataAll, $data);
         if ($request->cookies->get('name')) {
@@ -56,7 +54,7 @@ class JoinController extends JitsiAdminController
             $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $data['uid']]);
             $user = $this->doctrine->getRepository(User::class)->findOneBy(['email' => $data['email']]);
 
-            //If the room ID is correct set and the room exists
+            //If the room ID is correctly set and the room exists
             if ($this->onlyWithUserAccount($room)) {
                 return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => 'b']);
             }
@@ -73,10 +71,12 @@ class JoinController extends JitsiAdminController
         $form = $this->createForm(JoinViewType::class, $data);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             //here is where the magic happens
-            $joinAppButton = $form->has('joinApp') ? $form->get('joinApp') : null;
+            $joinAppButton     = $form->has('joinApp') ? $form->get('joinApp') : null;
             $joinBrowserButton = $form->has('joinBrowser') ? $form->get('joinBrowser') : null;
-            $res = $this->joinService->join( $form->getData(),
+            $res               = $this->joinService->join(
+                $form->getData(),
                 $snack,
                 $color,
                 $form->has('joinApp'),
@@ -84,18 +84,21 @@ class JoinController extends JitsiAdminController
                 $form->has('joinBrowser'),
                 $joinBrowserButton instanceof ClickableInterface ? $joinBrowserButton->isClicked() : null
             );
+
             if ($res instanceof NotFoundHttpException) {
                 throw $res;
             }
+
             if ($res) {
                 return $res;
             }
         }
         $this->addFlash($color, $snack);
+
         return $this->render(
             'join/index.html.twig',
             [
-                'form' => $form->createView(),
+                'form'   => $form->createView(),
                 'server' => $server,
             ]
         );
@@ -113,8 +116,9 @@ class JoinController extends JitsiAdminController
             /** @var string|int|bool|null $laFOnlyRegisteredParticipents */
             $laFOnlyRegisteredParticipents = $this->parameterBag->get('laF_onlyRegisteredParticipents');
             return $laFOnlyRegisteredParticipents == 1 || //only registered Users globally set
-                $room->getOnlyRegisteredUsers();
+                   $room->getOnlyRegisteredUsers();
         }
+
         return false;
     }
 
@@ -129,6 +133,7 @@ class JoinController extends JitsiAdminController
         if ($room) {
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference
         }
+
         return false;
     }
 }

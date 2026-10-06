@@ -260,21 +260,21 @@ class Rooms
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
-        $this->userAttributes = new ArrayCollection();
-        $this->subscribers = new ArrayCollection();
-        $this->schedulings = new ArrayCollection();
-        $this->waitinglists = new ArrayCollection();
-        $this->prototypeUsers = new ArrayCollection();
-        $this->favoriteUsers = new ArrayCollection();
-        $this->lobbyWaitungUsers = new ArrayCollection();
-        $this->roomstatuses = new ArrayCollection();
-        $this->callerIds = new ArrayCollection();
-        $this->calloutSessions = new ArrayCollection();
-        $this->logs = new ArrayCollection();
+        $this->user               = new ArrayCollection();
+        $this->userAttributes     = new ArrayCollection();
+        $this->subscribers        = new ArrayCollection();
+        $this->schedulings        = new ArrayCollection();
+        $this->waitinglists       = new ArrayCollection();
+        $this->prototypeUsers     = new ArrayCollection();
+        $this->favoriteUsers      = new ArrayCollection();
+        $this->lobbyWaitungUsers  = new ArrayCollection();
+        $this->roomstatuses       = new ArrayCollection();
+        $this->callerIds          = new ArrayCollection();
+        $this->calloutSessions    = new ArrayCollection();
+        $this->logs               = new ArrayCollection();
         $this->uploadedRecordings = new ArrayCollection();
-        $this->liveKitRecordings = new ArrayCollection();
-        $this->transcriptions = new ArrayCollection();
+        $this->liveKitRecordings  = new ArrayCollection();
+        $this->transcriptions     = new ArrayCollection();
     }
 
     public function normalize(string $propertyName): string
@@ -289,31 +289,31 @@ class Rooms
 
         if ($this->start) {
             /** @var \DateTimeImmutable $dt */
-            $dt = \DateTimeImmutable::createFromFormat(
+            $dt                   = \DateTimeImmutable::createFromFormat(
                 'Y-m-d H:i:s',
                 $this->start->format('Y-m-d H:i:s'),
                 $srcTz ?? $this->start->getTimezone()
             );
-            $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
-            $this->startUtc = $utc;
+            $utc                  = $dt->setTimezone(new \DateTimeZone('UTC'));
+            $this->startUtc       = $utc;
             $this->startTimestamp = $utc->getTimestamp();
         } else {
-            $this->startUtc = null;
+            $this->startUtc       = null;
             $this->startTimestamp = null;
         }
 
         if ($this->enddate) {
             /** @var \DateTimeImmutable $dt */
-            $dt = \DateTimeImmutable::createFromFormat(
+            $dt                 = \DateTimeImmutable::createFromFormat(
                 'Y-m-d H:i:s',
                 $this->enddate->format('Y-m-d H:i:s'),
                 $srcTz ?? $this->enddate->getTimezone()
             );
-            $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
-            $this->endDateUtc = $utc;
+            $utc                = $dt->setTimezone(new \DateTimeZone('UTC'));
+            $this->endDateUtc   = $utc;
             $this->endTimestamp = $utc->getTimestamp();
         } else {
-            $this->endDateUtc = null;
+            $this->endDateUtc   = null;
             $this->endTimestamp = null;
         }
     }
@@ -337,7 +337,6 @@ class Rooms
 
     public function getStart(): ?\DateTimeImmutable
     {
-
         return $this->start;
     }
 
@@ -845,9 +844,9 @@ class Rooms
     public function getStartwithTimeZone(?User $user): ?\DateTimeImmutable
     {
         if ($this->timeZone && $user && $user->getTimeZone()) {
-            $data = new \DateTimeImmutable($this->start->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
+            $data       = new \DateTimeImmutable($this->start->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
             $laTimezone = new \DateTimeZone($user->getTimeZone());
-            $data = $data->setTimezone($laTimezone);
+            $data       = $data->setTimezone($laTimezone);
             return $data;
         } else {
             return $this->start;
@@ -857,9 +856,9 @@ class Rooms
     public function getEndwithTimeZone(?User $user): ?\DateTimeImmutable
     {
         if ($this->timeZone && $user && $user->getTimeZone()) {
-            $data = new \DateTimeImmutable($this->enddate->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
+            $data       = new \DateTimeImmutable($this->enddate->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
             $laTimezone = new \DateTimeZone($user->getTimeZone());
-            $data = $data->setTimezone($laTimezone);
+            $data       = $data->setTimezone($laTimezone);
             return $data;
         } else {
             return $this->enddate;

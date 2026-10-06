@@ -9,31 +9,41 @@ use App\Entity\User;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinService
 {
-    public function __construct(private readonly RequestStack  $session, private readonly StartMeetingService $startService, private readonly UrlGeneratorInterface $urlGenerator, private readonly ParameterBagInterface $parameterBag, private readonly EntityManagerInterface $em, private readonly TranslatorInterface $translator)
-    {
+    public function __construct(
+        private readonly RequestStack           $session,
+        private readonly StartMeetingService    $startService,
+        private readonly UrlGeneratorInterface  $urlGenerator,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface    $translator
+    ) {
     }
 
     /**
      * @param array<string, mixed> $search
      */
-    public function join(array $search, string &$snack, string &$color, bool $appAllowed, ?bool $appKlicked, bool $browerAllowed, ?bool $browserKlicked): RedirectResponse|\Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException|null
-    {
+    public function join(array  $search,
+                         string &$snack,
+                         string &$color,
+                         bool   $appAllowed,
+                         ?bool  $appKlicked,
+                         bool   $browerAllowed,
+                         ?bool  $browserKlicked
+    ): RedirectResponse|\Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException|null {
         $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
 
         if (!$room || !in_array($user, $room->getUser()->toArray())) {
-            $snack = $this->translator->trans('Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
+            $snack = $this->translator->trans(
+                'Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.'
+            );
             $color = 'danger';
             return null;
         }
@@ -65,14 +75,13 @@ class JoinService
         try {
             $startPrint = $room->getTimeZone() ? clone($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getStart();
             $startPrint = $startPrint->modify('-30min');
-            $endPrint = $room->getTimeZone() ? $room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getEnddate();
+            $endPrint   = $room->getTimeZone() ? $room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getEnddate();
 
             $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich', [
                 '{from}' => $startPrint->format('d.m.Y H:i T'),
-                '{to}' => $endPrint->format('d.m.Y H:i T')
+                '{to}'   => $endPrint->format('d.m.Y H:i T')
             ]);
             $color = 'danger';
-
         } catch (\Exception) {
         }
 
@@ -90,8 +99,9 @@ class JoinService
         if ($room) {
             $onlyRegistered = $this->parameterBag->get('laF_onlyRegisteredParticipents');
             return $onlyRegistered == 1 || //only registered Users globally set
-                $room->getOnlyRegisteredUsers();
+                   $room->getOnlyRegisteredUsers();
         }
+
         return false;
     }
 
@@ -106,6 +116,7 @@ class JoinService
         if ($room) {
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference
         }
+
         return false;
     }
 }

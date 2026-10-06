@@ -23,8 +23,7 @@ class SubcriptionService
         private readonly TranslatorInterface    $translator,
         private readonly UserCreatorService     $userCreationService,
         private readonly ThemeService           $themeService
-    )
-    {
+    ) {
     }
 
     /**
@@ -41,12 +40,13 @@ class SubcriptionService
     {
         $res = ['error' => true];
         if ($rooms->getMaxParticipants() && (sizeof($rooms->getUser()->toArray()) >= $rooms->getMaxParticipants()) && !$rooms->getWaitinglist()) {
-            $res['text'] = $this->translator->trans('Die maximale Teilnehmeranzahl ist bereits erreicht.');
+            $res['text']  = $this->translator->trans('Die maximale Teilnehmeranzahl ist bereits erreicht.');
             $res['color'] = 'danger';
             return $res;
         }
+
         if (!filter_var($userData['email'], FILTER_VALIDATE_EMAIL)) {
-            $res['text'] = $this->translator->trans('Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.');
+            $res['text']  = $this->translator->trans('Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.');
             $res['color'] = 'danger';
             return $res;
         }
@@ -69,13 +69,15 @@ class SubcriptionService
                     $rooms
                 );
             }
-            $res['text'] = $this->translator->trans('Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.');
+            $res['text']  = $this->translator->trans(
+                'Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.'
+            );
             $res['color'] = 'danger';
         } elseif (in_array($rooms, $user->getRooms()->toArray())) {
-            $res['text'] = $this->translator->trans('Sie haben sich bereits angemeldet.');
+            $res['text']  = $this->translator->trans('Sie haben sich bereits angemeldet.');
             $res['color'] = 'danger';
         } else {
-            $res = $this->createNewSubscriber($user, $rooms);
+            $res        = $this->createNewSubscriber($user, $rooms);
             $subscriber = $res['sub'];
             if ($moderator == true) {
                 $usersRoom = new RoomsUser();
@@ -98,7 +100,6 @@ class SubcriptionService
                     $rooms
                 );
             }
-
         }
 
         return $res;
@@ -111,22 +112,23 @@ class SubcriptionService
     public function acceptSub(?Subscriber $subscriber): array
     {
         $res['message'] = $this->translator->trans('Danke für die Anmeldung. ');
-        $res['title'] = $this->translator->trans('Erfolgreich bestätigt');
+        $res['title']   = $this->translator->trans('Erfolgreich bestätigt');
         if (!$subscriber) {
             $res['message'] = $this->translator->trans('Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.');
-            $res['title'] = $this->translator->trans('Fehler');
+            $res['title']   = $this->translator->trans('Fehler');
             return $res;
         }
 
-
         if ($subscriber->getRoom()->getMaxParticipants() != null && sizeof($subscriber->getRoom()->getUser()) >= $subscriber->getRoom()->getMaxParticipants() && $subscriber->getRoom()->getWaitinglist() != true) {
             $res['message'] = $this->translator->trans('Die maximale Teilnehmeranzahl ist bereits erreicht.');
-            $res['title'] = $this->translator->trans('Fehler');
+            $res['title']   = $this->translator->trans('Fehler');
             return $res;
         }
 
         try {
-            if ($subscriber->getRoom()->getMaxParticipants() != null && sizeof($subscriber->getRoom()->getUser()) >= $subscriber->getRoom()->getMaxParticipants()) {
+            if ($subscriber->getRoom()->getMaxParticipants() != null && sizeof(
+                                                                            $subscriber->getRoom()->getUser()
+                                                                        ) >= $subscriber->getRoom()->getMaxParticipants()) {
                 $this->createNewWaitinglist($subscriber->getUser(), $subscriber->getRoom());
                 $this->em->remove($subscriber);
                 $this->em->flush();
@@ -137,7 +139,7 @@ class SubcriptionService
             }
         } catch (\Exception) {
             $res['message'] = $this->translator->trans('Fehler, Bitte klicken Sie den link erneut an.');
-            $res['title'] = $this->translator->trans('Fehler');
+            $res['title']   = $this->translator->trans('Fehler');
         }
 
         return $res;
@@ -153,10 +155,12 @@ class SubcriptionService
         $subscriber->setUser($user)->setRoom($rooms)->setUid(md5(uniqid()));
         $this->em->persist($subscriber);
         $this->em->flush();
-        $res['text'] = $this->translator->trans('Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.');
+
+        $res['text']  = $this->translator->trans('Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.');
         $res['color'] = 'success';
         $res['error'] = false;
-        $res['sub'] = $subscriber;
+        $res['sub']   = $subscriber;
+
         return $res;
     }
 
@@ -170,10 +174,12 @@ class SubcriptionService
         $waitingList->setUser($user)->setRoom($rooms)->setCreatedAt(new \DateTimeImmutable());
         $this->em->persist($waitingList);
         $this->em->flush();
-        $res['text'] = $this->translator->trans('Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.');
+
+        $res['text']  = $this->translator->trans('Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.' );
         $res['color'] = 'success';
         $res['error'] = false;
         $this->userService->addWaitinglist($user, $rooms);
+
         return $res;
     }
 

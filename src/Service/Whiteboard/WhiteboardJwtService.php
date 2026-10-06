@@ -3,7 +3,6 @@
 namespace App\Service\Whiteboard;
 
 use App\Entity\Rooms;
-use App\Helper\ExternalApplication;
 use App\Helper\UidHelper;
 use Firebase\JWT\JWT;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -16,15 +15,15 @@ class WhiteboardJwtService
 
     public function createJwt(Rooms $rooms, bool $isModerator = false): string
     {
-        $ui = $this->uidHelper->getUid($rooms);
+        $ui      = $this->uidHelper->getUid($rooms);
         $payload = [
-            'iat' => new \DateTimeImmutable()->getTimestamp(),
-            'exp' => new \DateTimeImmutable()->modify('+3days')->getTimestamp(),
+            'iat'   => new \DateTimeImmutable()->getTimestamp(),
+            'exp'   => new \DateTimeImmutable()->modify('+3days')->getTimestamp(),
             'roles' => [($isModerator ? 'moderator' : 'editor') . ':' . $ui]
         ];
         /** @var string $secret */
         $secret = $this->parameterBag->get('WHITEBOARD_SECRET');
 
-        return JWT::encode($payload, $secret,'HS256');
+        return JWT::encode($payload, $secret, 'HS256');
     }
 }

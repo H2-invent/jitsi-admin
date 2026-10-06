@@ -12,8 +12,7 @@ class ExternalApplication
         private readonly WhiteboardJwtService $whiteboardJwtService,
         private readonly ThemeService         $themeService,
         private readonly UidHelper            $uidHelper,
-    )
-    {
+    ) {
     }
 
     public function etherpadLink(Rooms $rooms, ?string $name = null): string
@@ -24,12 +23,17 @@ class ExternalApplication
             $name = urlencode($name);
         }
         $ui = $this->uidHelper->getUid($rooms);
+
         return $this->themeService->getApplicationProperties('ETHERPAD_URL') . '/p/' . $ui . '?showChat=false&userName=' . $name;
     }
 
     public function whitebophirLink(Rooms $rooms, bool $moderator = false): string
     {
         $ui = $this->uidHelper->getUid($rooms);
-        return $this->themeService->getApplicationProperties('WHITEBOARD_URL') . '/boards/' . $ui . '?token=' . $this->whiteboardJwtService->createJwt($rooms, $moderator);
+
+        return $this->themeService->getApplicationProperties('WHITEBOARD_URL') . '/boards/' . $ui . '?token=' . $this->whiteboardJwtService->createJwt(
+                $rooms,
+                $moderator
+            );
     }
 }

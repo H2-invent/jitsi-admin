@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Transcription\Provider\OpenAI;
@@ -10,8 +11,8 @@ use Generator;
 
 class WhisperMediaConverter extends AbstractMediaConverter
 {
-    private const MAX_CHUNK_BYTES = 24 * 1024 * 1024; // OpenAI max chunk size is 25MB, we're doing 24 here for safety
-    private const int MP3_KBIT = 128; // Quality pretty bad to optimize for file size
+    private const     MAX_CHUNK_BYTES = 24 * 1024 * 1024; // OpenAI max chunk size is 25MB, we're doing 24 here for safety
+    private const int MP3_KBIT        = 128; // Quality pretty bad to optimize for file size
 
     protected function createAudioFormat(): DefaultAudio
     {

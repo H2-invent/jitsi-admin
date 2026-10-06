@@ -11,8 +11,7 @@ class TermsAndConditionsService
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly ThemeService           $themeService
-    )
-    {
+    ) {
     }
 
     public function hasAcceptedTerms(User $user): bool
@@ -20,6 +19,7 @@ class TermsAndConditionsService
         if ($user->isAcceptTermsAndConditions() || $this->themeService->getApplicationProperties('LAF_TERMS_AND_CONDITIONS') === '') {
             return true;
         }
+
         return false;
     }
 
@@ -28,6 +28,7 @@ class TermsAndConditionsService
         $user->setAcceptTermsAndConditions(true);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
         return true;
     }
 }

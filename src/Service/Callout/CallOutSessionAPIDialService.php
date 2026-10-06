@@ -15,8 +15,7 @@ class CallOutSessionAPIDialService
         private readonly UrlGeneratorInterface       $urlGenerator,
         private readonly CalloutService              $calloutService,
         private readonly ToModeratorWebsocketService $toModeratorWebsocketService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -31,6 +30,7 @@ class CallOutSessionAPIDialService
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
+
         if ($calloutSession->getState() >= CalloutSession::$ON_HOLD) {
             return ['error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'];
         }
@@ -45,8 +45,9 @@ class CallOutSessionAPIDialService
         $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
         $res = [
             'status' => 'OK',
-            'links' => $this->generateLinkList(calloutSession: $calloutSession, pin: $pin),
+            'links'  => $this->generateLinkList(calloutSession: $calloutSession, pin: $pin),
         ];
+
         return $res;
     }
 
@@ -62,20 +63,25 @@ class CallOutSessionAPIDialService
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
+
         if ($calloutSession->getState() >= CalloutSession::$ON_HOLD || $calloutSession->getState() < CalloutSession::$DIALED) {
             return ['error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'];
         }
+
         $calloutSession->setState(CalloutSession::$RINGING);
         $this->entityManager->persist($calloutSession);
         $this->entityManager->flush();
         $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
-        $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
+        $pin           = $this->entityManager->getRepository(CallerId::class)->findOneBy(
+            ['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]
+        );
         $sipRaumnummer = $calloutSession->getRoom()->getCallerRoom();
+
         return [
-            'status' => 'RINGING',
-            'pin' => $pin->getCallerId(),
+            'status'      => 'RINGING',
+            'pin'         => $pin->getCallerId(),
             'room_number' => $sipRaumnummer->getCallerId(),
-            'links' => $this->generateLinkList(calloutSession: $calloutSession, pin: $pin),
+            'links'       => $this->generateLinkList(calloutSession: $calloutSession, pin: $pin),
         ];
     }
 
@@ -88,26 +94,27 @@ class CallOutSessionAPIDialService
      */
     public function generateLinkList(CalloutSession $calloutSession, CallerId $pin): array
     {
-
-$url_paramter =  [
-        'roomId' => $calloutSession->getRoom()->getCallerRoom()->getCallerId(),
-        'caller_id' => $this->calloutService->getCallerIdForUser($calloutSession->getUser()),
-        'pin' => $pin->getCallerId()];
-if ($calloutSession->getUser()->getIsSipVideoUser()){
-    $url_paramter['is_video'] = 1;
-}
+        $url_paramter = [
+            'roomId'    => $calloutSession->getRoom()->getCallerRoom()->getCallerId(),
+            'caller_id' => $this->calloutService->getCallerIdForUser($calloutSession->getUser()),
+            'pin'       => $pin->getCallerId()
+        ];
+        if ($calloutSession->getUser()->getIsSipVideoUser()) {
+            $url_paramter['is_video'] = 1;
+        }
         return [
-            'accept' => $this->urlGenerator->generate(
-                'caller_pin',$url_paramter
+            'accept'      => $this->urlGenerator->generate(
+                'caller_pin',
+                $url_paramter
             ),
-            'refuse' => $this->urlGenerator->generate('callout_api_refuse', ['calloutSessionId' => $calloutSession->getUid()]),
-            'ringing' => $this->urlGenerator->generate('callout_api_ringing', ['calloutSessionId' => $calloutSession->getUid()]),
-            'timeout' => $this->urlGenerator->generate('callout_api_timeout', ['calloutSessionId' => $calloutSession->getUid()]),
-            'error' => $this->urlGenerator->generate('callout_api_error', ['calloutSessionId' => $calloutSession->getUid()]),
+            'refuse'      => $this->urlGenerator->generate('callout_api_refuse', ['calloutSessionId' => $calloutSession->getUid()]),
+            'ringing'     => $this->urlGenerator->generate('callout_api_ringing', ['calloutSessionId' => $calloutSession->getUid()]),
+            'timeout'     => $this->urlGenerator->generate('callout_api_timeout', ['calloutSessionId' => $calloutSession->getUid()]),
+            'error'       => $this->urlGenerator->generate('callout_api_error', ['calloutSessionId' => $calloutSession->getUid()]),
             'unreachable' => $this->urlGenerator->generate('callout_api_unreachable', ['calloutSessionId' => $calloutSession->getUid()]),
-            'later' => $this->urlGenerator->generate('callout_api_later', ['calloutSessionId' => $calloutSession->getUid()]),
-            'dial' => $this->urlGenerator->generate('callout_api_dial', ['calloutSessionId' => $calloutSession->getUid()]),
-            'occupied' => $this->urlGenerator->generate('callout_api_occupied', ['calloutSessionId' => $calloutSession->getUid()]),
+            'later'       => $this->urlGenerator->generate('callout_api_later', ['calloutSessionId' => $calloutSession->getUid()]),
+            'dial'        => $this->urlGenerator->generate('callout_api_dial', ['calloutSessionId' => $calloutSession->getUid()]),
+            'occupied'    => $this->urlGenerator->generate('callout_api_occupied', ['calloutSessionId' => $calloutSession->getUid()]),
         ];
     }
 
@@ -122,17 +129,20 @@ if ($calloutSession->getUser()->getIsSipVideoUser()){
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
+
         if ($calloutSession->getState() < CalloutSession::$ON_HOLD) {//Wenn die Session
             return ['error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'];
         }
+
         $calloutSession->setState(CalloutSession::$DIALED);
         $this->entityManager->persist($calloutSession);
         $this->entityManager->flush();
         $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
         $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
+
         return [
             'status' => CalloutSession::$STATE[$calloutSession->getState()],
-            'links' => $this->generateLinkList(calloutSession: $calloutSession, pin: $pin),
+            'links'  => $this->generateLinkList(calloutSession: $calloutSession, pin: $pin),
         ];
     }
 }

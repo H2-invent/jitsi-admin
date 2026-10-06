@@ -41,30 +41,36 @@ class AddressGroup
     {
         $this->member = new ArrayCollection();
     }
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getName(): ?string
     {
         return $this->name;
     }
+
     public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
+
     public function getLeader(): ?User
     {
         return $this->leader;
     }
+
     public function setLeader(?User $leader): self
     {
         $this->leader = $leader;
 
         return $this;
     }
+
     /**
      * @return Collection<int, User>
      */
@@ -72,6 +78,7 @@ class AddressGroup
     {
         return $this->member;
     }
+
     public function addMember(User $member): self
     {
         if (!$this->member->contains($member)) {
@@ -80,36 +87,43 @@ class AddressGroup
 
         return $this;
     }
+
     public function removeMember(User $member): self
     {
         $this->member->removeElement($member);
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
+
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
+
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
+
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
+
     public function getIndexer(): ?string
     {
         return $this->indexer;
     }
+
     public function setIndexer(?string $indexer): self
     {
         $this->indexer = $indexer;

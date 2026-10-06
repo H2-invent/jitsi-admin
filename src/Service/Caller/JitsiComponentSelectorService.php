@@ -18,7 +18,7 @@ class JitsiComponentSelectorService
 {
     private ?string $baseUrl;
     /** @var string|null */
-    private $jwt;
+    private       $jwt;
     private mixed $publicKey;
     /** @var string|false */
     private $privateKey;
@@ -26,45 +26,44 @@ class JitsiComponentSelectorService
     private $kid;
 
     public function __construct(
-        private HttpClientInterface   $httpClient,
+        private HttpClientInterface            $httpClient,
         private readonly ThemeService          $themeService,
         private readonly RoomService           $roomService,
         private readonly ParameterBagInterface $parameterBag,
         private readonly KernelInterface       $kernel,
-        private readonly LoggerInterface       $logger)
-    {
+        private readonly LoggerInterface       $logger
+    ) {
         try {
             $this->baseUrl = null;
-            $dir = $this->kernel->getProjectDir();
+            $dir           = $this->kernel->getProjectDir();
 
             /** @var string $kid */
-            $kid = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_JWT_KID');
+            $kid       = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_JWT_KID');
             $this->kid = $kid;
+
             /** @var string $privatePath */
             $privatePath = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH');
+
             /** @var string $publicPath */
-            $publicPath = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
+            $publicPath     = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
             $privateKeyPath = $dir . $privatePath . hash('sha256', $kid) . '.key';
-            $publicKeyPath = $dir . $publicPath . hash('sha256', $kid) . '.pem';
+            $publicKeyPath  = $dir . $publicPath . hash('sha256', $kid) . '.pem';
 
-// Replace directory separators for cross-platform compatibility
+            // Replace directory separators for cross-platform compatibility
             $privateKeyPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $privateKeyPath);
-            $publicKeyPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $publicKeyPath);
+            $publicKeyPath  = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $publicKeyPath);
 
-// Check if the private key file exists
+            // Check if the private key file exists
             if (file_exists($privateKeyPath)) {
                 $this->privateKey = file_get_contents($privateKeyPath);
             }
 
-// Check if the public key file exists
+            // Check if the public key file exists
             if (file_exists($publicKeyPath)) {
                 $this->publicKey = file_get_contents($publicKeyPath);
             }
-
-        }catch (\Exception){
-
+        } catch (\Exception) {
         }
-
     }
 
 
@@ -104,8 +103,15 @@ class JitsiComponentSelectorService
             baseUrl: $room->getServer()->getUrl(),
             roomName: $room->getUid(),
             displayName: $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')),
-            jwt: $room->getServer()->getAppId() ? $this->roomService->generateJwt(room: $room, user: $user, userName: $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))) : null
+            jwt: $room->getServer()->getAppId() ? $this->roomService->generateJwt(
+                room: $room,
+                user: $user,
+                userName: $user->getFormatedName(
+                $this->themeService->getApplicationProperties('laf_showNameFrontend')
+            )
+            ) : null
         );
+
         if (isset($res['componentKey'])) {
             return $res['componentKey'];
         } else {
@@ -127,8 +133,7 @@ class JitsiComponentSelectorService
         string  $environment = 'default-env',
         string  $region = 'default-region',
         string  $type = 'SIP-JIBRI'
-    ): array
-    {
+    ): array {
         $requestData = $this->buildRequestData(
             baseUrl: $baseUrl,
             roomName: $roomName,
@@ -149,7 +154,7 @@ class JitsiComponentSelectorService
             method: 'POST',
             url: $this->baseUrl,
             options: [
-                'json' => $requestData,
+                'json'        => $requestData,
                 'auth_bearer' => $this->createAuthToken(),
             ]
         );
@@ -158,6 +163,7 @@ class JitsiComponentSelectorService
             throw new \Exception('Response status code is different than expected.');
         }
         $decodedPayload = $response->toArray();
+
         return $decodedPayload;
     }
 
@@ -175,25 +181,24 @@ class JitsiComponentSelectorService
         string  $environment,
         string  $region,
         string  $type,
-    ): array
-    {
+    ): array {
         $requestData = [
-            'callParams' => [
+            'callParams'      => [
                 'callUrlInfo' => [
-                    'baseUrl' => 'https://' . $baseUrl,
+                    'baseUrl'  => 'https://' . $baseUrl,
                     'callName' => $roomName . ($jwt ? ('?jwt=' . $jwt) : ''),
                 ],
             ],
             'componentParams' => [
-                'type' => $type,
-                'region' => $region,
+                'type'        => $type,
+                'region'      => $region,
                 'environment' => $environment,
             ],
-            'metadata' => [
+            'metadata'        => [
                 'sipClientParams' => [
-                    'sipAddress' => $sipAddress,
-                    'displayName' => $displayName,
-                    'autoAnswer' => $autoAnswer,
+                    'sipAddress'      => $sipAddress,
+                    'displayName'     => $displayName,
+                    'autoAnswer'      => $autoAnswer,
                     'autoAnswerTimer' => $autoAnswerTime
                 ]
             ]
@@ -204,23 +209,23 @@ class JitsiComponentSelectorService
 
     public function createAuthToken(): string
     {
-
         if (!is_string($this->privateKey)) {
             throw new \Exception('Private key is not set');
         }
-        $payload = [
+
+        $payload   = [
             'iss' => 'signal',
             'aud' => 'jitsi-component-selector'
         ];
         $this->jwt = JWT::encode($payload, $this->privateKey, 'RS256', null, ['kid' => $this->kid]);
+
         return $this->jwt;
     }
 
     public function verifyToken(string $token): bool
     {
-
         try {
-            JWT::decode($token, new Key($this->publicKey,'RS256'));
+            JWT::decode($token, new Key($this->publicKey, 'RS256'));
             return true;
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());

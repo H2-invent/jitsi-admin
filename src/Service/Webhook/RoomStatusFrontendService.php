@@ -23,6 +23,7 @@ class RoomStatusFrontendService
         if ($roomStatus) {
             return true;
         }
+
         return false;
     }
 
@@ -33,7 +34,8 @@ class RoomStatusFrontendService
     {
         /** @var RoomStatusParticipantRepository $repository */
         $repository = $this->em->getRepository(RoomStatusParticipant::class);
-        $parts = $repository->findOccupantsOfRoom($rooms);
+        $parts      = $repository->findOccupantsOfRoom($rooms);
+
         return $parts;
     }
 
@@ -47,11 +49,13 @@ class RoomStatusFrontendService
         if (!$rooms->getStart()) {
             return false;
         }
+
         foreach ($status as $data) {
             if ($data->getDestroyed() !== true) {
                 return false;
             }
         }
+
         return array_any($status, fn($data) => $data->getDestroyedUtc() > $rooms->getStartUtc());
     }
 
@@ -64,7 +68,8 @@ class RoomStatusFrontendService
         if (empty($roomIds)) {
             return [];
         }
-        $qb = $this->em->getRepository(RoomStatus::class)->createQueryBuilder('rs');
+
+        $qb       = $this->em->getRepository(RoomStatus::class)->createQueryBuilder('rs');
         $statuses = $qb->select('DISTINCT IDENTITY(rs.room) as roomId')
             ->where($qb->expr()->in('rs.room', ':roomIds'))
             ->setParameter('roomIds', $roomIds)
@@ -75,6 +80,7 @@ class RoomStatusFrontendService
         foreach ($statuses as $status) {
             $result[$status['roomId']] = true;
         }
+
         return $result;
     }
 
@@ -87,7 +93,8 @@ class RoomStatusFrontendService
         if (empty($roomIds)) {
             return [];
         }
-        $qb = $this->em->getRepository(RoomStatus::class)->createQueryBuilder('rs');
+
+        $qb       = $this->em->getRepository(RoomStatus::class)->createQueryBuilder('rs');
         $statuses = $qb->select('IDENTITY(rs.room) as roomId')
             ->where($qb->expr()->in('rs.room', ':roomIds'))
             ->andWhere($qb->expr()->isNull('rs.destroyed'))
@@ -99,6 +106,7 @@ class RoomStatusFrontendService
         foreach ($statuses as $status) {
             $result[$status['roomId']] = true;
         }
+
         return $result;
     }
 
@@ -111,7 +119,8 @@ class RoomStatusFrontendService
         if (empty($roomIds)) {
             return [];
         }
-        $qb = $this->em->getRepository(RoomStatusParticipant::class)->createQueryBuilder('rp');
+
+        $qb        = $this->em->getRepository(RoomStatusParticipant::class)->createQueryBuilder('rp');
         $occupants = $qb->select('IDENTITY(rs.room) as roomId', 'rp.participantName')
             ->innerJoin('rp.roomStatus', 'rs')
             ->where($qb->expr()->in('rs.room', ':roomIds'))
@@ -125,6 +134,7 @@ class RoomStatusFrontendService
         foreach ($occupants as $o) {
             $result[$o['roomId']][] = $o['participantName'];
         }
+
         return $result;
     }
 
@@ -137,8 +147,8 @@ class RoomStatusFrontendService
         if (empty($roomIds)) {
             return [];
         }
-        $qb = $this->em->getRepository(RoomStatus::class)->createQueryBuilder('rs');
 
+        $qb     = $this->em->getRepository(RoomStatus::class)->createQueryBuilder('rs');
         $active = $qb->select('DISTINCT IDENTITY(rs.room) as roomId')
             ->where($qb->expr()->in('rs.room', ':roomIds'))
             ->andWhere($qb->expr()->isNull('rs.destroyed'))
@@ -164,10 +174,10 @@ class RoomStatusFrontendService
             ->getQuery()
             ->getResult();
 
-        $destroyedRoomIds = [];
+        $destroyedRoomIds   = [];
         $latestDestroyedMap = [];
         foreach ($destroyed as $row) {
-            $destroyedRoomIds[] = $row['roomId'];
+            $destroyedRoomIds[]                 = $row['roomId'];
             $latestDestroyedMap[$row['roomId']] = $row['latestDestroyedAt'];
         }
 
@@ -195,14 +205,15 @@ class RoomStatusFrontendService
             if (!isset($latestDestroyedMap[$roomId]) || !isset($roomStarts[$roomId])) {
                 continue;
             }
-            $destroyedTs = $latestDestroyedMap[$roomId] instanceof \DateTimeInterface
+            $destroyedTs     = $latestDestroyedMap[$roomId] instanceof \DateTimeInterface
                 ? $latestDestroyedMap[$roomId]->getTimestamp()
-                : strtotime((string) $latestDestroyedMap[$roomId]);
-            $startTs = $roomStarts[$roomId] instanceof \DateTimeInterface
+                : strtotime((string)$latestDestroyedMap[$roomId]);
+            $startTs         = $roomStarts[$roomId] instanceof \DateTimeInterface
                 ? $roomStarts[$roomId]->getTimestamp()
-                : strtotime((string) $roomStarts[$roomId]);
+                : strtotime((string)$roomStarts[$roomId]);
             $result[$roomId] = $destroyedTs > $startTs;
         }
+
         return $result;
     }
 }

@@ -22,8 +22,7 @@ class DbConfig implements ConvertToEnvironmentInterface
         private string $database,
         private string $username = 'jitsiadmin',
         private string $password = 'jitsiadmin',
-    )
-    {
+    ) {
     }
 
     public static function createFromParameters(
@@ -34,8 +33,7 @@ class DbConfig implements ConvertToEnvironmentInterface
         string $database,
         string $username,
         string $password,
-    ): self
-    {
+    ): self {
         return new self(
             engine: urlencode($engine),
             serverVersion: $serverVersion,

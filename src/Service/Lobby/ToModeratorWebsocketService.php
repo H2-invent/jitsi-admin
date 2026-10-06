@@ -4,21 +4,22 @@ namespace App\Service\Lobby;
 
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
-use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ToModeratorWebsocketService
 {
-    public function __construct(private readonly DirectSendService $directSend, private readonly UrlGeneratorInterface $urlgenerator, private readonly TranslatorInterface $translator)
-    {
+    public function __construct(
+        private readonly DirectSendService     $directSend,
+        private readonly UrlGeneratorInterface $urlgenerator,
+        private readonly TranslatorInterface   $translator
+    ) {
     }
 
     public function newParticipantInLobby(LobbyWaitungUser $lobbyWaitungUser): void
     {
-
-        $room = $lobbyWaitungUser->getRoom();
-        $title = $this->translator->trans('lobby.notification.newUser.title', ['{name}' => $lobbyWaitungUser->getShowName()]);
+        $room    = $lobbyWaitungUser->getRoom();
+        $title   = $this->translator->trans('lobby.notification.newUser.title', ['{name}' => $lobbyWaitungUser->getShowName()]);
         $message = $this->translator->trans(
             'lobby.notification.newUser.message',
             [
@@ -26,9 +27,9 @@ class ToModeratorWebsocketService
                 '{room}' => $room->getName()
             ]
         );
-        $topic = 'lobby_moderator/' . $room->getUidReal();
+        $topic   = 'lobby_moderator/' . $room->getUidReal();
         // this message goes to the moderators wich are in the lobby
-        $this->directSend->sendBrowserNotification($topic, $title, $message, $message, $lobbyWaitungUser->getUid(), 'info',5000);
+        $this->directSend->sendBrowserNotification($topic, $title, $message, $message, $lobbyWaitungUser->getUid(), 'info', 5000);
         sleep(1);
 
         $messageDashboard = sprintf(
@@ -63,7 +64,6 @@ class ToModeratorWebsocketService
 
     public function refreshLobbyByRoom(Rooms $room): void
     {
-
         $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSend->sendRefresh($topic, $this->urlgenerator->generate('lobby_moderator', ['uid' => $room->getUidReal()]) . ' #waitingUser');
     }
@@ -82,7 +82,7 @@ class ToModeratorWebsocketService
         $topic = 'personal/' . $room->getModerator()->getUid();
         $this->directSend->sendCleanBrowserNotification($topic, $lobbyWaitungUser->getUid());
 
-        $room = $lobbyWaitungUser->getRoom();
+        $room  = $lobbyWaitungUser->getRoom();
         $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSend->sendCleanBrowserNotification($topic, $lobbyWaitungUser->getUid());
     }

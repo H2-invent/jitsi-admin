@@ -8,9 +8,7 @@ use App\Repository\RoomsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -26,7 +24,7 @@ class TagAddToAllCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io   = new SymfonyStyle($input, $output);
         $tags = $this->em->getRepository(Tag::class)->findBy(['disabled' => false], ['priority' => 'ASC']);
 
         foreach ($tags as $data) {
@@ -39,7 +37,7 @@ class TagAddToAllCommand extends Command
         $fontcolorQ = new Question('Choose the tag id you want to add to all rooms without a tag', $tags[0]->getId());
 
         $choose = $io->askQuestion($fontcolorQ);
-        $tag = $this->em->getRepository(Tag::class)->find($choose);
+        $tag    = $this->em->getRepository(Tag::class)->find($choose);
         if (!$tag) {
             $io->error('No Tag found');
             return Command::FAILURE;
@@ -47,8 +45,8 @@ class TagAddToAllCommand extends Command
 
         /** @var RoomsRepository $roomsRepository */
         $roomsRepository = $this->em->getRepository(Rooms::class);
-        $rooms = $roomsRepository->findRoomsWithNoTags();
-        $progressBar = new ProgressBar($output, sizeof($rooms));
+        $rooms           = $roomsRepository->findRoomsWithNoTags();
+        $progressBar     = new ProgressBar($output, sizeof($rooms));
         $progressBar->start();
         foreach ($rooms as $data) {
             $data->setTag($tag);

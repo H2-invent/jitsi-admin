@@ -6,8 +6,6 @@ namespace App\Twig;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\UtilsHelper;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class CheckIfUserIsAllowdToOrganize
 {

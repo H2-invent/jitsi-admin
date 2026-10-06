@@ -28,30 +28,36 @@ class SchedulingTimeUser
     {
         return $this->id;
     }
+
     public function getUser(): ?User
     {
         return $this->user;
     }
+
     public function setUser(?User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
+
     public function getScheduleTime(): ?SchedulingTime
     {
         return $this->scheduleTime;
     }
+
     public function setScheduleTime(?SchedulingTime $scheduleTime): self
     {
         $this->scheduleTime = $scheduleTime;
 
         return $this;
     }
+
     public function getAccept(): ?int
     {
         return $this->accept;
     }
+
     public function setAccept(?int $accept): self
     {
         $this->accept = $accept;

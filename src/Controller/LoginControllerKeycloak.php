@@ -9,43 +9,48 @@ use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginControllerKeycloak extends JitsiAdminController
 {
     public function __construct(
-        private readonly ThemeService           $themeService,
-        ManagerRegistry        $managerRegistry,
-        TranslatorInterface    $translator,
-        LoggerInterface        $logger,
-        ParameterBagInterface  $parameterBag,
-        private readonly CreateHttpsUrl $createHttpsUrl)
-    {
+        private readonly ThemeService $themeService,
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        ParameterBagInterface $parameterBag,
+        private readonly CreateHttpsUrl $createHttpsUrl
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/login', name: 'login_keycloak')]
     public function index(ClientRegistry $clientRegistry): Response
     {
-
-        $options = ['redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('connect_keycloak_check',[],UrlGenerator::ABSOLUTE_URL))];
+        $options = [
+            'redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl(
+                $this->generateUrl('connect_keycloak_check', [], UrlGenerator::ABSOLUTE_URL)
+            )
+        ];
 
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $options['kc_idp_hint'] = $this->themeService->getThemeProperty('idp_provider');
         }
-        $res = $clientRegistry->getClient('keycloak_main')->redirect(['email', 'openid', 'profile'], $options);
-        return $res;
+
+        return $clientRegistry->getClient('keycloak_main')->redirect(['email', 'openid', 'profile'], $options);
     }
 
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/register', name: 'register_keycloak')]
     public function register(ClientRegistry $clientRegistry, CreateHttpsUrl $createHttpsUrl): Response
     {
-        $options = ['redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('connect_keycloak_check',[],UrlGenerator::ABSOLUTE_URL))];
+        $options = [
+            'redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl(
+                $this->generateUrl('connect_keycloak_check', [], UrlGenerator::ABSOLUTE_URL)
+            )
+        ];
 
         /** @var string $keycloakUrl */
         $keycloakUrl = $this->getParameter('KEYCLOAK_URL');
@@ -53,9 +58,12 @@ class LoginControllerKeycloak extends JitsiAdminController
         $keycloakRealm = $this->getParameter('KEYCLOAK_REALM');
         /** @var string $keycloakId */
         $keycloakId = $this->getParameter('KEYCLOAK_ID');
-        $url = $keycloakUrl . '/realms/' . $keycloakRealm . '/protocol/openid-connect/registrations?client_id=' .
-            $keycloakId .
-            '&response_type=code&scope=openid email&redirect_uri=' . $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('connect_keycloak_check',[],UrlGenerator::ABSOLUTE_URL)) . '&kc_locale=de';
+        $url        = $keycloakUrl . '/realms/' . $keycloakRealm . '/protocol/openid-connect/registrations?client_id=' .
+                      $keycloakId .
+                      '&response_type=code&scope=openid email&redirect_uri=' . $this->createHttpsUrl->replaceSchemeOfAbsolutUrl(
+                $this->generateUrl('connect_keycloak_check', [], UrlGenerator::ABSOLUTE_URL)
+            ) . '&kc_locale=de';
+
         return $this->redirect($url);
     }
 
@@ -71,8 +79,8 @@ class LoginControllerKeycloak extends JitsiAdminController
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $url = $this->themeService->getThemeProperty('idp_provider_url');
         }
-
         $url = $url . '/realms/' . $themeService->getApplicationProperties('KEYCLOAK_REALM') . '/account/#/personal-info';
+
         return $this->redirect($url);
     }
 
@@ -85,6 +93,7 @@ class LoginControllerKeycloak extends JitsiAdminController
             $url = $this->themeService->getThemeProperty('idp_provider_url');
         }
         $url = $url . '/realms/' . $themeService->getApplicationProperties('KEYCLOAK_REALM') . '/account/#/security/signingin';
+
         return $this->redirect($url);
     }
 }

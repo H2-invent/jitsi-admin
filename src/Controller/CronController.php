@@ -9,12 +9,10 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 class CronController extends JitsiAdminController
 {
@@ -26,6 +24,7 @@ class CronController extends JitsiAdminController
             $logger->error($message['hinweis'], $message);
             return new JsonResponse($message);
         }
+
         $filter = null;
         if ($request->get('host_url')) {
             $hostUrl = explode(',', $request->get('host_url'));
@@ -37,6 +36,7 @@ class CronController extends JitsiAdminController
                 }
             }
         }
+
         return new JsonResponse($reminderService->sendReminder($filter));
     }
 
@@ -49,24 +49,20 @@ class CronController extends JitsiAdminController
             return new JsonResponse($message);
         }
 
-//        try {
-            $application = new Application($kernel);
-            $application->setAutoExit(false);
+        $application = new Application($kernel);
+        $application->setAutoExit(false);
 
-            $input = new ArrayInput(
-                [
-                    'command' => 'cron:run',
-                    '--script-name' => 'bin/console'
-                ]
-            );
+        $input = new ArrayInput(
+            [
+                'command'       => 'cron:run',
+                '--script-name' => 'bin/console'
+            ]
+        );
 
-            // You can use NullOutput() if you don't need the output
+        // You can use NullOutput() if you don't need the output
         $output = new BufferedOutput();
-            $application->run($input, $output);
+        $application->run($input, $output);
         $content = $output->fetch();
-//        } catch (\Exception $exception) {
-//            return new JsonResponse(['error' => true, 'message' => $exception->getMessage()]);
-//        }
 
         return new Response($content);
     }

@@ -9,7 +9,6 @@ use App\Form\Type\NewMemberType;
 use App\Helper\JitsiAdminController;
 use App\Repository\AddressGroupRepository;
 use App\Repository\UserRepository;
-use App\Service\FavoriteService;
 use App\Service\ParticipantSearchService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
@@ -18,29 +17,40 @@ use App\Service\UserCreatorService;
 use App\Service\UserService;
 use App\UtilsHelper;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ParticipantController extends JitsiAdminController
 {
 
-    public function __construct(protected \Doctrine\Persistence\ManagerRegistry $doctrine, protected \Symfony\Contracts\Translation\TranslatorInterface $translator, protected \Psr\Log\LoggerInterface $logger, protected \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag, private readonly \Doctrine\Persistence\ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        protected ManagerRegistry                                     $doctrine,
+        protected TranslatorInterface                        $translator,
+        protected LoggerInterface                                                  $logger,
+        protected ParameterBagInterface $parameterBag,
+        private readonly ManagerRegistry                              $managerRegistry
+    ) {
         parent::__construct($doctrine, $translator, $logger, $parameterBag);
     }
+
     #[\Symfony\Component\Routing\Attribute\Route(path: '/room/participant/search', name: 'search_participant')]
     public function index(Request $request, ParticipantSearchService $participantSearchService, UserCreatorService $userCreatorService): Response
     {
         $string = $request->get('search');
         $string = strtolower($string);
+
         /** @var UserRepository $userRepository */
         $userRepository = $this->doctrine->getRepository(User::class);
-        $user = $userRepository->findMyUserByIndex($string, $this->getUser());
+        $user           = $userRepository->findMyUserByIndex($string, $this->getUser());
+
         /** @var AddressGroupRepository $addressGroupRepository */
         $addressGroupRepository = $this->doctrine->getRepository(AddressGroup::class);
-        $group = $addressGroupRepository->findMyAddressBookGroupsByName($string, $this->getUser());
+        $group                  = $addressGroupRepository->findMyAddressBookGroupsByName($string, $this->getUser());
 
         $res = [];
         if ($userCreatorService->doAllowUserCreation()) {
@@ -49,6 +59,7 @@ class ParticipantController extends JitsiAdminController
             $res['user'] = $participantSearchService->generateUserwithoutEmptyUser($user);
         }
         $res['group'] = $participantSearchService->generateGroup($group);
+
         return new JsonResponse($res);
     }
 
@@ -60,19 +71,22 @@ class ParticipantController extends JitsiAdminController
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
+
         $form = $this->createForm(NewMemberType::class, $newMember, ['action' => $this->generateUrl('room_add_user', ['room' => $room->getId()])]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newMembers = $form->getData();
-            $falseEmail = [];
             $falseEmail = array_merge(
                 $roomAddService->createParticipants($newMembers['member'], $room, $this->getUser()),
             );
 
             if (sizeof($falseEmail) > 0) {
                 $emails = implode(", ", $falseEmail);
-                $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden", ['{emails}' => $emails]);
+                $snack  = $this->translator->trans(
+                    "Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden",
+                    ['{emails}' => $emails]
+                );
             } else {
                 $snack = $this->translator->trans('Teilnehmer wurden eingeladen');
             }
@@ -89,18 +103,18 @@ class ParticipantController extends JitsiAdminController
     public function roomAddUserSingle(Request $request, RoomAddService $roomAddService, Rooms $room, RepeaterService $repeaterService): JsonResponse
     {
         $invalidMember = [];
-        $validMember=[];
-        $validUser = new ArrayCollection();
+        $validMember   = [];
+        $validUser     = new ArrayCollection();
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return new JsonResponse(['error' => true]);
         }
 
-        $newParticipant = json_decode($request->getContent(),true);
-        if (isset($newParticipant['participant'])){
+        $newParticipant = json_decode($request->getContent(), true);
+        if (isset($newParticipant['participant'])) {
             $newParticipant = $newParticipant['participant'];
-            $this->logger->debug('Participants found in cont send to add new participants',$newParticipant);
-        }else{
+            $this->logger->debug('Participants found in cont send to add new participants', $newParticipant);
+        } else {
             $this->logger->error('No participant entry in request for adding user', $newParticipant);
             return new JsonResponse(['error' => true]);
         }
@@ -108,40 +122,48 @@ class ParticipantController extends JitsiAdminController
         foreach ($newParticipant as $data) {
             try {
                 $tmpUSer = $roomAddService->createSingleParticipantAndAddtoRoom($data, $this->getUser(), $room);
-                if ($tmpUSer){
+                if ($tmpUSer) {
                     $validUser->add($tmpUSer);
                 }
                 $validMember[] = $data;
             } catch (\Exception) {
                 $invalidMember[] = $data;
             }
-
         }
+
         if ($room->getRepeater()) {
             $this->logger->debug('We add users to a series');
             //here the users are added to the series. before the users are only added to the prototype room
             $repeaterService->addUserRepeat($room->getRepeater());
             try {
-                $repeaterService->sendEMail($room->getRepeater(), 'email/repeaterNew.html.twig', $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt'), ['room' => $room->getRepeater()->getPrototyp()], 'REQUEST', $validUser->toArray());
+                $repeaterService->sendEMail(
+                    $room->getRepeater(),
+                    'email/repeaterNew.html.twig',
+                    $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt'),
+                    ['room' => $room->getRepeater()->getPrototyp()],
+                    'REQUEST',
+                    $validUser->toArray()
+                );
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
             }
-
         }
 
-        return new JsonResponse(['invalidMember' => $invalidMember,'validMember'=>$validMember]);
+        return new JsonResponse(['invalidMember' => $invalidMember, 'validMember' => $validMember]);
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/room/participant/past', name: 'room_past_user')]
     public function roompastUser(Request $request, ThemeService $themeService): Response
     {
-
         $room = $this->managerRegistry->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room) && $themeService->getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') === 0) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room) && $themeService->getApplicationProperties(
+                'LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS'
+            ) === 0) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
         $title = $this->translator->trans('Teilnehmer');
+
         return $this->render('room/attendeeModalPast.twig', ['title' => $title, 'room' => $room]);
     }
 
@@ -149,25 +171,24 @@ class ParticipantController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route(path: '/room/participant/remove', name: 'room_user_remove')]
     public function roomUserRemove(Request $request, RoomAddService $roomAddService): Response
     {
-
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         if ($user !== $this->getUser() && !UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             $this->addFlash('danger', 'Keine Berechtigung');
             return $this->redirectToRoute('dashboard');
         }
-
         $roomAddService->removeUserFromRoom($user, $room);
+
         return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('Teilnehmer gelöscht'), 'color' => 'success']);
     }
-
 
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/room/participant/resend', name: 'room_user_resend')]
     public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService): Response
     {
         $isAjax = $request->isXmlHttpRequest();
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('room')]);
+        $room   = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('room')]);
+
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             if ($isAjax) {
                 return new JsonResponse(['error' => true, 'toast' => true, 'message' => $this->translator->trans('Keine Berechtigung'), 'color' => 'danger']);
@@ -175,6 +196,7 @@ class ParticipantController extends JitsiAdminController
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
+
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         if (!in_array($room, $user->getRooms()->toArray())) {
             if ($isAjax) {
@@ -183,11 +205,15 @@ class ParticipantController extends JitsiAdminController
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
+
         $userService->addUser($user, $room);
         if ($isAjax) {
-            return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('participant.resend.invitation.sucess'), 'color' => 'success']);
+            return new JsonResponse(
+                ['error' => false, 'toast' => true, 'message' => $this->translator->trans('participant.resend.invitation.sucess'), 'color' => 'success']
+            );
         }
         $this->addFlash('success', $this->translator->trans('participant.resend.invitation.sucess'));
+
         return $this->redirectToRoute('dashboard');
     }
 }

@@ -19,10 +19,17 @@ class NewMemberType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
-            ->add('member', TextareaType::class, ['required' => false, 'label' => 'label.teilnehmerEmailhinzufuegen', 'help' => 'help.emailTextfeld', 'translation_domain' => 'form'])
-            ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.teilnehmerSpeichern', 'translation_domain' => 'form']);
+            ->add(
+                'member',
+                TextareaType::class,
+                ['required' => false, 'label' => 'label.teilnehmerEmailhinzufuegen', 'help' => 'help.emailTextfeld', 'translation_domain' => 'form']
+            )
+            ->add(
+                'submit',
+                SubmitType::class,
+                ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.teilnehmerSpeichern', 'translation_domain' => 'form']
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

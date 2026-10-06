@@ -9,7 +9,6 @@
 
 namespace App\Service;
 
-use App\Entity\CallerId;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\Caller\CallerPrepareService;
@@ -21,8 +20,22 @@ use Twig\Environment;
 
 class UserService
 {
-    public function __construct(private readonly CreateHttpsUrl          $createHttpsUrl, private readonly CallerPrepareService    $callerUserService, private readonly UserServiceRemoveRoom   $userRemoveService, private readonly UserServiceEditRoom     $userEditService, private readonly UserNewRoomAddService   $userAddService, private readonly LicenseService          $licenseService, private readonly PushService             $pushService, private readonly EntityManagerInterface  $em, private readonly TranslatorInterface     $translator, private readonly ParameterBagInterface   $parameterBag, private readonly Environment             $twig, private readonly NotificationService     $notificationService, private readonly UrlGeneratorInterface   $url, private readonly JoinUrlGeneratorService $joinUrlGenerator)
-    {
+    public function __construct(
+        private readonly CreateHttpsUrl          $createHttpsUrl,
+        private readonly CallerPrepareService    $callerUserService,
+        private readonly UserServiceRemoveRoom   $userRemoveService,
+        private readonly UserServiceEditRoom     $userEditService,
+        private readonly UserNewRoomAddService   $userAddService,
+        private readonly LicenseService          $licenseService,
+        private readonly PushService             $pushService,
+        private readonly EntityManagerInterface  $em,
+        private readonly TranslatorInterface     $translator,
+        private readonly ParameterBagInterface   $parameterBag,
+        private readonly Environment             $twig,
+        private readonly NotificationService     $notificationService,
+        private readonly UrlGeneratorInterface   $url,
+        private readonly JoinUrlGeneratorService $joinUrlGenerator
+    ) {
     }
 
     public function generateUrl(Rooms $room, User $user): string
@@ -56,6 +69,7 @@ class UserService
             $this->em->persist($user);
             $this->em->flush();
         }
+
         return $this->userAddService->addWaitinglist($user, $room);
     }
 
@@ -81,19 +95,19 @@ class UserService
                 $this->userRemoveService->removeRoom($user, $room);
             }
         }
+
         return true;
     }
 
     public function notifyUser(User $user, Rooms $room): bool
     {
-        $url = $this->generateUrl($room, $user);
+        $url     = $this->generateUrl($room, $user);
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('[Erinnerung] Videokonferenz {room} startet gleich', ['{room}' => $room->getName()]);
         $this->notificationService->sendCron($content, $subject, $user, $room->getServer(), $room);
 
 
         $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index_no_slug', []), $room);
-
         if ($this->licenseService->verify($room->getServer())) {
             $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', ['slug' => $room->getServer()->getSlug()]), $room);
         }
@@ -104,12 +118,15 @@ class UserService
             $subject,
             $this->translator->trans(
                 'Die Videokonferenz {name} startet gleich.',
-                ['{organizer}' => $room->getModerator()->getFormatedName($showNameFrontend),
-                    '{name}' => $room->getName()]
+                [
+                    '{organizer}' => $room->getModerator()->getFormatedName($showNameFrontend),
+                    '{name}'      => $room->getName()
+                ]
             ),
             $user,
             $url
         );
+
         return true;
     }
 }

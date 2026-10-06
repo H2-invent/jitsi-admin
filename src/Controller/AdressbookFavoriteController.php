@@ -8,17 +8,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdressbookFavoriteController extends AbstractController
 {
     public function __construct(
-        private readonly AdressbookFavoriteService       $adressbookFavoriteService,
-        private readonly TranslatorInterface             $translator,
-        private readonly EntityManagerInterface $entityManager,
-    )
-    {
+        private readonly AdressbookFavoriteService $adressbookFavoriteService,
+        private readonly TranslatorInterface       $translator,
+        private readonly EntityManagerInterface    $entityManager,
+    ) {
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/room/adressbook/favorite/{userId}', name: 'app_adressbook_favorite')]
@@ -32,8 +30,9 @@ class AdressbookFavoriteController extends AbstractController
         }
         /** @var User $user */
         $user = $this->getUser();
-        $res = $this->adressbookFavoriteService->userFavorite($user, $userToAdd);
+        $res  = $this->adressbookFavoriteService->userFavorite($user, $userToAdd);
         $this->addFlash($res[0], $res[1]);
+
         return $this->redirectToRoute('dashboard');
     }
 
@@ -45,9 +44,11 @@ class AdressbookFavoriteController extends AbstractController
         if (!$userToAdd) {
             return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
         }
+
         /** @var User $user */
         $user = $this->getUser();
         $this->adressbookFavoriteService->userFavorite($user, $userToAdd);
+
         return new JsonResponse(['ok' => true]);
     }
 }

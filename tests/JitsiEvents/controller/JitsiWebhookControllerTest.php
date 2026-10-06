@@ -70,21 +70,21 @@ class JitsiWebhookControllerTest extends WebTestCase
         $crawler = $client->jsonRequest('POST', '/jitsi/events/room/created',JitsiEventsServiceTest::$roomDestroyedData);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"succes":false,"error":"Room Jitsi ID not found"}', (string) $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"success":false,"error":"Room Jitsi ID not found"}', (string) $client->getResponse()->getContent());
 
         $crawler = $client->jsonRequest('POST', '/jitsi/events/occupant/joined',JitsiEventsServiceTest::$participantLeftD);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"succes":false,"error":"Wrong occupant ID. The occupant is not in the database"}', (string) $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"success":false,"error":"Wrong occupant ID. The occupant is not in the database"}', (string) $client->getResponse()->getContent());
 
         $crawler = $client->jsonRequest('POST', '/jitsi/events/occupant/left',JitsiEventsServiceTest::$participantJoinedData);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"succes":false,"error":"Room Jitsi ID not found"}', (string) $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"success":false,"error":"Room Jitsi ID not found"}', (string) $client->getResponse()->getContent());
 
         $crawler = $client->jsonRequest('POST', '/jitsi/events/room/destroyed',JitsiEventsServiceTest::$participantJoinedData);
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
-        $this->assertJsonStringEqualsJsonString('{"succes":false,"error":"Room Jitsi ID not found"}', (string) $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString('{"success":false,"error":"Room Jitsi ID not found"}', (string) $client->getResponse()->getContent());
     }
 }

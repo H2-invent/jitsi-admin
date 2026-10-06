@@ -9,14 +9,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DeputyService
 {
-    static int $IS_DEPUTY = 1;
+    static int $IS_DEPUTY     = 1;
     static int $IS_NOT_DEPUTY = 2;
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly DirectSendService      $directSendService
-    )
-    {
+    ) {
     }
 
     public function toggleDeputy(User $manager, User $deputy): int
@@ -54,7 +53,6 @@ class DeputyService
             $this->entityManager->flush();
             $this->directSendService->sendRefreshDashboardToUser($deputy);
         }
-
 
         return self::$IS_NOT_DEPUTY;
     }

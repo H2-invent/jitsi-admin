@@ -16,7 +16,6 @@ use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
 use App\Entity\Server;
 use App\Entity\Tag;
-use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -24,7 +23,6 @@ class RoomFixture extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-
         // create a user
         $user = new \App\Entity\User();
         $user->setEmail('test@local.de');
@@ -199,7 +197,9 @@ class RoomFixture extends Fixture
 
         $license = new License();
         $license->setUrl('meet.jit.si2');
-        $license->setLicense('{"signature":"4b1e1205ad1a492f33646c2f499c11b0252335b16da64d60804f6e0a5ca55b4c811bbad8faf0c3aef41a51ee94b5f93d4d2f5852e35a557280f06794bccbd5ee4cdd8e894f5d474f36b6127f77198a0a28cf369c447963f45b41ada180de36e309ea18b060dadfae53599118443c849cd86b78907d05ef5f376075c6bb7063682fbd05df57d3ec74b72b14f89bf2dc3defa8a2181bb12f0b5feef1e8cc731606b0e6c28a9e0d39c46d04cad228ab825457d79f8ec4047f5b8476fba742e18778b1934076767cc0e6fb874e865d1ac6ae5034282a9952c6091cf9f0bf16739c72c52e7e2d00ecad797cc3cc30f841dc3d0c51134a2a5200a40cec93c76e32038beaf4210973f3c946da8aeb06cb9c09d6bbb3e9137a5d88f3bf38f9ecfdab02117edc054161d2345ccc9d15bd9c59e696998e9d102d77ca2548f872a44f3150f81b24a28e741ee85ae99b24fd1938d5bcf906016ccf09a4f20da468113181b3b4653b2eff5ffc628692dd720c62fd063f5baa13c1a9ab60e88cc462efa15612bbbed1780a9c46ce851f422c7e5dd861f1aa7304d3cb87331d12e67496b39703d3e62f8305381343ee54f6dde8718a83581a12edceedbc0543f1ae226c1ae4acdaaa2ed09191593164dd2635319c09da53803d26a5cf14a84fb35a73d8688fdad251e33ed4719ee9d4281247d0cb1adfa62b220257e396a061d5598a4a401551dc","entry":{"valid_until":"2024-07-04","server_url":"meet.jit.si2","license_key":"f5c627f7ac98bef45fcfdd5fcade0246"}}');
+        $license->setLicense(
+            '{"signature":"4b1e1205ad1a492f33646c2f499c11b0252335b16da64d60804f6e0a5ca55b4c811bbad8faf0c3aef41a51ee94b5f93d4d2f5852e35a557280f06794bccbd5ee4cdd8e894f5d474f36b6127f77198a0a28cf369c447963f45b41ada180de36e309ea18b060dadfae53599118443c849cd86b78907d05ef5f376075c6bb7063682fbd05df57d3ec74b72b14f89bf2dc3defa8a2181bb12f0b5feef1e8cc731606b0e6c28a9e0d39c46d04cad228ab825457d79f8ec4047f5b8476fba742e18778b1934076767cc0e6fb874e865d1ac6ae5034282a9952c6091cf9f0bf16739c72c52e7e2d00ecad797cc3cc30f841dc3d0c51134a2a5200a40cec93c76e32038beaf4210973f3c946da8aeb06cb9c09d6bbb3e9137a5d88f3bf38f9ecfdab02117edc054161d2345ccc9d15bd9c59e696998e9d102d77ca2548f872a44f3150f81b24a28e741ee85ae99b24fd1938d5bcf906016ccf09a4f20da468113181b3b4653b2eff5ffc628692dd720c62fd063f5baa13c1a9ab60e88cc462efa15612bbbed1780a9c46ce851f422c7e5dd861f1aa7304d3cb87331d12e67496b39703d3e62f8305381343ee54f6dde8718a83581a12edceedbc0543f1ae226c1ae4acdaaa2ed09191593164dd2635319c09da53803d26a5cf14a84fb35a73d8688fdad251e33ed4719ee9d4281247d0cb1adfa62b220257e396a061d5598a4a401551dc","entry":{"valid_until":"2024-07-04","server_url":"meet.jit.si2","license_key":"f5c627f7ac98bef45fcfdd5fcade0246"}}'
+        );
         $license->setValidUntil(new \DateTimeImmutable('2024-07-04'));
         $license->setLicenseKey('f5c627f7ac98bef45fcfdd5fcade0246');
         $manager->persist($license);
@@ -232,7 +232,7 @@ class RoomFixture extends Fixture
             $room->setDissallowPrivateMessage(true);
             $room->setDissallowScreenshareGlobal(true);
             $start = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('+' . ($i * 2 + 1) . 'minutes');
-            $end = $start->modify('+60min');
+            $end   = $start->modify('+60min');
             $room->setStart($start);
             $room->setEnddate($end);
             $room->addUser($user);
@@ -299,7 +299,7 @@ class RoomFixture extends Fixture
             $room->setDissallowPrivateMessage(true);
             $room->setDissallowScreenshareGlobal(true);
             $start = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('America/Adak'))->modify('+' . ($i * 2) . 'minutes');
-            $end = $start->modify('+60min');
+            $end   = $start->modify('+60min');
             $room->setStart($start);
             $room->setEnddate($end);
             $room->addUser($user);
@@ -329,7 +329,7 @@ class RoomFixture extends Fixture
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
         $start = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('Europe/Berlin'));
-        $end = $start->modify('+60min');
+        $end   = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setUid(md5(uniqid()));
@@ -349,7 +349,7 @@ class RoomFixture extends Fixture
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
         $start = new \DateTimeImmutable('tomorrow')->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(10, 0);
-        $end = $start->modify('+60min');
+        $end   = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
@@ -373,7 +373,7 @@ class RoomFixture extends Fixture
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
         $start = new \DateTimeImmutable('yesterday')->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(10, 0);
-        $end = $start->modify('+60min');
+        $end   = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
@@ -402,7 +402,7 @@ class RoomFixture extends Fixture
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
         $start = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('-10min');
-        $end = $start->modify('+60min');
+        $end   = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
@@ -568,7 +568,7 @@ class RoomFixture extends Fixture
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
         $start = new \DateTimeImmutable('tomorrow')->setTimezone(new \DateTimeZone('Europe/Berlin'));
-        $end = $start->modify('+60min');
+        $end   = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
@@ -592,7 +592,7 @@ class RoomFixture extends Fixture
         $room1->setDissallowPrivateMessage(true);
         $room1->setDissallowScreenshareGlobal(true);
         $start = new \DateTimeImmutable('tomorrow')->setTimezone(new \DateTimeZone('Europe/Berlin'));
-        $end = $start->modify('+60min');
+        $end   = $start->modify('+60min');
         $room1->setStart($start);
         $room1->setEnddate($end);
         $room1->setModerator($user);
@@ -615,7 +615,7 @@ class RoomFixture extends Fixture
             $lobbyUser->setWebsocketReady(true);
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room1);
-            $lobbyUser->setUid(md5((string) $i));
+            $lobbyUser->setUid(md5((string)$i));
             $lobbyTime = $lobbyTime->modify('-1 hour');
             $lobbyUser->setCreatedAt($lobbyTime);
             $lobbyUser->setShowName('LobbyUser ' . $i);
@@ -631,7 +631,7 @@ class RoomFixture extends Fixture
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
         $start = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('-10min');
-        $end = $start->modify('+60min');
+        $end   = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);

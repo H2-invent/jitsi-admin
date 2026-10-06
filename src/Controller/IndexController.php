@@ -21,7 +21,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -30,15 +29,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class IndexController extends JitsiAdminController
 {
-    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private readonly ThemeService $themeService)
-    {
+    public function __construct(ManagerRegistry               $managerRegistry,
+                                TranslatorInterface           $translator,
+                                LoggerInterface               $logger,
+                                ParameterBagInterface         $parameterBag,
+                                private readonly ThemeService $themeService
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/', name: 'index')]
     public function index(Request $request): RedirectResponse|Response
     {
-
         if ($this->getUser() || $this->themeService->getApplicationProperties('laF_startpage') == 0) {
             if ($this->getUser()) {
                 return $this->redirectToRoute('dashboard');
@@ -52,11 +54,13 @@ class IndexController extends JitsiAdminController
         $dataStr = $request->get('data');
         $dataAll = base64_decode($dataStr);
         parse_str($dataAll, $data);
+
         $form = $this->createForm(JoinViewType::class, $data, ['action' => $this->generateUrl('join_index')]);
         $form->handleRequest($request);
-        $user = $this->doctrine->getRepository(User::class)->findAll();
+        $user   = $this->doctrine->getRepository(User::class)->findAll();
         $server = $this->doctrine->getRepository(Server::class)->findAll();
-        $rooms = $this->doctrine->getRepository(Rooms::class)->findAll();
+        $rooms  = $this->doctrine->getRepository(Rooms::class)->findAll();
+
         return $this->render('dashboard/start.html.twig', ['form' => $form->createView(), 'user' => $user, 'server' => $server, 'rooms' => $rooms]);
     }
 }

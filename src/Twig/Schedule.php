@@ -10,9 +10,6 @@ use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Repository\SchedulingTimeUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class Schedule
 {
@@ -30,12 +27,13 @@ class Schedule
             return $scheduleTimeUser->getAccept();
         }
     }
+
     #[\Twig\Attribute\AsTwigFunction(name: 'scheduleUserHasVoted')]
     public function scheduleUserHasVoted(User $user, Rooms $rooms): ?bool
     {
         /** @var SchedulingTimeUserRepository $schedulingTimeUserRepository */
         $schedulingTimeUserRepository = $this->em->getRepository(SchedulingTimeUser::class);
-        $scheduleTimeUser = $schedulingTimeUserRepository->findVotesForUserAndRoom($rooms,$user);
+        $scheduleTimeUser             = $schedulingTimeUserRepository->findVotesForUserAndRoom($rooms, $user);
         if (sizeof($scheduleTimeUser) === 0) {
             return false;
         } else {

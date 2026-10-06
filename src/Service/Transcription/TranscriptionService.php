@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Transcription;
@@ -15,19 +16,18 @@ use Twig\Environment;
 class TranscriptionService
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly MailerService $mailerService,
-        private readonly Environment $twig,
-        private readonly TranslatorInterface $translator,
-        private readonly TranscriptionProviderResolver $transcriptionProviderResolver,
+        private readonly EntityManagerInterface          $entityManager,
+        private readonly MailerService                   $mailerService,
+        private readonly Environment                     $twig,
+        private readonly TranslatorInterface             $translator,
+        private readonly TranscriptionProviderResolver   $transcriptionProviderResolver,
         private readonly RoomStatusParticipantRepository $participantRepository,
-    )
-    {
+    ) {
     }
 
     public function transcribe(UploadedRecording $recording): void
     {
-        $server = $recording->getRoom()->getServer();
+        $server                = $recording->getRoom()->getServer();
         $transcriptionProvider = $this->transcriptionProviderResolver->resolve($server);
 
         $audioChunksGenerator = $transcriptionProvider->yieldAudioChunks($recording->getFilename());
@@ -38,11 +38,10 @@ class TranscriptionService
 
     public function addNewTranscription(Rooms $room, string $text): Transcription
     {
-        $header = $this->getHeader($room);
+        $header        = $this->getHeader($room);
         $transcription = new Transcription()
             ->setRoom($room)
-            ->setText($header . $text)
-        ;
+            ->setText($header . $text);
         $this->entityManager->persist($transcription);
         $this->entityManager->flush();
 

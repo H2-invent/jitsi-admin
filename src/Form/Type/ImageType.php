@@ -19,16 +19,15 @@ class ImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
             ->add(
                 'documentFile',
                 VichImageType::class,
                 [
-                    'required' => false,
-                    'allow_delete' => true,
-                    'delete_label' => 'Löschen',
-                    'label' => false,
+                    'required'           => false,
+                    'allow_delete'       => true,
+                    'delete_label'       => 'Löschen',
+                    'label'              => false,
                     'translation_domain' => 'form'
                 ]
             );

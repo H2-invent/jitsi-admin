@@ -33,14 +33,15 @@ class CallerPrepareService
      */
     public function deleteOldId(): array
     {
-        $now = new \DateTimeImmutable()->getTimestamp();
         /** @var CallerRoomRepository $callerRoomRepository */
         $callerRoomRepository = $this->em->getRepository(CallerRoom::class);
-        $oldCallerId = $callerRoomRepository->findPastRoomsWithCallerId($now);
+        $now                  = new \DateTimeImmutable()->getTimestamp();
+        $oldCallerId          = $callerRoomRepository->findPastRoomsWithCallerId($now);
         foreach ($oldCallerId as $data) {
             $this->em->remove($data);
             $this->em->flush();
         }
+
         return $oldCallerId;
     }
 
@@ -50,13 +51,14 @@ class CallerPrepareService
      */
     public function addNewId(): array
     {
-        $now = new \DateTimeImmutable()->getTimestamp();
         /** @var RoomsRepository $roomsRepository */
         $roomsRepository = $this->em->getRepository(Rooms::class);
-        $futureRooms = $roomsRepository->findFutureRoomsWithNoCallerId($now);
+        $now             = new \DateTimeImmutable()->getTimestamp();
+        $futureRooms     = $roomsRepository->findFutureRoomsWithNoCallerId($now);
         foreach ($futureRooms as $data) {
             $this->addCallerIdToRoom($data);
         }
+
         return $futureRooms;
     }
 
@@ -77,6 +79,7 @@ class CallerPrepareService
             $this->em->flush();
             $rooms->setCallerRoom($callerId);
         }
+
         return $callerId;
     }
 
@@ -87,11 +90,12 @@ class CallerPrepareService
     {
         $finding = false;
         do {
-            $rand = strval(random_int(0, $max));
-            $length = strlen(strval($max));
-            $rand = str_pad($rand, $length, '0');
+            $rand    = strval(random_int(0, $max));
+            $length  = strlen(strval($max));
+            $rand    = str_pad($rand, $length, '0');
             $finding = $this->checkRandomId($rand);
         } while ($finding == true);
+
         return $rand;
     }
 
@@ -102,6 +106,7 @@ class CallerPrepareService
     public function checkRandomId(string $random): bool
     {
         $finding = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $random]);
+
         return $finding ? true : false;
     }
 
@@ -114,10 +119,11 @@ class CallerPrepareService
     {
         /** @var RoomsRepository $roomsRepository */
         $roomsRepository = $this->em->getRepository(Rooms::class);
-        $rooms = $roomsRepository->findRoomsnotInPast();
+        $rooms           = $roomsRepository->findRoomsnotInPast();
         foreach ($rooms as $data) {
             $this->createUserCallerIDforRoom($data);
         }
+
         return $rooms;
     }
 
@@ -128,7 +134,6 @@ class CallerPrepareService
      */
     public function createUserCallerIDforRoom(Rooms $rooms): Collection
     {
-
         foreach ($rooms->getUser() as $data) {
             $callerID = $this->em->getRepository(CallerId::class)->findOneBy(['room' => $rooms, 'user' => $data]);
             if (!$callerID) {
@@ -143,6 +148,7 @@ class CallerPrepareService
             $this->em->persist($callerID);
         }
         $this->em->flush();
+
         return $rooms->getCallerIds();
     }
 
@@ -159,7 +165,7 @@ class CallerPrepareService
                 ->setUser($pUser)
                 ->setCreatedAt(new \DateTimeImmutable())
                 ->setCallerId($this->generateCallerUserId($prototype, 999999));
-            foreach ($repeat->getRooms() as $room){
+            foreach ($repeat->getRooms() as $room) {
                 $callerIDClone = clone $callerID;
                 $callerIDClone->setRoom($room)
                     ->setUser($pUser);
@@ -167,8 +173,7 @@ class CallerPrepareService
                 $room->addCallerId($callerIDClone);
             }
         }
-      $this->em->flush();
-
+        $this->em->flush();
     }
 
 
@@ -177,13 +182,13 @@ class CallerPrepareService
      */
     public function generateCallerUserId(Rooms $rooms, int $max): string
     {
-        $finding = false;
         do {
-            $rand = strval(random_int(0, $max));
-            $length = strlen(strval($max));
-            $rand = str_pad($rand, $length, '0');
+            $rand    = strval(random_int(0, $max));
+            $length  = strlen(strval($max));
+            $rand    = str_pad($rand, $length, '0');
             $finding = $this->checkRandomCallerUserId($rand, $rooms);
         } while ($finding == true);
+
         return $rand;
     }
 
@@ -197,6 +202,7 @@ class CallerPrepareService
                 return true;
             }
         }
+
         return false;
     }
 }

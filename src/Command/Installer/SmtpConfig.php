@@ -11,7 +11,7 @@ class SmtpConfig implements ConvertToEnvironmentInterface
     private static string $DSN = 'smtp://%s:%s@%s:%d';
 
     private const array ENVIRONMENT = [
-        'MAILER_DSN' => 'dsn',
+        'MAILER_DSN'    => 'dsn',
         'DEFAULT_EMAIL' => 'sender',
     ];
 
@@ -21,8 +21,7 @@ class SmtpConfig implements ConvertToEnvironmentInterface
         private string $username,
         private string $password,
         private string $sender,
-    )
-    {
+    ) {
     }
 
     public static function createFromParameters(
@@ -31,8 +30,7 @@ class SmtpConfig implements ConvertToEnvironmentInterface
         string $username,
         string $password,
         string $sender,
-    ): self
-    {
+    ): self {
         return new self(
             host: urlencode($host),
             port: $port,

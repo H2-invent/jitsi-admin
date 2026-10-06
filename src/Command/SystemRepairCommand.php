@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Controller\DashboardController;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\User;
@@ -13,22 +12,21 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 #[\Symfony\Component\Console\Attribute\AsCommand('app:system:repair', 'Add a short description for your command')]
 class SystemRepairCommand extends Command
 {
     private SymfonyStyle $io;
-    private string $logfile = 'repairLog.txt';
+    private string       $logfile = 'repairLog.txt';
     /** @var resource */
     private $logFileFile;
 
     public function __construct(
-        private readonly LdapUserService $ldapUserService,
+        private readonly LdapUserService        $ldapUserService,
         private readonly EntityManagerInterface $em,
         private readonly CacheItemPoolInterface $cacheItemPool,
-        ?string $name = null)
-    {
+        ?string                                 $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -38,17 +36,18 @@ class SystemRepairCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io       = new SymfonyStyle($input, $output);
         $this->io = $io;
         $io->info('We try to repair the system.....');
         $logFileFile = fopen($this->logfile, "a");
         if ($logFileFile === false) {
             die("Unable to open file!");
         }
+
         $this->logFileFile = $logFileFile;
         fwrite($this->logFileFile, sprintf(PHP_EOL . PHP_EOL . 'Repair on %s' . PHP_EOL, new \DateTimeImmutable()->format('d.m.Y H:i')));
         $count = 0;
-        $user = $this->em->getRepository(User::class)->findAll();
+        $user  = $this->em->getRepository(User::class)->findAll();
         $io->info('--------We start with the users------');
         fwrite($this->logFileFile, sprintf('Repair emails with newline' . PHP_EOL));
 
@@ -56,6 +55,7 @@ class SystemRepairCommand extends Command
             $this->repairEmail(user: $u);
             $this->repairUsername(user: $u);
         }
+
         $this->em->flush();
         $this->findDoubleEmail();
         $rooms = $this->em->getRepository(Rooms::class)->findAll();
@@ -70,6 +70,7 @@ class SystemRepairCommand extends Command
             }
         }
         $this->em->flush();
+
         $lobbyWaitingUser = $this->em->getRepository(LobbyWaitungUser::class)->findAll();
         foreach ($lobbyWaitingUser as $waitingUser) {
             if ($waitingUser->getCreatedAt() < new \DateTimeImmutable()->modify('-10days')) {
@@ -77,20 +78,22 @@ class SystemRepairCommand extends Command
                 $this->em->remove($waitingUser);
             }
         }
+
         $this->em->flush();
-        $user = $this->em->getRepository(User::class)->findAll();
+        $user  = $this->em->getRepository(User::class)->findAll();
         $count += $this->repairWaitungUser();
         $io->success(sprintf('We found %d coruppt datasets', $count));
         fclose($this->logFileFile);
         $io->info('We clear the cache');
         $this->cacheItemPool->clear();
+
         return Command::SUCCESS;
     }
 
     private function repairWaitungUser(): int
     {
         $waitingUser = $this->em->getRepository(LobbyWaitungUser::class)->findAll();
-        $count = 0;
+        $count       = 0;
         foreach ($waitingUser as $data) {
             try {
                 $session = $data->getCallerSession();
@@ -106,7 +109,7 @@ class SystemRepairCommand extends Command
     private function repairEmail(User $user): void
     {
         $emailOrg = $user->getEmail();
-        $email = trim($user->getEmail());
+        $email    = trim($user->getEmail());
 
         if ($email !== $emailOrg) {
             $this->io->info(sprintf('-------%s was corrupt--------', $email));
@@ -120,7 +123,7 @@ class SystemRepairCommand extends Command
     private function repairUsername(User $user): void
     {
         $usernameOrg = $user->getEmail();
-        $username = trim($user->getEmail());
+        $username    = trim($user->getEmail());
 
         if ($username !== $usernameOrg) {
             $this->io->info(sprintf('-------%s was corrupt--------', $username));
@@ -134,10 +137,11 @@ class SystemRepairCommand extends Command
 
     private function findDoubleEmail(): void
     {
-        $user = $this->em->getRepository(User::class)->findAll();
-        $checked = [];
-        $count = 0;
+        $user             = $this->em->getRepository(User::class)->findAll();
+        $checked          = [];
+        $count            = 0;
         $countWithAccount = 0;
+
         foreach ($user as $u) {
             $email = $u->getEmail();
             if (!in_array($email, $checked) && $email !== 'test1@local.h2') {
@@ -158,14 +162,26 @@ class SystemRepairCommand extends Command
                     } else {
                         $countWithAccount++;
                         $this->io->info(sprintf('-----Has Account %s %s Email----', $loggedIn->getFirstName(), $loggedIn->getLastName()));
-                        fwrite($this->logFileFile, sprintf('Email %s with id %d has an account and has to stay' . PHP_EOL, $loggedIn->getEmail(), $loggedIn->getId()));
+                        fwrite(
+                            $this->logFileFile,
+                            sprintf('Email %s with id %d has an account and has to stay' . PHP_EOL, $loggedIn->getEmail(), $loggedIn->getId())
+                        );
                     }
                     foreach ($allEmails as $email) {
                         if ($email !== $loggedIn) {
                             fwrite($this->logFileFile, sprintf('Double email found %s in user id %d' . PHP_EOL, $email->getEmail(), $email->getId()));
                             foreach ($email->getRooms() as $room) {
                                 $loggedIn->addRoom($room);
-                                fwrite($this->logFileFile, sprintf('Add Room  with id %d from email %s to %s with id %d' . PHP_EOL, $room->getId(), $email->getEmail(), $loggedIn->getEmail(), $loggedIn->getId()));
+                                fwrite(
+                                    $this->logFileFile,
+                                    sprintf(
+                                        'Add Room  with id %d from email %s to %s with id %d' . PHP_EOL,
+                                        $room->getId(),
+                                        $email->getEmail(),
+                                        $loggedIn->getEmail(),
+                                        $loggedIn->getId()
+                                    )
+                                );
                             }
                             foreach ($email->getAddressbookInverse() as $adressbook) {
                                 $loggedIn->addAddressbookInverse($adressbook);
@@ -181,6 +197,7 @@ class SystemRepairCommand extends Command
                 }
             }
         }
+
         $this->em->flush();
         $this->io->info(sprintf('------Found %d double emails', $count));
         $this->io->info(sprintf('------Found %d account ', $countWithAccount));
