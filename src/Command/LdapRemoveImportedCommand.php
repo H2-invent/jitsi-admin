@@ -20,15 +20,17 @@ class LdapRemoveImportedCommand extends Command
     private array $LDAPSERVERID;
     /** @var array<int, string> */
     private array $URL;
-    public function __construct(private readonly LdapUserService $ldapUserService, ParameterBagInterface $parameterBag, private readonly EntityManagerInterface $em, ?string $name = null)
-    {
+
+    public function __construct(private readonly LdapUserService        $ldapUserService,
+                                ParameterBagInterface                   $parameterBag,
+                                private readonly EntityManagerInterface $em,
+                                ?string                                 $name = null
+    ) {
         parent::__construct($name);
-        /** @var string $ldapServerIndividualName */
-        $ldapServerIndividualName = $parameterBag->get('ldap_server_individualName');
-        /** @var string $ldapUrl */
-        $ldapUrl = $parameterBag->get('ldap_url');
-        $this->LDAPSERVERID = explode(',', $ldapServerIndividualName);
-        $this->URL = explode(';', $ldapUrl);
+        $ldapServerIndividualName = (string)$parameterBag->get('ldap_server_individualName');
+        $ldapUrl                  = (string)$parameterBag->get('ldap_url');
+        $this->LDAPSERVERID       = explode(',', $ldapServerIndividualName);
+        $this->URL                = explode(';', $ldapUrl);
     }
 
     protected function configure(): void
@@ -61,15 +63,17 @@ class LdapRemoveImportedCommand extends Command
         $io->success('we start to delete');
         $table = new Table($output);
         $table->setHeaderTitle('Removed User');
-        $table->setHeaders(['username', 'name','email']);
+        $table->setHeaders(['username', 'name', 'email']);
+
         /** @var UserRepository $userRepository */
         $userRepository = $this->em->getRepository(User::class);
-        $user = $userRepository->findUsersByLdapServerId($this->LDAPSERVERID[$selection]);
+        $user           = $userRepository->findUsersByLdapServerId($this->LDAPSERVERID[$selection]);
         foreach ($user as $data) {
             $this->ldapUserService->deleteUser($data);
             $table->addRow([$data->getUserName(), $data->getFirstname() . ' ' . $data->getLastName(), $data->getEmail()]);
         }
         $table->render();
+
         return Command::SUCCESS;
     }
 }

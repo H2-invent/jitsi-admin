@@ -21,17 +21,18 @@ class CalloutService
         private readonly LobbyWaitungUserRepository   $lobbyWaitungUserRepository,
         private readonly AdhocMeetingWebsocketService $adhocMeetingWebsocketService,
         private readonly LoggerInterface              $logger,
-    )
-    {
+    ) {
     }
 
     /**
      * Starts the Callout Session Process.
      */
     public
-    function initCalloutSession(Rooms $rooms, User $user, User $inviter): ?CalloutSession
-    {
-
+    function initCalloutSession(
+        Rooms $rooms,
+        User  $user,
+        User  $inviter
+    ): ?CalloutSession {
         $this->logger->debug('create callout session');
         return $this->createCallout($rooms, $user, $inviter);
     }
@@ -40,21 +41,25 @@ class CalloutService
      * Creates a new CalloutSession and rings the calles user, if this user online and propably not a phone user
      */
     public
-    function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
-    {
+    function createCallout(
+        Rooms $rooms,
+        User  $user,
+        User  $inviter
+    ): ?CalloutSession {
         $callout = $this->checkCallout($rooms, $user);
-        $callIn = $this->checkCallIn($rooms, $user);
+        $callIn  = $this->checkCallIn($rooms, $user);
+
         if ($inviter === $user) {
             $this->logger->debug('no inviter found to invite into callout. Leave callout invitation');
             return null;
         }
+
         if ($callIn) {
             $this->logger->debug('the invited user has already a calling Session. So it is not allowed to retry a callout');
             return null;
         }
 
         if ($callout) {
-
             $this->logger->debug('there is already a calloutsession. Change retries und reinvite the callout user');
             if ($callout->getState() > 1) {//calloutsession is on hold
                 $this->logger->debug('The callout session is on hold an it is tried to recall the user');
@@ -74,10 +79,10 @@ class CalloutService
 
         if (!$this->isAllowedToBeCalled($user)) {
             $this->logger->debug('The USer is not allowed to be called');
-
             return null;
         }
-        if ($this->isalreadyInTheConfernce(user: $user,rooms: $rooms)) {
+
+        if ($this->isalreadyInTheConfernce(user: $user, rooms: $rooms)) {
             $this->logger->debug('The User was already invied in the conference conference');
             return null;
         }
@@ -101,8 +106,10 @@ class CalloutService
      * checks is the callout session is already astablished
      */
     public
-    function checkCallout(Rooms $rooms, User $user): ?CalloutSession
-    {
+    function checkCallout(
+        Rooms $rooms,
+        User  $user
+    ): ?CalloutSession {
         $this->logger->debug('check if callout exists');
         return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(['room' => $rooms, 'user' => $user]);
     }
@@ -115,6 +122,7 @@ class CalloutService
         $this->logger->debug('check if callin exists');
         /** @var CallerSessionRepository $callerSessionRepository */
         $callerSessionRepository = $this->entityManager->getRepository(CallerSession::class);
+
         return $callerSessionRepository->findCallerSessionByUserAndRoom($user, $rooms);
     }
 
@@ -123,8 +131,9 @@ class CalloutService
      * and the corresponding spezial fields, which are loaded from the ldap
      */
     public
-    function isAllowedToBeCalled(?User $user): bool
-    {
+    function isAllowedToBeCalled(
+        ?User $user
+    ): bool {
         return $this->getCallerIdForUser($user) !== null;
     }
 
@@ -132,12 +141,15 @@ class CalloutService
      * checks if the user is already invited or is already in the lobby
      */
     public
-    function isalreadyInTheConfernce(?User $user, ?Rooms $rooms): bool
-    {
-        $lobbyUser = $this->lobbyWaitungUserRepository->findOneBy(['user' => $user, 'room'=>$rooms]);
+    function isalreadyInTheConfernce(
+        ?User  $user,
+        ?Rooms $rooms
+    ): bool {
+        $lobbyUser = $this->lobbyWaitungUserRepository->findOneBy(['user' => $user, 'room' => $rooms]);
         if ($lobbyUser) {
             return true;
         }
+
         return false;
     }
 
@@ -146,11 +158,13 @@ class CalloutService
      * @return mixed|null
      */
     public
-    function getCallerIdForUser(?User $user): mixed
-    {
+    function getCallerIdForUser(
+        ?User $user
+    ): mixed {
         if (!$user) {
             return null;
         }
+
         if (!$user->getLdapUserProperties()) {
             return null;
         }
@@ -165,7 +179,7 @@ class CalloutService
                 }
             }
         }
+
         return null;
     }
-
 }

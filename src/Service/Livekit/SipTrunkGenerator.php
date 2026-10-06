@@ -13,17 +13,16 @@ class SipTrunkGenerator
 {
     private string $trunkId;
     private string $sipTrunkNumber;
-    const  SIP_TRUNK_ID = 'sip_trunk_id';
-    const SIP_DISPATCH_RULE_ID = 'sip_dispatch_rule_id';
-    private Rooms $rooms;
+    const  SIP_TRUNK_ID         = 'sip_trunk_id';
+    const  SIP_DISPATCH_RULE_ID = 'sip_dispatch_rule_id';
+    private Rooms  $rooms;
     private Server $server;
 
     public function __construct(
-        private HttpClientInterface $httpClient,
-        private LoggerInterface     $logger,
+        private HttpClientInterface               $httpClient,
+        private LoggerInterface                   $logger,
         private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator
-    )
-    {
+    ) {
     }
 
     public function setHttpClient(HttpClientInterface $httpClient): void
@@ -71,17 +70,18 @@ class SipTrunkGenerator
 
     public function generateSipTrunk(Server $server, Rooms $rooms, string $callerId): ?string
     {
-        $this->rooms = $rooms;
-        $this->server = $server;
-        $this->sipTrunkNumber = new \DateTimeImmutable()->format('U').random_int(10, 99);
-        $payload = [
+        $this->rooms          = $rooms;
+        $this->server         = $server;
+        $this->sipTrunkNumber = new \DateTimeImmutable()->format('U') . random_int(10, 99);
+        $payload              = [
             'trunk' => [
-                'name' => $this->livekitRoomNameGenerator->getLiveKitName($rooms),
+                'name'    => $this->livekitRoomNameGenerator->getLiveKitName($rooms),
                 'numbers' => [
                     $this->sipTrunkNumber
                 ]
             ]
         ];
+
         try {
             $response = $this->sendPostRequest($server, 'twirp/livekit.SIP/CreateSIPInboundTrunk', $payload);
             if (isset($response[self::SIP_TRUNK_ID])) {
@@ -91,24 +91,24 @@ class SipTrunkGenerator
             }
         } catch (\Exception $exception) {
             throw new \Exception('Fehler bei der API-Anfrage: ' . $exception->getMessage());
-
         }
+
         return null;
     }
 
     public function generateDispatcherRule(): ?bool
     {
         $payload = [
-
-            "trunk_ids" => [$this->trunkId],
+            "trunk_ids"         => [$this->trunkId],
             "hide_phone_number" => false,
-            "rule" => [
+            "rule"              => [
                 "dispatchRuleDirect" => [
                     "roomName" => $this->livekitRoomNameGenerator->getLiveKitName($this->rooms),
-                    "pin" => ""
+                    "pin"      => ""
                 ]
             ]
         ];
+
         try {
             $response = $this->sendPostRequest($this->server, 'twirp/livekit.SIP/CreateSIPDispatchRule', $payload);
             if (isset($response[self::SIP_DISPATCH_RULE_ID])) {
@@ -117,8 +117,8 @@ class SipTrunkGenerator
             }
         } catch (\Exception $exception) {
             throw new \Exception('Fehler bei der API-Anfrage: ' . $exception->getMessage());
-
         }
+
         return false;
     }
 
@@ -138,13 +138,13 @@ class SipTrunkGenerator
         // Setze Header und Query-Parameter
         $headers = [
             'Authorization' => 'Bearer ' . $this->generateJwtToken($server),
-            'Content-Type' => 'application/json',
+            'Content-Type'  => 'application/json',
         ];
 
         try {
             $response = $this->httpClient->request('POST', $url, [
                 'headers' => $headers,
-                'json' => $payload,  // Nutzdaten als JSON
+                'json'    => $payload,  // Nutzdaten als JSON
             ]);
 
             // Überprüfe den Statuscode der Antwort
@@ -154,7 +154,6 @@ class SipTrunkGenerator
 
             // Antwortinhalt dekodieren und zurückgeben
             return $response->toArray();
-
         } catch (\Exception $e) {
             // Fehlerbehandlung
             // Hier könnten Logs geschrieben oder andere Fehlerbehandlungen vorgenommen werden.
@@ -164,9 +163,9 @@ class SipTrunkGenerator
 
     private function generateJwtToken(Server $server): string
     {
-        $key = $server->getAppSecret();
-        $issuedAt = time();
-        $expire = $issuedAt + 3600;  // Token läuft in 1 Stunde ab
+        $key       = $server->getAppSecret();
+        $issuedAt  = time();
+        $expire    = $issuedAt + 3600;  // Token läuft in 1 Stunde ab
         $notBefore = $issuedAt;  // Token kann sofort verwendet werden
 
         $payload = [

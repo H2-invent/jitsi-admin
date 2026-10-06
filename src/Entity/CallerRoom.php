@@ -27,30 +27,36 @@ class CallerRoom
     {
         return $this->id;
     }
+
     public function getCallerId(): ?string
     {
         return $this->callerId;
     }
+
     public function setCallerId(string $callerId): self
     {
         $this->callerId = $callerId;
 
         return $this;
     }
+
     public function getRoom(): ?Rooms
     {
         return $this->room;
     }
+
     public function setRoom(Rooms $room): self
     {
         $this->room = $room;
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
+
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;

@@ -15,8 +15,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RoomGeneratorService
 {
-    public function __construct(private readonly RequestStack $requestStack, private readonly ParameterBagInterface $parameterBag, private readonly CallerPrepareService $callerPrepareService, private readonly EntityManagerInterface $em, private readonly ThemeService $themeService)
-    {
+    public function __construct(private readonly RequestStack           $requestStack,
+                                private readonly ParameterBagInterface  $parameterBag,
+                                private readonly CallerPrepareService   $callerPrepareService,
+                                private readonly EntityManagerInterface $em,
+                                private readonly ThemeService           $themeService
+    ) {
     }
 
     public function createRoom(User $user, ?Server $server = null): Rooms
@@ -25,6 +29,7 @@ class RoomGeneratorService
         if ($this->requestStack->getCurrentRequest()) {
             $room->setHostUrl($this->requestStack->getCurrentRequest()->getSchemeAndHttpHost());
         }
+
         $room->setServer($server);
         $room->addUser($user);
         $room->setDuration(60);
@@ -39,16 +44,18 @@ class RoomGeneratorService
         $room->setPersistantRoom($this->themeService->getApplicationProperties(InputSettings::PERSISTENT_ROOMS_DEFAULT));
         $room->setOnlyRegisteredUsers($this->themeService->getApplicationProperties(InputSettings::ONLY_REGISTERED_DEFAULT));
         $room->setPublic($this->themeService->getApplicationProperties(InputSettings::SHARE_LINK_DEFAULT));
+
         if ($this->themeService->getApplicationProperties(InputSettings::MAX_PARTICIPANTS_DEFAULT) > 0) {
             $room->setMaxParticipants($this->themeService->getApplicationProperties(InputSettings::MAX_PARTICIPANTS_DEFAULT));
         }
+
         $room->setWaitinglist($this->themeService->getApplicationProperties(InputSettings::WAITING_LIST_DEFAULT));
         $room->setShowRoomOnJoinpage($this->themeService->getApplicationProperties(InputSettings::CONFERENCE_JOIN_PAGE_DEFAULT));
         $room->setTotalOpenRooms($this->themeService->getApplicationProperties(InputSettings::DEACTIVATE_PARTICIPANTS_LIST_DEFAULT));
         $room->setDissallowScreenshareGlobal($this->themeService->getApplicationProperties(InputSettings::DISALLOW_SCREENSHARE_DEFAULT));
         $room->setLobby($this->themeService->getApplicationProperties(InputSettings::ALLOW_LOBBY_DEFAULT));
         $maxUserDefault = $this->themeService->getApplicationProperties(InputSettings::ALLOW_SET_MAX_USERS_DEFAULT);
-        $room->setMaxUser($maxUserDefault !== null && (int) $maxUserDefault > 0 ? (int) $maxUserDefault : null);
+        $room->setMaxUser($maxUserDefault !== null && (int)$maxUserDefault > 0 ? (int)$maxUserDefault : null);
         //end default values
 
         if ($user->getTimeZone() && $this->themeService->getApplicationProperties('allowTimeZoneSwitch') == 1) {
@@ -81,6 +88,7 @@ class RoomGeneratorService
         $roomCaller->setCallerId($this->callerPrepareService->generateRoomId(999999));
         $roomCaller->setCreatedAt(new \DateTimeImmutable());
         $room->setCallerRoom($roomCaller);
+
         return $room;
     }
 
@@ -91,10 +99,11 @@ class RoomGeneratorService
                 $rooms->removeUser($data);
             }
         }
+
         $rooms->addUser($user);
         $this->em->persist($rooms);
         $this->em->flush();
+
         return $rooms;
     }
-
 }

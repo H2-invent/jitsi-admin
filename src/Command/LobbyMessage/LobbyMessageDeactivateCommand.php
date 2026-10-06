@@ -38,7 +38,7 @@ class LobbyMessageDeactivateCommand extends Command
             $message = $this->entityManager->getRepository(PredefinedLobbyMessages::class)->find($id);
             if ($message) {
                 $disableQ = new ConfirmationQuestion(sprintf('Do you want to %s the message', $message->isActive() ? 'DISABLE' : 'ENABLE'), true);
-                $res = $io->askQuestion($disableQ);
+                $res      = $io->askQuestion($disableQ);
                 if ($res) {
                     $message->setActive(!$message->isActive());
                 }

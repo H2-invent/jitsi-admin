@@ -7,7 +7,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -22,8 +21,8 @@ class CheckThemeValidDateCommand extends Command
     public function __construct(
         private readonly ParameterBagInterface $parameterBag,
         private readonly MailerService         $mailerService,
-        ?string                        $name = null)
-    {
+        ?string                                $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -35,18 +34,20 @@ class CheckThemeValidDateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $count = 0;
-        $io = new SymfonyStyle($input, $output);
+        $count   = 0;
+        $io      = new SymfonyStyle($input, $output);
         $maxTime = $input->getArgument('maxTime');
+
         /** @var string $projectDir */
         $projectDir = $this->parameterBag->get('kernel.project_dir');
-        $finder = new Finder();
+        $finder     = new Finder();
         $finder->files()->in($projectDir . '/theme/')->name('*theme.json.signed');
+
         $arr = iterator_to_array($finder);
         foreach ($arr as $path) {
-            $theme = json_decode($path->getContents(), true)['entry'];
-            $validUntil = $theme['validUntil'];
-            $contact = [
+            $theme        = json_decode($path->getContents(), true)['entry'];
+            $validUntil   = $theme['validUntil'];
+            $contact      = [
                 'entwicklung@h2-invent.com',
                 'buchhaltung@h2-invent.com'
             ];
@@ -54,18 +55,22 @@ class CheckThemeValidDateCommand extends Command
 
             if (isset($theme['contactEmail'])) {
                 $contactEmail = $theme['contactEmail'];
-                $contact = array_merge($contact, explode(',', $contactEmail));
+                $contact      = array_merge($contact, explode(',', $contactEmail));
             }
 
             if ($validUntil) {
                 $validDate = new \DateTimeImmutable($validUntil);
-                $now = new \DateTimeImmutable();
+                $now       = new \DateTimeImmutable();
                 $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
                 if ($daysDifff < $maxTime && $daysDifff > 0) {
-
                     $filename = $path->getFileName();
-                    $subject = sprintf('[Jitsi-admin theme expiring] Expiring Theme for URL: %s', $filename);
-                    $message = sprintf('Your Theme for your jitsi-admin is expiring in %d days.<br> Your Theme file is named: %s<br>Your contact mail address is: %s', $daysDifff, $filename, $contactEmail);
+                    $subject  = sprintf('[Jitsi-admin theme expiring] Expiring Theme for URL: %s', $filename);
+                    $message  = sprintf(
+                        'Your Theme for your jitsi-admin is expiring in %d days.<br> Your Theme file is named: %s<br>Your contact mail address is: %s',
+                        $daysDifff,
+                        $filename,
+                        $contactEmail
+                    );
                     $this->mailerService->sendPlainMail(implode(',', $contact), $subject, $message);
                     $count++;
                 }

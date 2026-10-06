@@ -18,14 +18,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CallOutSessionAPIRemoveService
 {
     public function __construct(
-        private readonly EntityManagerInterface      $entityManager,
+        private readonly EntityManagerInterface $entityManager,
         private readonly ToModeratorWebsocketService $toModeratorWebsocketService,
-        private readonly RoomAddService              $roomAddService,
-        private readonly DirectSendService           $directSendService,
-        private readonly TranslatorInterface         $translator,
-        private readonly ThemeService                $themeService,
-    )
-    {
+        private readonly RoomAddService $roomAddService,
+        private readonly DirectSendService $directSendService,
+        private readonly TranslatorInterface $translator,
+        private readonly ThemeService $themeService,
+    ) {
     }
 
     /**
@@ -37,10 +36,11 @@ class CallOutSessionAPIRemoveService
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
-        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
+        $calloutSession           = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
+
         return $this->removeCalloutSession(
             $calloutSession,
             $this->translator->trans(
@@ -58,10 +58,11 @@ class CallOutSessionAPIRemoveService
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
-        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
+        $calloutSession           = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
+
         return $this->removeCalloutSession(
             $calloutSession,
             $this->translator->trans(
@@ -81,10 +82,11 @@ class CallOutSessionAPIRemoveService
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
-        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
+        $calloutSession           = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
+
         return $this->removeCalloutSession(
             $calloutSession,
             $this->translator->trans(
@@ -101,7 +103,6 @@ class CallOutSessionAPIRemoveService
      */
     public function removeCalloutSession(?CalloutSession $calloutSession, string $message): array
     {
-
         $this->entityManager->remove($calloutSession);
         $this->entityManager->flush();
         $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
@@ -109,8 +110,9 @@ class CallOutSessionAPIRemoveService
         $this->roomAddService->removeUserFromRoomNoRepeat($calloutSession->getRoom(), $calloutSession->getUser());
         $res = [
             'status' => 'DELETED',
-            'links' => []
+            'links'  => []
         ];
+
         return $res;
     }
 
@@ -121,6 +123,6 @@ class CallOutSessionAPIRemoveService
     public function sendRefuseMessage(Rooms $room, string $message): void
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();
-        $this->directSendService->sendSnackbar($topic, $message, 'danger',2000);
+        $this->directSendService->sendSnackbar($topic, $message, 'danger', 2000);
     }
 }

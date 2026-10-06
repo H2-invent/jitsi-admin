@@ -5,8 +5,6 @@ namespace App\Twig;
 
 use App\Entity\Rooms;
 use App\Service\Theme\ThemeService;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class Theme
 {

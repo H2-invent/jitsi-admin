@@ -39,10 +39,12 @@ class RoomStatusParticipant
     {
         return $this->id;
     }
+
     public function getEnteredRoomAt(): ?\DateTimeImmutable
     {
         return $this->enteredRoomAt;
     }
+
     public function getEnteredRoomAtwithTimeZone(?User $user): ?\DateTimeImmutable
     {
         $data = $this->getEnteredRoomAtUTC();
@@ -57,20 +59,24 @@ class RoomStatusParticipant
         $data = $data->setTimeZone($localTimezone);
         return $data;
     }
+
     public function getEnteredRoomAtUTC(): ?\DateTimeImmutable
     {
         return new \DateTimeImmutable($this->enteredRoomAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
+
     public function setEnteredRoomAt(\DateTimeImmutable $enteredRoomAt): self
     {
         $this->enteredRoomAt = $enteredRoomAt;
 
         return $this;
     }
+
     public function getLeftRoomAt(): ?\DateTimeImmutable
     {
         return $this->leftRoomAt;
     }
+
     public function getLeftRoomAtwithTimeZone(?User $user): ?\DateTimeImmutable
     {
         $data = $this->getLeftRoomAtUTC();
@@ -85,6 +91,7 @@ class RoomStatusParticipant
         $data = $data->setTimeZone($localTimezone);
         return $data;
     }
+
     public function getLeftRoomAtUTC(): ?\DateTimeImmutable
     {
         if (!$this->leftRoomAt) {
@@ -92,56 +99,67 @@ class RoomStatusParticipant
         }
         return new \DateTimeImmutable($this->leftRoomAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
+
     public function setLeftRoomAt(?\DateTimeImmutable $leftRoomAt): self
     {
         $this->leftRoomAt = $leftRoomAt;
 
         return $this;
     }
+
     public function getInRoom(): ?bool
     {
         return $this->inRoom;
     }
+
     public function setInRoom(bool $inRoom): self
     {
         $this->inRoom = $inRoom;
 
         return $this;
     }
+
     public function getRoomStatus(): ?RoomStatus
     {
         return $this->roomStatus;
     }
+
     public function setRoomStatus(?RoomStatus $roomStatus): self
     {
         $this->roomStatus = $roomStatus;
 
         return $this;
     }
+
     public function getParticipantId(): ?string
     {
         return $this->participantId;
     }
+
     public function setParticipantId(string $participantId): self
     {
         $this->participantId = $participantId;
 
         return $this;
     }
+
     public function getParticipantName(): ?string
     {
         return $this->participantName;
     }
+
     public function setParticipantName(string $participantName): self
     {
         $this->participantName = $participantName;
 
         return $this;
     }
+
     public function getDominantSpeakerTime(): ?int
     {
         return $this->dominantSpeakerTime;
     }
+
     public function setDominantSpeakerTime(?int $dominantSpeakerTime): self
     {
         $this->dominantSpeakerTime = $dominantSpeakerTime;

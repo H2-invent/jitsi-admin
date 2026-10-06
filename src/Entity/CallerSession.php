@@ -49,24 +49,29 @@ class CallerSession
 
     #[ORM\Column(nullable: true)]
     private ?bool $isSipVideoUser = false;
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getSessionId(): ?string
     {
         return $this->sessionId;
     }
+
     public function setSessionId(string $sessionId): self
     {
         $this->sessionId = $sessionId;
 
         return $this;
     }
+
     public function getLobbyWaitingUser(): ?LobbyWaitungUser
     {
         return $this->lobbyWaitingUser;
     }
+
     public function setLobbyWaitingUser(?LobbyWaitungUser $lobbyWaitingUser): self
     {
         if ($this->lobbyWaitingUser === $lobbyWaitingUser) {
@@ -74,7 +79,7 @@ class CallerSession
         }
 
         $previousLobbyWaitingUser = $this->lobbyWaitingUser;
-        $this->lobbyWaitingUser = $lobbyWaitingUser;
+        $this->lobbyWaitingUser   = $lobbyWaitingUser;
 
         if ($previousLobbyWaitingUser?->getCallerSession() === $this) {
             $previousLobbyWaitingUser->setCallerSession(null);
@@ -86,40 +91,48 @@ class CallerSession
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
+
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
+
     public function getAuthOk(): ?bool
     {
         return $this->authOk;
     }
+
     public function setAuthOk(bool $authOk): self
     {
         $this->authOk = $authOk;
 
         return $this;
     }
+
     public function getCallerId(): ?string
     {
         return $this->callerId;
     }
+
     public function setCallerId(?string $callerId): self
     {
         $this->callerId = $callerId;
 
         return $this;
     }
+
     public function getCaller(): ?CallerId
     {
         return $this->caller;
     }
+
     public function setCaller(?CallerId $caller): self
     {
         // unset the owning side of the relation if necessary
@@ -136,30 +149,36 @@ class CallerSession
 
         return $this;
     }
+
     public function getShowName(): ?string
     {
         return $this->showName;
     }
+
     public function setShowName(?string $showName): self
     {
         $this->showName = $showName;
 
         return $this;
     }
+
     public function getCallerIdVerified(): ?bool
     {
         return $this->callerIdVerified;
     }
+
     public function setCallerIdVerified(bool $callerIdVerified): self
     {
         $this->callerIdVerified = $callerIdVerified;
 
         return $this;
     }
+
     public function getForceFinish(): ?bool
     {
         return $this->forceFinish;
     }
+
     public function setForceFinish(?bool $forceFinish): self
     {
         $this->forceFinish = $forceFinish;

@@ -4,8 +4,6 @@
 namespace App\Twig;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class BrowserCompability
 {
@@ -28,8 +26,8 @@ class BrowserCompability
 
         return match (strtolower($osType)) {
             'windows' => str_contains($userAgent, 'windows'),
-            'mac' => str_contains($userAgent, 'macintosh'),
-            default => false,
+            'mac'     => str_contains($userAgent, 'macintosh'),
+            default   => false,
         };
     }
 

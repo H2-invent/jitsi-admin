@@ -3,9 +3,7 @@
 namespace App\DataType;
 
 use Symfony\Component\Ldap\Ldap;
-use Symfony\Component\Validator\Constraints\Url;
 use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LdapType implements \Stringable
 {
@@ -20,7 +18,7 @@ class LdapType implements \Stringable
     /** @var string */
     private $userNameAttribute;
     /** @var string */
-    private $serVerId;
+    private      $serVerId;
     private Ldap $ldap;
     /** @var string */
     private $rdn;
@@ -31,13 +29,13 @@ class LdapType implements \Stringable
     /** @var string */
     private $bindType;
     /** @var string */
-    private $objectClass;
+    private           $objectClass;
     public static int $ANONYMOUS = 1;
-    public static int $SIMPLE = 0;
+    public static int $SIMPLE    = 0;
     /** @var array<string, mixed> */
     private $specialFields;
     /** @var string|null */
-    private $filter;
+    private      $filter;
     private bool $dryRun = false;
     /** @var string */
     private $LDAP_DEPUTY_GROUP_OBJECTCLASS;
@@ -48,8 +46,8 @@ class LdapType implements \Stringable
     /** @var string */
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     /** @var string|null */
-    private $LDAP_DEPUTY_GROUP_FILTER;
-    private bool $isHealthy = false;
+    private      $LDAP_DEPUTY_GROUP_FILTER;
+    private bool $isHealthy    = false;
     private bool $IS_SIP_VIDEO = false;
 
 
@@ -190,11 +188,10 @@ class LdapType implements \Stringable
 
     public function createLDAP(): Ldap
     {
-
-        $anonym = $this->bindType === 'simple' ? false : true;
+        $anonym    = $this->bindType === 'simple' ? false : true;
         $validator = Validation::createValidator();
         try {
-            $tmp = Ldap::create('ext_ldap', ['connection_string' => $this->url]);
+            $tmp   = Ldap::create('ext_ldap', ['connection_string' => $this->url]);
             $isUrl = $this->isValidLdapUrl($this->url);
             if ($isUrl) {
                 if (!$anonym) {
@@ -205,7 +202,7 @@ class LdapType implements \Stringable
             } else {
                 throw new \Exception('invalid Bind URL');
             }
-            $this->ldap = $tmp;
+            $this->ldap      = $tmp;
             $this->isHealthy = true;
             return $tmp;
         } catch (\Exception $exception) {
@@ -215,8 +212,7 @@ class LdapType implements \Stringable
 
     public function isValidLdapUrl(string $url): bool
     {
-        $regex = '/^ldaps?:\/\/((\d{1,3}\.){3}\d{1,3}|[a-zA-Z0-9-]{1,63}(\.[a-zA-Z0-9-]{1,63})*\.[a-zA-Z]{2,6})(:\d+)?$/m';
-        ;
+        $regex = '/^ldaps?:\/\/((\d{1,3}\.){3}\d{1,3}|[a-zA-Z0-9-]{1,63}(\.[a-zA-Z0-9-]{1,63})*\.[a-zA-Z]{2,6})(:\d+)?$/m';;
 
         $isUrl = preg_match($regex, $url);
         return $isUrl > 0;
@@ -277,13 +273,12 @@ class LdapType implements \Stringable
      */
     public function retrieveUser(): array
     {
-
         $options = [
             'scope' => $this->scope,
         ];
 
         $query = $this->ldap->query($this->userDn, $this->buildObjectClass(), $options);
-        $user = $query->execute();
+        $user  = $query->execute();
         return $user->toArray();
     }
 
@@ -293,13 +288,12 @@ class LdapType implements \Stringable
      */
     public function retrieveDeputies(): array
     {
-
         $options = [
             'scope' => $this->scope,
         ];
 
         $query = $this->ldap->query($this->LDAP_DEPUTY_GROUP_DN, $this->buildObjectClassDeputy(), $options);
-        $user = $query->execute();
+        $user  = $query->execute();
         return $user->toArray();
     }
 
@@ -382,7 +376,6 @@ class LdapType implements \Stringable
     {
         $this->IS_SIP_VIDEO = $IS_SIP_VIDEO;
     }
-
 
 
 }

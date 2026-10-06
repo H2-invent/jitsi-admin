@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PublicConferenceController extends JitsiAdminController
@@ -24,18 +23,17 @@ class PublicConferenceController extends JitsiAdminController
     private ?Server $server;
 
     public function __construct(
-        ManagerRegistry                   $managerRegistry,
-        TranslatorInterface               $translator,
-        LoggerInterface                   $logger,
-        ParameterBagInterface             $parameterBag,
+        ManagerRegistry                            $managerRegistry,
+        TranslatorInterface                        $translator,
+        LoggerInterface                            $logger,
+        ParameterBagInterface                      $parameterBag,
         private readonly ThemeService              $themeService,
         private readonly RequestStack              $requestStack,
         private readonly RoomStatusFrontendService $roomStatusFrontendService,
         private readonly PublicConferenceService   $publicConferenceService,
 
 
-    )
-    {
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->server = $this->doctrine->getRepository(Server::class)->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
     }
@@ -47,26 +45,29 @@ class PublicConferenceController extends JitsiAdminController
             return $this->redirectToRoute('dashboard');
         }
         $data = [
-            'server'=>$this->server,
+            'server'   => $this->server,
             'roomName' => UtilsHelper::readableRandomString(5),
-            'myName'=> $this->requestStack->getSession()->get('myName')?:''
+            'myName'   => $this->requestStack->getSession()->get('myName') ?: ''
         ];
+
         $form = $this->createForm(PublicConferenceType::class, $data);
-        if ($this->server->isLiveKitServer()){
+        if ($this->server->isLiveKitServer()) {
             $form->remove('myName');
         }
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $name = $data['myName'];
-            $this->requestStack->getSession()->set('myName',$name);
+            $this->requestStack->getSession()->set('myName', $name);
             $room = $this->publicConferenceService->createNewRoomFromName($data['roomName'], $this->server);
             return $this->redirectToRoute('app_public_conference', ['confId' => $room->getName()]);
         }
+
         return $this->render(
             'public_conference/index.html.twig',
             [
-                'form' => $form->createView(),
+                'form'   => $form->createView(),
                 'server' => $this->server
             ]
         );
@@ -75,23 +76,24 @@ class PublicConferenceController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/m/{confId}', name: 'app_public_conference')]
     public function startMeeting(string $confId, Request $request): Response
     {
-        $room = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
+        $room         = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
         $this->server = $room->getServer();
-        $firstUser = $this->roomStatusFrontendService->isRoomCreated($room);
-        $name = $this->requestStack->getSession()->get('myName')?:'Meetling';
+        $firstUser    = $this->roomStatusFrontendService->isRoomCreated($room);
+        $name         = $this->requestStack->getSession()->get('myName') ?: 'Meetling';
         /** @var string $showNameFrontend */
         $showNameFrontend = $this->parameterBag->get('laf_showNameFrontend');
-        $response = $this->render(
+        $response         = $this->render(
             'public_conference/publicConference.html.twig',
             [
-                'room' => $room,
-                'user' => null,
-                'name' => $this->getUser() ? $this->getUser()->getFormatedName($showNameFrontend) : $name,
-                'moderator' => !$firstUser,
-                'server' => $this->server,
-                'noModerator'=>true,
+                'room'        => $room,
+                'user'        => null,
+                'name'        => $this->getUser() ? $this->getUser()->getFormatedName($showNameFrontend) : $name,
+                'moderator'   => !$firstUser,
+                'server'      => $this->server,
+                'noModerator' => true,
             ]
         );
+
         /** @var string|null $lastConf */
         $lastConf = $request->cookies->get('LAST_CONFERENCE');
         if (!$lastConf) {
@@ -102,6 +104,7 @@ class PublicConferenceController extends JitsiAdminController
                 $lastConf[] = $confId;
             }
         }
+
         /** @var string $lastConfEncoded */
         $lastConfEncoded = json_encode($lastConf);
         $response->headers->setCookie(
@@ -111,6 +114,7 @@ class PublicConferenceController extends JitsiAdminController
                 time() + (2 * 365 * 24 * 60 * 60),
             )
         );
+
         return $response;
     }
 

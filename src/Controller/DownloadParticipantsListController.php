@@ -10,7 +10,6 @@ use Dompdf\Options;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 
 class DownloadParticipantsListController extends JitsiAdminController
 {
@@ -34,7 +33,7 @@ class DownloadParticipantsListController extends JitsiAdminController
             'documents/participantsList.html.twig',
             [
                 'title' => $room->getName(),
-                'room' => $room
+                'room'  => $room
             ]
         );
 
@@ -50,17 +49,13 @@ class DownloadParticipantsListController extends JitsiAdminController
         // Output the generated PDF to Browser (force download)
 
 
-        $response =  new Response();
+        $response = new Response();
         $response->headers->set('Cache-Control', 'private');
         $response->headers->set('Content-type', 'application/pdf');
         $response->headers->set('Content-Disposition', 'inline; filename="' . $room->getName() . '.pdf";');
-
-
         $response->sendHeaders();
-
         $response->setContent($dompdf->output());
 
         return $response;
-
     }
 }

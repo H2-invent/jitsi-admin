@@ -18,27 +18,26 @@ class AddSlugToServerCommand extends Command
         parent::__construct($name);
     }
 
-    protected function configure():void
+    protected function configure(): void
     {
         $this
-            ->setDescription('Adds a slug to all servers, which does not have a slug');
-        ;
+            ->setDescription('Adds a slug to all servers, which does not have a slug');;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $server = $this->em->getRepository(Server::class)->findAll();
+        $io      = new SymfonyStyle($input, $output);
+        $server  = $this->em->getRepository(Server::class)->findAll();
         $counter = 0;
+
         foreach ($server as $data) {
             if (!$data->getSlug()) {
                 $counter++;
-
                 $slug = $this->serverService->makeSlug($data->getUrl());
                 $data->setSlug($slug);
                 $this->em->persist($data);
-                $io->writeln($slug);
                 $this->em->flush();
+                $io->writeln($slug);
             }
         }
 

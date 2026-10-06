@@ -7,8 +7,6 @@ use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class CheckRoomPermissions
 {

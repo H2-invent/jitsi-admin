@@ -52,7 +52,7 @@ class SchedulingTimeUserRepository extends ServiceEntityRepository
             ->innerJoin('s.user', 'u')
             ->andWhere('u = :user')
             ->join('s.scheduleTime', 'time')
-            ->innerJoin('time.scheduling','scheduling')
+            ->innerJoin('time.scheduling', 'scheduling')
             ->join('scheduling.room', 'r')
             ->andWhere('r = :room')
             ->setParameter('room', $rooms)
@@ -83,7 +83,7 @@ class SchedulingTimeUserRepository extends ServiceEntityRepository
 
         $map = [];
         foreach ($result as $schedulingTimeUser) {
-            $room = $schedulingTimeUser->getScheduleTime()->getScheduling()->getRoom();
+            $room                = $schedulingTimeUser->getScheduleTime()->getScheduling()->getRoom();
             $map[$room->getId()] = true;
         }
         return $map;

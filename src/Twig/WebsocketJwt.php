@@ -6,16 +6,13 @@ namespace App\Twig;
 use App\Entity\User;
 use App\Service\Websocket\WebsocketJwtService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class WebsocketJwt
 {
     public function __construct(
         private readonly WebsocketJwtService   $websocketJwtService,
         private readonly ParameterBagInterface $parameterBag
-    )
-    {
+    ) {
     }
 
     /**

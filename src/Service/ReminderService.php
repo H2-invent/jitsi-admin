@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 class ReminderService
@@ -20,7 +19,7 @@ class ReminderService
     public function sendReminder(?array $filter): array
     {
         set_time_limit(600);
-        $now = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('utc'));
+        $now   = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('utc'));
         $now10 = $now->modify('+ 10 minutes');
 
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
@@ -37,7 +36,7 @@ class ReminderService
             ->setParameter(':false', false);
 
         if ($filter) {
-            $orX = $qb->expr()->orX();
+            $orX   = $qb->expr()->orX();
             $count = 0;
             foreach ($filter as $data) {
                 if ($data === null) {
@@ -50,8 +49,8 @@ class ReminderService
             $qb->andWhere($orX);
         }
 
-        $query = $qb->getQuery();
-        $rooms = $query->getResult();
+        $query  = $qb->getQuery();
+        $rooms  = $query->getResult();
         $emails = 0;
         foreach ($rooms as $room) {
             foreach ($room->getUser() as $data) {
@@ -60,6 +59,7 @@ class ReminderService
             }
         }
         $message = ['error' => false, 'hinweis' => 'Cron ok', 'Konferenzen' => count($rooms), 'Emails' => $emails];
+
         return $message;
     }
 }

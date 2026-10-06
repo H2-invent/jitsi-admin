@@ -11,7 +11,6 @@ use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -28,8 +27,7 @@ class CreateFastConfernceController extends AbstractController
         private readonly CreateHttpsUrl          $createHttpsUrl,
         private readonly TranslatorInterface     $translator,
         private readonly EntityManagerInterface  $entityManager,
-    )
-    {
+    ) {
         $this->server = $this->serverRepository->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
     }
 
@@ -45,20 +43,20 @@ class CreateFastConfernceController extends AbstractController
                     ->setModerator($user)
                     ->setPublic(true)
                     ->setTotalOpenRooms(true)
-                    ->setIsFastConference(true)
-                ;
+                    ->setIsFastConference(true);
                 $this->entityManager->persist($room);
                 $this->entityManager->flush();
                 return new JsonResponse(
                     [
                         'redirectUrl' => $this->generateUrl('dashboard'),
-                        'popups' => [
-                            ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()])), 'title' => $room->getName()]
+                        'popups'      => [
+                            ['url'   => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()])),
+                             'title' => $room->getName()
+                            ]
                         ]
                     ]
                 );
             } else {
-
                 $this->addFlash('danger', $this->translator->trans('Fehler'));
                 return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
             }

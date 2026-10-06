@@ -12,17 +12,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use Livekit\EncodedFileOutput;
 use Livekit\EncodedFileType;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EgressService
 {
     public function __construct(
-        private readonly RecordingRepository    $recordingRepository,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly LoggerInterface        $logger,
+        private readonly RecordingRepository      $recordingRepository,
+        private readonly EntityManagerInterface   $entityManager,
+        private readonly LoggerInterface          $logger,
         private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
-    )
-    {
+    ) {
     }
 
     /**
@@ -35,15 +33,16 @@ class EgressService
             $recording = new Recording();
             $recording->setRoom($rooms)
                 ->setUser($user)
-                ->setUid(md5(uniqid((string) random_int(0, mt_getrandmax()), true)))
+                ->setUid(md5(uniqid((string)random_int(0, mt_getrandmax()), true)))
                 ->setCreatedAt(new \DateTimeImmutable());
+
             try {
                 $egressClient = new EgressServiceClient(
-                    'https://'. $rooms->getServer()->getUrl(),
+                    'https://' . $rooms->getServer()->getUrl(),
                     $rooms->getServer()->getAppId(),
                     $rooms->getServer()->getAppSecret()
                 );
-                $res = $egressClient->startRoomCompositeEgress(
+                $res          = $egressClient->startRoomCompositeEgress(
                     $this->livekitRoomNameGenerator->getLiveKitName($recording->getRoom()),
                     $template,
                     new EncodedFileOutput()
@@ -59,37 +58,37 @@ class EgressService
 
                 return ['error' => true, 'message' => $exception->getMessage()];
             }
+
             $this->logger->debug('Recording started ', [$recording]);
             return ['error' => false, 'recordingId' => $recording->getRecordingId()];
         } else {
             $this->logger->debug('Recording already exists', [$rooms]);
             return ['error' => true, 'message' => 'Recording already exists'];
-
         }
     }
-    public function stopAllEgress(?Rooms $rooms):void
+
+    public function stopAllEgress(?Rooms $rooms): void
     {
-        if ($rooms){
+        if ($rooms) {
             try {
                 foreach ($rooms->getLiveKitRecordings() as $liveKitRecording) {
-                    if ($liveKitRecording->getUser()){
+                    if ($liveKitRecording->getUser()) {
                         $this->stopEgress($liveKitRecording);
                     }
                 }
-            }catch (\Exception){
-
+            } catch (\Exception) {
             }
         }
-
-
     }
+
     /**
      * @return array{error: bool, message?: string}
      */
-    public function stopEgress(Recording $recording): array {
+    public function stopEgress(Recording $recording): array
+    {
         try {
             $egressClient = new EgressServiceClient(
-                'https://'.$recording->getRoom()->getServer()->getUrl(),
+                'https://' . $recording->getRoom()->getServer()->getUrl(),
                 $recording->getRoom()->getServer()->getAppId(),
                 $recording->getRoom()->getServer()->getAppSecret()
             );
@@ -98,15 +97,13 @@ class EgressService
                 $recording->getRecordingId()
             );
         } catch (\Exception $exception) {
-            return ['error' => true,'message'=>$exception->getMessage()];
+            return ['error' => true, 'message' => $exception->getMessage()];
         } finally {
             $recording->setUser(null);
             $this->entityManager->persist($recording);
             $this->entityManager->flush();
         }
 
-
         return ['error' => false];
     }
-
 }

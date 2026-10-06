@@ -22,8 +22,7 @@ class CallOutSessionAPIHoldService
         private readonly TranslatorInterface         $translator,
         private readonly ThemeService                $themeService,
         private readonly UrlGeneratorInterface       $urlGenerator,
-    )
-    {
+    ) {
     }
 
     /**
@@ -34,11 +33,19 @@ class CallOutSessionAPIHoldService
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
-        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
+        $calloutSession           = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
-        return $this->setCalloutSessionOnHold($calloutSession, CalloutSession::$TIMEOUT, $this->translator->trans('callout.message.timeout', ['name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))]));
+
+        return $this->setCalloutSessionOnHold(
+            $calloutSession,
+            CalloutSession::$TIMEOUT,
+            $this->translator->trans(
+                'callout.message.timeout',
+                ['name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))]
+            )
+        );
     }
 
     /**
@@ -49,11 +56,19 @@ class CallOutSessionAPIHoldService
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
-        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
+        $calloutSession           = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
-        return $this->setCalloutSessionOnHold($calloutSession, CalloutSession::$OCCUPIED, $this->translator->trans('callout.message.occupied', ['name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))]));
+
+        return $this->setCalloutSessionOnHold(
+            $calloutSession,
+            CalloutSession::$OCCUPIED,
+            $this->translator->trans(
+                'callout.message.occupied',
+                ['name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))]
+            )
+        );
     }
 
 
@@ -67,11 +82,19 @@ class CallOutSessionAPIHoldService
     {
         /** @var CalloutSessionRepository $calloutSessionRepository */
         $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
-        $calloutSession = $calloutSessionRepository->findCalloutSessionActive($sessionId);
+        $calloutSession           = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
-        return $this->setCalloutSessionOnHold($calloutSession, CalloutSession::$LATER, $this->translator->trans('callout.message.later', ['name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))]));
+
+        return $this->setCalloutSessionOnHold(
+            $calloutSession,
+            CalloutSession::$LATER,
+            $this->translator->trans(
+                'callout.message.later',
+                ['name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))]
+            )
+        );
     }
 
     /**
@@ -85,19 +108,22 @@ class CallOutSessionAPIHoldService
         if ($calloutSession->getState() >= CalloutSession::$ON_HOLD || $calloutSession->getState() < CalloutSession::$DIALED) {
             return ['error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'];
         }
+
         $calloutSession->setState($state);
         $this->entityManager->persist($calloutSession);
         $this->entityManager->flush();
         $this->sendMessage($calloutSession->getRoom(), $message);
         $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
         $sipRaumnummer = $calloutSession->getRoom()->getCallerRoom();
-        $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
+        $pin           = $this->entityManager->getRepository(CallerId::class)->findOneBy(
+            ['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]
+        );
 
         return [
-            'status' => 'ON_HOLD',
-            'pin' => $pin->getCallerId(),
+            'status'      => 'ON_HOLD',
+            'pin'         => $pin->getCallerId(),
             'room_number' => $sipRaumnummer->getCallerId(),
-            'links' => [
+            'links'       => [
                 'back' => $this->urlGenerator->generate('callout_api_back', ['calloutSessionId' => $calloutSession->getUid()])
             ]
         ];
@@ -112,6 +138,6 @@ class CallOutSessionAPIHoldService
     public function sendMessage(Rooms $room, string $message): void
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();
-        $this->directSendService->sendSnackbar($topic, $message, 'info',2000);
+        $this->directSendService->sendSnackbar($topic, $message, 'info', 2000);
     }
 }

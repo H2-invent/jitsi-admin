@@ -42,74 +42,89 @@ class LobbyWaitungUser
 
     #[ORM\Column(nullable: true)]
     private ?bool $websocketReady = false;
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getUser(): ?User
     {
         return $this->user;
     }
+
     public function setUser(?User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
+
     public function getRoom(): ?Rooms
     {
         return $this->room;
     }
+
     public function setRoom(?Rooms $room): self
     {
         $this->room = $room;
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
+
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
+
     public function getUid(): ?string
     {
         return $this->uid;
     }
+
     public function setUid(string $uid): self
     {
         $this->uid = $uid;
 
         return $this;
     }
+
     public function getType(): ?string
     {
         return $this->type;
     }
+
     public function setType(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
+
     public function getShowName(): ?string
     {
         return $this->showName;
     }
+
     public function setShowName(string $showName): self
     {
         $this->showName = $showName;
 
         return $this;
     }
+
     public function getCallerSession(): ?CallerSession
     {
         return $this->callerSession;
     }
+
     public function setCallerSession(?CallerSession $callerSession): self
     {
         if ($this->callerSession === $callerSession) {
@@ -117,7 +132,7 @@ class LobbyWaitungUser
         }
 
         $previousCallerSession = $this->callerSession;
-        $this->callerSession = $callerSession;
+        $this->callerSession   = $callerSession;
 
         if ($previousCallerSession?->getLobbyWaitingUser() === $this) {
             $previousCallerSession->setLobbyWaitingUser(null);
@@ -129,10 +144,12 @@ class LobbyWaitungUser
 
         return $this;
     }
+
     public function getCloseBrowser(): ?bool
     {
         return $this->closeBrowser;
     }
+
     public function setCloseBrowser(?bool $closeBrowser): self
     {
         $this->closeBrowser = $closeBrowser;

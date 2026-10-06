@@ -14,11 +14,10 @@ class AdressbookFavoriteService
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly TranslatorInterface             $translator,
-        private readonly LoggerInterface                 $logger,
-        private readonly ParticipantSearchService        $participantSearchService
-    )
-    {
+        private readonly TranslatorInterface $translator,
+        private readonly LoggerInterface $logger,
+        private readonly ParticipantSearchService $participantSearchService
+    ) {
     }
 
     /**
@@ -35,6 +34,7 @@ class AdressbookFavoriteService
         $addUser->addAdressbookFavorite($favoriteUser);
         $this->entityManager->persist($addUser);
         $this->entityManager->flush();
+
         return true;
     }
 
@@ -46,6 +46,7 @@ class AdressbookFavoriteService
         $addUser->removeAdressbookFavorite($favoriteUser);
         $this->entityManager->persist($addUser);
         $this->entityManager->flush();
+
         return true;
     }
 
@@ -56,11 +57,23 @@ class AdressbookFavoriteService
     {
         if ($addUser->getAdressbookFavorites()->contains($favoriteUser)) {
             $this->removeFavorite($addUser, $favoriteUser);
-            return ['success', $this->translator->trans('addressbook.favorite.remove.success', ['{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser)])];
+            return [
+                'success',
+                $this->translator->trans(
+                    'addressbook.favorite.remove.success',
+                    ['{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser)]
+                )
+            ];
         } else {
             try {
                 $this->addFavorite($addUser, $favoriteUser);
-                return ['success', $this->translator->trans('addressbook.favorite.add.success', ['{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser)])];
+                return [
+                    'success',
+                    $this->translator->trans(
+                        'addressbook.favorite.add.success',
+                        ['{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser)]
+                    )
+                ];
             } catch (UserAlreadyAdressbookFavoriteException|UserNotInAdressbookException|\Exception $exception) {
                 $this->logger->debug($exception->getMessage());
                 return ['danger', $this->translator->trans('addressbook.favorite.add.failure')];

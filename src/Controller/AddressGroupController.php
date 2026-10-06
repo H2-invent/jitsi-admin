@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AddressGroupController extends JitsiAdminController
@@ -22,14 +21,15 @@ class AddressGroupController extends JitsiAdminController
         $addressGroup = new AddressGroup();
         $addressGroup->setCreatedAt(new \DateTimeImmutable());
         $addressGroup->setLeader($this->getUser());
-        $title = $translator->trans('Neue Kontaktgruppe erstellen');
+        $title  = $translator->trans('Neue Kontaktgruppe erstellen');
         $isEdit = false;
+
         if ($request->get('id')) {
             $addressGroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
             if ($addressGroup->getLeader() !== $this->getUser()) {
                 throw new NotFoundHttpException($translator->trans('Nicht gefunden'));
             }
-            $title = $translator->trans('Kontaktgruppe bearbeiten');
+            $title  = $translator->trans('Kontaktgruppe bearbeiten');
             $isEdit = true;
         }
         $form = $this->createForm(AddressGroupType::class, $addressGroup, ['user' => $this->getUser()]);
@@ -38,7 +38,7 @@ class AddressGroupController extends JitsiAdminController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $existingName = $this->doctrine->getRepository(AddressGroup::class)->findOneBy([
-                    'name' => $addressGroup->getName(),
+                    'name'   => $addressGroup->getName(),
                     'leader' => $this->getUser(),
                 ]);
                 if ($existingName && (!$isEdit || $existingName->getId() !== $addressGroup->getId())) {
@@ -58,7 +58,7 @@ class AddressGroupController extends JitsiAdminController
         return $this->render(
             'address_group/index.html.twig',
             [
-                'form' => $form->createView(),
+                'form'  => $form->createView(),
                 'title' => $title
             ]
         );
@@ -71,6 +71,7 @@ class AddressGroupController extends JitsiAdminController
         $addressGroup->setCreatedAt(new \DateTimeImmutable());
         $addressGroup->setLeader($this->getUser());
         $isEdit = false;
+
         if ($request->get('id')) {
             $addressGroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
             if ($addressGroup->getLeader() !== $this->getUser()) {
@@ -84,7 +85,7 @@ class AddressGroupController extends JitsiAdminController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $existingName = $this->doctrine->getRepository(AddressGroup::class)->findOneBy([
-                    'name' => $addressGroup->getName(),
+                    'name'   => $addressGroup->getName(),
                     'leader' => $this->getUser(),
                 ]);
                 if ($existingName && (!$isEdit || $existingName->getId() !== $addressGroup->getId())) {
@@ -104,6 +105,7 @@ class AddressGroupController extends JitsiAdminController
                 $errors[] = $error->getMessage();
             }
         }
+
         return new JsonResponse(['errors' => $errors], Response::HTTP_BAD_REQUEST);
     }
 
@@ -114,10 +116,12 @@ class AddressGroupController extends JitsiAdminController
         if (!$addressGroup || $addressGroup->getLeader() != $this->getUser()) {
             throw new NotFoundHttpException($translator->trans('Nicht gefunden'));
         }
+
         $em = $this->doctrine->getManager();
         $em->remove($addressGroup);
         $em->flush();
         $this->addFlash('success', $translator->trans('Kontaktgruppe gelöscht'));
+
         return $this->redirectToRoute('dashboard');
     }
 
@@ -128,10 +132,12 @@ class AddressGroupController extends JitsiAdminController
         if (!$addressGroup || $addressGroup->getLeader() != $this->getUser()) {
             return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], Response::HTTP_NOT_FOUND);
         }
+
         $em = $this->doctrine->getManager();
         $em->remove($addressGroup);
         $em->flush();
         $this->doctrine->getManager()->refresh($this->getUser());
+
         return $this->render('addressbook/__addressGroups.html.twig');
     }
 

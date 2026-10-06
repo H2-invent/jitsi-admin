@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RemoveRoomService
 {
@@ -14,9 +13,7 @@ class RemoveRoomService
         private readonly EntityManagerInterface $em,
         private readonly UserService            $userService,
         private readonly LoggerInterface        $logger,
-    )
-    {
-
+    ) {
     }
 
 
@@ -30,15 +27,18 @@ class RemoveRoomService
                 $room->removeUser($user);
                 $this->em->persist($room);
             }
+
             if ($room->getRepeater()) {
                 $room->setRepeater(null);
             }
             $this->em->persist($room);
             $room->setModerator(null);
+
             foreach ($room->getFavoriteUsers() as $data) {
                 $room->removeFavoriteUser($data);
             }
             $this->em->persist($room);
+
             foreach ($room->getLobbyWaitungUsers() as $data) {
                 if ($data->getCallerSession()) {
                     $session = $data->getCallerSession();
@@ -48,15 +48,18 @@ class RemoveRoomService
                 $room->removeLobbyWaitungUser($data);
             }
             $this->em->persist($room);
+
             foreach ($room->getSubscribers() as $data) {
                 $room->removeSubscriber($data);
                 $this->em->remove($data);
             }
             $this->em->persist($room);
+
             foreach ($room->getWaitinglists() as $data) {
                 $room->removeWaitinglist($data);
                 $this->em->remove($data);
             }
+
             foreach ($room->getCallerIds() as $data) {
                 $this->em->remove($data);
                 $room->removeCallerId($data);
@@ -69,6 +72,7 @@ class RemoveRoomService
                 $this->em->remove($callerRoom);
                 $this->em->flush();
             }
+
             if ($room->getCalloutSessions()->count() > 0) {
                 foreach ($room->getCalloutSessions() as $session) {
                     $this->em->remove($session);

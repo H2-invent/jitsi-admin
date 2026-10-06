@@ -38,60 +38,72 @@ class RoomsUser
     {
         return $this->id;
     }
+
     public function getUser(): ?User
     {
         return $this->user;
     }
+
     public function setUser(?User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
+
     public function getRoom(): ?Rooms
     {
         return $this->room;
     }
+
     public function setRoom(?Rooms $room): self
     {
         $this->room = $room;
 
         return $this;
     }
+
     public function getShareDisplay(): ?bool
     {
         return $this->shareDisplay;
     }
+
     public function setShareDisplay(?bool $shareDisplay): self
     {
         $this->shareDisplay = $shareDisplay;
 
         return $this;
     }
+
     public function getModerator(): ?bool
     {
         return $this->moderator;
     }
+
     public function setModerator(?bool $moderator): self
     {
         $this->moderator = $moderator;
 
         return $this;
     }
+
     public function getPrivateMessage(): ?bool
     {
         return $this->privateMessage;
     }
+
     public function setPrivateMessage(?bool $privateMessage): self
     {
         $this->privateMessage = $privateMessage;
 
         return $this;
     }
+
     public function getLobbyModerator(): ?bool
     {
         return $this->lobbyModerator;
     }
+
     public function setLobbyModerator(?bool $lobbyModerator): self
     {
         $this->lobbyModerator = $lobbyModerator;

@@ -23,8 +23,7 @@ class RoomAddService
         private readonly PermissionChangeService $permissionChangeService,
         private readonly FavoriteService         $favoriteService,
         private readonly LoggerInterface         $logger,
-    )
-    {
+    ) {
     }
 
 
@@ -36,17 +35,17 @@ class RoomAddService
     public function createParticipants(string $input, Rooms $room, ?User $inviter = null): array
     {
         $validUsers = new ArrayCollection();
-        $lines = explode("\n", $input);
+        $lines      = explode("\n", $input);
         $falseEmail = [];
 
-        $this->logger->debug('Crete new Participants from',$lines);
+        $this->logger->debug('Crete new Participants from', $lines);
         foreach ($lines as $line) {
             $user = $this->createUserFromUserUid($line, $falseEmail);
             if ($user) {
                 $validUsers->add($user);
                 if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
                     $this->createUserParticipant($room, $user);
-                    $this->logger->debug('Create new User from email:',[$line]);
+                    $this->logger->debug('Create new User from email:', [$line]);
                 } else {
                     $falseEmail[] = $line;
                 }
@@ -59,28 +58,34 @@ class RoomAddService
             //here the users are added to the series. before the users are only added to the prototype room
             $this->repeaterService->addUserRepeat($room->getRepeater());
             try {
-                $this->repeaterService->sendEMail($room->getRepeater(), 'email/repeaterNew.html.twig', $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt'), ['room' => $room->getRepeater()->getPrototyp()], 'REQUEST', $validUsers->toArray());
+                $this->repeaterService->sendEMail(
+                    $room->getRepeater(),
+                    'email/repeaterNew.html.twig',
+                    $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt'),
+                    ['room' => $room->getRepeater()->getPrototyp()],
+                    'REQUEST',
+                    $validUsers->toArray()
+                );
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
             }
-
         }
         return $falseEmail;
     }
 
-    public function createSingleParticipantAndAddtoRoom(string $userId, ?User $inviter, Rooms $room):?User
+    public function createSingleParticipantAndAddtoRoom(string $userId, ?User $inviter, Rooms $room): ?User
     {
         $invalidEmail = [];
-        $user = $this->createUserFromUserUid($userId,$invalidEmail);
+        $user         = $this->createUserFromUserUid($userId, $invalidEmail);
         if ($user) {
             if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
                 $this->createUserParticipant($room, $user);
             } else {
                 throw new \Exception('User can not be created');
             }
-
         }
-        return  $user;
+
+        return $user;
     }
 
     /**
@@ -90,7 +95,7 @@ class RoomAddService
      */
     public function createModerators(string $input, Rooms $room, ?User $inviter = null): array
     {
-        $lines = explode("\n", $input);
+        $lines      = explode("\n", $input);
         $falseEmail = [];
 
         foreach ($lines as $line) {
@@ -108,6 +113,7 @@ class RoomAddService
         if ($room->getRepeater()) {
             $this->repeaterService->addUserRepeat($room->getRepeater());
         }
+
         return $falseEmail;
     }
 
@@ -120,11 +126,11 @@ class RoomAddService
      */
     public function createUserFromUserUid(string $email, array &$falseEmails): ?User
     {
-        $user = null;
+        $user  = null;
         $email = trim($email);
         if ($email !== '') {
             $newMember = $email;
-            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $newMember]);
+            $user      = $this->em->getRepository(User::class)->findOneBy(['email' => $newMember]);
             if (!$user) {
                 $user = $this->em->getRepository(User::class)->findOneBy(['username' => $newMember]);
             }
@@ -138,6 +144,7 @@ class RoomAddService
                 $falseEmails[] = $newMember;
             }
         }
+
         return $user;
     }
 
@@ -155,6 +162,7 @@ class RoomAddService
             $this->addUserOnlytoOneRoom($user, $room);
         }
         $this->addUserToAdressbook($room->getModerator(), $user);
+
         return $user;
     }
 
@@ -177,6 +185,7 @@ class RoomAddService
             $user->addProtoypeRoom($prototype);
             $this->removeRoomUser($user, $prototype);
         }
+
         return $user;
     }
 

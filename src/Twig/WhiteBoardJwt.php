@@ -5,15 +5,12 @@ namespace App\Twig;
 
 use App\Entity\Rooms;
 use App\Service\Whiteboard\WhiteboardJwtService;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class WhiteBoardJwt
 {
     public function __construct(
-        private readonly WhiteboardJwtService  $whiteboardJwtService,
-    )
-    {
+        private readonly WhiteboardJwtService $whiteboardJwtService,
+    ) {
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'getJwtforWhiteboard')]

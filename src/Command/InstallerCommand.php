@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Command\Installer\DbConfig;
+use App\Command\Installer\BasicConfig;
 use App\Command\Installer\ConvertToEnvironmentInterface;
+use App\Command\Installer\DbConfig;
 use App\Command\Installer\KeycloakConfig;
 use App\Command\Installer\SmtpConfig;
-use App\Command\Installer\BasicConfig;
 use InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -37,7 +36,7 @@ class InstallerCommand extends Command
     public function __construct(ParameterBagInterface $parameterBag, ?string $name = null)
     {
         /** @var string $projectDir */
-        $projectDir = $parameterBag->get('kernel.project_dir');
+        $projectDir       = $parameterBag->get('kernel.project_dir');
         $this->projectDir = $projectDir . DIRECTORY_SEPARATOR;
 
         parent::__construct($name);
@@ -50,13 +49,13 @@ class InstallerCommand extends Command
             throw new \LogicException('The question helper is not available.');
         }
         $this->helper = $helper;
-        $this->input = $input;
+        $this->input  = $input;
         $this->output = $output;
 
         try {
-            $baseConfig = $this->getBasicConfig();
-            $dbConfig = $this->getDBConfig();
-            $smtpConfig = $this->getSmtpConfig();
+            $baseConfig     = $this->getBasicConfig();
+            $dbConfig       = $this->getDBConfig();
+            $smtpConfig     = $this->getSmtpConfig();
             $keycloakConfig = $this->getKeycloakConfig();
 
             $this->writeWebsocketConfFile($baseConfig);
@@ -304,17 +303,16 @@ class InstallerCommand extends Command
         ?string $defaultUrl,
         ?string $defaultClientId,
         ?string $defaultClientSecret,
-    ): KeycloakConfig
-    {
-        $versionQuestion = $this->getQuestion('Enter the keycloak version', $defaultVersion);
-        $realmQuestion = $this->getQuestion('Enter the keycloak realm', $defaultRealm);
-        $urlQuestion = $this->getQuestionWithInfo(
+    ): KeycloakConfig {
+        $clientIdQuestion     = $this->getQuestion('Enter the keycloak client id', $defaultClientId);
+        $clientSecretQuestion = $this->getQuestion('Enter the keycloak client secret', $defaultClientSecret);
+        $versionQuestion      = $this->getQuestion('Enter the keycloak version', $defaultVersion);
+        $realmQuestion        = $this->getQuestion('Enter the keycloak realm', $defaultRealm);
+        $urlQuestion          = $this->getQuestionWithInfo(
             'Your URL could look somewhat like [http://keycloak.domain.de]',
             'Enter the keycloak URL',
             $defaultUrl,
         );
-        $clientIdQuestion = $this->getQuestion('Enter the keycloak client id', $defaultClientId);
-        $clientSecretQuestion = $this->getQuestion('Enter the keycloak client secret', $defaultClientSecret);
 
         return KeycloakConfig::createFromParameters(
             url: $this->askForUrl($urlQuestion),
@@ -331,13 +329,12 @@ class InstallerCommand extends Command
         string  $defaultUsername,
         string  $defaultPassword,
         ?string $defaultEmail,
-    ): SmtpConfig
-    {
-        $hostQuestion = $this->getQuestion('Enter the smtp host', $defaultHost);
-        $portQuestion = $this->getQuestion('Enter the smtp port', $defaultPort);
+    ): SmtpConfig {
+        $hostQuestion     = $this->getQuestion('Enter the smtp host', $defaultHost);
+        $portQuestion     = $this->getQuestion('Enter the smtp port', $defaultPort);
         $usernameQuestion = $this->getQuestion('Enter the smtp username', $defaultUsername);
         $passwordQuestion = $this->getQuestion('Enter the smtp password', $defaultPassword);
-        $senderQuestion = $this->getQuestion('Enter the default sender email', $defaultEmail);
+        $senderQuestion   = $this->getQuestion('Enter the default sender email', $defaultEmail);
 
         return SmtpConfig::createFromParameters(
             host: $this->ask($hostQuestion),
@@ -355,14 +352,13 @@ class InstallerCommand extends Command
         string $defaultDatabase,
         string $defaultUsername,
         string $defaultPassword,
-    ): DbConfig
-    {
+    ): DbConfig {
         $serverVersionQuestion = $this->getQuestion('Enter the mysql server version', $defaultServerVersion);
-        $hostQuestion = $this->getQuestion('Enter the database host', $defaultHost);
-        $portQuestion = $this->getQuestion('Enter the database port', $defaultPort);
-        $databaseQuestion = $this->getQuestion('Enter the database name', $defaultDatabase);
-        $usernameQuestion = $this->getQuestion('Enter the database username', $defaultUsername);
-        $passwordQuestion = $this->getQuestion('Enter the database password', $defaultPassword);
+        $hostQuestion          = $this->getQuestion('Enter the database host', $defaultHost);
+        $portQuestion          = $this->getQuestion('Enter the database port', $defaultPort);
+        $databaseQuestion      = $this->getQuestion('Enter the database name', $defaultDatabase);
+        $usernameQuestion      = $this->getQuestion('Enter the database username', $defaultUsername);
+        $passwordQuestion      = $this->getQuestion('Enter the database password', $defaultPassword);
 
         return DbConfig::createFromParameters(
             engine: 'mysql',
@@ -378,8 +374,7 @@ class InstallerCommand extends Command
     private function askForBasicConfig(
         ?string $defaultBaseUrl,
         ?string $defaultSecret,
-    ): BasicConfig
-    {
+    ): BasicConfig {
         $baseUrlQuestion = $this->getQuestion('Enter the base url of the Jitsi-Admin', $defaultBaseUrl);
 
         return BasicConfig::createFromParameters(
@@ -398,8 +393,7 @@ class InstallerCommand extends Command
     private function askForNumeric(
         Question $question,
         int      $attempt = 1
-    ): int
-    {
+    ): int {
         $numeric = $this->ask($question);
 
         if (is_numeric($numeric)) {
@@ -418,8 +412,7 @@ class InstallerCommand extends Command
     private function askForEmail(
         Question $question,
         int      $attempt = 1
-    ): string
-    {
+    ): string {
         $email = $this->ask($question);
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -438,8 +431,7 @@ class InstallerCommand extends Command
     private function askForUrl(
         Question $question,
         int      $attempt = 1
-    ): string
-    {
+    ): string {
         $url = $this->ask($question);
 
         if (filter_var($url, FILTER_VALIDATE_URL)) {
@@ -462,7 +454,7 @@ class InstallerCommand extends Command
     private function removeKeycloakProdConfig(BasicConfig $basicConfig): void
     {
         $prodKeycloakConfigPath = $this->projectDir . 'config' . DIRECTORY_SEPARATOR . 'routes' . DIRECTORY_SEPARATOR . 'prod' . DIRECTORY_SEPARATOR . 'keycloak.yml';
-        $devKeycloakConfigPath = $this->projectDir . 'config' . DIRECTORY_SEPARATOR . 'routes' . DIRECTORY_SEPARATOR . 'dev' . DIRECTORY_SEPARATOR . 'keycloak.yml';
+        $devKeycloakConfigPath  = $this->projectDir . 'config' . DIRECTORY_SEPARATOR . 'routes' . DIRECTORY_SEPARATOR . 'dev' . DIRECTORY_SEPARATOR . 'keycloak.yml';
         if (
             str_starts_with($basicConfig->baseUrl(), 'http://')
             && file_exists($prodKeycloakConfigPath)
@@ -479,7 +471,7 @@ class InstallerCommand extends Command
 
         foreach ($convertibles as $convertible) {
             $envVars[] = '### Start: ' . $convertible::class . ' ###' . PHP_EOL;
-            $envVars = array_merge($envVars, $convertible->getAsEnvironment());
+            $envVars   = array_merge($envVars, $convertible->getAsEnvironment());
             $envVars[] = '### End: ' . $convertible::class . ' ###' . PHP_EOL . PHP_EOL;
         }
 

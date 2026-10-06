@@ -18,9 +18,9 @@ use Psr\Log\LoggerInterface;
 class UserRepository extends ServiceEntityRepository
 {
     public function __construct(
-        ManagerRegistry               $registry,
-        private readonly LoggerInterface       $logger,)
-    {
+        ManagerRegistry                  $registry,
+        private readonly LoggerInterface $logger,
+    ) {
         parent::__construct($registry, User::class);
     }
 
@@ -69,7 +69,7 @@ class UserRepository extends ServiceEntityRepository
     public function findMyUserByIndex(string $value, User $user): array
     {
         $value = strtolower($value);
-        $qb = $this->createQueryBuilder('u')
+        $qb    = $this->createQueryBuilder('u')
             ->innerJoin(' u.addressbookInverse', 'user')
             ->andWhere('user = :user')
             ->setParameter('user', $user);
@@ -80,9 +80,9 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-     /**
-      * @return User[] Returns an array of USers objects
-      */
+    /**
+     * @return User[] Returns an array of Users objects
+     */
     public function findUsersByLdapServerId(string $value): array
     {
         return $this->createQueryBuilder('u')
@@ -106,7 +106,7 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findUsersfromLdapdn(string $userDn):?User
+    public function findUsersfromLdapdn(string $userDn): ?User
     {
         $qb = $this->createQueryBuilder('u');
 
@@ -149,7 +149,7 @@ class UserRepository extends ServiceEntityRepository
     {
         $callerId = preg_replace('/[^0-9]/', '', $callerId);
         $callerId = preg_replace('/^0+/', '', $callerId);
-        $this->logger->debug('Cleaned CallerId',['callerid'=>$callerId]);
+        $this->logger->debug('Cleaned CallerId', ['callerid' => $callerId]);
         $qb = $this->createQueryBuilder('u');
 
         return $qb->andWhere($qb->expr()->like('u.indexer', ':search'))

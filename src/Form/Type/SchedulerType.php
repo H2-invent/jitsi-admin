@@ -32,9 +32,9 @@ class SchedulerType extends AbstractType
     private const string DURATION_LABEL_FORMAT = 'option.%dmin';
 
     public function __construct(
-        private readonly LoggerInterface        $logger,
-        private readonly ThemeService           $themeService,
-        private readonly TranslatorInterface    $translator,
+        private readonly LoggerInterface     $logger,
+        private readonly ThemeService        $themeService,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -50,37 +50,37 @@ class SchedulerType extends AbstractType
             $durations[sprintf(self::DURATION_LABEL_FORMAT, $i)] = $i;
         }
 
-        $time = new DateTimeImmutable()->getTimestamp();
-        $room = $options['data'];
+        $time   = new DateTimeImmutable()->getTimestamp();
+        $room   = $options['data'];
         $during = false;
         if ($room->getStartTimestamp() && $room->getStartTimestamp() < $time && !$room->getRepeaterProtoype()) {
             $during = true;
         }
 
 
-            $builder
-                ->add(
-                    'server',
-                    EntityType::class,
-                    $this->getOptions(
-                        true,
-                        'label.serverKonferenz',
-                        [
-                            'choice_label' => 'serverName',
-                            'class' => Server::class,
-                            'choices' => $options['server'],
-                            'multiple' => false,
-                            'attr' => ['class' => 'moreFeatures fakeserver']
-                        ],
-                    ),
-                );
+        $builder
+            ->add(
+                'server',
+                EntityType::class,
+                $this->getOptions(
+                    true,
+                    'label.serverKonferenz',
+                    [
+                        'choice_label' => 'serverName',
+                        'class'        => Server::class,
+                        'choices'      => $options['server'],
+                        'multiple'     => false,
+                        'attr'         => ['class' => 'moreFeatures fakeserver']
+                    ],
+                ),
+            );
 
 
         $organisators = [];
 
         if ($options['user'] instanceof User) {
             $organisators[] = $options['user'];
-            $organisators = array_merge($organisators, $options['user']->getManagers()->toArray());
+            $organisators   = array_merge($organisators, $options['user']->getManagers()->toArray());
         }
 
         $builder
@@ -125,7 +125,7 @@ class SchedulerType extends AbstractType
             $builder->add(
                 'public',
                 CheckboxType::class,
-                $this->getOptions(false, 'label.puplicRoom',['attr'=>['class'=>'public_checkbox']]),
+                $this->getOptions(false, 'label.puplicRoom', ['attr' => ['class' => 'public_checkbox']]),
             );
         };
 
@@ -195,26 +195,27 @@ class SchedulerType extends AbstractType
 
         if ($this->checkAppProperty(InputSettings::ALLOW_SET_MAX_USERS) == 1) {
             $this->logger->debug('Add the possibility to set the max participants');
-            $builder->add('maxUser', NumberType::class, ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']
+            $builder->add('maxUser', NumberType::class, [
+                'required'           => false,
+                'label'              => 'label.maxUser',
+                'translation_domain' => 'form',
+                'attr'               => ['placeholder' => 'placeholder.maxParticipants']
             ]);
         }
         $formModifier = function (FormInterface $form, ?Server $server = null): void {
             $tags = null === $server ? [] : $server->getTag();
             if (count($tags) > 1) {
                 $form->add('tag', EntityType::class, [
-                    'class' => Tag::class,
-                    'choice_label' => 'title',
-                    'choices' => $tags,
-                    'required' => true,
-                    'label' => 'label.tag',
+                    'class'              => Tag::class,
+                    'choice_label'       => 'title',
+                    'choices'            => $tags,
+                    'required'           => true,
+                    'label'              => 'label.tag',
                     'translation_domain' => 'form'
                 ]);
             }
-
         };
         if ($options['showTag']) {
-
-
             $builder->addEventListener(
                 FormEvents::PRE_SET_DATA,
                 function (FormEvent $event) use ($formModifier): void {
@@ -247,11 +248,12 @@ class SchedulerType extends AbstractType
                     true,
                     'label.moderator',
                     [
-                        'class' => User::class,
-                        'choice_label' => fn(User $user) => $user->getFormatedName(
+                        'class'        => User::class,
+                        'choice_label' => fn(User $user)
+                            => $user->getFormatedName(
                             $this->themeService->getApplicationProperties('laf_showNameFrontend')
                         ),
-                        'choices' => $organisators,
+                        'choices'      => $organisators,
                     ],
                 ),
             );
@@ -260,9 +262,9 @@ class SchedulerType extends AbstractType
             'submit',
             SubmitType::class,
             [
-                'label' => 'label.speichern',
+                'label'              => 'label.speichern',
                 'translation_domain' => 'form',
-                'attr' => ['class' => 'd-none'],
+                'attr'               => ['class' => 'd-none'],
             ],
         );
         if (count($options['server']) === 1) {
@@ -274,11 +276,11 @@ class SchedulerType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'server' => [],
-                'data_class' => Rooms::class,
-                'minDate' => 'today',
-                'isEdit' => false,
-                'user' => User::class,
+                'server'           => [],
+                'data_class'       => Rooms::class,
+                'minDate'          => 'today',
+                'isEdit'           => false,
+                'user'             => User::class,
                 'allowMaybeOption' => $this->checkAppProperty(InputSettings::ALLOW_MAYBE_OPTION_DEFAULT),
             ],
         );
@@ -326,8 +328,8 @@ class SchedulerType extends AbstractType
         string $domain = 'form',
     ): array {
         $options = [
-            'required' => $required,
-            'label' => $label,
+            'required'           => $required,
+            'label'              => $label,
             'translation_domain' => $domain,
         ];
 

@@ -19,23 +19,23 @@ class MigrateToAdressbookCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setDescription('This command collects all rooms which are moderator and puts the participants to the adressbook. This is only used when migrating from very old version.');
+        $this->setDescription('This command collects all rooms which are moderator and puts the participants to the adressbook. This is only used when migrating from very old version.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $users = $this->em->getRepository(User::class)->findAll();
-        $counterUser = 0;
-        $counterCOnnections = 0;
+        $io                 = new SymfonyStyle($input, $output);
+        $users              = $this->em->getRepository(User::class)->findAll();
+        $counterUser        = 0;
+        $counterConnections = 0;
+
         foreach ($users as $user) {
             $rooms = $user->getRoomModerator();
             $counterUser++;
             foreach ($rooms as $room) {
                 foreach ($room->getUser() as $participant) {
                     if ($participant != $user) {
-                        $counterCOnnections++;
+                        $counterConnections++;
                         $user->addAddressbook($participant);
                         $this->em->persist($user);
                     }
@@ -44,7 +44,7 @@ class MigrateToAdressbookCommand extends Command
             $this->em->flush();
         }
 
-        $io->success('You genereated ' . $counterCOnnections . ' Adressentries with ' . $counterUser . ' Users');
+        $io->success('You genereated ' . $counterConnections . ' Adressentries with ' . $counterUser . ' Users');
 
         return Command::SUCCESS;
     }

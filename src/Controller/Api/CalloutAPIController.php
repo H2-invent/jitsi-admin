@@ -14,7 +14,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[\Symfony\Component\Routing\Attribute\Route('/api/v1/call/out', name: 'callout_api_')]
@@ -23,18 +22,16 @@ class CalloutAPIController extends JitsiAdminController
     private readonly string $token;
 
     public function __construct(
-        ManagerRegistry                      $managerRegistry,
-        TranslatorInterface                  $translator,
-        LoggerInterface                      $logger,
-        ParameterBagInterface                $parameterBag,
+        ManagerRegistry                               $managerRegistry,
+        TranslatorInterface                           $translator,
+        LoggerInterface                               $logger,
+        ParameterBagInterface                         $parameterBag,
         private readonly CalloutSessionAPIService     $calloutSessionAPIService,
         private readonly CallOutSessionAPIDialService $callOutSessionAPIDialService,
-    )
-    {
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
-        /** @var string $sipCallerSecret */
-        $sipCallerSecret = $parameterBag->get('SIP_CALLER_SECRET');
-        $this->token = 'Bearer ' . $sipCallerSecret;
+        $sipCallerSecret = (string)$parameterBag->get('SIP_CALLER_SECRET');
+        $this->token     = 'Bearer ' . $sipCallerSecret;
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/', name: 'pool')]
@@ -79,6 +76,7 @@ class CalloutAPIController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $res = $callOutSessionAPIRemoveService->refuse($calloutSessionId);
         return new JsonResponse($res);
     }
@@ -90,6 +88,7 @@ class CalloutAPIController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $res = $callOutSessionAPIRemoveService->error($calloutSessionId);
         return new JsonResponse($res);
     }
@@ -101,6 +100,7 @@ class CalloutAPIController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $res = $callOutSessionAPIRemoveService->unreachable($calloutSessionId);
         return new JsonResponse($res);
     }
@@ -113,6 +113,7 @@ class CalloutAPIController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $res = $callOutSessionAPIHoldService->timeout($calloutSessionId);
         return new JsonResponse($res);
     }
@@ -125,6 +126,7 @@ class CalloutAPIController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $res = $callOutSessionAPIHoldService->later($calloutSessionId);
         return new JsonResponse($res);
     }
@@ -136,6 +138,7 @@ class CalloutAPIController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $res = $callOutSessionAPIHoldService->occupied($calloutSessionId);
         return new JsonResponse($res);
     }
@@ -147,6 +150,7 @@ class CalloutAPIController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $res = $this->callOutSessionAPIDialService->ringing($calloutSessionId);
         return new JsonResponse($res);
     }
@@ -170,6 +174,7 @@ class CalloutAPIController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $res = $this->callOutSessionAPIDialService->backSession($calloutSessionId);
         return new JsonResponse($res);
     }

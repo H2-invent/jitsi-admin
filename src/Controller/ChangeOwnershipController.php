@@ -10,7 +10,6 @@ use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[\Symfony\Component\Routing\Attribute\Route('/room/ownership', name: 'room_change_ownership')]
@@ -20,8 +19,7 @@ class ChangeOwnershipController extends AbstractController
         private readonly TransferOwnershipService $transferOwnershipService,
         private readonly TranslatorInterface      $translator,
         private readonly RoomsUserRepository      $roomsUserRepository,
-    )
-    {
+    ) {
     }
 
     #[\Symfony\Component\Routing\Attribute\Route('/{newOwner}/{roomId}', name: '_index')]
@@ -30,13 +28,13 @@ class ChangeOwnershipController extends AbstractController
         User  $newOwner,
         #[MapEntity(mapping: ['roomId' => 'id'])]
         Rooms $rooms,
-    ): Response
-    {
-        $roomPermissions = $this->roomsUserRepository->findOneBy(['room'=>$rooms,'user'=>$newOwner]);
+    ): Response {
+        $roomPermissions = $this->roomsUserRepository->findOneBy(['room' => $rooms, 'user' => $newOwner]);
+
         if ($rooms->getModerator() === $this->getUser() && $roomPermissions && $roomPermissions->getModerator() && $newOwner->getKeycloakId()) {
             $this->transferOwnershipService->transferOwnership(newOwner: $newOwner, room: $rooms);
             $this->addFlash('success', $this->translator->trans('transfer.room.success'));
-        }else{
+        } else {
             $this->addFlash('danger', $this->translator->trans('transfer.room.error'));
         }
 

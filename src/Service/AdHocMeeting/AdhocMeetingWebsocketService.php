@@ -19,34 +19,32 @@ class AdhocMeetingWebsocketService
         private readonly DirectSendService     $directSendService,
         private readonly UrlGeneratorInterface $urlGen,
         private readonly ThemeService          $theme,
-    )
-    {
-
+    ) {
     }
 
 //todo umbau auf dialog kein toast mehr
     public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room): void
     {
-        $topic = 'personal/' . $reciever->getUid();
-        $header = $this->translator->trans('addhock.notification.title');
         /** @var string $showName */
-        $showName = $this->parameterBag->get('laf_showName');
-        $text = $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($showName)]);
+        $showName   = $this->parameterBag->get('laf_showName');
+        $text       = $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($showName)]);
+        $topic      = 'personal/' . $reciever->getUid();
+        $header     = $this->translator->trans('addhock.notification.title');
         $dialogType = 'question';
-        $button = [
+        $button     = [
             [
                 'class' => 'btn btn-success ' . ($this->theme->getApplicationProperties('LAF_USE_MULTIFRAME') == 1 ? 'startIframe' : ''),
-                'text' => '<i class="fas fa-phone" ></i > ' . $this->translator->trans('Hier beitreten'),
-                'link' => $this->urlGen->generate('room_join', ['room' => $room->getId(), 't' => 'b']),
-                'data' =>
+                'text'  => '<i class="fas fa-phone" ></i > ' . $this->translator->trans('Hier beitreten'),
+                'link'  => $this->urlGen->generate('room_join', ['room' => $room->getId(), 't' => 'b']),
+                'data'  =>
                     [
                         'roomname' => $room->getSecondaryName() ?: $room->getName()
                     ]
             ],
             [
                 'class' => 'btn btn-danger ',
-                'text' => '<i class="fas fa-phone-slash" ></i ></a > ',
-                'data' => [],
+                'text'  => '<i class="fas fa-phone-slash" ></i ></a > ',
+                'data'  => [],
             ]
         ];
 

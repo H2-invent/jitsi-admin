@@ -6,9 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Service\Jigasi\JigasiService;
-
 use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class IcalService
@@ -18,15 +16,18 @@ class IcalService
     /** @var Rooms[] */
     private array $rooms = [];
 
-    public function __construct(private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $em, private readonly UserService $userService, private readonly JigasiService $jigasiService)
-    {
+    public function __construct(
+        private readonly TranslatorInterface    $translator,
+        private readonly EntityManagerInterface $em,
+        private readonly UserService            $userService,
+        private readonly JigasiService          $jigasiService
+    ) {
     }
 
     public function getIcal(User $user): string
     {
-
         $this->user = $user;
-        $server = $user->getServers();
+        $server     = $user->getServers();
 
         $value = "";
         $this->initRooms($user);
@@ -36,28 +37,27 @@ class IcalService
         return $value;
     }
 
-    public
-    function initRooms(User $user): void
-    {
+    public function initRooms(
+        User $user
+    ): void {
         /** @var RoomsRepository $repository */
-        $repository = $this->em->getRepository(Rooms::class);
+        $repository  = $this->em->getRepository(Rooms::class);
         $this->rooms = $repository->findRoomsFutureAndPast($user, "-1 month");
         $this->rooms = array_values($this->rooms);
     }
 
-    public
-    function getIcalString(): string
+    public function getIcalString(): string
     {
         $ics = new IcsService();
         foreach ($this->rooms as $event) {
             /**
              * @var Rooms $event
              */
-            $url = $this->userService->generateUrl($event, $this->user);
+            $url         = $this->userService->generateUrl($event, $this->user);
             $description =
                 $event->getName() .
                 "\n" . $event->getAgenda() .
-                "\n". $this->translator->trans("Hier beitreten") . ": " . $url .
+                "\n" . $this->translator->trans("Hier beitreten") . ": " . $url .
                 "\n" . $this->translator->trans("Organisator") . ": " . $event->getModerator()->getFirstName() . " " . $event->getModerator()->getLastName();
 
             if ($this->jigasiService->getRoomPin($event) && $this->jigasiService->getNumber($event)) {
@@ -66,43 +66,48 @@ class IcalService
                 foreach ($this->jigasiService->getNumber($event) as $key => $value) {
                     foreach ($value as $data) {
                         $description = $description
-                            . sprintf("(%s) %s %s: %s# (%s,,%s#)"."\n", $key, $data, $this->translator->trans("email.sip.pin"), $this->jigasiService->getRoomPin($event), $data, $this->jigasiService->getRoomPin($event));
+                                       . sprintf(
+                                           "(%s) %s %s: %s# (%s,,%s#)" . "\n",
+                                           $key,
+                                           $data,
+                                           $this->translator->trans("email.sip.pin"),
+                                           $this->jigasiService->getRoomPin($event),
+                                           $data,
+                                           $this->jigasiService->getRoomPin($event)
+                                       );
                     }
                 }
             }
 
             $ics->addEvent(
                 [
-                    "uid" => md5($event->getUid()) . "@" . parse_url($event->getHostUrl(), PHP_URL_HOST),
-                    "location" => $this->translator->trans("meetling Konferenz"),
+                    "uid"         => md5($event->getUid()) . "@" . parse_url($event->getHostUrl(), PHP_URL_HOST),
+                    "location"    => $this->translator->trans("meetling Konferenz"),
                     "description" => $description,
-                    "dtstart" => $event->getStartUtc(),
-                    "dtend" => $event->getEndDateUtc(),
-                    "summary" => $event->getName(),
-                    "sequence" => $event->getSequence(),
-                    "organizer" => "MAILTO:" . $event->getModerator()->getEmail(),
-                    "attendee" => $this->user->getEmail(),
-                    "transp" => "OPAQUE",
-                    "url" => $url,
-                    "class" => "public"
+                    "dtstart"     => $event->getStartUtc(),
+                    "dtend"       => $event->getEndDateUtc(),
+                    "summary"     => $event->getName(),
+                    "sequence"    => $event->getSequence(),
+                    "organizer"   => "MAILTO:" . $event->getModerator()->getEmail(),
+                    "attendee"    => $this->user->getEmail(),
+                    "transp"      => "OPAQUE",
+                    "url"         => $url,
+                    "class"       => "public"
                 ]
             );
             $ics->setMethod("PUBLISH");
-
         }
 
         return $ics->toString();
     }
 
-    public
-    function getRooms(): mixed
+    public function getRooms(): mixed
     {
         return $this->rooms;
     }
 
-    public
-    function setRooms(mixed $rooms): void
-    {
+    // TODO: fix param type
+    public function setRooms(mixed $rooms): void {
         $this->rooms = array_values($rooms);
     }
 }

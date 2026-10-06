@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Helper\JitsiAdminController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class LobbyBroadcastController extends JitsiAdminController
 {
@@ -14,6 +13,7 @@ class LobbyBroadcastController extends JitsiAdminController
     {
         return new JsonResponse(['error' => false]);
     }
+
     #[\Symfony\Component\Routing\Attribute\Route(path: '/lobby/participants/{wUUid}', name: 'lobby_WaitingUser_websocket')]
     public function waitinUserWebsocket(string $wUUid): Response
     {

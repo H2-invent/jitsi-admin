@@ -11,6 +11,5 @@ class InvalidSSLKeyExeption extends \Exception
 
     public function customMessage(): void
     {
-
     }
 }

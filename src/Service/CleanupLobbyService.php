@@ -17,11 +17,11 @@ class CleanupLobbyService
      */
     public function cleanUp(int|string $maxOld = 72): array
     {
-        $date = new \DateTimeImmutable()->modify('-' . $maxOld . 'hours');
+        $date     = new \DateTimeImmutable()->modify('-' . $maxOld . 'hours');
         $sessions = [];
 
         /** @var LobbyWaitungUserRepository $repo */
-        $repo = $this->em->getRepository(LobbyWaitungUser::class);
+        $repo       = $this->em->getRepository(LobbyWaitungUser::class);
         $oldestData = $repo->findOldLobbyWaitinguser($date);
         foreach ($oldestData as $data) {
             if ($data->getCallerSession()) {

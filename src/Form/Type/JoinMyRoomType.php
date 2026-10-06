@@ -24,12 +24,19 @@ class JoinMyRoomType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
-            ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.name'], 'label' => 'label.name', 'required' => true, 'translation_domain' => 'form']);
+            ->add(
+                'name',
+                TextType::class,
+                ['attr' => ['placeholder' => 'label.name'], 'label' => 'label.name', 'required' => true, 'translation_domain' => 'form']
+            );
 
         if ($this->themeService->getApplicationProperties('start_dropdown_allow_browser')) {
-            $builder->add('joinBrowser', SubmitType::class, ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.beitretenBrowser', 'translation_domain' => 'form']);
+            $builder->add(
+                'joinBrowser',
+                SubmitType::class,
+                ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.beitretenBrowser', 'translation_domain' => 'form']
+            );
         }
     }
 

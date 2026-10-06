@@ -52,8 +52,7 @@ class RoomStatusRepository extends ServiceEntityRepository
     */
     public function findCreatedRooms(Rooms $rooms): ?RoomStatus
     {
-
-        $qb =  $this->createQueryBuilder('r');
+        $qb = $this->createQueryBuilder('r');
 
         return $qb->andWhere($qb->expr()->isNull('r.destroyed'))
             ->innerJoin('r.room', 'room')
@@ -62,6 +61,7 @@ class RoomStatusRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
     public function findCreatedRoomsbyJitsiId(string $jitsiId): ?RoomStatus
     {
         $id = explode('@', strrev($jitsiId), 2);
@@ -74,7 +74,8 @@ class RoomStatusRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-    public function findRoomStatusByUid(string $uid):?RoomStatus
+
+    public function findRoomStatusByUid(string $uid): ?RoomStatus
     {
         $qb = $this->createQueryBuilder('r');
 

@@ -9,18 +9,17 @@ class OnlineStatusService
 {
     public function __construct(
         private readonly ParameterBagInterface $parameterBag,
-    )
-    {
+    ) {
     }
 
-    public function getUserStatus(User $user):int
+    public function getUserStatus(User $user): int
     {
-        if ($user->getOnlineStatus()=== null){
+        if ($user->getOnlineStatus() === null) {
             /** @var int $defaultStatus */
             $defaultStatus = $this->parameterBag->get('LAF_DEFAULT_ONLINE_STATUS');
             return $defaultStatus;
-        }else{
-            return $user->getOnlineStatus();
         }
+
+        return $user->getOnlineStatus();
     }
 }

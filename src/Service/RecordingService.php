@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -27,17 +28,16 @@ class RecordingService
 {
     public function __construct(
         #[Autowire(param: 'kernel.project_dir')]
-        private readonly string $kernelProjectDir,
-        private readonly Filesystem $localFilesystem,
-        private readonly FilesystemInterface $recordingFilesystem,
-        private readonly RecordingRepository $recordingRepository,
-        private readonly MessageBusInterface $messageBus,
+        private readonly string                 $kernelProjectDir,
+        private readonly Filesystem             $localFilesystem,
+        private readonly FilesystemInterface    $recordingFilesystem,
+        private readonly RecordingRepository    $recordingRepository,
+        private readonly MessageBusInterface    $messageBus,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MailerService $mailer,
-        private readonly TranslatorInterface $translator,
-        private readonly Environment $environment,
-    )
-    {
+        private readonly MailerService          $mailer,
+        private readonly TranslatorInterface    $translator,
+        private readonly Environment            $environment,
+    ) {
     }
 
     public function saveChunk(int $chunkIndex, int $totalChunks, string $recordingUid, UploadedFile $chunk): ServiceResult
@@ -68,7 +68,7 @@ class RecordingService
             return ServiceResult::failure(RecordingFinalizeError::NO_RECORDING_FOUND);
         }
 
-        $tempDir = $this->getTempPath($recordingUid);
+        $tempDir   = $this->getTempPath($recordingUid);
         $finalPath = "{$tempDir}/final.bin";
         $this->localFilesystem->remove($finalPath);
 
@@ -77,8 +77,7 @@ class RecordingService
             ->files()
             ->in($tempDir)
             ->name('chunk_*')
-            ->sortByName(true)
-        ;
+            ->sortByName(true);
         if ($chunks->count() === 0) {
             return ServiceResult::failure(RecordingFinalizeError::NO_CHUNKS_FOUND);
         }
@@ -122,8 +121,7 @@ class RecordingService
             ->setDisplayName(new \DateTimeImmutable()->format('d.m.Y H:i') . '.mp4')
             ->setRoom($room)
             ->setCreatedAt(new \DateTimeImmutable())
-            ->setType('video/mp4')
-        ;
+            ->setType('video/mp4');
         $this->entityManager->persist($uploadedFileEntity);
         $this->entityManager->flush();
 

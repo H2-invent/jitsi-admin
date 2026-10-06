@@ -2,13 +2,11 @@
 
 namespace App\Service\Star;
 
-use App\Controller\StarController;
 use App\Entity\Server;
 use App\Entity\Star;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class StarService
@@ -25,6 +23,7 @@ class StarService
             if ($comment !== '') {
                 $star->setComment($comment);
             }
+
             $this->logger->debug($starInt, ['this ist the star!!!']);
             $star->setStar($starInt);
             if ($os) {
@@ -47,6 +46,7 @@ class StarService
         }
         $res = new JsonResponse(['error' => false]);
         $res->headers->set('Access-Control-Allow-Origin:', '*');
+
         return $res;
     }
 }

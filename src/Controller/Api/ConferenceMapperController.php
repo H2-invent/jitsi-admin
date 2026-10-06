@@ -11,19 +11,17 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ConferenceMapperController extends JitsiAdminController
 {
     public function __construct(
-        ManagerRegistry                 $managerRegistry,
-        TranslatorInterface             $translator,
-        LoggerInterface                 $logger,
-        ParameterBagInterface           $parameterBag,
+        ManagerRegistry                          $managerRegistry,
+        TranslatorInterface                      $translator,
+        LoggerInterface                          $logger,
+        ParameterBagInterface                    $parameterBag,
         private readonly ConferenceMapperService $conferenceMapperService
-    )
-    {
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 

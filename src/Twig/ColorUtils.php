@@ -4,22 +4,20 @@
 namespace App\Twig;
 
 use OzdemirBurak\Iris\Color\Hex;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 
 class ColorUtils
 {
 
 
     #[\Twig\Attribute\AsTwigFilter(name: 'color_lighten')]
-    public function color_lighten(string $color,float $percent):string{
+    public function color_lighten(string $color, float $percent): string
+    {
         try {
             $hex = new Hex(trim($color));
             return $hex->brighten($percent);
-        }catch (\Exception){
+        } catch (\Exception) {
             return $color;
         }
-
     }
 
 }

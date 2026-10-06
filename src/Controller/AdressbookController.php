@@ -13,28 +13,26 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdressbookController extends JitsiAdminController
 {
     public function __construct(
-        ManagerRegistry                   $managerRegistry,
-        TranslatorInterface               $translator,
-        LoggerInterface                   $logger,
-        ParameterBagInterface             $parameterBag,
+        ManagerRegistry                            $managerRegistry,
+        TranslatorInterface                        $translator,
+        LoggerInterface                            $logger,
+        ParameterBagInterface                      $parameterBag,
         private readonly AdressbookFavoriteService $adressbookFavoriteService,
         private readonly DeputyService             $deputyService,
         private readonly UserCreatorService        $userCreatorService,
-    )
-    {
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/room/adressbook/remove', name: 'adressbook_remove_user')]
     public function index(Request $request): Response
     {
-        $user = $this->doctrine->getRepository(User::class)->find($request->get('id'));
+        $user   = $this->doctrine->getRepository(User::class)->find($request->get('id'));
         $myUser = $this->getUser();
         $myUser->removeAddressbook($user);
         $this->adressbookFavoriteService->removeFavorite($myUser, $user);
@@ -42,6 +40,7 @@ class AdressbookController extends JitsiAdminController
         $em = $this->doctrine->getManager();
         $em->persist($myUser);
         $em->flush();
+
         return $this->redirectToRoute('dashboard');
     }
 
@@ -52,6 +51,7 @@ class AdressbookController extends JitsiAdminController
         if (!$user) {
             return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], Response::HTTP_NOT_FOUND);
         }
+
         $myUser = $this->getUser();
         $myUser->removeAddressbook($user);
         $this->adressbookFavoriteService->removeFavorite($myUser, $user);
@@ -59,6 +59,7 @@ class AdressbookController extends JitsiAdminController
         $em = $this->doctrine->getManager();
         $em->persist($myUser);
         $em->flush();
+
         return new JsonResponse(['ok' => true]);
     }
 

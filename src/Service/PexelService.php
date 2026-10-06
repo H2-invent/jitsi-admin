@@ -18,12 +18,11 @@ class PexelService
      */
     public function getImageFromPexels(): ?array
     {
-        $image = null;
+        $image      = null;
         $noExternal = $this->parameterBag->get('enterprise_noExternal');
         if ($this->parameterBag->get('laF_pexel_api_key') !== '' && $noExternal == 0) {
             try {
                 $cache = new FilesystemAdapter();
-
                 $value = $cache->get(
                     'pexels_image',
                     function (ItemInterface $item) {
@@ -31,7 +30,7 @@ class PexelService
                         $refreshTime = $this->parameterBag->get('laF_pexel_refresh_time');
                         $item->expiresAfter(intval($refreshTime));
 
-                        $s = [];
+                        $s    = [];
                         $hour = new \DateTimeImmutable()->format('H');
                         if ($hour < 7) {
                             $s = ['night', 'northern lights'];
@@ -60,10 +59,11 @@ class PexelService
                     }
                 );
                 $imageArr = json_decode($value, true)['photos'];
-                $image = $imageArr[random_int(0, sizeof($imageArr) - 1)];
+                $image    = $imageArr[random_int(0, sizeof($imageArr) - 1)];
             } catch (\Exception) {
             }
         }
+
         return $image;
     }
 }

@@ -11,7 +11,7 @@ class CalloutSession
 {
     /** @var array<int, string> */
     public static $STATE = [
-        0 => 'INITIATED',
+        0  => 'INITIATED',
         10 => 'DIALED',
         15 => 'RINGING',
         20 => 'ON_HOLD',

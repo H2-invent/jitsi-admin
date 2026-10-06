@@ -59,17 +59,15 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
     {
         return $this->getOccupantsOfRoomQueryBuilder($room)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function countOccupantsOfRoom(Rooms $room): int
     {
-        return (int) $this->getOccupantsOfRoomQueryBuilder($room)
+        return (int)$this->getOccupantsOfRoomQueryBuilder($room)
             ->select('COUNT(roomStatusParticipant.id)')
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->getSingleScalarResult();
     }
 
     private function getOccupantsOfRoomQueryBuilder(Rooms $room): QueryBuilder
@@ -81,8 +79,7 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
             ->andWhere('room = :room')
             ->andWhere('roomStatusParticipant.inRoom = true')
             ->andWhere('roomStatus.destroyed IS NULL')
-            ->setParameter('room', $room)
-        ;
+            ->setParameter('room', $room);
     }
 
     /**
@@ -147,7 +144,6 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
             ->andWhere('participant.id IN (' . $subQuery . ')')
             ->setParameter('room', $room)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }

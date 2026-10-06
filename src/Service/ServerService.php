@@ -9,20 +9,21 @@
 
 namespace App\Service;
 
-use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Firebase\JWT\JWT;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class ServerService
 {
-    public function __construct(private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $em, private readonly Environment $twig, private readonly NotificationService $notification)
-    {
+    public function __construct(
+        private readonly TranslatorInterface    $translator,
+        private readonly EntityManagerInterface $em,
+        private readonly Environment            $twig,
+        private readonly NotificationService    $notification
+    ) {
     }
 
     public function addPermission(Server $server, User $user): bool
@@ -33,12 +34,14 @@ class ServerService
 
         return true;
     }
+
     public function makeSlug(string $urlString): ?string
     {
         $counter = 0;
-        $slug = UtilsHelper::slugify($urlString);
-        $slug = preg_replace('/[^\w\-\ ]/', '', $slug);
-        $tmp = $slug;
+        $slug    = UtilsHelper::slugify($urlString);
+        $slug    = preg_replace('/[^\w\-\ ]/', '', $slug);
+        $tmp     = $slug;
+
         while (true) {
             $server = $this->em->getRepository(Server::class)->findOneBy(['slug' => $tmp]);
             if (!$server) {

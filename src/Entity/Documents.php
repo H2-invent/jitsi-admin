@@ -4,11 +4,9 @@ namespace App\Entity;
 
 use App\Repository\DocumentsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: DocumentsRepository::class)]
 #[Vich\Uploadable()]
@@ -28,7 +26,7 @@ class Documents implements \Serializable
     private ?string $documentFileName = null;
 
     #[Vich\UploadableField(mapping: "profile", fileNameProperty: "documentFileName")]
-    #[Assert\File(maxSize: "3M",maxSizeMessage: 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}',)]
+    #[Assert\File(maxSize: "3M", maxSizeMessage: 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}',)]
     private ?File $documentFile = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -42,7 +40,7 @@ class Documents implements \Serializable
     public function setDocumentFileName(?string $documentFileName): void
     {
         $this->documentFileName = $documentFileName;
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt        = new \DateTimeImmutable();
     }
 
     public function getDocumentFile(): ?File
@@ -72,7 +70,7 @@ class Documents implements \Serializable
 
     public function __unserialize(mixed $data): void
     {
-        $this->id = (int) $data;
+        $this->id = (int)$data;
     }
 
     public function serialize(): string
@@ -82,6 +80,6 @@ class Documents implements \Serializable
 
     public function unserialize(mixed $data): void
     {
-        $this->id = (int) $data;
+        $this->id = (int)$data;
     }
 }

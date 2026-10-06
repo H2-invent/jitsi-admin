@@ -6,15 +6,12 @@ namespace App\Twig;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\StartMeetingService;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class CheckStartTime
 {
     public function __construct(
         private readonly StartMeetingService $startMeetingService,
-    )
-    {
+    ) {
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'isRoomOpen')]

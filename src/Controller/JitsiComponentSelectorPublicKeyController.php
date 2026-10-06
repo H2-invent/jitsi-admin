@@ -8,7 +8,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 class JitsiComponentSelectorPublicKeyController extends AbstractController
 {
@@ -17,15 +16,13 @@ class JitsiComponentSelectorPublicKeyController extends AbstractController
     public function __construct(
         private readonly ParameterBagInterface $parameterBag,
         private readonly KernelInterface       $kernel,
-        private readonly LoggerInterface       $logger)
-    {
-        $dir = $this->kernel->getProjectDir();
+        private readonly LoggerInterface       $logger
+    ) {
         /** @var string $publicPath */
-        $publicPath = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
+        $publicPath          = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
+        $dir                 = $this->kernel->getProjectDir();
         $this->publicKeyPath = $dir . $publicPath;
         $this->publicKeyPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $this->publicKeyPath);
-
-
     }
 
     public function setPublicKeyPath(string $publicKeyPath): void
@@ -40,7 +37,7 @@ class JitsiComponentSelectorPublicKeyController extends AbstractController
             throw new NotFoundHttpException('File Not Found');
         }
 
-        $publicKey = @file_get_contents($this->publicKeyPath.$keyfile);
+        $publicKey = @file_get_contents($this->publicKeyPath . $keyfile);
         if ($publicKey === false) {
             $msg = 'This function is not activated.';
             $this->logger->error($msg);

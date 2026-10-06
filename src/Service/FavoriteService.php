@@ -27,14 +27,16 @@ class FavoriteService
         } else {
             return false;
         }
+
         return true;
     }
 
     public function cleanFavorites(User $user): void
     {
         $favorites = $user->getFavorites();
-        $now = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('utc'));
-        $changed = false;
+        $now       = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('utc'));
+        $changed   = false;
+
         foreach ($favorites as $favorite) {
             if (!$favorite->getUser()->contains($user)
                 || ($favorite->getPersistantRoom() !== true
@@ -45,6 +47,7 @@ class FavoriteService
                 $changed = true;
             }
         }
+
         if ($changed) {
             $this->em->persist($user);
             $this->em->flush();
@@ -57,7 +60,7 @@ class FavoriteService
             $browser = new HttpBrowser(HttpClient::create());
             $browser->followMetaRefresh(true);
             $link = $browser->request('GET', 'https://h2-invent.github.io/jitsi-admin/');
-            $res = $link->text();
+            $res  = $link->text();
         } catch (\Exception) {
         }
     }

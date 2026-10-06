@@ -9,8 +9,6 @@ use App\Entity\User;
 use App\Helper\ExternalApplication;
 use App\Service\ParticipantSearchService;
 use Psr\Log\LoggerInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class ApplicationUrlGenerator
 {
@@ -18,8 +16,7 @@ class ApplicationUrlGenerator
         private readonly ExternalApplication      $externalApplication,
         private readonly ParticipantSearchService $participantSearchService,
         private readonly LoggerInterface          $logger,
-    )
-    {
+    ) {
     }
 
 
@@ -43,7 +40,6 @@ class ApplicationUrlGenerator
     #[\Twig\Attribute\AsTwigFunction(name: 'createWhitebophirLink')]
     public function createWhitebophirLink(Rooms $rooms, bool $moderator = false): string
     {
-
         return $this->externalApplication->whitebophirLink($rooms, $moderator);
     }
 }

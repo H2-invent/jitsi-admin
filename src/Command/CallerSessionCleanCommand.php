@@ -21,8 +21,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class CallerSessionCleanCommand extends Command
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly CallerSessionService $callerSessionService, ?string $name = null)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly CallerSessionService   $callerSessionService,
+        ?string                                 $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -30,8 +33,8 @@ class CallerSessionCleanCommand extends Command
     {
         //fetch all the session which are in the system
         $sessions = $this->entityManager->getRepository(CallerSession::class)->findAll();
-        $io = new SymfonyStyle($input, $output);
-        $table = new Table($output);
+        $io       = new SymfonyStyle($input, $output);
+        $table    = new Table($output);
         $table->setHeaders(['ID', 'Name', 'sessionId']);
         // show all sessions in a table
         foreach ($sessions as $data) {
@@ -52,7 +55,6 @@ class CallerSessionCleanCommand extends Command
             $io->error('No such ID');
             return Command::FAILURE;
         }
-
 
         if ($session) {//check if the session exists
             // confirm if the session should be deleted

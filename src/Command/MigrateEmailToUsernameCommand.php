@@ -23,8 +23,8 @@ class MigrateEmailToUsernameCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $users = $this->em->getRepository(User::class)->findAll();
+        $io      = new SymfonyStyle($input, $output);
+        $users   = $this->em->getRepository(User::class)->findAll();
         $counter = 0;
         foreach ($users as $data) {
             $data->setUsername($data->getEmail());

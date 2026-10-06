@@ -38,62 +38,77 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomType extends AbstractType
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly ParameterBagInterface $parameterBag, private readonly LoggerInterface $logger, private readonly ThemeService $theme, private readonly TranslatorInterface $translator)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly LoggerInterface        $logger,
+        private readonly ThemeService           $theme,
+        private readonly TranslatorInterface    $translator
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
-        $time = new \DateTimeImmutable()->getTimestamp();
-        $room = $options['data'];
+        $time   = new \DateTimeImmutable()->getTimestamp();
+        $room   = $options['data'];
         $during = false;
         if ($room->getStartTimestamp() && $room->getStartTimestamp() <= $time && !$room->getRepeaterProtoype()) {
             $during = true;
         }
 
-            $builder
-                ->add(
-                    'server',
-                    EntityType::class,
-                    [
-                        'choice_label' => 'serverName',
-                        'class' => Server::class,
-                        'choices' => $options['server'],
-                        'label' => 'label.serverKonferenz',
-                        'translation_domain' => 'form',
-                        'multiple' => false,
-                        'required' => true,
-                        'disabled' => $options['serverDisabled'],
-                        'attr' => ['class' => 'moreFeatures fakeserver']
-                    ]
-                );
-        $tags = $this->entityManager->getRepository(Tag::class)->findBy(['disabled' => false], ['priority' => 'ASC']);
+        $builder
+            ->add(
+                'server',
+                EntityType::class,
+                [
+                    'choice_label'       => 'serverName',
+                    'class'              => Server::class,
+                    'choices'            => $options['server'],
+                    'label'              => 'label.serverKonferenz',
+                    'translation_domain' => 'form',
+                    'multiple'           => false,
+                    'required'           => true,
+                    'disabled'           => $options['serverDisabled'],
+                    'attr'               => ['class' => 'moreFeatures fakeserver']
+                ]
+            );
+        $tags         = $this->entityManager->getRepository(Tag::class)->findBy(['disabled' => false], ['priority' => 'ASC']);
         $organisators = [];
 
         if ($options['user'] instanceof User) {
             $organisators[] = $options['user'];
-            $organisators = array_merge($organisators, $options['user']->getManagers()->toArray());
+            $organisators   = array_merge($organisators, $options['user']->getManagers()->toArray());
         }
 
 
         $builder
             ->add('name', TextType::class, ['disabled' => $during, 'required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
             ->add('agenda', TextareaType::class, ['disabled' => $during, 'required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
-            ->add('start', DateTimeType::class, ['input' => 'datetime_immutable', 'required' => true, 'attr' => ['data-minDate' => $options['minDate'], 'class' => 'flatpickr', 'placeholder' => 'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
+            ->add(
+                'start',
+                DateTimeType::class,
+                [
+                    'input'              => 'datetime_immutable',
+                    'required'           => true,
+                    'attr'               => ['data-minDate' => $options['minDate'], 'class' => 'flatpickr', 'placeholder' => 'placeholder.chooseTime'],
+                    'label'              => 'label.start',
+                    'translation_domain' => 'form',
+                    'widget'             => 'single_text'
+                ]
+            )
             ->add(
                 'duration',
                 ChoiceType::class,
                 [
-                    'label' => 'label.dauerKonferenz',
+                    'label'              => 'label.dauerKonferenz',
                     'translation_domain' => 'form',
-                    'choices' => [
-                        'option.15min' => 15,
-                        'option.30min' => 30,
-                        'option.45min' => 45,
-                        'option.60min' => 60,
-                        'option.75min' => 75,
-                        'option.90min' => 90,
+                    'choices'            => [
+                        'option.15min'  => 15,
+                        'option.30min'  => 30,
+                        'option.45min'  => 45,
+                        'option.60min'  => 60,
+                        'option.75min'  => 75,
+                        'option.90min'  => 90,
                         'option.105min' => 105,
                         'option.120min' => 120,
                         'option.150min' => 150,
@@ -113,7 +128,11 @@ class RoomType extends AbstractType
                 ]
             )
             ->add('scheduleMeeting', CheckboxType::class, ['required' => false, 'label' => 'label.scheduleMeeting', 'translation_domain' => 'form'])
-            ->add('isE2EEEnabled', CheckboxType::class, ['disabled' => $options['e2eeDisabled'], 'required' => false, 'label' => 'label.isE2EEEnabled', 'translation_domain' => 'form']);
+            ->add(
+                'isE2EEEnabled',
+                CheckboxType::class,
+                ['disabled' => $options['e2eeDisabled'], 'required' => false, 'label' => 'label.isE2EEEnabled', 'translation_domain' => 'form']
+            );
 
         if ($this->theme->getApplicationProperties(InputSettings::PERSISTENT_ROOMS) == 1) {
             $this->logger->debug('Add Persistant Rooms to the Form');
@@ -121,20 +140,41 @@ class RoomType extends AbstractType
         };
         if ($this->theme->getApplicationProperties(InputSettings::ONLY_REGISTERED) == 1) {
             $this->logger->debug('Add Only Registered Users to the Form');
-            $builder->add('onlyRegisteredUsers', CheckboxType::class, ['required' => false, 'label' => 'label.nurRegistriertenutzer', 'translation_domain' => 'form']);
+            $builder->add(
+                'onlyRegisteredUsers',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'label.nurRegistriertenutzer', 'translation_domain' => 'form']
+            );
         };
         if ($this->theme->getApplicationProperties(InputSettings::SHARE_LINK) == 1) {
             $this->logger->debug('Add Share Links to the Form');
-            $builder->add('public', CheckboxType::class, ['required' => false, 'label' => 'label.puplicRoom', 'translation_domain' => 'form', 'attr' => ['class' => 'public_checkbox']]);
+            $builder->add(
+                'public',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'label.puplicRoom', 'translation_domain' => 'form', 'attr' => ['class' => 'public_checkbox']]
+            );
         };
 
         if ($this->theme->getApplicationProperties(InputSettings::MAX_PARTICIPANTS) == 1) {
             $this->logger->debug('Add A maximal allowed number of participants to the Form');
-            $builder->add('maxParticipants', NumberType::class, ['required' => false, 'label' => 'label.maxParticipants', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']]);
+            $builder->add(
+                'maxParticipants',
+                NumberType::class,
+                [
+                    'required'           => false,
+                    'label'              => 'label.maxParticipants',
+                    'translation_domain' => 'form',
+                    'attr'               => ['placeholder' => 'placeholder.maxParticipants']
+                ]
+            );
         };
         if ($this->theme->getApplicationProperties(InputSettings::DISABLE_DOUBLE_OPT_IN) == 1) {
             $this->logger->debug('Add a checkbox to disable double opt in on self subscrition');
-            $builder->add('disableSelfSubscriptionDoubleOptIn', CheckboxType::class, ['required' => false, 'label' => 'label.disableSelfSubscriptionDoubleOptIn', 'translation_domain' => 'form',]);
+            $builder->add(
+                'disableSelfSubscriptionDoubleOptIn',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'label.disableSelfSubscriptionDoubleOptIn', 'translation_domain' => 'form',]
+            );
         };
 
         if ($this->theme->getApplicationProperties(InputSettings::WAITING_LIST) == 1) {
@@ -143,7 +183,11 @@ class RoomType extends AbstractType
         };
         if ($this->theme->getApplicationProperties(InputSettings::CONFERENCE_JOIN_PAGE) == 1) {
             $this->logger->debug('Add Show Room on Joinpage to the Form');
-            $builder->add('showRoomOnJoinpage', CheckboxType::class, ['required' => false, 'label' => 'label.showRoomOnJoinpage', 'translation_domain' => 'form']);
+            $builder->add(
+                'showRoomOnJoinpage',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'label.showRoomOnJoinpage', 'translation_domain' => 'form']
+            );
         };
         if ($this->theme->getApplicationProperties(InputSettings::DEACTIVATE_PARTICIPANTS_LIST) == 1) {
             $this->logger->debug('Add the possibility the users must not be on the participants list  to the Form');
@@ -151,7 +195,11 @@ class RoomType extends AbstractType
         };
         if ($this->theme->getApplicationProperties(InputSettings::DISALLOW_SCREENSHARE) == 1) {
             $this->logger->debug('Add the possibility to dissallow screenshare');
-            $builder->add('dissallowScreenshareGlobal', CheckboxType::class, ['required' => false, 'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form']);
+            $builder->add(
+                'dissallowScreenshareGlobal',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form']
+            );
         }
         if ($this->theme->getApplicationProperties('allowTimeZoneSwitch') == 1) {
             $this->logger->debug('Add the possibility to select a Timezone');
@@ -164,7 +212,11 @@ class RoomType extends AbstractType
 
         if ($this->theme->getApplicationProperties(InputSettings::ALLOW_SET_MAX_USERS) == 1) {
             $this->logger->debug('Add the possibility to set the max participants');
-            $builder->add('maxUser', NumberType::class, ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']]);
+            $builder->add(
+                'maxUser',
+                NumberType::class,
+                ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']]
+            );
         }
 
 
@@ -172,44 +224,38 @@ class RoomType extends AbstractType
             $tags = null === $server ? [] : $server->getTag();
             if (count($tags) > 1) {
                 $form->add('tag', EntityType::class, [
-                    'class' => Tag::class,
-                    'choice_label' => 'title',
-                    'choices' => $tags,
-                    'choice_loader' => null,
-                    'required' => true,
-                    'label' => 'label.tag',
+                    'class'              => Tag::class,
+                    'choice_label'       => 'title',
+                    'choices'            => $tags,
+                    'choice_loader'      => null,
+                    'required'           => true,
+                    'label'              => 'label.tag',
                     'translation_domain' => 'form'
                 ]);
             }
-
         };
         if ($options['showTag']) {
+            $builder->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) use ($formModifier): void {
+                    // this would be your entity, i.e. SportMeetup
+                    $data = $event->getData();
+                    $formModifier($event->getForm(), $data->getServer());
+                }
+            );
 
+            $builder->get('server')->addEventListener(
+                FormEvents::POST_SUBMIT,
+                function (FormEvent $event) use ($formModifier): void {
+                    // It's important here to fetch $event->getForm()->getData(), as
+                    // $event->getData() will get you the client data (that is, the ID)
+                    $sport = $event->getForm()->getData();
 
-                $builder->addEventListener(
-                    FormEvents::PRE_SET_DATA,
-                    function (FormEvent $event) use ($formModifier): void {
-                        // this would be your entity, i.e. SportMeetup
-                        $data = $event->getData();
-                        $formModifier($event->getForm(), $data->getServer());
-                    }
-                );
-
-                $builder->get('server')->addEventListener(
-                    FormEvents::POST_SUBMIT,
-                    function (FormEvent $event) use ($formModifier): void {
-                        // It's important here to fetch $event->getForm()->getData(), as
-                        // $event->getData() will get you the client data (that is, the ID)
-                        $sport = $event->getForm()->getData();
-
-                        // since we've added the listener to the child, we'll have to pass on
-                        // the parent to the callback function!
-                        $formModifier($event->getForm()->getParent(), $sport);
-                    }
-                );
-
-
-
+                    // since we've added the listener to the child, we'll have to pass on
+                    // the parent to the callback function!
+                    $formModifier($event->getForm()->getParent(), $sport);
+                }
+            );
         }
 
 
@@ -219,11 +265,11 @@ class RoomType extends AbstractType
                 'moderator',
                 EntityType::class,
                 [
-                    'class' => User::class,
-                    'choice_label' => fn(User $user) => $user->getFormatedName($this->theme->getApplicationProperties('laf_showNameFrontend')),
-                    'choices' => $organisators,
-                    'required' => true,
-                    'label' => 'label.moderator',
+                    'class'              => User::class,
+                    'choice_label'       => fn(User $user) => $user->getFormatedName($this->theme->getApplicationProperties('laf_showNameFrontend')),
+                    'choices'            => $organisators,
+                    'required'           => true,
+                    'label'              => 'label.moderator',
                     'translation_domain' => 'form'
                 ]
             );
@@ -231,8 +277,13 @@ class RoomType extends AbstractType
         $builder->add(
             'submit',
             SubmitType::class,
-            ['label' => 'label.speichern', 'translation_domain' => 'form', 'attr' => [
-                'class' => 'd-none']]
+            [
+                'label'              => 'label.speichern',
+                'translation_domain' => 'form',
+                'attr'               => [
+                    'class' => 'd-none'
+                ]
+            ]
         );
         if (count($options['server']) === 1) {
             $builder->remove('server');
@@ -241,16 +292,15 @@ class RoomType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-
         $resolver->setDefaults(
             [
-                'server' => [],
+                'server'         => [],
                 'serverDisabled' => false,
-                'e2eeDisabled' => false,
-                'data_class' => Rooms::class,
-                'minDate' => 'today',
-                'isEdit' => false,
-                'user' => User::class,
+                'e2eeDisabled'   => false,
+                'data_class'     => Rooms::class,
+                'minDate'        => 'today',
+                'isEdit'         => false,
+                'user'           => User::class,
             ]
         );
 

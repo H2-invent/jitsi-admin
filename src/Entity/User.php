@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\UserBase as BaseUser;
 use App\Repository\UserRepository;
 use App\Service\FormatName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\UserBase as BaseUser;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -23,7 +22,7 @@ class User extends BaseUser
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id = null;
+    protected ?int     $id = null;
 
     #[Assert\NotBlank(message: 'fos_user.password.blank', groups: ['Registration', 'ResetPassword', 'ChangePassword'])]
     #[Assert\Length(min: 8, minMessage: 'fos_user.password.short', groups: ['Registration', 'Profile', 'ResetPassword', 'ChangePassword'])]
@@ -287,33 +286,33 @@ class User extends BaseUser
 
     public function __construct()
     {
-        $this->rooms = new ArrayCollection();
-        $this->servers = new ArrayCollection();
-        $this->roomModerator = new ArrayCollection();
-        $this->serverAdmins = new ArrayCollection();
-        $this->addressbook = new ArrayCollection();
-        $this->addressbookInverse = new ArrayCollection();
-        $this->roomsAttributes = new ArrayCollection();
-        $this->subscribers = new ArrayCollection();
-        $this->schedulingTimeUsers = new ArrayCollection();
-        $this->waitinglists = new ArrayCollection();
-        $this->notifications = new ArrayCollection();
-        $this->repeaterUsers = new ArrayCollection();
-        $this->protoypeRooms = new ArrayCollection();
-        $this->AddressGroupLeader = new ArrayCollection();
-        $this->AddressGroupMember = new ArrayCollection();
-        $this->favorites = new ArrayCollection();
-        $this->lobbyWaitungUsers = new ArrayCollection();
-        $this->callerIds = new ArrayCollection();
-        $this->calloutSessions = new ArrayCollection();
-        $this->creatorOf = new ArrayCollection();
-        $this->logs = new ArrayCollection();
-        $this->deputiesElement = new ArrayCollection();
-        $this->managerElement = new ArrayCollection();
-        $this->AdressbookFavorites = new ArrayCollection();
+        $this->rooms                    = new ArrayCollection();
+        $this->servers                  = new ArrayCollection();
+        $this->roomModerator            = new ArrayCollection();
+        $this->serverAdmins             = new ArrayCollection();
+        $this->addressbook              = new ArrayCollection();
+        $this->addressbookInverse       = new ArrayCollection();
+        $this->roomsAttributes          = new ArrayCollection();
+        $this->subscribers              = new ArrayCollection();
+        $this->schedulingTimeUsers      = new ArrayCollection();
+        $this->waitinglists             = new ArrayCollection();
+        $this->notifications            = new ArrayCollection();
+        $this->repeaterUsers            = new ArrayCollection();
+        $this->protoypeRooms            = new ArrayCollection();
+        $this->AddressGroupLeader       = new ArrayCollection();
+        $this->AddressGroupMember       = new ArrayCollection();
+        $this->favorites                = new ArrayCollection();
+        $this->lobbyWaitungUsers        = new ArrayCollection();
+        $this->callerIds                = new ArrayCollection();
+        $this->calloutSessions          = new ArrayCollection();
+        $this->creatorOf                = new ArrayCollection();
+        $this->logs                     = new ArrayCollection();
+        $this->deputiesElement          = new ArrayCollection();
+        $this->managerElement           = new ArrayCollection();
+        $this->AdressbookFavorites      = new ArrayCollection();
         $this->isAdressbookFavoriteFrom = new ArrayCollection();
-        $this->schedulingTimesCreated = new ArrayCollection();
-        $this->livekitRecordings = new ArrayCollection();
+        $this->schedulingTimesCreated   = new ArrayCollection();
+        $this->livekitRecordings        = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1015,7 +1014,6 @@ class User extends BaseUser
 
     public function getPermissionForRoom(Rooms $rooms): RoomsUser
     {
-
         foreach ($this->roomsAttributes as $data) {
             if ($data->getRoom()->getId() == $rooms->getId()) {
                 return $data;

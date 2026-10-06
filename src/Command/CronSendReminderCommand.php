@@ -17,9 +17,8 @@ class CronSendReminderCommand extends Command
         parent::__construct($name);
     }
 
-    protected function configure():void
+    protected function configure(): void
     {
-
         $this
             ->addOption('host_url', 'u', InputOption::VALUE_OPTIONAL, 'Set the server-domain from which you want to send the reminder. this is a komma seperated list. Write null to send from a room with host_url null leave blank to send from all host_url')
             ->setDescription('Send a reminder to all users which are in a room in the next 10 min');

@@ -5,12 +5,10 @@ namespace App\Command;
 use App\Service\Ldap\LdapService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Exception\NotBoundException;
 
@@ -19,11 +17,9 @@ class SyncLdapCommand extends Command
 {
     public function __construct(
         private readonly LdapService $ldapService,
-        ?string              $name = null
-    )
-    {
+        ?string                      $name = null
+    ) {
         parent::__construct($name);
-
     }
 
     protected function configure(): void
@@ -34,13 +30,12 @@ class SyncLdapCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io     = new SymfonyStyle($input, $output);
         $dryrun = $input->getOption('dry-run');
         if ($dryrun) {
             $io->info('Dryrun is activated. No databases changes are made');
         }
 
-        $count = 0;
         $result = [];
         $io->info('We test the all LDAP connections: ');
         $error = false;
@@ -68,7 +63,6 @@ class SyncLdapCommand extends Command
                     $result[] = $resTmp;
                 }
                 $numberUsers += $this->printTable(output: $output, header: $data->getUrl() . ' | ' . $data->getUserDn(), data: $resTmp);
-
             } else {
                 $io->error('This LDAP is unhealty: ' . $data->getUrl());
             }
@@ -94,9 +88,8 @@ class SyncLdapCommand extends Command
      */
     private function printTable(OutputInterface $output, string $header, array $data): int
     {
-
         $numberUsers = 0;
-        $table = new Table($output);
+        $table       = new Table($output);
         $table->setHeaderTitle($header);
         $table->setStyle('borderless');
         $table->setHeaders(

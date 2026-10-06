@@ -8,8 +8,6 @@ use App\Entity\User;
 use App\Repository\DeputyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class DeputyTwig
 {
@@ -21,8 +19,7 @@ class DeputyTwig
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly ParameterBagInterface  $parameterBag
-    )
-    {
+    ) {
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'deputyIsFromLDAP')]
@@ -30,7 +27,7 @@ class DeputyTwig
     {
         if (!isset($this->deputyCache[$manager->getId()])) {
             /** @var DeputyRepository $deputyRepository */
-            $deputyRepository = $this->entityManager->getRepository(Deputy::class);
+            $deputyRepository                     = $this->entityManager->getRepository(Deputy::class);
             $this->deputyCache[$manager->getId()] = $deputyRepository->findForManager($manager);
         }
 
@@ -50,10 +47,10 @@ class DeputyTwig
         $ldapDisallowPromoteDeputy = $this->parameterBag->get('LDAP_DISALLOW_PROMOTE_DEPUTY');
         /** @var array<int, mixed> $ldapDisallowed */
         $ldapDisallowed = json_decode($ldapDisallowPromoteDeputy);
-        if (in_array($user->getLdapUserProperties()->getLdapNumber(), $ldapDisallowed)){
-           return  true;
+        if (in_array($user->getLdapUserProperties()->getLdapNumber(), $ldapDisallowed)) {
+            return true;
         }
-        return  false;
+        return false;
     }
 
 }

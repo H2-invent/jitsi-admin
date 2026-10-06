@@ -14,8 +14,7 @@ class CalloutServiceDialSuccessfull
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly LoggerInterface        $logger,
-    )
-    {
+    ) {
     }
 
 
@@ -26,7 +25,7 @@ class CalloutServiceDialSuccessfull
     public function dialSuccessfull(User $user, Rooms $rooms): bool
     {
         /** @var CalloutSessionRepository $calloutRepo */
-        $calloutRepo = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutRepo    = $this->entityManager->getRepository(CalloutSession::class);
         $calloutSession = $calloutRepo->findOneBy(['room' => $rooms, 'user' => $user]);
 
         if ($calloutSession) {
@@ -41,6 +40,7 @@ class CalloutServiceDialSuccessfull
         } else {
             $this->logger->debug('There is no calloutsession with this user and room');
         }
+
         return false;
     }
 }

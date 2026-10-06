@@ -3,33 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\KeycloakGroupsToServers;
-use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\EnterpriseType;
-use App\Form\Type\NewMemberType;
 use App\Form\Type\NewPermissionType;
-use App\Form\Type\RoomType;
 use App\Form\Type\ServerType;
 use App\Helper\JitsiAdminController;
+use App\Service\InviteService;
 use App\Service\LicenseService;
 use App\Service\MailerService;
 use App\Service\ServerService;
-use App\Service\ServerUserManagment;
 use App\Service\UserCreatorService;
-use App\Service\UserService;
-use App\Service\InviteService;
-use App\Service\NotificationService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class ServersController extends JitsiAdminController
 {
@@ -51,7 +43,7 @@ class ServersController extends JitsiAdminController
             }
             $title = $translator->trans('Jitsi-Meet-Server bearbeiten');
         } else {
-            $title = $translator->trans('Jitsi-Meet-Server erstellen');
+            $title  = $translator->trans('Jitsi-Meet-Server erstellen');
             $server = new Server();
             $server->addUser($this->getUser());
             $server->setAdministrator($this->getUser());
@@ -63,9 +55,9 @@ class ServersController extends JitsiAdminController
         $errors = [];
         if ($form->isSubmitted() && $form->isValid()) {
             $server = $form->getData();
-            $url = $server->getUrl();
-            $url = str_replace('https://', '', $url);
-            $url = str_replace('http://', '', $url);
+            $url    = $server->getUrl();
+            $url    = str_replace('https://', '', $url);
+            $url    = str_replace('http://', '', $url);
             $server->setUrl($url);
             $errors = $validator->validate($server);
             if (count($errors) == 0) {
@@ -92,9 +84,13 @@ class ServersController extends JitsiAdminController
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/server/enterprise', name: 'servers_enterprise')]
-    public function serverEnterprise(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator, LicenseService $licenseService): Response
-    {
-
+    public function serverEnterprise(
+        Request             $request,
+        ValidatorInterface  $validator,
+        ServerService       $serverService,
+        TranslatorInterface $translator,
+        LicenseService      $licenseService
+    ): Response {
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         if ($server->getAdministrator() !== $this->getUser()) {
             $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
@@ -137,10 +133,13 @@ class ServersController extends JitsiAdminController
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/server/add-user', name: 'server_add_user')]
-    public function roomAddUser(Request $request, ServerService $serverService, TranslatorInterface $translator, UserCreatorService $userCreatorService): Response
-    {
+    public function roomAddUser(Request             $request,
+                                ServerService       $serverService,
+                                TranslatorInterface $translator,
+                                UserCreatorService  $userCreatorService
+    ): Response {
         $newMember = [];
-        $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
+        $server    = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         if ($server->getAdministrator() !== $this->getUser()) {
             $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
@@ -151,12 +150,12 @@ class ServersController extends JitsiAdminController
         $errors = [];
         if ($form->isSubmitted() && $form->isValid()) {
             $newMembers = $form->getData();
-            $lines = explode("\n", $newMembers['member']);
+            $lines      = explode("\n", $newMembers['member']);
 
             $em = $this->doctrine->getManager();
             foreach ($lines as $line) {
                 $newMember = trim($line);
-                $user = $userCreatorService->createUser($newMember, $newMember, '', '');
+                $user      = $userCreatorService->createUser($newMember, $newMember, '', '');
                 $user->addServer($server);
                 $em->persist($user);
                 $serverService->addPermission($server, $user);
@@ -168,16 +167,19 @@ class ServersController extends JitsiAdminController
         }
         $title = $translator->trans('Organisator zu Server hinzufügen');
 
-        return $this->render('servers/permissionModal.html.twig', ['form' => $form->createView(), 'title' => $title, 'users' => $server->getUser(), 'server' => $server]);
+        return $this->render(
+            'servers/permissionModal.html.twig',
+            ['form' => $form->createView(), 'title' => $title, 'users' => $server->getUser(), 'server' => $server]
+        );
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/server/user/remove', name: 'server_user_remove')]
     public function serverUserRemove(Request $request, TranslatorInterface $translator): Response
     {
-
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
-        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
-        $snack = $translator->trans('Keine Berechtigung');
+        $user   = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
+        $snack  = $translator->trans('Keine Berechtigung');
+
         if ($server->getAdministrator() === $this->getUser() || $user === $this->getUser()) {
             $server->removeUser($user);
             $em = $this->doctrine->getManager();
@@ -186,17 +188,18 @@ class ServersController extends JitsiAdminController
             $snack = $translator->trans('Berechtigung gelöscht');
         }
         $this->addFlash('success', $snack);
+
         return $this->redirectToRoute('dashboard');
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/server/delete', name: 'server_delete')]
     public function serverDelete(Request $request, TranslatorInterface $translator, ServerService $serverService): Response
     {
-
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
-        $snack = $translator->trans('Keine Berechtigung');
+        $snack  = $translator->trans('Keine Berechtigung');
+
         if ($server->getAdministrator() === $this->getUser()) {
-            $em = $this->doctrine->getManager();
+            $em          = $this->doctrine->getManager();
             $groupServer = $this->doctrine->getRepository(KeycloakGroupsToServers::class)->findBy(['server' => $server]);
             foreach ($groupServer as $data) {
                 $em->remove($data);
@@ -206,19 +209,18 @@ class ServersController extends JitsiAdminController
                 $em->persist($server);
             }
             $em->flush();
-
             $snack = $translator->trans('Server gelöscht');
         }
         $this->addFlash('success', $snack);
+
         return $this->redirectToRoute('dashboard');
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/server/check/email', name: 'server_check_email')]
     public function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService): Response
     {
-
-        $color = 'success';
-        $snack = $translator->trans('SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten');
+        $color  = 'success';
+        $snack  = $translator->trans('SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten');
         $server = $this->doctrine->getRepository(Server::class)->find($request->get('id'));
 
         if (!$server || $server->getAdministrator() != $this->getUser()) {
@@ -227,6 +229,7 @@ class ServersController extends JitsiAdminController
         } else {
             try {
                 $transport = null;
+
                 if ($server->getSmtpHost()) {
                     $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
                     if ($server->getSmtpUsername()) {
@@ -241,8 +244,9 @@ class ServersController extends JitsiAdminController
                     $this->addFlash($color, $snack);
                     return $this->redirectToRoute('dashboard');
                 }
+
                 $transport = Transport::fromDsn($dsn);
-                $message = new Email()
+                $message   = new Email()
                     ->subject($translator->trans('Testmail vom Jitsi-Admin') . ' | ' . $server->getUrl())
                     ->from(new Address($server->getSmtpEmail(), $server->getSmtpSenderName()))
                     ->to($this->getUser()->getEmail())
@@ -259,6 +263,7 @@ class ServersController extends JitsiAdminController
             }
         }
         $this->addFlash($color, $snack);
+
         return $this->redirectToRoute('dashboard');
     }
 }

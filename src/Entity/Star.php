@@ -32,44 +32,53 @@ class Star
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $os = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getServer(): ?Server
     {
         return $this->server;
     }
+
     public function setServer(?Server $server): self
     {
         $this->server = $server;
 
         return $this;
     }
+
     public function getStar(): ?int
     {
         return $this->star;
     }
+
     public function setStar(int $star): self
     {
         $this->star = $star;
 
         return $this;
     }
+
     public function getComment(): ?string
     {
         return $this->comment;
     }
+
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
+
     public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;

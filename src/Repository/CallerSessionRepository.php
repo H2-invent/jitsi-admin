@@ -37,20 +37,19 @@ class CallerSessionRepository extends ServiceEntityRepository
     }
 
 
-public function findCallerSessionByUserAndRoom(User $user, Rooms $rooms): ?CallerSession
-{
-    return $this->createQueryBuilder('c')
-        ->innerJoin('c.caller','caller')
-        ->innerJoin('caller.user', 'user')
-        ->innerJoin('caller.room','room')
-        ->andWhere('user = :user')
-        ->setParameter('user',$user)
-        ->andWhere('room = :room')
-        ->setParameter('room', $rooms)
-        ->getQuery()
-        ->getOneOrNullResult()
-    ;
-}
+    public function findCallerSessionByUserAndRoom(User $user, Rooms $rooms): ?CallerSession
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.caller', 'caller')
+            ->innerJoin('caller.user', 'user')
+            ->innerJoin('caller.room', 'room')
+            ->andWhere('user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('room = :room')
+            ->setParameter('room', $rooms)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
     // /**
     //  * @return CallerSession[] Returns an array of CallerSession objects

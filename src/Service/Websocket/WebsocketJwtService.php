@@ -12,8 +12,7 @@ class WebsocketJwtService
     public function __construct(
         private readonly ParameterBagInterface $parameterBag,
         private readonly OnlineStatusService   $onlineStatusService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -22,19 +21,19 @@ class WebsocketJwtService
     public function createJwt(array $rooms, ?User $user): string
     {
         $payload = [
-            'iss' => 'jitsi-admin',
-            'aud' => 'jitsi-admin',
-            'sub' => $user ? $user->getUid() : null,
+            'iss'    => 'jitsi-admin',
+            'aud'    => 'jitsi-admin',
+            'sub'    => $user ? $user->getUid() : null,
             'status' => $user ? $this->onlineStatusService->getUserStatus($user) : 0,
-            'iat' => new \DateTimeImmutable()->getTimestamp(),
-            'nbf' => new \DateTimeImmutable()->getTimestamp(),
-            'exp' => new \DateTimeImmutable()->modify('+3days')->getTimestamp(),
-            'rooms' => $rooms
+            'iat'    => new \DateTimeImmutable()->getTimestamp(),
+            'nbf'    => new \DateTimeImmutable()->getTimestamp(),
+            'exp'    => new \DateTimeImmutable()->modify('+3days')->getTimestamp(),
+            'rooms'  => $rooms
         ];
 
         /** @var string $secret */
         $secret = $this->parameterBag->get('WEBSOCKET_SECRET');
 
-        return JWT::encode($payload, $secret,'HS256');
+        return JWT::encode($payload, $secret, 'HS256');
     }
 }

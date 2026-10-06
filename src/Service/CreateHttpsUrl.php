@@ -14,7 +14,7 @@ class CreateHttpsUrl
     public function __construct(private readonly LoggerInterface $logger, private readonly RequestStack $request, private ParameterBagInterface $paramterBag)
     {
         /** @var string $baseUrl */
-        $baseUrl = $this->paramterBag->get('laF_baseUrl');
+        $baseUrl       = $this->paramterBag->get('laF_baseUrl');
         $this->baseUrl = $baseUrl;
     }
 

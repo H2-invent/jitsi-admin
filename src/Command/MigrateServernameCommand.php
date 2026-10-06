@@ -24,9 +24,9 @@ class MigrateServernameCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io     = new SymfonyStyle($input, $output);
         $server = $this->em->getRepository(Server::class)->findAll();
-        $res = $this->serverRename->renameServer($server);
+        $res    = $this->serverRename->renameServer($server);
         foreach ($res as $data) {
             $io->info(sprintf('We rename the server with the url %s', $data->getUrl()));
         }

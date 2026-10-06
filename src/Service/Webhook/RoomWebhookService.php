@@ -17,8 +17,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class RoomWebhookService
 {
-    public function __construct(private readonly LobbyUtils                         $lobbyUtils, private readonly EntityManagerInterface             $em, private readonly LoggerInterface                    $logger, private readonly ParameterBagInterface              $paramterBag, private readonly SendSummaryViaEmailService $sendSummaryViaEmailService, private readonly ThemeService               $themeService, private readonly EgressService              $egressService)
-    {
+    public function __construct(private readonly LobbyUtils                 $lobbyUtils,
+                                private readonly EntityManagerInterface     $em,
+                                private readonly LoggerInterface            $logger,
+                                private readonly ParameterBagInterface      $paramterBag,
+                                private readonly SendSummaryViaEmailService $sendSummaryViaEmailService,
+                                private readonly ThemeService               $themeService,
+                                private readonly EgressService              $egressService
+    ) {
     }
 
     /**
@@ -32,7 +38,7 @@ class RoomWebhookService
                 case 'muc-room-created':
                     $res = $this->roomCreated(
                         $data['room_name'],
-                        $data['is_breakout']??null,
+                        $data['is_breakout'] ?? null,
                         $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['created_at']
@@ -40,7 +46,7 @@ class RoomWebhookService
                     break;
                 case 'muc-room-destroyed':
                     $res = $this->roomDestroyed(
-                        $data['is_breakout']??null,
+                        $data['is_breakout'] ?? null,
                         $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['destroyed_at']
@@ -48,7 +54,7 @@ class RoomWebhookService
                     break;
                 case 'muc-occupant-joined':
                     $res = $this->roomParticipantJoin(
-                        $data['is_breakout']??null,
+                        $data['is_breakout'] ?? null,
                         $data['breakout_room_id'] ?? null,
                         $data['room_jid'],
                         $data['occupant']['occupant_jid'],
@@ -59,7 +65,7 @@ class RoomWebhookService
                     break;
                 case 'muc-occupant-left':
                     $res = $this->roomParticipantLeft(
-                        $data['is_breakout']??null,
+                        $data['is_breakout'] ?? null,
                         $data['breakout_room_id'] ?? null,
                         $data['occupant']['occupant_jid'],
                         $data['occupant']['left_at'],
@@ -71,26 +77,24 @@ class RoomWebhookService
                     $res = 'Wrong event_name';
             }
         }
+
         return $res;
     }
 
 
     public function roomCreated(
         string  $roomName,
-        ?bool    $isBreakout,
+        ?bool   $isBreakout,
         ?string $breakoutRoomId,
         string  $roomJid,
         int     $createdAt
-    ): ?string
-    {
+    ): ?string {
         try {
-
-
             $room = null;
             try {
                 /** @var RoomsRepository $roomsRepository */
                 $roomsRepository = $this->em->getRepository(Rooms::class);
-                $room = $roomsRepository->findRoomByCaseInsensitiveUid($roomName);
+                $room            = $roomsRepository->findRoomByCaseInsensitiveUid($roomName);
             } catch (\Exception $exception) {
                 $this->logger->error($exception->getMessage());
             }
@@ -123,13 +127,13 @@ class RoomWebhookService
                 return $text;
             }
 
-                $roomStatus = new RoomStatus();
-                $roomStatus->setCreatedAt(new \DateTimeImmutable())
-                    ->setJitsiRoomId($roomJid)
-                    ->setRoom($room);
+            $roomStatus = new RoomStatus();
+            $roomStatus->setCreatedAt(new \DateTimeImmutable())
+                ->setJitsiRoomId($roomJid)
+                ->setRoom($room);
 
             /** @var \DateTimeImmutable $roomCreatedAt */
-            $roomCreatedAt = \DateTimeImmutable::createFromFormat('U', (string) $createdAt);
+            $roomCreatedAt = \DateTimeImmutable::createFromFormat('U', (string)$createdAt);
             $roomStatus->setRoomCreatedAt($roomCreatedAt)
                 ->setUpdatedAt(new \DateTimeImmutable())
                 ->setCreated(true);
@@ -140,32 +144,30 @@ class RoomWebhookService
             $this->logger->error($exception->getMessage());
             return 'ERROR';
         }
+
         return null;
     }
 
 
     public function roomDestroyed(
 
-        ?bool    $isBreakout,
+        ?bool   $isBreakout,
         ?string $breakoutRoomId,
         string  $roomJid,
         int     $destroyedAt
-    ): ?string
-    {
+    ): ?string {
         try {
-
-
             if ($isBreakout) {
                 $this->logger->debug('This is a breakoutRoom', [
                     'breakout_room_id' => $breakoutRoomId,
-                    'room_jid' => $roomJid
+                    'room_jid'         => $roomJid
                 ]);
                 return 'Room is a breakout room we don`t remove the main room';
             }
 
             /** @var RoomStatusRepository $roomStatusRepository */
             $roomStatusRepository = $this->em->getRepository(RoomStatus::class);
-            $roomStatus = $roomStatusRepository->findCreatedRoomsbyJitsiId($roomJid);
+            $roomStatus           = $roomStatusRepository->findCreatedRoomsbyJitsiId($roomJid);
             if (!$roomStatus) {
                 $text = 'Room Jitsi ID not found';
                 $this->logger->error($text, ['jitsiID' => $roomJid]);
@@ -174,7 +176,7 @@ class RoomWebhookService
 
             /** @var int|string $jitsiEventsHistory */
             $jitsiEventsHistory = $this->paramterBag->get('JITSI_EVENTS_HISTORY');
-            if ((int) $jitsiEventsHistory == 0) {
+            if ((int)$jitsiEventsHistory == 0) {
                 $statusOld = $roomStatusRepository->findBy(['jitsiRoomId' => $roomJid]);
                 foreach ($statusOld as $data) {
                     $this->em->remove($data);
@@ -184,7 +186,7 @@ class RoomWebhookService
             }
 
             /** @var \DateTimeImmutable $destroyedAtDate */
-            $destroyedAtDate = \DateTimeImmutable::createFromFormat('U', (string) $destroyedAt);
+            $destroyedAtDate = \DateTimeImmutable::createFromFormat('U', (string)$destroyedAt);
             $roomStatus->setDestroyedAt($destroyedAtDate)
                 ->setUpdatedAt(new \DateTimeImmutable())
                 ->setDestroyed(true);
@@ -197,22 +199,21 @@ class RoomWebhookService
             }
 
             foreach ($roomStatus->getRoomStatusParticipants() as $data2) {
-                if($data2->getInRoom()){
+                if ($data2->getInRoom()) {
                     /** @var \DateTimeImmutable $leftRoomAtDestroyed */
-                    $leftRoomAtDestroyed = \DateTimeImmutable::createFromFormat('U', (string) $destroyedAt);
+                    $leftRoomAtDestroyed = \DateTimeImmutable::createFromFormat('U', (string)$destroyedAt);
                     $data2->setLeftRoomAt($leftRoomAtDestroyed)
                         ->setInRoom(false);
                     $this->em->persist($data2);
                 }
             }
-            if ($roomStatus->getRoom()){
+            if ($roomStatus->getRoom()) {
                 foreach ($roomStatus->getRoom()->getLiveKitRecordings() as $recording) {
                     $this->egressService->stopEgress($recording);
                 }
             }
             $this->em->flush();
             $this->clenRoomStatus($roomStatus);
-
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
             return $exception->getMessage();
@@ -230,19 +231,17 @@ class RoomWebhookService
         ?string $breakoutRoomName,
         string  $roomJId,
         string  $occupantJId,
-                string $joinedAt,
+        string  $joinedAt,
         ?string $occupantName = null,
-    ): ?string
-    {
+    ): ?string {
         try {
-
             if ($isBreakout === true) {
                 $this->logger->debug('This is a breakoutRoom', ['breakout_room_id ' => $breakoutRoomName, 'room_jid' => $roomJId]);
                 return 'Room is a breakout room we don`t join the participant';
             }
             /** @var RoomStatusRepository $roomStatusRepository */
             $roomStatusRepository = $this->em->getRepository(RoomStatus::class);
-            $roomStatus = $roomStatusRepository->findCreatedRoomsbyJitsiId($roomJId);
+            $roomStatus           = $roomStatusRepository->findCreatedRoomsbyJitsiId($roomJId);
             if (!$roomStatus) {
                 $text = 'Room Jitsi ID not found';
                 $this->logger->error($text, ['jitsiID' => $roomJId]);
@@ -275,20 +274,19 @@ class RoomWebhookService
             $this->logger->error($exception->getMessage());
             return 'ERROR';
         }
+
         return null;
     }
 
     public function roomParticipantLeft(
 
-        ?bool    $isBreakout,
+        ?bool   $isBreakout,
         ?string $breakoutRoomId,
         string  $occupantJid,
         int     $leftAt,
         ?int    $totalDominantSpeakerTime = null
-    ): ?string
-    {
+    ): ?string {
         try {
-
             if ($isBreakout) {
                 $this->logger->debug('This is a breakoutRoom', ['breakout_room_id' => $breakoutRoomId]);
                 return 'Room is a breakout room; we don`t remove the participant';
@@ -308,7 +306,7 @@ class RoomWebhookService
             }
 
             /** @var \DateTimeImmutable $leftRoomAt */
-            $leftRoomAt = \DateTimeImmutable::createFromFormat('U', (string) $leftAt);
+            $leftRoomAt = \DateTimeImmutable::createFromFormat('U', (string)$leftAt);
             $roomPart->setLeftRoomAt($leftRoomAt)
                 ->setInRoom(false)
                 ->setDominantSpeakerTime($totalDominantSpeakerTime);

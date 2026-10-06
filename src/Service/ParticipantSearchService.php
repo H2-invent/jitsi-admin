@@ -10,8 +10,11 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ParticipantSearchService
 {
-    public function __construct(private readonly ParameterBagInterface $parameterBag, private readonly ThemeService $themeService, private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly ThemeService          $themeService,
+        private readonly LoggerInterface       $logger
+    ) {
     }
 
     /**
@@ -23,16 +26,16 @@ class ParticipantSearchService
         $res = [];
         foreach ($user as $data) {
             $tmp = [
-                'name' => $this->buildShowInFrontendString($data),
+                'name'       => $this->buildShowInFrontendString($data),
                 'nameNoIcon' => $this->buildShowInFrontendStringNoString($data),
-                'id' => $data->getUsername(),
-                'uid' => $data->getUid(),
-                'roles' => ['participant', 'moderator']
+                'id'         => $data->getUsername(),
+                'uid'        => $data->getUid(),
+                'roles'      => ['participant', 'moderator']
             ];
             $this->filterForModerator($data, $tmp);
-
             $res[] = $tmp;
         }
+
         return $res;
     }
 
@@ -45,24 +48,25 @@ class ParticipantSearchService
         $res = [];
         if (sizeof($user) === 0) {
             $res[] = [
-                'name' => $searchString,
-                'id' => trim($searchString),
+                'name'       => $searchString,
+                'id'         => trim($searchString),
                 'nameNoIcon' => $searchString,
-                'roles' => ['participant', 'moderator']
+                'roles'      => ['participant', 'moderator']
             ];
         } else {
             foreach ($user as $data) {
                 $tmp = [
-                    'name' => $this->buildShowInFrontendString($data),
+                    'name'       => $this->buildShowInFrontendString($data),
                     'nameNoIcon' => $this->buildShowInFrontendStringNoString($data),
-                    'uid' => $data->getUid(),
-                    'id' => trim($data->getUsername()),
-                    'roles' => ['participant', 'moderator']
+                    'uid'        => $data->getUid(),
+                    'id'         => trim($data->getUsername()),
+                    'roles'      => ['participant', 'moderator']
                 ];
                 $this->filterForModerator($data, $tmp);
                 $res[] = $tmp;
             }
         }
+
         return $res;
     }
 
@@ -74,15 +78,16 @@ class ParticipantSearchService
     {
         $res = [];
         foreach ($group as $data) {
-            $tmp = ['name' => '', 'user' => ''];
-            $tmpUser = [];
+            $tmp         = ['name' => '', 'user' => ''];
+            $tmpUser     = [];
             $tmp['name'] = $data->getName();
             foreach ($data->getMember() as $m) {
                 $tmpUser[] = trim($m->getUsername());
             }
             $tmp['user'] = $tmpUser;
-            $res[] = $tmp;
+            $res[]       = $tmp;
         }
+
         return $res;
     }
 
@@ -91,7 +96,7 @@ class ParticipantSearchService
         $res = '';
         /** @var string $showName */
         $showName = $this->parameterBag->get('laf_showName');
-        $res .= $user->getFormatedName($showName);
+        $res      .= $user->getFormatedName($showName);
         /** @var string $iconMappingSearch */
         $iconMappingSearch = $this->parameterBag->get('laf_icon_mapping_search');
         /** @var array<string, string> $mapper */
@@ -102,6 +107,7 @@ class ParticipantSearchService
                 $res = '<i class="' . $data . '" title="' . $user->getSpezialProperties()[$key] . '" data-toggle="tooltip"></i> ' . $res;//dann nehme das Symbol aus dem Mapper und setzte es vor den Resultstring.
             }
         }
+
         return $res;
     }
 
@@ -110,7 +116,8 @@ class ParticipantSearchService
         $res = '';
         /** @var string $showName */
         $showName = $this->parameterBag->get('laf_showName');
-        $res .= $user->getFormatedName($showName);
+        $res      .= $user->getFormatedName($showName);
+
         return $res;
     }
 
@@ -121,12 +128,16 @@ class ParticipantSearchService
     public function filterForModerator(User $user, array &$inputArr): array
     {
         try {
-            if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))) {
+            if ($user->getLdapUserProperties() && in_array(
+                    $user->getLdapUserProperties()->getLdapNumber(),
+                    $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE')
+                )) {
                 $inputArr['roles'] = $this->removeRoleFromArray($inputArr['roles'], 'moderator');
             }
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
         }
+
         return $inputArr;
     }
 

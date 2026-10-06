@@ -220,14 +220,15 @@ class Server
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
-        $this->rooms = new ArrayCollection();
+        $this->user           = new ArrayCollection();
+        $this->rooms          = new ArrayCollection();
         $this->keycloakGroups = new ArrayCollection();
-        $this->OwnRoomUSer = new ArrayCollection();
-        $this->stars = new ArrayCollection();
-        $this->tag = new ArrayCollection();
-        $this->calendlyUsers = new ArrayCollection();
+        $this->OwnRoomUSer    = new ArrayCollection();
+        $this->stars          = new ArrayCollection();
+        $this->tag            = new ArrayCollection();
+        $this->calendlyUsers  = new ArrayCollection();
     }
+
     public function __clone()
     {
         // ID zurücksetzen
@@ -235,9 +236,9 @@ class Server
 
         // Collection leeren, damit ManyToMany nicht übernommen wird
         $this->user = new ArrayCollection();
-
         // Falls du andere Beziehungen hast: individuell behandeln
     }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -460,7 +461,6 @@ class Server
         } else {
             return '';
         }
-
     }
 
     public function getPrivacyPolicy(): ?string

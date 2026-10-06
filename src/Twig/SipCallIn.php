@@ -6,8 +6,6 @@ namespace App\Twig;
 use App\Entity\CallerId;
 use App\Entity\Rooms;
 use App\Entity\User;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 class SipCallIn
 {

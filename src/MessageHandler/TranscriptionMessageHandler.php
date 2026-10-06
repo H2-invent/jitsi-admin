@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\MessageHandler;
@@ -12,10 +13,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class TranscriptionMessageHandler
 {
     public function __construct(
-        private readonly TranscriptionService $service,
+        private readonly TranscriptionService        $service,
         private readonly UploadedRecordingRepository $uploadedRecordingRepository,
-    )
-    {
+    ) {
     }
 
     public function __invoke(TranscriptionMessage $message): void

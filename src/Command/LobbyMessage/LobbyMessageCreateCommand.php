@@ -20,8 +20,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class LobbyMessageCreateCommand extends Command
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly PredefinedLobbyMessagesRepository $predefinedLobbyMessagesRepository, ?string $name = null)
-    {
+    public function __construct(private readonly EntityManagerInterface            $entityManager,
+                                private readonly PredefinedLobbyMessagesRepository $predefinedLobbyMessagesRepository,
+                                ?string                                            $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -34,20 +36,20 @@ class LobbyMessageCreateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io   = new SymfonyStyle($input, $output);
         $text = $input->getArgument('text');
 
         if ($text) {
             $io->note(sprintf('We create a new Predefined message with the text: %s', $text));
             $messageOld = $this->predefinedLobbyMessagesRepository->findOneBy(['text' => $text]);
-            if ($messageOld){
+            if ($messageOld) {
                 $io->error('The message is already defined');
 
                 return Command::FAILURE;
             }
         } else {
             $textQ = new Question('Enter the message text: ', 'Please wait. I will let you in in some minutes.');
-            $text = $io->askQuestion($textQ);
+            $text  = $io->askQuestion($textQ);
         }
 
 
@@ -58,8 +60,8 @@ class LobbyMessageCreateCommand extends Command
             $io->note(sprintf('We create a new Predefined message with the prio: %d', $prio));
             $message->setActive(true);
         } else {
-            $prioQ = new Question('Enter the Priority (The Lowest will be shown first and is the default)', 0);
-            $prio = $io->askQuestion($prioQ);
+            $prioQ    = new Question('Enter the Priority (The Lowest will be shown first and is the default)', 0);
+            $prio     = $io->askQuestion($prioQ);
             $disableQ = new ConfirmationQuestion('Do you want to Enable the message', true);
             $message->setActive($io->askQuestion($disableQ));
         }

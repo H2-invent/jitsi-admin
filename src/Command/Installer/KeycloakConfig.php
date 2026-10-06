@@ -9,10 +9,10 @@ class KeycloakConfig implements ConvertToEnvironmentInterface
     use ConvertToEnvironmentTrait;
 
     private const array ENVIRONMENT = [
-        'OAUTH_KEYCLOAK_CLIENT_ID' => 'clientId',
+        'OAUTH_KEYCLOAK_CLIENT_ID'     => 'clientId',
         'OAUTH_KEYCLOAK_CLIENT_SECRET' => 'clientSecret',
-        'OAUTH_KEYCLOAK_SERVER' => 'url',
-        'OAUTH_KEYCLOAK_REALM' => 'realm',
+        'OAUTH_KEYCLOAK_SERVER'        => 'url',
+        'OAUTH_KEYCLOAK_REALM'         => 'realm',
     ];
 
     private function __construct(
@@ -21,8 +21,7 @@ class KeycloakConfig implements ConvertToEnvironmentInterface
         private string $realm,
         private string $clientId,
         private string $clientSecret,
-    )
-    {
+    ) {
         if (str_ends_with($this->url, '/auth')) {
             $this->url = str_replace('/auth', '', $this->url);
         }
@@ -34,8 +33,7 @@ class KeycloakConfig implements ConvertToEnvironmentInterface
         int    $version,
         string $clientId,
         string $clientSecret,
-    ): self
-    {
+    ): self {
         return new self(
             url: $url,
             version: $version,

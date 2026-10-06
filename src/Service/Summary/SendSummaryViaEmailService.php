@@ -17,8 +17,7 @@ class SendSummaryViaEmailService
         private readonly CreateSummaryService $createSummaryService,
         private readonly TranslatorInterface  $translator,
         private readonly Environment          $environment
-    )
-    {
+    ) {
     }
 
     public function sendSummaryForRoom(Rooms $rooms): void

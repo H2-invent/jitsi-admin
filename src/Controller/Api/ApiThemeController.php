@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -18,11 +19,10 @@ final class ApiThemeController extends AbstractController
 {
     public function __construct(
         #[Autowire(param: 'API_TOKEN_BEARER_THEME')]
-        private readonly string $themeApiBearerToken,
+        private readonly string                $themeApiBearerToken,
         private readonly BearerTokenAuthHelper $bearerTokenAuthHelper,
-        private readonly ThemeUploadService $themeUploadService,
-    )
-    {
+        private readonly ThemeUploadService    $themeUploadService,
+    ) {
     }
 
     #[Route('/api/v1/theme/upload', name: 'app_api_upload_theme', methods: ['POST'])]
@@ -34,9 +34,9 @@ final class ApiThemeController extends AbstractController
         }
 
         // accepts file in every form property name
-        $files = $request->files->all();
+        $files             = $request->files->all();
         $firstUploadedFile = reset($files);
-        if (count($files) !== 1 || !$firstUploadedFile instanceof UploadedFile ) {
+        if (count($files) !== 1 || !$firstUploadedFile instanceof UploadedFile) {
             return new JsonResponse(['error' => 'Bad file transmission. Check \'Content-*\' Headers'], Response::HTTP_BAD_REQUEST);
         }
 

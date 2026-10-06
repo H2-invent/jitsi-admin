@@ -5,7 +5,6 @@ namespace App\Controller\Api;
 use App\Helper\BearerTokenAuthHelper;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,19 +15,18 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ApiMoveRoomToOtherServerController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface    $entityManager,
-        private readonly RoomsRepository  $roomsRepository,
-        private readonly ServerRepository $serverRepository,
-        private readonly BearerTokenAuthHelper $bearerTokenAuthHelper,
-    )
-    {
+        private readonly EntityManagerInterface $entityManager,
+        private readonly RoomsRepository        $roomsRepository,
+        private readonly ServerRepository       $serverRepository,
+        private readonly BearerTokenAuthHelper  $bearerTokenAuthHelper,
+    ) {
     }
 
     #[Route('/api/v1/room/move/{roomId}', name: 'app_api_move_room_to_other_server', methods: ['POST'])]
     public function index(Request $request, string $roomId): Response
     {
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
-        $room = $this->roomsRepository->findOneBy(['uidReal' => $roomId]);
+        $room   = $this->roomsRepository->findOneBy(['uidReal' => $roomId]);
         if (!$room) {
             return new JsonResponse(['error' => true, 'message' => 'Room not found'], Response::HTTP_NOT_FOUND);
         }
@@ -40,9 +38,11 @@ final class ApiMoveRoomToOtherServerController extends AbstractController
         if (!$newServer) {
             return new JsonResponse(['error' => true, 'message' => 'New Server not found'], Response::HTTP_NOT_FOUND);
         }
-       $room->setServer($newServer);
+
+        $room->setServer($newServer);
         $this->entityManager->persist($room);
         $this->entityManager->flush();
+
         return new JsonResponse(['error' => false, 'message' => 'Room moved'], Response::HTTP_OK);
     }
 }

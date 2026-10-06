@@ -18,28 +18,24 @@ class RecordingsFinalizeCommand extends Command
 {
     public function __construct(
         private readonly RecordingService $recordingService,
-    )
-    {
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
         $this
-            ->addArgument('recording_uid', InputArgument::REQUIRED, 'Recording UID')
-        ;
+            ->addArgument('recording_uid', InputArgument::REQUIRED, 'Recording UID');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io           = new SymfonyStyle($input, $output);
         $uidRecording = $input->getArgument('recording_uid');
 
         $result = $this->recordingService->finalizeUpload($uidRecording);
-
         if ($result->isFailure()) {
             $io->error("{$result->getErrorType()->value} \nrecording_uid: {$uidRecording}");
-
             return Command::FAILURE;
         }
 

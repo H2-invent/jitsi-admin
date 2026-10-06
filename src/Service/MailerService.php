@@ -36,19 +36,20 @@ class MailerService
         private readonly KernelInterface       $kernel,
         private readonly MailerInterface       $mailer,
         private readonly ThemeService          $themeService
-    ) {}
+    ) {
+    }
 
     /**
      * @param array<int, array{type: string, filename: string, body: string}> $attachment
      */
     public function sendEmail(
-        User $user,
-        string $betreff,
-        string $content,
-        Server $server,
+        User    $user,
+        string  $betreff,
+        string  $content,
+        Server  $server,
         ?string $replyTo = null,
-        ?Rooms $rooms = null,
-        array $attachment = []
+        ?Rooms  $rooms = null,
+        array   $attachment = []
     ): bool {
         $to = $user->getEmail();
         $cc = $this->extractValidEmails($user->getSecondEmail());
@@ -58,7 +59,7 @@ class MailerService
             return true;
         }
 
-        if ((int) $this->parameter->get('DISALLOW_ALL_EMAILS') === 1) {
+        if ((int)$this->parameter->get('DISALLOW_ALL_EMAILS') === 1) {
             $this->logger->debug('Global email sending disabled.');
             return true;
         }
@@ -85,14 +86,14 @@ class MailerService
      * @param array<int, string> $cc
      */
     private function sendViaMailer(
-        string $to,
-        string $betreff,
-        string $content,
-        Server $server,
+        string  $to,
+        string  $betreff,
+        string  $content,
+        Server  $server,
         ?string $replyTo = null,
-        ?Rooms $rooms = null,
-        array $attachment = [],
-        array $cc = []
+        ?Rooms  $rooms = null,
+        array   $attachment = [],
+        array   $cc = []
     ): bool {
         $this->buildTransport($server);
 
@@ -134,10 +135,12 @@ class MailerService
             $registerEmailAdress = $this->parameter->get('registerEmailAdress');
             /** @var string $registerEmailName */
             $registerEmailName = $this->parameter->get('registerEmailName');
-            $fallbackEmail->from(new Address(
-                $registerEmailAdress,
-                $registerEmailName
-            ));
+            $fallbackEmail->from(
+                new Address(
+                    $registerEmailAdress,
+                    $registerEmailName
+                )
+            );
             $this->mailer->send($fallbackEmail);
             throw $e;
         }
@@ -147,7 +150,9 @@ class MailerService
 
     public function buildTransport(Server $server): void
     {
-        if (!$server->getSmtpHost()) return;
+        if (!$server->getSmtpHost()) {
+            return;
+        }
 
         $this->logger->info('Building new Transport: ' . $server->getSmtpHost());
         $dsn = $server->getSmtpUsername()
@@ -168,14 +173,14 @@ class MailerService
      * @param array<int, string> $cc
      */
     private function createEmailMessage(
-        string $to,
-        string $subject,
-        string $htmlContent,
-        string $fromEmail,
-        string $fromName,
+        string  $to,
+        string  $subject,
+        string  $htmlContent,
+        string  $fromEmail,
+        string  $fromName,
         ?string $replyTo,
-        array $attachments,
-        array $cc
+        array   $attachments,
+        array   $cc
     ): Email {
         $email = new Email()
             ->subject($subject)
@@ -203,9 +208,11 @@ class MailerService
     private function applyRoomThemeSender(Email $email, ?Rooms $rooms): void
     {
         $theme = $rooms ? $this->themeService->getTheme($rooms) : null;
-        if (!$theme) return;
+        if (!$theme) {
+            return;
+        }
 
-        $name = $theme['EMAIL_SENDER_NAME'] ?? '';
+        $name    = $theme['EMAIL_SENDER_NAME'] ?? '';
         $address = $theme['EMAIL_SENDER_ADDRESS'] ?? '';
 
         if ($address) {
@@ -216,7 +223,7 @@ class MailerService
 
     private function applyReturnPath(Email $email, ?Rooms $rooms): void
     {
-        if ((int) $this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') === 1 && $rooms?->getModerator()) {
+        if ((int)$this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') === 1 && $rooms?->getModerator()) {
             $moderatorEmail = $rooms->getModerator()->getEmail();
             if ($this->isValidEmail($moderatorEmail)) {
                 $email->returnPath($moderatorEmail);
@@ -230,7 +237,7 @@ class MailerService
     private function resolveSender(Server $server, ?Rooms $rooms): array
     {
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
-            return [(string) $server->getSmtpEmail(), (string) $server->getSmtpSenderName()];
+            return [(string)$server->getSmtpEmail(), (string)$server->getSmtpSenderName()];
         }
 
         if ($rooms?->getModerator() && $this->parameter->get('emailSenderIsModerator')) {
@@ -247,6 +254,7 @@ class MailerService
         $registerEmailAdress = $this->parameter->get('registerEmailAdress');
         /** @var string $registerEmailName */
         $registerEmailName = $this->parameter->get('registerEmailName');
+
         return [
             $registerEmailAdress,
             $registerEmailName
@@ -265,6 +273,7 @@ class MailerService
                 $list[] = $email;
             }
         }
+
         return $list;
     }
 

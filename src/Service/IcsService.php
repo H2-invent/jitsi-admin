@@ -122,7 +122,7 @@ class IcsService
             $normalized['class'] = strtoupper(trim((string)$e['class']));
         }
         if (!empty($e['transp'])) {
-            $t = strtoupper(trim((string)$e['transp']));
+            $t                    = strtoupper(trim((string)$e['transp']));
             $normalized['transp'] = in_array($t, ['OPAQUE', 'TRANSPARENT'], true) ? $t : 'OPAQUE';
         }
 
@@ -134,7 +134,7 @@ class IcsService
 
     public function toString(): string
     {
-        $lines = [];
+        $lines   = [];
         $lines[] = 'BEGIN:VCALENDAR';
         $lines[] = 'VERSION:2.0';
         $lines[] = 'PRODID:-//h2-invent//ics//EN';
@@ -148,17 +148,37 @@ class IcsService
             $lines[] = 'UID:' . $e['uid'];
             $lines[] = 'DTSTAMP:' . $this->toUtcZ('now');
 
-            if (!empty($e['dtstart'])) $lines[] = 'DTSTART:' . $e['dtstart'];
-            if (!empty($e['dtend']))   $lines[] = 'DTEND:' . $e['dtend'];
-            if (!empty($e['summary'])) $lines[] = 'SUMMARY:' .$this->escapeText($e['summary']);
-            if (!empty($e['rdate'])) $lines[] = 'RDATE:' . $e['rdate'];
-            if (!empty($e['recurrence-id'])) $lines[] = 'RECURRENCE-ID:' . $e['recurrence-id'];
+            if (!empty($e['dtstart'])) {
+                $lines[] = 'DTSTART:' . $e['dtstart'];
+            }
+            if (!empty($e['dtend'])) {
+                $lines[] = 'DTEND:' . $e['dtend'];
+            }
+            if (!empty($e['summary'])) {
+                $lines[] = 'SUMMARY:' . $this->escapeText($e['summary']);
+            }
+            if (!empty($e['rdate'])) {
+                $lines[] = 'RDATE:' . $e['rdate'];
+            }
+            if (!empty($e['recurrence-id'])) {
+                $lines[] = 'RECURRENCE-ID:' . $e['recurrence-id'];
+            }
             // Common optional
-            if (!empty($e['location']))    $lines[] = 'LOCATION:' . $this->escapeText($e['location']);
-            if (!empty($e['description'])) $lines[] = 'DESCRIPTION:' . $this->escapeText($e['description']);
-            if (isset($e['sequence']))     $lines[] = 'SEQUENCE:' . $e['sequence'];
-            if (!empty($e['status']))      $lines[] = 'STATUS:' . $e['status'];
-            if (!empty($e['class']))       $lines[] = 'CLASS:' . $e['class'];
+            if (!empty($e['location'])) {
+                $lines[] = 'LOCATION:' . $this->escapeText($e['location']);
+            }
+            if (!empty($e['description'])) {
+                $lines[] = 'DESCRIPTION:' . $this->escapeText($e['description']);
+            }
+            if (isset($e['sequence'])) {
+                $lines[] = 'SEQUENCE:' . $e['sequence'];
+            }
+            if (!empty($e['status'])) {
+                $lines[] = 'STATUS:' . $e['status'];
+            }
+            if (!empty($e['class'])) {
+                $lines[] = 'CLASS:' . $e['class'];
+            }
             $lines[] = 'TRANSP:' . ($e['transp'] ?? 'OPAQUE');
 
             // Organizer (recommended for REQUEST)
@@ -173,12 +193,14 @@ class IcsService
             // Attendee (only if present)
             if (!empty($e['attendeeEmail'])) {
                 $params = [];
-                if (!empty($e['attendeeName'])) $params[] = 'CN=' . $e['attendeeName'];
+                if (!empty($e['attendeeName'])) {
+                    $params[] = 'CN=' . $e['attendeeName'];
+                }
                 $params[] = 'ROLE=REQ-PARTICIPANT';
                 $params[] = 'PARTSTAT=NEEDS-ACTION';
 
                 // For PUBLISH: usually omit attendee entirely. But if you keep it, RSVP should be FALSE.
-                $rsvp = ($this->method === 'REQUEST') ? ($e['rsvp'] ? 'TRUE' : 'FALSE') : 'FALSE';
+                $rsvp     = ($this->method === 'REQUEST') ? ($e['rsvp'] ? 'TRUE' : 'FALSE') : 'FALSE';
                 $params[] = 'RSVP=' . $rsvp;
 
                 $lines[] = 'ATTENDEE;' . implode(';', $params) . ':MAILTO:' . $e['attendeeEmail'];
@@ -282,11 +304,12 @@ class IcsService
     private function foldLine(string $line): array
     {
         $max = 75;
-        if (strlen($line) <= $max) return [$line];
+        if (strlen($line) <= $max) {
+            return [$line];
+        }
 
-        $out = [];
+        $out  = [];
         $rest = $line;
-
         while (strlen($rest) > $max) {
             $chunk = substr($rest, 0, $max);
 
@@ -303,10 +326,10 @@ class IcsService
             }
 
             $out[] = substr($rest, 0, $breakPos);
-            $rest = ' ' . substr($rest, $breakPos);
+            $rest  = ' ' . substr($rest, $breakPos);
         }
-
         $out[] = $rest;
+
         return $out;
     }
 }

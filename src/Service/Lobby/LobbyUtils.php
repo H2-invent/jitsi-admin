@@ -18,7 +18,7 @@ class LobbyUtils
     {
         /** @var CallerSessionRepository $callerSessionRepository */
         $callerSessionRepository = $this->em->getRepository(CallerSession::class);
-        $callerSessions = $callerSessionRepository->findCallerSessionsByRoom($rooms);
+        $callerSessions          = $callerSessionRepository->findCallerSessionsByRoom($rooms);
         foreach ($callerSessions as $data2) {
             $data2->setForceFinish(true);
             $data2->setLobbyWaitingUser(null);
@@ -27,7 +27,6 @@ class LobbyUtils
         $this->em->flush();
 
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findBy(['room' => $rooms]);
-
         foreach ($lobbyUser as $data) {
             $this->em->remove($data);
         }

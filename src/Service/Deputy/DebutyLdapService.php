@@ -13,13 +13,14 @@ class DebutyLdapService
 
     public function cleanDeputies(bool $dryRun = false): int
     {
-        $counter = 0;
+        $counter  = 0;
         $deputies = $this->entityManager->getRepository(Deputy::class)->findBy(['isFromLdap' => true]);
 
         foreach ($deputies as $data) {
             $this->entityManager->remove($data);
             $counter++;
         }
+
         if (!$dryRun) {
             $this->entityManager->flush();
         } else {

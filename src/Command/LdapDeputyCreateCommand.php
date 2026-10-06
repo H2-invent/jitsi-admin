@@ -20,9 +20,8 @@ class LdapDeputyCreateCommand extends Command
     public function __construct(
         private readonly LdapService       $ldapService,
         private readonly DebutyLdapService $debutyLdapService,
-        ?string                    $name = null
-    )
-    {
+        ?string                            $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -34,7 +33,7 @@ class LdapDeputyCreateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io     = new SymfonyStyle($input, $output);
         $dryrun = $input->getOption('dry-run');
         if ($dryrun) {
             $io->info('Dryrun is activated. No databases changes are made');

@@ -9,8 +9,12 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserCreatorService
 {
-    public function __construct(private readonly EntityManagerInterface $em, private readonly IndexUserService       $indexer, private readonly ParameterBagInterface  $parameterBag, private readonly ThemeService           $themeService)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly IndexUserService       $indexer,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly ThemeService           $themeService
+    ) {
     }
 
     public function createUser(string $email, ?string $userName, ?string $firstName = null, ?string $lastName = null, bool $dryrun = false): User
@@ -32,6 +36,7 @@ class UserCreatorService
                 $this->em->flush();
             }
         }
+
         return $user;
     }
 

@@ -8,16 +8,18 @@ use App\Entity\Rooms;
 use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
 use App\Entity\User;
-use App\Repository\RoomStatusParticipantRepository;
 use App\Repository\RoomsRepository;
+use App\Repository\RoomStatusParticipantRepository;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ServerUserManagment
 {
-    public function __construct(private readonly ThemeService $themeService, private readonly ParameterBagInterface $parameter, private readonly EntityManagerInterface $em)
-    {
+    public function __construct(private readonly ThemeService           $themeService,
+                                private readonly ParameterBagInterface  $parameter,
+                                private readonly EntityManagerInterface $em
+    ) {
     }
 
     /**
@@ -37,6 +39,7 @@ class ServerUserManagment
                 $searchTerms[] = $group;
             }
         }
+
         try {
             $domainArr = explode('@', $user->getEmail());
             if (count($domainArr) > 1) {
@@ -78,7 +81,7 @@ class ServerUserManagment
                     }
                 }
                 $servers = $serTmp;
-                $serTmp = [];
+                $serTmp  = [];
 
                 if ($this->themeService->getTheme()['showOnlyShowServer']) {
                     $sTmp = $this->themeService->getTheme()['showServer'];

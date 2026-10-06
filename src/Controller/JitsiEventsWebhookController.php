@@ -11,7 +11,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JitsiEventsWebhookController extends JitsiAdminController
@@ -19,18 +18,17 @@ class JitsiEventsWebhookController extends JitsiAdminController
     private readonly string $token;
 
     public function __construct(
-        ManagerRegistry       $managerRegistry,
-        TranslatorInterface   $translator,
-        LoggerInterface       $logger,
-        ParameterBagInterface $parameterBag,
-        private readonly RoomWebhookService    $webhookService
-    )
-    {
+        ManagerRegistry                     $managerRegistry,
+        TranslatorInterface                 $translator,
+        LoggerInterface                     $logger,
+        ParameterBagInterface               $parameterBag,
+        private readonly RoomWebhookService $webhookService
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
 
         /** @var string $jitsiEventsToken */
         $jitsiEventsToken = $parameterBag->get('JITSI_EVENTS_TOKEN');
-        $this->token = 'Bearer ' . $jitsiEventsToken;
+        $this->token      = 'Bearer ' . $jitsiEventsToken;
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/jitsi/events/room/created', name: 'jitsi_events_webhook_create', methods: ['POST'])]
@@ -40,12 +38,14 @@ class JitsiEventsWebhookController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $data = json_decode($request->getContent(), true);
-        $res = $this->webhookService->startWebhook($data);
-        $arr = ['success' => true];
+        $res  = $this->webhookService->startWebhook($data);
+        $arr  = ['success' => true];
         if ($res !== null) {
-            $arr = ['succes' => false, 'error' => $res];
+            $arr = ['success' => false, 'error' => $res];
         }
+
         return new JsonResponse($arr);
     }
 
@@ -56,12 +56,14 @@ class JitsiEventsWebhookController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $data = json_decode($request->getContent(), true);
-        $res = $this->webhookService->startWebhook($data);
-        $arr = ['success' => true];
+        $res  = $this->webhookService->startWebhook($data);
+        $arr  = ['success' => true];
         if ($res !== null) {
-            $arr = ['succes' => false, 'error' => $res];
+            $arr = ['success' => false, 'error' => $res];
         }
+
         return new JsonResponse($arr);
     }
 
@@ -72,13 +74,15 @@ class JitsiEventsWebhookController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $data = json_decode($request->getContent(), true);
         sleep(2);
         $res = $this->webhookService->startWebhook($data);
         $arr = ['success' => true];
         if ($res !== null) {
-            $arr = ['succes' => false, 'error' => $res];
+            $arr = ['success' => false, 'error' => $res];
         }
+
         return new JsonResponse($arr);
     }
 
@@ -89,12 +93,14 @@ class JitsiEventsWebhookController extends JitsiAdminController
         if ($check) {
             return $check;
         }
+
         $data = json_decode($request->getContent(), true);
-        $res = $this->webhookService->startWebhook($data);
-        $arr = ['success' => true];
+        $res  = $this->webhookService->startWebhook($data);
+        $arr  = ['success' => true];
         if ($res !== null) {
-            $arr = ['succes' => false, 'error' => $res];
+            $arr = ['success' => false, 'error' => $res];
         }
+
         return new JsonResponse($arr);
     }
 }

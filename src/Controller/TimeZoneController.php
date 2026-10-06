@@ -2,15 +2,11 @@
 
 namespace App\Controller;
 
-use App\Form\Type\RoomType;
 use App\Form\Type\TimeZoneType;
 use App\Helper\JitsiAdminController;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TimeZoneController extends JitsiAdminController
@@ -34,11 +30,12 @@ class TimeZoneController extends JitsiAdminController
     {
         $user = $this->getUser();
         $form = $this->createForm(TimeZoneType::class, $user, ['action' => $this->generateUrl('time_zone_save')]);
+
         try {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $user = $form->getData();
-                $em = $this->doctrine->getManager();
+                $em   = $this->doctrine->getManager();
                 $em->persist($user);
                 $em->flush();
             }
@@ -48,6 +45,7 @@ class TimeZoneController extends JitsiAdminController
             return $this->redirectToRoute('dashboard');
         }
         $this->addFlash('success', $translator->trans('Zeitzone erfolgreich geändert auf: {timeZone}', ['{timeZone}' => $user->getTimeZone()]));
+
         return $this->redirectToRoute('dashboard');
     }
 }

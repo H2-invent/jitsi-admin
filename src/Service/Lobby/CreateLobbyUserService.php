@@ -10,11 +10,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class CreateLobbyUserService
 {
-    public function __construct(private readonly EntityManagerInterface $em, private readonly ToModeratorWebsocketService $toModerator, private readonly ParameterBagInterface $parameterBag)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface      $em,
+        private readonly ToModeratorWebsocketService $toModerator,
+        private readonly ParameterBagInterface       $parameterBag
+    ) {
     }
 
-    public function createNewLobbyUser(User $user, Rooms $room, string $type,bool $websocketReady=false): LobbyWaitungUser
+    public function createNewLobbyUser(User $user, Rooms $room, string $type, bool $websocketReady = false): LobbyWaitungUser
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $user, 'room' => $room]);
         if (!$lobbyUser) {
@@ -34,11 +37,13 @@ class CreateLobbyUserService
 
             $this->toModerator->newParticipantInLobby($lobbyUser);
         }
+
         $lobbyUser->setCloseBrowser(false);
         $lobbyUser->setType($type);
         $this->em->persist($lobbyUser);
         $this->em->flush();
         $this->toModerator->refreshLobby($lobbyUser);
+
         return $lobbyUser;
     }
 }

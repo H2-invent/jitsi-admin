@@ -3,47 +3,33 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
-use App\Entity\UploadedRecording;
-use App\Entity\User;
-use App\Message\TranscriptionMessage;
-use App\Repository\RecordingRepository;
-use App\Repository\RoomsRepository;
 use App\Repository\UploadedRecordingRepository;
-use App\Service\MailerService;
 use App\Service\RecordingService;
 use App\Service\Result\Error\RecordingUploadError;
 use Doctrine\ORM\EntityManagerInterface;
 use Gaufrette\FilesystemInterface;
-use Gaufrette\Stream\InMemoryBuffer;
 use Gaufrette\StreamMode;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
 
 class RecordingController extends AbstractController
 {
     private readonly string $expectedBearerToken;
 
     public function __construct(
-        private readonly FilesystemInterface                  $recordingFilesystem,
-        private readonly EntityManagerInterface               $entityManager,
-        private readonly LoggerInterface              $logger,
-        private readonly UploadedRecordingRepository  $uploadedRecordingRepository,
-        private readonly RecordingService    $recordingService,
-    )
-    {
+        private readonly FilesystemInterface         $recordingFilesystem,
+        private readonly EntityManagerInterface      $entityManager,
+        private readonly LoggerInterface             $logger,
+        private readonly UploadedRecordingRepository $uploadedRecordingRepository,
+        private readonly RecordingService            $recordingService,
+    ) {
         $this->expectedBearerToken = $_ENV['RECORDING_UPLOAD_TOKEN']; // Token aus Umgebungsvariablen
     }
 
@@ -58,10 +44,11 @@ class RecordingController extends AbstractController
         }
 
         // Hole die Konferenz-ID und die Datei
-        $chunkIndex = $request->request->get('chunk_index');
+        $chunkIndex  = $request->request->get('chunk_index');
         $totalChunks = $request->request->get('total_chunks');
+
         /** @var string|null $recordingId */
-        $recordingId = $request->request->get('recording_id');
+        $recordingId  = $request->request->get('recording_id');
         $uploadedFile = $request->files->get('file');
 
         if ($chunkIndex === null) {
@@ -137,14 +124,14 @@ class RecordingController extends AbstractController
             $extension = $this->getFileExtensionFromMimeType($uploadedFile->getType());
             // Adapter abrufen (LocalAdapter)
             // Den Adapter holen
-            $file = $this->recordingFilesystem->get($filename);
+            $file     = $this->recordingFilesystem->get($filename);
             $response = new StreamedResponse(function () use ($filename) {
                 $stream = $this->recordingFilesystem->createStream($filename);
                 $stream->open(new StreamMode('rb'));
-                while (!$stream->eof()){
+                while (!$stream->eof()) {
                     $chunk = $stream->read(8 * 1024);
                     echo $chunk;
-                   flush();
+                    flush();
                 }
                 $stream->close();
             });
@@ -152,7 +139,7 @@ class RecordingController extends AbstractController
 
             $response->headers->set('Content-Type', $uploadedFile->getType());
             $response->headers->set('Content-Disposition', 'attachment; filename="' . $uploadedFile->getRoom()->getName() . '.' . $extension . '"');
-            $response->headers->set('Content-Length', (string) $this->recordingFilesystem->size($uploadedFile->getFilename()));
+            $response->headers->set('Content-Length', (string)$this->recordingFilesystem->size($uploadedFile->getFilename()));
 
             return $response;
         } catch (\Exception $e) {
@@ -216,13 +203,13 @@ class RecordingController extends AbstractController
     private function getFileExtensionFromMimeType(string $mimeType): string
     {
         $mimeTypeMap = [
-            'image/jpg' => 'jpg',
-            'image/jpeg' => 'jpg',
-            'image/png' => 'png',
+            'image/jpg'       => 'jpg',
+            'image/jpeg'      => 'jpg',
+            'image/png'       => 'png',
             'application/pdf' => 'pdf',
-            'audio/mp3' => 'mp3',
-            'video/mp4' => 'mp4',
-            'text/plain' => 'txt',
+            'audio/mp3'       => 'mp3',
+            'video/mp4'       => 'mp4',
+            'text/plain'      => 'txt',
         ];
 
         return $mimeTypeMap[$mimeType] ?? 'bin';  // Standard auf 'bin', falls der MIME-Typ nicht gefunden wird
