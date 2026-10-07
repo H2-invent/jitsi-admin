@@ -236,6 +236,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_allowed_clone')
             ->setSlug('slug_allowed_clone')
             ->setUid('uid_allowed_clone')
@@ -252,6 +254,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Room should NOT be included because isAllowedToCloneForAutoscale is NOT NULL
+        self::assertSame(0, $countUnused);
         self::assertCount(0, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_allowed_clone'
         ));
@@ -281,6 +284,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_prov_disabled')
             ->setSlug('slug_prov_disabled')
             ->setUid('uid_prov_disabled')
@@ -297,6 +302,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Room should NOT be included because isProvisioningEnabled is false
+        self::assertSame(0, $countUnused);
         self::assertCount(0, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_prov_disabled'
         ));
@@ -326,6 +332,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_persistent')
             ->setSlug('slug_persistent')
             ->setUid('uid_persistent')
@@ -342,6 +350,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Persistent room should be included
+        self::assertSame(1, $countUnused);
         self::assertCount(1, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_persistent'
         ));
@@ -371,6 +380,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_past_end')
             ->setSlug('slug_past_end')
             ->setUid('uid_past_end')
@@ -388,6 +399,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Non-persistent room with past end date should be included
+        self::assertSame(1, $countUnused);
         self::assertCount(1, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_past_end'
         ));
@@ -417,6 +429,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_future_end')
             ->setSlug('slug_future_end')
             ->setUid('uid_future_end')
@@ -434,6 +448,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Non-persistent room with future end date should NOT be included
+        self::assertSame(0, $countUnused);
         self::assertCount(0, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_future_end'
         ));
@@ -463,6 +478,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_participant_in')
             ->setSlug('slug_participant_in')
             ->setUid('uid_participant_in')
@@ -496,6 +513,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Room should NOT be included because participant is still in room
+        self::assertSame(0, $countUnused);
         self::assertCount(0, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_participant_in'
         ));
@@ -525,6 +543,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_participant_left')
             ->setSlug('slug_participant_left')
             ->setUid('uid_participant_left')
@@ -558,6 +578,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Room should be included because participant left the room
+        self::assertSame(1, $countUnused);
         self::assertCount(1, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_participant_left'
         ));
@@ -587,6 +608,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_destroyed')
             ->setSlug('slug_destroyed')
             ->setUid('uid_destroyed')
@@ -620,6 +643,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Room should be included because status is destroyed
+        self::assertSame(1, $countUnused);
         self::assertCount(1, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_destroyed'
         ));
@@ -649,6 +673,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_no_recording')
             ->setSlug('slug_no_recording')
             ->setUid('uid_no_recording')
@@ -666,6 +692,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Room should be included because there is no recording
+        self::assertSame(1, $countUnused);
         self::assertCount(1, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_no_recording'
         ));
@@ -695,6 +722,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_recording_no_user')
             ->setSlug('slug_recording_no_user')
             ->setUid('uid_recording_no_user')
@@ -718,6 +747,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Room should be included because recording has no user
+        self::assertSame(1, $countUnused);
         self::assertCount(1, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_recording_no_user'
         ));
@@ -757,6 +787,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_active_recording')
             ->setSlug('slug_active_recording')
             ->setUid('uid_active_recording')
@@ -780,6 +812,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Room should NOT be included because there is an active recording with a user
+        self::assertSame(0, $countUnused);
         self::assertCount(0, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_active_recording'
         ));
@@ -809,6 +842,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_no_participants')
             ->setSlug('slug_no_participants')
             ->setUid('uid_no_participants')
@@ -835,6 +870,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Room should be included because there are no participant records
+        self::assertSame(1, $countUnused);
         self::assertCount(1, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_no_participants'
         ));
@@ -864,6 +900,8 @@ class ProvisionerServiceTest extends KernelTestCase
         ;
         $room = (new Rooms())
             ->setServer($server)
+            ->setOriginalServer($server)
+            ->setCreatedAt(new \DateTimeImmutable('-1 day'))
             ->setName('room_all_conditions')
             ->setSlug('slug_all_conditions')
             ->setUid('uid_all_conditions')
@@ -899,6 +937,7 @@ class ProvisionerServiceTest extends KernelTestCase
         $sent = $transport->getSent();
 
         // Room should be included - all conditions are met
+        self::assertSame(1, $countUnused);
         self::assertCount(1, array_filter($sent, fn($envelope) =>
             $envelope->getMessage()->room_id === 'uid_real_all_conditions'
         ));

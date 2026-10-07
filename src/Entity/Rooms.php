@@ -1292,9 +1292,16 @@ class Rooms
         return $this->createdAt;
     }
 
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
-        $this->createdAt = new DateTimeImmutable();
+        $this->createdAt ??= new DateTimeImmutable();
     }
 }
