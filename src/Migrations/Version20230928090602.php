@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230928090602 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'dynamic_branding_url';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'dynamic_branding_url';
     public function getDescription(): string
     {
         return '';

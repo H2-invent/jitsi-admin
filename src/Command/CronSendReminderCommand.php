@@ -12,17 +12,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:cron:sendReminder')]
 class CronSendReminderCommand extends Command
 {
-    private $reminderService;
-
-    public function __construct(ReminderService $reminderService, ?string $name = null)
+    public function __construct(private readonly ReminderService $reminderService, ?string $name = null)
     {
         parent::__construct($name);
-        $this->reminderService = $reminderService;
     }
 
-    protected function configure():void
+    protected function configure(): void
     {
-
         $this
             ->addOption('host_url', 'u', InputOption::VALUE_OPTIONAL, 'Set the server-domain from which you want to send the reminder. this is a komma seperated list. Write null to send from a room with host_url null leave blank to send from all host_url')
             ->setDescription('Send a reminder to all users which are in a room in the next 10 min');
@@ -50,14 +46,14 @@ class CronSendReminderCommand extends Command
         $io->writeln('Hinweis: ' . $res['hinweis']);
         $io->writeln('Konferenzen: ' . $res['Konferenzen']);
         $io->writeln('Emails: ' . $res['Emails']);
-        $io->writeln('Datum: ' . (new \DateTimeImmutable())->format('d.m.Y'));
-        $io->writeln('Zeit: ' . (new \DateTimeImmutable())->format('H:i'));
+        $io->writeln('Datum: ' . new \DateTimeImmutable()->format('d.m.Y'));
+        $io->writeln('Zeit: ' . new \DateTimeImmutable()->format('H:i'));
         if (!$res['error']) {
             $io->success('Erfolgreich versandt');
             return Command::SUCCESS;
-        } else {
-            $io->error('Fehler');
-            return Command::FAILURE;
         }
+
+        $io->error('Fehler');
+        return Command::FAILURE;
     }
 }

@@ -6,6 +6,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\Rooms;
 use Livekit\Room;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,8 +15,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 {
-    private $client;
-    private $entityManager;
+    private KernelBrowser $client;
+    private EntityManagerInterface $entityManager;
 
     protected function setUp(): void
     {
@@ -23,7 +24,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         $this->entityManager = static::getContainer()->get(EntityManagerInterface::class);
     }
 
-    public function testRoomNotFound()
+    public function testRoomNotFound(): void
     {
         $this->client->request('POST', '/api/v1/room/move/999999', [], [], [
             'HTTP_AUTHORIZATION' => 'Bearer someKey'
@@ -31,13 +32,13 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode((string) $response->getContent(), true);
         self::assertTrue($data['error']);
         self::assertEquals('Room not found', $data['message']);
 
     }
 
-    public function testAccessDenied()
+    public function testAccessDenied(): void
     {
         // Beispiel: Room mit ID 1 hat nicht diesen API-Key
         $this->client->request('POST', '/api/v1/room/move/9876543210', [], [], [
@@ -46,13 +47,13 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
         $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode((string) $response->getContent(), true);
         self::assertTrue($data['error']);
         self::assertEquals('Access denied', $data['message']);
 
     }
 
-    public function testNewServerNotFound()
+    public function testNewServerNotFound(): void
     {
         // Hier muss Room existieren und API-Key korrekt sein
         $room = $this->createRoomWithServer('validKey');
@@ -65,13 +66,13 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode((string) $response->getContent(), true);
         self::assertTrue($data['error']);
         self::assertEquals('New Server not found', $data['message']);
 
     }
 
-    public function testRoomMovedSuccessfully()
+    public function testRoomMovedSuccessfully(): void
     {
         $originalServer = $this->createServer('validKey');
         $newServer = $this->createServer('validKey');
@@ -89,7 +90,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode((string) $response->getContent(), true);
         self::assertFalse($data['error']);
         self::assertEquals('Room moved', $data['message']);
 
@@ -98,7 +99,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         $this->entityManager->refresh($room);
         $this->assertEquals($newServer->getId(), $room->getServer()->getId());
     }
-    public function testRoomMovedFailed()
+    public function testRoomMovedFailed(): void
     {
         $originalServer = $this->createServer('validKey');
         $newServer = $this->createServer('validKey');
@@ -115,7 +116,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         ]);
 
         $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode((string) $response->getContent(), true);
         self::assertTrue($data['error']);
         self::assertEquals('Access denied', $data['message']);
 
@@ -142,7 +143,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         $room->setName('meinRaum')
         ->setUid('kjsdhf')
             ->setUidReal('meinTestUidReal')
-        ->setDuration('123')
+        ->setDuration(123.0)
         ->setSequence(0);
         $room->setServer($server);
         $this->entityManager->persist($room);

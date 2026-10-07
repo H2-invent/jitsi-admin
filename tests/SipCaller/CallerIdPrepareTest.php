@@ -4,7 +4,7 @@ namespace App\Tests\SipCaller;
 
 use App\Entity\CallerId;
 use App\Repository\RoomsRepository;
-use App\Service\caller\CallerPrepareService;
+use App\Service\Caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

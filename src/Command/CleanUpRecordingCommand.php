@@ -24,16 +24,13 @@ class CleanUpRecordingCommand extends Command
         private readonly FilesystemInterface         $recordingFilesystem,
         private readonly EntityManagerInterface      $entityManager,
         private readonly UploadedRecordingRepository $uploadedRecordingRepository
-    )
-    {
+    ) {
         parent::__construct();
-
     }
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('days', InputArgument::OPTIONAL, 'Age of recordings to delete (in days)',10);
+        $this->addArgument('days', InputArgument::OPTIONAL, 'Age of recordings to delete (in days)', 10);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -75,11 +72,13 @@ class CleanUpRecordingCommand extends Command
                 $this->entityManager->remove($recording);
                 $io->success(sprintf('Deleted recording: %s', $recording->getFilename()));
             } catch (\Exception $e) {
-                $io->error(sprintf(
-                    'Failed to delete recording "%s": %s',
-                    $recording->getFilename(),
-                    $e->getMessage()
-                ));
+                $io->error(
+                    sprintf(
+                        'Failed to delete recording "%s": %s',
+                        $recording->getFilename(),
+                        $e->getMessage()
+                    )
+                );
             }
         }
 

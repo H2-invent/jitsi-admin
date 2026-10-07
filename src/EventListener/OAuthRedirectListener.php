@@ -1,23 +1,25 @@
 <?php
 
 namespace App\EventListener;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
+
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\Routing\RouterInterface;
 
 class OAuthRedirectListener
 {
 
     public function __construct(
-        private RouterInterface $router,
-        private SessionInterface $session
-    ) {}
+        private readonly RouterInterface  $router,
+        private readonly SessionInterface $session
+    ) {
+    }
 
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
-        $route = $request->attributes->get('_route');
+        $route   = $request->attributes->get('_route');
 
         // Nur für bestimmte Pfade aktiv (z. B. beginnt mit /myRoom/start/)
         $path = $request->getPathInfo();

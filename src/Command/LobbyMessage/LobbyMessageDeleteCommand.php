@@ -18,7 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class LobbyMessageDeleteCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $entityManager, ?string $name = null)
     {
         parent::__construct($name);
     }
@@ -38,7 +38,7 @@ class LobbyMessageDeleteCommand extends Command
             $message = $this->entityManager->getRepository(PredefinedLobbyMessages::class)->find($id);
             if ($message) {
                 $disableQ = new ConfirmationQuestion('Do you want to delete the message', false);
-                $res = $io->askQuestion($disableQ);
+                $res      = $io->askQuestion($disableQ);
                 if ($res) {
                     $this->entityManager->remove($message);
                     $this->entityManager->flush();

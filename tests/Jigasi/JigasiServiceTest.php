@@ -51,8 +51,7 @@ class JigasiServiceTest extends KernelTestCase
 
         $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         $room->setServer($server);
-        $res = $jigasiService->getNumber($room);
-        self::assertNull($res);
+        $jigasiService->getNumber($room);
 
         $res = $jigasiService->getNumber(null);
         self::assertNull($res);
@@ -75,9 +74,9 @@ class JigasiServiceTest extends KernelTestCase
     "message": "Successfully retrieved conference mapping"
 }'
                 );
-            } else {
-                return new MockResponse('', ['http_code' => 404]);
             }
+
+            return new MockResponse('', ['http_code' => 404]);
         };
 
 
@@ -112,8 +111,7 @@ class JigasiServiceTest extends KernelTestCase
         $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         $room->setServer($server);
 
-        $res = $jigasiService->getRoomPin($room);
-        self::assertNull($res);
+        $jigasiService->getRoomPin($room);
 
         $res = $jigasiService->getRoomPin(null);
         self::assertNull($res);

@@ -3,8 +3,8 @@
 namespace App\Command;
 
 use App\Entity\User;
-use App\Service\ldap\LdapService;
-use App\Service\ldap\LdapUserService;
+use App\Repository\UserRepository;
+use App\Service\Ldap\LdapUserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -16,23 +16,21 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:removeServer', 'This command removes the Users from the selected LDAP. This Command also removes the users  from the global adressbook and removes all created conferences of the users. The users are not able to login after this action')]
 class LdapRemoveImportedCommand extends Command
 {
-    private $paramterBag;
-    private $ldapService;
-    private $ldapUserService;
-    private $USERDN;
-    private $LDAPSERVERID;
-    private $URL;
-    private $em;
-    public function __construct(LdapUserService $ldapUserService, ParameterBagInterface $parameterBag, LdapService $ldapService, EntityManagerInterface $entityManager, ?string $name = null)
-    {
+    /** @var array<int, string> */
+    private array $LDAPSERVERID;
+    /** @var array<int, string> */
+    private array $URL;
+
+    public function __construct(private readonly LdapUserService        $ldapUserService,
+                                ParameterBagInterface                   $parameterBag,
+                                private readonly EntityManagerInterface $em,
+                                ?string                                 $name = null
+    ) {
         parent::__construct($name);
-        $this->paramterBag = $parameterBag;
-        $this->ldapService = $ldapService;
-        $this->ldapUserService = $ldapUserService;
-        $this->LDAPSERVERID = explode(',', $parameterBag->get('ldap_server_individualName'));
-        $this->USERDN = explode(';', $this->paramterBag->get('ldap_user_dn'));
-        $this->URL = explode(';', $this->paramterBag->get('ldap_url'));
-        $this->em = $entityManager;
+        $ldapServerIndividualName = (string)$parameterBag->get('ldap_server_individualName');
+        $ldapUrl                  = (string)$parameterBag->get('ldap_url');
+        $this->LDAPSERVERID       = explode(',', $ldapServerIndividualName);
+        $this->URL                = explode(';', $ldapUrl);
     }
 
     protected function configure(): void
@@ -65,13 +63,17 @@ class LdapRemoveImportedCommand extends Command
         $io->success('we start to delete');
         $table = new Table($output);
         $table->setHeaderTitle('Removed User');
-        $table->setHeaders(['username', 'name','email']);
-        $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($this->LDAPSERVERID[$selection]);
+        $table->setHeaders(['username', 'name', 'email']);
+
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->em->getRepository(User::class);
+        $user           = $userRepository->findUsersByLdapServerId($this->LDAPSERVERID[$selection]);
         foreach ($user as $data) {
             $this->ldapUserService->deleteUser($data);
             $table->addRow([$data->getUserName(), $data->getFirstname() . ' ' . $data->getLastName(), $data->getEmail()]);
         }
         $table->render();
+
         return Command::SUCCESS;
     }
 }

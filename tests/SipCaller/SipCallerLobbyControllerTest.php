@@ -4,9 +4,9 @@ namespace App\Tests\SipCaller;
 
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\caller\CallerPinService;
-use App\Service\caller\CallerPrepareService;
-use App\Service\caller\CallerSessionService;
+use App\Service\Caller\CallerPinService;
+use App\Service\Caller\CallerPrepareService;
+use App\Service\Caller\CallerSessionService;
 use App\Service\RoomService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

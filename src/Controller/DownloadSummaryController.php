@@ -9,12 +9,11 @@ use App\UtilsHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 
 class DownloadSummaryController extends JitsiAdminController
 {
-    #[Route('room/download/summary', name: 'app_download_summary')]
-    public function index(Request $request, CreateSummaryService $createSummaryService)
+    #[\Symfony\Component\Routing\Attribute\Route('room/download/summary', name: 'app_download_summary')]
+    public function index(Request $request, CreateSummaryService $createSummaryService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
 
@@ -23,15 +22,11 @@ class DownloadSummaryController extends JitsiAdminController
         }
         $res = $createSummaryService->createSummaryPdf($room);
 
-
-        $response =  new Response();
+        $response = new Response();
         $response->headers->set('Cache-Control', 'private');
         $response->headers->set('Content-type', 'application/pdf');
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $room->getName() . '.pdf";');
-
-
         $response->sendHeaders();
-
         $response->setContent($res->output());
 
         return $response;

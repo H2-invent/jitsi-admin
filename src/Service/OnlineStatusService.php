@@ -8,17 +8,18 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class OnlineStatusService
 {
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-    )
-    {
+        private readonly ParameterBagInterface $parameterBag,
+    ) {
     }
 
-    public function getUserStatus(User $user):int
+    public function getUserStatus(User $user): int
     {
-        if ($user->getOnlineStatus()=== null){
-            return $this->parameterBag->get('LAF_DEFAULT_ONLINE_STATUS');
-        }else{
-            return $user->getOnlineStatus();
+        if ($user->getOnlineStatus() === null) {
+            /** @var int $defaultStatus */
+            $defaultStatus = $this->parameterBag->get('LAF_DEFAULT_ONLINE_STATUS');
+            return $defaultStatus;
         }
+
+        return $user->getOnlineStatus();
     }
 }

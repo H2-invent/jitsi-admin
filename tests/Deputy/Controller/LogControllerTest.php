@@ -85,6 +85,6 @@ class LogControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/room/change/log?room_id=' . $room->getId());
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
 }

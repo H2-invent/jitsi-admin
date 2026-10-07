@@ -10,8 +10,8 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20230503130704 extends AbstractMigration
 {
-    private const TABLE_NAME = 'rooms';
-    private const COLUMN_NAME = 'allow_maybe_option';
+    private const string TABLE_NAME = 'rooms';
+    private const string COLUMN_NAME = 'allow_maybe_option';
 
     public function getDescription(): string
     {

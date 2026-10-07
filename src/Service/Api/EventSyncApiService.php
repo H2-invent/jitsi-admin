@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Service\Api;
+
+use App\Repository\RoomStatusRepository;
+
+class EventSyncApiService
+{
+    public function __construct(
+        private readonly RoomStatusRepository $roomStatusRepository
+    ) {
+    }
+
+    /**
+     * @return array{status: string}
+     */
+    public function getCallerSessionFromUid(string $uid): array
+    {
+        $roomStatus = $this->roomStatusRepository->findRoomStatusByUid($uid);
+        if ($roomStatus) {
+            return ['status' => 'ROOM_STARTED'];
+        }
+
+        return ['status' => 'ROOM_CLOSED'];
+    }
+}

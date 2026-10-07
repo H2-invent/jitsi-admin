@@ -61,7 +61,7 @@ use App\Service\Jigasi\JigasiService;
 use App\Service\JoinUrlGeneratorService;
 use App\Service\MailerService;
 use App\Service\RepeaterService;
-use App\Service\caller\CallerPrepareService;
+use App\Service\Caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -403,7 +403,7 @@ class RepeaterServiceTest extends KernelTestCase
      * Loads "TestMeeting: 0", moves its start to 2021-01-15 15:00 and adds moderator/user attributes so generated
      * series have the expected participants. Returns the prepared prototype room.
      */
-    private function prepareRoom(RoomsRepository $roomsRepository)
+    private function prepareRoom(RoomsRepository $roomsRepository): Rooms
     {
         $manager = self::getContainer()->get(EntityManagerInterface::class);
 
@@ -427,7 +427,7 @@ class RepeaterServiceTest extends KernelTestCase
      * Sets a room's start (optionally in a given timezone) and recalculates its end date from its duration.
      * Returns the room.
      */
-    private function changeStart(Rooms $rooms, $startDate, ?string $timeZone = null)
+    private function changeStart(Rooms $rooms, string $startDate, ?string $timeZone = null): Rooms
     {
         $rooms->setStart(new \DateTimeImmutable($startDate, $timeZone ? new \DateTimeZone($timeZone) : null));
         $endDate = clone $rooms->getStart();
@@ -439,6 +439,8 @@ class RepeaterServiceTest extends KernelTestCase
     /**
      * Asserts the series has exactly the expected number of rooms and that each room starts at the matching
      * "Y-m-d H:i" value in order.
+     *
+     * @param array<int, string> $expected
      */
     private function assertRoomStartDates(Repeat $repeat, array $expected): void
     {
@@ -1104,18 +1106,31 @@ class RepeaterServiceTest extends KernelTestCase
             'daily without days' => [RepeatTypeEnum::DAILY, []],
             'weekly without weeks' => [RepeatTypeEnum::WEEKLY, []],
             'monthly without months' => [RepeatTypeEnum::MONTHLY, []],
-            'monthly relative without number' => [RepeatTypeEnum::MONTHLY_RELATIVE, ['setRepeatMonthlyRelativeHowOften' => 1, 'setRepatMonthRelativWeekday' => RepeatWeekdayEnum::MONDAY]],
-            'monthly relative without weekday' => [RepeatTypeEnum::MONTHLY_RELATIVE, ['setRepeatMonthlyRelativeHowOften' => 1, 'setRepatMonthRelativNumber' => RepeatNumberEnum::FIRST]],
-            'monthly relative without how often' => [RepeatTypeEnum::MONTHLY_RELATIVE, ['setRepatMonthRelativWeekday' => RepeatWeekdayEnum::MONDAY, 'setRepatMonthRelativNumber' => RepeatNumberEnum::FIRST]],
+            'monthly relative without number' => [RepeatTypeEnum::MONTHLY_RELATIVE, [
+                fn (Repeat $repeat) => $repeat->setRepeatMonthlyRelativeHowOften(1),
+                fn (Repeat $repeat) => $repeat->setRepatMonthRelativWeekday(RepeatWeekdayEnum::MONDAY),
+            ]],
+            'monthly relative without weekday' => [RepeatTypeEnum::MONTHLY_RELATIVE, [
+                fn (Repeat $repeat) => $repeat->setRepeatMonthlyRelativeHowOften(1),
+                fn (Repeat $repeat) => $repeat->setRepatMonthRelativNumber(RepeatNumberEnum::FIRST),
+            ]],
+            'monthly relative without how often' => [RepeatTypeEnum::MONTHLY_RELATIVE, [
+                fn (Repeat $repeat) => $repeat->setRepatMonthRelativWeekday(RepeatWeekdayEnum::MONDAY),
+                fn (Repeat $repeat) => $repeat->setRepatMonthRelativNumber(RepeatNumberEnum::FIRST),
+            ]],
             'yearly without years' => [RepeatTypeEnum::YEARLY, []],
-            'yearly relative without month' => [RepeatTypeEnum::YEARLY_RELATIVE, ['setRepeatYearlyRelativeHowOften' => 1, 'setRepeatYearlyRelativeWeekday' => RepeatWeekdayEnum::MONDAY, 'setRepeatYearlyRelativeNumber' => RepeatNumberEnum::FIRST]],
+            'yearly relative without month' => [RepeatTypeEnum::YEARLY_RELATIVE, [
+                fn (Repeat $repeat) => $repeat->setRepeatYearlyRelativeHowOften(1),
+                fn (Repeat $repeat) => $repeat->setRepeatYearlyRelativeWeekday(RepeatWeekdayEnum::MONDAY),
+                fn (Repeat $repeat) => $repeat->setRepeatYearlyRelativeNumber(RepeatNumberEnum::FIRST),
+            ]],
             'yearly relative empty' => [RepeatTypeEnum::YEARLY_RELATIVE, []],
         ];
-        foreach ($cases as $label => [$repeatType, $fields]) {
+        foreach ($cases as $label => [$repeatType, $setters]) {
             $repeat = new Repeat();
             $repeat->setRepeatType($repeatType);
-            foreach ($fields as $setter => $value) {
-                $repeat->{$setter}($value);
+            foreach ($setters as $setter) {
+                $setter($repeat);
             }
             self::assertFalse($repeaterService->checkData($repeat), $label);
         }
@@ -1225,7 +1240,7 @@ class RepeaterServiceTest extends KernelTestCase
         $repeat = $repeaterService->createNewRepeater($repeat);
 
         $captured = [];
-        $mailer = $this->createMock(MailerService::class);
+        $mailer = $this->createStub(MailerService::class);
         $mailer->method('sendEmail')->willReturnCallback(function (...$args) use (&$captured) {
             $captured[] = $args;
             return true;
@@ -1256,7 +1271,9 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertSame(3, substr_count($ics, 'RECURRENCE-ID:'));
 
         $rdateValue = null;
-        foreach (preg_split('/\r\n/', $ics) as $line) {
+        $icsLines = preg_split('/\r\n/', $ics);
+        self::assertIsArray($icsLines);
+        foreach ($icsLines as $line) {
             if (str_starts_with($line, 'RDATE:')) {
                 $rdateValue = substr($line, strlen('RDATE:'));
                 break;

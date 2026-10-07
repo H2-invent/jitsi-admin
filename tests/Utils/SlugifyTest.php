@@ -23,10 +23,10 @@ class SlugifyTest extends KernelTestCase
         $kernel = self::bootKernel();
 
         $this->assertSame('test', $kernel->getEnvironment());
-        self::assertEquals('asdf123.4', UtilsHelper::slugifywithDot('asdf!"$§"$&%$123.4'));
-        self::assertEquals('asdf1234', UtilsHelper::slugifywithDot('!/")(§äöüasdf!"$§"$&%$1234'));
-        self::assertEquals('.asdf_1234', UtilsHelper::slugifywithDot('!/")(.§äöüasdf !"$§"$&%$1234'));
-        self::assertEquals('a.sdf_1234_qwert', UtilsHelper::slugifywithDot('!/")(§äöüa.sdf !"$§"$&%$1234 !&/"%qwert'));
-        self::assertEquals('a.sdf_1234_qwert', UtilsHelper::slugifywithDot('!/")(§äöüA.sdF !"$§"$&%$1234 !&/"%qWert'));
+        self::assertEquals('asdf123.4', UtilsHelper::slugifyWithDot('asdf!"$§"$&%$123.4'));
+        self::assertEquals('asdf1234', UtilsHelper::slugifyWithDot('!/")(§äöüasdf!"$§"$&%$1234'));
+        self::assertEquals('.asdf_1234', UtilsHelper::slugifyWithDot('!/")(.§äöüasdf !"$§"$&%$1234'));
+        self::assertEquals('a.sdf_1234_qwert', UtilsHelper::slugifyWithDot('!/")(§äöüa.sdf !"$§"$&%$1234 !&/"%qwert'));
+        self::assertEquals('a.sdf_1234_qwert', UtilsHelper::slugifyWithDot('!/")(§äöüA.sdF !"$§"$&%$1234 !&/"%qWert'));
     }
 }

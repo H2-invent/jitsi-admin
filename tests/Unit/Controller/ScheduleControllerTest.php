@@ -160,7 +160,7 @@ class ScheduleControllerTest extends KernelTestCase
             ->willReturn($lastname1);
 
         $user1
-            ->expects(self::exactly(3))
+            ->expects(self::exactly(2))
             ->method('getId')
             ->willReturn(1);
 
@@ -185,7 +185,7 @@ class ScheduleControllerTest extends KernelTestCase
             ->willReturn($lastname2);
 
         $user2
-            ->expects(self::exactly(5))
+            ->expects(self::exactly(4))
             ->method('getId')
             ->willReturn(2);
 
@@ -210,7 +210,7 @@ class ScheduleControllerTest extends KernelTestCase
             ->willReturn($lastname3);
 
         $user3
-            ->expects(self::exactly(3))
+            ->expects(self::exactly(2))
             ->method('getId')
             ->willReturn(0);
 
@@ -230,7 +230,7 @@ class ScheduleControllerTest extends KernelTestCase
         $expected .= PHP_EOL . 'user1 test1;email1;----;Ja' . PHP_EOL . 'user2 test2;email2;Unter Vorbehalt;Nein' . PHP_EOL;
         $expected .= 'user3 test3;email3;Unter Vorbehalt;----';
 
-        $this->assertEquals($expected, $actualResponse->getContent());
+        $this->assertEquals($expected, (string) $actualResponse->getContent());
     }
 
     private function getRoomMock(): MockObject&Rooms
@@ -256,25 +256,5 @@ class ScheduleControllerTest extends KernelTestCase
     private function getUserMock(): MockObject&User
     {
         return $this->createMock(User::class);
-    }
-
-    private function getContainerMockWithSession(): ContainerInterface
-    {
-        $container = $this->getContainer();
-        $requestStack = $this->createMock(RequestStack::class);
-        $session = $this->createMock(FlashbagAwareSessionInterface::class);
-        $flashbag = $this->createMock(FlashBagInterface::class);
-
-        $container->set('request_stack', $requestStack);
-
-        $requestStack
-            ->method('getSession')
-            ->willReturn($session);
-
-        $session
-            ->method('getFlashBag')
-            ->willReturn($flashbag);
-
-        return $container;
     }
 }

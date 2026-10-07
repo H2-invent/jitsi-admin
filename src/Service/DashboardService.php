@@ -9,18 +9,19 @@ class DashboardService
 {
     /**
      * @param Rooms[] $rooms
+     * @return array<string, mixed>
      */
     public function categorizeRooms(array $rooms, User $user): array
     {
-        $nowUtc = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
-        $todayEndUtc = (new \DateTimeImmutable('now', new \DateTimeZone('utc')))->setTime(23, 59, 59);
+        $nowUtc      = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
+        $todayEndUtc = new \DateTimeImmutable('now', new \DateTimeZone('utc'))->setTime(23, 59, 59);
 
-        $roomsFuture = [];
-        $roomsNow = [];
-        $roomsToday = [];
+        $roomsFuture     = [];
+        $roomsNow        = [];
+        $roomsToday      = [];
         $persistantRooms = [];
-        $scheduledRooms = [];
-        $roomIds = [];
+        $scheduledRooms  = [];
+        $roomIds         = [];
 
         foreach ($rooms as $room) {
             $roomIds[] = $room->getId();
@@ -28,23 +29,27 @@ class DashboardService
                 $persistantRooms[] = $room;
                 continue;
             }
+
             if ($room->getScheduleMeeting()) {
                 $scheduledRooms[] = $room;
                 continue;
             }
+
             if ($room->getStartUtc()) {
-                $startTs = $room->getStartUtc()->getTimestamp();
-                $endTs = $room->getEndDateUtc() ? $room->getEndDateUtc()->getTimestamp() : 0;
-                $nowTs = $nowUtc->getTimestamp();
-                $todayEndTs = $todayEndUtc->getTimestamp();
+                $startTs         = $room->getStartUtc()->getTimestamp();
+                $endTs           = $room->getEndDateUtc() ? $room->getEndDateUtc()->getTimestamp() : 0;
+                $nowTs           = $nowUtc->getTimestamp();
+                $todayEndTs      = $todayEndUtc->getTimestamp();
                 $hasParticipants = $this->hasActiveParticipants($room);
 
                 if ($hasParticipants || ($startTs < $nowTs && $endTs > $nowTs)) {
                     $roomsNow[] = $room;
                 }
+
                 if ($hasParticipants || ($endTs > $nowTs)) {
                     $roomsFuture[$room->getStartwithTimeZone($user)->format('Ymd')][] = $room;
                 }
+
                 if ($hasParticipants || ($endTs <= $todayEndTs && $startTs >= $nowTs) || ($endTs >= $nowTs && $startTs <= $todayEndTs)) {
                     $roomsToday[] = $room;
                 }
@@ -53,31 +58,40 @@ class DashboardService
         ksort($roomsFuture);
 
         return [
-            'roomsFuture'      => $roomsFuture,
-            'roomsNow'         => $roomsNow,
-            'roomsToday'       => $roomsToday,
-            'persistantRooms'  => $persistantRooms,
-            'scheduledRooms'   => $scheduledRooms,
-            'roomIds'          => $roomIds,
+            'roomsFuture'     => $roomsFuture,
+            'roomsNow'        => $roomsNow,
+            'roomsToday'      => $roomsToday,
+            'persistantRooms' => $persistantRooms,
+            'scheduledRooms'  => $scheduledRooms,
+            'roomIds'         => $roomIds,
         ];
     }
 
+    /**
+     * @param Rooms[] $rooms
+     * @param array<int, bool> $roomStatusOpenMap
+     * @return array<int|string, string>
+     */
     public function getRoomClosedForStartMap(array $rooms, User $user, array $roomStatusOpenMap): array
     {
-        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
+        $now    = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         $result = [];
+
         foreach ($rooms as $room) {
             if (isset($roomStatusOpenMap[$room->getId()])) {
                 continue;
             }
+
             if ($room->getPersistantRoom()) {
                 continue;
             }
+
             if ($user === $room->getModerator()) {
                 continue;
             }
+
             $start = $room->getStartUtc();
-            $end = $room->getEndDateUtc();
+            $end   = $room->getEndDateUtc();
             if ($start && $end) {
                 $startWindow = $start->modify('-30min');
                 if ($startWindow > $now || $end < $now) {
@@ -89,6 +103,7 @@ class DashboardService
                 }
             }
         }
+
         return $result;
     }
 
@@ -98,12 +113,14 @@ class DashboardService
             if ($roomStatus->getDestroyed() === true) {
                 continue;
             }
+
             foreach ($roomStatus->getRoomStatusParticipants() as $participant) {
                 if ($participant->getInRoom() === true) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 }

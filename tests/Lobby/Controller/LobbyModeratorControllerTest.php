@@ -97,9 +97,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                return 'id';
-            }
+            fn(Update $update): string => 'id'
         );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
@@ -116,15 +114,15 @@ class LobbyModeratorControllerTest extends WebTestCase
         $acceptUrl = $url->generate('lobby_moderator_accept', ['wUid' => $lobbyUser->getUid()]);
         self::assertNotNull($lobbyUSerRepo->findOneBy(['uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf']));
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"Sie haben den Teilnehmer erfolgreich der Konferenz hinzugef\u00fcgt","color":"success"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Sie haben den Teilnehmer erfolgreich der Konferenz hinzugef\u00fcgt","color":"success"}', (string) $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(['uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf']));
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"warning"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"warning"}', (string) $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(['uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf']));
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"warning"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"warning"}', (string) $client->getResponse()->getContent());
     }
 
     public function testDecline(): void
@@ -142,9 +140,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                return 'id';
-            }
+            fn(Update $update): string => 'id'
         );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
@@ -161,15 +157,15 @@ class LobbyModeratorControllerTest extends WebTestCase
         $acceptUrl = $url->generate('lobby_moderator_decline', ['wUid' => $lobbyUser->getUid()]);
         self::assertNotNull($lobbyUSerRepo->findOneBy(['uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf']));
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"Dieser Teilnehmer hat keinen Zutritt zu der Konferenz","color":"success"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Dieser Teilnehmer hat keinen Zutritt zu der Konferenz","color":"success"}', (string) $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(['uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf']));
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"danger"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"danger"}', (string) $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(['uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf']));
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"danger"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"danger"}', (string) $client->getResponse()->getContent());
     }
 
     public function testStartConference(): void
@@ -189,11 +185,15 @@ class LobbyModeratorControllerTest extends WebTestCase
         $startUrl = $url->generate('lobby_moderator_start', ['room' => $room->getUidReal(), 't' => 'a']);
         $crawler = $client->request('GET', $startUrl);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        self::assertResponseRedirects($urlGenerator->join($room, $moderator, 'a', $moderator->getFormatedName($paramterBag->get('laf_showNameInConference'))));
+        /** @var string $showNameInConference */
+        $showNameInConference = $paramterBag->get('laf_showNameInConference');
+        self::assertResponseRedirects($urlGenerator->join($room, $moderator, 'a', $moderator->getFormatedName($showNameInConference)));
         $startUrl = $url->generate('lobby_moderator_start', ['room' => $room->getUidReal(), 't' => 'b']);
         $crawler = $client->request('GET', $startUrl);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        self::assertResponseRedirects($urlGenerator->join($room, $moderator, 'b', $moderator->getFormatedName($paramterBag->get('laf_showNameInConference'))));
+        /** @var string $showNameInConference */
+        $showNameInConference = $paramterBag->get('laf_showNameInConference');
+        self::assertResponseRedirects($urlGenerator->join($room, $moderator, 'b', $moderator->getFormatedName($showNameInConference)));
         $client->loginUser($user2);
         $crawler = $client->request('GET', $startUrl);
 
@@ -218,9 +218,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $hub = new MockHub(
             'http://localhost:3000/.well-known/mercure',
             new StaticTokenProvider('test'),
-            function (Update $update): string {
-                return 'id';
-            }
+            fn(Update $update): string => 'id'
         );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
@@ -260,10 +258,10 @@ class LobbyModeratorControllerTest extends WebTestCase
         $this->assertSelectorNotExists('.callerVerified');
         $client->loginUser($user2);
         $crawler = $client->request('GET', $url->generate('lobby_moderator_accept_all', ['roomId' => $room->getUidReal()]));
-        self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}', (string) $client->getResponse()->getContent());
         $client->loginUser($moderator);
         $crawler = $client->request('GET', $url->generate('lobby_moderator_accept_all', ['roomId' => $room->getUidReal()]));
-        self::assertEquals('{"error":false,"message":"Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.","color":"success"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.","color":"success"}', (string) $client->getResponse()->getContent());
         $crawler = $client->request('GET', $url->generate('lobby_moderator', ['uid' => $room->getUidReal()]));
         self::assertEquals(0, $crawler->filter('.waitingUserCard')->count());
     }

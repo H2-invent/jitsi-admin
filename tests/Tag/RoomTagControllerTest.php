@@ -26,9 +26,9 @@ class RoomTagControllerTest extends WebTestCase
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/new');
         self::assertEquals('Test Tag EnabledTest Tag Enabled No2Test Tag 0Test Tag 1Test Tag 2Test Tag 3Test Tag 4', $crawler->filter('#form_tag_wrapper')->text());
-        self::assertStringContainsString('Server without License', $client->getResponse()->getContent());
-        self::assertStringContainsString('Server no JWT', $client->getResponse()->getContent());
-        self::assertStringContainsString('Server with License', $client->getResponse()->getContent());
+        self::assertStringContainsString('Server without License', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString('Server no JWT', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString('Server with License', (string) $client->getResponse()->getContent());
     }
     public function testFakeModalOneTag(): void
     {
@@ -55,9 +55,9 @@ class RoomTagControllerTest extends WebTestCase
         $this->assertEquals(1, $dropdownElement->count());
         $optionElement = $crawler->filter('#form_tag_wrapper option');
         $this->assertEquals(0, $optionElement->count());
-        self::assertStringContainsString('Server without License', $client->getResponse()->getContent());
-        self::assertStringContainsString('Server no JWT', $client->getResponse()->getContent());
-        self::assertStringContainsString('Server with License', $client->getResponse()->getContent());
+        self::assertStringContainsString('Server without License', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString('Server no JWT', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString('Server with License', (string) $client->getResponse()->getContent());
     }
     public function testFakeModalTwoTags(): void
     {
@@ -90,9 +90,9 @@ class RoomTagControllerTest extends WebTestCase
         $selectedElement = $dropdownElement->filter('option[selected="selected"]');
         $this->assertEquals('Test Tag Enabled', $selectedElement->text());
 
-        self::assertStringContainsString('Server without License', $client->getResponse()->getContent());
-        self::assertStringContainsString('Server no JWT', $client->getResponse()->getContent());
-        self::assertStringContainsString('Server with License', $client->getResponse()->getContent());
+        self::assertStringContainsString('Server without License', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString('Server no JWT', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString('Server with License', (string) $client->getResponse()->getContent());
     }
 
 }

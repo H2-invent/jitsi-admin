@@ -18,7 +18,7 @@ class AdressBookUITest extends WebTestCase
         $testUser = $userRepository->findOneByUsername('test@local.de');
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
         self::assertEquals(1, $crawler->filter('#profile:contains("Testgruppe (2)")')->count());
         $this->assertEquals(
@@ -50,7 +50,7 @@ class AdressBookUITest extends WebTestCase
                 ]
             ], 'group' => []
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
         $url = $urlGenerator->generate('search_participant', ['search' => 'local2.de']);
         $crawler = $client->request('GET', $url);
@@ -61,7 +61,7 @@ class AdressBookUITest extends WebTestCase
                 ]
             ], 'group' => []
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
         $url = $urlGenerator->generate('search_participant', ['search' => 'test']);
         $crawler = $client->request('GET', $url);
@@ -75,7 +75,7 @@ class AdressBookUITest extends WebTestCase
                     ['name' => 'Testgruppe', 'user' => ['test2@local.de','test@local3.de']]
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
         $url = $urlGenerator->generate('search_participant', ['search' => 'Testgruppe']);
         $crawler = $client->request('GET', $url);
@@ -92,7 +92,7 @@ class AdressBookUITest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
 
         $url = $urlGenerator->generate('search_participant', ['search' => 'Test']);
@@ -109,7 +109,7 @@ class AdressBookUITest extends WebTestCase
                     ['name' => 'Testgruppe', 'user' => ['test2@local.de','test@local3.de']]
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
         $url = $urlGenerator->generate('search_participant', ['search' => 'test']);
         $crawler = $client->request('GET', $url);
@@ -125,7 +125,7 @@ class AdressBookUITest extends WebTestCase
                     ['name' => 'Testgruppe', 'user' => ['test2@local.de','test@local3.de']]
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
         $url = $urlGenerator->generate('search_participant', ['search' => '1234']);
         $crawler = $client->request('GET', $url);
@@ -138,7 +138,7 @@ class AdressBookUITest extends WebTestCase
                 ],
                 'group' => []
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
         $url = $urlGenerator->generate('search_participant', ['search' => 'asdf']);
         $crawler = $client->request('GET', $url);
@@ -153,9 +153,9 @@ class AdressBookUITest extends WebTestCase
                     'group' => []
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
     }
 }

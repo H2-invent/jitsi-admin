@@ -12,25 +12,15 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class LobbyLeaverMessageDispatcher
 {
-    private LoggerInterface $logger;
-    private $toModerator;
-    private EntityManagerInterface $em;
-
-    public function __construct(
-        LoggerInterface             $logger,
-        ToModeratorWebsocketService $toModerator,
-        EntityManagerInterface      $entityManager
-    )
-    {
-        $this->logger = $logger;
-        $this->toModerator = $toModerator;
-        $this->em = $entityManager;
+    public function __construct(private readonly LoggerInterface             $logger,
+                                private readonly ToModeratorWebsocketService $toModerator,
+                                private readonly EntityManagerInterface      $em
+    ) {
     }
 
-    public function __invoke(LobbyLeaverMessage $lobbyLeaverMessage)
+    public function __invoke(LobbyLeaverMessage $lobbyLeaverMessage): void
     {
         $lobbyWaitingUSer = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $lobbyLeaverMessage->getId()]);
-
 
         if ($lobbyWaitingUSer) {
             $this->em->refresh($lobbyWaitingUSer);

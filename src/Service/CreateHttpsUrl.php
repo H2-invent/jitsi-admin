@@ -9,18 +9,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CreateHttpsUrl
 {
-    private $paramterBag;
-    private $request;
-    private LoggerInterface $logger;
+    private readonly string $baseUrl;
 
-    private string $baseUrl;
-
-    public function __construct(LoggerInterface $logger, RequestStack $requestStack, ParameterBagInterface $parameterBag)
+    public function __construct(private readonly LoggerInterface $logger, private readonly RequestStack $request, private ParameterBagInterface $paramterBag)
     {
-        $this->paramterBag = $parameterBag;
-        $this->request = $requestStack;
-        $this->logger = $logger;
-        $this->baseUrl = $this->paramterBag->get('laF_baseUrl');
+        /** @var string $baseUrl */
+        $baseUrl       = $this->paramterBag->get('laF_baseUrl');
+        $this->baseUrl = $baseUrl;
     }
 
     public function setParamterBag(ParameterBagInterface $paramterBag): void
@@ -28,73 +23,66 @@ class CreateHttpsUrl
         $this->paramterBag = $paramterBag;
     }
 
-    public function createHttpsUrl($url, ?Rooms $rooms = null)
+    public function createHttpsUrl(string $url, ?Rooms $rooms = null): string
     {
         if (str_contains($url, $this->baseUrl)) {
             return $this->generateAbsolutUrl($url);
         }
 
+        $lafDevUrl = (string)$this->paramterBag->get('LAF_DEV_URL');
+        if ($lafDevUrl !== '') {
+            return $lafDevUrl . $url;
+        }
 
-        if ($this->paramterBag->get('LAF_DEV_URL') !== '') {
-            return $this->paramterBag->get('LAF_DEV_URL') . $url;
-        } else {
-            try {
-                if ($rooms && $rooms->getHostUrl()) {
-                    return $this->generateAbsolutUrl($rooms->getHostUrl(), $url);
-                } elseif ($rooms && !$rooms->getHostUrl()) {
-                    return $this->baseUrl . $url;
-                } elseif ($this->request && $this->request->getCurrentRequest()) {
-                    return $this->generateAbsolutUrl($this->request->getCurrentRequest()->getSchemeAndHttpHost(), $url);
-                } else {
-                    return $this->baseUrl . $url;
-                }
-            } catch (\Exception $exception) {
-                $this->logger->error($exception->getMessage());
+        try {
+            if ($rooms && $rooms->getHostUrl()) {
+                return $this->generateAbsolutUrl($rooms->getHostUrl(), $url);
+            }
+
+            if ($rooms && !$rooms->getHostUrl()) {
                 return $this->baseUrl . $url;
             }
-        }
-    }
 
-    private function generateAbsolutUrl($baseUrl, $url = '')
-    {
-        $isStricktHttps = str_contains($this->baseUrl, 'https://');
-        $res = $baseUrl . $url;
-        if ($isStricktHttps) {
-            $res = str_replace('http://', 'https://', $res);
-        }
-        return $res;
-    }
-
-    public function replaceSchemeOfAbsolutUrl($url)
-    {
-        $protokoll = parse_url($this->paramterBag->get('laF_baseUrl'));
-        if (!$protokoll) {
-            return $url;
-        }
-        try {
-            $protokoll = $protokoll['scheme'] ?? null;
-            if ($protokoll) {
-                return $this->replaceProtocol(url: $url, newProtocol: $protokoll);
+            if ($this->request->getCurrentRequest()) {
+                return $this->generateAbsolutUrl($this->request->getCurrentRequest()->getSchemeAndHttpHost(), $url);
             }
-            return $url;
-        }catch (\Exception $exception){
-            return $url;
+
+            return $this->baseUrl . $url;
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
+            return $this->baseUrl . $url;
         }
-
-
     }
 
-    private function replaceProtocol($url, $newProtocol)
+    public function generateAbsolutUrl(string $baseUrl, string $url = ''): string
     {
-        $parsedUrl = parse_url($url);
-
-        if ($parsedUrl && isset($parsedUrl['scheme'])) {
-            $oldProtocol = $parsedUrl['scheme'];
-            $newUrl = str_replace($oldProtocol, $newProtocol, $url);
-            return $newUrl;
+        $isStrictHttps = str_contains($this->baseUrl, 'https://');
+        $res           = $baseUrl . $url;
+        if (!$isStrictHttps) {
+            return $res;
         }
 
-        // Return original URL if no valid protocol was found
-        return $url;
+        return str_replace('http://', 'https://', $res);
+    }
+
+    public function replaceSchemeOfAbsolutUrl(string $url): string
+    {
+        $baseUrl = $this->paramterBag->get('laF_baseUrl');
+        $scheme  = parse_url($baseUrl, PHP_URL_SCHEME);
+        if (!$scheme) {
+            return $url;
+        }
+
+        return $this->replaceProtocol($url, $scheme);
+    }
+
+    private function replaceProtocol(string $url, string $newProtocol): string
+    {
+        $oldProtocol = parse_url($url, PHP_URL_SCHEME);
+        if (!$oldProtocol) {
+            return $url;
+        }
+
+        return str_replace($oldProtocol, $newProtocol, $url);
     }
 }

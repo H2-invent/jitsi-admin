@@ -19,6 +19,7 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Service\ResetInterface;
 
 
 class RoomServiceJWTTest extends KernelTestCase
@@ -31,38 +32,48 @@ class RoomServiceJWTTest extends KernelTestCase
     {
         self::bootKernel();
         $this->cache = self::getContainer()->get('cache.app');
+        $this->clearCache();
     }
 
     protected function tearDown(): void
     {
         // Cache leeren, um sicherzustellen, dass kein Caching zwischen Tests auftritt
-        if ($this->cache instanceof ResetInterface) {
-            $this->cache->reset();
-        } elseif (method_exists($this->cache, 'clear')) {
-            $this->cache->clear();
-        }
+        $this->clearCache();
 
         parent::tearDown();
     }
-    public function testGenerateJwtPayloadWithValidKey()
+
+    private function clearCache(): void
+    {
+        // clear() must be preferred over reset(), otherwise persisted cache entries
+        // (e.g. the cached livekit public key) leak between tests.
+        if (method_exists($this->cache, 'clear')) {
+            $this->cache->clear();
+        } elseif ($this->cache instanceof ResetInterface) {
+            $this->cache->reset();
+        }
+    }
+    public function testGenerateJwtPayloadWithValidKey(): void
     {
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        $validEncryptionKEy = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
+        /** @var string $projectDir */
+        $projectDir = $paramterBag->get('kernel.project_dir');
+        $validEncryptionKEy = file_get_contents($projectDir . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
         $mockResponses = [
             new MockResponse(
-                $validEncryptionKEy,
+                (string) $validEncryptionKEy,
                 [
                     'http_code' => 200,
                 ]
             ),
             new MockResponse(
-                $validEncryptionKEy,
+                (string) $validEncryptionKEy,
                 [
                     'http_code' => 200,
                 ]
             )
         ];
-        $validPrivateKey = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'private.key');
+        $validPrivateKey = file_get_contents($projectDir . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'private.key');
         $httpClient = new MockHttpClient($mockResponses, 'http://etherpadurl.com');
 
         $roomService = self::getContainer()->get(RoomService::class);
@@ -81,7 +92,7 @@ class RoomServiceJWTTest extends KernelTestCase
         $encryptedSecret = urldecode($encryptedSecret);
 
         $decryptedSecret = '';
-        openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
+        openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, (string) $validPrivateKey);
 
         self::assertEquals(
             'testSecrettestSecrettestSecrettestSecret',
@@ -97,12 +108,12 @@ class RoomServiceJWTTest extends KernelTestCase
                 'context' =>
                     [
                         'user' =>
-                            array(
+                            [
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
-                            ),
+                            ],
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
@@ -142,25 +153,27 @@ class RoomServiceJWTTest extends KernelTestCase
         );
 
     }
-    public function testGenerateJwtPayloadWithValidKeyandBackgrouImage()
+    public function testGenerateJwtPayloadWithValidKeyandBackgrouImage(): void
     {
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        $validEncryptionKEy = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
+        /** @var string $projectDir */
+        $projectDir = $paramterBag->get('kernel.project_dir');
+        $validEncryptionKEy = file_get_contents($projectDir . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
         $mockResponses = [
             new MockResponse(
-                $validEncryptionKEy,
+                (string) $validEncryptionKEy,
                 [
                     'http_code' => 200,
                 ]
             ),
             new MockResponse(
-                $validEncryptionKEy,
+                (string) $validEncryptionKEy,
                 [
                     'http_code' => 200,
                 ]
             )
         ];
-        $validPrivateKey = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'private.key');
+        $validPrivateKey = file_get_contents($projectDir . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'private.key');
         $httpClient = new MockHttpClient($mockResponses, 'http://etherpadurl.com');
 
         $roomService = self::getContainer()->get(RoomService::class);
@@ -195,7 +208,7 @@ class RoomServiceJWTTest extends KernelTestCase
         $encryptedSecret = urldecode($encryptedSecret);
 
         $decryptedSecret = '';
-        openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
+        openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, (string) $validPrivateKey);
 
         self::assertEquals(
             'testSecrettestSecrettestSecrettestSecret',
@@ -225,12 +238,12 @@ class RoomServiceJWTTest extends KernelTestCase
                 'context' =>
                     [
                         'user' =>
-                            array(
+                            [
                                 'identity' => $payload['context']['user']['identity'],
                                 'name' => 'Testuser',
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
-                            ),
+                            ],
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
@@ -252,25 +265,27 @@ class RoomServiceJWTTest extends KernelTestCase
 
     }
 
-    public function testGenerateJwtPayloadWithValidKeyandInvalidBackgrouImage()
+    public function testGenerateJwtPayloadWithValidKeyandInvalidBackgrouImage(): void
     {
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        $validEncryptionKEy = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
+        /** @var string $projectDir */
+        $projectDir = $paramterBag->get('kernel.project_dir');
+        $validEncryptionKEy = file_get_contents($projectDir . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
         $mockResponses = [
             new MockResponse(
-                $validEncryptionKEy,
+                (string) $validEncryptionKEy,
                 [
                     'http_code' => 200,
                 ]
             ),
             new MockResponse(
-                $validEncryptionKEy,
+                (string) $validEncryptionKEy,
                 [
                     'http_code' => 200,
                 ]
             )
         ];
-        $validPrivateKey = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'private.key');
+        $validPrivateKey = file_get_contents($projectDir . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'private.key');
         $httpClient = new MockHttpClient($mockResponses, 'http://etherpadurl.com');
 
         $roomService = self::getContainer()->get(RoomService::class);
@@ -294,7 +309,7 @@ class RoomServiceJWTTest extends KernelTestCase
         $encryptedSecret = urldecode($encryptedSecret);
 
         $decryptedSecret = '';
-        openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
+        openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, (string) $validPrivateKey);
 
         self::assertEquals(
             'testSecrettestSecrettestSecrettestSecret',
@@ -310,14 +325,14 @@ class RoomServiceJWTTest extends KernelTestCase
                 'context' =>
                     [
                         'user' =>
-                            array(
+                            [
                                 'name' => 'Testuser',
 
                                 'identity' => $payload['context']['user']['identity'],
 
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
-                            ),
+                            ],
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
@@ -340,8 +355,7 @@ class RoomServiceJWTTest extends KernelTestCase
     }
 
 
-    public
-    function testGenerateJwtPayloadWithInvalidKey()
+    public function testGenerateJwtPayloadWithInvalidKey(): void
     {
 
         $invalidEncryptionKEy = '-----BEGIN RSA PUBLIC KEY-----
@@ -355,7 +369,9 @@ invalidKey
         );
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
 
-        $validPrivateKey = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'd1c8dfc1830cc0985d98acb9c6606ccb191ffdeb5c2be295c446dcea80391620.key');
+        /** @var string $projectDir */
+        $projectDir = $paramterBag->get('kernel.project_dir');
+        $validPrivateKey = file_get_contents($projectDir . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'd1c8dfc1830cc0985d98acb9c6606ccb191ffdeb5c2be295c446dcea80391620.key');
 
 
         $httpClient = new MockHttpClient($mockResponse, 'http://etherpadurl.com');
@@ -384,12 +400,12 @@ invalidKey
                 'context' =>
                     [
                         'user' =>
-                            array(
+                            [
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
-                            ),
+                            ],
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,

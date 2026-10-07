@@ -6,7 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\Server;
 use App\Repository\CallerRoomRepository;
-use App\Service\api\ConferenceMapperService;
+use App\Service\Api\ConferenceMapperService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ConferenceMapperCallerExternalStatus extends KernelTestCase
 {
-    public function testFindRoomStatusFromOtherServer()
+    public function testFindRoomStatusFromOtherServer(): void
     {
         // Mock für den HttpClient
         $httpClientMock = $this->createMock(HttpClientInterface::class);
@@ -46,7 +46,7 @@ class ConferenceMapperCallerExternalStatus extends KernelTestCase
 
 
 
-    public function testFindRoomStatusFromOtherServerCLosed()
+    public function testFindRoomStatusFromOtherServerCLosed(): void
     {
         // Mock für den HttpClient
         $httpClientMock = $this->createMock(HttpClientInterface::class);

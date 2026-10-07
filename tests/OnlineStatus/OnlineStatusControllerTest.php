@@ -15,7 +15,7 @@ class OnlineStatusControllerTest extends WebTestCase
         $client->loginUser($user);
         $crawler = $client->request('GET', '/room/online/status?status=1');
         $this->assertResponseIsSuccessful();
-        self::assertEquals(json_encode(['error' => false, 'status' => 1]), $client->getResponse()->getContent());
+        self::assertEquals(json_encode(['error' => false, 'status' => 1]), (string) $client->getResponse()->getContent());
         self::assertEquals(1, $user->getOnlineStatus());
     }
 
@@ -27,7 +27,7 @@ class OnlineStatusControllerTest extends WebTestCase
         $client->loginUser($user);
         $crawler = $client->request('GET', '/room/online/status?status=0');
         $this->assertResponseIsSuccessful();
-        self::assertEquals(json_encode(['error' => false, 'status' => 0]), $client->getResponse()->getContent());
+        self::assertEquals(json_encode(['error' => false, 'status' => 0]), (string) $client->getResponse()->getContent());
         self::assertEquals(0, $user->getOnlineStatus());
     }
 }

@@ -3,23 +3,26 @@
 namespace App\Service;
 
 use App\Entity\LobbyWaitungUser;
+use App\Repository\LobbyWaitungUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CleanupLobbyService
 {
-    private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
-    public function cleanUp($maxOld = 72)
+    /**
+     * @return LobbyWaitungUser[]
+     */
+    public function cleanUp(int|string $maxOld = 72): array
     {
-        $date = (new \DateTimeImmutable())->modify('-' . $maxOld . 'hours');
-        $oldestData = $this->em->getRepository(LobbyWaitungUser::class)->findOldLobbyWaitinguser($date);
+        $date     = new \DateTimeImmutable()->modify('-' . $maxOld . 'hours');
         $sessions = [];
 
+        /** @var LobbyWaitungUserRepository $repo */
+        $repo       = $this->em->getRepository(LobbyWaitungUser::class);
+        $oldestData = $repo->findOldLobbyWaitinguser($date);
         foreach ($oldestData as $data) {
             if ($data->getCallerSession()) {
                 $session = $data->getCallerSession();
@@ -39,8 +42,8 @@ class CleanupLobbyService
         foreach ($sessions as $session) {
             $this->em->remove($session);
         }
-
         $this->em->flush();
+
         return $oldestData;
     }
 }

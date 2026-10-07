@@ -11,43 +11,53 @@ class Subscriber
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'subscribers')]
     #[ORM\JoinColumn(nullable: false)]
-    private $user;
+    private ?User $user = null;
+
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'subscribers')]
     #[ORM\JoinColumn(nullable: false)]
-    private $room;
+    private ?Rooms $room = null;
+
     #[ORM\Column(type: 'text')]
-    private $uid;
+    private ?string $uid = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getUser(): ?User
     {
         return $this->user;
     }
+
     public function setUser(?User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
+
     public function getRoom(): ?Rooms
     {
         return $this->room;
     }
+
     public function setRoom(?Rooms $room): self
     {
         $this->room = $room;
 
         return $this;
     }
+
     public function getUid(): ?string
     {
         return $this->uid;
     }
+
     public function setUid(string $uid): self
     {
         $this->uid = $uid;

@@ -10,9 +10,9 @@ use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\caller\CallerPinService;
-use App\Service\caller\CallerPrepareService;
-use App\Service\caller\CallerSessionService;
+use App\Service\Caller\CallerPinService;
+use App\Service\Caller\CallerPrepareService;
+use App\Service\Caller\CallerSessionService;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\SendMessageToWaitingUser;
 use App\Service\RoomService;
@@ -655,7 +655,7 @@ class CallerSessionTest extends KernelTestCase
 
         $message = $messageRepo->findAll();
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $waitingUser = $waitingUSerRepo->findOneBy(['uid' => md5(1)]);
+        $waitingUser = $waitingUSerRepo->findOneBy(['uid' => md5('1')]);
 
         $callerSession = new CallerSession();
         $callerSession->setSessionId('test')
@@ -682,7 +682,7 @@ class CallerSessionTest extends KernelTestCase
             }
         );
         $directSend->setMercurePublisher($hub);
-        $messageResult = $sendMessage->sendMessage(md5(1), $testMessage, $user);
+        $messageResult = $sendMessage->sendMessage(md5('1'), $testMessage, $user);
 
         self::assertEquals(true, $messageResult);
 

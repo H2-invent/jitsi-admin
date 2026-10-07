@@ -22,7 +22,6 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
 
         $rooms = $roomRepo->findRoomsForDashboard($user);
 
-        $this->assertIsArray($rooms);
         $this->assertGreaterThan(0, count($rooms));
 
         $hasPersistent = false;
@@ -104,7 +103,6 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
 
         $rooms = $roomRepo->findRoomsInPast($user, 0);
 
-        $this->assertIsArray($rooms);
         $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         foreach ($rooms as $room) {
             $this->assertNotNull($room->getEndDateUtc());
@@ -228,7 +226,6 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
 
         $rooms = $roomRepo->findRoomsForDashboard($deputy);
 
-        $this->assertIsArray($rooms);
     }
 
     public function testPersistentRoomsAlwaysIncluded(): void
@@ -305,6 +302,9 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
         $this->assertCount(0, $this->repeatLazyLoadQueries($accessQueries), 'Accessing repeater/repeaterProtoype must not trigger lazy loads');
     }
 
+    /**
+     * @return array{0: array<mixed>, 1: array<int, array<string, mixed>>, 2: array<int, array<string, mixed>>}
+     */
     private function captureRepeaterQueries(callable $fetch): array
     {
         $holder = $this->debugDataHolder();
@@ -324,6 +324,10 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
         return [$rooms, $fetchQueries, $accessQueries];
     }
 
+    /**
+     * @param array<int, array<string, mixed>> $queries
+     * @return array<int, array<string, mixed>>
+     */
     private function repeatLazyLoadQueries(array $queries): array
     {
         return array_values(array_filter(
@@ -421,7 +425,7 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
      * Fetches rooms while counting SQL queries, then accesses every to-many / inverse
      * association that the dashboard templates touch and counts the additional queries.
      *
-     * @return array{0: Rooms[], 1: array, 2: array} [rooms, fetchQueries, accessQueries]
+     * @return array{0: array<int, Rooms>, 1: array<int, array<string, mixed>>, 2: array<int, array<string, mixed>>} [rooms, fetchQueries, accessQueries]
      */
     private function captureCollectionQueries(callable $fetch): array
     {
@@ -458,7 +462,7 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
      * Flattens the queries captured by the DoctrineBundle debug middleware into a
      * single list of records, each containing at least a "sql" key.
      *
-     * @return array<int, array{sql: string, params: array, types: array, executionMS: float|null}>
+     * @return array<int, array{sql: string, params: array<mixed>, types: array<mixed>, executionMS: float|null}>
      */
     private function recordedQueries(DebugDataHolder $holder): array
     {
@@ -472,6 +476,9 @@ class RoomsRepositoryDashboardTest extends KernelTestCase
         return $queries;
     }
 
+    /**
+     * @param array<int, array<string, mixed>> $queries
+     */
     private function mainDashboardQuery(array $queries): ?string
     {
         foreach ($queries as $query) {

@@ -1,0 +1,334 @@
+<?php
+
+namespace App\Service\Webhook;
+
+use App\Entity\Rooms;
+use App\Entity\RoomStatus;
+use App\Entity\RoomStatusParticipant;
+use App\Repository\RoomsRepository;
+use App\Repository\RoomStatusRepository;
+use App\Service\Livekit\EgressService;
+use App\Service\Lobby\LobbyUtils;
+use App\Service\Summary\SendSummaryViaEmailService;
+use App\Service\Theme\ThemeService;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
+class RoomWebhookService
+{
+    public function __construct(private readonly LobbyUtils                 $lobbyUtils,
+                                private readonly EntityManagerInterface     $em,
+                                private readonly LoggerInterface            $logger,
+                                private readonly ParameterBagInterface      $paramterBag,
+                                private readonly SendSummaryViaEmailService $sendSummaryViaEmailService,
+                                private readonly ThemeService               $themeService,
+                                private readonly EgressService              $egressService
+    ) {
+    }
+
+    /**
+     * @param array<string, mixed>|null $data
+     */
+    public function startWebhook(?array $data): ?string
+    {
+        $res = 'No event defined';;
+        if (isset($data['event_name'])) {
+            switch ($data['event_name']) {
+                case 'muc-room-created':
+                    $res = $this->roomCreated(
+                        $data['room_name'],
+                        $data['is_breakout'] ?? null,
+                        $data['breakout_room_id'] ?? null,
+                        $data['room_jid'],
+                        $data['created_at']
+                    );
+                    break;
+                case 'muc-room-destroyed':
+                    $res = $this->roomDestroyed(
+                        $data['is_breakout'] ?? null,
+                        $data['breakout_room_id'] ?? null,
+                        $data['room_jid'],
+                        $data['destroyed_at']
+                    );
+                    break;
+                case 'muc-occupant-joined':
+                    $res = $this->roomParticipantJoin(
+                        $data['is_breakout'] ?? null,
+                        $data['breakout_room_id'] ?? null,
+                        $data['room_jid'],
+                        $data['occupant']['occupant_jid'],
+                        $data['occupant']['joined_at'],
+                        $data['occupant']['name'] ?? null
+
+                    );
+                    break;
+                case 'muc-occupant-left':
+                    $res = $this->roomParticipantLeft(
+                        $data['is_breakout'] ?? null,
+                        $data['breakout_room_id'] ?? null,
+                        $data['occupant']['occupant_jid'],
+                        $data['occupant']['left_at'],
+                        $data['occupant']['total_dominant_speaker_time'] ?? null
+                    );
+                    break;
+                default:
+                    $this->logger->error('Wrong event_name', ['event_name' => $data['event_name']]);
+                    $res = 'Wrong event_name';
+            }
+        }
+
+        return $res;
+    }
+
+
+    public function roomCreated(
+        string  $roomName,
+        ?bool   $isBreakout,
+        ?string $breakoutRoomId,
+        string  $roomJid,
+        int     $createdAt
+    ): ?string {
+        try {
+            $room = null;
+            try {
+                /** @var RoomsRepository $roomsRepository */
+                $roomsRepository = $this->em->getRepository(Rooms::class);
+                $room            = $roomsRepository->findRoomByCaseInsensitiveUid($roomName);
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage());
+            }
+
+            if (!$room) {
+                $text = 'Room name not found. This Room is externally controlled';
+                $this->logger->debug($text, ['roomId' => $roomName]);
+            }
+
+            if ($isBreakout) {
+                $this->logger->debug('This is a breakoutRoom', ['breakout_room_id' => $breakoutRoomId]);
+                return 'Room is a breakout room; we don`t create a status';
+            }
+
+            /** @var RoomStatusRepository $roomStatusRepository */
+            $roomStatusRepository = $this->em->getRepository(RoomStatus::class);
+            if ($room) {
+                $roomStatus = $roomStatusRepository->findCreatedRooms($room);
+            } else {
+                $roomStatus = $roomStatusRepository->findCreatedRoomsbyJitsiId($roomJid);
+            }
+
+            if ($roomStatus) {
+                $roomStatus->setJitsiRoomId($roomJid);
+                $roomStatus->setUpdatedAt(new \DateTimeImmutable());
+                $this->em->persist($roomStatus);
+                $this->em->flush();
+                $text = 'Room already created';
+                $this->logger->error($text, ['roomJidID' => $roomJid]);
+                return $text;
+            }
+
+            $roomStatus = new RoomStatus();
+            $roomStatus->setCreatedAt(new \DateTimeImmutable())
+                ->setJitsiRoomId($roomJid)
+                ->setRoom($room);
+
+            /** @var \DateTimeImmutable $roomCreatedAt */
+            $roomCreatedAt = \DateTimeImmutable::createFromFormat('U', (string)$createdAt);
+            $roomStatus->setRoomCreatedAt($roomCreatedAt)
+                ->setUpdatedAt(new \DateTimeImmutable())
+                ->setCreated(true);
+
+            $this->em->persist($roomStatus);
+            $this->em->flush();
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
+            return 'ERROR';
+        }
+
+        return null;
+    }
+
+
+    public function roomDestroyed(
+
+        ?bool   $isBreakout,
+        ?string $breakoutRoomId,
+        string  $roomJid,
+        int     $destroyedAt
+    ): ?string {
+        try {
+            if ($isBreakout) {
+                $this->logger->debug('This is a breakoutRoom', [
+                    'breakout_room_id' => $breakoutRoomId,
+                    'room_jid'         => $roomJid
+                ]);
+                return 'Room is a breakout room we don`t remove the main room';
+            }
+
+            /** @var RoomStatusRepository $roomStatusRepository */
+            $roomStatusRepository = $this->em->getRepository(RoomStatus::class);
+            $roomStatus           = $roomStatusRepository->findCreatedRoomsbyJitsiId($roomJid);
+            if (!$roomStatus) {
+                $text = 'Room Jitsi ID not found';
+                $this->logger->error($text, ['jitsiID' => $roomJid]);
+                return $text;
+            }
+
+            /** @var int|string $jitsiEventsHistory */
+            $jitsiEventsHistory = $this->paramterBag->get('JITSI_EVENTS_HISTORY');
+            if ((int)$jitsiEventsHistory == 0) {
+                $statusOld = $roomStatusRepository->findBy(['jitsiRoomId' => $roomJid]);
+                foreach ($statusOld as $data) {
+                    $this->em->remove($data);
+                    $this->em->flush();
+                }
+                return null;
+            }
+
+            /** @var \DateTimeImmutable $destroyedAtDate */
+            $destroyedAtDate = \DateTimeImmutable::createFromFormat('U', (string)$destroyedAt);
+            $roomStatus->setDestroyedAt($destroyedAtDate)
+                ->setUpdatedAt(new \DateTimeImmutable())
+                ->setDestroyed(true);
+
+            $this->em->persist($roomStatus);
+            $this->em->flush();
+
+            if ($roomStatus->getRoom()) {
+                $this->lobbyUtils->cleanLobby($roomStatus->getRoom());
+            }
+
+            foreach ($roomStatus->getRoomStatusParticipants() as $data2) {
+                if ($data2->getInRoom()) {
+                    /** @var \DateTimeImmutable $leftRoomAtDestroyed */
+                    $leftRoomAtDestroyed = \DateTimeImmutable::createFromFormat('U', (string)$destroyedAt);
+                    $data2->setLeftRoomAt($leftRoomAtDestroyed)
+                        ->setInRoom(false);
+                    $this->em->persist($data2);
+                }
+            }
+            if ($roomStatus->getRoom()) {
+                foreach ($roomStatus->getRoom()->getLiveKitRecordings() as $recording) {
+                    $this->egressService->stopEgress($recording);
+                }
+            }
+            $this->em->flush();
+            $this->clenRoomStatus($roomStatus);
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
+            return $exception->getMessage();
+        }
+
+        if ($this->themeService->getApplicationProperties('SEND_REPORT_AFTER_MEETING') === '1') {
+            $this->sendSummaryViaEmailService->sendSummaryForRoom($roomStatus->getRoom());
+        }
+
+        return null;
+    }
+
+    public function roomParticipantJoin(
+        ?bool   $isBreakout,
+        ?string $breakoutRoomName,
+        string  $roomJId,
+        string  $occupantJId,
+        string  $joinedAt,
+        ?string $occupantName = null,
+    ): ?string {
+        try {
+            if ($isBreakout === true) {
+                $this->logger->debug('This is a breakoutRoom', ['breakout_room_id ' => $breakoutRoomName, 'room_jid' => $roomJId]);
+                return 'Room is a breakout room we don`t join the participant';
+            }
+            /** @var RoomStatusRepository $roomStatusRepository */
+            $roomStatusRepository = $this->em->getRepository(RoomStatus::class);
+            $roomStatus           = $roomStatusRepository->findCreatedRoomsbyJitsiId($roomJId);
+            if (!$roomStatus) {
+                $text = 'Room Jitsi ID not found';
+                $this->logger->error($text, ['jitsiID' => $roomJId]);
+                return $text;
+            }
+
+            $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy(['participantId' => $occupantJId]);
+            if ($roomPart) {
+                $text = 'The occupant already joind with the same occupant ID';
+                $this->logger->error($text, ['occupantID' => $occupantJId]);
+                return $text;
+            }
+            if (!$occupantName) {
+                return 'NO_DATA';
+            }
+            $roomPart = new RoomStatusParticipant();
+            /** @var \DateTimeImmutable $enteredRoomAt */
+            $enteredRoomAt = \DateTimeImmutable::createFromFormat('U', $joinedAt);
+            $roomPart->setEnteredRoomAt($enteredRoomAt)
+                ->setInRoom(true)
+                ->setParticipantId($occupantJId)
+                ->setParticipantName($occupantName)
+                ->setRoomStatus($roomStatus);
+            $this->em->persist($roomPart);
+            $this->em->flush();
+            $roomStatus->addRoomStatusParticipant($roomPart);
+            $this->em->persist($roomStatus);
+            $this->em->flush();
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
+            return 'ERROR';
+        }
+
+        return null;
+    }
+
+    public function roomParticipantLeft(
+
+        ?bool   $isBreakout,
+        ?string $breakoutRoomId,
+        string  $occupantJid,
+        int     $leftAt,
+        ?int    $totalDominantSpeakerTime = null
+    ): ?string {
+        try {
+            if ($isBreakout) {
+                $this->logger->debug('This is a breakoutRoom', ['breakout_room_id' => $breakoutRoomId]);
+                return 'Room is a breakout room; we don`t remove the participant';
+            }
+
+            $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy(['participantId' => $occupantJid]);
+            if (!$roomPart) {
+                $text = 'Wrong occupant ID. The occupant is not in the database';
+                $this->logger->error($text, ['occupantID' => $occupantJid]);
+                return $text;
+            }
+
+            if ($roomPart->getInRoom() !== true) {
+                $text = 'The occupant already left the room. It cannot leave the room twice';
+                $this->logger->error($text, ['occupantID' => $occupantJid]);
+                return $text;
+            }
+
+            /** @var \DateTimeImmutable $leftRoomAt */
+            $leftRoomAt = \DateTimeImmutable::createFromFormat('U', (string)$leftAt);
+            $roomPart->setLeftRoomAt($leftRoomAt)
+                ->setInRoom(false)
+                ->setDominantSpeakerTime($totalDominantSpeakerTime);
+
+            $this->em->persist($roomPart);
+            $this->em->flush();
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
+            return 'ERROR';
+        }
+
+        return null;
+    }
+
+    public function clenRoomStatus(RoomStatus $roomStatus): void
+    {
+        if (!$roomStatus->getRoom()) {
+            foreach ($roomStatus->getRoomStatusParticipants() as $data) {
+                $this->em->remove($data);
+            }
+            $this->em->remove($roomStatus);
+            $this->em->flush();
+        }
+    }
+}

@@ -2,16 +2,16 @@
 
 namespace App\Tests\LDAP;
 
-use App\dataType\LdapType;
+use App\DataType\LdapType;
 use App\Repository\UserRepository;
-use App\Service\ldap\LdapService;
-use App\Service\ldap\LdapUserService;
+use App\Service\Ldap\LdapService;
+use App\Service\Ldap\LdapUserService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserShowTest extends WebTestCase
 {
-    public $LDAPURL = 'ldap://192.168.230.128:10389';
+    public string $LDAPURL = 'ldap://192.168.230.128:10389';
     public function testShowName(): void
     {
         $client = static::createClient();
@@ -98,8 +98,9 @@ class UserShowTest extends WebTestCase
         $ldapConnection->setPassword('password');
         $ldapConnection->setBindType('simple');
         $ldapConnection->createLDAP();
+
         $ldap = $ldapConnection->getLdap();
-        $ldapConnection = new LdapType($ldapConnection);
+        $ldapConnection = new LdapType();
         $ldapConnection->setUrl($this->LDAPURL);
         $ldapConnection->setSerVerId('Server1');
         $ldapConnection->setPassword('password');
@@ -149,9 +150,11 @@ class UserShowTest extends WebTestCase
             $crawler->filter('.breakWord:contains("unitTest")')->count()
         );
     }
-    private function getParam()
+    private function getParam(): void
     {
         $para = self::getContainer()->get(ParameterBagInterface::class);
-        $this->LDAPURL = $para->get('ldap_test_url');
+        /** @var string $ldapUrl */
+        $ldapUrl = $para->get('ldap_test_url');
+        $this->LDAPURL = $ldapUrl;
     }
 }

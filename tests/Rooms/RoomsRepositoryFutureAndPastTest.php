@@ -68,7 +68,7 @@ class RoomsRepositoryFutureAndPastTest extends KernelTestCase
             $deputyRelation->setManager($manager)
                 ->setDeputy($deputy)
                 ->setIsFromLdap(false)
-                ->setCreatedAt(new \DateTime());
+                ->setCreatedAt(new \DateTimeImmutable());
             $em->persist($deputyRelation);
         }
 

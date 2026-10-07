@@ -36,7 +36,7 @@ class SchedulerPublicControlerTest extends WebTestCase
 
 
         $crawler = $client->request('GET', '/scheduler/public/creator/?user_id=' . $user->getUid() . '&room_id=failure');
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
 
     }
 
@@ -51,7 +51,7 @@ class SchedulerPublicControlerTest extends WebTestCase
 
 
         $crawler = $client->request('GET', '/scheduler/public/creator/?user_id=failure' . '&room_id=' . $umfrage->getUid());
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
 
     }
 
@@ -63,11 +63,11 @@ class SchedulerPublicControlerTest extends WebTestCase
         $umfrage = $roomRepo->findOneBy(['name' => 'Termin finden: 0']);
         self::assertEquals(5, count($umfrage->getSchedulings()[0]->getSchedulingTimes()));
         $user = $umfrage->getUser()[1];
-        $date = (new \DateTimeImmutable())->modify('+10days');
+        $date = new \DateTimeImmutable()->modify('+10days');
         $date = $date->setTime(15, 00);
         $crawler = $client->request('GET', '/scheduler/public/creator/add?user_id=' . $user->getUid() . '&room_id=' . $umfrage->getUid() . '&date=' . $date->format('Y-m-d H:i'));
-        self::assertEquals(json_encode(['error' => false]), $client->getResponse()->getContent());
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals(json_encode(['error' => false]), (string) $client->getResponse()->getContent());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode());
         $umfrage = $roomRepo->findOneBy(['name' => 'Termin finden: 0']);
         $schedule = $umfrage->getSchedulings()[0];
         $em = self::getContainer()->get(EntityManagerInterface::class);
@@ -93,7 +93,7 @@ class SchedulerPublicControlerTest extends WebTestCase
         $umfrage = $roomRepo->findOneBy(['name' => 'Termin finden: 0']);
         self::assertEquals(5, count($umfrage->getSchedulings()[0]->getSchedulingTimes()));
         $user = $umfrage->getUser()[1];
-        $date = (new \DateTimeImmutable())->modify('+10days');
+        $date = new \DateTimeImmutable()->modify('+10days');
         $date = $date->setTime(15, 00);
         $crawler = $client->request('GET', '/scheduler/public/creator/add?user_id=failure' . '&room_id=' . $umfrage->getUid() . '&date=' . $date->format('Y-m-d H:i'));
         self::assertEquals(404, $client->getResponse()->getStatusCode());
@@ -107,7 +107,7 @@ class SchedulerPublicControlerTest extends WebTestCase
         $umfrage = $roomRepo->findOneBy(['name' => 'Termin finden: 0']);
         self::assertEquals(5, count($umfrage->getSchedulings()[0]->getSchedulingTimes()));
         $user = $umfrage->getUser()[1];
-        $date = (new \DateTimeImmutable())->modify('+10days');
+        $date = new \DateTimeImmutable()->modify('+10days');
         $date = $date->setTime(15, 00);
         $crawler = $client->request('GET', '/scheduler/public/creator/add?user_id=' . $user->getUid() . '&room_id=failure' . '&date=' . $date->format('Y-m-d H:i'));
         self::assertEquals(404, $client->getResponse()->getStatusCode());
@@ -121,11 +121,11 @@ class SchedulerPublicControlerTest extends WebTestCase
         $umfrage = $roomRepo->findOneBy(['name' => 'Termin finden: 0']);
         self::assertEquals(5, count($umfrage->getSchedulings()[0]->getSchedulingTimes()));
         $user = $umfrage->getUser()[1];
-        $date = (new \DateTimeImmutable())->modify('+10days');
+        $date = new \DateTimeImmutable()->modify('+10days');
         $date = $date->setTime(15, 00);
         $crawler = $client->request('GET', '/scheduler/public/creator/add?user_id=' . $user->getUid() . '&room_id=' . $umfrage->getUid() . '&date=' . $date->format('Y-m-dfailureH:i'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertEquals(json_encode(['error' => true]), $client->getResponse()->getContent());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertEquals(json_encode(['error' => true]), (string) $client->getResponse()->getContent());
     }
 
 }

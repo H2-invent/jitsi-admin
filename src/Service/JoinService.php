@@ -8,57 +8,42 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouterInterface;
-
-use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinService
 {
-    private $parameterBag;
-    private $em;
-    private $translator;
-    private $urlGenerator;
-    private $roomService;
-    private $response;
-    private $startService;
-    private $session;
     public function __construct(
-        RequestStack  $requestStack,
-        StartMeetingService $startMeetingService,
-       private Security $security,
-        RouterInterface $response,
-        RoomService $roomService,
-        UrlGeneratorInterface $urlGenerator,
-        ParameterBagInterface $parameterBag,
-        EntityManagerInterface $entityManager,
-        TranslatorInterface $translator
-    )
-    {
-        $this->parameterBag = $parameterBag;
-        $this->em = $entityManager;
-        $this->translator = $translator;
-        $this->urlGenerator = $urlGenerator;
-        $this->roomService = $roomService;
-        $this->response = $response;
-        $this->startService = $startMeetingService;
-        $this->session = $requestStack;
+        private readonly RequestStack           $session,
+        private readonly StartMeetingService    $startService,
+        private readonly UrlGeneratorInterface  $urlGenerator,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface    $translator
+    ) {
     }
 
-    public function join($search, &$snack, &$color, $appAllowed, $appKlicked, $browerAllowed, $browserKlicked)
-    {
+    /**
+     * @param array<string, mixed> $search
+     */
+    public function join(array  $search,
+                         string &$snack,
+                         string &$color,
+                         bool   $appAllowed,
+                         ?bool  $appKlicked,
+                         bool   $browerAllowed,
+                         ?bool  $browserKlicked
+    ): RedirectResponse|\Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException|null {
         $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
 
         if (!$room || !in_array($user, $room->getUser()->toArray())) {
-            $snack = $this->translator->trans('Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
+            $snack = $this->translator->trans(
+                'Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.'
+            );
             $color = 'danger';
             return null;
         }
@@ -90,14 +75,13 @@ class JoinService
         try {
             $startPrint = $room->getTimeZone() ? clone($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getStart();
             $startPrint = $startPrint->modify('-30min');
-            $endPrint = $room->getTimeZone() ? $room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getEnddate();
+            $endPrint   = $room->getTimeZone() ? $room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getEnddate();
 
             $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich', [
                 '{from}' => $startPrint->format('d.m.Y H:i T'),
-                '{to}' => $endPrint->format('d.m.Y H:i T')
+                '{to}'   => $endPrint->format('d.m.Y H:i T')
             ]);
             $color = 'danger';
-
         } catch (\Exception) {
         }
 
@@ -110,12 +94,14 @@ class JoinService
      * @return boolean
      * @author Andreas Holzmann
      */
-    function onlyWithUserAccount(?Rooms $room)
+    public function onlyWithUserAccount(?Rooms $room): bool
     {
         if ($room) {
-            return $this->parameterBag->get('laF_onlyRegisteredParticipents') == 1 || //only registered Users globally set
-                $room->getOnlyRegisteredUsers();
+            $onlyRegistered = $this->parameterBag->get('laF_onlyRegisteredParticipents');
+            return $onlyRegistered == 1 || //only registered Users globally set
+                   $room->getOnlyRegisteredUsers();
         }
+
         return false;
     }
 
@@ -125,50 +111,12 @@ class JoinService
      * @return boolean
      * @author Andreas Holzmann
      */
-    function userAccountLogin(?Rooms $room, ?User $user)
+    public function userAccountLogin(?Rooms $room, ?User $user): bool
     {
         if ($room) {
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference
         }
+
         return false;
-    }
-
-    /**
-     * This Function generates te Response when the Room is a normal room with a atendece List
-     * @param $type
-     * @param $name
-     * @param Rooms $room
-     * @param User $user
-     * @return RedirectResponse
-     */
-    private function generateResponseCommonRoom($type, $name, Rooms $room, User $user)
-    {
-        if ($this->onlyWithUserAccount($room) || $this->userAccountLogin($room, $user)) {
-            return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
-        }
-        if ($room->getLobby()) {
-            $res = new RedirectResponse($this->urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'type' => $type, 'userUid' => $user->getUid()]));
-        } else {
-            $url = $this->roomService->join($room, $user, $type, $name);
-            $res = new RedirectResponse($url);
-        }
-
-        $res->headers->setCookie(new Cookie('name', $name, (new \DateTimeImmutable())->modify('+365 days')));
-        return $res;
-    }
-
-    /**
-     * This Function generates te Response when the Room is has no attendece list
-     * @param $type
-     * @param $name
-     * @param Rooms $room
-     * @return RedirectResponse
-     */
-    private function generateResponseOpenRoom($type, $name, Rooms $room)
-    {
-        $url = $this->urlGenerator->generate('room_waiting', array('name' => $name, 'uid' => $room->getUid(), 'type' => $type));
-        $res = new RedirectResponse(($url));
-        $res->headers->setCookie(new Cookie('name', $name, (new \DateTimeImmutable())->modify('+365 days')));
-        return $res;
     }
 }

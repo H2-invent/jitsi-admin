@@ -25,9 +25,9 @@ class RepeaterControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h5', 'Serientermin festlegen');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['repeater[repeatType]'] = 0;
-        $form['repeater[repeaterDays]'] = 1;
-        $form['repeater[repetation]'] = 10;
+        $form['repeater[repeatType]'] = '0';
+        $form['repeater[repeaterDays]'] = '1';
+        $form['repeater[repetation]'] = '10';
         $client->submit($form);
 
 
@@ -42,7 +42,7 @@ class RepeaterControllerTest extends WebTestCase
         $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
         $start = $room->getStart();
-        $start = $start->setTime($start->format('H'), $start->format('i'), 0);
+        $start = $start->setTime((int) $start->format('H'), (int) $start->format('i'), 0);
 
         foreach ($rooms as $data) {
 
@@ -67,12 +67,12 @@ class RepeaterControllerTest extends WebTestCase
         $form['room[start]'] = '2022-04-10T12:00:00';
         $client->submit($form);
 
-        self::assertEquals('{"error":false,"redirectUrl":"\/room\/dashboard?snack=Sie%20haben%20erfolgreich%20einen%20Serientermin%20bearbeitet.\u0026color=success"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"redirectUrl":"\/room\/dashboard?snack=Sie%20haben%20erfolgreich%20einen%20Serientermin%20bearbeitet.\u0026color=success"}', (string) $client->getResponse()->getContent());
 
         $rooms = $roomRepo->findBy(['name' => 'TestMeeting: 0'],['start'=>'ASC']);
         self::assertEquals(11, sizeof($rooms));
         $start = new \DateTimeImmutable('2022-04-10T12:00:00');
-        $start = $start->setTime($start->format('H'), $start->format('i'), 0);
+        $start = $start->setTime((int) $start->format('H'), (int) $start->format('i'), 0);
         foreach ($rooms as $data) {
             if ($data->getRepeater()) {
                 self::assertEquals($start, $data->getStart());
@@ -87,8 +87,8 @@ class RepeaterControllerTest extends WebTestCase
 
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['repeater[repetation]'] = 3;
-        $form['repeater[repeaterDays]'] = 3;
+        $form['repeater[repetation]'] = '3';
+        $form['repeater[repeaterDays]'] = '3';
         $client->submit($form);
 
 
@@ -125,7 +125,9 @@ class RepeaterControllerTest extends WebTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
-        $max = (int)self::getContainer()->get(ParameterBagInterface::class)->get('laf_max_repeat');
+        /** @var int|string $rawMaxRepeat */
+        $rawMaxRepeat = self::getContainer()->get(ParameterBagInterface::class)->get('laf_max_repeat');
+        $max = (int) $rawMaxRepeat;
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
 
@@ -153,7 +155,9 @@ class RepeaterControllerTest extends WebTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
-        $max = (int)self::getContainer()->get(ParameterBagInterface::class)->get('laf_max_repeat');
+        /** @var int|string $rawMaxRepeat */
+        $rawMaxRepeat = self::getContainer()->get(ParameterBagInterface::class)->get('laf_max_repeat');
+        $max = (int) $rawMaxRepeat;
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
 

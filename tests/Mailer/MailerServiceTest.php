@@ -11,13 +11,17 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class MailerServiceTest extends KernelTestCase
 {
+    /** @var User */
     private $userReciever;
+    /** @var User */
     private $userSender;
+    /** @var Server */
     private $server;
+    /** @var Rooms */
     private $room;
 
 
-    private function prepare()
+    private function prepare(): void
     {
         $this->server = new Server();
         $this->server
@@ -58,7 +62,7 @@ class MailerServiceTest extends KernelTestCase
             ->setServer($this->server)
             ->setStart(new \DateTimeImmutable())
             ->setDuration(60)
-            ->setEnddate((new \DateTimeImmutable())->modify('+60min'));
+            ->setEnddate(new \DateTimeImmutable()->modify('+60min'));
     }
 
     public function testCreateMailer(): void

@@ -4,19 +4,22 @@ namespace App\Tests\callOut;
 
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
+use App\Entity\Rooms;
 use App\Entity\User;
 use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use function PHPUnit\Framework\assertEquals;
 
 class CalloutApiActionControllerTest extends WebTestCase
 {
-    private $client;
-    private $room;
-    private $authHEader;
+    private KernelBrowser $client;
+    private Rooms $room;
+    /** @var array<string, string> */
+    private array $authHEader;
     private CalloutSession $calloutSession;
 
     protected function setUp(): void
@@ -65,7 +68,7 @@ class CalloutApiActionControllerTest extends WebTestCase
                     'unreachable' => '/api/v1/call/out/unreachable/' . $this->calloutSession->getUid()
                 ],
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
         $url = '/room/join/b/' . $this->room->getId();
         $crawler = $this->client->request('GET', $url);
@@ -86,7 +89,7 @@ class CalloutApiActionControllerTest extends WebTestCase
                 'status' => 'DELETED',
                 'links' => [],
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
         $url = '/room/join/b/' . $this->room->getId();
         $crawler = $this->client->request('GET', $url);
@@ -107,7 +110,7 @@ class CalloutApiActionControllerTest extends WebTestCase
                 'status' => 'DELETED',
                 'links' => [],
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
         $url = '/room/join/b/' . $this->room->getId();
         $crawler = $this->client->request('GET', $url);
@@ -129,7 +132,7 @@ class CalloutApiActionControllerTest extends WebTestCase
                 'status' => 'DELETED',
                 'links' => [],
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
         assertEquals(0, $crawler->filter('.calloutsymbol')->count());
         $url = '/room/join/b/' . $this->room->getId();
@@ -155,7 +158,7 @@ class CalloutApiActionControllerTest extends WebTestCase
                 'pin' => '987654321',
                 'room_number' => $this->room->getCallerRoom()->getCallerId(),
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
         $url = '/room/join/b/' . $this->room->getId();
         $crawler = $this->client->request('GET', $url);
@@ -182,7 +185,7 @@ class CalloutApiActionControllerTest extends WebTestCase
                 'pin' => '987654321',
                 'room_number' => $this->room->getCallerRoom()->getCallerId(),
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
 
         $this->client->loginUser(new User());
@@ -213,7 +216,7 @@ class CalloutApiActionControllerTest extends WebTestCase
                 'pin' => '987654321',
                 'room_number' => $this->room->getCallerRoom()->getCallerId(),
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
 
         $this->client->loginUser(new User());
@@ -241,7 +244,7 @@ class CalloutApiActionControllerTest extends WebTestCase
                     'unreachable' => '/api/v1/call/out/unreachable/' . $this->calloutSession->getUid()
                 ],
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
     }
 
@@ -271,7 +274,7 @@ class CalloutApiActionControllerTest extends WebTestCase
                     'occupied' => '/api/v1/call/out/occupied/' . $this->calloutSession->getUid(),
                 ]
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
 
         $this->client->loginUser(new User());
@@ -307,7 +310,7 @@ class CalloutApiActionControllerTest extends WebTestCase
                 'pin' => '987654321',
                 'room_number' => $this->room->getCallerRoom()->getCallerId(),
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
         $user = $this->calloutSession->getRoom()->getModerator();
         $this->client->loginUser($user);
@@ -372,7 +375,7 @@ class CalloutApiActionControllerTest extends WebTestCase
             [
                 'calls' => []
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
         $url = '/room/join/b/' . $this->room->getId();
         $crawler = $this->client->request('GET', $url);
@@ -387,7 +390,7 @@ class CalloutApiActionControllerTest extends WebTestCase
             [
                 'calls' => []
             ],
-            json_decode($this->client->getResponse()->getContent(), true)
+            json_decode((string) $this->client->getResponse()->getContent(), true)
         );
         $url = '/room/join/b/' . $this->room->getId();
         $crawler = $this->client->request('GET', $url);

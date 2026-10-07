@@ -17,11 +17,11 @@ class StarControllerTest extends WebTestCase
         $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=3&comment=test123&browser=opera&os=windows');
         self::assertResponseIsSuccessful();
-        self::assertEquals(['error' => false], json_decode($client->getResponse()->getContent(), true));
+        self::assertEquals(['error' => false], json_decode((string) $client->getResponse()->getContent(), true));
         $starRepo = self::getContainer()->get(StarRepository::class);
         $stars = $starRepo->findAll();
         self::assertEquals(1, sizeof($stars));
-        self::assertEquals((new \DateTimeImmutable())->format('d.m.YTH:i'), $stars[0]->getCreatedAt()->format('d.m.YTH:i'));
+        self::assertEquals(new \DateTimeImmutable()->format('d.m.YTH:i'), $stars[0]->getCreatedAt()->format('d.m.YTH:i'));
         self::assertEquals('windows', $stars[0]->getOs());
         self::assertEquals('opera', $stars[0]->getBrowser());
     }

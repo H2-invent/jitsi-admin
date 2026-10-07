@@ -5,28 +5,27 @@ namespace App\Service\Callout;
 use App\Entity\CalloutSession;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Repository\CalloutSessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
 class CalloutServiceDialSuccessfull
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private LoggerInterface        $logger,
-    )
-    {
+        private readonly EntityManagerInterface $entityManager,
+        private readonly LoggerInterface        $logger,
+    ) {
     }
 
 
     /**
-     * @param User $user
-     * @param Rooms $rooms
      * @return bool
      * This function removes the calloutsession when a called user is successfully transformed into a callin user.
      */
     public function dialSuccessfull(User $user, Rooms $rooms): bool
     {
-        $calloutRepo = $this->entityManager->getRepository(CalloutSession::class);
+        /** @var CalloutSessionRepository $calloutRepo */
+        $calloutRepo    = $this->entityManager->getRepository(CalloutSession::class);
         $calloutSession = $calloutRepo->findOneBy(['room' => $rooms, 'user' => $user]);
 
         if ($calloutSession) {
@@ -41,6 +40,7 @@ class CalloutServiceDialSuccessfull
         } else {
             $this->logger->debug('There is no calloutsession with this user and room');
         }
+
         return false;
     }
 }

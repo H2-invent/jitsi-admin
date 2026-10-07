@@ -4,7 +4,8 @@ namespace App\Tests\Calendly;
 
 
 use App\Entity\User;
-use App\Service\calendly\CallendlyConnect;
+use App\Service\Calendly\CallendlyConnect;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -20,9 +21,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[AllowMockObjectsWithoutExpectations]
 class CallendlyConnectTest extends TestCase
 {
+    /** @var HttpClientInterface&MockObject */
     private HttpClientInterface $httpClient;
+    /** @var TranslatorInterface&MockObject */
     private TranslatorInterface $translator;
+    /** @var ParameterBagInterface&MockObject */
     private ParameterBagInterface $parameterBag;
+    /** @var UrlGeneratorInterface&MockObject */
     private UrlGeneratorInterface $urlGenerator;
     private CallendlyConnect $calendlyConnect;
 

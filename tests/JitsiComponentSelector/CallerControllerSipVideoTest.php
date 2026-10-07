@@ -8,11 +8,11 @@ use App\Entity\RoomStatus;
 use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
-use App\Service\caller\CallerLeftService;
-use App\Service\caller\CallerPinService;
-use App\Service\caller\CallerPrepareService;
-use App\Service\caller\CallerSessionService;
-use App\Service\caller\JitsiComponentSelectorService;
+use App\Service\Caller\CallerLeftService;
+use App\Service\Caller\CallerPinService;
+use App\Service\Caller\CallerPrepareService;
+use App\Service\Caller\CallerSessionService;
+use App\Service\Caller\JitsiComponentSelectorService;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -43,7 +43,7 @@ class CallerControllerSipVideoTest extends WebTestCase
         $session = $caller->getCallerSession();
         self::assertTrue($session->isIsSipVideoUser());
         $this->assertJsonStringEqualsJsonString(
-            json_encode(
+            (string) json_encode(
                 [
                     'auth_ok' => true,
                     'links' => [
@@ -52,7 +52,7 @@ class CallerControllerSipVideoTest extends WebTestCase
                     ]
                 ]
             ),
-            $client->getResponse()->getContent()
+            (string) $client->getResponse()->getContent()
         );
     }
 
@@ -120,7 +120,10 @@ class CallerControllerSipVideoTest extends WebTestCase
     }
 
 
-    function startWorkflow(KernelBrowser $client)
+    /**
+     * @return array<int, mixed>
+     */
+    public function startWorkflow(KernelBrowser $client): array
     {
 
         $callerLEftService = self::getContainer()->get(CallerLeftService::class);
@@ -141,12 +144,12 @@ class CallerControllerSipVideoTest extends WebTestCase
         //enter the users pin
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234','is_video'=>true]);
         $this->assertResponseIsSuccessful();
-        $sessionLink = json_decode($client->getResponse()->getContent(), true)['links']['session'];
-        $leafLink = json_decode($client->getResponse()->getContent(), true)['links']['left'];
+        $sessionLink = json_decode((string) $client->getResponse()->getContent(), true)['links']['session'];
+        $leafLink = json_decode((string) $client->getResponse()->getContent(), true)['links']['left'];
 
         //try entering again. the user should not be access again
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, ['pin' => $caller->getCallerId(), 'caller_id' => '1234']);
-        $this->assertJsonStringEqualsJsonString(json_encode(['auth_ok' => false, 'links' => []]), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString((string) json_encode(['auth_ok' => false, 'links' => []]), (string) $client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
 
         $crawler = $client->request('GET', $sessionLink);
@@ -162,14 +165,14 @@ class CallerControllerSipVideoTest extends WebTestCase
                     'left' => $leafLink,
                 ]
             ],
-            json_decode($client->getResponse()->getContent(), true)
+            json_decode((string) $client->getResponse()->getContent(), true)
         );
 
         $this->assertResponseIsSuccessful();
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         return [$sessionLink, $leafLink];
     }
-    function getLobbyWaitinguser($link): ?LobbyWaitungUser
+    public function getLobbyWaitinguser(string $link): ?LobbyWaitungUser
     {
         $sessionId = explode('=', $link);
         $sessionId = $sessionId[sizeof($sessionId) - 1];
@@ -184,7 +187,7 @@ class CallerControllerSipVideoTest extends WebTestCase
         return $lobbyUser;
     }
 
-    function getSessionfromLink($link): ?CallerSession
+    public function getSessionfromLink(string $link): ?CallerSession
     {
         $sessionId = explode('=', $link);
         $sessionId = $sessionId[sizeof($sessionId) - 1];

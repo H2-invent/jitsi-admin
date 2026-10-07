@@ -5,13 +5,13 @@ namespace App\Tests\Unit\Form\Type;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\SchedulerType;
-use App\Repository\TagRepository;
 use App\Service\Theme\ThemeService;
 use Doctrine\Common\Collections\Collection;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnitFrameworkAttributesAllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,24 +21,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[AllowMockObjectsWithoutExpectations]
 class SchedulerTypeTest extends KernelTestCase
 {
-    private TagRepository $tagRepository;
-
-    private LoggerInterface $logger;
+    private Stub&LoggerInterface $logger;
 
     private MockObject&ThemeService $themeService;
 
-    private TranslatorInterface $translator;
+    private Stub&TranslatorInterface $translator;
 
     private SchedulerType $subject;
 
     public function setUp(): void
     {
-        $this->tagRepository = $this->createStub(TagRepository::class);
         $this->logger = $this->createStub(LoggerInterface::class);
         $this->themeService = $this->createMock(ThemeService::class);
         $this->translator = $this->createStub(TranslatorInterface::class);
         $this->subject = new SchedulerType(
-            $this->tagRepository,
             $this->logger,
             $this->themeService,
             $this->translator,
@@ -83,6 +79,10 @@ class SchedulerTypeTest extends KernelTestCase
         $this->subject->buildForm($formBuilder, $options);
     }
 
+    /**
+     * @param array<string, mixed> $attr
+     * @param array<int, int> $themeServiceReturns
+     */
     #[DataProvider('provideForConfigureOptions')]
     public function testConfigureOptions(
         int   $allowMaybeOptionDefault,
@@ -119,6 +119,9 @@ class SchedulerTypeTest extends KernelTestCase
         $this->assertSame($expected, $optionsResolver->resolve(['isEdit' => $isEdit]));
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function provideForConfigureOptions(): array
     {
         $attr = [
@@ -169,7 +172,10 @@ class SchedulerTypeTest extends KernelTestCase
         return $this->createStub(Rooms::class);
     }
 
-    private function getFormBuilder(): FormBuilderInterface
+    /**
+     * @return MockObject&FormBuilderInterface<mixed>
+     */
+    private function getFormBuilder(): MockObject&FormBuilderInterface
     {
         return $this->createMock(FormBuilderInterface::class);
     }
@@ -179,7 +185,7 @@ class SchedulerTypeTest extends KernelTestCase
         return new OptionsResolver();
     }
 
-    private function getUserMock(): User
+    private function getUserMock(): MockObject&User
     {
         return $this->createMock(User::class);
     }

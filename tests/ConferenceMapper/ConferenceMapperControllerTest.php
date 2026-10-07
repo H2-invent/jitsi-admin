@@ -22,7 +22,7 @@ class ConferenceMapperControllerTest extends WebTestCase
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApiFailure']);
         $crawler = $client->request('GET', '/api/v1/conferenceMapper?callerid=12340&confid=12340');
-        $res = $client->getResponse()->getContent();
+        $res = (string) $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
 
         self::assertEquals(json_encode(['error' => true, 'text' => 'AUTHORIZATION_FAILED']), $res);
@@ -32,7 +32,7 @@ class ConferenceMapperControllerTest extends WebTestCase
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApi']);
         $crawler = $client->request('GET', '/api/v1/conferenceMapper?callerid=123456&confid=12340');
-        $res = $client->getResponse()->getContent();
+        $res = (string) $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
 
         self::assertEquals(json_encode(['state' => 'WAITING', 'reason' => 'NOT_STARTED']), $res);
@@ -42,7 +42,7 @@ class ConferenceMapperControllerTest extends WebTestCase
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApi']);
         $crawler = $client->request('GET', '/api/v1/conferenceMapper?callerid=123456&confid=12');
-        $res = $client->getResponse()->getContent();
+        $res = (string) $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
 
         self::assertEquals(json_encode(['error' => true, 'reason' => 'ROOM_NOT_FOUND']), $res);
@@ -53,7 +53,7 @@ class ConferenceMapperControllerTest extends WebTestCase
 
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApi']);
         $crawler = $client->request('GET', '/api/v1/conferenceMapper?callerid=123456&confid=12340');
-        $res = $client->getResponse()->getContent();
+        $res = (string) $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
 
         self::assertEquals(json_encode(['state' => 'WAITING', 'reason' => 'NOT_STARTED']), $res);
@@ -77,7 +77,7 @@ class ConferenceMapperControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/api/v1/conferenceMapper?callerid=123456225566&confid=12340');
 
-        $res = $client->getResponse()->getContent();
+        $res = (string) $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
 
         $result = json_decode($res, true, 512, JSON_THROW_ON_ERROR);

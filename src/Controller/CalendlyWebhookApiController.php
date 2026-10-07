@@ -2,16 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\CalendlyTokenType;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\api\RoomService;
-use App\Service\calendly\CallendlyConnect;
-
+use App\Service\Api\RoomService;
+use App\Service\Calendly\CallendlyConnect;
 use App\Service\JoinUrlGeneratorService;
 use App\Service\RemoveRoomService;
 use App\Service\RoomAddService;
-use App\Service\RoomGeneratorService;
 use App\Service\ServerUserManagment;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -22,51 +21,50 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use App\Entity\User;
 
 class CalendlyWebhookApiController extends AbstractController
 {
 
     public function __construct(
-        private CallendlyConnect        $callendlyConnect,
-        private TranslatorInterface     $translator,
-        private EntityManagerInterface  $entityManager,
-        private UserRepository          $userRepository,
-        private RoomsRepository         $roomsRepository,
-        private ServerUserManagment     $serverUserManagment,
-        private RoomService             $roomService,
-        private RoomAddService          $roomAddService,
-        private JoinUrlGeneratorService $joinUrlGeneratorService,
-        private LoggerInterface         $logger,
-        private RemoveRoomService       $removeRoomService,
-    )
-    {
+        private readonly CallendlyConnect        $callendlyConnect,
+        private readonly TranslatorInterface     $translator,
+        private readonly EntityManagerInterface  $entityManager,
+        private readonly UserRepository          $userRepository,
+        private readonly RoomsRepository         $roomsRepository,
+        private readonly ServerUserManagment     $serverUserManagment,
+        private readonly RoomService             $roomService,
+        private readonly RoomAddService          $roomAddService,
+        private readonly JoinUrlGeneratorService $joinUrlGeneratorService,
+        private readonly LoggerInterface         $logger,
+        private readonly RemoveRoomService       $removeRoomService,
+    ) {
     }
 
-    #[
-        Route('/room/calendly/connect', name: 'app_calendly_webhook_connect', methods: ['GET', 'POST'])]
+    #[Route('/room/calendly/connect', name: 'app_calendly_webhook_connect', methods: ['GET', 'POST'])]
     public function connect(Request $request): Response
     {
-        $servers = $this->serverUserManagment->getServersFromUser($this->getUser());
+        /** @var User $user */
+        $user    = $this->getUser();
+        $servers = $this->serverUserManagment->getServersFromUser($user);
 
-        $user = $this->getUser();
-
-        $form = $this->createForm(CalendlyTokenType::class,
+        $form = $this->createForm(
+            CalendlyTokenType::class,
             $user,
             [
                 'action' => $this->generateUrl('app_calendly_webhook_connect'),
-                'server' =>$servers
+                'server' => $servers
             ]
         );
-        if (sizeof($servers) === 1){
+
+        if (sizeof($servers) === 1) {
             $form->remove('calendlyServer');
             $user->setCalendlyServer($servers[0]);
         }
+
         try {
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
                 $user = $form->getData();
                 /**
                  * @var User $user
@@ -74,7 +72,7 @@ class CalendlyWebhookApiController extends AbstractController
                 $calendlyToken = $user->getCalendlyToken();
                 try {
                     if ($calendlyToken) {
-                        $res = $this->callendlyConnect->getUserInfo($calendlyToken)['resource'];
+                        $res         = $this->callendlyConnect->getUserInfo($calendlyToken)['resource'];
                         $exitingUser = $this->userRepository->findOneBy(['calendly_user_uri' => $res['uri']]);
                         if ($exitingUser) {
                             $this->addFlash('success', $this->translator->trans('calendly.connect.alreadyConnected'));
@@ -86,27 +84,28 @@ class CalendlyWebhookApiController extends AbstractController
                         $user->setCalendlySucessfullyAdded(false);
                         $user->setCalendlySecret(md5(uniqid()));
                         $cleanRes = $this->callendlyConnect->getWebhooks($user);
+
                         foreach ($cleanRes['collection'] as $data) {
                             $this->callendlyConnect->cleanWebhooks($user, $data['uri']);
                         }
+
                         $con_res = $this->callendlyConnect->registerWebhook($user);
                         $user->setCalendlySucessfullyAdded(true);
                         $user->setCalendlyWebhookId($con_res['resource']['uri']);
                         $this->entityManager->persist($user);
                         $this->entityManager->flush();
                         $this->addFlash('success', $this->translator->trans('calendly.connect.success'));
+
                         return $this->redirectToRoute('dashboard');
                     }
                 } catch (\Exception $exception) {
                     $this->addFlash('danger', $exception->getMessage());
                     return $this->redirectToRoute('dashboard');
                 }
-
             }
-        } catch (\Exception $e) {
-
-
+        } catch (\Exception) {
         }
+
         return $this->render('calendly_webhook_api/form.html.twig', ['form' => $form->createView(), 'title' => $this->translator->trans('calendly.header')]);
     }
 
@@ -118,7 +117,6 @@ class CalendlyWebhookApiController extends AbstractController
          */
         $user = $this->getUser();
         try {
-
             $user->setCalendlyToken(null);
             $user->setCalendlyOrgUri(null);
             $user->setCalendlyUserUri(null);
@@ -134,13 +132,11 @@ class CalendlyWebhookApiController extends AbstractController
                 $this->addFlash('danger', $exception->getMessage());
                 return $this->redirectToRoute('dashboard');
             }
-
-        } catch
-        (\Exception $e) {
+        } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
             return $this->redirectToRoute('dashboard');
-
         }
+
         $this->addFlash('success', $this->translator->trans('calendly.remove.success'));
         return $this->redirectToRoute('dashboard');
     }
@@ -153,28 +149,30 @@ class CalendlyWebhookApiController extends AbstractController
 
             $userCalendly = $body['created_by'];
             $this->logger->debug('searchgin for calendly User', ['calendly_user' => $userCalendly]);
-            $user = $this->userRepository->findOneBy(array('calendly_user_uri' => $userCalendly));
+            $user = $this->userRepository->findOneBy(['calendly_user_uri' => $userCalendly]);
             $this->logger->debug('calendly user found', ['user' => $user->getId()]);
+
             if ($user) {
                 $event = $body['event'];
                 $this->logger->debug('event found', ['event' => $event]);
+
                 switch ($event) {
                     case 'invitee.created':
                         $this->logger->debug('calendly creating found');
-                        $server = $user->getCalendlyServer();
+                        $server        = $user->getCalendlyServer();
                         $existingEvent = $this->roomsRepository->findOneBy(['calendly_uri' => $body['payload']['event']]);
                         if ($existingEvent) {
                             return new JsonResponse(['result' => 'error', 'error' => 1, 'message' => 'event already exit']);
                         }
-                        if ($server) {
 
+                        if ($server) {
                             $startTime = new \DateTimeImmutable($body['payload']['scheduled_event']['start_time'], new \DateTimeZone('UTC'));
                             $startTime = $startTime->setTimezone(new \DateTimeZone($body['payload']['timezone']));
-                            $endTime = new \DateTimeImmutable($body['payload']['scheduled_event']['end_time'], new \DateTimeZone('UTC'));
-                            $endTime = $endTime->setTimezone(new \DateTimeZone($body['payload']['timezone']));
-                            $duration = $startTime->diff($endTime);
+                            $endTime   = new \DateTimeImmutable($body['payload']['scheduled_event']['end_time'], new \DateTimeZone('UTC'));
+                            $endTime   = $endTime->setTimezone(new \DateTimeZone($body['payload']['timezone']));
+                            $duration  = $startTime->diff($endTime);
                             $eventNAme = $body['payload']['scheduled_event']['name'] . ' | ' . $body['payload']['name'] . ' from calendly';
-                            $newRoom = $this->roomService->createRoom($user, $server, $startTime, $duration->i, $eventNAme);
+                            $newRoom   = $this->roomService->createRoom($user, $server, $startTime, $duration->i, $eventNAme);
                             $newRoom->setTimeZone($body['payload']['timezone']);
                             $newRoom->setCalendlyUri($body['payload']['event']);
                             $agenda = '';
@@ -188,14 +186,15 @@ class CalendlyWebhookApiController extends AbstractController
                             foreach ($body['payload']['scheduled_event']['event_guests'] as $guest) {
                                 $participant = $this->roomAddService->createSingleParticipantAndAddtoRoom($guest['email'], $user, $newRoom);
                             }
-                            return new JsonResponse(['result' => 'success', 'error' => 0, 'url' => $this->joinUrlGeneratorService->generateUrl($newRoom, $user)]);
-
+                            return new JsonResponse(['result' => 'success', 'error' => 0, 'url' => $this->joinUrlGeneratorService->generateUrl($newRoom, $user)]
+                            );
                         }
 
                         break;
                     case 'invitee.canceled':
                         $this->logger->debug('got calendly cancellation');
                         $room = $this->roomsRepository->findOneBy(['calendly_uri' => $body['payload']['event']]);
+
                         if ($room) {
                             $this->logger->debug('room found', ['room' => $room->getId()]);
                             $this->logger->debug('found calendly room', ['room' => $room->getId()]);
@@ -207,7 +206,6 @@ class CalendlyWebhookApiController extends AbstractController
                     default:
                         break;
                 }
-
             } else {
                 $this->logger->error('NO user with this user uri found');
                 throw new NotFoundHttpException('not found');
@@ -217,7 +215,5 @@ class CalendlyWebhookApiController extends AbstractController
             $this->logger->error($exception->getMessage());
             throw new NotFoundHttpException('not found');
         }
-
-
     }
 }

@@ -35,15 +35,20 @@ class StartServiceTest extends KernelTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        /** @var string $showName */
+        $showName = $paramterBag->get('laf_showNameInConference');
         $appSecret = $room->getServer()->getAppSecret();
 
-        $name = $user->getFormatedName($paramterBag->get('laf_showNameInConference'));
+        $name = $user->getFormatedName($showName);
         $response = $startService->startMeeting($room, $user, 'a', $name);
         self::assertInstanceOf(RedirectResponse::class, $response);
         self::assertStringContainsString('jitsi-meet://meet.jit.si2/123456781?jwt=', $response->getTargetUrl());
         self::assertStringContainsString('#config.subject=%22testmeeting_1%22', $response->getTargetUrl());
 
         preg_match('/jwt=([^#]+)/', $response->getTargetUrl(), $matches);
+        if (!isset($matches[1])) {
+            self::fail('JWT not found in redirect URL');
+        }
         $jwt = $matches[1];
         $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
         self::assertEquals('123456781', $decoded->room);
@@ -64,15 +69,20 @@ class StartServiceTest extends KernelTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        /** @var string $showName */
+        $showName = $paramterBag->get('laf_showNameInConference');
         $appSecret = $room->getServer()->getAppSecret();
 
-        $name = $user->getFormatedName($paramterBag->get('laf_showNameInConference'));
+        $name = $user->getFormatedName($showName);
         $response = $startService->startMeeting($room, $user, 'a', $name);
         self::assertInstanceOf(RedirectResponse::class, $response);
         self::assertStringContainsString('jitsi-meet://meet.jit.si2/561d6f51s6f?jwt=', $response->getTargetUrl());
         self::assertStringContainsString('#config.subject=%22this_room_has_no_participants_and_fixed_room%22', $response->getTargetUrl());
 
         preg_match('/jwt=([^#]+)/', $response->getTargetUrl(), $matches);
+        if (!isset($matches[1])) {
+            self::fail('JWT not found in redirect URL');
+        }
         $jwt = $matches[1];
         $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
         self::assertEquals('561d6f51s6f', $decoded->room);
@@ -84,7 +94,9 @@ class StartServiceTest extends KernelTestCase
 
         // Verify the browser-mode JWT
         preg_match("/jwt: '([^']+)'/", $responseB, $browserMatches);
-        self::assertNotEmpty($browserMatches[1]);
+        if (!isset($browserMatches[1])) {
+            self::fail('JWT not found in response');
+        }
         $browserDecoded = JWT::decode($browserMatches[1], new Key($appSecret, 'HS256'));
         self::assertEquals('561d6f51s6f', $browserDecoded->room);
     }
@@ -100,15 +112,17 @@ class StartServiceTest extends KernelTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        /** @var string $showName */
+        $showName = $paramterBag->get('laf_showNameInConference');
         $this->assertStringContainsString(
             'startJitsiIframe',
-            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($showName))
         );
         $this->assertStringContainsString(
             '/room/lobby/start/moderator/a/' . $room->getUidReal(),
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($showName))
         );
-//        self::assertEquals(new RedirectResponse('/room/lobby/moderator/b/561ghj984ssdfdf'), $startService->startMeeting($room, $user, 'a',$user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
+//        self::assertEquals(new RedirectResponse('/room/lobby/moderator/b/561ghj984ssdfdf'), $startService->startMeeting($room, $user, 'a',$user->getFormatedName($showName)));
     }
 
     public function test_RoomHasLobby_userisnoLobbyMOderator(): void
@@ -122,35 +136,37 @@ class StartServiceTest extends KernelTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        /** @var string $showName */
+        $showName = $paramterBag->get('laf_showNameInConference');
         $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyUser = $lobbyRepo->findOneBy(['user' => $user, 'room' => $room]);
         self::assertNull($lobbyUser);
         self::assertStringContainsString(
             'https://' . $room->getServer()->getUrl() . '/external_api.js',
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($showName))
         );
         $lobbyUser = $lobbyRepo->findOneBy(['user' => $user, 'room' => $room]);
         self::assertNotNull($lobbyUser);
         self::assertStringContainsString(
             "var type = 'a'",
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($showName))
         );
         self::assertStringContainsString(
             "var type = 'a'",
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($showName))
         );
         self::assertStringContainsString(
             'topic=lobby_WaitingUser_websocket%2F' . $lobbyUser->getUid(),
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($showName))
         );
         self::assertStringContainsString(
             'topic=lobby_broadcast_websocket%2F' . $room->getUidReal(),
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($showName))
         );
         self::assertEquals('a', $lobbyUser->getType());
         self::assertStringContainsString(
             'topic=lobby_broadcast_websocket%2F' . $room->getUidReal(),
-            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($showName))
         );
         $lobbyUser = $lobbyRepo->findOneBy(['user' => $user, 'room' => $room]);
         self::assertNotNull($lobbyUser);
@@ -175,13 +191,15 @@ class StartServiceTest extends KernelTestCase
         $manager->flush();
         $roomService = self::getContainer()->get(RoomService::class);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        /** @var string $showName */
+        $showName = $paramterBag->get('laf_showNameInConference');
         self::assertStringContainsString(
-            "displayName: '" . $user->getFormatedName($paramterBag->get('laf_showNameInConference') . "'"),
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            "displayName: '" . $user->getFormatedName($showName . "'"),
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($showName))
         );
         self::assertStringContainsString(
-            $roomService->generateJwt($room, $user, $user->getFormatedName($paramterBag->get('laf_showNameInConference'))),
-            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $roomService->generateJwt($room, $user, $user->getFormatedName($showName)),
+            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($showName))
         );
     }
 
@@ -215,9 +233,11 @@ class StartServiceTest extends KernelTestCase
         $manager->persist($roomStatus);
         $manager->flush();
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        /** @var string $showName */
+        $showName = $paramterBag->get('laf_showNameInConference');
         self::assertStringContainsString(
             '<title>Room Yesterday</title>',
-            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($showName))
         );
     }
     public function testRoomisToEarly_But_Room_isOpen_User_isLogin(): void
@@ -246,9 +266,11 @@ class StartServiceTest extends KernelTestCase
         $manager->persist($roomStatus);
         $manager->flush();
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        /** @var string $showName */
+        $showName = $paramterBag->get('laf_showNameInConference');
         self::assertStringContainsString(
             '<title>Room Tomorrow</title>',
-            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($showName))
         );
     }
 
@@ -286,12 +308,14 @@ class StartServiceTest extends KernelTestCase
         $manager->flush();
 
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        /** @var string $showName */
+        $showName = $paramterBag->get('laf_showNameInConference');
 
         // User should be able to join the room even though it's in the past,
         // because there are still participants in it
         self::assertStringContainsString(
             '<title>Room Yesterday</title>',
-            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($showName))
         );
     }
 }

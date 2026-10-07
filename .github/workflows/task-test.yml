@@ -47,6 +47,12 @@ jobs:
         run: |
           sudo apt update && sudo apt install ffmpeg -y
 
+      - name: Warm up test cache
+        run: php bin/console cache:warmup --env=test
+
+      - name: Run phpstan
+        run: composer phpstan
+
       - name: Run php test
         run: composer test
       # endregion phpunit

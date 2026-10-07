@@ -10,8 +10,8 @@ class SmtpConfig implements ConvertToEnvironmentInterface
 
     private static string $DSN = 'smtp://%s:%s@%s:%d';
 
-    private const ENVIRONMENT = [
-        'MAILER_DSN' => 'dsn',
+    private const array ENVIRONMENT = [
+        'MAILER_DSN'    => 'dsn',
         'DEFAULT_EMAIL' => 'sender',
     ];
 
@@ -21,8 +21,7 @@ class SmtpConfig implements ConvertToEnvironmentInterface
         private string $username,
         private string $password,
         private string $sender,
-    )
-    {
+    ) {
     }
 
     public static function createFromParameters(
@@ -31,8 +30,7 @@ class SmtpConfig implements ConvertToEnvironmentInterface
         string $username,
         string $password,
         string $sender,
-    ): self
-    {
+    ): self {
         return new self(
             host: urlencode($host),
             port: $port,
@@ -46,6 +44,7 @@ class SmtpConfig implements ConvertToEnvironmentInterface
     {
         $smtp = [];
         preg_match('~.*://(?<username>.*):(?<password>.*)@(?<host>.*):(?<port>\d*)~', $dsn, $smtp);
+        /** @var array<string, string> $smtp */
 
         return new self(
             host: $smtp['host'],
@@ -56,6 +55,9 @@ class SmtpConfig implements ConvertToEnvironmentInterface
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getEnvironmentMap(): array
     {
         return self::ENVIRONMENT;

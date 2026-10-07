@@ -4,17 +4,11 @@ namespace App\Repository;
 
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
-use App\Entity\Server;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-use function Doctrine\ORM\QueryBuilder;
-
 /**
- * @method RoomStatus|null find($id, $lockMode = null, $lockVersion = null)
- * @method RoomStatus|null findOneBy(array $criteria, array $orderBy = null)
- * @method RoomStatus[]    findAll()
- * @method RoomStatus[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<RoomStatus>
  */
 class RoomStatusRepository extends ServiceEntityRepository
 {
@@ -53,17 +47,17 @@ class RoomStatusRepository extends ServiceEntityRepository
     */
     public function findCreatedRooms(Rooms $rooms): ?RoomStatus
     {
+        $qb = $this->createQueryBuilder('r');
 
-        $qb =  $this->createQueryBuilder('r');
-
-            return $qb->andWhere($qb->expr()->isNull('r.destroyed'))
-                ->innerJoin('r.room', 'room')
+        return $qb->andWhere($qb->expr()->isNull('r.destroyed'))
+            ->innerJoin('r.room', 'room')
             ->andWhere('room =:room')
             ->setParameter('room', $rooms)
             ->getQuery()
             ->getOneOrNullResult();
     }
-    public function findCreatedRoomsbyJitsiId($jitsiId): ?RoomStatus
+
+    public function findCreatedRoomsbyJitsiId(string $jitsiId): ?RoomStatus
     {
         $id = explode('@', strrev($jitsiId), 2);
         $id = strrev($id[sizeof($id) - 1]);
@@ -75,9 +69,11 @@ class RoomStatusRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-    public function findRoomStatusByUid(string $uid):?RoomStatus
+
+    public function findRoomStatusByUid(string $uid): ?RoomStatus
     {
         $qb = $this->createQueryBuilder('r');
+
         return $qb
             ->andWhere('r.jitsiRoomId LIKE :uid')
             ->setParameter('uid', '%' . $uid . '%')

@@ -4,28 +4,22 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
-use function Doctrine\ORM\QueryBuilder;
 
 class ReminderService
 {
-    private $em;
-    private $parameterBag;
-    private $userService;
-
-    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, UserService $userService)
+    public function __construct(private readonly EntityManagerInterface $em, private readonly UserService $userService)
     {
-        $this->em = $entityManager;
-        $this->parameterBag = $parameterBag;
-        $this->userService = $userService;
     }
 
-    public function sendReminder($filter)
+    /**
+     * @param array<int, string|null>|null $filter
+     * @return array{error: bool, hinweis: string, Konferenzen: int, Emails: int}
+     */
+    public function sendReminder(?array $filter): array
     {
         set_time_limit(600);
-        $now = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('utc'));
+        $now   = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('utc'));
         $now10 = $now->modify('+ 10 minutes');
 
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
@@ -42,7 +36,7 @@ class ReminderService
             ->setParameter(':false', false);
 
         if ($filter) {
-            $orX = $qb->expr()->orX();
+            $orX   = $qb->expr()->orX();
             $count = 0;
             foreach ($filter as $data) {
                 if ($data === null) {
@@ -55,8 +49,8 @@ class ReminderService
             $qb->andWhere($orX);
         }
 
-        $query = $qb->getQuery();
-        $rooms = $query->getResult();
+        $query  = $qb->getQuery();
+        $rooms  = $query->getResult();
         $emails = 0;
         foreach ($rooms as $room) {
             foreach ($room->getUser() as $data) {
@@ -65,6 +59,7 @@ class ReminderService
             }
         }
         $message = ['error' => false, 'hinweis' => 'Cron ok', 'Konferenzen' => count($rooms), 'Emails' => $emails];
+
         return $message;
     }
 }

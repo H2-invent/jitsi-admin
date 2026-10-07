@@ -16,10 +16,10 @@ class User extends Fixture
         $user = new \App\Entity\User();
         $user->setEmail('test@local123.de');
         $user->setCreatedAt(new \DateTimeImmutable());
-        $user->setKeycloakId(123456);
+        $user->setKeycloakId('123456');
         $user->setFirstName('Test');
         $user->setLastName('User');
-        $user->setRegisterId(123456);
+        $user->setRegisterId('123456');
         $user->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234',]);
         $user->setTimeZone('Europe/Berlin');
         $user->setUuid('lksdhflkjdsljflkjds');
@@ -33,7 +33,7 @@ class User extends Fixture
         $user->setCreatedAt(new \DateTimeImmutable());
         $user->setFirstName('Test');
         $user->setLastName('User No ID');
-        $user->setRegisterId(123456);
+        $user->setRegisterId('123456');
         $manager->persist($user);
 
         $manager->flush();

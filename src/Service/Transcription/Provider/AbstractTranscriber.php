@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Transcription\Provider;
@@ -42,18 +43,18 @@ abstract class AbstractTranscriber
      */
     protected function processChunks(Generator $audioChunks, callable $transcribeCallback): array
     {
-        $text = '';
-        $chunks = [];
+        $text       = '';
+        $chunks     = [];
         $firstChunk = true;
 
         foreach ($audioChunks as $chunk) {
-            $chunks[] = $chunk;
+            $chunks[]      = $chunk;
             $transcription = $transcribeCallback($chunk);
 
             if (!$firstChunk) {
                 $text .= ' ';
             }
-            $text .= $transcription;
+            $text       .= $transcription;
             $firstChunk = false;
         }
 
@@ -65,8 +66,11 @@ abstract class AbstractTranscriber
      */
     protected function formatAsSentences(string $text): string
     {
-        $text = rtrim($text);
+        $text      = rtrim($text);
         $sentences = preg_split('/(?<=[.?!])\s+/', $text, flags: PREG_SPLIT_NO_EMPTY);
+        if ($sentences === false) {
+            $sentences = [];
+        }
         return implode("\n", $sentences);
     }
 }

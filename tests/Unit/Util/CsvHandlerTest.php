@@ -4,14 +4,18 @@ namespace App\Tests\Unit\Util;
 
 use App\Util\CsvHandler;
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 #[CoversClass(CsvHandler::class)]
 class CsvHandlerTest extends TestCase
 {
 
+    /**
+     * @param array<int, array<string, mixed>> $arrayData
+     * @param array<int, string> $expectedCsv
+     */
     #[DataProvider('providerForGenerate')]
     public function testGenerate(array $arrayData, array $expectedCsv, ?string $seperator): void
     {
@@ -19,6 +23,9 @@ class CsvHandlerTest extends TestCase
     }
 
 
+    /**
+     * @param array<mixed> $arrayData
+     */
     #[DataProvider('providerForGenerateWillThrowException')]
     public function testGenerateWillThrowException(array $arrayData, string $exception): void
     {
@@ -28,6 +35,9 @@ class CsvHandlerTest extends TestCase
         CsvHandler::generateFromArray($arrayData);
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function providerForGenerate(): array
     {
         return [
@@ -74,6 +84,9 @@ class CsvHandlerTest extends TestCase
         ];
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function providerForGenerateWillThrowException(): array
     {
         return [

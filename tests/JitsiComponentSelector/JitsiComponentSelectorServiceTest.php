@@ -6,7 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Repository\RoomsRepository;
-use App\Service\caller\JitsiComponentSelectorService;
+use App\Service\Caller\JitsiComponentSelectorService;
 use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\Response\MockResponse;

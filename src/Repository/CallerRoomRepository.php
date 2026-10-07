@@ -5,13 +5,9 @@ namespace App\Repository;
 use App\Entity\CallerRoom;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use function Doctrine\ORM\QueryBuilder;
 
 /**
- * @method CallerRoom|null find($id, $lockMode = null, $lockVersion = null)
- * @method CallerRoom|null findOneBy(array $criteria, array $orderBy = null)
- * @method CallerRoom[]    findAll()
- * @method CallerRoom[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<CallerRoom>
  */
 class CallerRoomRepository extends ServiceEntityRepository
 {
@@ -48,7 +44,10 @@ class CallerRoomRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findPastRoomsWithCallerId($now)
+    /**
+     * @return CallerRoom[]
+     */
+    public function findPastRoomsWithCallerId(int|string $now): array
     {
         $qb = $this->createQueryBuilder('c');
         return $qb->innerJoin('c.room', 'room')

@@ -3,25 +3,20 @@
 namespace App\Command;
 
 use App\Entity\User;
-use App\Service\ldap\LdapUserService;
+use App\Service\Ldap\LdapUserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[\Symfony\Component\Console\Attribute\AsCommand('app:user:remove', 'Removes a user by Username')]
 class UserRemoveCommand extends Command
 {
-    private $em;
-    private $ldapUserService;
-    public function __construct(EntityManagerInterface $entityManager, LdapUserService $ldapUser, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em, private readonly LdapUserService $ldapUserService, ?string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
-        $this->ldapUserService = $ldapUser;
     }
 
     protected function configure(): void
@@ -32,7 +27,7 @@ class UserRemoveCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io       = new SymfonyStyle($input, $output);
         $username = $input->getArgument('username');
 
         if ($username) {

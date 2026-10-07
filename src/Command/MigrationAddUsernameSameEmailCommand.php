@@ -12,10 +12,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:migration:addUsernameSameEmail', 'This command finds empts username and sets the user = email')]
 class MigrationAddUsernameSameEmailCommand extends Command
 {
-    protected $em;
-    public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
+    public function __construct(protected EntityManagerInterface $em, ?string $name = null)
     {
-        $this->em = $entityManager;
         parent::__construct($name);
     }
 
@@ -25,12 +23,14 @@ class MigrationAddUsernameSameEmailCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io   = new SymfonyStyle($input, $output);
         $user = $this->em->getRepository(User::class)->findBy(['username' => null]);
+
         foreach ($user as $data) {
             $data->setUsername($data->getEmail());
             $this->em->persist($data);
         }
+
         $this->em->flush();
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 

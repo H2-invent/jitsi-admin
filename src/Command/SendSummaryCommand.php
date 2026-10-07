@@ -9,7 +9,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -19,8 +18,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class SendSummaryCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, private SendSummaryViaEmailService $sendSummaryViaEmailService, ?string $name = null)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface     $entityManager,
+        private readonly SendSummaryViaEmailService $sendSummaryViaEmailService,
+        ?string                                     $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -33,7 +35,7 @@ class SendSummaryCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io   = new SymfonyStyle($input, $output);
         $arg1 = $input->getArgument('roomid');
         $room = $this->entityManager->getRepository(Rooms::class)->find($arg1);
 

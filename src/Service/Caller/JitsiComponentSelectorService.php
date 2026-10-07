@@ -1,0 +1,235 @@
+<?php
+
+namespace App\Service\Caller;
+
+use App\Entity\Rooms;
+use App\Entity\Server;
+use App\Entity\User;
+use App\Service\RoomService;
+use App\Service\Theme\ThemeService;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+class JitsiComponentSelectorService
+{
+    private ?string $baseUrl;
+    /** @var string|null */
+    private       $jwt;
+    private mixed $publicKey;
+    /** @var string|false */
+    private $privateKey;
+    /** @var string */
+    private $kid;
+
+    public function __construct(
+        private HttpClientInterface            $httpClient,
+        private readonly ThemeService          $themeService,
+        private readonly RoomService           $roomService,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly KernelInterface       $kernel,
+        private readonly LoggerInterface       $logger
+    ) {
+        try {
+            $this->baseUrl = null;
+            $dir           = $this->kernel->getProjectDir();
+
+            /** @var string $kid */
+            $kid       = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_JWT_KID');
+            $this->kid = $kid;
+
+            /** @var string $privatePath */
+            $privatePath = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH');
+
+            /** @var string $publicPath */
+            $publicPath     = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
+            $privateKeyPath = $dir . $privatePath . hash('sha256', $kid) . '.key';
+            $publicKeyPath  = $dir . $publicPath . hash('sha256', $kid) . '.pem';
+
+            // Replace directory separators for cross-platform compatibility
+            $privateKeyPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $privateKeyPath);
+            $publicKeyPath  = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $publicKeyPath);
+
+            // Check if the private key file exists
+            if (file_exists($privateKeyPath)) {
+                $this->privateKey = file_get_contents($privateKeyPath);
+            }
+
+            // Check if the public key file exists
+            if (file_exists($publicKeyPath)) {
+                $this->publicKey = file_get_contents($publicKeyPath);
+            }
+        } catch (\Exception) {
+        }
+    }
+
+
+    public function setHttpClient(HttpClientInterface $httpClient): void
+    {
+        $this->httpClient = $httpClient;
+    }
+
+    public function getJwt(): mixed
+    {
+        return $this->jwt;
+    }
+
+    public function getPublicKey(): bool|string
+    {
+        return $this->publicKey;
+    }
+
+    public function setBaseUrlFromServer(Server $server): void
+    {
+        $this->baseUrl = 'https://' . $server->getUrl() . '/jitsi-component-selector/sessions/start';
+    }
+
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
+    }
+
+
+    public function fetchComponentKey(Rooms $room, User $user): mixed
+    {
+        if (!$this->baseUrl) {
+            $this->setBaseUrlFromServer($room->getServer());;
+        }
+
+        $res = $this->fetchComponentSelectorResult(
+            baseUrl: $room->getServer()->getUrl(),
+            roomName: $room->getUid(),
+            displayName: $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')),
+            jwt: $room->getServer()->getAppId() ? $this->roomService->generateJwt(
+                room: $room,
+                user: $user,
+                userName: $user->getFormatedName(
+                $this->themeService->getApplicationProperties('laf_showNameFrontend')
+            )
+            ) : null
+        );
+
+        if (isset($res['componentKey'])) {
+            return $res['componentKey'];
+        }
+
+        throw new \Exception('Component Key not found');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function fetchComponentSelectorResult(
+        string  $baseUrl,
+        string  $roomName,
+        string  $displayName,
+        ?string $jwt = null,
+        bool    $autoAnswer = true,
+        int     $autoAnswerTime = 600,
+        string  $sipAddress = 'sip:jibri@127.0.0.1',
+        string  $environment = 'default-env',
+        string  $region = 'default-region',
+        string  $type = 'SIP-JIBRI'
+    ): array {
+        $requestData = $this->buildRequestData(
+            baseUrl: $baseUrl,
+            roomName: $roomName,
+            displayName: $displayName,
+            jwt: $jwt,
+            autoAnswer: $autoAnswer,
+            autoAnswerTime: $autoAnswerTime,
+            sipAddress: $sipAddress,
+            environment: $environment,
+            region: $region,
+            type: $type
+        );
+        if (!$this->baseUrl) {
+            throw new \Exception('The base Url is not Set. Set the Base URl with the Server Entity');
+        }
+
+        $response = $this->httpClient->request(
+            method: 'POST',
+            url: $this->baseUrl,
+            options: [
+                'json'        => $requestData,
+                'auth_bearer' => $this->createAuthToken(),
+            ]
+        );
+        if (200 != $response->getStatusCode()) {
+            $this->logger->error($response->getContent());
+            throw new \Exception('Response status code is different than expected.');
+        }
+        $decodedPayload = $response->toArray();
+
+        return $decodedPayload;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function buildRequestData(
+        string  $baseUrl,
+        string  $roomName,
+        string  $displayName,
+        ?string $jwt,
+        bool    $autoAnswer,
+        int     $autoAnswerTime,
+        string  $sipAddress,
+        string  $environment,
+        string  $region,
+        string  $type,
+    ): array {
+        $requestData = [
+            'callParams'      => [
+                'callUrlInfo' => [
+                    'baseUrl'  => 'https://' . $baseUrl,
+                    'callName' => $roomName . ($jwt ? ('?jwt=' . $jwt) : ''),
+                ],
+            ],
+            'componentParams' => [
+                'type'        => $type,
+                'region'      => $region,
+                'environment' => $environment,
+            ],
+            'metadata'        => [
+                'sipClientParams' => [
+                    'sipAddress'      => $sipAddress,
+                    'displayName'     => $displayName,
+                    'autoAnswer'      => $autoAnswer,
+                    'autoAnswerTimer' => $autoAnswerTime
+                ]
+            ]
+        ];
+
+        return $requestData;
+    }
+
+    public function createAuthToken(): string
+    {
+        if (!is_string($this->privateKey)) {
+            throw new \Exception('Private key is not set');
+        }
+
+        $payload   = [
+            'iss' => 'signal',
+            'aud' => 'jitsi-component-selector'
+        ];
+        $this->jwt = JWT::encode($payload, $this->privateKey, 'RS256', null, ['kid' => $this->kid]);
+
+        return $this->jwt;
+    }
+
+    public function verifyToken(string $token): bool
+    {
+        try {
+            JWT::decode($token, new Key($this->publicKey, 'RS256'));
+            return true;
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
+            return false;
+        }
+    }
+}

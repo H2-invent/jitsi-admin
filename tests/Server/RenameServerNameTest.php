@@ -44,7 +44,7 @@ class RenameServerNameTest extends KernelTestCase
         $this->assertEquals('testRename.de', $serverTmp->getServerName());
         $this->assertEquals(1, sizeof($server));
     }
-    public function testExecute()
+    public function testExecute(): void
     {
         $kernel = static::createKernel();
         $em = $this->getContainer()->get(EntityManagerInterface::class);

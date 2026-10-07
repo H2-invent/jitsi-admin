@@ -82,11 +82,13 @@ class PermissionChangeServiceTest extends KernelTestCase
         $testUser = $userRepository->findOneBy(['email' => 'test@local2.de']);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
-        $this->assertEquals(true, $changePermissionService->toggleLobbyModerator($room->getModerator(), $testUser, $room)->getLobbyModerator());
+        $toggledUserRoom = $changePermissionService->toggleLobbyModerator($room->getModerator(), $testUser, $room);
+        $this->assertNotFalse($toggledUserRoom);
+        $this->assertEquals(true, $toggledUserRoom->getLobbyModerator());
         $this->assertEquals(false, $changePermissionService->toggleLobbyModerator($testUser, $testUser, $room));
         $userRoomRepo = self::getContainer()->get(RoomsUserRepository::class);
         $userRoom = $userRoomRepo->findOneBy(['user' => $testUser, 'room' => $room]);
-        $lobbyWaitingUSer = (new LobbyWaitungUser())->setRoom($room)->setUser($testUser)->setShowName('test123')->setType('a')->setUid('kjdshfkhds')->setCreatedAt(new \DateTimeImmutable());
+        $lobbyWaitingUSer = new LobbyWaitungUser()->setRoom($room)->setUser($testUser)->setShowName('test123')->setType('a')->setUid('kjdshfkhds')->setCreatedAt(new \DateTimeImmutable());
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($lobbyWaitingUSer);
         $em->flush();
@@ -96,7 +98,7 @@ class PermissionChangeServiceTest extends KernelTestCase
         $this->assertEquals(false, $userRoom->getModerator());
         $this->assertEquals(false, $userRoom->getPrivateMessage());
         $this->assertEquals(false, $userRoom->getShareDisplay());
-        $this->assertNotNull($changePermissionService->toggleLobbyModerator($room->getModerator(), $testUser, $room));
+        $this->assertNotFalse($changePermissionService->toggleLobbyModerator($room->getModerator(), $testUser, $room));
         $this->assertEquals(false, $userRoom->getLobbyModerator());
         self::assertEquals(0, sizeof($lobbyWaitungRepo->findBy(['user' => $testUser, 'room' => $room])));
     }

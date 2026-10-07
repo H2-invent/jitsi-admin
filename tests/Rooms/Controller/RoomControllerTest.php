@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RoomControllerTest extends WebTestCase
 {
-    public function testNew()
+    public function testNew(): void
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -26,7 +26,7 @@ class RoomControllerTest extends WebTestCase
     }
 
 
-    public function testEditNoRight()
+    public function testEditNoRight(): void
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -39,9 +39,9 @@ class RoomControllerTest extends WebTestCase
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'No Right']);
         $client->request('GET', '/room/new?id=' . $room->getId());
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
-    public function testEditRight()
+    public function testEditRight(): void
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -57,7 +57,7 @@ class RoomControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h5', 'Konferenz bearbeiten');
     }
-    public function testnoRoom()
+    public function testnoRoom(): void
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -69,6 +69,6 @@ class RoomControllerTest extends WebTestCase
         $client->loginUser($testUser);
 
         $client->request('GET', '/room/new?id=-1');
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 }

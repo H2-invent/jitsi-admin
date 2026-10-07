@@ -5,17 +5,17 @@ namespace App\Controller;
 use App\Entity\License;
 use App\Entity\Server;
 use App\Helper\JitsiAdminController;
+use App\Repository\LicenseRepository;
 use App\Service\MailerService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class ReminderLizenseController extends JitsiAdminController
 {
-    #[Route(path: '/reminder/lizense', name: 'reminder_lizense')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/reminder/lizense', name: 'reminder_lizense')]
     public function index(LoggerInterface $logger, Request $request, MailerService $mailerService, ParameterBagInterface $parameterBag): Response
     {
         if ($request->get('token') !== $parameterBag->get('cronToken')) {
@@ -23,17 +23,21 @@ class ReminderLizenseController extends JitsiAdminController
             $logger->error($message['hinweis'], $message);
             return new JsonResponse($message);
         }
+
         $counter = 0;
-        $back = (new \DateTimeImmutable())->modify('+5 days');
-        $now = new \DateTimeImmutable();
-        $qb = $this->doctrine->getRepository(License::class)->createQueryBuilder('license');
+        $back    = new \DateTimeImmutable()->modify('+5 days');
+        $now     = new \DateTimeImmutable();
+
+        /** @var LicenseRepository $licenseRepository */
+        $licenseRepository = $this->doctrine->getRepository(License::class);
+        $qb                = $licenseRepository->createQueryBuilder('license');
         $qb->andWhere($qb->expr()->gte('license.validUntil', ':now'))
             ->setParameter('now', $now)
             ->andWhere($qb->expr()->lte('license.validUntil', ':back'))
             ->setParameter('back', $back);
         $license = $qb->getQuery()->getResult();
 
-        $error = false;
+        $error   = false;
         $message = '';
         try {
             foreach ($license as $data) {
@@ -49,7 +53,7 @@ class ReminderLizenseController extends JitsiAdminController
                 }
             }
         } catch (\Exception $e) {
-            $error = true;
+            $error   = true;
             $message = $e->getMessage();
         }
 

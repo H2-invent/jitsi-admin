@@ -10,21 +10,17 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
- * @method Rooms|null find($id, $lockMode = null, $lockVersion = null)
- * @method Rooms|null findOneBy(array $criteria, array $orderBy = null)
- * @method Rooms[]    findAll()
- * @method Rooms[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Rooms>
  */
 class RoomsRepository extends ServiceEntityRepository
 {
-    private $timeZoneService;
-    private $amountperLayz = 8;
+    private int $amountperLayz = 8;
 
-    public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
+    public function __construct(ManagerRegistry $registry, private readonly TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
-        $this->timeZoneService = $timeZoneService;
     }
 
     // /**
@@ -55,11 +51,14 @@ class RoomsRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findRoomsInFuture(User $user)
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsInFuture(User $user): array
     {
         $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
         $now = $now->setTimezone(new \DateTimeZone('utc'));
-        $qb = $this->createQueryBuilder('r');
+        $qb  = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
             ->leftJoin('managerelement.deputy', 'deputy')
@@ -103,11 +102,14 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRoomsInPast(User $user, $offset)
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsInPast(User $user, int|string $offset): array
     {
-        $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
-        $now = $now->setTimezone(new \DateTimeZone('utc'));
-        $qb = $this->createQueryBuilder('r');
+        $now   = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
+        $now   = $now->setTimezone(new \DateTimeZone('utc'));
+        $qb    = $this->createQueryBuilder('r');
         $rooms = $qb->select('r')
             ->addSelect('server')
             ->addSelect('tag')
@@ -164,7 +166,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->orderBy('r.startUtc', 'DESC')
             ->setMaxResults($this->amountperLayz)
-            ->setFirstResult($this->amountperLayz * $offset)
+            ->setFirstResult($this->amountperLayz * (int)$offset)
             ->getQuery()
             ->getResult();
 
@@ -173,9 +175,12 @@ class RoomsRepository extends ServiceEntityRepository
         return $rooms;
     }
 
-    public function findRoomsForUser(User $user)
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsForUser(User $user): array
     {
-        $qb = $this->createQueryBuilder('r');
+        $qb  = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
             ->leftJoin('managerelement.deputy', 'deputy')
@@ -193,12 +198,14 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRunningRooms(User $user)
+    /**
+     * @return Rooms[]
+     */
+    public function findRunningRooms(User $user): array
     {
-
         $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
         $now = $now->setTimezone(new \DateTimeZone('utc'));
-        $qb = $this->createQueryBuilder('r');
+        $qb  = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
             ->leftJoin('managerelement.deputy', 'deputy')
@@ -245,12 +252,15 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findTodayRooms(User $user)
+    /**
+     * @return Rooms[]
+     */
+    public function findTodayRooms(User $user): array
     {
-        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
+        $now      = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         $midnight = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         $midnight = $midnight->setTime(23, 59, 59);
-        $qb = $this->createQueryBuilder('r');
+        $qb       = $this->createQueryBuilder('r');
 
         return $qb
             ->innerJoin('r.user', 'user')
@@ -301,7 +311,10 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getMyScheduledRooms(User $user)
+    /**
+     * @return Rooms[]
+     */
+    public function getMyScheduledRooms(User $user): array
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
@@ -319,14 +332,15 @@ class RoomsRepository extends ServiceEntityRepository
             )
             ->setParameter('user', $user)
             ->andWhere('rooms.scheduleMeeting = true');
-        $query =  $qb->getQuery();
+        $query = $qb->getQuery();
+
         return $query->getResult();
     }
 
-     /**
-       * @return Rooms[] Returns an array of Rooms objects
-       */
-    public function getMyPersistantRooms(User $user, $offset)
+    /**
+     * @return Rooms[] Returns an array of Rooms objects
+     */
+    public function getMyPersistantRooms(User $user, int|string $offset): array
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
@@ -346,14 +360,18 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('rooms.persistantRoom = true')
             ->orderBy('rooms.id', 'ASC')
             ->setMaxResults($this->amountperLayz)
-            ->setFirstResult($this->amountperLayz * $offset);
+            ->setFirstResult($this->amountperLayz * (int)$offset);
+
         return $qb->getQuery()->getResult();
     }
 
-    public function findRoomsFutureAndPast(User $user, string $timeBack)
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsFutureAndPast(User $user, string $timeBack): array
     {
-        $now = (new \DateTimeImmutable('now', new \DateTimeZone('utc')))->modify($timeBack);
-        $qb = $this->createQueryBuilder('r');
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'))->modify($timeBack);
+        $qb  = $this->createQueryBuilder('r');
 
         return $qb
             ->innerJoin('r.user', 'user')
@@ -378,7 +396,10 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRoomsForDashboard(User $user)
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsForDashboard(User $user): array
     {
         $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
         $now = $now->setTimezone(new \DateTimeZone('utc'));
@@ -409,8 +430,7 @@ class RoomsRepository extends ServiceEntityRepository
             )
             ->leftJoin('status.roomStatusParticipants', 'participant', Join::WITH,
                 'participant.inRoom = true'
-            )
-        ;
+            );
 
         $rooms = $qb
             ->andWhere(
@@ -463,9 +483,12 @@ class RoomsRepository extends ServiceEntityRepository
         return $rooms;
     }
 
-    public function findFavoriteRooms(User $user)
+    /**
+     * @return Rooms[]
+     */
+    public function findFavoriteRooms(User $user): array
     {
-        $qb = $this->createQueryBuilder('r');
+        $qb    = $this->createQueryBuilder('r');
         $rooms = $qb->select('r')
             ->addSelect('server')
             ->addSelect('tag')
@@ -538,7 +561,7 @@ class RoomsRepository extends ServiceEntityRepository
         }
 
         $ids = array_values(array_unique(array_map(static fn(Rooms $room) => $room->getId(), $rooms)));
-        $em = $this->getEntityManager();
+        $em  = $this->getEntityManager();
 
         // participants (r.user, ManyToMany)
         $em->createQueryBuilder()
@@ -594,7 +617,10 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findFutureRoomsWithNoCallerId($now)
+    /**
+     * @return Rooms[]
+     */
+    public function findFutureRoomsWithNoCallerId(int $now): array
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->leftJoin('r.callerRoom', 'callerRoom')
@@ -612,7 +638,11 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function findRoomsForRoomInGivenMinutes(Server $server, $minutes = 0)
+
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsForRoomInGivenMinutes(Server $server, int $minutes = 0): array
     {
         $qb = $this->createQueryBuilder('r');
 
@@ -626,10 +656,13 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRoomsnotInPast()
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsnotInPast(): array
     {
-        $now = (new \DateTimeImmutable('now'))->getTimestamp();
-        $qb = $this->createQueryBuilder('r');
+        $now = new \DateTimeImmutable('now')->getTimestamp();
+        $qb  = $this->createQueryBuilder('r');
         return $qb
             ->andWhere(
                 $qb->expr()->orX(
@@ -651,7 +684,7 @@ class RoomsRepository extends ServiceEntityRepository
      * @return Rooms[] Returns an array of Rooms objects
      */
 
-    public function findRoomsWithNoTags()
+    public function findRoomsWithNoTags(): array
     {
         $qb = $this->createQueryBuilder('r');
 
@@ -660,7 +693,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRoomByCaseInsensitiveUid($value): ?Rooms
+    public function findRoomByCaseInsensitiveUid(string $value): ?Rooms
     {
         return $this->createQueryBuilder('r')
             ->andWhere('upper(r.uid) = upper(:val)')
@@ -672,8 +705,7 @@ class RoomsRepository extends ServiceEntityRepository
     /**
      * @return Rooms[] Returns an array of Rooms objects
      */
-
-    public function findActualConferenceForServerByStatus(Server $server)
+    public function findActualConferenceForServerByStatus(Server $server): array
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.server', 'server')

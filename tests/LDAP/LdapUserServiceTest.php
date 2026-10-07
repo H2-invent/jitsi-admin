@@ -2,7 +2,7 @@
 
 namespace App\Tests\LDAP;
 
-use App\dataType\LdapType;
+use App\DataType\LdapType;
 use App\Entity\CallerId;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Notification;
@@ -13,8 +13,8 @@ use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
 use App\Service\IndexUserService;
-use App\Service\ldap\LdapService;
-use App\Service\ldap\LdapUserService;
+use App\Service\Ldap\LdapService;
+use App\Service\Ldap\LdapUserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -23,7 +23,7 @@ use function PHPUnit\Framework\assertEquals;
 
 class LdapUserServiceTest extends WebTestCase
 {
-    public $LDAPURL = 'ldap://192.168.230.128:10389';
+    public string $LDAPURL = 'ldap://192.168.230.128:10389';
 
     protected function setUp(): void
     {
@@ -262,7 +262,7 @@ class LdapUserServiceTest extends WebTestCase
         $room->setModerator($user);
         $room->addUser($user);
         $room->setStart(new \DateTimeImmutable());
-        $room->setEnddate((new \DateTimeImmutable())->modify('+60min'));
+        $room->setEnddate(new \DateTimeImmutable()->modify('+60min'));
         $room->setDuration(60);
         $room->setName('testRaum');
         $room->setServer($server);
@@ -575,10 +575,12 @@ class LdapUserServiceTest extends WebTestCase
         self::assertNull($userRepo->findOneBy(['email' => 'test@local.de']));
     }
 
-    private function getParam()
+    private function getParam(): void
     {
         $para = self::getContainer()->get(ParameterBagInterface::class);
-        $this->LDAPURL = $para->get('ldap_test_url');
+        /** @var string $ldapUrl */
+        $ldapUrl = $para->get('ldap_test_url');
+        $this->LDAPURL = $ldapUrl;
     }
 
 

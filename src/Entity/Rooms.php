@@ -16,118 +16,195 @@ class Rooms
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
+
     #[ORM\Column(type: 'text')]
-    private $name;
+    private ?string $name = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $start;
+    private ?\DateTimeImmutable $start = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $enddate;
+    private ?\DateTimeImmutable $enddate = null;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'rooms')]
     #[Ignore]
-    private $user;
+    private Collection $user;
+
     #[ORM\ManyToOne(targetEntity: Server::class, fetch: 'EAGER', inversedBy: 'rooms')]
     #[ORM\JoinColumn(nullable: false)]
-    private $server;
+    private ?Server $server = null;
+
     #[ORM\Column(type: 'text')]
-    private $uid;
+    private ?string $uid = null;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator')]
     #[ORM\JoinColumn(nullable: true)]
     #[Ignore]
-    private $moderator;
+    private ?User $moderator = null;
+
     #[ORM\Column(type: 'float')]
-    private $duration;
+    private ?float $duration = null;
+
     #[ORM\Column(type: 'integer')]
-    private $sequence;
+    private ?int $sequence = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $uidReal;
+    private ?string $uidReal = null;
+
     #[ORM\Column(type: 'boolean')]
-    private $onlyRegisteredUsers = false;
+    private bool $onlyRegisteredUsers = false;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $agenda;
+    private ?string $agenda = null;
+
+    /**
+     * @var Collection<int, RoomsUser>
+     */
     #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'room', cascade: ['persist'], orphanRemoval: true)]
     #[Ignore]
-    private $userAttributes;
+    private Collection $userAttributes;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $dissallowScreenshareGlobal;
+    private ?bool $dissallowScreenshareGlobal = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $dissallowPrivateMessage;
+    private ?bool $dissallowPrivateMessage = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $public = true;
+    private ?bool $public = true;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $showRoomOnJoinpage;
+    private ?bool $showRoomOnJoinpage = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $uidParticipant;
+    private ?string $uidParticipant = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $uidModerator;
+    private ?string $uidModerator = null;
+
+    /**
+     * @var Collection<int, Subscriber>
+     */
     #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'room', cascade: ['persist', 'remove'])]
     #[Ignore]
-    private $subscribers;
+    private Collection $subscribers;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $maxParticipants;
+    private ?int $maxParticipants = null;
+
+    /**
+     * @var Collection<int, Scheduling>
+     */
     #[ORM\OneToMany(targetEntity: Scheduling::class, mappedBy: 'room')]
     #[Ignore]
-    private $schedulings;
+    private Collection $schedulings;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $scheduleMeeting;
+    private ?bool $scheduleMeeting = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $waitinglist;
+    private ?bool $waitinglist = null;
+
+    /**
+     * @var Collection<int, Waitinglist>
+     */
     #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'room', cascade: ['persist', 'remove'])]
     #[Ignore]
-    private $waitinglists;
+    private Collection $waitinglists;
+
     #[ORM\ManyToOne(targetEntity: Repeat::class, inversedBy: 'rooms')]
-    private $repeater;
+    private ?Repeat $repeater = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $repeaterRemoved;
+    private ?bool $repeaterRemoved = null;
+
     #[ORM\OneToOne(targetEntity: Repeat::class, mappedBy: 'prototyp', cascade: ['persist', 'remove'])]
     #[Ignore]
-    private $repeaterProtoype;
+    private ?Repeat $repeaterProtoype = null;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'protoypeRooms')]
     #[ORM\JoinTable(name: 'prototype_users')]
-    private $prototypeUsers;
+    private Collection $prototypeUsers;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $persistantRoom;
+    private ?bool $persistantRoom = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $slug;
+    private ?string $slug = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $totalOpenRooms;
+    private ?bool $totalOpenRooms = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $totalOpenRoomsOpenTime = 30;
+    private ?int $totalOpenRoomsOpenTime = 30;
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $timeZone;
+    private ?string $timeZone = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $startUtc;
+    private ?\DateTimeImmutable $startUtc = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $endDateUtc;
+    private ?\DateTimeImmutable $endDateUtc = null;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favorites')]
-    private $favoriteUsers;
+    private Collection $favoriteUsers;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $lobby;
+    private ?bool $lobby = null;
+
+    /**
+     * @var Collection<int, LobbyWaitungUser>
+     */
     #[ORM\OneToMany(targetEntity: LobbyWaitungUser::class, mappedBy: 'room', orphanRemoval: true)]
     #[Ignore]
-    private $lobbyWaitungUsers;
+    private Collection $lobbyWaitungUsers;
+
+    /**
+     * @var Collection<int, RoomStatus>
+     */
     #[ORM\OneToMany(targetEntity: RoomStatus::class, mappedBy: 'room', orphanRemoval: true)]
     #[Ignore]
-    private $roomstatuses;
+    private Collection $roomstatuses;
+
     #[ORM\OneToOne(targetEntity: CallerRoom::class, mappedBy: 'room', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Ignore]
-    private $callerRoom;
+    private ?CallerRoom $callerRoom = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $startTimestamp;
+    private ?int $startTimestamp = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $endTimestamp;
+    private ?int $endTimestamp = null;
+
+    /**
+     * @var Collection<int, CallerId>
+     */
     #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[Ignore]
-    private $callerIds;
+    private Collection $callerIds;
+
     #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'rooms')]
     #[Ignore]
-    private $tag;
+    private ?Tag $tag = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $hostUrl;
+    private ?string $hostUrl = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $secondaryName = null;
 
+    /** @var Collection<int, CalloutSession> */
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: CalloutSession::class, orphanRemoval: true)]
     #[Ignore]
     private Collection $calloutSessions;
@@ -137,6 +214,7 @@ class Rooms
     #[Ignore]
     private ?User $creator = null;
 
+    /** @var Collection<int, Log> */
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: Log::class)]
     private Collection $logs;
 
@@ -182,21 +260,21 @@ class Rooms
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
-        $this->userAttributes = new ArrayCollection();
-        $this->subscribers = new ArrayCollection();
-        $this->schedulings = new ArrayCollection();
-        $this->waitinglists = new ArrayCollection();
-        $this->prototypeUsers = new ArrayCollection();
-        $this->favoriteUsers = new ArrayCollection();
-        $this->lobbyWaitungUsers = new ArrayCollection();
-        $this->roomstatuses = new ArrayCollection();
-        $this->callerIds = new ArrayCollection();
-        $this->calloutSessions = new ArrayCollection();
-        $this->logs = new ArrayCollection();
+        $this->user               = new ArrayCollection();
+        $this->userAttributes     = new ArrayCollection();
+        $this->subscribers        = new ArrayCollection();
+        $this->schedulings        = new ArrayCollection();
+        $this->waitinglists       = new ArrayCollection();
+        $this->prototypeUsers     = new ArrayCollection();
+        $this->favoriteUsers      = new ArrayCollection();
+        $this->lobbyWaitungUsers  = new ArrayCollection();
+        $this->roomstatuses       = new ArrayCollection();
+        $this->callerIds          = new ArrayCollection();
+        $this->calloutSessions    = new ArrayCollection();
+        $this->logs               = new ArrayCollection();
         $this->uploadedRecordings = new ArrayCollection();
-        $this->liveKitRecordings = new ArrayCollection();
-        $this->transcriptions = new ArrayCollection();
+        $this->liveKitRecordings  = new ArrayCollection();
+        $this->transcriptions     = new ArrayCollection();
     }
 
     public function normalize(string $propertyName): string
@@ -210,30 +288,32 @@ class Rooms
         $srcTz = $this->timeZone ? new \DateTimeZone($this->timeZone) : null;
 
         if ($this->start) {
-            $dt = \DateTimeImmutable::createFromFormat(
+            /** @var \DateTimeImmutable $dt */
+            $dt                   = \DateTimeImmutable::createFromFormat(
                 'Y-m-d H:i:s',
                 $this->start->format('Y-m-d H:i:s'),
                 $srcTz ?? $this->start->getTimezone()
             );
-            $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
-            $this->startUtc = $utc;
+            $utc                  = $dt->setTimezone(new \DateTimeZone('UTC'));
+            $this->startUtc       = $utc;
             $this->startTimestamp = $utc->getTimestamp();
         } else {
-            $this->startUtc = null;
+            $this->startUtc       = null;
             $this->startTimestamp = null;
         }
 
         if ($this->enddate) {
-            $dt = \DateTimeImmutable::createFromFormat(
+            /** @var \DateTimeImmutable $dt */
+            $dt                 = \DateTimeImmutable::createFromFormat(
                 'Y-m-d H:i:s',
                 $this->enddate->format('Y-m-d H:i:s'),
                 $srcTz ?? $this->enddate->getTimezone()
             );
-            $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
-            $this->endDateUtc = $utc;
+            $utc                = $dt->setTimezone(new \DateTimeZone('UTC'));
+            $this->endDateUtc   = $utc;
             $this->endTimestamp = $utc->getTimestamp();
         } else {
-            $this->endDateUtc = null;
+            $this->endDateUtc   = null;
             $this->endTimestamp = null;
         }
     }
@@ -257,7 +337,6 @@ class Rooms
 
     public function getStart(): ?\DateTimeImmutable
     {
-
         return $this->start;
     }
 
@@ -281,7 +360,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getUser(): Collection
     {
@@ -401,7 +480,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|RoomsUser[]
+     * @return Collection<int, RoomsUser>
      */
     public function getUserAttributes(): Collection
     {
@@ -503,7 +582,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|Subscriber[]
+     * @return Collection<int, Subscriber>
      */
     public function getSubscribers(): Collection
     {
@@ -545,7 +624,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|Scheduling[]
+     * @return Collection<int, Scheduling>
      */
     public function getSchedulings(): Collection
     {
@@ -599,7 +678,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|Waitinglist[]
+     * @return Collection<int, Waitinglist>
      */
     public function getWaitinglists(): Collection
     {
@@ -670,7 +749,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getPrototypeUsers(): Collection
     {
@@ -757,33 +836,33 @@ class Rooms
     {
         if ($this->timeZone) {
             return $this->timeZone;
-        } else {
-            return $this->moderator->getTimeZone();
         }
+
+        return $this->moderator->getTimeZone();
     }
 
     public function getStartwithTimeZone(?User $user): ?\DateTimeImmutable
     {
         if ($this->timeZone && $user && $user->getTimeZone()) {
-            $data = new \DateTimeImmutable($this->start->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
+            $data       = new \DateTimeImmutable($this->start->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
             $laTimezone = new \DateTimeZone($user->getTimeZone());
-            $data = $data->setTimezone($laTimezone);
+            $data       = $data->setTimezone($laTimezone);
             return $data;
-        } else {
-            return $this->start;
         }
+
+        return $this->start;
     }
 
     public function getEndwithTimeZone(?User $user): ?\DateTimeImmutable
     {
         if ($this->timeZone && $user && $user->getTimeZone()) {
-            $data = new \DateTimeImmutable($this->enddate->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
+            $data       = new \DateTimeImmutable($this->enddate->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
             $laTimezone = new \DateTimeZone($user->getTimeZone());
-            $data = $data->setTimezone($laTimezone);
+            $data       = $data->setTimezone($laTimezone);
             return $data;
-        } else {
-            return $this->enddate;
         }
+
+        return $this->enddate;
     }
 
     public function getStartUtc(): ?\DateTimeImmutable
@@ -812,7 +891,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getFavoriteUsers(): Collection
     {
@@ -851,7 +930,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|LobbyWaitungUser[]
+     * @return Collection<int, LobbyWaitungUser>
      */
     public function getLobbyWaitungUsers(): Collection
     {
@@ -881,7 +960,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|Roomstatus[]
+     * @return Collection<int, RoomStatus>
      */
     public function getRoomstatuses(): Collection
     {
@@ -952,7 +1031,7 @@ class Rooms
     }
 
     /**
-     * @return Collection|CallerId[]
+     * @return Collection<int, CallerId>
      */
     public function getCallerIds(): Collection
     {

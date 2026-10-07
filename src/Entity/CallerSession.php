@@ -11,26 +11,35 @@ class CallerSession
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
+
     #[ORM\Column(type: 'text')]
-    private $sessionId;
+    private ?string $sessionId = null;
+
     #[ORM\OneToOne(targetEntity: LobbyWaitungUser::class, inversedBy: 'callerSession', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
-    private $lobbyWaitingUser;
+    private ?LobbyWaitungUser $lobbyWaitingUser = null;
+
     #[ORM\Column(type: 'datetime_immutable')]
-    private $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
+
     #[ORM\Column(type: 'boolean')]
-    private $authOk;
+    private ?bool $authOk = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $callerId;
+    private ?string $callerId = null;
+
     #[ORM\OneToOne(targetEntity: CallerId::class, mappedBy: 'callerSession', cascade: ['persist'])]
-    private $caller;
+    private ?CallerId $caller = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $showName;
+    private ?string $showName = null;
+
     #[ORM\Column(type: 'boolean')]
-    private $callerIdVerified = false;
+    private bool $callerIdVerified = false;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $forceFinish;
+    private ?bool $forceFinish = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $messageUid = null;
@@ -40,24 +49,29 @@ class CallerSession
 
     #[ORM\Column(nullable: true)]
     private ?bool $isSipVideoUser = false;
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getSessionId(): ?string
     {
         return $this->sessionId;
     }
+
     public function setSessionId(string $sessionId): self
     {
         $this->sessionId = $sessionId;
 
         return $this;
     }
+
     public function getLobbyWaitingUser(): ?LobbyWaitungUser
     {
         return $this->lobbyWaitingUser;
     }
+
     public function setLobbyWaitingUser(?LobbyWaitungUser $lobbyWaitingUser): self
     {
         if ($this->lobbyWaitingUser === $lobbyWaitingUser) {
@@ -65,7 +79,7 @@ class CallerSession
         }
 
         $previousLobbyWaitingUser = $this->lobbyWaitingUser;
-        $this->lobbyWaitingUser = $lobbyWaitingUser;
+        $this->lobbyWaitingUser   = $lobbyWaitingUser;
 
         if ($previousLobbyWaitingUser?->getCallerSession() === $this) {
             $previousLobbyWaitingUser->setCallerSession(null);
@@ -77,40 +91,48 @@ class CallerSession
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
+
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
+
     public function getAuthOk(): ?bool
     {
         return $this->authOk;
     }
+
     public function setAuthOk(bool $authOk): self
     {
         $this->authOk = $authOk;
 
         return $this;
     }
+
     public function getCallerId(): ?string
     {
         return $this->callerId;
     }
+
     public function setCallerId(?string $callerId): self
     {
         $this->callerId = $callerId;
 
         return $this;
     }
+
     public function getCaller(): ?CallerId
     {
         return $this->caller;
     }
+
     public function setCaller(?CallerId $caller): self
     {
         // unset the owning side of the relation if necessary
@@ -127,30 +149,36 @@ class CallerSession
 
         return $this;
     }
+
     public function getShowName(): ?string
     {
         return $this->showName;
     }
+
     public function setShowName(?string $showName): self
     {
         $this->showName = $showName;
 
         return $this;
     }
+
     public function getCallerIdVerified(): ?bool
     {
         return $this->callerIdVerified;
     }
+
     public function setCallerIdVerified(bool $callerIdVerified): self
     {
         $this->callerIdVerified = $callerIdVerified;
 
         return $this;
     }
+
     public function getForceFinish(): ?bool
     {
         return $this->forceFinish;
     }
+
     public function setForceFinish(?bool $forceFinish): self
     {
         $this->forceFinish = $forceFinish;

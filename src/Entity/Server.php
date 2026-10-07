@@ -15,73 +15,116 @@ class Server
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
+
     #[ORM\Column(type: 'text')]
-    private $url;
+    private ?string $url = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $appId;
+    private ?string $appId = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $appSecret;
+    private ?string $appSecret = null;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'servers')]
-    private $user;
+    private Collection $user;
+
+    /**
+     * @var Collection<int, Rooms>
+     */
     #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'server')]
-    private $rooms;
+    private Collection $rooms;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'serverAdmins')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
-    private $administrator;
+    private ?User $administrator = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $logoUrl;
+    private ?string $logoUrl = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpHost;
+    private ?string $smtpHost = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $smtpPort;
+    private ?int $smtpPort = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpPassword;
+    private ?string $smtpPassword = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpUsername;
+    private ?string $smtpUsername = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpEncryption;
+    private ?string $smtpEncryption = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpEmail;
+    private ?string $smtpEmail = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpSenderName;
+    private ?string $smtpSenderName = null;
+
     #[ORM\Column(type: 'text')]
-    private $slug;
+    private ?string $slug = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $privacyPolicy;
+    private ?string $privacyPolicy = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $licenseKey;
+    private ?string $licenseKey = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $apiKey;
+    private ?string $apiKey = null;
+
     #[ORM\Column(type: 'string', length: 7, nullable: true)]
-    private $staticBackgroundColor;
+    private ?string $staticBackgroundColor = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $showStaticBackgroundColor;
+    private ?bool $showStaticBackgroundColor = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $featureEnableByJWT = false;
+    private ?bool $featureEnableByJWT = false;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $serverEmailHeader;
+    private ?string $serverEmailHeader = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $serverEmailBody;
-    #[ORM\OneToMany(targetEntity: KeycloakGroupsToServers::class, mappedBy: 'server', cascade: ['persist'])]
-    private $keycloakGroups;
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'myOwnRoomServer')]
-    private $OwnRoomUSer;
-    #[ORM\Column(type: 'integer')]
-    private $jwtModeratorPosition;
-    #[ORM\Column(type: 'text')]
-    private $serverName;
-    #[ORM\Column(type: 'boolean', nullable: true)]
-    private $corsHeader;
-    #[ORM\OneToMany(targetEntity: Star::class, mappedBy: 'server', orphanRemoval: true)]
-    private $stars;
+    private ?string $serverEmailBody = null;
+
     /**
-     * @var Documents
+     * @var Collection<int, KeycloakGroupsToServers>
      */
+    #[ORM\OneToMany(targetEntity: KeycloakGroupsToServers::class, mappedBy: 'server', cascade: ['persist'])]
+    private Collection $keycloakGroups;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'myOwnRoomServer')]
+    private Collection $OwnRoomUSer;
+
+    #[ORM\Column(type: 'integer')]
+    private ?int $jwtModeratorPosition = null;
+
+    #[ORM\Column(type: 'text')]
+    private ?string $serverName = null;
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $corsHeader = null;
+
+    /**
+     * @var Collection<int, Star>
+     */
+    #[ORM\OneToMany(targetEntity: Star::class, mappedBy: 'server', orphanRemoval: true)]
+    private Collection $stars;
+
     #[ORM\OneToOne(targetEntity: Documents::class, cascade: ['persist', 'remove'])]
-    private $serverBackgroundImage;
+    private ?Documents $serverBackgroundImage = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $jigasiApiUrl = null;
@@ -107,6 +150,7 @@ class Server
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $allowIp = null;
 
+    /** @var Collection<int, Tag> */
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'servers')]
     private Collection $tag;
 
@@ -176,14 +220,15 @@ class Server
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
-        $this->rooms = new ArrayCollection();
+        $this->user           = new ArrayCollection();
+        $this->rooms          = new ArrayCollection();
         $this->keycloakGroups = new ArrayCollection();
-        $this->OwnRoomUSer = new ArrayCollection();
-        $this->stars = new ArrayCollection();
-        $this->tag = new ArrayCollection();
-        $this->calendlyUsers = new ArrayCollection();
+        $this->OwnRoomUSer    = new ArrayCollection();
+        $this->stars          = new ArrayCollection();
+        $this->tag            = new ArrayCollection();
+        $this->calendlyUsers  = new ArrayCollection();
     }
+
     public function __clone()
     {
         // ID zurücksetzen
@@ -191,9 +236,9 @@ class Server
 
         // Collection leeren, damit ManyToMany nicht übernommen wird
         $this->user = new ArrayCollection();
-
         // Falls du andere Beziehungen hast: individuell behandeln
     }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -236,7 +281,7 @@ class Server
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getUser(): Collection
     {
@@ -260,7 +305,7 @@ class Server
     }
 
     /**
-     * @return Collection|Rooms[]
+     * @return Collection<int, Rooms>
      */
     public function getRooms(): Collection
     {
@@ -413,10 +458,9 @@ class Server
     {
         if ($this->isPrefixRoomUidWithHash()) {
             return md5($this->id . $this->slug) . '/';
-        } else {
-            return '';
         }
 
+        return '';
     }
 
     public function getPrivacyPolicy(): ?string
@@ -516,7 +560,7 @@ class Server
     }
 
     /**
-     * @return Collection|KeycloakGroupsToServers[]
+     * @return Collection<int, KeycloakGroupsToServers>
      */
     public function getKeycloakGroups(): Collection
     {
@@ -546,7 +590,7 @@ class Server
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getOwnRoomUSer(): Collection
     {
@@ -767,9 +811,7 @@ class Server
     public function getTag(): Collection
     {
         $data = $this->tag->toArray();
-        usort($data, function (Tag $a, Tag $b) {
-            return $a->getPriority() <=> $b->getPriority();
-        });
+        usort($data, fn(Tag $a, Tag $b) => $a->getPriority() <=> $b->getPriority());
         $res = [];
         foreach ($data as $datum) {
             if (!$datum->getDisabled()) {

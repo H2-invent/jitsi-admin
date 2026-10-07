@@ -4,9 +4,10 @@ namespace App\Tests\Livekit;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
-use App\Service\livekit\SipTrunkGenerator;
+use App\Service\Livekit\SipTrunkGenerator;
 use App\Service\LivekitRoomNameGenerator;
 use Firebase\JWT\JWT;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -16,12 +17,12 @@ use Psr\Log\LoggerInterface;
 #[AllowMockObjectsWithoutExpectations]
 class SipTrunkGeneratorTest extends TestCase
 {
-    private $httpClient;
-    private $logger;
-    private $sipTrunkGenerator;
-    private $rooms;
-    private $server;
-    private $livekitUrlgenerator;
+    private HttpClientInterface&MockObject $httpClient;
+    private LoggerInterface&MockObject $logger;
+    private SipTrunkGenerator $sipTrunkGenerator;
+    private Rooms&MockObject $rooms;
+    private Server&MockObject $server;
+    private LivekitRoomNameGenerator&MockObject $livekitUrlgenerator;
 
     protected function setUp(): void
     {
@@ -42,7 +43,7 @@ class SipTrunkGeneratorTest extends TestCase
         $this->livekitUrlgenerator->method('getLiveKitName')->willReturn('test_room@localhost:8000');
     }
 
-    public function testCreateNewSIPNumber()
+    public function testCreateNewSIPNumber(): void
     {
         $callerId = '123456';
 
@@ -67,10 +68,9 @@ class SipTrunkGeneratorTest extends TestCase
 
         // Überprüfen, ob die SIP-Trunk-Nummer korrekt zurückgegeben wird
         $this->assertNotNull($sipNumber);
-        $this->assertIsString($sipNumber);
     }
 
-    public function testGenerateSipTrunk()
+    public function testGenerateSipTrunk(): void
     {
         $callerId = '123456';
 
@@ -100,7 +100,7 @@ class SipTrunkGeneratorTest extends TestCase
         $this->assertEquals('ST_GncVULasddsa', $trunkId);
     }
 
-    public function testGenerateDispatcherRule()
+    public function testGenerateDispatcherRule(): void
     {
         // Methode generiereSIPTrunk aufrufen, um eine trunkId zu setzen
 
@@ -135,7 +135,7 @@ class SipTrunkGeneratorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testSendPostRequest()
+    public function testSendPostRequest(): void
     {
         $endpoint = 'twirp/livekit.SIP/CreateSIPInboundTrunk';
         $payload = ['key' => 'value'];

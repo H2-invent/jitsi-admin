@@ -36,6 +36,7 @@ class CheckLobbyPermissionServiceTest extends KernelTestCase
         self::assertFalse($permissionCheckService->checkPermissions($room, $user));
 
         $permissionService = self::getContainer()->get(PermissionChangeService::class);
+        /** @var \App\Entity\RoomsUser $per */
         $per = $permissionService->toggleLobbyModerator($room->getModerator(), $user, $room);
         self::assertEquals($user, $per->getUser());
         self::assertEquals($room, $per->getRoom());

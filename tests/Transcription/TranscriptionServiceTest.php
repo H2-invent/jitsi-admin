@@ -25,7 +25,6 @@ class TranscriptionServiceTest extends KernelTestCase
 
         $transcription = $transcriptionService->addNewTranscription($room, $text);
 
-        $this->assertNotNull($transcription);
         $this->assertSame($room, $transcription->getRoom());
         $this->assertStringContainsString($text, $transcription->getText());
 
@@ -59,7 +58,6 @@ class TranscriptionServiceTest extends KernelTestCase
 
         $transcription = $transcriptionService->addNewTranscription($room, $text);
 
-        $this->assertNotNull($transcription);
         $this->assertSame($room, $transcription->getRoom());
         $this->assertStringContainsString($text, $transcription->getText());
 

@@ -9,13 +9,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
-use function Doctrine\ORM\QueryBuilder;
-
 /**
- * @method RoomStatusParticipant|null find($id, $lockMode = null, $lockVersion = null)
- * @method RoomStatusParticipant|null findOneBy(array $criteria, array $orderBy = null)
- * @method RoomStatusParticipant[]    findAll()
- * @method RoomStatusParticipant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<RoomStatusParticipant>
  */
 class RoomStatusParticipantRepository extends ServiceEntityRepository
 {
@@ -54,24 +49,21 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
     */
 
     /**
-     * @param Rooms $room
      * @return RoomStatusParticipant[]
      */
     public function findOccupantsOfRoom(Rooms $room): array
     {
         return $this->getOccupantsOfRoomQueryBuilder($room)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function countOccupantsOfRoom(Rooms $room): int
     {
-        return $this->getOccupantsOfRoomQueryBuilder($room)
+        return (int)$this->getOccupantsOfRoomQueryBuilder($room)
             ->select('COUNT(roomStatusParticipant.id)')
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->getSingleScalarResult();
     }
 
     private function getOccupantsOfRoomQueryBuilder(Rooms $room): QueryBuilder
@@ -83,15 +75,14 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
             ->andWhere('room = :room')
             ->andWhere('roomStatusParticipant.inRoom = true')
             ->andWhere('roomStatus.destroyed IS NULL')
-            ->setParameter('room', $room)
-        ;
+            ->setParameter('room', $room);
     }
 
     /**
      * @return RoomStatusParticipant[] Returns an array of RoomStatusParticipant objects
      */
 
-    public function findActualParticipantsByServer(Server $server)
+    public function findActualParticipantsByServer(Server $server): array
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.roomStatus', 'roomStatus')
@@ -115,8 +106,7 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
     /**
      * @return RoomStatusParticipant[] Returns an array of RoomStatusParticipant objects
      */
-
-    public function findParticipantsByServer(Server $server, $startDate, $endDate)
+    public function findParticipantsByServer(Server $server, \DateTimeImmutable $startDate, \DateTimeImmutable $endDate): array
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.roomStatus', 'roomStatus')
@@ -150,7 +140,6 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
             ->andWhere('participant.id IN (' . $subQuery . ')')
             ->setParameter('room', $room)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }

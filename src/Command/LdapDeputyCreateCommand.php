@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Service\Deputy\DebutyLdapService;
-use App\Service\ldap\LdapService;
+use App\Service\Ldap\LdapService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,11 +18,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class LdapDeputyCreateCommand extends Command
 {
     public function __construct(
-        private LdapService       $ldapService,
-        private DebutyLdapService $debutyLdapService,
-        ?string                    $name = null
-    )
-    {
+        private readonly LdapService       $ldapService,
+        private readonly DebutyLdapService $debutyLdapService,
+        ?string                            $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -34,7 +33,7 @@ class LdapDeputyCreateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io     = new SymfonyStyle($input, $output);
         $dryrun = $input->getOption('dry-run');
         if ($dryrun) {
             $io->info('Dryrun is activated. No databases changes are made');

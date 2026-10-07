@@ -39,10 +39,10 @@ class ThemeUploadServiceTest extends TestCase
         mkdir($workspaceCache, 0777, true);
         mkdir($workspacePublic, 0777, true);
 
-        $this->workspace = realpath($workspace);
-        $this->workspaceTheme = realpath($workspaceTheme);
-        $this->workspaceCache = realpath($workspaceCache);
-        $this->workspacePublic = realpath($workspacePublic);
+        $this->workspace = (string) realpath($workspace);
+        $this->workspaceTheme = (string) realpath($workspaceTheme);
+        $this->workspaceCache = (string) realpath($workspaceCache);
+        $this->workspacePublic = (string) realpath($workspacePublic);
     }
 
     protected function tearDown(): void
@@ -60,8 +60,8 @@ class ThemeUploadServiceTest extends TestCase
         $themeUploadService = new ThemeUploadService($mockCheckSignature, $mockCacheItemPool, $this->workspaceTheme, $this->workspaceCache, $this->workspacePublic);
         $uploadThemeResult = $themeUploadService->uploadTheme($this->pathValidTheme);
 
-        $themeFinder = (new Finder())->files()->in($this->workspaceTheme)->name('*.json.signed');
-        $publicFinder = (new Finder())->files()->in($this->workspacePublic)->name('filefromzip.test');
+        $themeFinder = new Finder()->files()->in($this->workspaceTheme)->name('*.json.signed');
+        $publicFinder = new Finder()->files()->in($this->workspacePublic)->name('filefromzip.test');
 
         self::assertTrue($uploadThemeResult->isSuccess());
         self::assertSame(1, $themeFinder->count());

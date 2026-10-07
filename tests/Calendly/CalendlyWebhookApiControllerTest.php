@@ -2,8 +2,11 @@
 
 namespace App\Tests\Calendly;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Service\calendly\CallendlyConnect;
+use App\Service\Calendly\CallendlyConnect;
+use PHPUnit\Framework\MockObject\Stub;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,9 +15,9 @@ use function PHPUnit\Framework\assertStringContainsString;
 #[AllowMockObjectsWithoutExpectations]
 class CalendlyWebhookApiControllerTest extends WebTestCase
 {
-    private $client;
-    private $callendlyConnectMock;
-    private $testuser;
+    private KernelBrowser $client;
+    private Stub&CallendlyConnect $callendlyConnectMock;
+    private User $testuser;
     protected function setUp(): void
     {
         $this->client = static::createClient();
@@ -45,7 +48,7 @@ class CalendlyWebhookApiControllerTest extends WebTestCase
         $this->client->loginUser($this->testuser);
         $this->client->request('GET', '/room/calendly/connect');
         self::assertResponseIsSuccessful();
-        assertStringContainsString('Calendly Verknüpfung',$this->client->getResponse()->getContent());
+        assertStringContainsString('Calendly Verknüpfung',(string) $this->client->getResponse()->getContent());
         $this->assertNull($this->testuser->getCalendlyUserUri());
         $this->assertNull($this->testuser->isCalendlySucessfullyAdded());
         $this->client->request('POST', '/room/calendly/connect', [

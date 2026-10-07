@@ -5,24 +5,17 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use function Doctrine\ORM\QueryBuilder;
 
 /**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<User>
  */
 class UserRepository extends ServiceEntityRepository
 {
     public function __construct(
-        ManagerRegistry               $registry,
-        private ParameterBagInterface $parameterBag,
-        private LoggerInterface       $logger,)
-    {
+        ManagerRegistry                  $registry,
+        private readonly LoggerInterface $logger,
+    ) {
         parent::__construct($registry, User::class);
     }
 
@@ -54,20 +47,24 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findOneByEmail($value): ?User
+
+    public function findOneByEmail(string $email): ?User
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.email = :val')
-            ->setParameter('val', $value)
+            ->andWhere('u.email = :email')
+            ->setParameter('email', $email)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
 
-    public function findMyUserByIndex($value, User $user)
+    /**
+     * @return User[]
+     */
+    public function findMyUserByIndex(string $value, User $user): array
     {
         $value = strtolower($value);
-        $qb = $this->createQueryBuilder('u')
+        $qb    = $this->createQueryBuilder('u')
             ->innerJoin(' u.addressbookInverse', 'user')
             ->andWhere('user = :user')
             ->setParameter('user', $user);
@@ -78,10 +75,10 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-     /**
-      * @return User[] Returns an array of USers objects
-      */
-    public function findUsersByLdapServerId($value)
+    /**
+     * @return User[] Returns an array of Users objects
+     */
+    public function findUsersByLdapServerId(string $value): array
     {
         return $this->createQueryBuilder('u')
             ->innerJoin('u.ldapUserProperties', 'ldap_user_properties')
@@ -91,7 +88,10 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findUsersfromLdapService()
+    /**
+     * @return User[]
+     */
+    public function findUsersfromLdapService(): array
     {
         $qb = $this->createQueryBuilder('u');
 
@@ -101,7 +101,7 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findUsersfromLdapdn($userDn):?User
+    public function findUsersfromLdapdn(string $userDn): ?User
     {
         $qb = $this->createQueryBuilder('u');
 
@@ -115,7 +115,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[] Returns an array of Server objects
      */
-    public function findUsersWithDeputy()
+    public function findUsersWithDeputy(): array
     {
         $qb = $this->createQueryBuilder('u');
 
@@ -130,7 +130,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[] Returns an array of Server objects
      */
-    public function findUsersWithKC()
+    public function findUsersWithKC(): array
     {
         $qb = $this->createQueryBuilder('u');
 
@@ -140,11 +140,11 @@ class UserRepository extends ServiceEntityRepository
     }
 
 
-    public function findUsersByCallerId($callerId): ?User
+    public function findUsersByCallerId(string $callerId): ?User
     {
         $callerId = preg_replace('/[^0-9]/', '', $callerId);
         $callerId = preg_replace('/^0+/', '', $callerId);
-        $this->logger->debug('Cleaned CallerId',['callerid'=>$callerId]);
+        $this->logger->debug('Cleaned CallerId', ['callerid' => $callerId]);
         $qb = $this->createQueryBuilder('u');
 
         return $qb->andWhere($qb->expr()->like('u.indexer', ':search'))

@@ -6,21 +6,20 @@ class BasicConfig implements ConvertToEnvironmentInterface
 {
     use ConvertToEnvironmentTrait;
 
-    private const ENVIRONMENT = [
-        'MERCURE_URL' => 'mercureUrl',
+    private const array ENVIRONMENT = [
+        'MERCURE_URL'        => 'mercureUrl',
         'MERCURE_PUBLIC_URL' => 'baseUrl',
         'MERCURE_JWT_SECRET' => 'secret',
-        'WEBSOCKET_SECRET' => 'secret',
-        'VICH_BASE' => 'baseUrl',
-        'laF_baseUrl' => 'baseUrl',
+        'WEBSOCKET_SECRET'   => 'secret',
+        'VICH_BASE'          => 'baseUrl',
+        'laF_baseUrl'        => 'baseUrl',
     ];
 
     private function __construct(
         private string $baseUrl = '',
         private string $secret = '',
         private string $mercureUrl = 'http://localhost:3000',
-    )
-    {
+    ) {
     }
 
     public static function createFromParameters(string $baseUrl, ?string $secret): self
@@ -31,6 +30,9 @@ class BasicConfig implements ConvertToEnvironmentInterface
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getEnvironmentMap(): array
     {
         return self::ENVIRONMENT;

@@ -3,51 +3,51 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Service\MessageService;
 use App\Service\RoomService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
-class Jwt extends AbstractExtension
+class Jwt
 {
-    private $paramterBag;
-    private $roomService;
-    public function __construct(RoomService $roomService, ParameterBagInterface $parameterBag)
+    public function __construct(private readonly RoomService $roomService)
     {
-        $this->paramterBag = $parameterBag;
-        $this->roomService = $roomService;
     }
 
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('jwtFromRoom', [$this, 'jwtFromRoom']),
-            new TwigFunction('urlFromRoom', [$this, 'urlFromRoom']),
-            new TwigFunction('generateEncryptedSecret', [$this, 'generateEncryptedSecret']),
-        ];
+    #[\Twig\Attribute\AsTwigFunction(name: 'jwtFromRoom')]
+    public function jwtFromRoom(
+        ?User            $user,
+        Rooms            $rooms,
+        string           $name,
+        bool             $moderatorExplizit = false,
+        bool             $noModerator = false,
+        string|bool|null $skipLobby = false,
+        string|bool|null $enableMic = null,
+        string|bool|null $enableCamera = null
+    ): string {
+        return $this->roomService->generateJwt(
+            $rooms,
+            $user,
+            $name,
+            $moderatorExplizit,
+            noModerator: $noModerator,
+            skipLobby: $skipLobby,
+            enableMic: $enableMic,
+            enableCamera: $enableCamera
+        );
     }
 
-    public function jwtFromRoom(?User $user, Rooms $rooms, $name, $moderatorExplizit = false,$noModerator=false, $skipLobby=false,$enableMic = null, $enableCamera=null)
-    {
-
-        return $this->roomService->generateJwt($rooms, $user, $name, $moderatorExplizit, noModerator: $noModerator,skipLobby: $skipLobby,enableMic: $enableMic,enableCamera: $enableCamera);
-    }
-
-    public function urlFromRoom(?User $user, Rooms $rooms, $name, $t)
+    #[\Twig\Attribute\AsTwigFunction(name: 'urlFromRoom')]
+    public function urlFromRoom(?User $user, Rooms $rooms, string $name, string $t): string
     {
         if ($user) {
             return $this->roomService->join($rooms, $user, $t, $name);
-        } else {
-            return $this->roomService->joinUrl($t, $rooms, $name, false);
         }
+
+        return $this->roomService->joinUrl($t, $rooms, $name, false);
     }
-    public function generateEncryptedSecret( Rooms $rooms)
+
+    #[\Twig\Attribute\AsTwigFunction(name: 'generateEncryptedSecret')]
+    public function generateEncryptedSecret(Rooms $rooms): ?string
     {
         return $this->roomService->generateEncryptedSecret($rooms->getServer());
     }

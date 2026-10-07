@@ -24,8 +24,8 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 final class JWTGenerateTest extends TestCase
 {
-    private const APP_ID = 'test-app-id';
-    private const APP_SECRET = 'test-app-secret-at-the-very-minimum-32-bytes';
+    private const string APP_ID = 'test-app-id';
+    private const string APP_SECRET = 'test-app-secret-at-the-very-minimum-32-bytes';
 
     private ThemeService&MockObject $themeService;
     private RoomService $roomService;
@@ -34,7 +34,7 @@ final class JWTGenerateTest extends TestCase
     {
 
         $this->themeService = $this->createMock(ThemeService::class);
-        $userPreferences = $this->createStub(UserPreferenceProvider::class);
+        $userPreferences = $this->createStub(UserPreferenceProvider::class); // @phpstan-ignore method.unresolvableReturnType
         $userPreferences
             ->method('getLanguage')
             ->willReturn('de');
@@ -46,7 +46,7 @@ final class JWTGenerateTest extends TestCase
             ->willReturn('dark');
 
         $this->roomService = new RoomService(
-            $this->createStub(UploaderHelper::class),
+            $this->createStub(UploaderHelper::class), // @phpstan-ignore method.unresolvableReturnType
             $this->createStub(LoggerInterface::class),
             $this->createStub(ParameterBagInterface::class),
             $this->createStub(CacheInterface::class),
@@ -202,6 +202,9 @@ final class JWTGenerateTest extends TestCase
         return [$room, $server];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function expectedPayload(): array
     {
         return [

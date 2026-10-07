@@ -6,7 +6,7 @@ use App\Entity\User;
 
 class TimeZoneService
 {
-    public static function getTimeZone(?User $user)
+    public static function getTimeZone(?User $user): ?\DateTimeZone
     {
         $timezone = null;
         if ($user && $user->getTimeZone()) {

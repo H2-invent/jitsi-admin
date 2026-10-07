@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -27,17 +28,16 @@ class RecordingService
 {
     public function __construct(
         #[Autowire(param: 'kernel.project_dir')]
-        private readonly string $kernelProjectDir,
-        private readonly Filesystem $localFilesystem,
-        private readonly FilesystemInterface $recordingFilesystem,
-        private readonly RecordingRepository $recordingRepository,
-        private readonly MessageBusInterface $messageBus,
+        private readonly string                 $kernelProjectDir,
+        private readonly Filesystem             $localFilesystem,
+        private readonly FilesystemInterface    $recordingFilesystem,
+        private readonly RecordingRepository    $recordingRepository,
+        private readonly MessageBusInterface    $messageBus,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MailerService $mailer,
-        private readonly TranslatorInterface $translator,
-        private readonly Environment $environment,
-    )
-    {
+        private readonly MailerService          $mailer,
+        private readonly TranslatorInterface    $translator,
+        private readonly Environment            $environment,
+    ) {
     }
 
     public function saveChunk(int $chunkIndex, int $totalChunks, string $recordingUid, UploadedFile $chunk): ServiceResult
@@ -51,7 +51,7 @@ class RecordingService
         $chunk->move($tempDir, $chunkPath);
 
         $uploadedChunks = glob("{$tempDir}/chunk_*");
-        if (count($uploadedChunks) !== $totalChunks) {
+        if ($uploadedChunks === false || count($uploadedChunks) !== $totalChunks) {
             return ServiceResult::failure(RecordingUploadError::UPLOAD_INCOMPLETE);
         }
 
@@ -68,17 +68,16 @@ class RecordingService
             return ServiceResult::failure(RecordingFinalizeError::NO_RECORDING_FOUND);
         }
 
-        $tempDir = $this->getTempPath($recordingUid);
+        $tempDir   = $this->getTempPath($recordingUid);
         $finalPath = "{$tempDir}/final.bin";
         $this->localFilesystem->remove($finalPath);
 
         // Chunks suchen
-        $chunks = (new Finder())
+        $chunks = new Finder()
             ->files()
             ->in($tempDir)
             ->name('chunk_*')
-            ->sortByName(true)
-        ;
+            ->sortByName(true);
         if ($chunks->count() === 0) {
             return ServiceResult::failure(RecordingFinalizeError::NO_CHUNKS_FOUND);
         }
@@ -86,8 +85,14 @@ class RecordingService
         // Datei zusammensetzen
         try {
             $finalFile = fopen($finalPath, 'ab');
+            if ($finalFile === false) {
+                return ServiceResult::failure(RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE);
+            }
             foreach ($chunks as $chunk) {
                 $chunkFile = fopen($chunk->getPathname(), 'rb');
+                if ($chunkFile === false) {
+                    return ServiceResult::failure(RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE);
+                }
                 stream_copy_to_stream($chunkFile, $finalFile);
                 fclose($chunkFile);
             }
@@ -101,18 +106,22 @@ class RecordingService
 
         // Datei in Gaufrette speichern
         $fileStream = fopen($finalPath, 'rb');
+        if ($fileStream === false) {
+            return ServiceResult::failure(RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE);
+        }
         $fileName = md5(uniqid()) . '.mp4';
+        // The local Gaufrette-Adapter passes the contents to file_put_contents(), also accepts a stream
+        /** @phpstan-ignore-next-line */
         $this->recordingFilesystem->write($fileName, $fileStream);
         fclose($fileStream);
 
         // Datenbankeintrag erstellen
         $uploadedFileEntity = new UploadedRecording();
         $uploadedFileEntity->setFilename($fileName)
-            ->setDisplayName((new \DateTimeImmutable())->format('d.m.Y H:i') . '.mp4')
+            ->setDisplayName(new \DateTimeImmutable()->format('d.m.Y H:i') . '.mp4')
             ->setRoom($room)
             ->setCreatedAt(new \DateTimeImmutable())
-            ->setType('video/mp4')
-        ;
+            ->setType('video/mp4');
         $this->entityManager->persist($uploadedFileEntity);
         $this->entityManager->flush();
 

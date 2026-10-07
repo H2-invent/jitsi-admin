@@ -17,23 +17,33 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @extends AbstractType<User>
+ */
 class SecondEmailType extends AbstractType
 {
-    public function __construct(private ThemeService $themeService)
+    public function __construct(private readonly ThemeService $themeService)
     {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder->add('profilePicture', ImageType::class, ['label' => 'label.profilImage', 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);
         if ($this->themeService->getApplicationProperties('allowTimeZoneSwitch')) {
-            $builder->add('timeZone', \Symfony\Component\Form\Extension\Core\Type\TimezoneType::class, ['required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form']);
+            $builder->add(
+                'timeZone',
+                \Symfony\Component\Form\Extension\Core\Type\TimezoneType::class,
+                ['required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form']
+            );
         }
 
         if (!$this->themeService->getTheme() || $this->themeService->getApplicationProperties('profileAllowSecondEmail')) {
-            $builder->add('secondEmail', TextType::class, ['required' => false, 'label' => 'label.secondEmail', 'translation_domain' => 'form', 'help' => 'help.secondEmail']);
+            $builder->add(
+                'secondEmail',
+                TextType::class,
+                ['required' => false, 'label' => 'label.secondEmail', 'translation_domain' => 'form', 'help' => 'help.secondEmail']
+            );
         }
     }
 

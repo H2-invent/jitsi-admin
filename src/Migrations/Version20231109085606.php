@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20231109085606 extends AbstractMigration
 {
-    private const TABLE_NAME = 'fos_user';
-    private const COLUMN_NAME = 'is_sip_video_user';
+    private const string TABLE_NAME = 'fos_user';
+    private const string COLUMN_NAME = 'is_sip_video_user';
 
     public function getDescription(): string
     {

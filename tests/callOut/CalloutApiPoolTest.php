@@ -90,7 +90,7 @@ class CalloutApiPoolTest extends KernelTestCase
             $calloutArr
         );
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
         $user->setIsSipVideoUser(true);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($user);

@@ -6,7 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\Server;
 use App\Repository\CallerRoomRepository;
-use App\Service\api\ConferenceMapperService;
+use App\Service\Api\ConferenceMapperService;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

@@ -10,7 +10,7 @@ class DbConfig implements ConvertToEnvironmentInterface
 
     private static string $DNS_FORMAT = '%s://%s:%s@%s:%d/%s?serverVersion=%s';
 
-    private const ENVIRONMENT = [
+    private const array ENVIRONMENT = [
         'DATABASE_URL' => 'dsn',
     ];
 
@@ -22,8 +22,7 @@ class DbConfig implements ConvertToEnvironmentInterface
         private string $database,
         private string $username = 'jitsiadmin',
         private string $password = 'jitsiadmin',
-    )
-    {
+    ) {
     }
 
     public static function createFromParameters(
@@ -34,8 +33,7 @@ class DbConfig implements ConvertToEnvironmentInterface
         string $database,
         string $username,
         string $password,
-    ): self
-    {
+    ): self {
         return new self(
             engine: urlencode($engine),
             serverVersion: $serverVersion,
@@ -64,6 +62,7 @@ class DbConfig implements ConvertToEnvironmentInterface
     {
         $dbConfig = [];
         preg_match('~.*://(?<username>.*):(?<password>.*)@(?<host>.*):(?<port>\d*)/(?<database>.*)\?serverVersion=(?<serverVersion>.*)~', $dsn, $dbConfig);
+        /** @var array<string, string> $dbConfig */
         return new self(
             engine: 'mysql',
             serverVersion: $dbConfig['serverVersion'],
@@ -75,6 +74,9 @@ class DbConfig implements ConvertToEnvironmentInterface
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getEnvironmentMap(): array
     {
         return self::ENVIRONMENT;

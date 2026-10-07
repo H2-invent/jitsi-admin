@@ -8,9 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 class UidHelper
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-    )
-    {
+        private readonly EntityManagerInterface $entityManager,
+    ) {
     }
 
     public function getUid(Rooms $rooms): string
@@ -26,6 +25,7 @@ class UidHelper
 
             $ui = $rooms->getRepeater()->getUid();
         }
+
         return $ui;
     }
 }

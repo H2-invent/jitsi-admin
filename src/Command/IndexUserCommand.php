@@ -16,44 +16,46 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:index:user', 'This command reindex the user and the addressbookgroups name')]
 class IndexUserCommand extends Command
 {
-    private $em;
-    private $indexer;
-    private $groupIndexer;
     protected function configure(): void
     {
     }
 
-    public function __construct(EntityManagerInterface $entityManager, IndexUserService $indexUserService, IndexGroupsService $indexGroupsService, ?string $name = null)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly IndexUserService       $indexer,
+        private readonly IndexGroupsService     $groupIndexer,
+        ?string                                 $name = null
+    ) {
         parent::__construct($name);
-        $this->em = $entityManager;
-        $this->indexer = $indexUserService;
-        $this->groupIndexer = $indexGroupsService;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $user = $this->em->getRepository(User::class)->findAll();
+        $io          = new SymfonyStyle($input, $output);
+        $user        = $this->em->getRepository(User::class)->findAll();
         $progressBar = new ProgressBar($output, sizeof($user));
         $progressBar->start();
+
         foreach ($user as $data) {
             $progressBar->advance();
             $data->setIndexer($this->indexer->indexUser($data));
             $this->em->persist($data);
         }
+
         $this->em->flush();
         $progressBar->finish();
         $io->success(sprintf('we reindex %d users', sizeof($user)));
 
-        $group = $this->em->getRepository(AddressGroup::class)->findAll();
+        $group       = $this->em->getRepository(AddressGroup::class)->findAll();
         $progressBar = new ProgressBar($output, sizeof($group));
         $progressBar->start();
+
         foreach ($group as $data) {
             $progressBar->advance();
             $data->setIndexer($this->groupIndexer->indexGroup($data));
             $this->em->persist($data);
         }
+
         $this->em->flush();
         $progressBar->finish();
         $io->newLine();
