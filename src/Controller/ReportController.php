@@ -28,7 +28,7 @@ class ReportController extends AbstractController
             throw  new NotFoundHttpException('Room not Found');
         }
 
-        $timeZone = $user->getTimeZone() ?: new \DateTime()->getTimezone()->getName();
+        $timeZone = $user->getTimeZone() ?: new \DateTimeImmutable()->getTimezone()->getName();
 
         return $this->render(
             'report/index.html.twig',

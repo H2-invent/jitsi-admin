@@ -180,7 +180,6 @@ class RoomsRepository extends ServiceEntityRepository
      */
     public function findRoomsForUser(User $user): array
     {
-        $now = new \DateTime();
         $qb  = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.managerElement', 'managerelement')
