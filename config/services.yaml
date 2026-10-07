@@ -158,22 +158,13 @@ parameters:
     app.log.loki.uri: '%env(LOKI_URI)%'
     app.log.loki.client: '%env(LOKI_CLIENT)%'
     app.log.loki.log_level: '%env(LOKI_LOG_LEVEL)%'
+    app.transcription.openai.uri: '%env(OPENAI_API_URI)%'
+    app.transcription.mistral.uri: '%env(MISTRAL_API_URI)%'
     encryption.private_key_path: '%kernel.project_dir%/backend_private.pem'
     encryption.public_key_path: '%kernel.project_dir%/backend_public.pem'
     provisioner.schedule.minutes_threshold: '%env(int:PROVISIONER_SCHEDULE_MINUTES_THRESHOLD)%'
 
 services:
-    gaufrette.recording_fs_filesystem:
-        class: Gaufrette\Filesystem
-        arguments:
-            - '@gaufrette.adapter.recording_storage'
-
-    gaufrette.adapter.recording_storage:
-        class: Gaufrette\Adapter\Local
-        arguments:
-            - '%kernel.project_dir%/data/recording'
-        public: true
-
     Gaufrette\FilesystemInterface $recordingFilesystem:
         alias: gaufrette.recording_fs_filesystem
 
@@ -238,11 +229,16 @@ services:
         class: App\Monolog\Handler\ExcludeHealthCheckHandler
         arguments:
             $handler: '@monolog.handler.loki_async'
+            $minLevelOrList: '%app.log.loki.log_level%'
         tags:
             - { name: monolog.handler, handler: loki_filtered }
+
     App\Command\AmqpTestCommand:
         arguments:
             $testTransport: '@messenger.transport.test'
+
+    FFMpeg\FFMpeg:
+        factory: ['FFMpeg\FFMpeg', 'create']
 
     App\Service\RsaEncryptionService:
         arguments:

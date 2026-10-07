@@ -189,11 +189,11 @@ class LobbyModeratorControllerTest extends WebTestCase
         $startUrl = $url->generate('lobby_moderator_start', ['room' => $room->getUidReal(), 't' => 'a']);
         $crawler = $client->request('GET', $startUrl);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        self::assertResponseRedirects($urlGenerator->joinUrl('a', $room, $moderator->getFormatedName($paramterBag->get('laf_showNameInConference')), true));
+        self::assertResponseRedirects($urlGenerator->join($room, $moderator, 'a', $moderator->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         $startUrl = $url->generate('lobby_moderator_start', ['room' => $room->getUidReal(), 't' => 'b']);
         $crawler = $client->request('GET', $startUrl);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        self::assertResponseRedirects($urlGenerator->joinUrl('b', $room, $moderator->getFormatedName($paramterBag->get('laf_showNameInConference')), true));
+        self::assertResponseRedirects($urlGenerator->join($room, $moderator, 'b', $moderator->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         $client->loginUser($user2);
         $crawler = $client->request('GET', $startUrl);
 

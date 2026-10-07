@@ -3,25 +3,13 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
-use App\Entity\Server;
-use App\Service\LicenseService;
-use App\Service\MessageService;
-use DeviceDetector\ClientHints;
-use DeviceDetector\DeviceDetector;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
 class BrowserCompability extends AbstractExtension
 {
-
-
-    public function __construct()
+    public function __construct(private readonly RequestStack $requestStack)
     {
     }
 
@@ -35,26 +23,24 @@ class BrowserCompability extends AbstractExtension
 
     public function isFirefox(): bool
     {
-        $userAgent = $_SERVER['HTTP_USER_AGENT']; // change this to the useragent you want to parse
-        $clientHints = ClientHints::factory($_SERVER); // client hints are optional
+        $userAgent = strtolower($this->getUserAgent());
 
-        $dd = new DeviceDetector($userAgent, $clientHints);
-        $dd->parse();
-
-        $clientInfo = $dd->getClient(); // holds information about browser, feed reader, media player, ...
-        return strtolower($clientInfo['name'])=='firefox';
+        return str_contains($userAgent, 'firefox/') || str_contains($userAgent, 'fxios/');
     }
-    public function isOSType($osType): bool
+
+    public function isOSType(string $osType): bool
     {
-        $userAgent = $_SERVER['HTTP_USER_AGENT']; // change this to the useragent you want to parse
-        $clientHints = ClientHints::factory($_SERVER); // client hints are optional
+        $userAgent = strtolower($this->getUserAgent());
 
-        $dd = new DeviceDetector($userAgent, $clientHints);
-        $dd->parse();
-
-        $clientInfo = $dd->getOs(); // holds information about browser, feed reader, media player, ...
-        return strtolower($clientInfo['name'])==$osType;
+        return match (strtolower($osType)) {
+            'windows' => str_contains($userAgent, 'windows'),
+            'mac' => str_contains($userAgent, 'macintosh'),
+            default => false,
+        };
     }
 
-
+    private function getUserAgent(): string
+    {
+        return $this->requestStack->getCurrentRequest()?->headers->get('User-Agent', '') ?? '';
+    }
 }

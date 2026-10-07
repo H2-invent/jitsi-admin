@@ -11,6 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: RoomsRepository::class)]
+#[ORM\Index(fields: ['endDateUtc'], name: 'idx_rooms_end_date_utc')]
+#[ORM\Index(fields: ['startUtc'], name: 'idx_rooms_start_utc')]
+#[ORM\Index(fields: ['scheduleMeeting'], name: 'idx_rooms_schedule_meeting')]
+#[ORM\Index(fields: ['persistantRoom'], name: 'idx_rooms_persistant_room')]
+#[ORM\Index(fields: ['endDateUtc', 'startUtc', 'scheduleMeeting', 'persistantRoom'], name: 'idx_rooms_time_filter_composite')]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Index(fields: ['uidReal'], name: 'uid_real_idx')]
 class Rooms
@@ -175,6 +180,15 @@ class Rooms
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: Transcription::class, orphanRemoval: true)]
     private Collection $transcriptions;
 
+    #[ORM\Column(name: 'is_e2ee_enabled', options: ['default' => false])]
+    private bool $isE2EEEnabled = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isFastConference = false;
+
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $enableTranscription = false;
+
     #[ORM\Column(nullable: false)]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -216,6 +230,9 @@ class Rooms
             $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
             $this->startUtc = \DateTime::createFromImmutable($utc);
             $this->startTimestamp = $utc->getTimestamp();
+        } else {
+            $this->startUtc = null;
+            $this->startTimestamp = null;
         }
 
         if ($this->enddate) {
@@ -227,6 +244,9 @@ class Rooms
             $utc = $dt->setTimezone(new \DateTimeZone('UTC'));
             $this->endDateUtc = \DateTime::createFromImmutable($utc);
             $this->endTimestamp = $utc->getTimestamp();
+        } else {
+            $this->endDateUtc = null;
+            $this->endTimestamp = null;
         }
     }
 
@@ -1227,6 +1247,42 @@ class Rooms
                 $transcription->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isE2EEEnabled(): bool
+    {
+        return $this->isE2EEEnabled;
+    }
+
+    public function setIsE2EEEnabled(bool $isE2EEEnabled): static
+    {
+        $this->isE2EEEnabled = $isE2EEEnabled;
+
+        return $this;
+    }
+
+    public function isFastConference(): ?bool
+    {
+        return $this->isFastConference;
+    }
+
+    public function setIsFastConference(?bool $isFastConference): static
+    {
+        $this->isFastConference = $isFastConference;
+
+        return $this;
+    }
+
+    public function isEnableTranscription(): bool
+    {
+        return $this->enableTranscription;
+    }
+
+    public function setEnableTranscription(bool $enableTranscription): static
+    {
+        $this->enableTranscription = $enableTranscription;
 
         return $this;
     }

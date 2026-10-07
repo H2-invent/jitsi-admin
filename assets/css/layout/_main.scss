@@ -9,6 +9,14 @@ body {
   font-family: 'Geist';
   overflow: hidden;
   height: 100%;
+  /* Verhindert die Textauswahl auf der gesamten Seite, solange die Klasse aktiv ist */
+  .dragging-active, body.dragging-active * {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+
 }
 
 /* ---------------------------------------------------
@@ -283,6 +291,7 @@ strong {
       list-style: none;
       margin: 6px 0 0;
       padding: 0;
+      text-align: center;
       li {
         display: inline-block;
         .nav-link {
@@ -1024,8 +1033,16 @@ strong {
   .removeInIframe {
     display: none !important;
   }
+  .woot-widget-bubble{
+    visibility: hidden;
+  }
 }
 
+.joinPage{
+  .woot-widget-bubble{
+    visibility: hidden;
+  }
+}
 
 .star-wrapper {
   display: flex;
@@ -1385,6 +1402,19 @@ a:hover {
   border-radius: 4px;
 }
 
+.form-control-color {
+  padding: 0;
+
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: 5px;
+  }
+
+  &::-moz-color-swatch {
+    border: none;
+    border-radius: 5px;
+  }
+}
 
 .btn-outline-white {
   border-color: white;
@@ -1489,6 +1519,7 @@ a:hover {
   .proTips {
     pointer-events: auto;
     display: none;
+    visibility: hidden;
     box-shadow: $card-box-shadow !important;
     z-index: 9;
     @media only screen and (min-width: $breakpointMenue) {
@@ -1510,6 +1541,19 @@ a:hover {
 
     .first-line {
       transition: all ease-in 0.2s;
+    }
+
+    // Applied on load to collapse the bubble without flashing open/closed.
+    // Disables the transition so the initial translateY does not animate,
+    // and reveals the bubble once its collapsed position has been applied.
+    &.proTips-collapsed {
+      transition: none;
+    }
+
+    // Set once the collapsed position has been applied, keeps the bubble
+    // visible and restores the hover transition.
+    &.proTips-initialized {
+      visibility: visible;
     }
 
     &:hover {

@@ -1,36 +1,35 @@
 <div class="d-flex h-100 adressbookComponent" id="adressbookModalTabContent">
-    <div class="register">
+    <div class="register flex-shrink-0">
+        <div class="mb-2" style="height: 39px;"></div>
         <div class="flex-grow-1 d-flex flex-column mb-3 capital-Letter">
             {% set name = null %}
             {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
                 {% if u|nameOfUserNoSymbol|first|upper != name %}
                     <div class="registerElement">
-                        <a class="adressbookSearchletter" href="#"
-                           data-target="#adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</a>
+                        <a class="adressbookSearchletter" href="#" data-target="#adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">
+                            {{ u|nameOfUserNoSymbol|first|upper }}
+                        </a>
                     </div>
                     {% set name = u|nameOfUserNoSymbol|first|upper %}
                 {% endif %}
             {% endfor %}
         </div>
     </div>
+
     <div class="textarea">
+        {% if doAllowUserCreation %}
+            <a href="{{ path('adressbook_new_contact') }}" class="btn-outline-primary btn loadContent w-100 mb-2">{{ 'Neuer Kontakt'|trans }}</a>
+        {% endif %}
+        {% if theme is not defined %}{% set theme = getThemeProperties() %}{% endif %}
         <div class="topbar">
             <div class="form-grou mt-2 mb-2">
                 <input type="text" placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
             </div>
             <div class="filterbar d-flex justify-content-end mt-4">
-
             <div class="dropdown me-2">
-                <a href="#"
-                        type="button"
-                        id="dropdownMenuButton"
-                       data-mdb-dropdown-init
-                   data-mdb-dropdown-init
-                        aria-expanded="false"
-                >
+                <a href="#" type="button" id="dropdownMenuButton" data-mdb-dropdown-init aria-expanded="false">
                    {{ 'Filter'|trans }}
                     <i class="fas fa-filter"><div class="filter-dot d-none">0</div></i>
-
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     {% if getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE')|length > 0 %}
@@ -85,15 +84,16 @@
 {#                </div>#}
             </div>
 
-
         </div>
+
         <div class="content">
             <ul class="list-group">
-                <li class="list-group-item capital-Letter"><b><i
-                                class="fa fa-star"></i> {{ 'favorite.sidebar.title'|trans }}</b>
+                <li class="list-group-item capital-Letter">
+                    <b><i class="fa fa-star"></i> {{ 'favorite.sidebar.title'|trans }}</b>
                 </li>
                 {% if app.user.adressbookFavorites|length == 0 %}
-                    <li class="list-group-item adressbookline"> {{ 'addressbook.favorite.help'|trans|raw }}
+                    <li class="list-group-item adressbookline">
+                        {{ 'addressbook.favorite.help'|trans|raw }}
                     </li>
                 {% else %}
                     {% for u in app.user.adressbookFavorites %}

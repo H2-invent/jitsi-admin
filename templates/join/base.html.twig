@@ -165,11 +165,30 @@
 
         {{ include('base/__snack.html.twig') }}
     </div>
-    {{ include('base/__matomoOptOut.html.twig') }}
 </div>
 <div class="modal fade" id="loadContentModal" data-mdb-backdrop="static" tabindex="-1" role="dialog"
      aria-labelledby="loadContentModal"
      aria-hidden="true">
+</div>
+<div class="modal fade" id="helpModal" data-mdb-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="helpModal"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header  light-blue darken-3 white-text">
+                <h5 class="modal-title" id="exampleModalLabel">{{ 'Hilfe'|trans }}</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ getApplicationProperties('helpText')|raw }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                        data-mdb-dismiss="modal">{{ 'Schließen'|trans }}</button>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 {% if room is defined and room is not null %}
@@ -224,19 +243,20 @@
 {% endblock %}
 {% block pageEnd %}{% endblock %}
 {% if theme and theme.extrahtml is defined %}
+    <script>
+        window.chatwootSettings = Object.assign({}, window.chatwootSettings, { showBubble: false });
+    </script>
     {% if app.user is defined and app.user is not null %}
         {{ include(template_from_string(theme.extrahtml|raw)) }}
     {% endif %}
     <script>
         window.addEventListener("chatwoot:ready", function () {
             if (window.$chatwoot) {
-                window.$chatwoot.toggleBubbleVisibility("hide"); // to hide the bubble
                 const questionButton = document.getElementById('chatwoot-helper');
-                console.log('show button');
                 if (questionButton) {
                     questionButton.classList.remove('d-none');
                     questionButton.querySelector('.conference-icon').addEventListener('click', () => {
-                        window.$chatwoot.toggle(); // to hide the bubble
+                        window.$chatwoot.toggle(); // show/hide the bubble
                     })
                 }
             }

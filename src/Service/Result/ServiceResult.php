@@ -30,6 +30,11 @@ readonly class ServiceResult
         return $this->success;
     }
 
+    public function isFailure(): bool
+    {
+        return !$this->success;
+    }
+
     public function getData(): mixed
     {
         return $this->data;

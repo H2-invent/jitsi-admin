@@ -61,7 +61,6 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/b/' . $room->getId()));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-
     }
 
     public function testJoinConferenceOpenCorrectuserUserIsNoLoginUserCorrectRoomNumber(): void
@@ -83,7 +82,6 @@ class JoinPublicTest extends WebTestCase
         $this->assertSelectorTextContains('title', 'TestMeeting: 1');
         $this->assertStringContainsString('<title>TestMeeting: 1</title>', $client->getResponse()->getContent());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
     }
 
     public function testJoinConferenceClosedCorrectUserUserIsNotLoginUserCorrectRoomNumber(): void
@@ -100,6 +98,11 @@ class JoinPublicTest extends WebTestCase
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local3.de']);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $room->setStart((new \DateTime())->modify('+2 hours'));
+        $room->setEnddate((new \DateTime())->modify('+4 hours'));
+        $manager = $this->getContainer()->get(EntityManagerInterface::class);
+        $manager->persist($room);
+        $manager->flush();
         $form['join_view[uid]'] = $room->getUid();
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';

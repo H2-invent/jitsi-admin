@@ -3,16 +3,27 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserCreatorService
 {
     private $em;
     private $indexer;
-    public function __construct(EntityManagerInterface $entityManager, IndexUserService $indexUserService)
-    {
-        $this->em = $entityManager;
-        $this->indexer = $indexUserService;
+    private $parameterBag;
+    private $themeService;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        IndexUserService       $indexUserService,
+        ParameterBagInterface  $parameterBag,
+        ThemeService           $themeService,
+    ) {
+        $this->em           = $entityManager;
+        $this->indexer      = $indexUserService;
+        $this->parameterBag = $parameterBag;
+        $this->themeService = $themeService;
     }
 
     public function createUser($email, $userName, $firstName = null, $lastName = null, $dryrun = false): User
@@ -35,5 +46,16 @@ class UserCreatorService
             }
         }
         return $user;
+    }
+
+    public function doAllowUserCreation(): bool
+    {
+        $allowParam = $this->parameterBag->get('strict_allow_user_creation');
+        $allowParam = filter_var($allowParam, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? false;
+
+        $allowTheme = $this->themeService->getThemeProperty('addressbookAddUser');
+        $allowTheme = $allowTheme === null || (filter_var($allowTheme, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? false);
+
+        return $allowParam && $allowTheme;
     }
 }

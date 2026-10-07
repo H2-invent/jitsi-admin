@@ -1,6 +1,8 @@
 
 .jitsiadminiframe {
   position: absolute;
+  top :0;
+  left: 0;
   transform: translate(50px, 50px);
   width: 500px;
   height: 500px;
@@ -126,6 +128,7 @@
   height: unset !important;
   flex-direction: column-reverse !important;
   bottom: 0;
+  top: unset;
   left: 0;
   z-index: 500 !important;
   border-width: 8px !important;

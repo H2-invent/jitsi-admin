@@ -8,6 +8,7 @@ use App\Repository\RoomsRepository;
 use App\Service\caller\CallerFindRoomService;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerPrepareService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -47,8 +48,13 @@ class CallerServiceTest extends KernelTestCase
         $callerService = self::getContainer()->get(CallerFindRoomService::class);
         $this->assertSame('test', $kernel->getEnvironment());
         $id = '123419';
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $room->setStart((new \DateTime())->modify('+2 hours'));
+        $room->setEnddate((new \DateTime())->modify('+4 hours'));
+        $manager->persist($room);
+        $manager->flush();
         self::assertEquals(['status' => 'HANGUP', 'reason' => 'TO_EARLY', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'links' => []], $callerService->findRoom($id));
     }
     public function testGetrromToLate(): void

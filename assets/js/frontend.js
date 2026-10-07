@@ -3,7 +3,7 @@
  *
  */
 import $ from 'jquery';
-import { Popover, initMDB } from "mdb-ui-kit";
+import { Popover, Modal, initMDB } from "mdb-ui-kit";
 global.$ = global.jQuery = $;
 
 
@@ -30,7 +30,7 @@ $(document).ready(function () {
 $(window).on('load', function () {
 
 
-    initMDB({ Popover });
+    initMDB({ Popover, Modal });
     initAllComponents();
     $('[data-mdb-toggle="toastr"]').click(function (e) {
 

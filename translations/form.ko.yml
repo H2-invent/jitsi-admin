@@ -171,6 +171,9 @@ label:
   calendlyToken: Calendly Oauth 토큰
   enableRecording: 녹화 기능 활성화
   calendlyServer: Calendly 회의를 위한 컨퍼런스 서버
+  enableTranscription: Transkription aktivieren
+  apiKeyTranscription: Api Key für die Transkription
+  transcriptionProvider: Transkription Anbieter
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
