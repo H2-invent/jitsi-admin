@@ -458,9 +458,9 @@ class Server
     {
         if ($this->isPrefixRoomUidWithHash()) {
             return md5($this->id . $this->slug) . '/';
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     public function getPrivacyPolicy(): ?string

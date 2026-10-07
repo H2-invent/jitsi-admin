@@ -119,9 +119,9 @@ class StartMeetingService
     {
         if ($this->user !== null && ($this->user === $this->room->getModerator() || $this->user->getPermissionForRoom($this->room)->getLobbyModerator())) {
             return $this->createLobbyModeratorResponse();
-        } else {
-            return $this->createLobbyParticipantResponse();
         }
+
+        return $this->createLobbyParticipantResponse();
     }
 
     /**
@@ -247,7 +247,9 @@ class StartMeetingService
         if ($this->type === 'a') {
             $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);
             return new RedirectResponse($this->url);
-        } elseif ($this->type === 'b') {
+        }
+
+        if ($this->type === 'b') {
             return new Response(
                 $this->twig->render(
                     'start/index.html.twig',

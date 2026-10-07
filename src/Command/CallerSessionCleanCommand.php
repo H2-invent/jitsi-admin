@@ -63,9 +63,9 @@ class CallerSessionCleanCommand extends Command
                 $this->callerSessionService->cleanUpSession($session);//delete the session via a service
                 $io->success(sprintf('Delete Session %s from %s', $session->getSessionId(), $session->getShowName()));
                 return Command::SUCCESS;
-            } else {
-                $io->info('NOT deleting the session');
             }
+
+            $io->info('NOT deleting the session');
         } else {
             $io->error('No such ID');
             return Command::FAILURE;

@@ -53,13 +53,15 @@ class UserService
 
         if ($room->getScheduleMeeting()) {
             return $this->userAddService->addUserSchedule($user, $room);
-        } elseif ($room->getPersistantRoom()) {
+        }
+
+        if ($room->getPersistantRoom()) {
             $this->callerUserService->createUserCallerIDforRoom($room);
             return $this->userAddService->addUserToPersistantRoom($user, $room);
-        } else {
-            $this->callerUserService->createUserCallerIDforRoom($room);
-            return $this->userAddService->addUserToRoom($user, $room);
         }
+
+        $this->callerUserService->createUserCallerIDforRoom($room);
+        return $this->userAddService->addUserToRoom($user, $room);
     }
 
     public function addWaitinglist(User $user, Rooms $room): bool
@@ -77,11 +79,13 @@ class UserService
     {
         if ($room->getScheduleMeeting()) {
             return $this->userEditService->editRoomSchedule($user, $room);
-        } elseif ($room->getPersistantRoom()) {
-            return $this->userEditService->editPersistantRoom($user, $room);
-        } else {
-            return $this->userEditService->editRoom($user, $room);
         }
+
+        if ($room->getPersistantRoom()) {
+            return $this->userEditService->editPersistantRoom($user, $room);
+        }
+
+        return $this->userEditService->editRoom($user, $room);
     }
 
     public function removeRoom(User $user, Rooms $room): bool

@@ -41,9 +41,9 @@ class Jwt
     {
         if ($user) {
             return $this->roomService->join($rooms, $user, $t, $name);
-        } else {
-            return $this->roomService->joinUrl($t, $rooms, $name, false);
         }
+
+        return $this->roomService->joinUrl($t, $rooms, $name, false);
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'generateEncryptedSecret')]

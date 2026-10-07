@@ -63,11 +63,11 @@ class CalloutSessionAPIService
         $caloutWaitingTime = $this->parameterBag->get('CALLOUT_WAITING_TIME');
         if ($calloutSession->getLastDialed() && ((intval(new \DateTimeImmutable()->format('U')) - $calloutSession->getLastDialed()) < (int)$caloutWaitingTime)) {
             return null;
-        } else {
-            $calloutSession->setLastDialed((float)new \DateTimeImmutable()->format('U'));
-            $this->entityManager->persist($calloutSession);
-            $this->entityManager->flush();
         }
+
+        $calloutSession->setLastDialed((float)new \DateTimeImmutable()->format('U'));
+        $this->entityManager->persist($calloutSession);
+        $this->entityManager->flush();
 
         $pin    = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
         $roomId = $calloutSession->getRoom()->getCallerRoom();

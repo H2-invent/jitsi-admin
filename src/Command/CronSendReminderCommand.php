@@ -51,9 +51,9 @@ class CronSendReminderCommand extends Command
         if (!$res['error']) {
             $io->success('Erfolgreich versandt');
             return Command::SUCCESS;
-        } else {
-            $io->error('Fehler');
-            return Command::FAILURE;
         }
+
+        $io->error('Fehler');
+        return Command::FAILURE;
     }
 }

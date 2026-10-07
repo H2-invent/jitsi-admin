@@ -23,9 +23,9 @@ class Schedule
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findOneBy(['user' => $user, 'scheduleTime' => $schedulingTime]);
         if (!$scheduleTimeUser) {
             return null;
-        } else {
-            return $scheduleTimeUser->getAccept();
         }
+
+        return $scheduleTimeUser->getAccept();
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'scheduleUserHasVoted')]
@@ -36,9 +36,9 @@ class Schedule
         $scheduleTimeUser             = $schedulingTimeUserRepository->findVotesForUserAndRoom($rooms, $user);
         if (sizeof($scheduleTimeUser) === 0) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'scheduleNumber')]

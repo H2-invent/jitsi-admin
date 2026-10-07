@@ -64,20 +64,20 @@ class AdressbookFavoriteService
                     ['{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser)]
                 )
             ];
-        } else {
-            try {
-                $this->addFavorite($addUser, $favoriteUser);
-                return [
-                    'success',
-                    $this->translator->trans(
-                        'addressbook.favorite.add.success',
-                        ['{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser)]
-                    )
-                ];
-            } catch (UserAlreadyAdressbookFavoriteException|UserNotInAdressbookException|\Exception $exception) {
-                $this->logger->debug($exception->getMessage());
-                return ['danger', $this->translator->trans('addressbook.favorite.add.failure')];
-            }
+        }
+
+        try {
+            $this->addFavorite($addUser, $favoriteUser);
+            return [
+                'success',
+                $this->translator->trans(
+                    'addressbook.favorite.add.success',
+                    ['{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser)]
+                )
+            ];
+        } catch (UserAlreadyAdressbookFavoriteException|UserNotInAdressbookException|\Exception $exception) {
+            $this->logger->debug($exception->getMessage());
+            return ['danger', $this->translator->trans('addressbook.favorite.add.failure')];
         }
     }
 }

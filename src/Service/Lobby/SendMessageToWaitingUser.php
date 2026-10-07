@@ -78,10 +78,10 @@ class SendMessageToWaitingUser
             }
 
             return (bool)$res;
-        } else {
-            $this->logger->error('USer tried to send message where he has no acess to', ['USer-uid' => $user->getUsername()]);
-            return false;
         }
+
+        $this->logger->error('USer tried to send message where he has no acess to', ['USer-uid' => $user->getUsername()]);
+        return false;
     }
 
     public function createMesagefromId(int|string $id): ?string

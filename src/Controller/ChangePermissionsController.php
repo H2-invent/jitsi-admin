@@ -103,9 +103,9 @@ class ChangePermissionsController extends JitsiAdminController
         if ($roomUser) {
             if ($roomUser->getLobbyModerator()) {
                 return new JsonResponse(['error' => false]);
-            } else {
-                return new JsonResponse(['error' => false]);
             }
+
+            return new JsonResponse(['error' => false]);
         }
 
         return new JsonResponse(['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
