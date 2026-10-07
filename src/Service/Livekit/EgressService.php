@@ -61,10 +61,10 @@ class EgressService
 
             $this->logger->debug('Recording started ', [$recording]);
             return ['error' => false, 'recordingId' => $recording->getRecordingId()];
-        } else {
-            $this->logger->debug('Recording already exists', [$rooms]);
-            return ['error' => true, 'message' => 'Recording already exists'];
         }
+
+        $this->logger->debug('Recording already exists', [$rooms]);
+        return ['error' => true, 'message' => 'Recording already exists'];
     }
 
     public function stopAllEgress(?Rooms $rooms): void

@@ -242,8 +242,8 @@ class RoomStatus
     {
         if ($this->destroyedAt) {
             return new \DateTimeImmutable($this->destroyedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
-        } else {
-            return new \DateTimeImmutable($this->updatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
         }
+
+        return new \DateTimeImmutable($this->updatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
 }

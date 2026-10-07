@@ -265,7 +265,9 @@ class DashboardController extends JitsiAdminController
                     'offset'          => $offset
                 ]
             );
-        } elseif ($type === 'past') {
+        }
+
+        if ($type === 'past') {
             $roomsPast = $roomsRepository->findRoomsInPast($this->getUser(), $offset);
             return $this->render(
                 'dashboard/__lazyPast.html.twig',

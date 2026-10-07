@@ -318,8 +318,8 @@ class RoomType extends AbstractType
                 return $attr;
             }
             return $attr;
-        }
-        );
+        });
+
         $resolver->setDefault('showTag', function (Options $options) {
             /** @var bool|float|int|string|null $allowEditTag */
             $allowEditTag = $this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG);
@@ -330,11 +330,12 @@ class RoomType extends AbstractType
             }
             if (!$options['isEdit'] && $allowEditTag == 0 && $allowTag == 1) {
                 return true;
-            } elseif ($options['isEdit'] && $allowEditTag == 0 && $allowTag == 1) {
+            }
+
+            if ($options['isEdit'] && $allowEditTag == 0 && $allowTag == 1) {
                 return false;
             }
             return false;
-        }
-        );
+        });
     }
 }

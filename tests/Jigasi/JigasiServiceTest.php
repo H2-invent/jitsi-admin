@@ -74,9 +74,9 @@ class JigasiServiceTest extends KernelTestCase
     "message": "Successfully retrieved conference mapping"
 }'
                 );
-            } else {
-                return new MockResponse('', ['http_code' => 404]);
             }
+
+            return new MockResponse('', ['http_code' => 404]);
         };
 
 

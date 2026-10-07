@@ -37,13 +37,17 @@ class CreateHttpsUrl
         try {
             if ($rooms && $rooms->getHostUrl()) {
                 return $this->generateAbsolutUrl($rooms->getHostUrl(), $url);
-            } elseif ($rooms && !$rooms->getHostUrl()) {
-                return $this->baseUrl . $url;
-            } elseif ($this->request->getCurrentRequest()) {
-                return $this->generateAbsolutUrl($this->request->getCurrentRequest()->getSchemeAndHttpHost(), $url);
-            } else {
+            }
+
+            if ($rooms && !$rooms->getHostUrl()) {
                 return $this->baseUrl . $url;
             }
+
+            if ($this->request->getCurrentRequest()) {
+                return $this->generateAbsolutUrl($this->request->getCurrentRequest()->getSchemeAndHttpHost(), $url);
+            }
+
+            return $this->baseUrl . $url;
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
             return $this->baseUrl . $url;

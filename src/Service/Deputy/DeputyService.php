@@ -23,9 +23,9 @@ class DeputyService
         $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(['deputy' => $deputy, 'manager' => $manager]);
         if ($dep) {
             return $this->removeDeputy($manager, $deputy);
-        } else {
-            return $this->setDeputy($manager, $deputy);
         }
+
+        return $this->setDeputy($manager, $deputy);
     }
 
     public function setDeputy(User $manager, User $deputy): int

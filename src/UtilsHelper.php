@@ -659,9 +659,9 @@ class UtilsHelper
             && in_array($user, $rooms->getModerator()->getDeputy()->toArray())
         ) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public static function isAllowedToOrganizeLobby(?User $user, Rooms $room): bool

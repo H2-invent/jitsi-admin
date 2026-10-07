@@ -53,10 +53,10 @@ class RoomCheckService
                         $room->setUid($tmp);
                         $room->setSlug($tmp);
                         break;
-                    } else {
-                        $counter++;
-                        $tmp = $slug . '-' . random_int(10, 1000);
                     }
+
+                    $counter++;
+                    $tmp = $slug . '-' . random_int(10, 1000);
                 }
             }
 

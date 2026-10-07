@@ -19,8 +19,8 @@ class EventSyncApiService
         $roomStatus = $this->roomStatusRepository->findRoomStatusByUid($uid);
         if ($roomStatus) {
             return ['status' => 'ROOM_STARTED'];
-        } else {
-            return ['status' => 'ROOM_CLOSED'];
         }
+
+        return ['status' => 'ROOM_CLOSED'];
     }
 }

@@ -56,10 +56,10 @@ class CreateFastConfernceController extends AbstractController
                         ]
                     ]
                 );
-            } else {
-                $this->addFlash('danger', $this->translator->trans('Fehler'));
-                return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
             }
+
+            $this->addFlash('danger', $this->translator->trans('Fehler'));
+            return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
         } catch (\Exception) {
             $this->addFlash('danger', $this->translator->trans('Fehler'));
             return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);

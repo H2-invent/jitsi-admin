@@ -46,10 +46,10 @@ class ServerService
             $server = $this->em->getRepository(Server::class)->findOneBy(['slug' => $tmp]);
             if (!$server) {
                 return $tmp;
-            } else {
-                $counter++;
-                $tmp = $slug . '-' . $counter;
             }
+
+            $counter++;
+            $tmp = $slug . '-' . $counter;
         }
     }
 }

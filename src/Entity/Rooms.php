@@ -836,9 +836,9 @@ class Rooms
     {
         if ($this->timeZone) {
             return $this->timeZone;
-        } else {
-            return $this->moderator->getTimeZone();
         }
+
+        return $this->moderator->getTimeZone();
     }
 
     public function getStartwithTimeZone(?User $user): ?\DateTimeImmutable
@@ -848,9 +848,9 @@ class Rooms
             $laTimezone = new \DateTimeZone($user->getTimeZone());
             $data       = $data->setTimezone($laTimezone);
             return $data;
-        } else {
-            return $this->start;
         }
+
+        return $this->start;
     }
 
     public function getEndwithTimeZone(?User $user): ?\DateTimeImmutable
@@ -860,9 +860,9 @@ class Rooms
             $laTimezone = new \DateTimeZone($user->getTimeZone());
             $data       = $data->setTimezone($laTimezone);
             return $data;
-        } else {
-            return $this->enddate;
         }
+
+        return $this->enddate;
     }
 
     public function getStartUtc(): ?\DateTimeImmutable

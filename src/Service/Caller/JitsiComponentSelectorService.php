@@ -114,9 +114,9 @@ class JitsiComponentSelectorService
 
         if (isset($res['componentKey'])) {
             return $res['componentKey'];
-        } else {
-            throw new \Exception('Component Key not found');
         }
+
+        throw new \Exception('Component Key not found');
     }
 
     /**

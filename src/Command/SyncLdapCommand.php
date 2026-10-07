@@ -77,10 +77,10 @@ class SyncLdapCommand extends Command
         if ($error === false) {
             $io->success('All LDAPS could be synced correctly');
             return Command::SUCCESS;
-        } else {
-            $io->error('There was an error. Check the output above');
-            return Command::FAILURE;
         }
+
+        $io->error('There was an error. Check the output above');
+        return Command::FAILURE;
     }
 
     /**

@@ -112,7 +112,9 @@ class ConferenceMapperService
             if (isset($content['status'])) {
                 if ($content['status'] === 'ROOM_STARTED') {
                     return true;
-                } elseif ($content['status'] === 'ROOM_CLOSED') {
+                }
+
+                if ($content['status'] === 'ROOM_CLOSED') {
                     return false;
                 }
             }

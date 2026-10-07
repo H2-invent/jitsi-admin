@@ -146,7 +146,9 @@ class RoomController extends JitsiAdminController
                 $res = $this->generateUrl('dashboard');
 
                 return new JsonResponse(['error' => false, 'redirectUrl' => $res, 'cookie' => ['room_server' => $room->getServer()->getId()]]);
-            } elseif ($form->isSubmitted() && !$form->isValid()) {
+            }
+
+            if ($form->isSubmitted() && !$form->isValid()) {
                 return new JsonResponse(['error' => true, 'messages' => [$translator->trans('Fehler, Bitte Laden Sie die Seite neu')]]);
             }
         } catch (\Exception $e) {
