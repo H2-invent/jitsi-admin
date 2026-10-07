@@ -267,7 +267,7 @@ class IcsService
             }
         }
 
-        // Fallback: let DateTime parse, then convert to UTC.
+        // Fallback: let DateTimeImmutable parse, then convert to UTC.
         $dt = new \DateTimeImmutable($s);
         return $dt->setTimezone(new \DateTimeZone('UTC'))->format(self::DT_UTC_FORMAT);
     }
