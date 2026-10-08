@@ -34,6 +34,10 @@ final class ProvisionerStatusMessageHandler
                             $this->logger->critical($errorMessage);
                             throw new \RuntimeException($errorMessage);
                         }
+                        /**
+                         * TODO just retrying could potentially lead to infinite loop if provisioner has a serious problem.
+                         * probably should have some checks to see if we should really retry
+                         */
                         $this->provisionerService->provisionNewServerForRoom($room);
 
                         return;
@@ -58,6 +62,11 @@ final class ProvisionerStatusMessageHandler
                         // cleanup is started regularly anyway, just ignore
                         return;
 
+                    case Status::STARTED:
+                        $this->logger->info("Provisioner deletion status 'started' for roomId: {$message->room_id}");
+
+                        return;
+
                     case Status::DONE:
                         $this->logger->info("Deletion status 'deleted' for roomId: {$message->room_id}. Deleting server"
                         );
@@ -69,9 +78,6 @@ final class ProvisionerStatusMessageHandler
                         $this->provisionerService->removeServerAndRestoreOriginal($room);
 
                         return;
-
-                    case Status::STARTED:
-                        throw new \RuntimeException('Type "deletion" and Status "started" should never go together');
                 }
         }
     }

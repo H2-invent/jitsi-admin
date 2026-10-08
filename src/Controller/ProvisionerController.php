@@ -19,6 +19,10 @@ final class ProvisionerController extends AbstractController
     #[Route('/provision/{uidReal}', name: 'app_provisioner_create')]
     public function create(Rooms $room): Response
     {
+        if ($room->getServer()->isProvisioningEnabled() !== true) {
+            throw $this->createNotFoundException('Provisioning not enabled for this server.');
+        }
+
         if ($room->getServer()->isAllowedToCloneForAutoscale() === null) {
             return $this->redirectToRoute('room_join', ['t' => 'b', 'room' => $room->getId()]);
         }
@@ -32,6 +36,10 @@ final class ProvisionerController extends AbstractController
     #[Route('/provision/{uidReal}/wait', name: 'app_provisioner_wait')]
     public function wait(Rooms $room): Response
     {
+        if ($room->getServer()->isProvisioningEnabled() !== true) {
+            throw $this->createNotFoundException('Provisioning not enabled for this server.');
+        }
+
         if ($room->getServer()->isAllowedToCloneForAutoscale() === null) {
             return $this->redirectToRoute('room_join', ['t' => 'b', 'room' => $room->getId()]);
         }
