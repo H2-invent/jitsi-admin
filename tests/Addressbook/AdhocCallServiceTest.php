@@ -28,7 +28,7 @@ class AdhocCallServiceTest extends KernelTestCase
         $session = new CalloutSession();
         $session->setUser($callee)
             ->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setInvitedFrom($caller)
             ->setUid('adhoc-mark-answered')
             ->setState(CalloutSession::$RINGING)
@@ -72,7 +72,7 @@ class AdhocCallServiceTest extends KernelTestCase
         $session = new CalloutSession();
         $session->setUser($callee)
             ->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setInvitedFrom($caller)
             ->setUid('adhoc-mark-declined')
             ->setState(CalloutSession::$RINGING)
@@ -173,7 +173,7 @@ class AdhocCallServiceTest extends KernelTestCase
         $session = new CalloutSession();
         $session->setUser($callee)
             ->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setInvitedFrom($caller)
             ->setUid($uid)
             ->setState($state)

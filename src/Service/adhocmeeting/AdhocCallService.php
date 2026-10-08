@@ -62,7 +62,7 @@ class AdhocCallService
         // and the caller (who is listening on adhocCallFailed) is notified exactly once.
         $this->entityManager->remove($calloutSession);
         // End the room so a late join from the still open ringing dialog is rejected.
-        $room->setEnddate(new \DateTime());
+        $room->setEnddate(new \DateTimeImmutable());
         $this->entityManager->persist($room);
         $this->entityManager->flush();
 
@@ -95,7 +95,7 @@ class AdhocCallService
 
         $this->entityManager->remove($calloutSession);
         // End the room so a late join from the still open ringing dialog is rejected.
-        $room->setEnddate(new \DateTime());
+        $room->setEnddate(new \DateTimeImmutable());
         $this->entityManager->persist($room);
         $this->entityManager->flush();
 
@@ -144,7 +144,7 @@ class AdhocCallService
             $this->entityManager->remove($session);
             // End the room so a late join from the still open ringing dialog is rejected.
             if ($room) {
-                $room->setEnddate(new \DateTime());
+                $room->setEnddate(new \DateTimeImmutable());
                 $this->entityManager->persist($room);
             }
             if ($callee) {

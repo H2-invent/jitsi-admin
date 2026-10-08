@@ -47,7 +47,7 @@ class AdhocCallTimeoutHandler
 
         $calloutSession->setState(CalloutSession::$TIMEOUT);
         // End the call: an expired room can no longer be joined, so a late accept is rejected.
-        $room->setEnddate(new \DateTime());
+        $room->setEnddate(new \DateTimeImmutable());
         $this->entityManager->persist($calloutSession);
         $this->entityManager->persist($room);
         $this->entityManager->flush();

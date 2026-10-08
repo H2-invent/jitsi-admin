@@ -22,7 +22,7 @@ class AdhocCallTimeoutHandlerTest extends KernelTestCase
         $session = new CalloutSession();
         $session->setUser($callee)
             ->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setInvitedFrom($caller)
             ->setUid($uid)
             ->setState(CalloutSession::$RINGING)
