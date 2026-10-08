@@ -2,9 +2,11 @@
 
 namespace App\Tests;
 
+use App\Entity\PredefinedLobbyMessages;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\Server;
+use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Service\RoomService;
 use Composer\Console\Application;
 use PhpCsFixer\Console\Output\Progress\NullOutput;
@@ -106,7 +108,10 @@ class RoomServiceJWTTest extends KernelTestCase
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
-                        ]
+                        ],
+                        'lobby' => [
+                            'chat_messages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -234,7 +239,10 @@ class RoomServiceJWTTest extends KernelTestCase
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
-                        ]
+                        ],
+                        'lobby' => [
+                            'chat_messages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -321,7 +329,10 @@ class RoomServiceJWTTest extends KernelTestCase
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
-                        ]
+                        ],
+                        'lobby' => [
+                            'chat_messages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -393,7 +404,10 @@ invalidKey
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
-                        ]
+                        ],
+                        'lobby' => [
+                            'chat_messages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -427,6 +441,24 @@ invalidKey
 
             ],
             $payload
+        );
+    }
+
+    /**
+     * @return array<int, array{id: int|null, text: string|null}>
+     */
+    private function expectedLobbyChatMessages(): array
+    {
+        $messages = self::getContainer()
+            ->get(PredefinedLobbyMessagesRepository::class)
+            ->findActiveOrderedByPriority();
+
+        return array_map(
+            static fn (PredefinedLobbyMessages $message): array => [
+                'id' => $message->getId(),
+                'text' => $message->getText(),
+            ],
+            $messages
         );
     }
 }

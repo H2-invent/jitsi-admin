@@ -9,11 +9,13 @@
 
 namespace App\Service;
 
+use App\Entity\PredefinedLobbyMessages;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Exceptions\InvalidSSLKeyExeption;
+use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Service\Theme\ThemeService;
 use App\UtilsHelper;
 use Firebase\JWT\JWT;
@@ -33,6 +35,8 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 class RoomService
 {
 
+    private const MAX_LOBBY_CHAT_MESSAGES = 20;
+
     private $identity;
     public function __construct(
         private UploaderHelper $uploaderHelper,
@@ -43,7 +47,8 @@ class RoomService
         private SluggerInterface      $slugger,
         private UserPreferenceProvider $userPreferences,
         private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
-        private ThemeService $themeService
+        private ThemeService $themeService,
+        private PredefinedLobbyMessagesRepository $predefinedLobbyMessagesRepository
     )
     {
         $this->identity = time().'_'.ByteString::fromRandom(8);
@@ -259,6 +264,9 @@ class RoomService
                 $payload['context']['user']['lobbyModerator'] = $lobbyModerator;
             }
         }
+        if (!$noModerator && ($moderator || $lobbyModerator)) {
+            $payload['context']['lobby']['chat_messages'] = $this->getLobbyChatMessages();
+        }
 
         $payload['context']['user']['language'] = $this->userPreferences->getLanguage();
         $payload['context']['user']['timezone'] = $this->userPreferences->getTimezone();
@@ -288,6 +296,20 @@ class RoomService
         $payload['theme']['colorScheme'] = $this->userPreferences->getColorScheme();
 
         return $payload;
+    }
+
+    /**
+     * @return array<int, array{id: int|null, text: string|null}>
+     */
+    private function getLobbyChatMessages(): array
+    {
+        return array_map(
+            static fn (PredefinedLobbyMessages $message): array => [
+                'id' => $message->getId(),
+                'text' => $message->getText(),
+            ],
+            $this->predefinedLobbyMessagesRepository->findActiveOrderedByPriority(self::MAX_LOBBY_CHAT_MESSAGES)
+        );
     }
 
     public

@@ -4,6 +4,7 @@
 ### 🚀 Features:
 * Convert all DateTime usages to DateTimeImmutable
 * Convert hardcoded repeat method integers to Enum
+* Transmit the predefined lobby messages in the moderator/lobby-moderator JWT as context.lobby.chat_messages
 
 
 ## 1.7

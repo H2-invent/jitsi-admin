@@ -2,8 +2,10 @@
 
 namespace App\Tests\Join;
 
+use App\Entity\PredefinedLobbyMessages;
 use App\Entity\RoomsUser;
 use App\Entity\User;
+use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Repository\RoomsRepository;
 use App\Service\RoomService;
 use App\UtilsHelper;
@@ -38,7 +40,10 @@ class JwtTest extends KernelTestCase
                 'room'=>[
                     'name'=>'TestMeeting: 0',
                     'isE2EEEnabled' => false,
-                ]
+                ],
+                'lobby' => [
+                    'chat_messages' => $this->expectedLobbyChatMessages(),
+                ],
             ],
             'moderator' => true,
             'lobbyModerator' => false,
@@ -102,7 +107,10 @@ class JwtTest extends KernelTestCase
                 'room'=>[
                     'name'=>'TestMeeting: 0',
                     'isE2EEEnabled' => false,
-                ]
+                ],
+                'lobby' => [
+                    'chat_messages' => $this->expectedLobbyChatMessages(),
+                ],
             ],
             'moderator' => true,
             'lobbyModerator' => false,
@@ -240,7 +248,10 @@ class JwtTest extends KernelTestCase
                 'room'=>[
                     'name'=>'TestMeeting: 0',
                     'isE2EEEnabled' => false,
-                ]
+                ],
+                'lobby' => [
+                    'chat_messages' => $this->expectedLobbyChatMessages(),
+                ],
             ],
             'moderator' => true,
             'lobbyModerator' => false,
@@ -290,7 +301,10 @@ class JwtTest extends KernelTestCase
                 'room'=>[
                     'name'=>'TestMeeting: 0',
                     'isE2EEEnabled' => false,
-                ]
+                ],
+                'lobby' => [
+                    'chat_messages' => $this->expectedLobbyChatMessages(),
+                ],
             ],
             'moderator' => true,
             'lobbyModerator' => false,
@@ -646,6 +660,9 @@ class JwtTest extends KernelTestCase
                     'name' => 'TestMeeting: 0',
                     'isE2EEEnabled' => false,
                 ],
+                'lobby' => [
+                    'chat_messages' => $this->expectedLobbyChatMessages(),
+                ],
             ],
             'theme' => [
                 'colorScheme' => 'light',
@@ -694,5 +711,58 @@ class JwtTest extends KernelTestCase
 
         $this->assertArrayNotHasKey('moderator', $payload);
         $this->assertArrayNotHasKey('lobbyModerator', $payload);
+        $this->assertArrayNotHasKey('lobby', $payload['context']);
+    }
+
+    public function testLobbyChatMessagesAreAddedForLobbyModerator(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, null, null, lobbyModerator: true);
+
+        $messages = $payload['context']['lobby']['chat_messages'];
+        $this->assertNotEmpty($messages);
+        $this->assertSame($this->expectedLobbyChatMessages(), $messages);
+    }
+
+    public function testLobbyChatMessagesAreNotAddedForParticipant(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false);
+
+        $this->assertArrayNotHasKey('lobby', $payload['context']);
+    }
+
+    /**
+     * @return array<int, array{id: int|null, text: string|null}>
+     */
+    private function expectedLobbyChatMessages(): array
+    {
+        $messages = $this->getContainer()
+            ->get(PredefinedLobbyMessagesRepository::class)
+            ->findActiveOrderedByPriority();
+
+        return array_map(
+            static fn (PredefinedLobbyMessages $message): array => [
+                'id' => $message->getId(),
+                'text' => $message->getText(),
+            ],
+            $messages
+        );
     }
 }
