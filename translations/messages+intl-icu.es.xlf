@@ -2537,7 +2537,7 @@ Su dirección de correo electrónico: {email}</target>
       </trans-unit>
       <trans-unit id="RoomCannotBeChangedDuringSession" resname="Die Konferenz kann während einer laufenden Sitzung nicht geändert werden">
         <source>Die Konferenz kann während einer laufenden Sitzung nicht geändert werden</source>
-        <target state="needs-translation">Die Konferenz kann während einer laufenden Sitzung nicht geändert werden.</target>
+        <target state="translated">La conferencia no puede modificarse durante una sesión en curso.</target>
       </trans-unit>
     </body>
   </file>
