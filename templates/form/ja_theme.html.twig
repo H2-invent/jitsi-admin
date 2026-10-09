@@ -44,7 +44,24 @@
     </div>
 {% endblock %}
 {% block password_widget %}
-    {{ block('text_widget') }}
+    <div class="form-outline mt-3 position-relative" data-mdb-input-init>
+        {% set id = form.vars.id %}
+        {% set type = type|default('password') %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control form-control-lg pe-5')|trim}) %}
+        {{ block('form_widget_simple') }}
+        <label class="form-label" for="{{ id }}">{{- form_label(form) -}}</label>
+        <a href="#" class="toggle-password position-absolute top-50 end-0 translate-middle-y me-3 text-secondary"
+           data-password-target="{{ id }}"
+           data-label-show="{{ 'label.showPassword'|trans({}, 'form') }}"
+           data-label-hide="{{ 'label.hidePassword'|trans({}, 'form') }}"
+           role="button" tabindex="0"
+           aria-label="{{ 'label.showPassword'|trans({}, 'form') }}">
+            <i class="fa fa-eye"></i>
+        </a>
+    </div>
+{% endblock %}
+{% block masked_text_widget %}
+    {{ block('password_widget') }}
 {% endblock %}
 
 {# Color picker without the form-outline wrapper/border #}

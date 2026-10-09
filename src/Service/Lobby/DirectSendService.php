@@ -62,7 +62,7 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    public function sendDialog($topic, $header, $text, $type='question', $buttons=[])
+    public function sendDialog($topic, $header, $text, $type='question', $buttons=[], array $extra = [])
     {
         $data = [
             'type' => 'dialog',
@@ -72,6 +72,7 @@ class DirectSendService
             'dialogType' => $type
 
         ];
+        $data = array_merge($data, $extra);
 
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
@@ -126,13 +127,15 @@ class DirectSendService
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }
-    public function sendPlaySound($topic, $soundName,  $id)
+    public function sendPlaySound($topic, $soundName,  $id, array $extra = [])
     {
         $data = [
             'type' => 'playSound',
             'soundName' => $soundName,
             'messageId' => $id,
         ];
+        $data = array_merge($data, $extra);
+
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }
@@ -210,6 +213,30 @@ class DirectSendService
             'time' => $time,
             'color' => 'success',
             'messageId' => $id
+        ];
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
+
+    public function sendAdhocCallFailed($topic, $roomId, string $reason = 'timeout')
+    {
+        $message = $reason === 'declined'
+            ? $this->translator->trans('addhock.notification.declined')
+            : $this->translator->trans('addhock.notification.noAnswer');
+        $data = [
+            'type' => 'adhocCallFailed',
+            'reason' => $reason,
+            'roomId' => $roomId,
+            'message' => $message,
+        ];
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
+
+    public function sendCloseDialog($topic)
+    {
+        $data = [
+            'type' => 'closeDialog',
         ];
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);

@@ -4,6 +4,7 @@
 ### 🚀 Features:
 * Convert all DateTime usages to DateTimeImmutable
 * Convert hardcoded repeat method integers to Enum
+* Ad-hoc calls: the caller is notified when the callee does not answer within the configured time
 
 
 ## 1.7
@@ -25,6 +26,10 @@ Allow disabling of survey from theme settings
 ### ⭐ Improvements:
 * Add lobby moderator permission flag to the JWT
 * Redesigned homepage
+* Fix appointment modal
+* Adressbook refactoring
+* Change Drag and Drop Lib back to inteact js because it is more robust
+* Deployment: restart the `messenger:consume async` worker with this release; the ad-hoc call timeout is processed by it
 
 ## 1.4
 

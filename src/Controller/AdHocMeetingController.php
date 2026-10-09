@@ -5,9 +5,13 @@ namespace App\Controller;
 use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
+use App\Entity\Rooms;
 use App\Helper\JitsiAdminController;
+use App\Service\adhocmeeting\AdhocCallService;
 use App\Service\adhocmeeting\AdhocMeetingService;
 use App\Service\CreateHttpsUrl;
+use App\Service\OnlineStatus\OnlineStatusService;
+use App\Service\OnlineStatus\PresenceService;
 use App\Service\ServerUserManagment;
 use Doctrine\Persistence\ManagerRegistry;
 use GuzzleHttp\Promise\Create;
@@ -43,6 +47,53 @@ class AdHocMeetingController extends JitsiAdminController
         return $this->render('add_hoc_meeting/__confirmation.html.twig', ['server' => $server, 'user' => $user, 'tag' => $tag]);
     }
 
+    /**
+     * The callee refused the ringing ad-hoc call. Removes the waiting callout session and tells
+     * the caller right away, instead of letting the caller wait for the signaling timeout.
+     */
+    #[Route(path: 'decline/{roomId}', name: '_decline')]
+    public function decline(
+        #[MapEntity(id: 'roomId')] Rooms $room,
+        AdhocCallService $adhocCallService,
+    ): JsonResponse
+    {
+        $declined = $adhocCallService->markDeclined($this->getUser(), $room);
+
+        return new JsonResponse(['status' => $declined ? 'DECLINED' : 'NO_ACTIVE_CALL']);
+    }
+
+    /**
+     * The caller stopped the attempt (left/ended the conference) before the callee answered.
+     * Cancels all still ringing calls started by the current user so the callee stops ringing.
+     */
+    #[Route(path: 'cancel', name: '_cancel')]
+    public function cancel(AdhocCallService $adhocCallService): JsonResponse
+    {
+        $cancelled = $adhocCallService->cancelPendingCallsByInviter($this->getUser());
+
+        return new JsonResponse(['cancelled' => $cancelled]);
+    }
+
+    /**
+     * The callee's ringing dialog reached the configured signaling duration without an answer.
+     * Marks the call as timed out and tells the caller, independent of the messenger worker.
+     */
+    #[Route(path: 'timeout/{roomId}', name: '_timeout')]
+    public function timeout(
+        #[MapEntity(id: 'roomId')] Rooms $room,
+        AdhocCallService $adhocCallService,
+    ): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return new JsonResponse(['status' => 'UNAUTHORIZED'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $timedOut = $adhocCallService->markTimedOut($user, $room);
+
+        return new JsonResponse(['status' => $timedOut ? 'NO_ANSWER' : 'ANSWERED']);
+    }
+
     #[Route(path: 'meeting/{userId}/{serverId}/{tagId}', name: '_meeting')]
     #[Route(path: 'meeting/{userId}/{serverId}', name: '_meeting_no_tag')]
     public function index(
@@ -51,6 +102,8 @@ class AdHocMeetingController extends JitsiAdminController
         TranslatorInterface $translator,
         ServerUserManagment $serverUserManagment,
         AdhocMeetingService $adhocMeetingService,
+        OnlineStatusService $onlineStatusService,
+        PresenceService $presenceService,
         #[MapEntity(id: 'tagId')] ?Tag $tag = null,
 
     ): Response
@@ -66,6 +119,18 @@ class AdHocMeetingController extends JitsiAdminController
         if (!in_array($server, $servers)) {
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
             return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
+        }
+
+        // The stored status is authoritative for an explicit "offline" and avoids a network call.
+        // Live websocket presence is only consulted when the stored status says online; if it is
+        // unknown (null, e.g. websocket service unreachable) we keep the stored answer.
+        if (!$onlineStatusService->isUserOnline($user) || $presenceService->isUserOnline($user) === false) {
+            return new JsonResponse(
+                [
+                    'redirectUrl' => $this->generateUrl('dashboard'),
+                    'error' => $translator->trans('addhock.notification.offline'),
+                ]
+            );
         }
         try {
             $room = $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server, $tag);

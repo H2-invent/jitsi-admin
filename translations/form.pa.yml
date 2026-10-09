@@ -70,6 +70,8 @@ option:
 lable.serverUrl: Konferenz Server URL
 label.appId: App-ID
 label.appSecret: App-Secret
+label.showPassword: ਪਾਸਵਰਡ ਦਿਖਾਓ
+label.hidePassword: ਪਾਸਵਰਡ ਲੁਕਾਓ
 label.scheduleMeeting: Termin vorschlagen
 help:
   serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
