@@ -1,0 +1,176 @@
+#!/usr/bin/env bash
+#ddev-generated
+
+## Description: Manage parts of rabbitmq
+## Usage: rabbitmq
+## Example: ddev rabbitmq
+
+CMD=$1
+
+# Subcommands allowed to watch
+ALLOWED_DISPLAY_ARGUMENTS=("overview" "connections" "channels" "consumers" "exchanges" "queues" "bindings" "users" "vhosts" "permissions" "nodes" "parameters" "policies" "operator_policies" "vhost_limits" )
+
+YAML_FILE=/mnt/ddev_config/rabbitmq/config.yaml
+
+function watcher() {
+  subcommand=$1
+  interval=$2
+
+  if [ "$subcommand" = "overview" ]; then
+    display_argument="show $subcommand"
+  else
+    display_argument="list $subcommand"
+  fi
+
+  if [[ " ${ALLOWED_DISPLAY_ARGUMENTS[*]} " = *" $subcommand "* ]]; then
+      while true; do
+          output=$(rabbitmqadmin "$display_argument")
+          clear
+          echo "$output"
+          echo "Refresh interval: $interval sec - $(date)"
+          sleep $interval
+      done
+  else
+    echo -e "Watch subcommand '$subcommand' not allowed, use one of these:\n * ${ALLOWED_DISPLAY_ARGUMENTS[*]}"
+  fi
+}
+
+function add_vhosts() {
+  vhosts_json=$(rabbitmqctl list_vhosts --formatter json)
+  readarray vhosts_existing < <(echo "$vhosts_json" | yq -o=y -I=0 '.[].name' -)
+  readarray vhosts < <(yq -o=j -I=0 '.vhost[]' $YAML_FILE )
+  for vhost in "${vhosts[@]}"; do
+    name=$(echo "$vhost" | yq '.name // ""' -)
+
+    if [[ ! " ${vhosts_existing[*]} " =~ $name ]]; then
+      description=$(echo "$vhost" | yq '.description // ""' -)
+      description_option=$([ -z "$description" ] && echo "" || echo "--description \"$description\"")
+
+      default_queue_type=$(echo "$vhost" | yq '.default-queue-type // ""' -)
+      default_queue_type_option=$([ -z "$default_queue_type" ] && echo "" || echo "--default-queue-type $default_queue_type")
+
+      tags=$(echo "$vhost" | yq '.tags[]' -)
+      comma_separated=$(echo "${tags[*]}" | xargs | sed -e 's/ /,/g')
+      tags_option=$([ -z "$comma_separated" ] && echo "" || echo "--tags $comma_separated")
+
+      rabbitmqctl add_vhost $name $description_option $tags_option $default_queue_type_option || exit 1
+    else
+      echo "ℹ️ vhost '$name' already exists! To update a vhost please delete it first."
+    fi
+  done
+}
+
+function add_queues() {
+  readarray queues < <(yq -o=j -I=0 '.queue[]' $YAML_FILE )
+  for queue in "${queues[@]}"; do
+    name=$(echo "$queue" | yq '.name' -)
+    vhost=$(echo "$queue" | yq '.vhost // "/"' -)
+
+    queues_existing=$(rabbitmqctl list_queues --silent --formatter json --vhost "$vhost")
+    readarray queues_existing < <(echo "$queues_existing" | yq -o=y -I=0 '.[].name' -)
+
+    if [[ ! " ${queues_existing[*]} " =~ $name ]]; then
+      durable=$(echo "$queue" | yq '.durable // "true"' -)
+      rabbitmqadmin declare queue --vhost="$vhost" --name="$name" --durable="$durable" || exit 1
+    else
+      echo "ℹ️ Queue '$name' already exists in vhost '$vhost'! To update the queue please delete it first."
+    fi
+  done
+}
+
+function add_users() {
+  users_json=$(rabbitmqctl list_users --silent --formatter json)
+  readarray users_existing < <(echo "$users_json" | yq -o=y -I=0 '.[].user' -)
+  readarray users < <(yq -o=j -I=0 '.user[]' $YAML_FILE )
+
+  for user in "${users[@]}"; do
+    name=$(echo "$user" | yq '.name // ""' -)
+
+    if [[ ! " ${users_existing[*]} " =~ $name ]]; then
+      password=$(echo "$user" | yq '.password // ""' -)
+      rabbitmqctl add_user "$name" "$password" || exit 1
+
+      tags=$(echo "$user" | yq '.tags[]' -)
+      comma_separated=$(echo "${tags[*]}" | xargs | sed -e 's/ /,/g')
+      rabbitmqctl set_user_tags "$name" "$comma_separated" || exit 1
+
+      permissions=$(echo "$user" | yq '.permissions[]' -)
+      for permission in "${permissions[@]}"; do
+        vhost=$(echo "$permission" | yq '.vhost // "/"' -)
+        conf=$(echo "$permission" | yq '.conf // ".*"' -)
+        write=$(echo "$permission" | yq '.write // ".*"' -)
+        read=$(echo "$permission" | yq '.read // ".*"' -)
+        rabbitmqctl set_permissions -p "$vhost" "$name" "$conf" "$write" "$read" || exit 1
+      done
+    else
+      echo "ℹ️ User '$name' already exists! To update a user please delete it first."
+    fi
+  done
+}
+
+case $CMD in
+  apply)
+    echo "Apply config $YAML_FILE"
+
+    plugins_array=$(yq eval '.plugins[]' "$YAML_FILE")
+    plugins=$(echo "${plugins_array[*]}" | tr '\n' ' ' | xargs)
+    rabbitmq-plugins enable $plugins
+
+    add_vhosts
+    # Ensure the default admin "rabbitmq" has permissions for all virtual hosts
+    rabbitmqctl set_permissions_globally "rabbitmq" ".*" ".*" ".*" > /dev/null
+    add_queues
+    add_users
+    ;;
+
+  wipe)
+    users_json=$(rabbitmqctl list_users --silent --formatter json)
+    readarray users_existing < <(echo "$users_json" | yq -o=y -I=0 '.[].user' -)
+    for user in "${users_existing[@]}"; do
+      user=$(echo -n "$user" | tr -d '\n')
+      if [ "$user" != "rabbitmq" ]; then
+        rabbitmqctl delete_user "$user"
+      fi
+    done
+
+    vhosts_json=$(rabbitmqctl list_vhosts --formatter json)
+    readarray vhosts_existing < <(echo "$vhosts_json" | yq -o=y -I=0 '.[].name' -)
+    for host in "${vhosts_existing[@]}"; do
+      host=$(echo -n "$host" | tr -d '\n')
+      if [ "$host" != "/" ]; then
+        rabbitmqctl delete_vhost "$host"
+      fi
+    done
+    ;;
+  watch)
+    subcommand="$2"
+    subcommand=${subcommand:=overview}
+    interval="$3"
+    interval=${interval:=2}
+
+    watcher "$subcommand" "$interval"
+    ;;
+
+  --help|*)
+    echo "——————————————"
+    echo -e "\033[1mExample Usage:\033[0m"
+    echo "——————————————"
+    echo -e "\033[1mApply\033[0m"
+    echo "—————"
+    echo "Create queues, users and add 'plugins' according to configuration (see .ddev/rabbitmq/config.yaml)"
+    echo "👉 ddev rabbitmq apply"
+    echo ""
+    echo -e "\033[1mWipe\033[0m"
+    echo "—————"
+    echo "Clear vhosts, queues and users (only vhost '/' and user 'rabbitmq' are kept)"
+    echo "👉 ddev rabbitmq wipe"
+    echo ""
+    echo -e "\033[1mWatcher\033[0m"
+    echo "———————"
+    echo "A little wrapper around 'rabbitmqadmin' to be able to watch e.g. queues"
+    echo "👉 ddev rabbitmq watch <command> <interval>"
+    echo -e "Possible <command> values:\n * ${ALLOWED_DISPLAY_ARGUMENTS[*]}"
+    echo ""
+    echo -e "ℹ️ To use the rabbitmqadmin command run 'ddev rabbitmqadmin --help' for details.\nThis command passes all values to rabbitmqadmin within the container."
+    ;;
+esac

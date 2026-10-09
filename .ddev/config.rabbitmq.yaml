@@ -1,0 +1,2 @@
+#ddev-generated
+webimage_extra_packages: ["php${DDEV_PHP_VERSION}-amqp"]

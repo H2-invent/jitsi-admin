@@ -2,11 +2,10 @@
 
 namespace App\Controller\api;
 
-use App\Entity\Server;
 use App\Helper\BearerTokenAuthHelper;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\ServerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +16,9 @@ class ServerAPIController extends AbstractController
 {
     public function __construct(
         private ServerRepository $serverRepository,
-        private EntityManagerInterface $entityManager,
         private RoomsRepository $roomsRepository,
         private BearerTokenAuthHelper $bearerTokenAuthHelper,
+        private ServerService $serverService,
     )
     {
     }
@@ -33,20 +32,14 @@ class ServerAPIController extends AbstractController
             return new JsonResponse(['error' => true, 'text' => 'No Server found. The server mus be allowed to be cloned to autoscale',
             'hint'=>'use the command php bin/console app:server:allowTo #serverid to allow to clone']);
         }
-        $serverUSer = $server->getUser()->toArray();
 
-        $newServer = clone $server;
-        $newServer->setUrl($request->get('url'))
-            ->setServerName($request->get('name'))
-            ->setAppId($request->get('app_id'))
-            ->setAppSecret($request->get('app_secret'))
-            ->setUpdatedAt(new \DateTime())
-            ->setAllowedToCloneForAutoscale(null)
-            ->setSlug(urlencode($newServer->getUrl()));
-        $newServer->getUser()->clear();
-        $newServer->setAdministrator(null);
-        $this->entityManager->persist($newServer);
-        $this->entityManager->flush();
+        $newServer = $this->serverService->cloneServerForAutoscaling(
+            $server,
+            $request->get('url'),
+            $request->get('name'),
+            $request->get('app_id'),
+            $request->get('app_secret'),
+        );
 
        return new JsonResponse([
            'server_id' => $newServer->getId(),

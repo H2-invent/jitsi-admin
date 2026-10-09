@@ -6,3 +6,7 @@ framework:
 
         transports:
             async: 'in-memory://'
+            async_slow: 'in-memory://'
+            provisioner_request: 'in-memory://'
+            provisioner_status: 'in-memory://'
+            test: 'in-memory://'

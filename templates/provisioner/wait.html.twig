@@ -1,0 +1,22 @@
+{% extends 'join/base.html.twig' %}
+{% block header %}
+    <style>
+        .window .main .mainContent {
+            justify-content: center !important;
+        }
+    </style>
+    <div class="text-center mb-4">
+        {% trans %}Bitte warten Sie. Ihre Konferenz wird bereitgestellt{% endtrans %}
+    </div>
+    <div class="text-center">
+        <i class="fa fa-xl fa-spinner fa-spin-pulse"></i>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        var topic = {{ mercure(['provisioner_wait_cluster/' ~ room.uidReal]) | json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG')) | raw }};
+        var websocketTopics = "{{ getJwtforWebsocket(['provisioner_wait_cluster/' ~ room.uidReal], app.user) }}";
+        var websocketUrl = "{{ getUrlforWebsocket() }}";
+    </script>
+{% endblock %}

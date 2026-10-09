@@ -7,12 +7,29 @@ use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Jwt\TokenFactoryInterface;
 use Symfony\Component\Mercure\Jwt\TokenProviderInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Contracts\Service\ResetInterface;
 
-class HubStub implements HubInterface
+class HubStub implements HubInterface, ResetInterface
 {
+    private array $updates = [];
+
     public function publish(Update $update): string
     {
+        $this->updates[] = $update;
         return 'id';
+    }
+
+    /**
+     * @return Update[]
+     */
+    public function getUpdates(): array
+    {
+        return $this->updates;
+    }
+
+    public function reset(): void
+    {
+        $this->updates = [];
     }
 
     // implement rest of HubInterface methods here
