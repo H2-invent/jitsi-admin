@@ -48,7 +48,7 @@ final class ProvisionerStatusMessageHandler
                         return;
 
                     case Status::DONE:
-                        $this->logger->info("Provisioner status 'ready' for roomId: {$message->room_id}");
+                        $this->logger->info("Provisioner status 'done' for roomId: {$message->room_id}");
                         $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
                         $this->provisionerService->saveNewServerAndRedirect($room, $message);
 
@@ -59,6 +59,7 @@ final class ProvisionerStatusMessageHandler
                 switch ($message->status) {
                     case Status::FAILED:
                         $this->logger->info("Deletion status 'failed' for roomId: {$message->room_id}");
+
                         // cleanup is started regularly anyway, just ignore
                         return;
 
@@ -68,8 +69,7 @@ final class ProvisionerStatusMessageHandler
                         return;
 
                     case Status::DONE:
-                        $this->logger->info("Deletion status 'deleted' for roomId: {$message->room_id}. Deleting server"
-                        );
+                        $this->logger->info("Deletion status 'done' for roomId: {$message->room_id}. Deleting server");
                         $room = $this->roomsRepository->findOneBy(['uidReal' => $message->room_id]);
                         if ($room === null) {
                             // server was already deleted, should be no problem

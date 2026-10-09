@@ -12,12 +12,16 @@ use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ProvisionerService
 {
     public const WEBSOCKET_TOPIC_NAME = 'provisioner_wait_cluster/';
+
+    private const DELETION_DELAY_MS = 60 * 1000; // 1 minute
 
     public function __construct(
         private DirectSendService $websocketService,
@@ -109,7 +113,11 @@ class ProvisionerService
             $room->getUidReal(),
             Type::DELETION,
         );
-        $this->messageBus->dispatch($deletionMessage);
+        // we delay deletions because we ran into problems of servers being killed too early and getting 502 in the iframe
+        $delayStamp = new DelayStamp(self::DELETION_DELAY_MS);
+        $envelope = new Envelope($deletionMessage, [$delayStamp]);
+
+        $this->messageBus->dispatch($envelope);
     }
 
     private function sendWebsocketRedirect(Rooms $room): void
