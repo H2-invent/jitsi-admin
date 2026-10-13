@@ -25,6 +25,7 @@ class CallerPinService
         CreateLobbyUserService                $createLobbyUserService,
         ParameterBagInterface                 $parameterBag,
         private CalloutServiceDialSuccessfull $calloutServiceDialSuccessfull,
+        private SeriesDialInResolver          $seriesDialInResolver,
     )
     {
         $this->em = $entityManager;
@@ -45,11 +46,12 @@ class CallerPinService
             $this->loggger->error('Room not found', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
             return null;
         }
-        $room = $callerRoom->getRoom();
+        $room = $this->seriesDialInResolver->resolveRoom($callerRoom->getRoom());
         if ($room->isE2EEActive()) {
             $this->loggger->info('SIP dial-in refused because E2EE is active for the room', ['roomId' => $roomId, 'callerId' => $callerId]);
             return null;
         }
+
         if ($pin !== null && $pin !== '') {
             $callInUser = $this->em->getRepository(CallerId::class)->findByRoomAndPin($room, $pin);
             if (!$callInUser) {
