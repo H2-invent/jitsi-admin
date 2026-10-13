@@ -6,6 +6,7 @@ use App\Entity\CallerRoom;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\caller\SeriesDialInResolver;
 use App\Service\LicenseService;
 use App\Service\livekit\SipTrunkGenerator;
 use App\Service\RoomService;
@@ -24,7 +25,8 @@ class ConferenceMapperService
         private ParameterBagInterface     $parameterBag,
         private HttpClientInterface       $httpClient,
         private LoggerInterface           $logger,
-        private SipTrunkGenerator         $sipTrunkGenerator
+        private SipTrunkGenerator         $sipTrunkGenerator,
+        private SeriesDialInResolver      $seriesDialInResolver
     )
     {
     }
@@ -40,7 +42,7 @@ class ConferenceMapperService
         if (!$callerRoom) {
             return ['error' => true, 'reason' => 'ROOM_NOT_FOUND'];
         }
-        $room = $callerRoom->getRoom();
+        $room = $this->seriesDialInResolver->resolveRoom($callerRoom->getRoom());
         $started = $this->findRoomStatusFromOtherServer($room, $apiKey);
         if (!$started) {
             $started = $this->roomStatusFrontendService->isRoomCreated($room);
