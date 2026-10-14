@@ -30,7 +30,7 @@ class ProvisionerStatusSerializer implements SerializerInterface
 
         return new Envelope(
             new ProvisionerStatusMessage(
-                $data['room_id'],
+                (int) $data['request_id'],
                 Type::from($data['type']),
                 Status::from($data['status']),
                 $data['name'] ?? null,

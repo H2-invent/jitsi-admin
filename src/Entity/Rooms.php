@@ -192,6 +192,12 @@ class Rooms
     #[ORM\Column(nullable: false)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    /**
+     * @var Collection<int, ProvisionerRecord>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: ProvisionerRecord::class, orphanRemoval: true)]
+    private Collection $provisionerRecords;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -209,6 +215,7 @@ class Rooms
         $this->uploadedRecordings = new ArrayCollection();
         $this->liveKitRecordings = new ArrayCollection();
         $this->transcriptions = new ArrayCollection();
+        $this->provisionerRecords = new ArrayCollection();
     }
 
     public function normalize(string $propertyName): string
@@ -1303,5 +1310,35 @@ class Rooms
     public function setCreatedAtValue(): void
     {
         $this->createdAt ??= new DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection<int, ProvisionerRecord>
+     */
+    public function getProvisionerRecords(): Collection
+    {
+        return $this->provisionerRecords;
+    }
+
+    public function addProvisionerRecord(ProvisionerRecord $provisionerRecord): static
+    {
+        if (!$this->provisionerRecords->contains($provisionerRecord)) {
+            $this->provisionerRecords->add($provisionerRecord);
+            $provisionerRecord->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProvisionerRecord(ProvisionerRecord $provisionerRecord): static
+    {
+        if ($this->provisionerRecords->removeElement($provisionerRecord)) {
+            // set the owning side to null (unless already changed)
+            if ($provisionerRecord->getRoom() === $this) {
+                $provisionerRecord->setRoom(null);
+            }
+        }
+
+        return $this;
     }
 }

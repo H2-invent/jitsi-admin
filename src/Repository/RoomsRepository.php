@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\ProvisionerRecord;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Service\Provisioner\ProvisionerStatus;
 use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
@@ -690,73 +692,23 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * finds Rooms which are:
-     *    permanent Conferences
-     * OR planned Conference whose endDate has passed
-     * AND all participants left
-     * AND no more recording active
-     *
-     * @return Rooms[]
-     */
-    public function findRoomsWhoseProvisionedServerCanBeDeleted(int $scheduleMinutesThreshold): array
-    {
-        $nowUtc = new \DateTime('now', new \DateTimeZone('utc'));
-
-        $timeoutThreshold = (new \DateTime())->sub(new \DateInterval("PT5M")); // 5 min timeout to provision server and connect users
-        $scheduleThreshold = (new \DateTime())->sub(new \DateInterval("PT{$scheduleMinutesThreshold}M"));
-
-        $qb = $this->createQueryBuilder('room');
-        return $qb
-            ->innerJoin('room.server', 'server')
-            ->leftJoin('room.roomstatuses', 'status')
-            ->leftJoin('status.roomStatusParticipants', 'status_participant')
-            ->leftJoin('room.liveKitRecordings', 'recording')
-
-            ->andWhere('room.originalServer IS NOT NULL')
-            ->andWhere('server.isAllowedToCloneForAutoscale IS NULL')
-            ->andWhere('server.isProvisioningEnabled = true')
-            ->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->andX(
-                        'room.persistantRoom = true',
-                        'room.createdAt < :scheduleThreshold'
-                    ),
-                    $qb->expr()->andX(
-                        'room.persistantRoom = false',
-                        'room.endDateUtc < :nowUtc',
-                    ),
-                ),
-            )
-            ->andWhere(
-                $qb->expr()->orX(
-                    'status_participant.inRoom IS NULL',
-                    'status_participant.inRoom = false',
-                    'status.destroyed = true',
-                ),
-            )
-            ->andWhere(
-                $qb->expr()->orX(
-                    'recording.id IS NULL',
-                    'recording.user IS NULL',
-                ),
-            )
-            ->andWhere(
-                'room.createdAt < :timeoutThreshold'
-            )
-            ->setParameter('nowUtc', $nowUtc)
-            ->setParameter('timeoutThreshold', $timeoutThreshold)
-            ->setParameter('scheduleThreshold', $scheduleThreshold)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
 
     /**
      * @return Rooms[]
      */
     public function findRoomsToProvisionInXMinutes(int $minutes): array
     {
+        $excludedStatuses = [
+            ProvisionerStatus::PROVISION_REQUESTED,
+            ProvisionerStatus::PROVISION_DONE,
+        ];
+        $runningProvisionings = $this->getEntityManager()->createQueryBuilder()
+            ->select('pr.id')
+            ->from(ProvisionerRecord::class, 'pr')
+            ->where('pr.room = room')
+            ->andWhere('pr.status IN (:excludedStatuses)')
+        ;
+
         $qb = $this->createQueryBuilder('room');
         return $qb
             ->innerJoin('room.server', 'server')
@@ -766,8 +718,14 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('room.originalServer IS NULL')
             ->andWhere('room.startUtc < :threshold')
             ->andWhere('room.endDateUtc > :now')
+            ->andWhere(
+                $qb->expr()->not(
+                    $qb->expr()->exists($runningProvisionings->getDQL())
+                )
+            )
             ->setParameter('threshold', new \DateTime("+ {$minutes} minutes", new \DateTimeZone('utc')))
             ->setParameter('now', new \DateTime('now', new \DateTimeZone('utc')))
+            ->setParameter('excludedStatuses', $excludedStatuses)
             ->getQuery()
             ->getResult()
         ;

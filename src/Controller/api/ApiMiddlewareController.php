@@ -5,7 +5,7 @@ namespace App\Controller\api;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Service\livekit\LivekitJwtService;
-use App\Service\ProvisionerService;
+use App\Service\Provisioner\ProvisionerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,7 +55,7 @@ class ApiMiddlewareController extends AbstractController
             return new JsonResponse(['error' => true, 'text' => 'Room not found '], Response::HTTP_NOT_FOUND);
         }
 
-        $this->provisionerService->requestDeletion($room);
+        $this->provisionerService->deleteProvision($room);
 
         return new JsonResponse(['error' => false], Response::HTTP_OK);
     }

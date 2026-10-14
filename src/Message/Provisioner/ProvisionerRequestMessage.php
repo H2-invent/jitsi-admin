@@ -9,7 +9,7 @@ use JsonSerializable;
 final class ProvisionerRequestMessage implements JsonSerializable
 {
     public function __construct(
-        public readonly string $room_id,
+        public readonly int $request_id,
         public readonly Type $type,
         /** @var ServerFeature[] */
         public readonly ?array $server_features = null,
@@ -20,7 +20,7 @@ final class ProvisionerRequestMessage implements JsonSerializable
     public function jsonSerialize(): array
     {
         $json = [
-            'room_id' => $this->room_id,
+            'request_id' => $this->request_id,
             'type' => $this->type,
         ];
         if ($this->server_features !== null) {

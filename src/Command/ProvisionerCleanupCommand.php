@@ -2,7 +2,8 @@
 
 namespace App\Command;
 
-use App\Service\ProvisionerService;
+use App\Service\Provisioner\ProvisionerCommunicationService;
+use App\Service\Provisioner\ProvisionerService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ProvisionerCleanupCommand extends Command
 {
     public function __construct(
-        private ProvisionerService $provisionerService
+        private readonly ProvisionerService $provisionerService
     )
     {
         parent::__construct();

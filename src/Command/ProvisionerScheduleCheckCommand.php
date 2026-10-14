@@ -2,7 +2,8 @@
 
 namespace App\Command;
 
-use App\Service\ProvisionerService;
+use App\Service\Provisioner\ProvisionerCommunicationService;
+use App\Service\Provisioner\ProvisionerService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,8 +20,8 @@ class ProvisionerScheduleCheckCommand extends Command
 {
     public function __construct(
         #[Autowire(param: 'provisioner.schedule.minutes_threshold')]
-        private int $minutesThreshold,
-        private ProvisionerService $provisionerService,
+        private readonly int $minutesThreshold,
+        private readonly ProvisionerService $provisionerService,
     )
     {
         parent::__construct();

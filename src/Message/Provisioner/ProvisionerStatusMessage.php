@@ -8,7 +8,7 @@ use App\Message\Provisioner\Enum\Type;
 final class ProvisionerStatusMessage implements \JsonSerializable
 {
     public function __construct(
-        public readonly string $room_id,
+        public readonly int $request_id,
         public readonly Type $type,
         public readonly Status $status,
         public readonly ?string $name = null,
@@ -22,7 +22,7 @@ final class ProvisionerStatusMessage implements \JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
-            'room_id' => $this->room_id,
+            'request_id' => $this->request_id,
             'type' => $this->type->value,
             'status' => $this->status->value,
             'name' => $this->name,
