@@ -27,7 +27,7 @@ class ProvisionerRecordRepository extends ServiceEntityRepository
         return $qb
             ->andWhere('p.room = :room')
             ->andWhere(
-                $qb->expr()->in('p.status', ':status')
+                $qb->expr()->in('p.status', ':statuses')
             )
             ->setParameter('statuses', $statuses)
             ->setParameter('room', $room)
