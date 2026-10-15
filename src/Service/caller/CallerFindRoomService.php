@@ -3,6 +3,7 @@
 namespace App\Service\caller;
 
 use App\Entity\CallerRoom;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
