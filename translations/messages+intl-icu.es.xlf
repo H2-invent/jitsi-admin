@@ -1292,23 +1292,23 @@
       </trans-unit>
       <trans-unit id="DiHUDGM" resname="room.new.help.isE2EEEnabled">
         <source>room.new.help.isE2EEEnabled</source>
-        <target state="needs-translation">Aktiviert die Sicherheitsfunktion „Ende-zu-Ende-Verschlüsselung“ für diese Konferenz.</target>
+        <target state="translated">Activa la función de seguridad de «cifrado de extremo a extremo» para esta conferencia.</target>
       </trans-unit>
       <trans-unit id="n9kfdtZ" resname="room.dashboard.e2ee.title">
         <source>room.dashboard.e2ee.title</source>
-        <target state="needs-translation">Ende-zu-Ende-Verschlüsselung (E2EE)</target>
+        <target state="translated">Cifrado de extremo a extremo (E2EE)</target>
       </trans-unit>
       <trans-unit id="n3f4gc0" resname="room.dashboard.e2ee.help">
         <source>room.dashboard.e2ee.help</source>
-        <target state="needs-translation">Die Inhalte dieser Konferenz sind Ende-zu-Ende verschlüsselt.</target>
+        <target state="translated">El contenido de esta conferencia está cifrado de extremo a extremo.</target>
       </trans-unit>
       <trans-unit id="vBtgsCz" resname="room.dashboard.e2ee.help.enforced">
         <source>room.dashboard.e2ee.help.enforced</source>
-        <target state="needs-translation">Die Inhalte dieser Konferenz sind Ende-zu-Ende verschlüsselt. Der Server erzwingt das für alle Konferenzen.</target>
+        <target state="translated">El contenido de esta conferencia está cifrado de extremo a extremo. El servidor impone esto para todas las conferencias.</target>
       </trans-unit>
       <trans-unit id="e2sipBl1" resname="room.dashboard.sip.e2ee.blocked">
         <source>room.dashboard.sip.e2ee.blocked</source>
-        <target state="needs-translation">Die Telefoneinwahl ist bei aktiver Ende-zu-Ende-Verschlüsselung nicht möglich. Telefonteilnehmer könnten die verschlüsselten Inhalte nicht hören.</target>
+        <target state="translated">La conexión telefónica no es posible cuando el cifrado de extremo a extremo está activo. Los participantes que se unan por teléfono no podrían escuchar el contenido cifrado.</target>
       </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
@@ -1733,7 +1733,7 @@
       </trans-unit>
       <trans-unit id="Pn1Prsn" resname="email.sip.personalpin">
         <source>email.sip.personalpin</source>
-        <target state="needs-translation">Persönliche PIN</target>
+        <target state="translated">PIN personal</target>
       </trans-unit>
       <trans-unit id="sIWTG7_" resname="status.offline">
         <source>status.offline</source>
