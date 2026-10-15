@@ -46,10 +46,6 @@ class CallerPinService
             return null;
         }
         $room = $this->seriesDialInResolver->resolveRoom($callerRoom->getRoom());
-        if ($room->isE2EEActive()) {
-            $this->loggger->info('SIP dial-in refused because E2EE is active for the room', ['roomId' => $roomId, 'callerId' => $callerId]);
-            return null;
-        }
 
         if ($pin !== null && $pin !== '') {
             $callInUser = $this->em->getRepository(CallerId::class)->findByRoomAndPin($room, $pin);

@@ -24,7 +24,7 @@ class CallerServiceTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
 
-        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'links' => ['pin' => $urlGen->generate('caller_pin', ['roomId' => $id])]], $callerService->findRoom($id));
+        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'e2ee_enabled' => false, 'total_open_rooms' => false, 'pin_required' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));
     }
     public function testGetPersistantRoomSuccess(): void
     {
@@ -40,7 +40,7 @@ class CallerServiceTest extends KernelTestCase
         $callerPrepareService->addCallerIdToRoom($room);
         $room = $roomRepo->findOneBy(['name' => 'This is a fixed room']);
         $id = $room->getCallerRoom()->getCallerId();
-        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'links' => ['pin' => $urlGen->generate('caller_pin', ['roomId' => $id])]], $callerService->findRoom($id));
+        self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'e2ee_enabled' => false, 'total_open_rooms' => false, 'pin_required' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));
     }
     public function testGetrromToEarly(): void
     {
