@@ -67,10 +67,7 @@ class ProvisionerRecordService
 
     public function createNewRetryRecord(ProvisionerRecord $record): ProvisionerRecord
     {
-        $record->setRetryAttempts($record->getRetryAttempts() + 1);
-        $this->entityManager->flush();
-
-        return $this->createNewProvisioningRecord($record->getRoom(), $record->getRetryAttempts());
+        return $this->createNewProvisioningRecord($record->getRoom(), $record->getRetryAttempts() + 1);
     }
 }
 

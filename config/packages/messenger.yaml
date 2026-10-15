@@ -19,7 +19,6 @@ framework:
           max_retries: 10
           delay: 1000
           multiplier: 4
-          jitter: 0.1
 
       async_slow:
         <<: *async_config

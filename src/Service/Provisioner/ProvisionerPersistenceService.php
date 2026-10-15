@@ -44,6 +44,11 @@ class ProvisionerPersistenceService
 
     public function saveOriginalServer(Rooms $room): void
     {
+        if ($room->getOriginalServer() !== null) {
+            // has to be a retry, don't overwrite original server then
+            return;
+        }
+
         $room->setOriginalServer($room->getServer());
 
         $this->entityManager->persist($room);
