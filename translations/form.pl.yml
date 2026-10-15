@@ -82,7 +82,7 @@ help:
   jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
   jigasiProsodyDomain: Wpisz tutaj domenę Prosody. Zwykle jest to zgodne ze wzorcem "conference.domain.topdomain".
   disallowFirefox: Przeglądarka Firefox jest wyłączona. Wszyscy uczestnicy, którzy chcą dołączyć za pomocą przeglądarki Firefox, zostaną przekierowani do przeglądarki opartej na Chromium.
-  enforceE2e: W każdej konferencji na tym serwerze Jitsi wymagane jest kompleksowe szyfrowanie.
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Server erzwungen.
   allowIp: Do konferencji można dołączyć tylko z określonego adresu IP lub zakresu adresów IP. Zakresy IP należy podać w zapisie x.x.x.x/24. Można wprowadzić wiele adresów IP lub zakresów, oddzielając je przecinkami.
   jitsiEventSyncUrl: Tutaj możesz określić innego administratora Jitsi, który zapisał odpowiednie synchronizacje zdarzeń Jitsi dla żądań SIP. Należy określić tylko podstawowy adres URL. Ta funkcja wymaga wersji Jitsi-admin > 0.77.x
   disableFilmstripe: Wyłącz pasek z filmami w Jitsi
@@ -143,6 +143,7 @@ label:
   timezone: Strefa czasowa
   serverName: Nazwa serwera
   lobby: Poczekalnia
+  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
   secondEmail: Dodatkowy adres e-mail
   profilImage: Zdjęcie profilowe (będzie wyświetlane na spotkaniu Jitsi-Meet)
   corsHeader: Nagłówek CORS lub nagłówek ancestor-frame
