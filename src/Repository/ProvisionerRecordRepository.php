@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\ProvisionerRecord;
+use App\Entity\Recording;
 use App\Entity\Rooms;
+use App\Entity\RoomStatus;
 use App\Message\Provisioner\Enum\Status;
 use App\Service\Provisioner\ProvisionerStatus;
 use DateTimeImmutable;
@@ -54,22 +56,35 @@ class ProvisionerRecordRepository extends ServiceEntityRepository
         $nowUtc = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
         $now = new \DateTimeImmutable('now');
 
-        $timeoutThreshold = $now->sub(new \DateInterval("PT5M")); // 5 min timeout to provision server and connect users
+        $timeoutThreshold = $now->sub(new \DateInterval("PT5M"));
         $scheduleThreshold = $now->sub(new \DateInterval("PT{$scheduleMinutesThreshold}M"));
 
         $qb = $this->createQueryBuilder('provision');
+
+        // a participant that is still in the room, in a status that is NOT destroyed
+        $activeParticipantSub = $this->getEntityManager()->createQueryBuilder()
+            ->select('1')
+            ->from(RoomStatus::class, 'sub_status')
+            ->innerJoin('sub_status.roomStatusParticipants', 'sub_participant')
+            ->where('sub_status.room = room')
+            ->andWhere('sub_participant.inRoom = true')
+            ->andWhere('sub_status.destroyed = false OR sub_status.destroyed IS NULL')
+            ->getDQL();
+
+        // a recording that is still running (has a user)
+        $activeRecordingSub = $this->getEntityManager()->createQueryBuilder()
+            ->select('1')
+            ->from(Recording::class, 'sub_recording')
+            ->where('sub_recording.room = room')
+            ->andWhere('sub_recording.user IS NOT NULL')
+            ->getDQL();
+
         return $qb
             ->select('provision', 'room')
             ->innerJoin('provision.room', 'room')
             ->innerJoin('room.server', 'server')
-            ->leftJoin('room.roomstatuses', 'status')
-            ->leftJoin('status.roomStatusParticipants', 'status_participant')
-            ->leftJoin('room.liveKitRecordings', 'recording')
 
             ->andWhere('provision.status = :runningProvisionStatus')
-            ->andWhere('room.originalServer IS NOT NULL')
-            ->andWhere('server.isAllowedToCloneForAutoscale IS NULL')
-            ->andWhere('server.isProvisioningEnabled = true')
             ->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->andX(
@@ -83,21 +98,17 @@ class ProvisionerRecordRepository extends ServiceEntityRepository
                 ),
             )
             ->andWhere(
-                $qb->expr()->orX(
-                    'status_participant.inRoom IS NULL',
-                    'status_participant.inRoom = false',
-                    'status.destroyed = true',
-                ),
+                $qb->expr()->not(
+                    $qb->expr()->exists($activeParticipantSub)
+                )
             )
             ->andWhere(
-                $qb->expr()->orX(
-                    'recording.id IS NULL',
-                    'recording.user IS NULL',
-                ),
+                $qb->expr()->not(
+                    $qb->expr()->exists($activeRecordingSub)
+                )
             )
-            ->andWhere(
-                'room.createdAt < :timeoutThreshold'
-            )
+            ->andWhere('room.createdAt < :timeoutThreshold')
+
             ->setParameter('nowUtc', $nowUtc)
             ->setParameter('timeoutThreshold', $timeoutThreshold)
             ->setParameter('scheduleThreshold', $scheduleThreshold)
