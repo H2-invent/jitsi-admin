@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+## Description: Start or stop cron jobs by commenting/uncommenting crontab entries
+## Usage: cron [start|stop]
+## Example: cron start\ncron stop
+
+set -e
+
+if [ -z "$1" ]; then
+    echo "Error: Missing required argument. Usage: cron [start|stop]"
+    exit 1
+fi
+
+ACTION="$1"
+
+CURRENT_CRONTAB=$(crontab -l 2>/dev/null || echo "")
+
+if [ -z "$CURRENT_CRONTAB" ]; then
+    echo "No crontab entries found."
+    exit 0
+fi
+
+case "$ACTION" in
+    stop)
+        # Check if there are any uncommented entries (lines that don't start with # and are not empty)
+        UNCOMMENTED=$(echo "$CURRENT_CRONTAB" | grep -E "^[^#]" | grep -v "^$" || true)
+
+        if [ -z "$UNCOMMENTED" ]; then
+            echo "Cronjobs already stopped."
+            exit 0
+        fi
+
+        # Comment out all uncommented lines (except empty lines)
+        NEW_CRONTAB=$(echo "$CURRENT_CRONTAB" | sed '/^$/!{/^#/!s/^/#/}')
+
+        echo "$NEW_CRONTAB" | crontab -
+
+        echo "Cronjobs stopped."
+        ;;
+
+    start)
+        # Check if there are any commented entries (lines starting with #)
+        # Exclude lines that are pure comments (like #comment) vs disabled cron entries
+        COMMENTED=$(echo "$CURRENT_CRONTAB" | grep -E "^#[^#!]|^#[0-9*]" || true)
+
+        if [ -z "$COMMENTED" ]; then
+            echo "Cronjobs already started."
+            exit 0
+        fi
+
+        # Remove leading # from commented cron entries
+        # shellcheck disable=SC2001
+        NEW_CRONTAB=$(echo "$CURRENT_CRONTAB" | sed 's/^#\([^#!]\)/\1/')
+
+        echo "$NEW_CRONTAB" | crontab -
+
+        echo "Cronjobs started."
+        ;;
+
+    *)
+        echo "Error: Invalid argument '$ACTION'. Usage: cron [start|stop]"
+        exit 1
+        ;;
+esac

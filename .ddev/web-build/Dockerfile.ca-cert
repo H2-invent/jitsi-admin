@@ -1,0 +1,3 @@
+COPY ca_certificate.pem client_certificate.pem client_key.pem /
+RUN chown ${uid}:${gid} /ca_certificate.pem /client_certificate.pem /client_key.pem
+RUN chmod 600 /ca_certificate.pem /client_certificate.pem /client_key.pem
