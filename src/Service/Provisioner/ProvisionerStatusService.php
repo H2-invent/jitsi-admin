@@ -18,6 +18,10 @@ class ProvisionerStatusService
         Status::PROVISION_REQUESTED->value => [
             Status::PROVISION_DONE,
             Status::PROVISION_FAILED,
+            Status::PROVISION_STUCK,
+        ],
+        Status::PROVISION_STUCK->value => [
+            Status::DELETION_STUCK,
         ],
         Status::PROVISION_DONE->value => [
             Status::DELETION_REQUESTED,
@@ -56,6 +60,12 @@ class ProvisionerStatusService
         $this->provisionFailed($record);
     }
 
+    public function stuckProvision(ProvisionerRecord $record): void
+    {
+        $this->assertTransition($record->getStatus(), Status::PROVISION_STUCK);
+        $this->provisionStuck($record);
+    }
+
     public function requestDeletion(ProvisionerRecord $record): void
     {
         $this->assertTransition($record->getStatus(), Status::DELETION_REQUESTED);
@@ -72,6 +82,12 @@ class ProvisionerStatusService
     {
         $this->assertTransition($record->getStatus(), Status::DELETION_FAILED);
         $this->deletionFailed($record);
+    }
+
+    public function stuckDeletion(ProvisionerRecord $record): void
+    {
+        $this->assertTransition($record->getStatus(), Status::DELETION_STUCK);
+        $this->deletionStuck($record);
     }
 
     private function assertTransition(Status $currentStatus, Status $nextStatus): void
@@ -114,6 +130,19 @@ class ProvisionerStatusService
         }
     }
 
+    // TRANSITION PROVISION_REQUESTED -> PROVISION_STUCK
+    private function provisionStuck(ProvisionerRecord $record): void
+    {
+        // clean up possibly orphaned remote server, just send a delete for current request and retry with a new request
+        $this->setRecordStatus($record, Status::PROVISION_STUCK);
+        $this->communicationService->sendDeleteRequest($record);
+
+        if ($this->recordService->shouldAttemptRetry($record)) {
+            $retryRecord = $this->recordService->createNewRetryRecord($record);
+            $this->requestProvision($retryRecord);
+        }
+    }
+
     // TRANSITION PROVISION_DONE -> DELETION_REQUESTED
     private function deletionRequest(ProvisionerRecord $record): void
     {
@@ -136,6 +165,13 @@ class ProvisionerStatusService
     {
         // ignore for now, this should be picked up by cronjob to restart deletion
         $this->setRecordStatus($record, Status::DELETION_FAILED);
+    }
+
+    // TRANSITION PROVISION_STUCK -> DELETION_STUCK
+    private function deletionStuck(ProvisionerRecord $record): void
+    {
+        // nothing to do here, we don't retry regardless because a deletion failure is expected
+        $this->setRecordStatus($record, Status::DELETION_STUCK);
     }
 
     private function setRecordStatus(ProvisionerRecord $record, Status $status): void

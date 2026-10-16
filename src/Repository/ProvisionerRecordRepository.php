@@ -4,7 +4,10 @@ namespace App\Repository;
 
 use App\Entity\ProvisionerRecord;
 use App\Entity\Rooms;
+use App\Message\Provisioner\Enum\Status;
 use App\Service\Provisioner\ProvisionerStatus;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -48,10 +51,11 @@ class ProvisionerRecordRepository extends ServiceEntityRepository
      */
     public function findProvisioningRecordsWhoseServerCanBeDeleted(int $scheduleMinutesThreshold): array
     {
-        $nowUtc = new \DateTime('now', new \DateTimeZone('utc'));
+        $nowUtc = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
+        $now = new \DateTimeImmutable('now');
 
-        $timeoutThreshold = (new \DateTime())->sub(new \DateInterval("PT5M")); // 5 min timeout to provision server and connect users
-        $scheduleThreshold = (new \DateTime())->sub(new \DateInterval("PT{$scheduleMinutesThreshold}M"));
+        $timeoutThreshold = $now->sub(new \DateInterval("PT5M")); // 5 min timeout to provision server and connect users
+        $scheduleThreshold = $now->sub(new \DateInterval("PT{$scheduleMinutesThreshold}M"));
 
         $qb = $this->createQueryBuilder('provision');
         return $qb
@@ -103,28 +107,41 @@ class ProvisionerRecordRepository extends ServiceEntityRepository
         ;
     }
 
-//    /**
-//     * @return Provisioning[] Returns an array of Provisioning objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return ProvisionerRecord[]
+     */
+    public function findStuckProvisions(): array
+    {
+        $now = new DateTimeImmutable('now');
+        $timeoutThreshold = $now->sub(new \DateInterval("PT1M")); // 1 min timeout for the provisions
 
-//    public function findOneBySomeField($value): ?Provisioning
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $qb = $this->createQueryBuilder('p');
+        return $qb
+            ->andWhere('p.status = :provisioned_status')
+            ->andWhere('p.updatedAt < :timeout_threshold')
+            ->setParameter('provisioned_status', ProvisionerStatus::PROVISION_REQUESTED)
+            ->setParameter('timeout_threshold', $timeoutThreshold)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return ProvisionerRecord[]
+     */
+    public function findStuckDeletions(): array
+    {
+        $now = new DateTimeImmutable('now');
+        $timeoutThreshold = $now->sub(new \DateInterval("PT2M")); // 2 min timeout for the deletions
+
+        $qb = $this->createQueryBuilder('p');
+        return $qb
+            ->andWhere('p.status = :provisioned_status')
+            ->andWhere('p.updatedAt < :timeout_threshold')
+            ->setParameter('provisioned_status', ProvisionerStatus::DELETION_REQUESTED)
+            ->setParameter('timeout_threshold', $timeoutThreshold)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

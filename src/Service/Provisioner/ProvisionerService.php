@@ -48,16 +48,6 @@ class ProvisionerService
         }
     }
 
-    public function cleanupUnusedProvisionedServers(): int
-    {
-        $provisioningRecords = $this->provisionerRecordRepository->findProvisioningRecordsWhoseServerCanBeDeleted($this->scheduleMinutesTreshold);
-        foreach ($provisioningRecords as $provisioningRecord) {
-            $this->statusService->requestDeletion($provisioningRecord);
-        }
-
-        return count($provisioningRecords);
-    }
-
     public function provisionServerForRoomsStartingIn(?int $minutes = null): int
     {
         $minutes ??= $this->scheduleMinutesTreshold;
@@ -70,4 +60,33 @@ class ProvisionerService
         return count($rooms);
     }
 
+    public function cleanupFinishedProvisions(): int
+    {
+        $provisioningRecords = $this->provisionerRecordRepository->findProvisioningRecordsWhoseServerCanBeDeleted($this->scheduleMinutesTreshold);
+        foreach ($provisioningRecords as $provisioningRecord) {
+            $this->statusService->requestDeletion($provisioningRecord);
+        }
+
+        return count($provisioningRecords);
+    }
+
+    public function cleanupStuckProvisions(): int
+    {
+        $stuckProvisions = $this->provisionerRecordRepository->findStuckProvisions();
+        foreach ($stuckProvisions as $provisioningRecord) {
+            $this->statusService->stuckProvision($provisioningRecord);
+        }
+
+        return count($stuckProvisions);
+    }
+
+    public function cleanupStuckDeletions(): int
+    {
+        $stuckDeletions = $this->provisionerRecordRepository->findStuckDeletions();
+        foreach ($stuckDeletions as $provisioningRecord) {
+            $this->statusService->failDeletion($provisioningRecord);
+        }
+
+        return count($stuckDeletions);
+    }
 }

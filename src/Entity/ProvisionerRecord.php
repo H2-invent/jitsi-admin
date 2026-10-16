@@ -7,6 +7,7 @@ use App\Service\Provisioner\ProvisionerStatus;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProvisionerRecordRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class ProvisionerRecord
 {
     #[ORM\Id]
@@ -26,6 +27,12 @@ class ProvisionerRecord
 
     #[ORM\OneToOne]
     private ?Server $provisionedServer = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
     {
@@ -76,6 +83,42 @@ class ProvisionerRecord
     public function setProvisionedServer(?Server $provisionedServer): static
     {
         $this->provisionedServer = $provisionedServer;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): static
+    {
+        if ($this->updatedAt === null) {
+            $this->createdAt = new \DateTimeImmutable();
+            $this->setUpdatedAtValue();
+        }
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): static
+    {
+        $this->updatedAt = new \DateTimeImmutable();
 
         return $this;
     }

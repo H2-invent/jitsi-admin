@@ -6,6 +6,7 @@ use App\Message\Provisioner\Enum\Status;
 use App\Message\Provisioner\Enum\Type;
 use App\Message\Provisioner\ProvisionerStatusMessage;
 use App\Repository\ProvisionerRecordRepository;
+use App\Service\Provisioner\ProvisionerStatus;
 use App\Service\Provisioner\ProvisionerStatusService;
 use LogicException;
 use Psr\Log\LoggerInterface;
@@ -41,7 +42,7 @@ final class ProvisionerStatusMessageHandler
                             return;
 
                         case Status::STARTED:
-                            $this->logger->info("Provisioner status 'started' for roomId: {$message->request_id}");
+                            $this->logger->info("Provisioner status 'started' for requestId: {$message->request_id}");
 
                             return;
 
@@ -56,7 +57,11 @@ final class ProvisionerStatusMessageHandler
                     switch ($message->status) {
                         case Status::FAILED:
                             $this->logger->info("Deletion status 'failed' for requestId: {$message->request_id}");
-                            $this->provisionerStatusService->failDeletion($provisionerRecord);
+                            if ($provisionerRecord->getStatus() === ProvisionerStatus::PROVISION_STUCK) {
+                                $this->provisionerStatusService->stuckDeletion($provisionerRecord);
+                            } else {
+                                $this->provisionerStatusService->failDeletion($provisionerRecord);
+                            }
 
                             return;
 
