@@ -66,8 +66,8 @@ final class JWTGenerateTest extends TestCase
             $userPreferences,
             $this->createStub(LivekitRoomNameGenerator::class),
             $this->themeService,
-            $this->createStub(PredefinedLobbyMessagesRepository::class),
             new MockClock(),
+            $this->createStub(PredefinedLobbyMessagesRepository::class),
         );
     }
 
