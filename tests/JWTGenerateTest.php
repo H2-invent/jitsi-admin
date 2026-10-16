@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Service\LivekitRoomNameGenerator;
 use App\Service\RoomService;
 use App\Service\Theme\ThemeService;
@@ -66,6 +67,7 @@ final class JWTGenerateTest extends TestCase
             $this->createStub(LivekitRoomNameGenerator::class),
             $this->themeService,
             new MockClock(),
+            $this->createStub(PredefinedLobbyMessagesRepository::class),
         );
     }
 
@@ -239,6 +241,9 @@ final class JWTGenerateTest extends TestCase
                     'name' => 'Ada Lovelace',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                ],
+                'lobby' => [
+                    'chatMessages' => [],
                 ],
             ],
             'settings' => [
