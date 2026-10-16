@@ -51,7 +51,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
@@ -118,7 +118,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
@@ -164,7 +164,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, null, 'Test User');
@@ -210,7 +210,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, null, 'Test User');
@@ -259,7 +259,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
@@ -312,7 +312,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
@@ -362,7 +362,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
@@ -412,7 +412,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
@@ -463,7 +463,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
@@ -516,7 +516,7 @@ class JwtTest extends KernelTestCase
             ],
 
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
@@ -569,7 +569,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User', 'https://image.de');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User', 'https://image.de');
@@ -668,7 +668,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
     }
 
     public function testLobbyModeratorDerivedInContextWhenJwtModeratorPositionIsOne(): void
@@ -764,5 +764,19 @@ class JwtTest extends KernelTestCase
             ],
             $messages
         );
+    }
+
+    private function assertPayloadEquals(array $expected, array $actual): void
+    {
+        self::assertArrayHasKey('iat', $actual);
+        self::assertArrayHasKey('exp', $actual);
+        self::assertSame(
+            (int) self::getContainer()->getParameter('JWT_LIFETIME_IN_SEC'),
+            $actual['exp'] - $actual['iat']
+        );
+
+        unset($actual['iat'], $actual['exp']);
+
+        self::assertEquals($expected, $actual);
     }
 }

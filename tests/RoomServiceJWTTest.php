@@ -90,7 +90,7 @@ class RoomServiceJWTTest extends KernelTestCase
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
@@ -207,7 +207,7 @@ class RoomServiceJWTTest extends KernelTestCase
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
@@ -309,7 +309,7 @@ class RoomServiceJWTTest extends KernelTestCase
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
@@ -386,7 +386,7 @@ invalidKey
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true, null, null);
         // Arrange
 
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
@@ -442,6 +442,20 @@ invalidKey
             ],
             $payload
         );
+    }
+
+    private function assertPayloadEquals(array $expected, array $actual): void
+    {
+        self::assertArrayHasKey('iat', $actual);
+        self::assertArrayHasKey('exp', $actual);
+        self::assertSame(
+            (int) self::getContainer()->getParameter('JWT_LIFETIME_IN_SEC'),
+            $actual['exp'] - $actual['iat']
+        );
+
+        unset($actual['iat'], $actual['exp']);
+
+        self::assertEquals($expected, $actual);
     }
 
     /**
