@@ -265,7 +265,7 @@ class RoomService
             }
         }
         if (!$noModerator && ($moderator || $lobbyModerator)) {
-            $payload['context']['lobby']['chat_messages'] = $this->getLobbyChatMessages();
+            $payload['context']['lobby']['chatMessages'] = $this->getLobbyChatMessages();
         }
 
         $payload['context']['user']['language'] = $this->userPreferences->getLanguage();

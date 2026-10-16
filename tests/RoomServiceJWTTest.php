@@ -110,7 +110,7 @@ class RoomServiceJWTTest extends KernelTestCase
                             'isE2EEEnabled' => false,
                         ],
                         'lobby' => [
-                            'chat_messages' => $this->expectedLobbyChatMessages(),
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
                         ],
                     ],
                 'livekit' =>
@@ -241,7 +241,7 @@ class RoomServiceJWTTest extends KernelTestCase
                             'isE2EEEnabled' => false,
                         ],
                         'lobby' => [
-                            'chat_messages' => $this->expectedLobbyChatMessages(),
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
                         ],
                     ],
                 'livekit' =>
@@ -331,7 +331,7 @@ class RoomServiceJWTTest extends KernelTestCase
                             'isE2EEEnabled' => false,
                         ],
                         'lobby' => [
-                            'chat_messages' => $this->expectedLobbyChatMessages(),
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
                         ],
                     ],
                 'livekit' =>
@@ -406,7 +406,7 @@ invalidKey
                             'isE2EEEnabled' => false,
                         ],
                         'lobby' => [
-                            'chat_messages' => $this->expectedLobbyChatMessages(),
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
                         ],
                     ],
                 'livekit' =>

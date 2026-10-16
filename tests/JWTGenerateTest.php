@@ -222,7 +222,7 @@ final class JWTGenerateTest extends TestCase
                     'timezone' => 'Europe/Berlin',
                 ],
                 'lobby' => [
-                    'chat_messages' => [],
+                    'chatMessages' => [],
                 ],
             ],
             'settings' => [

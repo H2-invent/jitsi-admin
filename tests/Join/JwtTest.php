@@ -42,7 +42,7 @@ class JwtTest extends KernelTestCase
                     'isE2EEEnabled' => false,
                 ],
                 'lobby' => [
-                    'chat_messages' => $this->expectedLobbyChatMessages(),
+                    'chatMessages' => $this->expectedLobbyChatMessages(),
                 ],
             ],
             'moderator' => true,
@@ -109,7 +109,7 @@ class JwtTest extends KernelTestCase
                     'isE2EEEnabled' => false,
                 ],
                 'lobby' => [
-                    'chat_messages' => $this->expectedLobbyChatMessages(),
+                    'chatMessages' => $this->expectedLobbyChatMessages(),
                 ],
             ],
             'moderator' => true,
@@ -250,7 +250,7 @@ class JwtTest extends KernelTestCase
                     'isE2EEEnabled' => false,
                 ],
                 'lobby' => [
-                    'chat_messages' => $this->expectedLobbyChatMessages(),
+                    'chatMessages' => $this->expectedLobbyChatMessages(),
                 ],
             ],
             'moderator' => true,
@@ -303,7 +303,7 @@ class JwtTest extends KernelTestCase
                     'isE2EEEnabled' => false,
                 ],
                 'lobby' => [
-                    'chat_messages' => $this->expectedLobbyChatMessages(),
+                    'chatMessages' => $this->expectedLobbyChatMessages(),
                 ],
             ],
             'moderator' => true,
@@ -661,7 +661,7 @@ class JwtTest extends KernelTestCase
                     'isE2EEEnabled' => false,
                 ],
                 'lobby' => [
-                    'chat_messages' => $this->expectedLobbyChatMessages(),
+                    'chatMessages' => $this->expectedLobbyChatMessages(),
                 ],
             ],
             'theme' => [
@@ -727,7 +727,7 @@ class JwtTest extends KernelTestCase
 
         $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, null, null, lobbyModerator: true);
 
-        $messages = $payload['context']['lobby']['chat_messages'];
+        $messages = $payload['context']['lobby']['chatMessages'];
         $this->assertNotEmpty($messages);
         $this->assertSame($this->expectedLobbyChatMessages(), $messages);
     }
