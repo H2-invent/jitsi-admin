@@ -10,7 +10,7 @@ RUN npm install
 
 USER node
 COPY --chown=node:node . .
-RUN ["chmod", "755", "websocket.js"]
+RUN ["chmod", "755", "server.mjs"]
 EXPOSE 3000
 
-CMD [ "node", "websocket.js" ]
+CMD [ "node", "server.mjs" ]

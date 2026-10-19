@@ -144,6 +144,12 @@ p {
   }
 }
 
+// Higher specificity than the light-mode rule (.profile .profileLine .picture
+// .dropdown-divider) so it wins in dark mode, where _main.scss is also loaded.
+.profile .profileLine .picture .dropdown-menu .dropdown-divider {
+  border-top: 1px solid $black_border-color !important;
+}
+
 
 .popover {
   background-color: $black_navbar;
@@ -216,6 +222,15 @@ label {
     color: $black_font-color !important;
     opacity: 0.5;
   }
+}
+
+// MDB forces a light disabled-background on read-only inputs via
+// `.form-outline .form-control[readonly]` (specificity 0,3,0), which overrides
+// the rule above. Override it so read-only inputs stay dark in dark mode.
+.form-control[readonly],
+.form-outline .form-control[readonly] {
+  background-color: $black_background !important;
+  color: $black_font-color !important;
 }
 
 .form-control:focus {

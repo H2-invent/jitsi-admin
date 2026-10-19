@@ -11,6 +11,7 @@ namespace App\Form\Type;
 
 use App\Entity\AuditTomAbteilung;
 use App\Entity\Tag;
+use App\Service\Transcription\TranscriptionProvider;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -18,6 +19,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -56,6 +58,9 @@ class EnterpriseType extends AbstractType
             ->add('jitsiEventSyncUrl', TextType::class, ['required' => false, 'label' => 'label.jitsiEventSyncUrl', 'help' => 'help.jitsiEventSyncUrl', 'translation_domain' => 'form'])
             ->add('livekitMiddlewareUrl', TextType::class, ['required' => false, 'label' => 'label.livekitMiddlewareUrl', 'help' => 'help.livekitMiddlewareUrl', 'translation_domain' => 'form'])
             ->add('enableRecording', CheckboxType::class, ['required' => false, 'label' => 'label.enableRecording', 'translation_domain' => 'form'])
+            ->add('transcriptionProvider', EnumType::class, ['class' => TranscriptionProvider::class, 'choice_label' => 'value' , 'required' => false, 'label' => 'label.transcriptionProvider', 'translation_domain' => 'form'])
+            ->add('apiKeyTranscription', TextType::class, ['required' => false, 'label' => 'label.apiKeyTranscription', 'translation_domain' => 'form'])
+            ->add('enableTranscription', CheckboxType::class, ['required' => false, 'label' => 'label.enableTranscription', 'translation_domain' => 'form'])
 
             ->add('tag', EntityType::class, [
                 'class' => Tag::class,

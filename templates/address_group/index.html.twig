@@ -11,18 +11,20 @@
              <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            {{ form_start(form) }}
-            <div class="row d-flex align-items-center textarea">
+            {{ form_start(form, {'attr': {'id': 'addressGroupForm', 'data-ajax': 'true', 'action': path('address_group_new_ajax', {'id': form.vars.value.id ?? ''})}}) }}
+            <div class="row d-flex align-items-start textarea mt-3">
                 <div class="col-lg-8 ">
-                    {{ form_row(form.name) }}
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="text" id="{{ form.name.vars.id }}" name="{{ form.name.vars.full_name }}" required="required" placeholder="{{ 'label.addressgroupName'|trans([], 'form') }}" class="form-control" value="{{ form.name.vars.value }}" />
+                        <label class="form-label" for="{{ form.name.vars.id }}">{{ 'label.addressgroupName'|trans([], 'form') }}</label>
+                    </div>
                 </div>
                 <div class="col-lg-4">
-                    {{ form_row(form.submit) }}
+                        {{ form_widget(form.submit, {attr: {class: 'btn btn-primary btn-sm mt-0'}}) }}
                 </div>
-                <div class="col-lg-12 mt-4">
-                    <div class="form-group">
-                        <input type="text" id="searchAddressGroup" placeholder="{{ 'Suche'|trans }}" class="form-control">
-                    </div>
+                <hr class="my-4"/>
+                <div class="col-lg-12">
+                    <input type="text" id="searchAddressGroup" placeholder="{{ 'Suche'|trans }}" class="form-control">
                 </div>
 
                 <div class="col-lg-12 mt-2 ">
@@ -43,7 +45,8 @@
                 </div>
 
             </div>
-            {{ form_end(form) }}
+            {{ form_row(form._token) }}
+            {{ form_end(form, {render_rest: false}) }}
         </div>
     </div>
 </div>

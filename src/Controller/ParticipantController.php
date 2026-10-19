@@ -12,6 +12,7 @@ use App\Service\ParticipantSearchService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\Theme\ThemeService;
+use App\Service\UserCreatorService;
 use App\Service\UserService;
 use App\UtilsHelper;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,7 +25,7 @@ class ParticipantController extends JitsiAdminController
 {
 
     #[Route(path: '/room/participant/search', name: 'search_participant')]
-    public function index(Request $request, ParticipantSearchService $participantSearchService): Response
+    public function index(Request $request, ParticipantSearchService $participantSearchService, UserCreatorService $userCreatorService): Response
     {
         $string = $request->get('search');
         $string = strtolower($string);
@@ -32,7 +33,7 @@ class ParticipantController extends JitsiAdminController
         $group = $this->doctrine->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
 
         $res = [];
-        if ($this->parameterBag->get('strict_allow_user_creation') == 1) {
+        if ($userCreatorService->doAllowUserCreation()) {
             $res['user'] = $participantSearchService->generateUserwithEmptyUser($user, $string);
         } else {
             $res['user'] = $participantSearchService->generateUserwithoutEmptyUser($user);
@@ -158,17 +159,27 @@ class ParticipantController extends JitsiAdminController
     #[Route(path: '/room/participant/resend', name: 'room_user_resend')]
     public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
+        $isAjax = $request->isXmlHttpRequest();
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('room')]);
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
+            if ($isAjax) {
+                return new JsonResponse(['error' => true, 'toast' => true, 'message' => $this->translator->trans('Keine Berechtigung'), 'color' => 'danger']);
+            }
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         if (!in_array($room, $user->getRooms()->toArray())) {
+            if ($isAjax) {
+                return new JsonResponse(['error' => true, 'toast' => true, 'message' => $this->translator->trans('Keine Berechtigung'), 'color' => 'danger']);
+            }
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
         $userService->addUser($user, $room);
+        if ($isAjax) {
+            return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('participant.resend.invitation.sucess'), 'color' => 'success']);
+        }
         $this->addFlash('success', $this->translator->trans('participant.resend.invitation.sucess'));
         return $this->redirectToRoute('dashboard');
     }

@@ -55,6 +55,10 @@ class CallerControllerTest extends WebTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $room->setStart((new \DateTime())->modify('+2 hours'));
+        $room->setEnddate((new \DateTime())->modify('+4 hours'));
+        $manager->persist($room);
+        $manager->flush();
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
 

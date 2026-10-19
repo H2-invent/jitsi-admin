@@ -58,7 +58,7 @@ class DeputyDashboardTest extends WebTestCase
         $conf = $crawler->filter('#room_card' . $room->getUidReal())->count();
         self::assertEquals($conf, 1);
         self::assertStringContainsString('Private Konferenz', $crawler->filter('#room_card' . $room->getUidReal())->text());
-        $conf = $crawler->filter('#room_card' . $room->getUidReal() . ' .startDropdown')->count();
+        $conf = $crawler->filter('#room_card' . $room->getUidReal() . ' .startIframe')->count();
         self::assertEquals($conf, 0);
         $conf = $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-edit')->count();
         self::assertEquals($conf, 0);

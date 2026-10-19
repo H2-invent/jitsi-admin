@@ -6,6 +6,7 @@ use App\Repository\KeycloakGroupsToServersRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: KeycloakGroupsToServersRepository::class)]
+#[ORM\Index(fields: ['keycloakGroup'], name: 'idx_kctg_keycloak_group')]
 class KeycloakGroupsToServers
 {
     #[ORM\Id]
@@ -15,7 +16,7 @@ class KeycloakGroupsToServers
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'keycloakGroups', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private $server;
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 255)]
     private $keycloakGroup;
     public function getId(): ?int
     {

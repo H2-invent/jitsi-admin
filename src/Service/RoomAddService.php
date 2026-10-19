@@ -3,26 +3,19 @@
 namespace App\Service;
 
 use App\Entity\CallerId;
-use App\Entity\CallerSession;
 use App\Entity\CalloutSession;
-use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 class RoomAddService
 {
     public function __construct(
         private UserCreatorService      $userCreatorService,
-        private ParameterBagInterface   $parameterBag,
         private RepeaterService         $repeaterService,
         private EntityManagerInterface  $em,
         private UserService             $userService,
@@ -144,7 +137,9 @@ class RoomAddService
             if (!$user) {
                 $user = $this->em->getRepository(User::class)->findOneBy(['username' => $newMember]);
             }
-            if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $user) {
+
+            $isValidEmail = filter_var($newMember, FILTER_VALIDATE_EMAIL);
+            if (($isValidEmail && $this->userCreatorService->doAllowUserCreation()) || $user) {
                 if (!$user) {
                     $user = $this->userCreatorService->createUser($email, $email, '', '');
                 }

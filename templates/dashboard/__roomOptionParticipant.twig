@@ -13,7 +13,7 @@
     {% if not room.scheduleMeeting %}
         {% include 'dashboard/__roomOptionStartButton.html.twig' with {'room':room} %}
     {% else %}
-        {% if  isAllowedToOrganize(room,app.user) and scheduleUserHasVoted(app.user,room) %}
+        {% if  isAllowedToOrganize(room,app.user) and scheduleUserHasVotedMap[room.id] is defined %}  
             <a href="{{ path('schedule_admin_select_best',{'id':room.id}) }}"
                class=" btn btn-outline-primary participant-shedule loadContent"><i class="fa-regular fa-calendar-check me-2"></i> {{ 'scheduler.transform'|trans }}</a>
         {% else %}

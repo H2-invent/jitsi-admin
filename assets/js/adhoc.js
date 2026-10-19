@@ -16,14 +16,14 @@ let ok = "OK";
 
 function initconfirmLoadOpenPopUp() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('adhocConfirm')) {
+        const triggerElement = e.target.closest('.adhocConfirm');
+        if (triggerElement) {
             e.preventDefault();
 
-            var url = e.target.href;
-            var text = e.target.getAttribute('data-text') || 'Wollen Sie die Aktion durchführen?';
-            var title = e.target.getAttribute('data-title') || 'Bestätigung';
-            var ok = 'Bestätigen'; // Passe den Text nach Bedarf an
-            var cancel = 'Abbrechen'; // Passe den Text nach Bedarf an
+            var url = triggerElement.href;
+            var title = triggerElement.getAttribute('data-title') || 'Bestätigung';
+            var ok = 'Bestätigen';
+            var cancel = 'Abbrechen';
 
             fetch(url)
                 .then(response => response.text())
@@ -42,18 +42,31 @@ function initconfirmLoadOpenPopUp() {
                         },
                         width: '50%',
                         preConfirm: () => {
-                            var selectedOption = document.querySelector('#adhocTag option:checked').getAttribute('data-value');
+                            var checkedOption = document.querySelector('#adhocTag option:checked');
+                            if (!checkedOption) {
+                                Swal.showValidationMessage('No tag selected');
+                                return false;
+                            }
+                            var selectedOption = checkedOption.getAttribute('data-value');
                             return fetch(selectedOption)
-                                .then(response => response.json())
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('HTTP ' + response.status);
+                                    }
+                                    return response.json();
+                                })
                                 .then(data => {
                                     if (data.popups) {
                                         data.popups.forEach(function (value) {
                                             createIframe(value.url, value.title);
                                         });
+                                    } else if (data.redirectUrl) {
+                                        Swal.showValidationMessage('Die Konferenz konnte nicht erstellt werden.');
+                                        return false;
                                     }
                                 })
-                                .catch(() => {
-                                    Swal.showValidationMessage('Request failed');
+                                .catch((error) => {
+                                    Swal.showValidationMessage('Request failed: ' + error.message);
                                 });
                         }
                     });

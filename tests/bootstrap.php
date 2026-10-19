@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\Dotenv\Dotenv;
+require dirname(__DIR__) . '/vendor/dg/bypass-finals/src/bootstrap.php';
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 

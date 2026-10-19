@@ -16,7 +16,6 @@ corepack_enable: false
 webimage_extra_packages: [ldap-utils]
 hooks:
   post-start:
-  - exec: cp .ddev/.env.test.local .env.test.local
   # When the optional `ldap` profile is active, wait for ApacheDS to accept
   # connections, reset the admin password from the default `secret` to
   # `password` (matching the existing tests' hardcoded credentials), then

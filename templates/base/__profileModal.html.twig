@@ -254,12 +254,6 @@
             </div>
 
 
-            <div class="modal-footer">
-                {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
-                    <a href="{{ path('logout_keycloak') }}"
-                       class="btn btn-block btn-outline-primary btn-sm">{{ 'Logout'|trans }}</a>
-                {% endif %}
-            </div>
         </div>
     </div>
 </div>
