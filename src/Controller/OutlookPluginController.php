@@ -8,6 +8,7 @@ use App\Service\CreateHttpsUrl;
 use App\Service\PublicConference\PublicConferenceService;
 use App\Service\ServerUserManagment;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class OutlookPluginController extends AbstractController
 {
     public function __construct(
-        private EntityManager $entityManager,
+        private EntityManagerInterface $entityManager,
         private ServerUserManagment $serverUserManagment,
         private readonly PublicConferenceService $publicConferenceService,
         private readonly  CreateHttpsUrl $createHttpsUrl
