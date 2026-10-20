@@ -32,6 +32,6 @@ class PredefinedMessages extends AbstractExtension
     public function getPredefinedMessages()
     {
 
-        return $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findBy(['active' => true], ['priority' => 'ASC']);
+        return $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findActiveOrderedByPriority();
     }
 }
