@@ -38,16 +38,17 @@ function initGenerell() {
     initStartIframe();
     initProtip();
     wrapSelect();
+    openConferenceEditorFromUrl();
     if (inIframe()) {
         document.body.classList.add("in-iframe");
     }
     if (window.innerWidth < 768) {
         document.body.classList.add("in-smartPhone");
     }
-    if (typeof blankTarget !== 'undefined'){
+    if (typeof blankTarget !== 'undefined') {
         openBlankTarget(blankTarget);
     }
-    if (typeof confirmTitle !== 'undefined'){
+    if (typeof confirmTitle !== 'undefined') {
         initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
     }
 
@@ -127,30 +128,33 @@ function initLoadContent() {
             e.preventDefault(); // Verhindere die Standardaktion des Links
 
             const url = target.getAttribute('href');
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.text();
-                })
-                .then(data => {
-                    const modalElement = document.getElementById('loadContentModal');
-                    modalElement.innerHTML='';
-                    modalElement.innerHTML = data;
-
-                    // Überprüfe, ob das Modal geöffnet ist
-                    if (!modalElement.classList.contains('show')) {
-                        const modal = Modal.getOrCreateInstance(modalElement);
-                        modal.show();
-                    } else {
-                        initNewModal(modalElement);
-                    }
-                })
-                .catch(() => {
-                    window.location.reload();
-                });
+            openContentFromUrl(url);
         }
     });
+}
+
+function openContentFromUrl(url) {
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.text();
+        })
+        .then(data => {
+            const modalElement = document.getElementById('loadContentModal');
+            modalElement.innerHTML = '';
+            modalElement.innerHTML = data;
+
+            // Überprüfe, ob das Modal geöffnet ist
+            if (!modalElement.classList.contains('show')) {
+                const modal = Modal.getOrCreateInstance(modalElement);
+                modal.show();
+            } else {
+                initNewModal(modalElement);
+            }
+        })
+        .catch(() => {
+            window.location.reload();
+        });
 }
 
 $('#loadContentModal').on('shown.bs.modal', function (e) {
@@ -315,6 +319,18 @@ function initProtip() {
                 proTip.classList.add('proTips-initialized');
             });
         });
+    }
+}
+
+function openConferenceEditorFromUrl() {
+    let params = new URLSearchParams(document.location.search);
+    if (params.has('editConference_id')) {
+        let conference_id = parseInt(params.get("editConference_id"), 10); // is the number 18
+        openContentFromUrl('/room/new?id=' + conference_id);
+        let url = new URL(window.location.href);
+        url.searchParams.delete('editConference_id');
+        history.replaceState(history.state, '', url.href);
+
     }
 }
 
