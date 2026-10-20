@@ -28,7 +28,7 @@ final class OutlookPluginController extends AbstractController
 
     }
 
-    #[Route('/login', name: 'login', methods: ['GET'])]
+    #[Route('/outlooklogin', name: 'login', methods: ['GET'])]
     public function login(): Response
     {
         /**@var \App\Entity\User $user * */

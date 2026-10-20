@@ -262,7 +262,7 @@ final class OutlookPluginControllerTest extends TestCase
         self::assertSame('/room/outlook/plugin', $prefixAttributes[0]->newInstance()->getPath());
 
         $expectedRoutes = [
-            'login' => ['/login', ['GET']],
+            'login' => ['/outlooklogin', ['GET']],
             'logout' => ['/logout', ['GET']],
             'server' => ['/server', ['GET']],
             'createConference' => ['/createConference', ['POST']],
