@@ -8,80 +8,50 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CreateHeaderServiceTest extends KernelTestCase
 {
-    public static $headerHtml = "<table style=\"width: 500px\">
-    <tbody>
-    <tr>
-  <td style=\"padding: 20px\" colspan=\"2\">
-            <h1>TestMeeting: 0</h1>
-        </td>
-    </tr>
-    <tr>
-        <td style=\"width: 250px; vertical-align:top\"><p>Testagenda:0</p></td>
-        <td style=\"width: 250px; vertical-align:top\"><h3 style=\"margin-top-top:0\">Organisator</h3>Test1, 1234, User, Test</td>
-    </tr>
-    <tr>        
-<td colspan=\"2\" style=\"vertical-align:top\">
-            <p>
-                <small>Alle Zeitangaben sind in der Zeitzone Europe/Berlin</small>   
-         </p></td>
-    </tr>
-    <tr>
-        <td style=\"vertical-align:top\">
-            <table>
-                <tbody>
-                <tr>
-                    <td style=\"padding: 16px; width: 125px; vertical-align: top\">
-                        <h2>Geplant:</h2> <p>%s</p>
-                        <p>%s - %s</p>
-                    </td>
-                    <td style=\"padding: 16px; width: 125px; vertical-align: top\">
-                        <h2>Durchgeführt:</h2>
-                        <table>
-                            <tbody>
-                                                        </tbody>
-                        </table>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-        </td>
-        <td style=\"vertical-align: top\">
-            <table width=\"450px\">
-                <tbody>
-                <tr>
-                    <td style=\"padding: 16px; width: 125px; vertical-align: top\">
-                        <h2>Teilnehmendenliste</h2>
-                    </td>
-                </tr>
-                                    <tr>
-                        <td style=\"padding: 8px\">Test1, 1234, User, Test</td>
-                    </tr>
-                                    <tr>
-                        <td style=\"padding: 8px\">Test2, 1234, User2, Test2</td>
-                    </tr>
-                                    <tr>
-                        <td style=\"padding: 8px\">test@local3.de</td>
-                    </tr>
-                                </tbody>
-            </table>
-
-        </td>
-    </tr>
-    </tbody>
-</table>";
-
     public function testHeaderSuccess(): void
     {
         $kernel = self::bootKernel();
-        // Arrange
 
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $service = self::getContainer()->get(CreateSummaryService::class);
         $headerResponse = $service->createHeader($room);
 
+        $normalize = static fn (string $value): string => trim(preg_replace('~[\r\n\s]+~', '', $value));
+        $normalized = $normalize($headerResponse);
 
-        self::assertEquals(trim(preg_replace('~[\r\n\s]+~', '', $headerResponse)), trim(preg_replace('~[\r\n\s]+~', '', sprintf(self::$headerHtml, $room->getStart()->format('d.m.Y'), $room->getStart()->format('H:i'), $room->getEnddate()->format('H:i')))));
+        // Title and document structure.
+        self::assertStringContainsString('<h1>TestMeeting: 0</h1>', $headerResponse);
+        self::assertStringContainsString('<div class="doc-subtitle">Meeting</div>', $headerResponse);
+
+        // Section headings are rendered with the translated labels.
+        self::assertStringContainsString('>Agenda</div>', $headerResponse);
+        self::assertStringContainsString('>Organisator</div>', $headerResponse);
+        self::assertStringContainsString('>Geplant</div>', $normalize($headerResponse));
+        self::assertStringContainsString('>Durchgeführt</div>', $headerResponse);
+        self::assertStringContainsString('Teilnehmendenliste (' . count($room->getUser()) . ')</div>', $headerResponse);
+
+        // Participants are rendered as inline chips.
+        self::assertStringContainsString('<span class="chip">Test1, 1234, User, Test</span>', $headerResponse);
+
+        // Agenda content.
+        self::assertStringContainsString('Testagenda:0', $normalized);
+
+        // Organiser and participants.
+        self::assertStringContainsString('Test1, 1234, User, Test', $headerResponse);
+        self::assertStringContainsString('Test2, 1234, User2, Test2', $headerResponse);
+        self::assertStringContainsString('test@local3.de', $headerResponse);
+
+        // Schedule information.
+        self::assertStringContainsString($room->getStart()->format('d.m.Y'), $headerResponse);
+        self::assertStringContainsString(
+            $normalize($room->getStart()->format('H:i') . '&ndash;' . $room->getEnddate()->format('H:i')),
+            $normalized
+        );
+
+        // Timezone note.
+        self::assertStringContainsString('Europe/Berlin', $headerResponse);
+
+        $this->assertSame('test', $kernel->getEnvironment());
     }
 }
