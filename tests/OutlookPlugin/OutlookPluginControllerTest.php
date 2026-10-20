@@ -63,45 +63,6 @@ final class OutlookPluginControllerTest extends TestCase
         $this->controller->setContainer($this->container);
     }
 
-    public function testLoginCreatesAndPersistsToken(): void
-    {
-        $user = $this->user(null);
-        $this->authenticate($user);
-        $this->entityManager->expects(self::once())->method('persist')
-            ->with(self::identicalTo($user));
-        $this->entityManager->expects(self::once())->method('flush');
-
-        $response = $this->controller->login();
-
-        self::assertNotEmpty($user->getOutlookPluginToken());
-        $this->assertJsonResponse([
-            'token' => $user->getOutlookPluginToken(),
-            'name' => 'Erika Musterfrau',
-        ], $response);
-    }
-
-    public function testLoginReusesExistingTokenWithoutWriting(): void
-    {
-        $this->authenticate($this->user('existing-token'));
-        $this->expectNoWrites();
-
-        $this->assertJsonResponse([
-            'token' => 'existing-token',
-            'name' => 'Erika Musterfrau',
-        ], $this->controller->login());
-    }
-
-    public function testLoginRejectsMissingAuthenticatedUser(): void
-    {
-        // TokenStorage ist vorhanden, enthaelt aber kein Security-Token.
-        $this->expectNoWrites();
-        $this->entityManager->expects(self::never())->method('getRepository');
-
-        $this->assertJsonResponse([
-            'error' => true, 'reason' => 'No user loged in',
-        ], $this->controller->login());
-    }
-
     public function testLogoutRemovesExistingToken(): void
     {
         $user = $this->user('api-token');
@@ -140,7 +101,7 @@ final class OutlookPluginControllerTest extends TestCase
             ->with(self::identicalTo($user))->willReturn([$first, $second]);
         $this->expectNoWrites();
 
-        $request = Request::create('/room/outlook/plugin/server');
+        $request = Request::create('/api/v1/outlook/plugin/server');
         $request->headers->set('Authorization', 'Bearer api-token');
 
         $this->assertJsonResponse([
@@ -156,7 +117,7 @@ final class OutlookPluginControllerTest extends TestCase
         $this->serverManagement->expects(self::once())->method('getServersFromUser')
             ->with(self::identicalTo($user))->willReturn([]);
         $this->expectNoWrites();
-        $request = Request::create('/room/outlook/plugin/server');
+        $request = Request::create('/api/v1/outlook/plugin/server');
         $request->headers->set('Authorization', 'Bearer api-token');
 
         $this->assertJsonResponse([], $this->controller->server($request));
@@ -167,7 +128,7 @@ final class OutlookPluginControllerTest extends TestCase
         $this->expectUserLookup(null);
         $this->serverManagement->expects(self::never())->method('getServersFromUser');
         $this->expectNoWrites();
-        $request = Request::create('/room/outlook/plugin/server');
+        $request = Request::create('/api/v1/outlook/plugin/server');
         $request->headers->set('Authorization', 'Bearer api-token');
 
         $this->assertJsonResponse([
@@ -252,28 +213,32 @@ final class OutlookPluginControllerTest extends TestCase
         ], $this->controller->createConference($this->conferenceRequest()));
     }
 
-    public function testRouteAttributesDeclareExpectedPathsAndHttpMethods(): void
+    public function testApiRoutesCombineClassAndMethodAttributes(): void
     {
-        // Ein direkter Methodenaufruf testet keine HTTP-Methodenbeschraenkung.
-        // Hier wird ausschliesslich die deklarierte Routing-Konfiguration geprueft.
+        // Attribute-Vertrag; keine funktionale Pruefung des Symfony-Routers.
         $reflection = new \ReflectionClass(OutlookPluginController::class);
-        $prefixAttributes = $reflection->getAttributes(Route::class);
-        self::assertCount(1, $prefixAttributes);
-        self::assertSame('/room/outlook/plugin', $prefixAttributes[0]->newInstance()->getPath());
+        self::assertFalse($reflection->hasMethod('login'));
+        $classAttributes = $reflection->getAttributes(Route::class);
+        self::assertCount(1, $classAttributes);
+        $prefix = $classAttributes[0]->newInstance();
+        self::assertSame('/api/v1/outlook/plugin', $prefix->getPath());
+        self::assertSame('app_outlook_plugin', $prefix->getName());
 
         $expectedRoutes = [
-            'login' => ['/outlooklogin', ['GET']],
-            'logout' => ['/logout', ['GET']],
-            'server' => ['/server', ['GET']],
-            'createConference' => ['/createConference', ['POST']],
+            'logout' => ['/logout', ['GET'], '/api/v1/outlook/plugin/logout', 'app_outlook_pluginlogout'],
+            'server' => ['/server', ['GET'], '/api/v1/outlook/plugin/server', 'app_outlook_pluginserver'],
+            'createConference' => ['/createConference', ['POST'], '/api/v1/outlook/plugin/createConference', 'app_outlook_plugincreateConference'],
         ];
 
-        foreach ($expectedRoutes as $method => [$path, $httpMethods]) {
+        foreach ($expectedRoutes as $method => [$path, $httpMethods, $fullPath, $fullName]) {
             $attributes = $reflection->getMethod($method)->getAttributes(Route::class);
             self::assertCount(1, $attributes, $method);
             $route = $attributes[0]->newInstance();
             self::assertSame($path, $route->getPath(), $method);
+            self::assertSame($method, $route->getName(), $method);
             self::assertSame($httpMethods, $route->getMethods(), $method);
+            self::assertSame($fullPath, $prefix->getPath() . $route->getPath(), $method);
+            self::assertSame($fullName, $prefix->getName() . $route->getName(), $method);
         }
     }
 
@@ -281,9 +246,6 @@ final class OutlookPluginControllerTest extends TestCase
     {
         // Zustandsbehafteter Stub ohne Annahmen ueber den Entity-Konstruktor.
         $user = $this->createStub(User::class);
-        $user->method('getUid')->willReturn('test-user');
-        $user->method('getFirstName')->willReturn('Erika');
-        $user->method('getLastName')->willReturn('Musterfrau');
         $user->method('getOutlookPluginToken')->willReturnCallback(
             static function () use (&$token): ?string { return $token; }
         );
@@ -335,14 +297,14 @@ final class OutlookPluginControllerTest extends TestCase
 
     private function conferenceRequest(): Request
     {
-        $request = Request::create('/room/outlook/plugin/createConference', 'POST', ['server_id' => '10']);
+        $request = Request::create('/api/v1/outlook/plugin/createConference', 'POST', ['server_id' => '10']);
         $request->headers->set('Authorization', 'Bearer api-token');
         return $request;
     }
 
     private function logoutRequest(): Request
     {
-        $request = Request::create('/room/outlook/plugin/logout', 'GET');
+        $request = Request::create('/api/v1/outlook/plugin/logout', 'GET');
         $request->headers->set('Authorization', 'Bearer api-token');
         return $request;
     }

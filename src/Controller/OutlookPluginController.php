@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/room/outlook/plugin', name: 'app_outlook_plugin')]
+#[Route('/api/v1/outlook/plugin', name: 'app_outlook_plugin')]
 final class OutlookPluginController extends AbstractController
 {
     public function __construct(
@@ -28,21 +28,6 @@ final class OutlookPluginController extends AbstractController
 
     }
 
-    #[Route('/outlooklogin', name: 'login', methods: ['GET'])]
-    public function login(): Response
-    {
-        /**@var \App\Entity\User $user * */
-        $user = $this->getUser();
-        if (!$user){
-            return new JsonResponse(['error' => true,'reason'=>'No user loged in' ]);
-        }
-        if (!$user->getOutlookPluginToken()) {
-            $user->setOutlookPluginToken(md5(uniqid($user->getUid(), true)));
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-        }
-        return new JsonResponse(['token' => $user->getOutlookPluginToken(),'name'=>$user->getFirstName().' '.$user->getLastName()]);
-    }
 
     #[Route('/logout', name: 'logout', methods: ['GET'])]
     public function logout(Request $request): Response
