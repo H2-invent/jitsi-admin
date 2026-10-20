@@ -5,7 +5,8 @@
 * Make ad-hoc calls skip lobby
 * Convert all DateTime usages to DateTimeImmutable
 * Convert hardcoded repeat method integers to Enum
-& Allow disabling of survey from theme settings
+* Transmit the predefined lobby messages in the moderator/lobby-moderator JWT as context.lobby.chatMessages
+* Allow disabling of survey from theme settings & Allow disabling of survey from theme settings
 
 ### ⭐ Improvements:
 * Upgrade to Symfony 7.4
