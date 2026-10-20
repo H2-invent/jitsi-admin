@@ -28,24 +28,30 @@ final class OutlookPluginController extends AbstractController
 
     }
 
-    #[Route('/login', name: 'login')]
+    #[Route('/login', name: 'login', methods: ['GET'])]
     public function login(): Response
     {
         /**@var \App\Entity\User $user * */
         $user = $this->getUser();
+        if (!$user){
+            return new JsonResponse(['error' => true,'reason'=>'No user loged in' ]);
+        }
         if (!$user->getOutlookPluginToken()) {
             $user->setOutlookPluginToken(md5(uniqid($user->getUid(), true)));
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
-        return new JsonResponse(['token' => $user->getOutlookPluginToken()]);
+        return new JsonResponse(['token' => $user->getOutlookPluginToken(),'name'=>$user->getFirstName().' '.$user->getLastName()]);
     }
 
-    #[Route('/logout', name: 'logout')]
-    public function logout(): Response
+    #[Route('/logout', name: 'logout', methods: ['GET'])]
+    public function logout(Request $request): Response
     {
-        /**@var \App\Entity\User $user * */
-        $user = $this->getUser();
+        $token = substr($request->headers->get('Authorization'),7);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken' => $token]);
+        if (!$user){
+            return new JsonResponse(['error' => true,'reason'=>'No user loged found' ]);
+        }
         if ($user->getOutlookPluginToken()) {
             $user->setOutlookPluginToken(null);
             $this->entityManager->persist($user);
@@ -54,10 +60,10 @@ final class OutlookPluginController extends AbstractController
         return new JsonResponse(['token' => $user->getOutlookPluginToken()]);
     }
 
-    #[Route('/server', name: 'server')]
+    #[Route('/server', name: 'server', methods: ['GET'])]
     public function server(Request $request): Response
     {
-        $token = $request->headers->get('Authorization');
+        $token = substr($request->headers->get('Authorization'),7);
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken' => $token]);
         if ($user){
            $server = $this->serverUserManagment->getServersFromUser($user);
@@ -71,7 +77,7 @@ final class OutlookPluginController extends AbstractController
         }
     }
 
-    #[Route('/createConference', name: 'createConference')]
+    #[Route('/createConference', name: 'createConference', methods: ['POST'])]
     public function createConference(Request $request): Response
     {
         $serverID = $request->get('server_id');
@@ -80,7 +86,8 @@ final class OutlookPluginController extends AbstractController
             return new JsonResponse(['error'=>true,'reason'=>'Server not found']);
 
         }
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken'=>$request->headers->get('token')]);
+        $token = substr($request->headers->get('Authorization'),7);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken'=>$token]);
         if (!$user){
             return new JsonResponse(['error'=>true,'reason'=>'User not found']);
         }
@@ -99,7 +106,7 @@ final class OutlookPluginController extends AbstractController
         $this->entityManager->flush();
         return new JsonResponse(
             [
-                ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()])), 'title' => $room->getName()]
+                ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('own_room_startPage', ['uid' => $room->getUid()])), 'title' => $room->getName()]
             ]
         );
     }
