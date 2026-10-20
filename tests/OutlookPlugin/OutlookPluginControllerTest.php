@@ -187,6 +187,7 @@ final class OutlookPluginControllerTest extends TestCase
         $room = $this->createRoomMock();
         $room->method('getUid')->willReturn('room-uid-42');
         $room->method('getName')->willReturn('Testkonferenz');
+        $room->method('getId')->willReturn(32);
         $room->expects(self::once())->method('setModerator')
             ->with(self::identicalTo($user))->willReturnSelf();
         foreach (['setPublic', 'setTotalOpenRooms', 'setIsFastConference'] as $setter) {
@@ -209,7 +210,7 @@ final class OutlookPluginControllerTest extends TestCase
             ->with('/example-room/room-uid-42')->willReturn('https://example.test/example-room/room-uid-42');
 
         $this->assertJsonResponse([
-            ['url' => 'https://example.test/example-room/room-uid-42', 'title' => 'Testkonferenz'],
+            ['url' => 'https://example.test/example-room/room-uid-42', 'title' => 'Testkonferenz','id'=>32],
         ], $this->controller->createConference($this->conferenceRequest()));
     }
 

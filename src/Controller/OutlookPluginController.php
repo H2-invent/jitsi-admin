@@ -91,7 +91,7 @@ final class OutlookPluginController extends AbstractController
         $this->entityManager->flush();
         return new JsonResponse(
             [
-                ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('own_room_startPage', ['uid' => $room->getUid()])), 'title' => $room->getName()]
+                ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('own_room_startPage', ['uid' => $room->getUid()])), 'title' => $room->getName(),'id'=>$room->getId()]
             ]
         );
     }
