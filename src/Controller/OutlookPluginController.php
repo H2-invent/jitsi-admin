@@ -82,7 +82,7 @@ final class OutlookPluginController extends AbstractController
         }
         $room = $this->publicConferenceService->createNewRoomFromName(md5(uniqid()), $server);
         $room
-            ->setModerator($this->getUser())
+            ->setModerator($user)
             ->setPublic(true)
             ->setTotalOpenRooms(true)
             ->setIsFastConference(true)
