@@ -214,6 +214,7 @@ final class OutlookPluginControllerTest extends TestCase
         ], $this->controller->createConference($this->conferenceRequest()));
     }
 
+
     public function testApiRoutesCombineClassAndMethodAttributes(): void
     {
         // Attribute-Vertrag; keine funktionale Pruefung des Symfony-Routers.
