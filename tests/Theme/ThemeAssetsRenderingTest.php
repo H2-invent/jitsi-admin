@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace App\Tests\Theme;
 
-use App\Service\Theme\ThemeAssetsService;
+use App\Service\Theme\ThemeService;
 use DOMDocument;
 use DOMXPath;
+use H2Entwicklung\Signature\CheckSignature;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\Asset\Context\RequestStackContext;
 use Symfony\Component\Asset\PathPackage;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Twig\Error\RuntimeError;
 use Twig\Extension\StringLoaderExtension;
@@ -180,11 +185,27 @@ class ThemeAssetsRenderingTest extends TestCase
         ?string $headerJs = null,
         ?string $footerCss = null,
         ?string $footerJs = null
-    ): ThemeAssetsService {
-        return new ThemeAssetsService($this->themeDir, $headerCss, $headerJs, $footerCss, $footerJs);
+    ): ThemeService {
+        $settings = [
+            'THEME_HEADER_CSS' => $headerCss,
+            'THEME_HEADER_JS' => $headerJs,
+            'THEME_FOOTER_CSS' => $footerCss,
+            'THEME_FOOTER_JS' => $footerJs,
+        ];
+
+        return new ThemeService(
+            $this->createStub(CacheItemPoolInterface::class),
+            $this->createStub(CheckSignature::class),
+            new RequestStack(),
+            new ParameterBag(array_filter($settings, static fn (?string $value) => $value !== null)),
+            new NullLogger(),
+            $this->createStub(TranslatorInterface::class),
+            $this->workspace . DIRECTORY_SEPARATOR . 'theme-json',
+            $this->themeDir
+        );
     }
 
-    private function createTwig(ThemeAssetsService $themeAssetsService): Environment
+    private function createTwig(ThemeService $themeAssetsService): Environment
     {
         $twig = new Environment(
             new FilesystemLoader(self::TEMPLATE_DIR),
