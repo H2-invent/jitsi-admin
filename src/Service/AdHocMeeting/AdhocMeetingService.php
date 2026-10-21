@@ -18,14 +18,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class AdhocMeetingService
 {
     public function __construct(
-        private readonly EntityManagerInterface $em,
-        private readonly RoomGeneratorService   $roomGeneratorService,
-        private readonly ParameterBagInterface  $parameterBag,
-        private readonly TranslatorInterface    $translator,
-        private readonly UserService            $userService,
-        private readonly ThemeService           $theme,
-        private readonly CalloutService         $calloutService,
-    ) {
+        private readonly EntityManagerInterface       $em,
+        private readonly RoomGeneratorService         $roomGeneratorService,
+        private readonly ParameterBagInterface        $parameterBag,
+        private readonly TranslatorInterface          $translator,
+        private readonly UserService                  $userService,
+        private readonly ThemeService                 $theme,
+        private readonly CalloutService               $calloutService,
+        private readonly AdhocMeetingWebsocketService $adhocMeetingWebsocketService,
+    )
+    {
+
     }
 
     public function createAdhocMeeting(User $creator, User $reciever, Server $server, ?Tag $tag = null): ?Rooms
@@ -33,6 +36,7 @@ class AdhocMeetingService
         /** @var string $showName */
         $showName = $this->parameterBag->get('laf_showName');
         $room     = $this->roomGeneratorService->createRoom($creator, $server);
+        $room->setLobby(false);
         if ($tag) {
             $room->setTag($tag);
         } else {

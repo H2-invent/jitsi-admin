@@ -3,5 +3,10 @@ services:
         decorates: mercure.hub.default
         arguments: ['@.inner']
 
+    app.test.clock:
+        class: App\Tests\Clock\FixedClock
+
+    Psr\Clock\ClockInterface: '@app.test.clock'
+
 parameters:
     ldap_test_url: '%env(ldap_test_url)%'

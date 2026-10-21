@@ -34,6 +34,14 @@ class PredefinedLobbyMessagesRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return PredefinedLobbyMessages[]
+     */
+    public function findActiveOrderedByPriority(?int $limit = null): array
+    {
+        return $this->findBy(['active' => true], ['priority' => 'ASC'], $limit);
+    }
+
 //    /**
 //     * @return PredefinedLobbyMessages[] Returns an array of PredefinedLobbyMessages objects
 //     */

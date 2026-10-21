@@ -130,4 +130,39 @@ class AdhocControllerTest extends WebTestCase
         self::assertSelectorTextContains('#tagContent', 'Test Tag Enabled');
         self::assertResponseIsSuccessful();
     }
+
+    public function testAdhocMeetingSkipsLobbyForReceiver(): void
+    {
+        $client = static::createClient();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $client->loginUser($user);
+
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                return 'id';
+            }
+        );
+        $directSend->setMercurePublisher($hub);
+
+        $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $roomUrl = $response['popups'][0]['url'];
+        $roomId = basename(parse_url($roomUrl, PHP_URL_PATH));
+
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->find($roomId);
+        self::assertNotNull($room);
+        self::assertFalse($room->getLobby());
+
+        $client->loginUser($user2);
+        $client->request('GET', $roomUrl);
+        self::assertResponseIsSuccessful();
+        self::assertSelectorNotExists('#lobbyWebcam');
+        self::assertSelectorNotExists('#stopEntry');
+    }
 }

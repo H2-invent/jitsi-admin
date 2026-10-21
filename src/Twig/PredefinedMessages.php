@@ -17,8 +17,9 @@ class PredefinedMessages
      * @return PredefinedLobbyMessages[]
      */
     #[\Twig\Attribute\AsTwigFunction(name: 'getPredefinedMessages')]
-    public function getPredefinedMessages(): array
+    public function getPredefinedMessages()
     {
-        return $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findBy(['active' => true], ['priority' => 'ASC']);
+
+        return $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findActiveOrderedByPriority();
     }
 }

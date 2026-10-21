@@ -49,6 +49,7 @@ class AdhocMeetingServiceTest extends KernelTestCase
         self::assertEquals('Konferenz mit Test1, 1234, User, Test', $room->getName());
         self::assertEquals('Konferenz mit Test2, 1234, User2, Test2', $room->getSecondaryName());
         self::assertNull($room->getTag());
+        self::assertFalse($room->getLobby());
     }
 
     public function testCreateAdhocmeetingWithTag(): void
@@ -88,5 +89,6 @@ class AdhocMeetingServiceTest extends KernelTestCase
         $room = $adhockservice->createAdhocMeeting($user, $user2, $user->getServers()[0], $tag);
         self::assertEquals($tag->getTitle(), $room->getTag()->getTitle());
         self::assertEquals($tag, $room->getTag());
+        self::assertFalse($room->getLobby());
     }
 }

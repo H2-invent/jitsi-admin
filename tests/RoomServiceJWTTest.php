@@ -2,9 +2,11 @@
 
 namespace App\Tests;
 
+use App\Entity\PredefinedLobbyMessages;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\Server;
+use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Service\RoomService;
 use Composer\Console\Application;
 use PhpCsFixer\Console\Output\Progress\NullOutput;
@@ -99,7 +101,7 @@ class RoomServiceJWTTest extends KernelTestCase
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
@@ -117,7 +119,10 @@ class RoomServiceJWTTest extends KernelTestCase
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
-                        ]
+                        ],
+                        'lobby' => [
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -215,7 +220,7 @@ class RoomServiceJWTTest extends KernelTestCase
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
@@ -247,7 +252,10 @@ class RoomServiceJWTTest extends KernelTestCase
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
-                        ]
+                        ],
+                        'lobby' => [
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -316,7 +324,7 @@ class RoomServiceJWTTest extends KernelTestCase
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
@@ -336,7 +344,10 @@ class RoomServiceJWTTest extends KernelTestCase
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
-                        ]
+                        ],
+                        'lobby' => [
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -391,7 +402,7 @@ invalidKey
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true, null, null);
         // Arrange
 
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
@@ -409,7 +420,10 @@ invalidKey
                         'room'=>[
                             'name'=>'testRoom',
                             'isE2EEEnabled' => false,
-                        ]
+                        ],
+                        'lobby' => [
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -443,6 +457,38 @@ invalidKey
 
             ],
             $payload
+        );
+    }
+
+    private function assertPayloadEquals(array $expected, array $actual): void
+    {
+        self::assertArrayHasKey('iat', $actual);
+        self::assertArrayHasKey('exp', $actual);
+        self::assertSame(
+            (int) self::getContainer()->getParameter('JWT_LIFETIME_IN_SEC'),
+            $actual['exp'] - $actual['iat']
+        );
+
+        unset($actual['iat'], $actual['exp']);
+
+        self::assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array<int, array{id: int|null, text: string|null}>
+     */
+    private function expectedLobbyChatMessages(): array
+    {
+        $messages = self::getContainer()
+            ->get(PredefinedLobbyMessagesRepository::class)
+            ->findActiveOrderedByPriority();
+
+        return array_map(
+            static fn (PredefinedLobbyMessages $message): array => [
+                'id' => $message->getId(),
+                'text' => $message->getText(),
+            ],
+            $messages
         );
     }
 }

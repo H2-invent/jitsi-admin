@@ -9,14 +9,17 @@
 
 namespace App\Service;
 
+use App\Entity\PredefinedLobbyMessages;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Exceptions\InvalidSSLKeyExeption;
+use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Service\Theme\ThemeService;
 use App\UtilsHelper;
 use Firebase\JWT\JWT;
+use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\String\ByteString;
@@ -34,17 +37,21 @@ class RoomService
 {
 
     private readonly string $identity;
+    private const DEFAULT_JWT_LIFETIME_IN_SEC = 3600;
+    private const MAX_LOBBY_CHAT_MESSAGES = 20;
 
     public function __construct(
-        private readonly UploaderHelper           $uploaderHelper,
-        private readonly LoggerInterface          $logger,
-        private readonly ParameterBagInterface    $parameterBag,
-        private readonly CacheInterface           $cache,
-        private HttpClientInterface               $httpClient,
-        private readonly SluggerInterface         $slugger,
-        private readonly UserPreferenceProvider   $userPreferences,
-        private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
-        private readonly ThemeService             $themeService
+        private readonly UploaderHelper                    $uploaderHelper,
+        private readonly LoggerInterface                   $logger,
+        private readonly ParameterBagInterface             $parameterBag,
+        private readonly CacheInterface                    $cache,
+        private HttpClientInterface                        $httpClient,
+        private readonly SluggerInterface                  $slugger,
+        private readonly UserPreferenceProvider            $userPreferences,
+        private readonly LivekitRoomNameGenerator          $livekitRoomNameGenerator,
+        private readonly ThemeService                      $themeService,
+        private readonly ClockInterface                    $clock,
+        private readonly PredefinedLobbyMessagesRepository $predefinedLobbyMessagesRepository,
     ) {
         $this->identity = time() . '_' . ByteString::fromRandom(8);
     }
@@ -192,11 +199,24 @@ class RoomService
         }
         $roomName = $this->getRoomName($room);
 
+        $issuedAt = $this->clock->now()->getTimestamp();
+        $jwtLifetime = (int) $this->parameterBag->get('JWT_LIFETIME_IN_SEC');
+        if ($jwtLifetime <= 0) {
+            $this->logger->warning(
+                'JWT_LIFETIME_IN_SEC must be a positive integer. Using the default of '
+                . self::DEFAULT_JWT_LIFETIME_IN_SEC . ' seconds.',
+                ['JWT_LIFETIME_IN_SEC' => $jwtLifetime]
+            );
+            $jwtLifetime = self::DEFAULT_JWT_LIFETIME_IN_SEC;
+        }
+
         $payload = [
             "aud"     => "jitsi_admin",
             "iss"     => $room->getServer()->getAppId(),
             "sub"     => $room->getServer()->getUrl(),
             "room"    => $roomName,
+            "iat"     => $issuedAt,
+            "exp"     => $issuedAt + $jwtLifetime,
             "context" => [
                 'room' => [
                     'name'          => $room->getName(),
@@ -297,6 +317,9 @@ class RoomService
                 $payload['context']['user']['lobbyModerator'] = $lobbyModerator;
             }
         }
+        if (!$noModerator && ($moderator || $lobbyModerator)) {
+            $payload['context']['lobby']['chatMessages'] = $this->getLobbyChatMessages();
+        }
 
         $payload['context']['user']['language'] = $this->userPreferences->getLanguage();
         $payload['context']['user']['timezone'] = $this->userPreferences->getTimezone();
@@ -326,6 +349,20 @@ class RoomService
         $payload['theme']['colorScheme'] = $this->userPreferences->getColorScheme();
 
         return $payload;
+    }
+
+    /**
+     * @return array<int, array{id: int|null, text: string|null}>
+     */
+    private function getLobbyChatMessages(): array
+    {
+        return array_map(
+            static fn (PredefinedLobbyMessages $message): array => [
+                'id' => $message->getId(),
+                'text' => $message->getText(),
+            ],
+            $this->predefinedLobbyMessagesRepository->findActiveOrderedByPriority(self::MAX_LOBBY_CHAT_MESSAGES)
+        );
     }
 
     public function generateEncryptedSecret(Server $server): ?string
