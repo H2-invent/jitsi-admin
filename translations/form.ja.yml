@@ -82,7 +82,7 @@ help:
   jigasiNumberUrl: 'ダイヤルイン番号をJSON形式で入力します。Jigasiの "numbers.json "に入力されているように入力してください。 (例: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: ここにProsodyドメインを入力します。これは通常、「conference.domain.topdomain」のパターンに従います。
   disallowFirefox: Firefox ブラウザはブラウザ内で非アクティブになります。Firefoxブラウザで参加を希望する参加者は、Chromiumベースのブラウザにリダイレクトされます。
-  enforceE2e: このJitsiサーバーのすべての会議において「エンド・ツー・エンド暗号化」セキュリティ機能を強制する。
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Server erzwungen.
   allowIp: 指定したIPアドレスまたはIP範囲のみが会議に参加できます。IP範囲は10.10.10.10/24の表記で指定する必要があります。複数の IP アドレスまたは IP 範囲をカンマ区切りで入力できます。
   jitsiEventSyncUrl: ここには、SIPリクエストに対応するJitsiイベント同期を保存している別のJitsi管理者を指定できます。ベースURLのみを指定する必要があります。この関数を使用するには、バージョン >0.77.x の Jitsi-admin が必要です。
   disableFilmstripe: ビデオのストライプ表示を無効にする
@@ -143,6 +143,7 @@ label:
   timezone: タイムゾーン
   serverName: サーバ名
   lobby: ロビーを有効化
+  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
   secondEmail: メールのCC
   profilImage: プロフィール写真(会議で表示する)
   corsHeader: CORSもしくは親フレームヘッダー
