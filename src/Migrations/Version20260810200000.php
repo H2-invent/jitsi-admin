@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Migrations\AbstractMigration;
 
 final class Version20260810200000 extends AbstractMigration
@@ -19,23 +21,24 @@ final class Version20260810200000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql(
-            sprintf(
-                'ALTER TABLE %s MODIFY %s VARCHAR(255) NOT NULL',
-                self::TABLE_NAME,
-                self::COLUMN_NAME
-            )
-        );
+        // The schema API lets Doctrine generate the platform specific ALTER statement (MySQL, MariaDB, PostgreSQL)
+        $schema->getTable(self::TABLE_NAME)
+            ->modifyColumn(self::COLUMN_NAME, [
+                'type' => Type::getType(Types::STRING),
+                'length' => 255,
+                'notnull' => true,
+            ])
+        ;
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql(
-            sprintf(
-                'ALTER TABLE %s MODIFY %s TEXT NOT NULL',
-                self::TABLE_NAME,
-                self::COLUMN_NAME
-            )
-        );
+        $schema->getTable(self::TABLE_NAME)
+            ->modifyColumn(self::COLUMN_NAME, [
+                'type' => Type::getType(Types::TEXT),
+                'length' => null,
+                'notnull' => true,
+            ])
+        ;
     }
 }
