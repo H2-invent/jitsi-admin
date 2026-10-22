@@ -36,6 +36,10 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 class RoomService
 {
 
+    private const int DEFAULT_JWT_LIFETIME_IN_SEC = 3600;
+
+    private const int MAX_LOBBY_CHAT_MESSAGES = 20;
+
     private readonly string $identity;
 
     public function __construct(
@@ -47,7 +51,9 @@ class RoomService
         private readonly SluggerInterface         $slugger,
         private readonly UserPreferenceProvider   $userPreferences,
         private readonly LivekitRoomNameGenerator $livekitRoomNameGenerator,
-        private readonly ThemeService             $themeService
+        private readonly ThemeService             $themeService,
+        private readonly ClockInterface           $clock,
+        private readonly PredefinedLobbyMessagesRepository $predefinedLobbyMessagesRepository
     ) {
         $this->identity = time() . '_' . ByteString::fromRandom(8);
     }
@@ -210,6 +216,8 @@ class RoomService
             "aud"     => "jitsi_admin",
             "iss"     => $room->getServer()->getAppId(),
             "sub"     => $room->getServer()->getUrl(),
+            "iat"     => $issuedAt,
+            "exp"     => $issuedAt + $jwtLifetime,
             "room"    => $roomName,
             "context" => [
                 'room' => [

@@ -33,6 +33,7 @@ class AdhocMeetingService
         /** @var string $showName */
         $showName = $this->parameterBag->get('laf_showName');
         $room     = $this->roomGeneratorService->createRoom($creator, $server);
+        $room->setLobby(false);
         if ($tag) {
             $room->setTag($tag);
         } else {
