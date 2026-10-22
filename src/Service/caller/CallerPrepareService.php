@@ -161,10 +161,28 @@ class CallerPrepareService
     public function createUserCallerIDforRepeater(Repeat $repeat)
     {
         $prototype = $repeat->getPrototyp();
+        $rooms = $repeat->getRooms()->toArray();
+        if ($rooms === []) {
+            return;
+        }
+
+        // Load the PINs of all appointments in one query instead of one lookup per appointment and user.
+        $roomIds = array_map(static fn(Rooms $room) => $room->getId(), $rooms);
+        $existingCallerIds = $this->em->getRepository(CallerId::class)
+            ->createQueryBuilder('c')
+            ->where('c.room IN (:roomIds)')
+            ->setParameter('roomIds', $roomIds)
+            ->getQuery()
+            ->getResult();
+
+        $existingByRoomAndUser = [];
+        foreach ($existingCallerIds as $callerId) {
+            $existingByRoomAndUser[$callerId->getRoom()->getId() . ':' . $callerId->getUser()?->getId()] = true;
+        }
+
         foreach ($prototype->getPrototypeUsers() as $pUser) {
-            foreach ($repeat->getRooms() as $room) {
-                $existing = $this->em->getRepository(CallerId::class)->findOneBy(['room' => $room, 'user' => $pUser]);
-                if ($existing) {
+            foreach ($rooms as $room) {
+                if (isset($existingByRoomAndUser[$room->getId() . ':' . $pUser->getId()])) {
                     continue;
                 }
                 $callerID = new CallerId();
@@ -177,6 +195,7 @@ class CallerPrepareService
                 $room->addCallerId($callerID);
             }
         }
+
         $this->em->flush();
     }
 
