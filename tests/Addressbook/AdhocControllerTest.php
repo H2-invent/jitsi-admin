@@ -2,10 +2,13 @@
 
 namespace App\Tests\Addressbook;
 
+use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use App\Service\Lobby\DirectSendService;
+use App\Service\OnlineStatus\PresenceService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
@@ -13,6 +16,20 @@ use Symfony\Component\Mercure\Update;
 
 class AdhocControllerTest extends WebTestCase
 {
+    private function mockPresence(?bool $online): void
+    {
+        $presence = $this->createMock(PresenceService::class);
+        $presence->method('isUserOnline')->willReturn($online);
+        self::getContainer()->set(PresenceService::class, $presence);
+    }
+
+    private function mockPresenceNever(): void
+    {
+        $presence = $this->createMock(PresenceService::class);
+        $presence->expects(self::never())->method('isUserOnline');
+        self::getContainer()->set(PresenceService::class, $presence);
+    }
+
     public function testcreateAdhocMeetingNoTag(): void
     {
         $client = static::createClient();
@@ -48,6 +65,7 @@ class AdhocControllerTest extends WebTestCase
         $directSend->setMercurePublisher($hub);
 
 
+        $this->mockPresence(true);
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'Konferenz mit Test1, 1234, User, Test'));
@@ -109,6 +127,7 @@ class AdhocControllerTest extends WebTestCase
 
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $tag = $tagRepo->findOneBy(['title' => 'Test Tag Enabled']);
+        $this->mockPresence(true);
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId() . '/' . $tag->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'Konferenz mit Test1, 1234, User, Test'));

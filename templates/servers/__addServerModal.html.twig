@@ -10,6 +10,8 @@
         <div class="modal-body">
             {{ form_row(form.liveKitServer) }}
             {{ form_row(form.url) }}
+            {{ form_row(form.appId) }}
+            {{ form_row(form.appSecret) }}
             {{ form_row(form.serverName) }}
             {{ form_row(form.corsHeader) }}
             <div class="row">
@@ -17,14 +19,6 @@
                     <a href="{{ path('room_check_cors') }}" class="btn btn-outline-primary btn-sm testVideo"
                        target="_blank">{{ 'server.checkHeader'|trans }}</a>
                 </div>
-            </div>
-
-            <input id="jwtServer" type="checkbox" name="jwtServer" value="jwtServer"
-                   {% if server.appId %}checked{% endif %}>
-            <label for="jwtServer"> {{ 'Server ID und Secret anzeigen'|trans }}</label><br>
-            <div id="appId" class="collapse {% if server.appId %}show{% endif %}">
-                {{ form_row(form.appId) }}
-                {{ form_row(form.appSecret) }}
             </div>
 
             <div class="mb-2">
