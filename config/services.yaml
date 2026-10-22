@@ -154,6 +154,10 @@ parameters:
     app.theme.dir: '%kernel.project_dir%/theme'
     app.theme.cache_dir: '%kernel.project_dir%/var/cache/theme'
     app.theme.public_dir: '%kernel.project_dir%/public/theme'
+    THEME_HEADER_CSS: '%env(default::THEME_HEADER_CSS)%'
+    THEME_HEADER_JS: '%env(default::THEME_HEADER_JS)%'
+    THEME_FOOTER_CSS: '%env(default::THEME_FOOTER_CSS)%'
+    THEME_FOOTER_JS: '%env(default::THEME_FOOTER_JS)%'
     app.log.loki.enabled: '%env(bool:LOKI_ENABLED)%' # handled by \App\DependencyInjection\Compiler\ToggleLokiHandlerPass
     app.log.loki.uri: '%env(LOKI_URI)%'
     app.log.loki.client: '%env(LOKI_CLIENT)%'

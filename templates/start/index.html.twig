@@ -26,6 +26,8 @@
             }
         </style>
     {% endif %}
+
+    {{ include('base/__theme_assets_head.html.twig') }}
 </head>
 <body style="margin: 0"
       class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
@@ -167,6 +169,7 @@
     </script>
 {% endif %}
 
+{{ include('base/__theme_assets_footer.html.twig') }}
 </html>
 
 
