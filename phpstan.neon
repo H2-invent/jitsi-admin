@@ -6,7 +6,6 @@ parameters:
     level: 7
     paths:
         - src
-        - tests
     parallel:
         jobSize: 20
         maximumNumberOfProcesses: 32

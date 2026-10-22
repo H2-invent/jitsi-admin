@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
+use League\OAuth2\Client\Token\AccessToken;
 use Psr\Log\LoggerInterface;
 use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -50,9 +51,9 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
         return $request->attributes->get('_route') === 'connect_keycloak_check';
     }
 
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): AccessToken
     {
-        return $this->fetchAccessToken($this->getauth0Client());
+        return $this->fetchAccessToken($this->clientRegistry->getClient('keycloak_main'));
     }
 
     public function authenticate(Request $request): Passport
