@@ -1,3 +1,5 @@
+{% set showDialIn = showDialIn is defined ? showDialIn : true %}
+{% set showPersonalPin = showPersonalPin is defined ? showPersonalPin : (getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1) %}
 <b>
     {{ 'Name'|trans }}: {{ room.name }}
 </b>
@@ -34,7 +36,7 @@
         Konferenz ID: {uid}
     {% endtrans %}
     <spacer size="16"></spacer>
-    {% if getJigasiNumber(room) %}
+    {% if showDialIn and getJigasiNumber(room) %}
     <b>{{ 'email.sip.text'|trans }}</b><br>
     <spacer size="18"></spacer>
     <b>{{ 'email.sip.number'|trans }}:</b><br>
@@ -44,8 +46,11 @@
     <p> ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ getJigasiPin(room)|addRepetiveCharacters(' ',3) }}# (<a href="tel:{{ number }},,,,{{ getJigasiPin(room) }}#)">{{ number }},,,,{{ getJigasiPin(room) }}#</a>)<p><br>
     {% elseif  room.callerRoom  %}
 
-    <p> ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#
+    <p> ({{ key }}) {{ number }} {{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#
         (<a href="tel:{{ number }},,,,{{ room.callerRoom.callerId }}#">{{ number }},,,,{{ room.callerRoom.callerId }}#</a>)</p><br>
+    {% if showPersonalPin and sipPinFromRoomAndUser(room, user) is not null %}
+        <br>{{ 'email.sip.personalpin'|trans }}: {{ sipPinFromRoomAndUser(room, user).callerId|addRepetiveCharacters(' ',3) }}#
+    {% endif %}
     {% endif %}
     {% endfor %}
     {% endfor %}

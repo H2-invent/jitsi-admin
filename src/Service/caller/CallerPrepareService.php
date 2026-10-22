@@ -162,22 +162,22 @@ class CallerPrepareService
     {
         $prototype = $repeat->getPrototyp();
         foreach ($prototype->getPrototypeUsers() as $pUser) {
-            $callerID = new CallerId();
-            $callerID
-                ->setRoom($prototype)
-                ->setUser($pUser)
-                ->setCreatedAt(new \DateTime())
-                ->setCallerId($this->generateCallerUserId($prototype, 999999));
-            foreach ($repeat->getRooms() as $room){
-                $callerIDClone = clone $callerID;
-                $callerIDClone->setRoom($room)
-                    ->setUser($pUser);
-                $this->em->persist($callerIDClone);
-                $room->addCallerId($callerIDClone);
+            foreach ($repeat->getRooms() as $room) {
+                $existing = $this->em->getRepository(CallerId::class)->findOneBy(['room' => $room, 'user' => $pUser]);
+                if ($existing) {
+                    continue;
+                }
+                $callerID = new CallerId();
+                $callerID
+                    ->setRoom($room)
+                    ->setUser($pUser)
+                    ->setCreatedAt(new \DateTime())
+                    ->setCallerId($this->generateCallerUserId($room, 999999));
+                $this->em->persist($callerID);
+                $room->addCallerId($callerID);
             }
         }
-      $this->em->flush();
-
+        $this->em->flush();
     }
 
 

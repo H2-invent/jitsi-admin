@@ -12,10 +12,9 @@ class CallerFindRoomService
     private $em;
     private $urlGen;
     public function __construct(
-        UrlGeneratorInterface        $urlGenerator,
-        EntityManagerInterface       $entityManager,
-        private ThemeService         $themeService,
-        private SeriesDialInResolver $seriesDialInResolver,
+        UrlGeneratorInterface  $urlGenerator,
+        EntityManagerInterface $entityManager,
+        private ThemeService   $themeService,
     )
     {
         $this->urlGen = $urlGenerator;
@@ -29,7 +28,7 @@ class CallerFindRoomService
         if (!$caller) {
             return ['status' => 'ROOM_ID_UKNOWN', 'reason' => 'ROOM_ID_UKNOWN', 'links' => []];
         }
-        $room = $this->seriesDialInResolver->resolveRoom($caller->getRoom());
+        $room = $caller->getRoom();
 
         if ($room->getStartTimestamp() - 1800 > $now && $room->getPersistantRoom() !== true) {
             return [

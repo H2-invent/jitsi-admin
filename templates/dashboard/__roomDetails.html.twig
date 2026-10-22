@@ -93,7 +93,7 @@
                data-mdb-html="true"
                title="{{ 'email.sip.number'|trans }}"
                data-mdb-content="
-               <p>{{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</p>
+               <p>{{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</p>
     {% for key,n in getJigasiNumber(room) %}
     {% for number in n %}
     <p> ({{ key }}) {{ number }} </p>

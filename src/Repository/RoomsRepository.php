@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
@@ -595,8 +594,10 @@ class RoomsRepository extends ServiceEntityRepository
     public function findFutureRoomsWithNoCallerId($now)
     {
         $qb = $this->createQueryBuilder('r');
+        $qb->leftJoin('r.repeaterProtoype', 'repeaterProtoype');
         return $qb->leftJoin('r.callerRoom', 'callerRoom')
             ->andWhere($qb->expr()->isNull('callerRoom'))
+            ->andWhere($qb->expr()->isNull('repeaterProtoype.id'))
             ->andWhere($qb->expr()->isNotNull('r.moderator'))
             ->andWhere(
                 $qb->expr()->orX(
@@ -609,24 +610,6 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('true', true)
             ->getQuery()
             ->getResult();
-    }
-
-    /**
-     * The appointment of a series that is taking place right now, if any.
-     */
-    public function findRunningRoomOfRepeater(Repeat $repeat, int $now): ?Rooms
-    {
-        $qb = $this->createQueryBuilder('r');
-
-        return $qb->andWhere('r.repeater = :repeater')
-            ->andWhere('r.startTimestamp <= :now')
-            ->andWhere('r.endTimestamp >= :now')
-            ->setParameter('repeater', $repeat)
-            ->setParameter('now', $now)
-            ->orderBy('r.startTimestamp', 'ASC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
     }
 
     public function findRoomsForRoomInGivenMinutes(Server $server, $minutes = 0)

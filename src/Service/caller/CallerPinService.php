@@ -5,6 +5,7 @@ namespace App\Service\caller;
 use App\Entity\CallerId;
 use App\Entity\CallerRoom;
 use App\Entity\CallerSession;
+use App\Entity\Rooms;
 use App\Service\Callout\CalloutServiceDialSuccessfull;
 use App\Service\Lobby\CreateLobbyUserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,7 +25,6 @@ class CallerPinService
         CreateLobbyUserService                $createLobbyUserService,
         ParameterBagInterface                 $parameterBag,
         private CalloutServiceDialSuccessfull $calloutServiceDialSuccessfull,
-        private SeriesDialInResolver          $seriesDialInResolver,
     )
     {
         $this->em = $entityManager;
@@ -45,7 +45,7 @@ class CallerPinService
             $this->loggger->error('Room not found', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
             return null;
         }
-        $room = $this->seriesDialInResolver->resolveRoom($callerRoom->getRoom());
+        $room = $callerRoom->getRoom();
 
         if ($pin !== null && $pin !== '') {
             $callInUser = $this->em->getRepository(CallerId::class)->findByRoomAndPin($room, $pin);
