@@ -4,7 +4,7 @@ namespace App\Tests\Calendly;
 
 
 use App\Entity\User;
-use App\Service\calendly\CallendlyConnect;
+use App\Service\Calendly\CallendlyConnect;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

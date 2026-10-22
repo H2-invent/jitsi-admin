@@ -17,16 +17,15 @@ use Twig\Environment;
 class SchedulingService
 {
     public function __construct(
-        private EntityManagerInterface       $em,
-        private UserService                  $userService,
-        private TranslatorInterface          $translator,
-        private Environment                  $environment,
-        private MailerService                $mailerService,
-        private SchedulingTimeRepository     $schedulingTimeRepository,
-        private EntityManagerInterface       $entityManager,
-        private SchedulingTimeUserRepository $schedulingTimeUserRepository,
-    )
-    {
+        private readonly EntityManagerInterface       $em,
+        private readonly UserService                  $userService,
+        private readonly TranslatorInterface          $translator,
+        private readonly Environment                  $environment,
+        private readonly MailerService                $mailerService,
+        private readonly SchedulingTimeRepository     $schedulingTimeRepository,
+        private readonly EntityManagerInterface       $entityManager,
+        private readonly SchedulingTimeUserRepository $schedulingTimeUserRepository,
+    ) {
     }
 
     public function chooseTimeSlot(SchedulingTime $schedulingTime): ?bool
@@ -38,6 +37,7 @@ class SchedulingService
         $room->setEnddate($end);
         $this->em->persist($room);
         $this->em->flush();
+
         try {
             foreach ($room->getUser() as $data) {
                 $this->userService->addUser($data, $room);
@@ -45,6 +45,7 @@ class SchedulingService
         } catch (Exception) {
             return false;
         }
+
         return true;
     }
 
@@ -62,10 +63,11 @@ class SchedulingService
         }
     }
 
-    public function sendEmailWhenNewSchedulingTime(SchedulingTime $schedulingTime)
+    public function sendEmailWhenNewSchedulingTime(SchedulingTime $schedulingTime): void
     {
-        $room = $schedulingTime->getScheduling()->getRoom();
+        $room    = $schedulingTime->getScheduling()->getRoom();
         $subject = $this->translator->trans('scheduling.new.schedulingTime.subject');
+
         foreach ($schedulingTime->getScheduling()->getRoom()->getUser() as $user) {
             $content = $this->environment->render('email/newSchedulingTime.html.twig', ['room' => $room, 'user' => $user]);
             if ($schedulingTime->getCreatedFrom()) {
@@ -92,10 +94,9 @@ class SchedulingService
                 }
             }
         }
-
     }
 
-    public function sendEmailWhenAllFinish(Rooms $room)
+    public function sendEmailWhenAllFinish(Rooms $room): void
     {
         $check = true;
         foreach ($room->getSchedulings() as $data) {
@@ -103,6 +104,7 @@ class SchedulingService
                 $check = false;
             }
         }
+
         if ($check) {
             $subject = $this->translator->trans('scheduling.completeVoting.subject');
             $content = $this->environment->render('email/completeSchedulingVoting.html.twig', ['room' => $room]);
@@ -125,12 +127,14 @@ class SchedulingService
                 return false;
             };
         }
+
         if (!$scheduling->isCompletedEmailSent()) {
             $scheduling->setCompletedEmailSent(true);
             $this->entityManager->persist($scheduling);
             $this->entityManager->flush();
             return true;
         }
+
         return false;
     }
 
@@ -139,10 +143,11 @@ class SchedulingService
         if (count($this->schedulingTimeRepository->findSchedulingTimeForUserAndScheduling($scheduling, $user)) === 0) {
             return false;
         };
+
         return true;
     }
 
-    public function voteForSchedulingTimeOnly(User $user, SchedulingTime $schedulingTime, $type)
+    public function voteForSchedulingTimeOnly(User $user, SchedulingTime $schedulingTime, ?int $type): void
     {
         $scheduleTimeUser = $this->schedulingTimeUserRepository->findOneBy(['user' => $user, 'scheduleTime' => $schedulingTime]);
 
@@ -158,10 +163,11 @@ class SchedulingService
         $this->entityManager->flush();
     }
 
-    public function voteForSchedulingTime(User $user, SchedulingTime $schedulingTime, $type): bool
+    public function voteForSchedulingTime(User $user, SchedulingTime $schedulingTime, ?int $type): bool
     {
         $this->voteForSchedulingTimeOnly(user: $user, schedulingTime: $schedulingTime, type: $type);
         $this->sendEmailWhenAllFinish($schedulingTime->getScheduling()->getRoom());
+
         return true;
     }
 

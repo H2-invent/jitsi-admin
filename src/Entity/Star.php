@@ -12,60 +12,73 @@ class Star
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
+
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'stars')]
     #[ORM\JoinColumn(nullable: false)]
-    private $server;
+    private ?Server $server = null;
+
     #[ORM\Column(type: 'integer')]
-    private $star;
+    private ?int $star = null;
+
     #[ORM\Column(type: 'text', nullable: true)]
-    private $comment;
+    private ?string $comment = null;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $browser = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $os = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getServer(): ?Server
     {
         return $this->server;
     }
+
     public function setServer(?Server $server): self
     {
         $this->server = $server;
 
         return $this;
     }
+
     public function getStar(): ?int
     {
         return $this->star;
     }
+
     public function setStar(int $star): self
     {
         $this->star = $star;
 
         return $this;
     }
+
     public function getComment(): ?string
     {
         return $this->comment;
     }
+
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
+
     public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;

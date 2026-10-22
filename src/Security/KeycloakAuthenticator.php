@@ -12,8 +12,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
+use League\OAuth2\Client\Token\AccessToken;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
@@ -33,37 +33,16 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
 {
     use TargetPathTrait;
 
-    private $clientRegistry;
-    private $em;
-    private $router;
-    private $tokenStorage;
-    private $userManager;
-    private $parameterBag;
-    private $userCreatorService;
-    private $indexer;
-    private $logger;
-
     public function __construct(
-        LoggerInterface               $logger,
-        IndexUserService              $indexUserService,
-        UserCreatorService            $userCreatorService,
-        ParameterBagInterface         $parameterBag,
-        TokenStorageInterface         $tokenStorage,
-        ClientRegistry                $clientRegistry,
-        EntityManagerInterface        $em,
-        RouterInterface               $router,
-        private CreateHttpsUrl        $createHttpsUrl,
-        private UrlGeneratorInterface $urlGenerator,
-    )
-    {
-        $this->clientRegistry = $clientRegistry;
-        $this->em = $em;
-        $this->router = $router;
-        $this->tokenStorage = $tokenStorage;
-        $this->parameterBag = $parameterBag;
-        $this->userCreatorService = $userCreatorService;
-        $this->indexer = $indexUserService;
-        $this->logger = $logger;
+        private readonly LoggerInterface        $logger,
+        private readonly IndexUserService       $indexer,
+        private readonly UserCreatorService     $userCreatorService,
+        private readonly ClientRegistry         $clientRegistry,
+        private readonly EntityManagerInterface $em,
+        private readonly RouterInterface        $router,
+        private readonly CreateHttpsUrl         $createHttpsUrl,
+        private readonly UrlGeneratorInterface  $urlGenerator
+    ) {
     }
 
     public function supports(Request $request): bool
@@ -72,31 +51,35 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
         return $request->attributes->get('_route') === 'connect_keycloak_check';
     }
 
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): AccessToken
     {
-        return $this->fetchAccessToken($this->getauth0Client());
+        return $this->fetchAccessToken($this->clientRegistry->getClient('keycloak_main'));
     }
 
     public function authenticate(Request $request): Passport
     {
-        $client = $this->clientRegistry->getClient('keycloak_main');
+        $client      = $this->clientRegistry->getClient('keycloak_main');
         $accessToken = $this->fetchAccessToken($client, [
-            'redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->urlGenerator->generate('connect_keycloak_check', [], UrlGenerator::ABSOLUTE_URL))
+            'redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl(
+                $this->urlGenerator->generate('connect_keycloak_check', [], UrlGenerator::ABSOLUTE_URL)
+            )
         ]);
+
         $request->getSession()->set('id_token', $accessToken->getValues()['id_token']);
         $passport = new SelfValidatingPassport(
             new UserBadge(
                 $accessToken->getToken(),
                 function () use ($accessToken, $client) {
-                    /** @var KeycloakUser $keycloakUser */
+                    /** @var KeycloakResourceOwner $keycloakUser */
                     $keycloakUser = $client->fetchUserFromToken($accessToken);
+                    $email        = null;
                     try {
                         //When the keycloak USer delivers a
                         $email = $keycloakUser->getEmail();
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         try {
                             $email = $keycloakUser->toArray()['preferred_username'];
-                        } catch (\Exception $e) {
+                        } catch (\Exception) {
                         }
                     }
                     $id = $keycloakUser->getId();
@@ -105,7 +88,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
                     $this->logger->debug($firstName);
                     $lastName = $keycloakUser->toArray()['family_name'];
                     $this->logger->debug($lastName);
-                    $username = isset($keycloakUser->toArray()['preferred_username']) ? $keycloakUser->toArray()['preferred_username'] : null;
+                    $username = $keycloakUser->toArray()['preferred_username'] ?? null;
                     $this->logger->debug($username);
                     $groups = null;
                     if (isset($keycloakUser->toArray()['groups'])) {
@@ -181,9 +164,8 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     }
 
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey): ?Response
     {
-
         // change "app_homepage" to some route in your app
         $targetUrl = $this->getTargetPath($request->getSession(), 'main');
         if (!$targetUrl) {

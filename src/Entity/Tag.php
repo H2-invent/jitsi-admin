@@ -13,42 +13,56 @@ class Tag
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    #[ORM\Column(type: 'text')]
-    private $title;
-    #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'tag')]
-    private $rooms;
-    #[ORM\Column(type: 'boolean')]
-    private $disabled = false;
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $priority;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $color;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $backgroundColor;
+    private ?int $id = null;
 
+    #[ORM\Column(type: 'text')]
+    private ?string $title = null;
+
+    /**
+     * @var Collection<int, Rooms>
+     */
+    #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'tag')]
+    private Collection $rooms;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $disabled = false;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $priority = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $color = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $backgroundColor = null;
+
+    /** @var Collection<int, Server> */
     #[ORM\ManyToMany(targetEntity: Server::class, mappedBy: 'tag')]
     private Collection $servers;
 
     public function __construct()
     {
-        $this->rooms = new ArrayCollection();
+        $this->rooms   = new ArrayCollection();
         $this->servers = new ArrayCollection();
     }
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getTitle(): ?string
     {
         return $this->title;
     }
+
     public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
+
     /**
      * @return Collection<int, Rooms>
      */
@@ -56,6 +70,7 @@ class Tag
     {
         return $this->rooms;
     }
+
     public function addRoom(Rooms $room): self
     {
         if (!$this->rooms->contains($room)) {
@@ -65,6 +80,7 @@ class Tag
 
         return $this;
     }
+
     public function removeRoom(Rooms $room): self
     {
         if ($this->rooms->removeElement($room)) {
@@ -76,40 +92,48 @@ class Tag
 
         return $this;
     }
+
     public function getDisabled(): ?bool
     {
         return $this->disabled;
     }
+
     public function setDisabled(bool $disabled): self
     {
         $this->disabled = $disabled;
 
         return $this;
     }
+
     public function getPriority(): ?int
     {
         return $this->priority;
     }
+
     public function setPriority(?int $priority): self
     {
         $this->priority = $priority;
 
         return $this;
     }
+
     public function getColor(): ?string
     {
         return $this->color;
     }
+
     public function setColor(?string $color): self
     {
         $this->color = $color;
 
         return $this;
     }
+
     public function getBackgroundColor(): ?string
     {
         return $this->backgroundColor;
     }
+
     public function setBackgroundColor(?string $backgroundColor): self
     {
         $this->backgroundColor = $backgroundColor;
@@ -129,7 +153,7 @@ class Tag
     {
         if (!$this->servers->contains($server)) {
             $this->servers->add($server);
-            $server->addServer($this);
+            $server->addTag($this);
         }
 
         return $this;
@@ -138,7 +162,7 @@ class Tag
     public function removeServer(Server $server): static
     {
         if ($this->servers->removeElement($server)) {
-            $server->removeServer($this);
+            $server->removeTag($this);
         }
 
         return $this;

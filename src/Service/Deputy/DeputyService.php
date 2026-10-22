@@ -9,14 +9,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DeputyService
 {
-    static $IS_DEPUTY = 1;
-    static $IS_NOT_DEPUTY = 2;
+    static int $IS_DEPUTY     = 1;
+    static int $IS_NOT_DEPUTY = 2;
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private DirectSendService      $directSendService
-    )
-    {
+        private readonly EntityManagerInterface $entityManager,
+        private readonly DirectSendService      $directSendService
+    ) {
     }
 
     public function toggleDeputy(User $manager, User $deputy): int
@@ -24,9 +23,9 @@ class DeputyService
         $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(['deputy' => $deputy, 'manager' => $manager]);
         if ($dep) {
             return $this->removeDeputy($manager, $deputy);
-        } else {
-            return $this->setDeputy($manager, $deputy);
         }
+
+        return $this->setDeputy($manager, $deputy);
     }
 
     public function setDeputy(User $manager, User $deputy): int
@@ -54,7 +53,6 @@ class DeputyService
             $this->entityManager->flush();
             $this->directSendService->sendRefreshDashboardToUser($deputy);
         }
-
 
         return self::$IS_NOT_DEPUTY;
     }

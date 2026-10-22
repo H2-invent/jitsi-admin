@@ -16,8 +16,8 @@ final class Version20250113215451 extends AbstractMigration
 
 
 
-    private const TABLE_NAME = 'rooms';
-    private const COLUMN_CALENDLY_URI= 'calendly_uri';
+    private const string TABLE_NAME = 'rooms';
+    private const string COLUMN_CALENDLY_URI= 'calendly_uri';
     public function getDescription(): string
     {
         return '';

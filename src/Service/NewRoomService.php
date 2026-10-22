@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Log;
 use App\Entity\Rooms;
-use App\Entity\Server;
 use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
@@ -14,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -24,30 +24,31 @@ class NewRoomService
 {
 
     public function __construct(
-        private RoomsRepository        $roomsRepository,
-        private TranslatorInterface    $translator,
-        private UrlGeneratorInterface  $urlGenerator,
-        private ServerRepository       $serverRepository,
-        private ServerUserManagment    $serverUserManagment,
-        private RoomGeneratorService   $roomGeneratorService,
-        private RequestStack           $requestStack,
-        private SerializerInterface    $serializer,
-        private EntityManagerInterface $entityManager
-    )
-    {
+        private readonly RoomsRepository        $roomsRepository,
+        private readonly TranslatorInterface    $translator,
+        private readonly UrlGeneratorInterface  $urlGenerator,
+        private readonly ServerRepository       $serverRepository,
+        private readonly ServerUserManagment    $serverUserManagment,
+        private readonly RoomGeneratorService   $roomGeneratorService,
+        private readonly RequestStack           $requestStack,
+        private readonly SerializerInterface    $serializer,
+        private readonly EntityManagerInterface $entityManager
+    ) {
     }
 
     public function newRoomService(Request $request, User $myUser): Rooms|Response
     {
         $servers = $this->serverUserManagment->getServersFromUser($myUser);
 
-        $id = $request->get('id') ?? null;
+        $id   = $request->get('id') ?? null;
         $edit = ($id !== null);
 
         if ($edit) {
             $room = $this->roomsRepository->findOneBy(['id' => $id]);
             if (!UtilsHelper::isAllowedToOrganizeRoom($myUser, $room)) {
-                $this->requestStack->getSession()->getBag('flashes')->add('danger', $this->translator->trans('Keine Berechtigung'));
+                /** @var FlashBagInterface $flashBag */
+                $flashBag = $this->requestStack->getSession()->getBag('flashes');
+                $flashBag->add('danger', $this->translator->trans('Keine Berechtigung'));
                 return new RedirectResponse($this->urlGenerator->generate('dashboard'));
             }
             $sequence = $room->getSequence() + 1;
@@ -83,6 +84,7 @@ class NewRoomService
                 $room->setServer($tmp);
             }
         }
+
         return $room;
     }
 
@@ -97,12 +99,11 @@ class NewRoomService
         );
     }
 
-    public function writeLogInDatabase(Rooms $roomold, Rooms $room, User $myUser)
+    public function writeLogInDatabase(Rooms $roomold, Rooms $room, User $myUser): void
     {
-
         if ($room->getCreator() !== $room->getModerator()) {
-            $log = new Log();
-            $exclude = array(
+            $log     = new Log();
+            $exclude = [
                 'user',
                 'server',
                 'userAttributes',
@@ -118,21 +119,30 @@ class NewRoomService
                 'callerIds',
                 'tag',
                 'creator',
-                'logs');
-            $message = array(
-                'roomId' => $room->getId(),
-                'userName' => $myUser->getUid(),
-                'state' => 'room Edit',
-                'oldObject' => json_decode($this->serializer->serialize($roomold,
-                    JsonEncoder::FORMAT,
-                    [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude])),
-                'newObject' => json_decode($this->serializer->serialize($room,
-                    JsonEncoder::FORMAT,
-                    [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude])),
-            );
+                'logs'
+            ];
+            $message = [
+                'roomId'    => $room->getId(),
+                'userName'  => $myUser->getUid(),
+                'state'     => 'room Edit',
+                'oldObject' => json_decode(
+                    $this->serializer->serialize(
+                        $roomold,
+                        JsonEncoder::FORMAT,
+                        [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude]
+                    )
+                ),
+                'newObject' => json_decode(
+                    $this->serializer->serialize(
+                        $room,
+                        JsonEncoder::FORMAT,
+                        [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude]
+                    )
+                ),
+            ];
             $log->setCreatedAt(new \DateTimeImmutable())
                 ->setUserName($myUser->getUid())
-                ->setMessage(json_encode($message))
+                ->setMessage((string)json_encode($message))
                 ->setUser($myUser)
                 ->setRoom($room);
 

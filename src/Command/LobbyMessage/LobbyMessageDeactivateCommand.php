@@ -18,15 +18,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class LobbyMessageDeactivateCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $entityManager, ?string $name = null)
     {
         parent::__construct($name);
     }
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('id', InputArgument::OPTIONAL, 'Argument description');
+        $this->addArgument('id', InputArgument::OPTIONAL, 'Argument description');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -38,7 +37,7 @@ class LobbyMessageDeactivateCommand extends Command
             $message = $this->entityManager->getRepository(PredefinedLobbyMessages::class)->find($id);
             if ($message) {
                 $disableQ = new ConfirmationQuestion(sprintf('Do you want to %s the message', $message->isActive() ? 'DISABLE' : 'ENABLE'), true);
-                $res = $io->askQuestion($disableQ);
+                $res      = $io->askQuestion($disableQ);
                 if ($res) {
                     $message->setActive(!$message->isActive());
                 }

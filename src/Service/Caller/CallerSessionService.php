@@ -1,0 +1,262 @@
+<?php
+
+namespace App\Service\Caller;
+
+use App\Entity\CallerSession;
+use App\Entity\LobbyWaitungUser;
+use App\Service\FormatName;
+use App\Service\Livekit\SipTrunkGenerator;
+use App\Service\Lobby\ToModeratorWebsocketService;
+use App\Service\RoomService;
+use App\Service\Theme\ThemeService;
+use App\Service\Webhook\RoomStatusFrontendService;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+class CallerSessionService
+{
+    private int $particpants;
+
+    public function __construct(
+        private readonly RequestStack                  $requestStack,
+        private readonly UrlGeneratorInterface         $urlGen,
+        private readonly RoomService                   $roomService,
+        private readonly ToModeratorWebsocketService   $toModerator,
+        private readonly LoggerInterface               $loggger,
+        private readonly RoomStatusFrontendService     $roomStatus,
+        private readonly EntityManagerInterface        $em,
+        private readonly FormatName                    $formatName,
+        private readonly ThemeService                  $themeService,
+        private readonly JitsiComponentSelectorService $jitsiComponentSelectorService,
+        private readonly SipTrunkGenerator             $sipTrunkGenerator
+    ) {
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getSessionStatus(?string $sessionId): array
+    {
+        $this->loggger->debug('Start with Session', ['sessionId' => $sessionId]);
+        $session = $this->em->getRepository(CallerSession::class)->findOneBy(['sessionId' => $sessionId]);
+        if (!$session) {
+            $this->loggger->debug('No Session found', ['sessionId' => $sessionId]);
+            if ($this->requestStack->getCurrentRequest()) {
+                $this->loggger->emergency('Wrong Session-ID', ['sessionId' => $sessionId, 'ip' => $this->requestStack->getCurrentRequest()->getClientIp()]);
+            } else {
+                $this->loggger->debug('We are in a Test');
+            }
+            return [
+                'status' => 'HANGUP',
+                'reason' => 'WRONG_SESSION',
+            ];
+        }
+
+        $this->particpants = sizeof($this->roomStatus->numberOfOccupants($session->getCaller()->getRoom()));
+        $closed            = $this->roomStatus->isRoomClosed($session->getCaller()->getRoom());
+        $started           = $this->roomStatus->isRoomCreated($session->getCaller()->getRoom());
+        $authOk            = $session->getAuthOk();
+
+        if ($session->getForceFinish()) {
+            $this->loggger->debug(
+                'The user is called to hangup. The Moderator has ended the meeting for all participants',
+                ['sessionId' => $sessionId, 'callerId' => $session->getCallerId()]
+            );
+            $this->cleanUpSession($session);
+            return $this->sessionMeetingFinished(session: $session);
+        }
+
+        if ($authOk || (!$session->getCaller()->getRoom()->getLobby() && $started)) {
+            $this->loggger->debug(
+                'The user is accepted and is allowed to enter the room',
+                ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'user' => $session->getCaller()->getUser()->getId()]
+            );
+            return $this->sessionAccepted(session: $session);
+        }
+
+        if ($session->getCaller()->getRoom()->getLobby() && !$session->getLobbyWaitingUser() && $authOk === false) {
+            $this->loggger->debug('The Session was declined by the lobbymoderator', ['sessionId' => $sessionId]);
+            $this->cleanUpSession($session);
+            return $this->sessionDeclined(session: $session);
+        }
+
+        if ($closed == false && $started == false) {
+            $this->loggger->debug(
+                'The Room is not started and the User hast to wait. The user is not accepted',
+                ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
+            );
+            return $this->sessionWaiting(session: $session, started: false);
+        }
+
+        if ($started == true) {
+            $this->loggger->debug(
+                'The Room is started and the User hast to wait. The user is not accepted',
+                ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
+            );
+            return $this->sessionWaiting(session: $session, started: true);
+        }
+
+        $this->loggger->debug(
+            'The user is called to hangup. The Meeting has finished while he was waiting',
+            ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getShowName()]
+        );
+
+        $this->cleanUpSession($session);
+        return $this->sessionMeetingFinished(session: $session);
+    }
+
+    public function cleanUpSession(CallerSession $callerSession): bool
+    {
+        $this->loggger->debug('We start to destroy the caller session', ['sessionID' => $callerSession->getSessionId()]);
+        try {
+            $lobbyWaitungUser = $callerSession->getLobbyWaitingUser();
+
+            if ($lobbyWaitungUser) {
+                $this->loggger->debug('There is a Lobbyuser. we send a refres to the lobbymoderator', ['room' => $lobbyWaitungUser->getRoom()->getId()]);
+                $this->toModerator->refreshLobby($lobbyWaitungUser);
+                $this->toModerator->participantLeftLobby($lobbyWaitungUser);
+                $callerSession->setLobbyWaitingUser(null);
+            }
+
+            $this->loggger->debug('The Callersession is destroyed', ['room' => $callerSession->getSessionId()]);
+            $callerSession->setCaller(null);
+
+            // Flush the owning-side FK changes before deleting referenced rows.
+            $this->em->flush();
+
+            if ($lobbyWaitungUser) {
+                $this->em->remove($lobbyWaitungUser);
+            }
+            $this->em->remove($callerSession);
+            $this->em->flush();
+        } catch (\Exception $exception) {
+            $this->loggger->error($exception->getMessage());
+            return false;
+        }
+        $this->loggger->debug('The Callersession is sucessfully destroyed', ['room' => $callerSession->getSessionId()]);
+
+        return true;
+    }
+
+    public function acceptCallerUser(LobbyWaitungUser $lobbyWaitungUser): bool
+    {
+        if ($lobbyWaitungUser->getCallerSession()) {
+            $caller = $lobbyWaitungUser->getCallerSession();
+            $caller->setLobbyWaitingUser(null);
+            $caller->setAuthOk(true);
+            $this->em->persist($caller);
+            $this->em->flush();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function sessionMeetingFinished(CallerSession $session): array
+    {
+        return [
+            'status'  => 'HANGUP',
+            'reason'  => 'MEETING_HAS_FINISHED',
+            'message' => $this->createMessageElement($session),
+            'links'   => [
+                'left' => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
+            ]
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function sessionAccepted(CallerSession $session): array
+    {
+        $res  = [
+            'status'                 => 'ACCEPTED',
+            'reason'                 => 'ACCEPTED_BY_MODERATOR',
+            'number_of_participants' => $this->particpants,
+            'status_of_meeting'      => 'STARTED',
+            'message'                => $this->createMessageElement($session),
+            'room_name'              => $session->getCaller()->getRoom()->getUid(),
+            'displayname'            => $this->formatName->formatName(
+                $this->themeService->getApplicationProperties('laf_showNameInConference'),
+                $session->getCaller()->getUser()
+            ),
+            'jwt'                    => $this->roomService->generateJwt(
+                $session->getCaller()->getRoom(),
+                $session->getCaller()->getUser(),
+                $session->getShowName()
+            ),
+
+            'links' => [
+                'session' => $this->urlGen->generate('caller_session', ['session_id' => $session->getSessionId()]),
+                'left'    => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
+            ]
+        ];
+
+        $room = $session->getCaller()->getRoom();
+        if ($room->getServer() && $room->getServer()->isLiveKitServer()) {
+            try {
+                $res['sip_trunk'] = $this->sipTrunkGenerator->createNewSIPNumber($room, $session->getCallerId());
+            } catch (\Exception $exception) {
+                $this->loggger->error($exception->getMessage(), ['sessionId' => $session->getSessionId(), 'callerId' => $session->getCallerId()]);
+            }
+        }
+
+        if ($session->isIsSipVideoUser()) {
+            try {
+                $this->jitsiComponentSelectorService->setBaseUrlFromServer($session->getCaller()->getRoom()->getServer());
+                $res['componentKey'] = $this->jitsiComponentSelectorService->fetchComponentKey(
+                    $session->getCaller()->getRoom(),
+                    $session->getCaller()->getUser()
+                );
+            } catch (\Exception $exception) {
+                $this->loggger->error($exception->getMessage());
+            }
+        }
+
+        return $res;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function sessionDeclined(CallerSession $session): array
+    {
+        return [
+            'status'  => 'HANGUP',
+            'reason'  => 'DECLINED',
+            'message' => $this->createMessageElement($session),
+            'links'   => []
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function sessionWaiting(CallerSession $session, bool $started): array
+    {
+        return [
+            'status'                 => 'WAITING',
+            'reason'                 => 'NOT_ACCEPTED',
+            'number_of_participants' => $this->particpants,
+            'status_of_meeting'      => $started ? 'STARTED' : 'NOT_STARTED',
+            'message'                => $this->createMessageElement($session),
+            'links'                  => [
+                'session' => $this->urlGen->generate('caller_session', ['session_id' => $session->getSessionId()]),
+                'left'    => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
+            ]
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function createMessageElement(CallerSession $session): array
+    {
+        return $session->getMessageUid() ? ['uid' => $session->getMessageUid(), 'message' => $session->getMessageText()] : [];
+    }
+}

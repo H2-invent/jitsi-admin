@@ -6,7 +6,7 @@ use App\Entity\CallerRoom;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Repository\RoomsRepository;
-use App\Service\api\ConferenceMapperService;
+use App\Service\Api\ConferenceMapperService;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
