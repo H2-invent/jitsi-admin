@@ -15,8 +15,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:user:remove', 'Removes a user by Username')]
 class UserRemoveCommand extends Command
 {
-    private $em;
-    private $ldapUserService;
+    private EntityManagerInterface $em;
+    private LdapUserService $ldapUserService;
     public function __construct(EntityManagerInterface $entityManager, LdapUserService $ldapUser, ?string $name = null)
     {
         parent::__construct($name);

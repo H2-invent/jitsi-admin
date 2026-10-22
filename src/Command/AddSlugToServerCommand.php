@@ -13,8 +13,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:addSlugToServer')]
 class AddSlugToServerCommand extends Command
 {
-    private $em;
-    private $serverService;
+    private EntityManagerInterface $em;
+    private ServerService $serverService;
     public function __construct(EntityManagerInterface $entityManager, ServerService $serverService, ?string $name = null)
     {
         parent::__construct($name);

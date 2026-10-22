@@ -31,6 +31,9 @@ abstract class AbstractMediaConverter
         yield from $this->splitAudioIntoChunks($mp3Path);
     }
 
+    /**
+     * @param array<string> $chunkPaths
+     */
     public function deleteChunks(array $chunkPaths): void
     {
         foreach ($chunkPaths as $chunkPath) {

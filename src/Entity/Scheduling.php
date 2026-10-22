@@ -11,17 +11,22 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SchedulingRepository::class)]
 class Scheduling
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $uid;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
+    /** @var Rooms|null */
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'schedulings')]
     #[ORM\JoinColumn(nullable: false)]
     private $room;
+    /** @var Collection<int, SchedulingTime> */
     #[ORM\OneToMany(targetEntity: SchedulingTime::class, mappedBy: 'scheduling')]
     private $schedulingTimes;
 
@@ -66,7 +71,7 @@ class Scheduling
         return $this;
     }
     /**
-     * @return Collection|SchedulingTime[]
+     * @return Collection<int, SchedulingTime>
      */
     public function getSchedulingTimes(): Collection
     {

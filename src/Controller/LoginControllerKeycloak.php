@@ -57,12 +57,12 @@ class LoginControllerKeycloak extends JitsiAdminController
     }
 
 
-    public function check(ClientRegistry $clientRegistry, Request $request)
+    public function check(ClientRegistry $clientRegistry, Request $request): void
     {
     }
 
     #[Route(path: '/login/keycloak_edit', name: 'connect_keycloak_edit')]
-    public function edit(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService)
+    public function edit(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService): Response
     {
         $url = $this->getParameter('KEYCLOAK_URL');
         if ($this->themeService->getThemeProperty('idp_provider')) {
@@ -75,7 +75,7 @@ class LoginControllerKeycloak extends JitsiAdminController
 
 
     #[Route(path: '/login/keycloak_password', name: 'connect_keycloak_password')]
-    public function password(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService)
+    public function password(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService): Response
     {
         $url = $this->getParameter('KEYCLOAK_URL');
         if ($this->themeService->getThemeProperty('idp_provider')) {

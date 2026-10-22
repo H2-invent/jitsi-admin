@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:ConnectAllUserInAdressBook', 'This Command adds all LDAP Users in the Adressbook of each other. This command only works after app:ldap:sync')]
 class ConnectAllUserInAdressBookCommand extends Command
 {
-    private $ldapUSerService;
+    private LdapUserService $ldapUSerService;
     public function __construct(LdapUserService $ldapUserService, ?string $name = null)
     {
         parent::__construct($name);

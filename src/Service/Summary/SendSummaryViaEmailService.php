@@ -21,7 +21,7 @@ class SendSummaryViaEmailService
     {
     }
 
-    public function sendSummaryForRoom(Rooms $rooms)
+    public function sendSummaryForRoom(Rooms $rooms): void
     {
         $this->rooms = $rooms;
         foreach ($this->rooms->getUser() as $data) {
@@ -29,7 +29,7 @@ class SendSummaryViaEmailService
         }
     }
 
-    public function sendSumaryToParticipant(User $user)
+    public function sendSumaryToParticipant(User $user): void
     {
         $dompdf = $this->createSummaryService->createSummaryPdf($this->rooms);
         $pdf = $dompdf->output();

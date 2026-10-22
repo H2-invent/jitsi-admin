@@ -36,11 +36,11 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 class RoomService
 {
 
+    private string $identity;
     private const DEFAULT_JWT_LIFETIME_IN_SEC = 3600;
 
     private const MAX_LOBBY_CHAT_MESSAGES = 20;
 
-    private $identity;
     public function __construct(
         private UploaderHelper $uploaderHelper,
         private LoggerInterface               $logger,
@@ -59,7 +59,7 @@ class RoomService
     }
 
     public
-    function setHttpClient($httpClient): self
+    function setHttpClient(HttpClientInterface $httpClient): self
     {
         $this->httpClient = $httpClient;
         return $this;
@@ -69,13 +69,13 @@ class RoomService
      * Creates the JWT Token to send to the Information of the User to the jitsi-Meet Server
      * @param Rooms $room
      * @param User $user
-     * @param $t
-     * @param $userName
+     * @param string $t
+     * @param string $userName
      * @return string
      * @author Emanuel Holzmann
      * @de
      */
-    function join(Rooms $room, ?User $user, $t, $userName)
+    function join(Rooms $room, ?User $user, $t, $userName): string
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -94,21 +94,30 @@ class RoomService
 
     /**
      * Creates the JWT Token to send to the Information of the User to the jitsi-Meet Server
-     * @param $t
+     * @param string $t
      * @param Rooms $room
-     * @param $name
-     * @param $isModerator
+     * @param string $name
+     * @param bool $isModerator
      * @return string
      * @author Emanuel Holzmann
      * @de
      */
-    function joinUrl($t, Rooms $room, $name, $isModerator)
+    function joinUrl($t, Rooms $room, $name, $isModerator): string
     {
         return $this->createUrl($t, $room, $isModerator, null, $name);
     }
 
+    /**
+     * @param string $t
+     * @param Rooms $room
+     * @param bool $isModerator
+     * @param User|null $user
+     * @param string $userName
+     * @param string|null $avatar
+     * @return string
+     */
     public
-    function createUrl($t, Rooms $room, $isModerator, ?User $user, $userName, $avatar = null)
+    function createUrl($t, Rooms $room, $isModerator, ?User $user, $userName, $avatar = null): string
     {
         if ($t === 'a') {
             $type = 'jitsi-meet://';
@@ -131,6 +140,18 @@ class RoomService
         return $url;
     }
 
+    /**
+     * @param Rooms $room
+     * @param User|null $user
+     * @param string $userName
+     * @param bool $moderatorExplizit
+     * @param string|null $avatarUrl
+     * @param bool|string $noModerator
+     * @param bool|string $skipLobby
+     * @param bool|string|null $enableMic
+     * @param bool|string|null $enableCamera
+     * @return string
+     */
     public
     function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null): string
     {
@@ -157,6 +178,20 @@ class RoomService
         return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar, $noModerator, $skipLobby,$enableMic,$enableCamera,$lobbyModerator), $room->getServer()->getAppSecret(), 'HS256');
     }
 
+    /**
+     * @param string $userName
+     * @param Rooms $room
+     * @param Server $server
+     * @param bool $moderator
+     * @param User|null $user
+     * @param string|null $avatar
+     * @param bool|string $noModerator
+     * @param bool|string $skipLobby
+     * @param bool|string|null $enableMic
+     * @param bool|string|null $enableCamera
+     * @param bool $lobbyModerator
+     * @return array<string, mixed>|null
+     */
     public
     function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, ?User $user = null, $avatar = null, $noModerator=false, $skipLobby=false, $enableMic=null,$enableCamera=null, $lobbyModerator=false): ?array
     {

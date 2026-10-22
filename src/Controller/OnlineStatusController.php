@@ -26,8 +26,8 @@ class OnlineStatusController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    public static $ONLINE = 1;
-    public static $OFFLINE = 0;
+    public static int $ONLINE = 1;
+    public static int $OFFLINE = 0;
 
     #[Route('/room/online/status', name: 'app_online_status')]
     public function index(Request $request): Response

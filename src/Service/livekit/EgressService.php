@@ -25,7 +25,11 @@ class EgressService
     {
     }
 
-    public function startEgress(Rooms $rooms, User $user, $template)
+    /**
+     * @param string $template
+     * @return array{error: bool, message?: string, recordingId?: string|null}
+     */
+    public function startEgress(Rooms $rooms, User $user, $template): array
     {
         $recording = $this->recordingRepository->findOneBy(['room' => $rooms, 'user' => $user]);
         if (!$recording) {
@@ -80,7 +84,10 @@ class EgressService
 
 
     }
-    public function stopEgress(Recording $recording) {
+    /**
+     * @return array{error: bool, message?: string}
+     */
+    public function stopEgress(Recording $recording): array {
         try {
             $egressClient = new EgressServiceClient(
                 'https://'.$recording->getRoom()->getServer()->getUrl(),

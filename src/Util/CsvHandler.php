@@ -12,6 +12,10 @@ class CsvHandler
     public static string $CSV_LINE_MULTIDIMENSIONAL = 'A single CSV line must NOT be multidimensional';
     public static string $ARRAY_NOT_ASSOCIATIVE = 'Input array must be associative';
 
+    /**
+     * @param array<mixed> $data
+     * @return string[]
+     */
     public static function generateFromArray(array $data, ?string $seperator = null): array
     {
         if (!self::checkArrayIsMultiDimensional($data)) {
@@ -33,6 +37,9 @@ class CsvHandler
         return $csv;
     }
 
+    /**
+     * @param array<mixed> $csvLine
+     */
     private static function getCsvLineFromArray(array $csvLine, string $seperator): string
     {
         if (self::checkArrayIsMultiDimensional($csvLine)) {
@@ -42,11 +49,17 @@ class CsvHandler
         return implode($seperator, $csvLine);
     }
 
+    /**
+     * @param array<mixed> $arrayToCheck
+     */
     private static function checkArrayIsMultiDimensional(array $arrayToCheck): bool
     {
         return !(count($arrayToCheck) === count($arrayToCheck, COUNT_RECURSIVE));
     }
 
+    /**
+     * @param array<mixed> $arrayToCheck
+     */
     private static function checkMultiDimensionalArrayHasEqualLayers(array $arrayToCheck): bool
     {
         $lastDimension = null;
@@ -73,6 +86,9 @@ class CsvHandler
         return true;
     }
 
+    /**
+     * @param array<mixed> $arrayToCheck
+     */
     private static function checkArrayAssociative(array $arrayToCheck): bool
     {
         return (

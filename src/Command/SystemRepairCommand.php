@@ -18,9 +18,10 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:system:repair', 'Add a short description for your command')]
 class SystemRepairCommand extends Command
 {
-    private $em;
+    private EntityManagerInterface $em;
     private SymfonyStyle $io;
     private string $logfile = 'repairLog.txt';
+    /** @var resource|false */
     private $logFileFile;
 
     public function __construct(
@@ -84,7 +85,7 @@ class SystemRepairCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function repairWaitungUser()
+    private function repairWaitungUser(): int
     {
         $waitingUser = $this->em->getRepository(LobbyWaitungUser::class)->findAll();
         $count = 0;
@@ -100,7 +101,7 @@ class SystemRepairCommand extends Command
         return $count;
     }
 
-    private function repairEmail(User $user)
+    private function repairEmail(User $user): void
     {
         $emailOrg = $user->getEmail();
         $email = trim($user->getEmail());
@@ -114,7 +115,7 @@ class SystemRepairCommand extends Command
         }
     }
 
-    private function repairUsername(User $user)
+    private function repairUsername(User $user): void
     {
         $usernameOrg = $user->getEmail();
         $username = trim($user->getEmail());
@@ -129,7 +130,7 @@ class SystemRepairCommand extends Command
     }
 
 
-    private function findDoubleEmail()
+    private function findDoubleEmail(): void
     {
         $user = $this->em->getRepository(User::class)->findAll();
         $checked = [];

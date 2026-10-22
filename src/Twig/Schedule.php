@@ -7,6 +7,8 @@ use App\Entity\Rooms;
 use App\Entity\SchedulingTime;
 use App\Entity\SchedulingTimeUser;
 use App\Entity\User;
+use App\Repository\RoomsRepository;
+use App\Repository\SchedulingTimeUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Extension\AbstractExtension;
@@ -14,7 +16,7 @@ use Twig\TwigFunction;
 
 class Schedule extends AbstractExtension
 {
-    private $em;
+    private EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
@@ -42,7 +44,9 @@ class Schedule extends AbstractExtension
     }
     public function scheduleUserHasVoted(User $user, Rooms $rooms): ?bool
     {
-        $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findVotesForUserAndRoom($rooms,$user);
+        /** @var SchedulingTimeUserRepository $schedulingTimeUserRepository */
+        $schedulingTimeUserRepository = $this->em->getRepository(SchedulingTimeUser::class);
+        $scheduleTimeUser = $schedulingTimeUserRepository->findVotesForUserAndRoom($rooms,$user);
         if (sizeof($scheduleTimeUser) === 0) {
             return false;
         } else {
@@ -50,20 +54,33 @@ class Schedule extends AbstractExtension
         }
     }
 
+    /**
+     * @param int $type
+     * @return int|null
+     */
     public function scheduleNumber(SchedulingTime $schedulingTime, $type): ?int
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(['scheduleTime' => $schedulingTime, 'accept' => $type]);
         return sizeof($scheduleTimeUser);
     }
 
+    /**
+     * @param int $type
+     * @return SchedulingTimeUser[]
+     */
     public function scheduleUser(SchedulingTime $schedulingTime, $type)
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(['scheduleTime' => $schedulingTime, 'accept' => $type]);
         return $scheduleTimeUser;
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function myScheduledMeeting(User $user)
     {
-        return $this->em->getRepository(Rooms::class)->getMyScheduledRooms($user);
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->em->getRepository(Rooms::class);
+        return $roomsRepository->getMyScheduledRooms($user);
     }
 }

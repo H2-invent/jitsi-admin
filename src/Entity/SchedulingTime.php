@@ -10,15 +10,19 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SchedulingTimeRepository::class)]
 class SchedulingTime
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $time;
+    /** @var Scheduling|null */
     #[ORM\ManyToOne(targetEntity: Scheduling::class, inversedBy: 'schedulingTimes')]
     #[ORM\JoinColumn(nullable: false)]
     private $scheduling;
+    /** @var Collection<int, SchedulingTimeUser> */
     #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'scheduleTime')]
     private $schedulingTimeUsers;
 
@@ -53,7 +57,7 @@ class SchedulingTime
         return $this;
     }
     /**
-     * @return Collection|SchedulingTimeUser[]
+     * @return Collection<int, SchedulingTimeUser>
      */
     public function getSchedulingTimeUsers(): Collection
     {

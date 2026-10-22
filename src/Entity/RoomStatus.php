@@ -10,27 +10,37 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RoomStatusRepository::class)]
 class RoomStatus
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean')]
     private $created;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $RoomCreatedAt;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $destroyed;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $destroyedAt;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $updatedAt;
+    /** @var Collection<int, RoomStatusParticipant> */
     #[ORM\OneToMany(targetEntity: RoomStatusParticipant::class, mappedBy: 'roomStatus', orphanRemoval: true)]
     private $roomStatusParticipants;
+    /** @var Rooms|null */
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'roomstatuses')]
     #[ORM\JoinColumn(nullable: true)]
     private $room;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $jitsiRoomId;
     public function __construct()
@@ -149,7 +159,7 @@ class RoomStatus
         return $this;
     }
     /**
-     * @return Collection|RoomStatusParticipant[]
+     * @return Collection<int, RoomStatusParticipant>
      */
     public function getRoomStatusParticipants(): Collection
     {

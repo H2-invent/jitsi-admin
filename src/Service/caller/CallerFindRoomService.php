@@ -8,14 +8,18 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CallerFindRoomService
 {
-    private $em;
-    private $urlGen;
+    private EntityManagerInterface $em;
+    private UrlGeneratorInterface $urlGen;
     public function __construct(UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager)
     {
         $this->urlGen = $urlGenerator;
         $this->em = $entityManager;
     }
 
+    /**
+     * @param string $id
+     * @return array<string, mixed>
+     */
     public function findRoom($id)
     {
         $caller = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $id]);

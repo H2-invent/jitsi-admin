@@ -56,7 +56,7 @@ class ShareLinkController extends JitsiAdminController
     }
 
     #[Route(path: '/subscribe/self/{uid}', name: 'public_subscribe_participant')]
-    public function participants($uid, Request $request, SubcriptionService $subcriptionService, TranslatorInterface $translator, PexelService $pexelService): Response
+    public function participants(string $uid, Request $request, SubcriptionService $subcriptionService, TranslatorInterface $translator, PexelService $pexelService): Response
     {
         $moderator = false;
         $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidParticipant' => $uid, 'public' => true]);
@@ -109,7 +109,7 @@ class ShareLinkController extends JitsiAdminController
 
 
     #[Route(path: '/subscribe/optIn/{uid}', name: 'public_subscribe_doupleOptIn')]
-    public function doupleoptin($uid, SubcriptionService $subcriptionService, TranslatorInterface $translator, UserService $userService, PexelService $pexelService): Response
+    public function doupleoptin(string $uid, SubcriptionService $subcriptionService, TranslatorInterface $translator, UserService $userService, PexelService $pexelService): Response
     {
         $subscriber = $this->doctrine->getRepository(Subscriber::class)->findOneBy(['uid' => $uid]);
         $res = $subcriptionService->acceptSub($subscriber);

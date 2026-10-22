@@ -23,6 +23,8 @@ class IcsService
      * attendeeEmail, attendeeName, transp, class, status
      *
      * Dates can be DateTimeInterface OR strings (already in correct UTC format).
+     *
+     * @var array<int, array<string, mixed>>
      */
     private array $events = [];
 
@@ -54,6 +56,8 @@ class IcsService
      * - status (string) e.g. CONFIRMED
      * - class (string) e.g. PUBLIC
      * - transp (string) OPAQUE|TRANSPARENT
+     *
+     * @param array<string, mixed> $e
      */
     public function addEvent(array $e): void
     {
@@ -272,6 +276,8 @@ class IcsService
     /**
      * Fold a line at 75 octets (roughly). This implementation folds by bytes.
      * Each continuation line starts with a single space.
+     *
+     * @return string[]
      */
     private function foldLine(string $line): array
     {

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\License;
 use App\Entity\Server;
 use App\Helper\JitsiAdminController;
+use App\Repository\LicenseRepository;
 use App\Service\MailerService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -26,7 +27,9 @@ class ReminderLizenseController extends JitsiAdminController
         $counter = 0;
         $back = (new \DateTimeImmutable())->modify('+5 days');
         $now = new \DateTimeImmutable();
-        $qb = $this->doctrine->getRepository(License::class)->createQueryBuilder('license');
+        /** @var LicenseRepository $licenseRepository */
+        $licenseRepository = $this->doctrine->getRepository(License::class);
+        $qb = $licenseRepository->createQueryBuilder('license');
         $qb->andWhere($qb->expr()->gte('license.validUntil', ':now'))
             ->setParameter('now', $now)
             ->andWhere($qb->expr()->lte('license.validUntil', ':back'))

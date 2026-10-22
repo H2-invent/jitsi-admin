@@ -7,13 +7,17 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class KeycloakService
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
     }
 
+    /**
+     * @param string $email
+     * @param string|null $keycloakId
+     */
     public function getUSer($email, $keycloakId = null): ?User
     {
         $user = null;

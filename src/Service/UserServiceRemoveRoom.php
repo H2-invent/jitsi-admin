@@ -20,12 +20,12 @@ use Twig\Environment;
 
 class UserServiceRemoveRoom
 {
-    private $twig;
-    private $notificationService;
-    private $url;
-    private $translator;
-    private $urlGenerator;
-    private $pushService;
+    private Environment $twig;
+    private NotificationService $notificationService;
+    private UrlGeneratorInterface $url;
+    private TranslatorInterface $translator;
+    private JoinUrlGeneratorService $urlGenerator;
+    private PushService $pushService;
 
     public function __construct(PushService $pushService, JoinUrlGeneratorService $joinUrlGeneratorService, TranslatorInterface $translator, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
@@ -38,7 +38,7 @@ class UserServiceRemoveRoom
     }
 
 
-    function removeRoom(User $user, Rooms $room)
+    function removeRoom(User $user, Rooms $room): bool
     {
 
         $url = $this->urlGenerator->generateUrl($room, $user);
@@ -62,7 +62,7 @@ class UserServiceRemoveRoom
         return true;
     }
 
-    function removePersistantRoom(User $user, Rooms $room)
+    function removePersistantRoom(User $user, Rooms $room): bool
     {
         $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
         $subject = $this->translator->trans('[Videokonferenz] Videokonferenz abgesagt');
@@ -82,7 +82,7 @@ class UserServiceRemoveRoom
         return true;
     }
 
-    function removeRoomScheduling(User $user, Rooms $room)
+    function removeRoomScheduling(User $user, Rooms $room): bool
     {
 
         $content = $this->twig->render('email/removeSchedule.html.twig', ['user' => $user, 'room' => $room,]);

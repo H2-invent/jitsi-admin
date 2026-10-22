@@ -12,13 +12,16 @@ use Twig\TwigFilter;
 
 class License extends AbstractExtension
 {
-    private $licenseService;
+    private LicenseService $licenseService;
 
     public function __construct(LicenseService $licenseService)
     {
         $this->licenseService = $licenseService;
     }
 
+    /**
+     * @return array<TwigFilter>
+     */
     public function getFilters(): array
     {
         return [

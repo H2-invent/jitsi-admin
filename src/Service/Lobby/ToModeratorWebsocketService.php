@@ -10,9 +10,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ToModeratorWebsocketService
 {
-    private $urlgenerator;
-    private $translator;
-    private $directSend;
+    private UrlGeneratorInterface $urlgenerator;
+    private TranslatorInterface $translator;
+    private DirectSendService $directSend;
 
     public function __construct(DirectSendService $directSendService, UrlGeneratorInterface $urlGenerator, TranslatorInterface $translator)
     {
@@ -21,7 +21,7 @@ class ToModeratorWebsocketService
         $this->directSend = $directSendService;
     }
 
-    public function newParticipantInLobby(LobbyWaitungUser $lobbyWaitungUser)
+    public function newParticipantInLobby(LobbyWaitungUser $lobbyWaitungUser): void
     {
 
         $room = $lobbyWaitungUser->getRoom();
@@ -63,12 +63,12 @@ class ToModeratorWebsocketService
         $this->directSend->sendBrowserNotification($topic, $title, $messageDashboard, $message, $lobbyWaitungUser->getUid(), 'info');
     }
 
-    public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser)
+    public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser): void
     {
         $this->refreshLobbyByRoom($lobbyWaitungUser->getRoom());
     }
 
-    public function refreshLobbyByRoom(Rooms $room)
+    public function refreshLobbyByRoom(Rooms $room): void
     {
 
         $topic = 'lobby_moderator/' . $room->getUidReal();
@@ -76,7 +76,7 @@ class ToModeratorWebsocketService
     }
 
 
-    public function participantLeftLobby(LobbyWaitungUser $lobbyWaitungUser)
+    public function participantLeftLobby(LobbyWaitungUser $lobbyWaitungUser): void
     {
         $room = $lobbyWaitungUser->getRoom();
 

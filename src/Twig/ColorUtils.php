@@ -19,6 +19,11 @@ class ColorUtils extends AbstractExtension
 
         ];
     }
+    /**
+     * @param string $color
+     * @param float $percent
+     * @return string
+     */
     public function color_lighten($color,$percent):string{
         try {
             $hex = new Hex(trim($color));

@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CronController extends JitsiAdminController
 {
     #[Route(path: '/cron/remember', name: 'cron_remember')]
-    public function updateCronAkademie(Request $request, LoggerInterface $logger, UserService $userService, ReminderService $reminderService)
+    public function updateCronAkademie(Request $request, LoggerInterface $logger, UserService $userService, ReminderService $reminderService): JsonResponse
     {
         if ($request->get('token') !== $this->getParameter('cronToken')) {
             $message = ['error' => true, 'hinweis' => 'Token fehlerhaft', 'token' => $request->get('token'), 'ip' => $request->getClientIp()];
@@ -41,7 +41,7 @@ class CronController extends JitsiAdminController
     }
 
     #[Route(path: '/cron/run', name: 'cron_run')]
-    public function updateCronRun(Request $request, LoggerInterface $logger, KernelInterface $kernel)
+    public function updateCronRun(Request $request, LoggerInterface $logger, KernelInterface $kernel): Response
     {
         if ($request->get('token') !== $this->getParameter('cronToken')) {
             $message = ['error' => true, 'hinweis' => 'Token fehlerhaft', 'token' => $request->get('token'), 'ip' => $request->getClientIp()];

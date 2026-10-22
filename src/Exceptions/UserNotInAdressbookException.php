@@ -11,7 +11,7 @@ class UserNotInAdressbookException extends \Exception
         parent::__construct('User not in Adressbook');
     }
 
-    public function customMessage()
+    public function customMessage(): void
     {
 
     }

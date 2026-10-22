@@ -12,6 +12,9 @@ class EventSyncApiService
     {
     }
 
+    /**
+     * @return array{status: string}
+     */
     public function getCallerSessionFromUid(string $uid):array
     {
         $roomStatus = $this->roomStatusRepository->findRoomStatusByUid($uid);

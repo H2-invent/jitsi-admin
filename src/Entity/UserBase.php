@@ -8,9 +8,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserBase implements UserInterface
 {
+    /** @var string|null */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $uuid;
 
+    /** @var array<int, string> */
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
@@ -57,6 +59,9 @@ class UserBase implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array<int, string> $roles
+     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -89,8 +94,9 @@ class UserBase implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
         // TODO: Implement getSalt() method.
+        return null;
     }
 }

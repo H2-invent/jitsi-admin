@@ -13,10 +13,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JitsiAdminController extends AbstractController
 {
-    protected $doctrine;
-    protected $translator;
-    protected $logger;
-    protected $parameterBag;
+    protected ManagerRegistry $doctrine;
+    protected TranslatorInterface $translator;
+    protected LoggerInterface $logger;
+    protected ParameterBagInterface $parameterBag;
 
     public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag)
     {
@@ -51,7 +51,7 @@ class JitsiAdminController extends AbstractController
         return $this->doctrine;
     }
 
-    protected function getSessionUser(SessionInterface $session)
+    protected function getSessionUser(SessionInterface $session): ?User
     {
 
         $user = $this->getUser();

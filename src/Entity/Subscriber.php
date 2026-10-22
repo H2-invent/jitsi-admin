@@ -8,16 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SubscriberRepository::class)]
 class Subscriber
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var User|null */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'subscribers')]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
+    /** @var Rooms|null */
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'subscribers')]
     #[ORM\JoinColumn(nullable: false)]
     private $room;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $uid;
     public function getId(): ?int

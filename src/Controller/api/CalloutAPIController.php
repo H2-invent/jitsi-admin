@@ -59,7 +59,7 @@ class CalloutAPIController extends JitsiAdminController
     }
 
     #[Route('/dial/{calloutSessionId}', name: 'dial')]
-    public function dial($calloutSessionId, Request $request): Response
+    public function dial(string $calloutSessionId, Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -71,7 +71,7 @@ class CalloutAPIController extends JitsiAdminController
     }
 
     #[Route('/refuse/{calloutSessionId}', name: 'refuse')]
-    public function refuse($calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
+    public function refuse(string $calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -82,7 +82,7 @@ class CalloutAPIController extends JitsiAdminController
     }
 
     #[Route('/error/{calloutSessionId}', name: 'error')]
-    public function error($calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
+    public function error(string $calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -93,7 +93,7 @@ class CalloutAPIController extends JitsiAdminController
     }
 
     #[Route('/unreachable/{calloutSessionId}', name: 'unreachable')]
-    public function unreachable($calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
+    public function unreachable(string $calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -105,7 +105,7 @@ class CalloutAPIController extends JitsiAdminController
 
 
     #[Route('/timeout/{calloutSessionId}', name: 'timeout')]
-    public function timeout($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
+    public function timeout(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -117,7 +117,7 @@ class CalloutAPIController extends JitsiAdminController
 
 
     #[Route('/later/{calloutSessionId}', name: 'later')]
-    public function later($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
+    public function later(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -128,7 +128,7 @@ class CalloutAPIController extends JitsiAdminController
     }
 
     #[Route('/occupied/{calloutSessionId}', name: 'occupied')]
-    public function occupied($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
+    public function occupied(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -139,7 +139,7 @@ class CalloutAPIController extends JitsiAdminController
     }
 
     #[Route('/ringing/{calloutSessionId}', name: 'ringing')]
-    public function ringing($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
+    public function ringing(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -162,7 +162,7 @@ class CalloutAPIController extends JitsiAdminController
     }
 
     #[Route('/back/{calloutSessionId}', name: 'back', methods: 'GET')]
-    public function back($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
+    public function back(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {

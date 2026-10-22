@@ -33,7 +33,7 @@ class ApplicationUrlGenerator extends AbstractExtension
     }
 
 
-    public function createEtherpadLink(Rooms $rooms, User|LobbyWaitungUser|null $user = null)
+    public function createEtherpadLink(Rooms $rooms, User|LobbyWaitungUser|null $user = null): string
     {
         try {
             $name = null;
@@ -49,7 +49,12 @@ class ApplicationUrlGenerator extends AbstractExtension
         }
     }
 
-    public function createWhitebophirLink(Rooms $rooms, $moderator = false)
+    /**
+     * @param Rooms $rooms
+     * @param bool $moderator
+     * @return string
+     */
+    public function createWhitebophirLink(Rooms $rooms, $moderator = false): string
     {
 
         return $this->externalApplication->whitebophirLink($rooms, $moderator);

@@ -5,6 +5,8 @@ namespace App\Service\webhook;
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
+use App\Repository\RoomsRepository;
+use App\Repository\RoomStatusRepository;
 use App\Service\livekit\EgressService;
 use App\Service\Lobby\LobbyUtils;
 use App\Service\Summary\SendSummaryViaEmailService;
@@ -15,9 +17,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class RoomWebhookService
 {
-    private $em;
-    private $logger;
-    private $paramterBag;
+    private EntityManagerInterface $em;
+    private LoggerInterface $logger;
+    private ParameterBagInterface $paramterBag;
     private LobbyUtils $lobbyUtils;
 
     public function __construct(
@@ -36,6 +38,9 @@ class RoomWebhookService
         $this->lobbyUtils = $lobbyUtils;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function startWebhook($data): ?string
     {
         $res = 'No event defined';;
@@ -100,7 +105,9 @@ class RoomWebhookService
 
             $room = null;
             try {
-                $room = $this->em->getRepository(Rooms::class)->findRoomByCaseInsensitiveUid($roomName);
+                /** @var RoomsRepository $roomsRepository */
+                $roomsRepository = $this->em->getRepository(Rooms::class);
+                $room = $roomsRepository->findRoomByCaseInsensitiveUid($roomName);
             } catch (\Exception $exception) {
                 $this->logger->error($exception->getMessage());
             }
@@ -115,10 +122,12 @@ class RoomWebhookService
                 return 'Room is a breakout room; we don`t create a status';
             }
 
+            /** @var RoomStatusRepository $roomStatusRepository */
+            $roomStatusRepository = $this->em->getRepository(RoomStatus::class);
             if ($room) {
-                $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRooms($room);
+                $roomStatus = $roomStatusRepository->findCreatedRooms($room);
             } else {
-                $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRoomsbyJitsiId($roomJid);
+                $roomStatus = $roomStatusRepository->findCreatedRoomsbyJitsiId($roomJid);
             }
 
             if ($roomStatus) {
@@ -169,15 +178,17 @@ class RoomWebhookService
                 return 'Room is a breakout room we don`t remove the main room';
             }
 
-            $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRoomsbyJitsiId($roomJid);
+            /** @var RoomStatusRepository $roomStatusRepository */
+            $roomStatusRepository = $this->em->getRepository(RoomStatus::class);
+            $roomStatus = $roomStatusRepository->findCreatedRoomsbyJitsiId($roomJid);
             if (!$roomStatus) {
                 $text = 'Room Jitsi ID not found';
                 $this->logger->error($text, ['jitsiID' => $roomJid]);
                 return $text;
             }
 
-            if ($this->paramterBag->get('JITSI_EVENTS_HISTORY') == 0) {
-                $statusOld = $this->em->getRepository(RoomStatus::class)->findBy(['jitsiRoomId' => $roomJid]);
+            if ((int) $this->paramterBag->get('JITSI_EVENTS_HISTORY') == 0) {
+                $statusOld = $roomStatusRepository->findBy(['jitsiRoomId' => $roomJid]);
                 foreach ($statusOld as $data) {
                     $this->em->remove($data);
                     $this->em->flush();
@@ -223,6 +234,9 @@ class RoomWebhookService
         return null;
     }
 
+    /**
+     * @param string $joinedAt
+     */
     public function roomParticipantJoin(
         ?bool   $isBreakout,
         ?string $breakoutRoomName,
@@ -238,7 +252,9 @@ class RoomWebhookService
                 $this->logger->debug('This is a breakoutRoom', ['breakout_room_id ' => $breakoutRoomName, 'room_jid' => $roomJId]);
                 return 'Room is a breakout room we don`t join the participant';
             }
-            $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRoomsbyJitsiId($roomJId);
+            /** @var RoomStatusRepository $roomStatusRepository */
+            $roomStatusRepository = $this->em->getRepository(RoomStatus::class);
+            $roomStatus = $roomStatusRepository->findCreatedRoomsbyJitsiId($roomJId);
             if (!$roomStatus) {
                 $text = 'Room Jitsi ID not found';
                 $this->logger->error($text, ['jitsiID' => $roomJId]);

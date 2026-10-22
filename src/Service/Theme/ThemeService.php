@@ -16,8 +16,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ThemeService
 {
-    private $parameterBag;
-    private $logger;
+    private ParameterBagInterface $parameterBag;
+    private LoggerInterface $logger;
     private RequestStack $request;
     private CheckSignature $checkSignature;
     private CacheInterface $cache;
@@ -40,6 +40,9 @@ class ThemeService
         $this->cache = $filesystemAdapter;
     }
 
+    /**
+     * @return mixed
+     */
     public function getTheme(?Rooms $room = null)
     {
         if ($room) {
@@ -109,6 +112,10 @@ class ThemeService
         return false;
     }
 
+    /**
+     * @param string $property
+     * @return mixed
+     */
     public function getThemeProperty($property)
     {
         $theme = $this->getTheme();
@@ -118,6 +125,10 @@ class ThemeService
         return null;
     }
 
+    /**
+     * @param string $input
+     * @return mixed
+     */
     public function getApplicationProperties($input)
     {
 
@@ -153,6 +164,9 @@ class ThemeService
         return $res;
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function getAllThemes(): array
     {
         $finder = (new Finder())
@@ -241,6 +255,9 @@ class ThemeService
         return null;
     }
 
+    /**
+     * @return array<int, array<int, mixed>>|bool
+     */
     public function showAllThemes(): bool|array
     {
         $finder = new Finder();

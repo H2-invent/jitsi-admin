@@ -21,10 +21,10 @@ use Twig\Environment;
 
 class ServerService
 {
-    private $em;
-    private $notification;
-    private $twig;
-    private $translator;
+    private EntityManagerInterface $em;
+    private NotificationService $notification;
+    private Environment $twig;
+    private TranslatorInterface $translator;
 
     public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, Environment $environment, NotificationService $notificationService)
     {
@@ -34,7 +34,7 @@ class ServerService
         $this->translator = $translator;
     }
 
-    function addPermission(Server $server, User $user)
+    function addPermission(Server $server, User $user): bool
     {
         $content = $this->twig->render('email/serverPermission.html.twig', ['user' => $user, 'server' => $server]);
         $subject = $this->translator->trans('[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt');
@@ -42,6 +42,10 @@ class ServerService
 
         return true;
     }
+    /**
+     * @param string $urlString
+     * @return string|null
+     */
     function makeSlug($urlString)
     {
         $counter = 0;

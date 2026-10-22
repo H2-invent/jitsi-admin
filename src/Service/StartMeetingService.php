@@ -44,13 +44,16 @@ class StartMeetingService
      * @var Environment
      */
     private $twig;
-    private $url;
+    private string $url;
     private ?Rooms $room;
+    /** @var User|int|null */
     private $user;
+    /** @var string|null */
     private $type;
+    /** @var string|null */
     private $name;
-    private $lobbyUser;
-    private $jigasiService;
+    private ?LobbyWaitungUser $lobbyUser;
+    private JigasiService $jigasiService;
 
     /**
      * @var ToModeratorWebsocketService
@@ -90,10 +93,8 @@ class StartMeetingService
     }
 
     /**
-     * @param Rooms|null $room
-     * @param User $user
-     * @param $t
-     * @param $name
+     * @param string|null $t
+     * @param string|null $name
      * @return RedirectResponse|Response|NotFoundHttpException
      * @throws \Exception
      * This function check if the user is allowed to enter the meeting
@@ -141,7 +142,11 @@ class StartMeetingService
         return null;
     }
 
-    public function setAttribute(Rooms $rooms, ?User $user, $t, $name)
+    /**
+     * @param string|null $t
+     * @param string|null $name
+     */
+    public function setAttribute(Rooms $rooms, ?User $user, $t, $name): void
     {
         $this->room = $rooms;
         $this->user = $user;
@@ -182,7 +187,7 @@ class StartMeetingService
         return $this->urlGen->generate('dashboard');
     }
 
-    public function createLobbyModeratorResponse()
+    public function createLobbyModeratorResponse(): Response
     {
 
             return new Response(
@@ -201,13 +206,14 @@ class StartMeetingService
     }
 
     /**
+     * @param string|null $wuid
      * @return Response
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      * this function generates the page for the participant
      */
-    public function createLobbyParticipantResponse($wuid = null)
+    public function createLobbyParticipantResponse($wuid = null): Response
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $this->user, 'room' => $this->room]);
         if ($wuid) {
@@ -316,7 +322,7 @@ class StartMeetingService
         return false;
     }
 
-    public function buildClosedString(Rooms $rooms)
+    public function buildClosedString(Rooms $rooms): string
     {
         return $this->translator->trans(
             'Der Beitritt ist nur von {from} bis {to} möglich',

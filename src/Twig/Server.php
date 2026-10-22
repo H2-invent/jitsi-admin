@@ -10,7 +10,7 @@ use Twig\TwigFunction;
 
 class Server extends AbstractExtension
 {
-    private $serverUserManagment;
+    private ServerUserManagment $serverUserManagment;
     public function __construct(ServerUserManagment $serverUserManagment)
     {
         $this->serverUserManagment = $serverUserManagment;
@@ -26,16 +26,25 @@ class Server extends AbstractExtension
         ];
     }
 
+    /**
+     * @return \App\Entity\Server[]
+     */
     public function getServer(User $user)
     {
 
         return $this->serverUserManagment->getServersFromUser($user);
     }
+    /**
+     * @return \App\Entity\Rooms[]
+     */
     public function getActualConference(\App\Entity\Server $server)
     {
 
         return $this->serverUserManagment->getActualConference($server);
     }
+    /**
+     * @return \App\Entity\RoomStatusParticipant[]
+     */
     public function getActualParticipants(\App\Entity\Server $server)
     {
         return $this->serverUserManagment->getActualParticipantsFromServer($server);

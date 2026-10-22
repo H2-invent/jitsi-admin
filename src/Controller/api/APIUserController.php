@@ -5,6 +5,7 @@ namespace App\Controller\api;
 use App\Entity\Rooms;
 use App\Helper\BearerTokenAuthHelper;
 use App\Helper\JitsiAdminController;
+use App\Repository\RoomsRepository;
 use App\Service\api\RoomService;
 use App\Service\InviteService;
 use App\Service\LicenseService;
@@ -34,7 +35,9 @@ class APIUserController extends JitsiAdminController
     #[Route(path: '/api/v1/getAllEntries', name: 'apiV1_getAllEntries')]
     public function index(): Response
     {
-        $rooms = $this->doctrine->getRepository(Rooms::class)->findRoomsForUser($this->getUser());
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->doctrine->getRepository(Rooms::class);
+        $rooms = $roomsRepository->findRoomsForUser($this->getUser());
         $res = [];
         foreach ($rooms as $data) {
             $tmp = [
@@ -51,7 +54,7 @@ class APIUserController extends JitsiAdminController
     }
 
     #[Route(path: '/api/v1/info/{uidReal}', name: 'apiV1_roomGetUser', methods: ['GET'])]
-    public function getRoomInformations(Request $request, $uidReal, RoomService $roomService): Response
+    public function getRoomInformations(Request $request, string $uidReal, RoomService $roomService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $uidReal]);
         $response = new JsonResponse($roomService->generateRoomInfo($room));

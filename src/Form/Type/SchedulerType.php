@@ -317,6 +317,10 @@ class SchedulerType extends AbstractType
         );
     }
 
+    /**
+     * @param array<string, mixed> $additional
+     * @return array<string, mixed>
+     */
     private function getOptions(
         bool   $required,
         string $label,

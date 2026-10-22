@@ -28,7 +28,7 @@ class DeputyController extends JitsiAdminController
     }
 
     #[Route('/toggle/{deputyUid}', name: 'add')]
-    public function index($deputyUid): Response
+    public function index(string $deputyUid): Response
     {
         $user = $this->getUser();
         $deputy = $this->doctrine->getRepository(User::class)->findOneBy(['uid' => $deputyUid]);
@@ -43,7 +43,7 @@ class DeputyController extends JitsiAdminController
     }
 
     #[Route('/toggle-ajax/{deputyUid}', name: 'add_ajax', methods: ['POST'])]
-    public function toggleAjax($deputyUid): Response
+    public function toggleAjax(string $deputyUid): Response
     {
         $user = $this->getUser();
         $deputy = $this->doctrine->getRepository(User::class)->findOneBy(['uid' => $deputyUid]);

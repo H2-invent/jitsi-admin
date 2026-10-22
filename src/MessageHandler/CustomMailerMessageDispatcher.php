@@ -26,7 +26,7 @@ class CustomMailerMessageDispatcher
     {
     }
 
-    public function __invoke(CustomMailerMessage $customMailerMessage)
+    public function __invoke(CustomMailerMessage $customMailerMessage): void
     {
         $this->logger->debug($customMailerMessage->getDsn());
         $transport = Transport::fromDsn($customMailerMessage->getDsn());
@@ -42,7 +42,12 @@ class CustomMailerMessageDispatcher
         }
     }
 
-    private function sendNotdelivery(?Rooms $room, $to, $wrongEmail, $error)
+    /**
+     * @param string $to
+     * @param string $wrongEmail
+     * @param string $error
+     */
+    private function sendNotdelivery(?Rooms $room, $to, $wrongEmail, $error): void
     {
         $sender = $this->parameterBag->get('registerEmailAdress');
         $senderName = $this->parameterBag->get('registerEmailName');

@@ -69,6 +69,9 @@ class SetupInitialCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * @param array<string, mixed> $json
+     */
     private function validateJsonStructure(array $json, SymfonyStyle $io): bool
     {
         $Constraints = new Constraints\Collection([

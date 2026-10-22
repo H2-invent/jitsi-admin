@@ -15,11 +15,13 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Rooms|null findOneBy(array $criteria, array $orderBy = null)
  * @method Rooms[]    findAll()
  * @method Rooms[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<Rooms>
  */
 class RoomsRepository extends ServiceEntityRepository
 {
-    private $timeZoneService;
-    private $amountperLayz = 8;
+    private TimeZoneService $timeZoneService;
+    private int $amountperLayz = 8;
 
     public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
     {
@@ -55,6 +57,9 @@ class RoomsRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @return Rooms[]
+     */
     public function findRoomsInFuture(User $user)
     {
         $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
@@ -103,7 +108,10 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRoomsInPast(User $user, $offset)
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsInPast(User $user, int|string $offset)
     {
         $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
         $now = $now->setTimezone(new \DateTimeZone('utc'));
@@ -173,6 +181,9 @@ class RoomsRepository extends ServiceEntityRepository
         return $rooms;
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function findRoomsForUser(User $user)
     {
         $qb = $this->createQueryBuilder('r');
@@ -193,6 +204,9 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function findRunningRooms(User $user)
     {
 
@@ -245,6 +259,9 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function findTodayRooms(User $user)
     {
         $now = new \DateTimeImmutable('now', new \DateTimeZone('utc'));
@@ -301,6 +318,9 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function getMyScheduledRooms(User $user)
     {
         $qb = $this->createQueryBuilder('rooms');
@@ -324,6 +344,7 @@ class RoomsRepository extends ServiceEntityRepository
     }
 
      /**
+       * @param int|string $offset
        * @return Rooms[] Returns an array of Rooms objects
        */
     public function getMyPersistantRooms(User $user, $offset)
@@ -350,6 +371,9 @@ class RoomsRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function findRoomsFutureAndPast(User $user, string $timeBack)
     {
         $now = (new \DateTimeImmutable('now', new \DateTimeZone('utc')))->modify($timeBack);
@@ -378,6 +402,9 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function findRoomsForDashboard(User $user)
     {
         $now = new \DateTimeImmutable('now', $this->timeZoneService->getTimeZone($user));
@@ -463,6 +490,9 @@ class RoomsRepository extends ServiceEntityRepository
         return $rooms;
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function findFavoriteRooms(User $user)
     {
         $qb = $this->createQueryBuilder('r');
@@ -594,7 +624,10 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findFutureRoomsWithNoCallerId($now)
+    /**
+     * @return Rooms[]
+     */
+    public function findFutureRoomsWithNoCallerId(int $now)
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->leftJoin('r.callerRoom', 'callerRoom')
@@ -612,7 +645,10 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function findRoomsForRoomInGivenMinutes(Server $server, $minutes = 0)
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsForRoomInGivenMinutes(Server $server, int $minutes = 0)
     {
         $qb = $this->createQueryBuilder('r');
 
@@ -626,6 +662,9 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Rooms[]
+     */
     public function findRoomsnotInPast()
     {
         $now = (new \DateTimeImmutable('now'))->getTimestamp();
@@ -660,7 +699,10 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRoomByCaseInsensitiveUid($value): ?Rooms
+    /**
+     * @return Rooms|null
+     */
+    public function findRoomByCaseInsensitiveUid(string $value): ?Rooms
     {
         return $this->createQueryBuilder('r')
             ->andWhere('upper(r.uid) = upper(:val)')
@@ -672,7 +714,6 @@ class RoomsRepository extends ServiceEntityRepository
     /**
      * @return Rooms[] Returns an array of Rooms objects
      */
-
     public function findActualConferenceForServerByStatus(Server $server)
     {
         $qb = $this->createQueryBuilder('r');

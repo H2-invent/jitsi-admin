@@ -9,29 +9,47 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LdapType
 {
+    /** @var string */
     private $userDn;
+    /** @var string */
     private $scope;
+    /** @var array<string, mixed> */
     private $mapper;
+    /** @var string */
     private $url;
+    /** @var string */
     private $userNameAttribute;
+    /** @var string */
     private $serVerId;
     private Ldap $ldap;
+    /** @var string */
     private $rdn;
+    /** @var string */
     private $bindDn;
+    /** @var string */
     private $password;
+    /** @var string */
     private $bindType;
+    /** @var string */
     private $objectClass;
-    public static $ANONYMOUS = 1;
-    public static $SIMPLE = 0;
+    public static int $ANONYMOUS = 1;
+    public static int $SIMPLE = 0;
+    /** @var array<string, mixed> */
     private $specialFields;
+    /** @var string|null */
     private $filter;
-    private $dryRun = false;
+    private bool $dryRun = false;
+    /** @var string */
     private $LDAP_DEPUTY_GROUP_OBJECTCLASS;
+    /** @var string */
     private $LDAP_DEPUTY_GROUP_DN;
+    /** @var string */
     private $LDAP_DEPUTY_GROUP_LEADER;
+    /** @var string */
     private $LDAP_DEPUTY_GROUP_MEMBERS;
+    /** @var string|null */
     private $LDAP_DEPUTY_GROUP_FILTER;
-    private $isHealthy = false;
+    private bool $isHealthy = false;
     private bool $IS_SIP_VIDEO = false;
 
 
@@ -248,6 +266,9 @@ class LdapType
         $this->objectClass = $objectClass;
     }
 
+    /**
+     * @return Ldap
+     */
     public function createLDAP()
     {
 
@@ -356,6 +377,9 @@ class LdapType
     }
 
 
+    /**
+     * @return \Symfony\Component\Ldap\Entry[]
+     */
     public function retrieveDeputies()
     {
 

@@ -29,7 +29,7 @@ class CalloutSessionAPIService
     /**
      * This function returns the pending callouts.
      * The Callouts are formated in an array
-     * @return array
+     * @return array{calls: array<int, array<string, mixed>>}
      */
     public function getCalloutPool()
     {
@@ -47,7 +47,7 @@ class CalloutSessionAPIService
     /**
      * This function build the Array which is expected from the API Consumer
      * @param CalloutSession $calloutSession
-     * @return array|null
+     * @return array<string, mixed>|null
      */
     public function buildCallerSessionPoolArray(CalloutSession $calloutSession)
     {
@@ -97,7 +97,7 @@ class CalloutSessionAPIService
     /**
      * This Function searches all CalloutSessions in the Specific State
      * The State is defined in the CalloutSession Class in Static Variables
-     * @param $state
+     * @param int $state
      * @return CalloutSession[]|array|object[]
      */
     public function findCalloutSessionByState($state)
@@ -108,7 +108,7 @@ class CalloutSessionAPIService
 
     /**
      * returns a pool of callout sessions which are in dialing state.
-     * @return array[]
+     * @return array{calls: array<int, array<string, mixed>>}
      */
     public function getDialPool()
     {
@@ -125,7 +125,7 @@ class CalloutSessionAPIService
 
     /**
      * Returns the Pool of callout Sessions which are in an on hold state.
-     * @return array[]
+     * @return array{calls: array<int, array<string, mixed>>}
      */
     public function getOnHoldPool()
     {

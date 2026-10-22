@@ -12,6 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method AddressGroup|null findOneBy(array $criteria, array $orderBy = null)
  * @method AddressGroup[]    findAll()
  * @method AddressGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<AddressGroup>
  */
 class AddressGroupRepository extends ServiceEntityRepository
 {
@@ -48,7 +50,11 @@ class AddressGroupRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findMyAddressBookGroupsByName($value, User $user)
+    /**
+     * @param string $value
+     * @return AddressGroup[]
+     */
+    public function findMyAddressBookGroupsByName($value, User $user): array
     {
         $qb = $this->createQueryBuilder('g')
             ->innerJoin(' g.leader', 'leader')

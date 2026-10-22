@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:lobby:cleanUp', 'Enter the max age of Waiting users in the lobby in hours')]
 class CleanUpLobbyCommand extends Command
 {
-    private $cleanUp;
+    private CleanupLobbyService $cleanUp;
 
     public function __construct(CleanupLobbyService $cleanupLobbyService, ?string $name = null)
     {

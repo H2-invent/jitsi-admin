@@ -12,18 +12,22 @@ namespace App\Service;
 use App\Entity\Rooms;
 use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
+use App\Repository\RoomStatusParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AdminService
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
     }
 
-    public function createChart(Server $server)
+    /**
+     * @return array<int, array{date: \DateTimeImmutable, participants: int, rooms: int, participants_real: int}>
+     */
+    public function createChart(Server $server): array
     {
         $rooms = $this->em->getRepository(Rooms::class)->findBy(['server' => $server]);
 
@@ -33,7 +37,9 @@ class AdminService
         $firstDate = $firstDate->modify('-30 days');
         $lastDate = new \DateTimeImmutable();
         $lastDate = $lastDate->modify('+30 days');
-        $participants = $this->em->getRepository(RoomStatusParticipant::class)->findParticipantsByServer($server, $firstDate, $lastDate);
+        /** @var RoomStatusParticipantRepository $participantRepository */
+        $participantRepository = $this->em->getRepository(RoomStatusParticipant::class);
+        $participants = $participantRepository->findParticipantsByServer($server, $firstDate, $lastDate);
         for ($x = 0; $x <= 60; $x++) {
             $date = $firstDate->modify('+' . $x . 'days');
 

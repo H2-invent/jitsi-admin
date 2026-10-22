@@ -62,7 +62,7 @@ class SchedulingService
         }
     }
 
-    public function sendEmailWhenNewSchedulingTime(SchedulingTime $schedulingTime)
+    public function sendEmailWhenNewSchedulingTime(SchedulingTime $schedulingTime): void
     {
         $room = $schedulingTime->getScheduling()->getRoom();
         $subject = $this->translator->trans('scheduling.new.schedulingTime.subject');
@@ -95,7 +95,7 @@ class SchedulingService
 
     }
 
-    public function sendEmailWhenAllFinish(Rooms $room)
+    public function sendEmailWhenAllFinish(Rooms $room): void
     {
         $check = true;
         foreach ($room->getSchedulings() as $data) {
@@ -142,6 +142,10 @@ class SchedulingService
         return true;
     }
 
+    /**
+     * @param int|null $type
+     * @return void
+     */
     public function voteForSchedulingTimeOnly(User $user, SchedulingTime $schedulingTime, $type)
     {
         $scheduleTimeUser = $this->schedulingTimeUserRepository->findOneBy(['user' => $user, 'scheduleTime' => $schedulingTime]);
@@ -158,6 +162,10 @@ class SchedulingService
         $this->entityManager->flush();
     }
 
+    /**
+     * @param int|null $type
+     * @return bool
+     */
     public function voteForSchedulingTime(User $user, SchedulingTime $schedulingTime, $type): bool
     {
         $this->voteForSchedulingTimeOnly(user: $user, schedulingTime: $schedulingTime, type: $type);

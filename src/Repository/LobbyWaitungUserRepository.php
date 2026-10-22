@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method LobbyWaitungUser|null findOneBy(array $criteria, array $orderBy = null)
  * @method LobbyWaitungUser[]    findAll()
  * @method LobbyWaitungUser[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<LobbyWaitungUser>
  */
 class LobbyWaitungUserRepository extends ServiceEntityRepository
 {
@@ -47,7 +49,10 @@ class LobbyWaitungUserRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findOldLobbyWaitinguser(\DateTimeImmutable $oldestDate)
+    /**
+     * @return LobbyWaitungUser[]
+     */
+    public function findOldLobbyWaitinguser(\DateTimeImmutable $oldestDate): array
     {
         return $this->createQueryBuilder('l')
             ->andWhere('l.createdAt < :oldest')

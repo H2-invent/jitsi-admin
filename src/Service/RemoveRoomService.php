@@ -20,7 +20,7 @@ class RemoveRoomService
     }
 
 
-    public function deleteRoom(Rooms $room)
+    public function deleteRoom(Rooms $room): bool
     {
         try {
             foreach ($room->getUser() as $user) {

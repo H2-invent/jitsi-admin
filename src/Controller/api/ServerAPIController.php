@@ -64,7 +64,7 @@ class ServerAPIController extends AbstractController
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
         }
 
-        $rooms = $this->roomsRepository->findRoomsForRoomInGivenMinutes($server,$request->get('minutes'));
+        $rooms = $this->roomsRepository->findRoomsForRoomInGivenMinutes($server, (int)$request->get('minutes'));
         $roomIds = array_map(fn($room) => $room->getUidReal(), $rooms);
 
         return new JsonResponse([

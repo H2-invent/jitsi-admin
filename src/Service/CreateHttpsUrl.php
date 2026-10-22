@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CreateHttpsUrl
 {
-    private $paramterBag;
-    private $request;
+    private ParameterBagInterface $paramterBag;
+    private RequestStack $request;
     private LoggerInterface $logger;
 
     private string $baseUrl;
@@ -28,7 +28,12 @@ class CreateHttpsUrl
         $this->paramterBag = $paramterBag;
     }
 
-    public function createHttpsUrl($url, ?Rooms $rooms = null)
+    /**
+     * @param string $url
+     * @param Rooms|null $rooms
+     * @return string
+     */
+    public function createHttpsUrl($url, ?Rooms $rooms = null): string
     {
         if (str_contains($url, $this->baseUrl)) {
             return $this->generateAbsolutUrl($url);
@@ -43,7 +48,7 @@ class CreateHttpsUrl
                     return $this->generateAbsolutUrl($rooms->getHostUrl(), $url);
                 } elseif ($rooms && !$rooms->getHostUrl()) {
                     return $this->baseUrl . $url;
-                } elseif ($this->request && $this->request->getCurrentRequest()) {
+                } elseif ($this->request->getCurrentRequest()) {
                     return $this->generateAbsolutUrl($this->request->getCurrentRequest()->getSchemeAndHttpHost(), $url);
                 } else {
                     return $this->baseUrl . $url;
@@ -55,7 +60,12 @@ class CreateHttpsUrl
         }
     }
 
-    private function generateAbsolutUrl($baseUrl, $url = '')
+    /**
+     * @param string $baseUrl
+     * @param string $url
+     * @return string
+     */
+    private function generateAbsolutUrl($baseUrl, $url = ''): string
     {
         $isStricktHttps = str_contains($this->baseUrl, 'https://');
         $res = $baseUrl . $url;
@@ -65,7 +75,11 @@ class CreateHttpsUrl
         return $res;
     }
 
-    public function replaceSchemeOfAbsolutUrl($url)
+    /**
+     * @param string $url
+     * @return string
+     */
+    public function replaceSchemeOfAbsolutUrl($url): string
     {
         $protokoll = parse_url($this->paramterBag->get('laF_baseUrl'));
         if (!$protokoll) {
@@ -84,7 +98,12 @@ class CreateHttpsUrl
 
     }
 
-    private function replaceProtocol($url, $newProtocol)
+    /**
+     * @param string $url
+     * @param string $newProtocol
+     * @return string
+     */
+    private function replaceProtocol($url, $newProtocol): string
     {
         $parsedUrl = parse_url($url);
 

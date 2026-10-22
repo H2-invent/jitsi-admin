@@ -15,9 +15,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RoomGeneratorService
 {
-    private $parameterBag;
-    private $callerPrepareService;
-    private $em;
+    private ParameterBagInterface $parameterBag;
+    private CallerPrepareService $callerPrepareService;
+    private EntityManagerInterface $em;
     private RequestStack $requestStack;
     private ThemeService $themeService;
 
@@ -70,7 +70,9 @@ class RoomGeneratorService
         }
         $room = $this->createCallerId($room);
 
-        if ($this->parameterBag->get(InputSettings::ALLOW_TAG) == 1) {
+        /** @var bool|float|int|string|null $allowTag */
+        $allowTag = $this->parameterBag->get(InputSettings::ALLOW_TAG);
+        if ($allowTag == 1) {
             if ($server) {
                 if ($server->getTag()->count() > 0) {
                     $room->setTag($server->getTag()->first());
@@ -81,7 +83,7 @@ class RoomGeneratorService
         return $room;
     }
 
-    public function createCallerId(Rooms $room)
+    public function createCallerId(Rooms $room): Rooms
     {
         $roomCaller = new CallerRoom();
         $roomCaller->setCallerId($this->callerPrepareService->generateRoomId(999999));
@@ -90,7 +92,7 @@ class RoomGeneratorService
         return $room;
     }
 
-    public function addUserToRoom(User $user, Rooms $rooms, $cleanParticipantsBefore = false): Rooms
+    public function addUserToRoom(User $user, Rooms $rooms, bool $cleanParticipantsBefore = false): Rooms
     {
         if ($cleanParticipantsBefore) {
             foreach ($rooms->getUser() as $data) {

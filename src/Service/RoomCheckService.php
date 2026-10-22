@@ -9,8 +9,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomCheckService
 {
-    private $translator;
-    private $em;
+    private TranslatorInterface $translator;
+    private EntityManagerInterface $em;
 
     public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager)
     {
@@ -18,7 +18,10 @@ class RoomCheckService
         $this->em = $entityManager;
     }
 
-    public function checkRoom(Rooms $room, &$error)
+    /**
+     * @param array<int, string> $error
+     */
+    public function checkRoom(Rooms $room, &$error): Rooms
     {
 
         $error = [];
@@ -41,7 +44,7 @@ class RoomCheckService
         return $room;
     }
 
-    function setRoomProps(Rooms $room)
+    function setRoomProps(Rooms $room): Rooms
     {
         if ($room->getPersistantRoom()) {
             $counter = 0;

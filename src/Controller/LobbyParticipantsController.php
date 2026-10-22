@@ -28,8 +28,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LobbyParticipantsController extends JitsiAdminController
 {
-    private $toModerator;
-    private $createLobbyUserService;
+    private ToModeratorWebsocketService $toModerator;
+    private CreateLobbyUserService $createLobbyUserService;
 
     public function __construct(
         ManagerRegistry                $managerRegistry,
@@ -47,7 +47,7 @@ class LobbyParticipantsController extends JitsiAdminController
     }
 
     #[Route(path: '/lobby/participants/{type}/{roomUid}/{userUid}', name: 'lobby_participants_wait', defaults: ['type' => 'a'])]
-    public function index($roomUid, $userUid, $type, RoomStatusFrontendService $roomStatusFrontendService): Response
+    public function index(string $roomUid, string $userUid, string $type, RoomStatusFrontendService $roomStatusFrontendService): Response
     {
 
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomUid]);
@@ -64,7 +64,7 @@ class LobbyParticipantsController extends JitsiAdminController
     }
 
     #[Route(path: '/lobby/healthcheck/participants/{userUid}', name: 'lobby_participants_healthCheck')]
-    public function healthcheck($userUid): Response
+    public function healthcheck(string $userUid): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
         if ($lobbyUser) {
@@ -75,7 +75,7 @@ class LobbyParticipantsController extends JitsiAdminController
     }
 
     #[Route(path: '/lobby/websocket/ready/{userUid}', name: 'lobby_participants_websocket_ready')]
-    public function websokcket_ready($userUid): Response
+    public function websokcket_ready(string $userUid): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
         if ($lobbyUser) {
@@ -93,7 +93,7 @@ class LobbyParticipantsController extends JitsiAdminController
     }
 
     #[Route(path: '/lobby/renew/participants/{userUid}', name: 'lobby_participants_renew')]
-    public function renew($userUid): Response
+    public function renew(string $userUid): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
         if ($lobbyUser) {
@@ -105,7 +105,7 @@ class LobbyParticipantsController extends JitsiAdminController
     }
 
     #[Route(path: '/lobby/leave/participants/{userUid}', name: 'lobby_participants_leave')]
-    public function remove($userUid, MessageBusInterface $bus): Response
+    public function remove(string $userUid, MessageBusInterface $bus): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
         $this->logger->debug('leave Lobby');
@@ -122,7 +122,7 @@ class LobbyParticipantsController extends JitsiAdminController
     }
 
     #[Route(path: '/lobby/browser/leave/participants/{userUid}', name: 'lobby_participants_browser_leave')]
-    public function browser($userUid, MessageBusInterface $bus): Response
+    public function browser(string $userUid, MessageBusInterface $bus): Response
     {
 
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);

@@ -10,14 +10,14 @@ use Symfony\Component\HttpClient\HttpClient;
 
 class FavoriteService
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
     }
 
-    public function changeFavorite(User $user, Rooms $room)
+    public function changeFavorite(User $user, Rooms $room): bool
     {
         if (in_array($user, $room->getUser()->toArray())) {
             if (in_array($room, $user->getFavorites()->toArray())) {
@@ -33,7 +33,7 @@ class FavoriteService
         return true;
     }
 
-    public function cleanFavorites(User $user)
+    public function cleanFavorites(User $user): void
     {
         $favorites = $user->getFavorites();
         $now = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('utc'));
@@ -54,7 +54,7 @@ class FavoriteService
         }
     }
 
-    public function sendMe()
+    public function sendMe(): void
     {
         try {
             $browser = new HttpBrowser(HttpClient::create());

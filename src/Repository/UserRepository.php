@@ -12,6 +12,7 @@ use Psr\Log\LoggerInterface;
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<User>
  */
 class UserRepository extends ServiceEntityRepository
 {
@@ -50,17 +51,27 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findOneByEmail($value): ?User
+
+    /**
+     * @param string $email
+     * @return User|null
+     */
+    public function findOneByEmail(string $email): ?User
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.email = :val')
-            ->setParameter('val', $value)
+            ->andWhere('u.email = :email')
+            ->setParameter('email', $email)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
 
-    public function findMyUserByIndex($value, User $user)
+    /**
+     * @param string $value
+     * @param User $user
+     * @return User[]
+     */
+    public function findMyUserByIndex(string $value, User $user)
     {
         $value = strtolower($value);
         $qb = $this->createQueryBuilder('u')
@@ -75,9 +86,10 @@ class UserRepository extends ServiceEntityRepository
     }
 
      /**
+      * @param string $value
       * @return User[] Returns an array of USers objects
       */
-    public function findUsersByLdapServerId($value)
+    public function findUsersByLdapServerId(string $value)
     {
         return $this->createQueryBuilder('u')
             ->innerJoin('u.ldapUserProperties', 'ldap_user_properties')
@@ -87,6 +99,9 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return User[]
+     */
     public function findUsersfromLdapService()
     {
         $qb = $this->createQueryBuilder('u');
@@ -97,6 +112,10 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param string $userDn
+     * @return User|null
+     */
     public function findUsersfromLdapdn($userDn):?User
     {
         $qb = $this->createQueryBuilder('u');
@@ -136,7 +155,11 @@ class UserRepository extends ServiceEntityRepository
     }
 
 
-    public function findUsersByCallerId($callerId): ?User
+    /**
+     * @param string $callerId
+     * @return User|null
+     */
+    public function findUsersByCallerId(string $callerId): ?User
     {
         $callerId = preg_replace('/[^0-9]/', '', $callerId);
         $callerId = preg_replace('/^0+/', '', $callerId);

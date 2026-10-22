@@ -13,8 +13,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:migrate:servername', 'This command adds the server url as server name. This only happens when the entry is empty or null')]
 class MigrateServernameCommand extends Command
 {
-    private $em;
-    private $serverRename;
+    private EntityManagerInterface $em;
+    private RenameServerService $serverRename;
     public function __construct(EntityManagerInterface $entityManager, RenameServerService $renameServerService, ?string $name = null)
     {
         parent::__construct($name);

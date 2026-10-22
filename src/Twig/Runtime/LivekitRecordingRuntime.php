@@ -2,6 +2,7 @@
 
 namespace App\Twig\Runtime;
 
+use App\Entity\Recording;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Repository\RecordingRepository;
@@ -17,6 +18,11 @@ class LivekitRecordingRuntime implements RuntimeExtensionInterface
 
     }
 
+    /**
+     * @param User|null $user
+     * @param Rooms|null $room
+     * @return Recording|null
+     */
     public function getRecordingForRoomAndUser(?User $user, ?Rooms $room)
     {
         if ($room && $user){

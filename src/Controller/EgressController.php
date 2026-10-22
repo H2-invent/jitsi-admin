@@ -26,13 +26,12 @@ class EgressController extends AbstractController
     public function __construct(
         private LoggerInterface        $logger,
         private EgressService $egressService,
-
     )
     {
     }
 
     #[Route('/room/start/egress/{uidReal}/{template}', name: 'app_start_egress')]
-    public function index(Request $request, ?Rooms $rooms, $template): Response
+    public function index(Request $request, ?Rooms $rooms, string $template): Response
     {
         if (!$rooms || !$rooms->getServer()->isLiveKitServer() || $this->getUser() !== $rooms->getModerator()) {
             $this->logger->debug('Room not found');

@@ -12,7 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:cron:sendReminder')]
 class CronSendReminderCommand extends Command
 {
-    private $reminderService;
+    private ReminderService $reminderService;
 
     public function __construct(ReminderService $reminderService, ?string $name = null)
     {

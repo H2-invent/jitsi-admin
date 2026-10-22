@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ReminderService
 {
-    private $em;
-    private $userService;
+    private EntityManagerInterface $em;
+    private UserService $userService;
 
     public function __construct(EntityManagerInterface $entityManager, UserService $userService)
     {
@@ -18,6 +18,10 @@ class ReminderService
         $this->userService = $userService;
     }
 
+    /**
+     * @param array<int, string|null>|null $filter
+     * @return array{error: bool, hinweis: string, Konferenzen: int, Emails: int}
+     */
     public function sendReminder($filter)
     {
         set_time_limit(600);

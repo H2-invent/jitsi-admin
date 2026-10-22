@@ -17,7 +17,7 @@ class CheckIfUserIsAllowdToOrganize extends AbstractExtension
             new TwigFunction('isAllowedToOrganize', [$this, 'isAllowedToOrganize'])
         ];
     }
-    public function isAllowedToOrganize(Rooms $rooms, ?User $user)
+    public function isAllowedToOrganize(Rooms $rooms, ?User $user): bool
     {
         return UtilsHelper::isAllowedToOrganizeRoom($user, $rooms);
     }

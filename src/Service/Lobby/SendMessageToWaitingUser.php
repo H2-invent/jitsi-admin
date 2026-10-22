@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Security;
 
 class SendMessageToWaitingUser
 {
+    /** @var mixed */
     private $isAllowedToCreateCustom;
 
     public function __construct(
@@ -26,6 +27,10 @@ class SendMessageToWaitingUser
         $this->isAllowedToCreateCustom = $this->themeService->getApplicationProperties('LAF_LOBBY_ALLOW_CUSTOM_MESSAGES');
     }
 
+    /**
+     * @param int|string $message
+     * @return array{counter: int, success: bool}
+     */
     public function sendMessageToAllWaitingUser($message, User $user, Rooms $rooms): array
     {
         $counter = 0;
@@ -40,6 +45,10 @@ class SendMessageToWaitingUser
         return ['counter' => $counter, 'success' => $success];
     }
 
+    /**
+     * @param string|null $uid
+     * @param int|string $message
+     */
     public function sendMessage($uid, $message, User $user): bool
     {
         $waitingUser = $this->entityManager->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $uid]);
@@ -75,6 +84,9 @@ class SendMessageToWaitingUser
         }
     }
 
+    /**
+     * @param int|string $id
+     */
     public function createMesagefromId($id): ?string
     {
         $message = $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findOneBy(['id' => $id, 'active' => true]);
@@ -86,6 +98,9 @@ class SendMessageToWaitingUser
         return $message->getText();
     }
 
+    /**
+     * @param string $message
+     */
     public function createMessageFromString($message, int $allowCreating): ?string
     {
         if ($allowCreating === 1) {

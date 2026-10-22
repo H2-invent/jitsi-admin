@@ -11,7 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:caller:prepare', 'This command adds CallerIds if there are no caller Ids-added and remove old CallerIds')]
 class CallerPrepareCommand extends Command
 {
-    private $callerPrepareService;
+    private CallerPrepareService $callerPrepareService;
     public function __construct(CallerPrepareService $callerPrepareService, ?string $name = null)
     {
         parent::__construct($name);

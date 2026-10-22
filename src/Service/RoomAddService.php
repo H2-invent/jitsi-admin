@@ -31,9 +31,9 @@ class RoomAddService
     /**
      * This functions creates participants from a string with new lines.
      * The Function splits the String on newline and then sends each line into the create participant function
-     * @param $input
+     * @param string $input
      * @param Rooms $room
-     * @return array
+     * @return array<int, string>
      */
     public function createParticipants($input, Rooms $room, ?User $inviter = null)
     {
@@ -70,6 +70,9 @@ class RoomAddService
         return $falseEmail;
     }
 
+    /**
+     * @param string $userId
+     */
     public function createSingleParticipantAndAddtoRoom($userId, ?User $inviter, Rooms $room):?User
     {
         $invalidEmail = [];
@@ -88,9 +91,9 @@ class RoomAddService
     /**
      * Creates a moderator participant from a string.
      * The participant is first created a a normal participant and then upgraded to a moderator
-     * @param $input
+     * @param string $input
      * @param Rooms $room
-     * @return array
+     * @return array<int, string>
      */
     public function createModerators($input, Rooms $room, ?User $inviter = null)
     {
@@ -120,8 +123,8 @@ class RoomAddService
      * This function creates a user from a given uid.
      * The given uid is mostly a email. can be a username.
      * If allowed a user is created when not in the database. this can be disabled.
-     * @param $email
-     * @param $falseEmails
+     * @param string $email
+     * @param array<int, string> $falseEmails
      * @return User|null
      */
     public function createUserFromUserUid($email, &$falseEmails): ?User

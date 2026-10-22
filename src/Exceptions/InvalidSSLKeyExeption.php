@@ -9,7 +9,7 @@ class InvalidSSLKeyExeption extends \Exception
         parent::__construct('Invalid SSL key fethced from Livekit Server');
     }
 
-    public function customMessage()
+    public function customMessage(): void
     {
 
     }

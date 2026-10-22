@@ -17,9 +17,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class JitsiComponentSelectorService
 {
     private ?string $baseUrl;
+    /** @var string|null */
     private $jwt;
+    /** @var mixed */
     private $publicKey;
+    /** @var string|false */
     private $privateKey;
+    /** @var string */
     private $kid;
 
     public function __construct(
@@ -88,6 +92,11 @@ class JitsiComponentSelectorService
     }
 
 
+    /**
+     * @param Rooms $room
+     * @param User $user
+     * @return mixed
+     */
     public function fetchComponentKey(Rooms $room, User $user)
     {
         if (!$this->baseUrl) {
@@ -107,6 +116,9 @@ class JitsiComponentSelectorService
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function fetchComponentSelectorResult(
         string  $baseUrl,
         string  $roomName,
@@ -152,6 +164,9 @@ class JitsiComponentSelectorService
         return $decodedPayload;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function buildRequestData(
         string  $baseUrl,
         string  $roomName,
@@ -190,6 +205,9 @@ class JitsiComponentSelectorService
         return $requestData;
     }
 
+    /**
+     * @return string
+     */
     public function createAuthToken()
     {
 
@@ -201,6 +219,10 @@ class JitsiComponentSelectorService
         return $this->jwt;
     }
 
+    /**
+     * @param string $token
+     * @return bool
+     */
     public function verifyToken($token): bool
     {
 

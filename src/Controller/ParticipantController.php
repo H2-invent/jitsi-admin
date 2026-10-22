@@ -7,6 +7,8 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Helper\JitsiAdminController;
+use App\Repository\AddressGroupRepository;
+use App\Repository\UserRepository;
 use App\Service\FavoriteService;
 use App\Service\ParticipantSearchService;
 use App\Service\RepeaterService;
@@ -29,8 +31,12 @@ class ParticipantController extends JitsiAdminController
     {
         $string = $request->get('search');
         $string = strtolower($string);
-        $user = $this->doctrine->getRepository(User::class)->findMyUserByIndex($string, $this->getUser());
-        $group = $this->doctrine->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->doctrine->getRepository(User::class);
+        $user = $userRepository->findMyUserByIndex($string, $this->getUser());
+        /** @var AddressGroupRepository $addressGroupRepository */
+        $addressGroupRepository = $this->doctrine->getRepository(AddressGroup::class);
+        $group = $addressGroupRepository->findMyAddressBookGroupsByName($string, $this->getUser());
 
         $res = [];
         if ($userCreatorService->doAllowUserCreation()) {
@@ -43,7 +49,7 @@ class ParticipantController extends JitsiAdminController
     }
 
     #[Route(path: '/room/participant/add/{room}', name: 'room_add_user')]
-    public function roomAddUser(Request $request, RoomAddService $roomAddService, Rooms $room)
+    public function roomAddUser(Request $request, RoomAddService $roomAddService, Rooms $room): Response
     {
         $newMember = [];
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
@@ -123,7 +129,7 @@ class ParticipantController extends JitsiAdminController
     }
 
     #[Route(path: '/room/participant/past', name: 'room_past_user')]
-    public function roompastUser(Request $request, ThemeService $themeService)
+    public function roompastUser(Request $request, ThemeService $themeService): Response
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
@@ -137,7 +143,7 @@ class ParticipantController extends JitsiAdminController
 
 
     #[Route(path: '/room/participant/remove', name: 'room_user_remove')]
-    public function roomUserRemove(Request $request, RoomAddService $roomAddService)
+    public function roomUserRemove(Request $request, RoomAddService $roomAddService): Response
     {
 
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
@@ -154,7 +160,7 @@ class ParticipantController extends JitsiAdminController
 
 
     #[Route(path: '/room/participant/resend', name: 'room_user_resend')]
-    public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
+    public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService): Response
     {
         $isAjax = $request->isXmlHttpRequest();
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('room')]);

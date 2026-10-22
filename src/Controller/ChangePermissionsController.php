@@ -57,7 +57,7 @@ class ChangePermissionsController extends JitsiAdminController
     }
 
     #[Route(path: '/room/addModerator', name: 'room_add_moderator')]
-    public function roomTransferModerator(Request $request, PermissionChangeService $permissionChangeService, TranslatorInterface $translator)
+    public function roomTransferModerator(Request $request, PermissionChangeService $permissionChangeService, TranslatorInterface $translator): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!$room) {
@@ -78,7 +78,7 @@ class ChangePermissionsController extends JitsiAdminController
     }
 
     #[Route(path: '/room/change/lobbyModerator', name: 'room_add_lobby_moderator')]
-    public function roomTransferLobbyModerator(Request $request, PermissionChangeService $permissionChangeService, TranslatorInterface $translator)
+    public function roomTransferLobbyModerator(Request $request, PermissionChangeService $permissionChangeService, TranslatorInterface $translator): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!$room) {

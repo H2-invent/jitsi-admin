@@ -34,7 +34,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class ServersController extends JitsiAdminController
 {
     #[Route(path: '/server/add', name: 'servers_add')]
-    public function serverAdd(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator)
+    public function serverAdd(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator): Response
     {
         $originalKeycloakGroups = new ArrayCollection();
 
@@ -92,7 +92,7 @@ class ServersController extends JitsiAdminController
     }
 
     #[Route(path: '/server/enterprise', name: 'servers_enterprise')]
-    public function serverEnterprise(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator, LicenseService $licenseService)
+    public function serverEnterprise(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator, LicenseService $licenseService): Response
     {
 
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
@@ -137,7 +137,7 @@ class ServersController extends JitsiAdminController
     }
 
     #[Route(path: '/server/add-user', name: 'server_add_user')]
-    public function roomAddUser(Request $request, ServerService $serverService, TranslatorInterface $translator, UserCreatorService $userCreatorService)
+    public function roomAddUser(Request $request, ServerService $serverService, TranslatorInterface $translator, UserCreatorService $userCreatorService): Response
     {
         $newMember = [];
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
@@ -172,7 +172,7 @@ class ServersController extends JitsiAdminController
     }
 
     #[Route(path: '/server/user/remove', name: 'server_user_remove')]
-    public function serverUserRemove(Request $request, TranslatorInterface $translator)
+    public function serverUserRemove(Request $request, TranslatorInterface $translator): Response
     {
 
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
@@ -190,7 +190,7 @@ class ServersController extends JitsiAdminController
     }
 
     #[Route(path: '/server/delete', name: 'server_delete')]
-    public function serverDelete(Request $request, TranslatorInterface $translator, ServerService $serverService)
+    public function serverDelete(Request $request, TranslatorInterface $translator, ServerService $serverService): Response
     {
 
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
@@ -214,7 +214,7 @@ class ServersController extends JitsiAdminController
     }
 
     #[Route(path: '/server/check/email', name: 'server_check_email')]
-    public function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService)
+    public function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService): Response
     {
 
         $color = 'success';

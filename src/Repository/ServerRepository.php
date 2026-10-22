@@ -8,6 +8,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * @extends ServiceEntityRepository<Server>
+ *
  * @method Server|null find($id, $lockMode = null, $lockVersion = null)
  * @method Server|null findOneBy(array $criteria, array $orderBy = null)
  * @method Server[]    findAll()
@@ -48,7 +50,8 @@ class ServerRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findServerWithEmailandUrl($serverUrl, $email, $apiKey): ?Server
+
+    public function findServerWithEmailandUrl(string $serverUrl, string $email, string $apiKey): ?Server
     {
         return $this->createQueryBuilder('s')
             ->innerJoin('s.user', 'user')

@@ -11,16 +11,21 @@ namespace App\Service;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class CronService
 {
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, private ParameterBagInterface $parameterBag)
     {
         $this->logger = $logger;
     }
 
+    /**
+     * @param Request $request
+     * @return array<string, mixed>|false
+     */
     function check($request)
     {
         $message = false;

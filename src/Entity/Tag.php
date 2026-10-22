@@ -10,23 +10,31 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $title;
+    /** @var Collection<int, Rooms> */
     #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'tag')]
     private $rooms;
+    /** @var bool */
     #[ORM\Column(type: 'boolean')]
     private $disabled = false;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $priority;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $color;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $backgroundColor;
 
+    /** @var Collection<int, Server> */
     #[ORM\ManyToMany(targetEntity: Server::class, mappedBy: 'tag')]
     private Collection $servers;
 

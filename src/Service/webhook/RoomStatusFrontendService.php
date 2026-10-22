@@ -5,29 +5,38 @@ namespace App\Service\webhook;
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
+use App\Repository\RoomStatusParticipantRepository;
+use App\Repository\RoomStatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class RoomStatusFrontendService
 {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
     }
 
-    public function isRoomCreated(Rooms $rooms)
+    public function isRoomCreated(Rooms $rooms): bool
     {
-        $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRooms($rooms);
+        /** @var RoomStatusRepository $repository */
+        $repository = $this->em->getRepository(RoomStatus::class);
+        $roomStatus = $repository->findCreatedRooms($rooms);
         if ($roomStatus) {
             return true;
         }
         return false;
     }
 
+    /**
+     * @return RoomStatusParticipant[]
+     */
     public function numberOfOccupants(Rooms $rooms)
     {
-        $parts = $this->em->getRepository(RoomStatusParticipant::class)->findOccupantsOfRoom($rooms);
+        /** @var RoomStatusParticipantRepository $repository */
+        $repository = $this->em->getRepository(RoomStatusParticipant::class);
+        $parts = $repository->findOccupantsOfRoom($rooms);
         return $parts;
     }
 
@@ -55,6 +64,10 @@ class RoomStatusFrontendService
         return false;
     }
 
+    /**
+     * @param array<int|string, int|null> $roomIds
+     * @return array<int, bool>
+     */
     public function getRoomHasStatusMap(array $roomIds): array
     {
         if (empty($roomIds)) {
@@ -74,6 +87,10 @@ class RoomStatusFrontendService
         return $result;
     }
 
+    /**
+     * @param array<int|string, int|null> $roomIds
+     * @return array<int, bool>
+     */
     public function getRoomCreatedStatusMap(array $roomIds): array
     {
         if (empty($roomIds)) {
@@ -94,6 +111,10 @@ class RoomStatusFrontendService
         return $result;
     }
 
+    /**
+     * @param array<int|string, int|null> $roomIds
+     * @return array<int, array<int, string>>
+     */
     public function getRoomOccupantsMap(array $roomIds): array
     {
         if (empty($roomIds)) {
@@ -116,6 +137,10 @@ class RoomStatusFrontendService
         return $result;
     }
 
+    /**
+     * @param array<int|string, int|null> $roomIds
+     * @return array<int|string, bool>
+     */
     public function getRoomClosedStatusMap(array $roomIds): array
     {
         if (empty($roomIds)) {

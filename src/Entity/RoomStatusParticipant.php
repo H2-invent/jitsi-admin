@@ -8,23 +8,31 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RoomStatusParticipantRepository::class)]
 class RoomStatusParticipant
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable')]
     private $enteredRoomAt;
+    /** @var \DateTimeImmutable|null */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $leftRoomAt;
+    /** @var bool|null */
     #[ORM\Column(type: 'boolean')]
     private $inRoom;
+    /** @var RoomStatus|null */
     #[ORM\ManyToOne(targetEntity: RoomStatus::class, inversedBy: 'roomStatusParticipants')]
     #[ORM\JoinColumn(nullable: false)]
     private $roomStatus;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $participantId;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $participantName;
+    /** @var int|null */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $dominantSpeakerTime;
     public function getId(): ?int

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Repository\RoomsRepository;
 use App\Service\Jigasi\JigasiService;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,12 +14,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class IcalService
 {
 
-    private $em;
-    private $userService;
-    private $user;
-    private $translator;
-    private $rooms;
-    private $jigasiService;
+    private EntityManagerInterface $em;
+    private UserService $userService;
+    private ?User $user = null;
+    private TranslatorInterface $translator;
+    /** @var Rooms[] */
+    private array $rooms = [];
+    private JigasiService $jigasiService;
 
     public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, UserService $userService, JigasiService $jigasiService)
     {
@@ -29,7 +31,7 @@ class IcalService
         $this->jigasiService = $jigasiService;
     }
 
-    public function getIcal(User $user)
+    public function getIcal(User $user): string
     {
 
         $this->user = $user;
@@ -44,14 +46,16 @@ class IcalService
     }
 
     public
-    function initRooms(User $user)
+    function initRooms(User $user): void
     {
-        $this->rooms = $this->em->getRepository(Rooms::class)->findRoomsFutureAndPast($user, "-1 month");
+        /** @var RoomsRepository $repository */
+        $repository = $this->em->getRepository(Rooms::class);
+        $this->rooms = $repository->findRoomsFutureAndPast($user, "-1 month");
         $this->rooms = array_values($this->rooms);
     }
 
     public
-    function getIcalString()
+    function getIcalString(): string
     {
         $ics = new IcsService();
         foreach ($this->rooms as $event) {

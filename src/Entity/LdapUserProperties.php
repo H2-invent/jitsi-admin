@@ -8,19 +8,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: LdapUserPropertiesRepository::class)]
 class LdapUserProperties
 {
+    /** @var int|null */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $ldapHost;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $ldapDn;
+    /** @var User|null */
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'ldapUserProperties', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
+    /** @var string|null */
     #[ORM\Column(type: 'text', nullable: true)]
     private $rdn;
+    /** @var string|null */
     #[ORM\Column(type: 'text')]
     private $ldapNumber;
     public function getId(): ?int

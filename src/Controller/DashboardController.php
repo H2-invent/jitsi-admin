@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
+use App\Repository\RoomsRepository;
 use App\Repository\SchedulingTimeUserRepository;
 use App\Repository\ServerRepository;
 use App\Service\analytics\AnalyticsService;
@@ -113,7 +114,9 @@ class DashboardController extends JitsiAdminController
         $this->initializeUserFields();
         $favoriteService->cleanFavorites($this->getUser());
 
-        $allRooms = $this->doctrine->getRepository(Rooms::class)->findRoomsForDashboard($this->getUser());
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->doctrine->getRepository(Rooms::class);
+        $allRooms = $roomsRepository->findRoomsForDashboard($this->getUser());
         [
             'roomsFuture'     => $roomsFuture,
             'roomsNow'        => $roomsNow,
@@ -123,7 +126,7 @@ class DashboardController extends JitsiAdminController
             'roomIds'         => $roomIds,
         ] = $dashboardService->categorizeRooms($allRooms, $this->getUser());
 
-        $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), 0);
+        $roomsPast = $roomsRepository->findRoomsInPast($this->getUser(), 0);
         foreach ($roomsPast as $room) {
             $roomIds[] = $room->getId();
         }
@@ -131,7 +134,7 @@ class DashboardController extends JitsiAdminController
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $today = (new \DateTimeImmutable('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
         $tomorrow = $today->modify('+1day');
-        $favorites = $this->doctrine->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
+        $favorites = $roomsRepository->findFavoriteRooms($this->getUser());
         foreach ($favorites as $room) {
             $roomIds[] = $room->getId();
         }
@@ -241,11 +244,13 @@ class DashboardController extends JitsiAdminController
      * @return RedirectResponse|Response
      */
     #[Route(path: '/room/dashboard/lazy/{type}/{offset}', name: 'dashboard_lazy')]
-    public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, $type, $offset)
+    public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, string $type, string $offset): Response
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->doctrine->getRepository(Rooms::class);
         if ($type === 'fixed') {
-            $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser(), $offset);
+            $persistantRooms = $roomsRepository->getMyPersistantRooms($this->getUser(), $offset);
             return $this->render(
                 'dashboard/__lazyFixed.html.twig',
                 [
@@ -255,7 +260,7 @@ class DashboardController extends JitsiAdminController
                 ]
             );
         } elseif ($type === 'past') {
-            $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), $offset);
+            $roomsPast = $roomsRepository->findRoomsInPast($this->getUser(), $offset);
             return $this->render(
                 'dashboard/__lazyPast.html.twig',
                 [
