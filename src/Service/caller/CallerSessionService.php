@@ -78,7 +78,7 @@ class CallerSessionService
         }
 
         if ($authOk || (!$session->getCaller()->getRoom()->getLobby() && $started)) {
-            $this->loggger->debug('The user is accepted and is allowed to enter the room', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'user' => $session->getCaller()->getUser()->getId()]);
+            $this->loggger->debug('The user is accepted and is allowed to enter the room', ['sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'user' => $session->getCaller()->getUser()?->getId()]);
             return $this->sessionAccepted(session: $session);
         }
 
@@ -118,7 +118,6 @@ class CallerSessionService
         $this->loggger->debug('We start to destroy the caller session', ['sessionID' => $callerSession->getSessionId()]);
         try {
             $lobbyWaitungUser = $callerSession->getLobbyWaitingUser();
-
             if ($lobbyWaitungUser) {
                 $this->loggger->debug('There is a Lobbyuser. we send a refres to the lobbymoderator', ['room' => $lobbyWaitungUser->getRoom()->getId()]);
                 $this->toModerator->refreshLobby($lobbyWaitungUser);
@@ -127,10 +126,16 @@ class CallerSessionService
             }
 
             $this->loggger->debug('The Callersession is destroyed', ['room' => $callerSession->getSessionId()]);
+            $callerId = $callerSession->getCaller();
+            $callerId?->setCallerSession(null);
             $callerSession->setCaller(null);
 
             // Flush the owning-side FK changes before deleting referenced rows.
             $this->em->flush();
+
+            if ($callerId && !$callerId->getUser()) {
+                $this->em->remove($callerId);
+            }
 
             if ($lobbyWaitungUser) {
                 $this->em->remove($lobbyWaitungUser);
@@ -172,6 +177,8 @@ class CallerSessionService
 
     private function sessionAccepted(CallerSession $session): array
     {
+        // Callers of total open rooms have no user, they are shown with the name of the session (phone number)
+        $user = $session->getCaller()->getUser();
         $res = [
             'status' => 'ACCEPTED',
             'reason' => 'ACCEPTED_BY_MODERATOR',
@@ -179,8 +186,10 @@ class CallerSessionService
             'status_of_meeting' => 'STARTED',
             'message' => $this->createMessageElement($session),
             'room_name' => $session->getCaller()->getRoom()->getUid(),
-            'displayname' => $this->formatName->formatName($this->themeService->getApplicationProperties('laf_showNameInConference'), $session->getCaller()->getUser()),
-            'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
+            'displayname' => $user
+                ? $this->formatName->formatName($this->themeService->getApplicationProperties('laf_showNameInConference'), $user)
+                : $session->getShowName(),
+            'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $user, $session->getShowName()),
 
             'links' => [
                 'session' => $this->urlGen->generate('caller_session', ['session_id' => $session->getSessionId()]),
@@ -199,7 +208,7 @@ class CallerSessionService
         if ($session->isIsSipVideoUser()) {
             try {
                 $this->jitsiComponentSelectorService->setBaseUrlFromServer($session->getCaller()->getRoom()->getServer());
-                $res['componentKey'] = $this->jitsiComponentSelectorService->fetchComponentKey($session->getCaller()->getRoom(), $session->getCaller()->getUser());
+                $res['componentKey'] = $this->jitsiComponentSelectorService->fetchComponentKey($session->getCaller()->getRoom(), $user, $session->getShowName());
             }catch (\Exception $exception){
                $this->loggger->error($exception->getMessage());
             }
