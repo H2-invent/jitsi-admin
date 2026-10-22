@@ -3,7 +3,7 @@
 namespace App\Tests\JitsiComponentSelector;
 
 use App\Controller\JitsiComponentSelectorPublicKeyController;
-use App\Service\caller\JitsiComponentSelectorService;
+use App\Service\Caller\JitsiComponentSelectorService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use function PHPUnit\Framework\assertEquals;
 

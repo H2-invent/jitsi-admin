@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Controller;
 
-use App\Controller\api\ApiThemeController;
+use App\Controller\Api\ApiThemeController;
 use App\Helper\BearerTokenAuthHelper;
 use App\Service\Result\Error\ThemeUploadError;
 use App\Service\Result\ServiceResult;

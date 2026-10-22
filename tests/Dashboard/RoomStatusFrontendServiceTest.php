@@ -7,7 +7,7 @@ use App\Entity\RoomStatus;
 use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\webhook\RoomStatusFrontendService;
+use App\Service\Webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
