@@ -21,11 +21,19 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 class RepeaterType extends AbstractType
 {
+    public function __construct(
+        private ParameterBagInterface $parameterBag,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
@@ -148,7 +156,7 @@ class RepeaterType extends AbstractType
                     'translation_domain' => 'form']
             )
             ->add('repeatYearlyRelativeHowOften', NumberType::class, ['label' => 'label.repeatYearly', 'required' => false, 'attr' => ['placeholder' => 'label.repeatYearly'], 'translation_domain' => 'form'])
-            ->add('repetation', NumberType::class, ['label' => 'label.repetation', 'required' => true, 'attr' => ['placeholder' => 'label.repetation'], 'translation_domain' => 'form'])
+            ->add('repetation', NumberType::class, ['label' => 'label.repetation', 'required' => true, 'attr' => ['placeholder' => 'label.repetation'], 'constraints' => [new NotBlank(), new Range(['min' => 1, 'max' => (int)$this->parameterBag->get('laf_max_repeat')])], 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-outline-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 
