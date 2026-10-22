@@ -25,8 +25,7 @@ class LobbyMessageDeleteCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('id', InputArgument::OPTIONAL, 'Argument description');
+        $this->addArgument('id', InputArgument::OPTIONAL, 'Argument description');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

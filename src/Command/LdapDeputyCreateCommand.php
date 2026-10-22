@@ -27,8 +27,7 @@ class LdapDeputyCreateCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Not writing to the database. Use it to check the connetion');
+        $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'Not writing to the database. Use it to check the connetion');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

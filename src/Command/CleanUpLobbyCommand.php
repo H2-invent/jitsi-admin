@@ -19,8 +19,7 @@ class CleanUpLobbyCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('maxAge', InputArgument::OPTIONAL, 'Enter the max age of Waiting users in the lobby in hours');
+        $this->addArgument('maxAge', InputArgument::OPTIONAL, 'Enter the max age of Waiting users in the lobby in hours');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

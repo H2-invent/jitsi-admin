@@ -20,8 +20,7 @@ class TagDisableCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('tagId', InputArgument::OPTIONAL, 'Argument description');
+        $this->addArgument('tagId', InputArgument::OPTIONAL, 'Argument description');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -25,8 +25,7 @@ class LobbyMessageChangeTextCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('id', InputArgument::OPTIONAL, 'Insert message id change text');
+        $this->addArgument('id', InputArgument::OPTIONAL, 'Insert message id change text');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

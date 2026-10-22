@@ -21,10 +21,11 @@ class LdapRemoveImportedCommand extends Command
     /** @var array<int, string> */
     private readonly array $URL;
 
-    public function __construct(private readonly LdapUserService        $ldapUserService,
-                                ParameterBagInterface                   $parameterBag,
-                                private readonly EntityManagerInterface $em,
-                                ?string                                 $name = null
+    public function __construct(
+        private readonly LdapUserService        $ldapUserService,
+        ParameterBagInterface                   $parameterBag,
+        private readonly EntityManagerInterface $em,
+        ?string                                 $name = null
     ) {
         parent::__construct($name);
         $ldapServerIndividualName = (string)$parameterBag->get('ldap_server_individualName');

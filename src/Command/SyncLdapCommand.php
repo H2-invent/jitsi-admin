@@ -24,8 +24,7 @@ class SyncLdapCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Activate Dry-Run. Not writing into the database');
+        $this->addOption('dry-run', null, InputOption::VALUE_NONE, 'Activate Dry-Run. Not writing into the database');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

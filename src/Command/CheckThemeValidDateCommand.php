@@ -28,8 +28,7 @@ class CheckThemeValidDateCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('maxTime', InputArgument::OPTIONAL, 'Argument description', 10);
+        $this->addArgument('maxTime', InputArgument::OPTIONAL, 'Argument description', 10);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

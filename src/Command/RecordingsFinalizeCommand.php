@@ -24,8 +24,7 @@ class RecordingsFinalizeCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('recording_uid', InputArgument::REQUIRED, 'Recording UID');
+        $this->addArgument('recording_uid', InputArgument::REQUIRED, 'Recording UID');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

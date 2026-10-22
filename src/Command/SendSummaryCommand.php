@@ -28,8 +28,7 @@ class SendSummaryCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('roomid', InputArgument::OPTIONAL, 'Room id to send summary');
+        $this->addArgument('roomid', InputArgument::OPTIONAL, 'Room id to send summary');
     }
 
 

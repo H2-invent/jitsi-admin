@@ -21,8 +21,7 @@ class TagColorCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('tagId', InputArgument::OPTIONAL, 'This is the Id of the tag');
+        $this->addArgument('tagId', InputArgument::OPTIONAL, 'This is the Id of the tag');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -21,8 +21,7 @@ class UserRemoveCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('username', InputArgument::OPTIONAL, 'Username of the User to delete');
+        $this->addArgument('username', InputArgument::OPTIONAL, 'Username of the User to delete');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
