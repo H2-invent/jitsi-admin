@@ -79,12 +79,26 @@ class CallerController extends JitsiAdminController
     public
     function findPin(Request $request, $roomId): Response
     {
+        if (str_contains($request->getPathInfo(), '/lobby/sip/pin/')) {
+            $this->logger->warning(
+                'Deprecated: /api/v1/lobby/sip/pin/{roomId} was called. Use /api/v1/lobby/sip/protected/{roomId} instead.',
+                ['roomId' => $roomId]
+            );
+        }
+
         $check = $this->authorize($request, $this->serverFromRoomId($roomId));
         if ($check) {
             return $check;
         }
+
+        if ($this->callerRoomFromRoomId($roomId)?->getRoom()?->isE2EEActive()) {
+            $this->logger->info('SIP dial-in refused because E2EE is active for the room', ['roomId' => $roomId]);
+
+            return new JsonResponse(['auth_ok' => false, 'reason' => 'E2EE_ENABLED', 'links' => []]);
+        }
         $error = [];
-        if (!$request->get('pin')) {
+        $pinRequired = !$this->callerRoomFromRoomId($roomId)?->getRoom()?->getTotalOpenRooms();
+        if ($pinRequired && !$request->get('pin')) {
             $error['error'] = 'MISSING_ARGUMENT';
             $error['argument'][] = 'pin';
         }
@@ -95,7 +109,7 @@ class CallerController extends JitsiAdminController
         if (sizeof($error) > 0) {
             return new JsonResponse($error, 404);
         }
-        $session = $this->callerPinService->createNewCallerSession($roomId, $request->get('pin'), $request->get('caller_id'), $request->get('is_video')?:false);
+        $session = $this->callerPinService->createNewCallerSession($roomId, $request->get('pin') ?: null, $request->get('caller_id'), $request->get('is_video')?:false);
         if (!$session) {
             $res = [
                 'auth_ok' => false,

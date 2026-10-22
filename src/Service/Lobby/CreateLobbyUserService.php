@@ -21,9 +21,13 @@ class CreateLobbyUserService
         $this->em = $entityManager;
     }
 
-    public function createNewLobbyUser(User $user, Rooms $room, $type,$websocketReady=false): LobbyWaitungUser
+    /**
+     * @param User|null $user the user is null for anonymous participants, e.g. a dial-in to a total open room
+     * @param string|null $showName overwrites the name shown in the lobby. It is required when there is no user
+     */
+    public function createNewLobbyUser(?User $user, Rooms $room, $type, $websocketReady = false, ?string $showName = null): LobbyWaitungUser
     {
-        $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $user, 'room' => $room]);
+        $lobbyUser = $user ? $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $user, 'room' => $room]) : null;
         if (!$lobbyUser) {
             $lobbyUser = new LobbyWaitungUser();
             $lobbyUser->setWebsocketReady(websocketReady: $websocketReady);
@@ -32,7 +36,7 @@ class CreateLobbyUserService
             $lobbyUser->setRoom($room);
             $lobbyUser->setCreatedAt(new \DateTime());
             $lobbyUser->setUid(md5(uniqid()));
-            $lobbyUser->setShowName($user->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
+            $lobbyUser->setShowName($showName ?? ($user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : ''));
 
             $this->em->persist($lobbyUser);
             $this->em->flush();
