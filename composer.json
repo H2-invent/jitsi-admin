@@ -13,7 +13,7 @@
     "baldinof/roadrunner-bundle": "^3.4",
     "beberlei/doctrineextensions": "^1.5",
     "composer/package-versions-deprecated": "^1.11",
-    "cron/cron-bundle": "^3.1",
+    "cron/cron-bundle": "^3.1.1",
     "doctrine/annotations": "^2.0",
     "doctrine/doctrine-bundle": "^3.0",
     "doctrine/doctrine-migrations-bundle": "^3.7",
