@@ -32,7 +32,7 @@ export class livekitApi {
         // Sicherstellen, dass die Nachricht aus dem erwarteten iframe kommt
         if (event.source === this.iframe.contentWindow) {
             // Beispiel: Ausgabe der Daten an die Konsole
-            console.log("Nachricht vom iframe empfangen:", event.data);
+            console.log("Nachricht vom iframe empfangen (Main):", event.data);
 
             // Event auslösen und Daten weitergeben
             this.triggerEvent(event.data.event, event.data.data);
