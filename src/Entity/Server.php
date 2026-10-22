@@ -174,6 +174,9 @@ class Server
     #[ORM\Column(nullable: true, enumType: TranscriptionProvider::class)]
     private ?TranscriptionProvider $transcription_provider = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isProvisioningEnabled = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -962,7 +965,7 @@ class Server
         return $this->isAllowedToCloneForAutoscale;
     }
 
-    public function setAllowedToCloneForAutoscale(?bool $isAllowedToCloneForAutoscale): static
+    public function setIsAllowedToCloneForAutoscale(?bool $isAllowedToCloneForAutoscale): static
     {
         $this->isAllowedToCloneForAutoscale = $isAllowedToCloneForAutoscale;
 
@@ -1003,5 +1006,22 @@ class Server
         $this->transcription_provider = $transcription_provider;
 
         return $this;
+    }
+
+    public function isProvisioningEnabled(): ?bool
+    {
+        return $this->isProvisioningEnabled;
+    }
+
+    public function setIsProvisioningEnabled(bool $isProvisioningEnabled): static
+    {
+        $this->isProvisioningEnabled = $isProvisioningEnabled;
+
+        return $this;
+    }
+
+    public function shouldProvisionNewServer(): bool
+    {
+        return $this->isProvisioningEnabled() && $this->isAllowedToCloneForAutoscale();
     }
 }

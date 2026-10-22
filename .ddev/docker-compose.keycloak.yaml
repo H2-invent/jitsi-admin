@@ -1,9 +1,12 @@
+#ddev-generated
 services:
   keycloak:
     container_name: ddev-${DDEV_SITENAME}-keycloak
     hostname: ${DDEV_SITENAME}-keycloak
     image: quay.io/keycloak/keycloak:26.0
-    entrypoint: /opt/keycloak/docker-entrypoint.sh
+    command: start-dev --proxy-headers xforwarded --import-realm
+    depends_on:
+      - keycloak-database
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.approot: $DDEV_APPROOT
@@ -15,9 +18,13 @@ services:
       - KC_LOG_CONSOLE_OUTPUT=default
       - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+      - KC_DB=mariadb
+      - KC_DB_PASSWORD=db
+      - KC_DB_USERNAME=db
+      - KC_DB_URL_PORT=3306
+      - KC_DB_URL=jdbc:mariadb://keycloak-database:3334/db?characterEncoding=UTF-8
     volumes:
       - "keycloak:/opt/keycloak/data/"
-      - "./keycloak/docker-entrypoint.sh:/opt/keycloak/docker-entrypoint.sh"
       - ".:/mnt/ddev_config"
       - "./keycloak/themes:/opt/keycloak/themes/"
     external_links:
@@ -26,10 +33,21 @@ services:
       describe-info: |
         Admin Login: admin:admin
         User Login: jitsi@admin.de:jitsiadmin
-
+  keycloak-database:
+    container_name: ddev-${DDEV_SITENAME}-keycloak-database
+    image: mariadb:10.11
+    environment:
+      - MYSQL_DATABASE=db
+      - MYSQL_USER=db
+      - MYSQL_PASSWORD=db
+      - MYSQL_TCP_PORT=3334
+      - MYSQL_ROOT_PASSWORD=db
+    volumes:
+      - "keycloak-db:/var/lib/mysql/"
   web:
     links:
       - keycloak
 
 volumes:
   keycloak:
+  keycloak-db:

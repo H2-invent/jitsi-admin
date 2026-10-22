@@ -9,35 +9,25 @@
 
 namespace App\Service;
 
-use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Firebase\JWT\JWT;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class ServerService
 {
-    private $em;
-    private $logger;
-    private $notification;
-    private $twig;
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, Environment $environment, LoggerInterface $logger, NotificationService $notificationService)
+    public function __construct(
+        private TranslatorInterface $translator,
+        private EntityManagerInterface $em,
+        private Environment $twig,
+        private NotificationService $notification,
+    )
     {
-        $this->em = $entityManager;
-        $this->logger = $logger;
-        $this->notification = $notificationService;
-        $this->twig = $environment;
-        $this->translator = $translator;
     }
 
-    function addPermission(Server $server, User $user)
+    public function addPermission(Server $server, User $user)
     {
         $content = $this->twig->render('email/serverPermission.html.twig', ['user' => $user, 'server' => $server]);
         $subject = $this->translator->trans('[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt');
@@ -45,7 +35,8 @@ class ServerService
 
         return true;
     }
-    function makeSlug($urlString)
+
+    public function makeSlug($urlString)
     {
         $counter = 0;
         $slug = UtilsHelper::slugify($urlString);
@@ -60,5 +51,30 @@ class ServerService
                 $tmp = $slug . '-' . $counter;
             }
         }
+    }
+
+    public function cloneServerForAutoscaling(
+        Server $server,
+        string $url,
+        string $name,
+        string $appId,
+        string $appSecret,
+    ): Server
+    {
+        $newServer = clone $server;
+        $newServer->setUrl($url)
+            ->setServerName($name)
+            ->setAppId($appId)
+            ->setAppSecret($appSecret)
+            ->setUpdatedAt(new \DateTime())
+            ->setIsAllowedToCloneForAutoscale(null)
+            ->setSlug(urlencode($url))
+        ;
+        $newServer->getUser()->clear();
+        $newServer->setAdministrator(null);
+        $this->em->persist($newServer);
+        $this->em->flush();
+
+        return $newServer;
     }
 }

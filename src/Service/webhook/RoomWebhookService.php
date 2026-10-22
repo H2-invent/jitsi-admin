@@ -5,8 +5,10 @@ namespace App\Service\webhook;
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
+use App\Repository\RoomsRepository;
 use App\Service\livekit\EgressService;
 use App\Service\Lobby\LobbyUtils;
+use App\Service\Provisioner\ProvisionerService;
 use App\Service\Summary\SendSummaryViaEmailService;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +29,9 @@ class RoomWebhookService
         ParameterBagInterface              $parameterBag,
         private SendSummaryViaEmailService $sendSummaryViaEmailService,
         private ThemeService               $themeService,
-        private EgressService              $egressService
+        private EgressService              $egressService,
+        private ProvisionerService         $provisionerService,
+        private RoomsRepository            $roomsRepository,
     )
     {
         $this->em = $entityManager;
@@ -191,8 +195,10 @@ class RoomWebhookService
             $this->em->persist($roomStatus);
             $this->em->flush();
 
-            if ($roomStatus->getRoom()) {
-                $this->lobbyUtils->cleanLobby($roomStatus->getRoom());
+            $room = $roomStatus->getRoom();
+            if ($room) {
+                $this->lobbyUtils->cleanLobby($room);
+                $this->provisionerService->deleteProvision($room);
             }
 
             foreach ($roomStatus->getRoomStatusParticipants() as $data2) {
@@ -202,13 +208,13 @@ class RoomWebhookService
                     $this->em->persist($data2);
                 }
             }
-            if ($roomStatus->getRoom()){
-                foreach ($roomStatus->getRoom()->getLiveKitRecordings() as $recording) {
+            if ($room){
+                foreach ($room->getLiveKitRecordings() as $recording) {
                     $this->egressService->stopEgress($recording);
                 }
             }
             $this->em->flush();
-            $this->clenRoomStatus($roomStatus);
+            $this->cleanRoomStatus($roomStatus);
 
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
@@ -216,7 +222,7 @@ class RoomWebhookService
         }
 
         if ($this->themeService->getApplicationProperties('SEND_REPORT_AFTER_MEETING') === '1') {
-            $this->sendSummaryViaEmailService->sendSummaryForRoom($roomStatus->getRoom());
+            $this->sendSummaryViaEmailService->sendSummaryForRoom($room);
         }
 
         return null;
@@ -314,7 +320,7 @@ class RoomWebhookService
         return null;
     }
 
-    public function clenRoomStatus(RoomStatus $roomStatus): void
+    public function cleanRoomStatus(RoomStatus $roomStatus): void
     {
         if (!$roomStatus->getRoom()) {
             foreach ($roomStatus->getRoomStatusParticipants() as $data) {

@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\ProvisionerRecord;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Service\Provisioner\ProvisionerStatus;
 use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
@@ -688,5 +690,44 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('true', true)
             ->getQuery()
             ->getResult();
+    }
+
+
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsToProvisionInXMinutes(int $minutes): array
+    {
+        $excludedStatuses = [
+            ProvisionerStatus::PROVISION_REQUESTED,
+            ProvisionerStatus::PROVISION_DONE,
+        ];
+        $runningProvisionings = $this->getEntityManager()->createQueryBuilder()
+            ->select('pr.id')
+            ->from(ProvisionerRecord::class, 'pr')
+            ->where('pr.room = room')
+            ->andWhere('pr.status IN (:excludedStatuses)')
+        ;
+
+        $qb = $this->createQueryBuilder('room');
+        return $qb
+            ->innerJoin('room.server', 'server')
+            ->andWhere('server.isAllowedToCloneForAutoscale = true')
+            ->andWhere('server.isProvisioningEnabled = true')
+            ->andWhere('room.persistantRoom = false')
+            ->andWhere('room.originalServer IS NULL')
+            ->andWhere('room.startUtc < :threshold')
+            ->andWhere('room.endDateUtc > :now')
+            ->andWhere(
+                $qb->expr()->not(
+                    $qb->expr()->exists($runningProvisionings->getDQL())
+                )
+            )
+            ->setParameter('threshold', new \DateTime("+ {$minutes} minutes", new \DateTimeZone('utc')))
+            ->setParameter('now', new \DateTime('now', new \DateTimeZone('utc')))
+            ->setParameter('excludedStatuses', $excludedStatuses)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

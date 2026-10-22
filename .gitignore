@@ -71,3 +71,6 @@ repairLog.txt
 ###> baldinof/roadrunner-bundle ###
 /bin/rr.*
 ###< baldinof/roadrunner-bundle ###
+
+/backend_public.pem
+/backend_private.pem

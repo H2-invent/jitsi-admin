@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RoomsRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -16,6 +17,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Index(fields: ['persistantRoom'], name: 'idx_rooms_persistant_room')]
 #[ORM\Index(fields: ['endDateUtc', 'startUtc', 'scheduleMeeting', 'persistantRoom'], name: 'idx_rooms_time_filter_composite')]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Index(fields: ['uidReal'], name: 'uid_real_idx')]
 class Rooms
 {
     #[ORM\Id]
@@ -169,6 +171,9 @@ class Rooms
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $calendly_uri = null;
 
+    #[ORM\ManyToOne]
+    private ?Server $originalServer = null;
+
     /**
      * @var Collection<int, Transcription>
      */
@@ -184,6 +189,14 @@ class Rooms
     #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $enableTranscription = false;
 
+    #[ORM\Column(nullable: false)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    /**
+     * @var Collection<int, ProvisionerRecord>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: ProvisionerRecord::class, orphanRemoval: true)]
+    private Collection $provisionerRecords;
 
     public function __construct()
     {
@@ -202,6 +215,7 @@ class Rooms
         $this->uploadedRecordings = new ArrayCollection();
         $this->liveKitRecordings = new ArrayCollection();
         $this->transcriptions = new ArrayCollection();
+        $this->provisionerRecords = new ArrayCollection();
     }
 
     public function normalize(string $propertyName): string
@@ -1202,6 +1216,18 @@ class Rooms
         return $this;
     }
 
+    public function getOriginalServer(): ?Server
+    {
+        return $this->originalServer;
+    }
+
+    public function setOriginalServer(?Server $originalServer): static
+    {
+        $this->originalServer = $originalServer;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Transcription>
      */
@@ -1269,6 +1295,54 @@ class Rooms
     public function setEnableTranscription(bool $enableTranscription): static
     {
         $this->enableTranscription = $enableTranscription;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt ??= new DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection<int, ProvisionerRecord>
+     */
+    public function getProvisionerRecords(): Collection
+    {
+        return $this->provisionerRecords;
+    }
+
+    public function addProvisionerRecord(ProvisionerRecord $provisionerRecord): static
+    {
+        if (!$this->provisionerRecords->contains($provisionerRecord)) {
+            $this->provisionerRecords->add($provisionerRecord);
+            $provisionerRecord->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProvisionerRecord(ProvisionerRecord $provisionerRecord): static
+    {
+        if ($this->provisionerRecords->removeElement($provisionerRecord)) {
+            // set the owning side to null (unless already changed)
+            if ($provisionerRecord->getRoom() === $this) {
+                $provisionerRecord->setRoom(null);
+            }
+        }
 
         return $this;
     }
