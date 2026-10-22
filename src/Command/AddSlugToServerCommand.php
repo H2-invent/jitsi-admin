@@ -20,8 +20,7 @@ class AddSlugToServerCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setDescription('Adds a slug to all servers, which does not have a slug');;
+        $this->setDescription('Adds a slug to all servers, which does not have a slug');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

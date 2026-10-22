@@ -22,6 +22,11 @@ class CalloutStatistiksCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this->setDescription('Zeigt eine Tabelle mit CalloutSessions an');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $calloutSessions = $this->calloutSessionRepository->findAll();
@@ -31,12 +36,18 @@ class CalloutStatistiksCommand extends Command
 
         foreach ($calloutSessions as $session) {
             $state = $session->getState();
+            if ($state !== null) {
+                $stateLabel = CalloutSession::$STATE[$state];
+            } else {
+                $stateLabel = 'N/A';
+            }
+
             $table->addRow([
                 $session->getRoom() ? $session->getRoom()->getName() : 'N/A',
                 $session->getUser() ? $session->getUser()->getUsername() : 'N/A',
                 $session->getCreatedAt() ? $session->getCreatedAt()->format('Y-m-d H:i:s') : 'N/A',
                 $session->getInvitedFrom() ? $session->getInvitedFrom()->getUsername() : 'N/A',
-                $state !== null ? CalloutSession::$STATE[$state] : 'N/A',
+                $stateLabel,
                 $session->getLeftRetries(),
                 $session->getLastDialed(),
             ]);
