@@ -29,11 +29,11 @@ class ParticipantController extends JitsiAdminController
 {
 
     public function __construct(
-        protected ManagerRegistry                                     $doctrine,
-        protected TranslatorInterface                        $translator,
-        protected LoggerInterface                                                  $logger,
-        protected ParameterBagInterface $parameterBag,
-        private readonly ManagerRegistry                              $managerRegistry
+        ManagerRegistry                  $doctrine,
+        TranslatorInterface              $translator,
+        LoggerInterface                  $logger,
+        ParameterBagInterface            $parameterBag,
+        private readonly ManagerRegistry $managerRegistry
     ) {
         parent::__construct($doctrine, $translator, $logger, $parameterBag);
     }

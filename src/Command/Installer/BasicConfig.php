@@ -16,9 +16,9 @@ class BasicConfig implements ConvertToEnvironmentInterface
     ];
 
     private function __construct(
-        private string $baseUrl = '',
-        private string $secret = '',
-        private string $mercureUrl = 'http://localhost:3000',
+        private readonly string $baseUrl = '',
+        private readonly string $secret = '',
+        private readonly string $mercureUrl = 'http://localhost:3000',
     ) {
     }
 

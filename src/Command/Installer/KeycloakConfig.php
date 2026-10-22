@@ -16,15 +16,12 @@ class KeycloakConfig implements ConvertToEnvironmentInterface
     ];
 
     private function __construct(
-        private string $url,
-        private int    $version,
-        private string $realm,
-        private string $clientId,
-        private string $clientSecret,
+        private readonly string $url,
+        private readonly int    $version,
+        private readonly string $realm,
+        private readonly string $clientId,
+        private readonly string $clientSecret,
     ) {
-        if (str_ends_with($this->url, '/auth')) {
-            $this->url = str_replace('/auth', '', $this->url);
-        }
     }
 
     public static function createFromParameters(
@@ -34,6 +31,11 @@ class KeycloakConfig implements ConvertToEnvironmentInterface
         string $clientId,
         string $clientSecret,
     ): self {
+        // Keycloak < 20 serves everything below /auth; url() appends it again
+        if (str_ends_with($url, '/auth')) {
+            $url = str_replace('/auth', '', $url);
+        }
+
         return new self(
             url: $url,
             version: $version,

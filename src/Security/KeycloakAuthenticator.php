@@ -34,14 +34,14 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     use TargetPathTrait;
 
     public function __construct(
-        private LoggerInterface        $logger,
-        private IndexUserService       $indexer,
-        private UserCreatorService     $userCreatorService,
-        private ClientRegistry         $clientRegistry,
-        private EntityManagerInterface $em,
-        private RouterInterface        $router,
-        private CreateHttpsUrl         $createHttpsUrl,
-        private UrlGeneratorInterface  $urlGenerator
+        private readonly LoggerInterface        $logger,
+        private readonly IndexUserService       $indexer,
+        private readonly UserCreatorService     $userCreatorService,
+        private readonly ClientRegistry         $clientRegistry,
+        private readonly EntityManagerInterface $em,
+        private readonly RouterInterface        $router,
+        private readonly CreateHttpsUrl         $createHttpsUrl,
+        private readonly UrlGeneratorInterface  $urlGenerator
     ) {
     }
 

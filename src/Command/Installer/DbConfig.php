@@ -15,13 +15,13 @@ class DbConfig implements ConvertToEnvironmentInterface
     ];
 
     private function __construct(
-        private string $engine,
-        private string $serverVersion,
-        private string $host,
-        private int    $port,
-        private string $database,
-        private string $username = 'jitsiadmin',
-        private string $password = 'jitsiadmin',
+        private readonly string $engine,
+        private readonly string $serverVersion,
+        private readonly string $host,
+        private readonly int    $port,
+        private readonly string $database,
+        private readonly string $username = 'jitsiadmin',
+        private readonly string $password = 'jitsiadmin',
     ) {
     }
 

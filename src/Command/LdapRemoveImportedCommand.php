@@ -17,9 +17,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class LdapRemoveImportedCommand extends Command
 {
     /** @var array<int, string> */
-    private array $LDAPSERVERID;
+    private readonly array $LDAPSERVERID;
     /** @var array<int, string> */
-    private array $URL;
+    private readonly array $URL;
 
     public function __construct(private readonly LdapUserService        $ldapUserService,
                                 ParameterBagInterface                   $parameterBag,

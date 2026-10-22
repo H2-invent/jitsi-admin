@@ -16,11 +16,11 @@ class SmtpConfig implements ConvertToEnvironmentInterface
     ];
 
     private function __construct(
-        private string $host,
-        private int    $port,
-        private string $username,
-        private string $password,
-        private string $sender,
+        private readonly string $host,
+        private readonly int    $port,
+        private readonly string $username,
+        private readonly string $password,
+        private readonly string $sender,
     ) {
     }
 
