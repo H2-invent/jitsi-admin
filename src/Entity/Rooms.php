@@ -1270,6 +1270,11 @@ class Rooms
         return $this;
     }
 
+    public function isE2EEActive(): bool
+    {
+        return $this->isE2EEEnabled || (bool)$this->server?->isEnforceE2e();
+    }
+
     public function isFastConference(): ?bool
     {
         return $this->isFastConference;
