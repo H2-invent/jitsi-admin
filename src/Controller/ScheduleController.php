@@ -429,10 +429,12 @@ class ScheduleController extends JitsiAdminController
             $name   = implode(' ', [$user->getFirstName(), $user->getLastName()]);
 
             // Füge den Nutzer zum Array hinzu, wenn er noch nicht erfasst wurde
-            $votings['user'][$userId] ??= [
-                'Name'  => $name,
-                'Email' => $user->getEmail(),
-            ];
+            if (!isset($votings['user'][$userId])) {
+                $votings['user'][$userId] = [
+                    'Name'  => $name,
+                    'Email' => $user->getEmail(),
+                ];
+            }
         }
 
         foreach ($room->getSchedulings() as $scheduling) {
@@ -445,11 +447,12 @@ class ScheduleController extends JitsiAdminController
                     $name = implode(' ', [$user->getFirstName(), $user->getLastName()]);
                     $vote = $this->getVoteString($schedulingTimeUser->getAccept());
 
-                    $votings['user'][(int)$user->getId()] ??= [
-                        'Name'  => $name,
-                        'Email' => $user->getEmail(),
-                    ];
-
+                    if (!isset($votings['user'][(int)$user->getId()])) {
+                        $votings['user'][(int)$user->getId()] = [
+                            'Name'  => $name,
+                            'Email' => $user->getEmail(),
+                        ];
+                    }
                     $votings['user'][(int)$user->getId()][$schedulingTimeString] = $vote;
                 }
             }
