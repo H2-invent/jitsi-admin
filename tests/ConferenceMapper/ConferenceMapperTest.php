@@ -74,6 +74,30 @@ class ConferenceMapperTest extends KernelTestCase
         self::assertEquals(['error' => true, 'reason' => 'ROOM_NOT_FOUND'], $res);
     }
 
+    public function testE2EEEnabled(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $confMapperService = self::getContainer()->get(ConferenceMapperService::class);
+        $id = '12340';
+        $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
+        $callerRoom = $callerRoomRepo->findOneBy(['callerId' => $id]);
+        $callerRoom->getRoom()->setIsE2EEEnabled(true);
+
+        $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApiFailure', '012345123');
+        self::assertEquals(['error' => true, 'text' => 'AUTHORIZATION_FAILED'], $res);
+
+        // the open flow hands out no jwt for an E2EE room, regardless of the room status
+        $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
+        self::assertEquals(['error' => true, 'reason' => 'E2EE_ENABLED'], $res);
+
+        $callerRoom->getRoom()->setIsE2EEEnabled(false);
+        $callerRoom->getRoom()->getServer()->setEnforceE2e(true);
+        $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
+        self::assertEquals(['error' => true, 'reason' => 'E2EE_ENABLED'], $res);
+    }
+
     public function testStarted(): void
     {
         $kernel = self::bootKernel();

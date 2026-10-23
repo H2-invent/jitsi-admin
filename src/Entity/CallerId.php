@@ -16,7 +16,7 @@ class CallerId
     #[ORM\JoinColumn(nullable: false)]
     private $room;
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'callerIds')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $user;
     #[ORM\Column(type: 'text')]
     private $callerId;
