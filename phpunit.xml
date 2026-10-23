@@ -6,6 +6,7 @@
          colors="true"
          bootstrap="tests/bootstrap.php"
          testdox="true"
+         displayDetailsOnAllIssues="true"
 >
     <php>
         <ini name="display_errors" value="1" />
