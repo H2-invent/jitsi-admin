@@ -113,7 +113,7 @@ class CallerPinService
         $callInUser = new CallerId();
         $callInUser->setRoom($room)
             ->setUser(null)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setCallerId((string)$phoneNumber);
         $this->em->persist($callInUser);
 

@@ -83,7 +83,7 @@ class CallerServiceTest extends KernelTestCase
     public function testGetRoomWithLobbyAndPersonalPin(): void
     {
         $kernel = self::bootKernel();
-        $themeService = $this->createMock(ThemeService::class);
+        $themeService = $this->createStub(ThemeService::class);
         $themeService->method('getApplicationProperties')->willReturn(1);
         self::getContainer()->set(ThemeService::class, $themeService);
 
