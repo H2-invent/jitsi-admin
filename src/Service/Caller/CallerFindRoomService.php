@@ -77,8 +77,6 @@ class CallerFindRoomService
             'startTime'        => $caller->getRoom()->getStartTimestamp(),
             'endTime'          => $caller->getRoom()->getEndTimestamp(),
             'roomName'         => $caller->getRoom()->getName(),
-            'endTime'          => $caller->getRoom()->getEndTimestamp(),
-            'roomName'         => $caller->getRoom()->getName(),
             'lobby_enabled'    => $lobbyEnabled,
             'e2ee_enabled'     => false,
             'total_open_rooms' => $totalOpenRooms,

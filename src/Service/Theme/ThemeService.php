@@ -12,23 +12,21 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Contracts\Cache\CacheInterface;
-use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ThemeService
 {
     public function __construct(
-        private readonly CacheInterface        $cache,
-        private readonly CheckSignature        $checkSignature,
-        private readonly RequestStack          $request,
-        private readonly ParameterBagInterface $parameterBag,
-        private readonly LoggerInterface       $logger,
-        private readonly TranslatorInterface   $translator,
+        private readonly CacheItemPoolInterface $cache,
+        private readonly CheckSignature         $checkSignature,
+        private readonly RequestStack           $request,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly LoggerInterface        $logger,
+        private readonly TranslatorInterface    $translator,
         #[Autowire(param: 'app.theme.dir')]
-        private readonly string                $themeDir,
+        private readonly string                 $themeDir,
         #[Autowire(param: 'app.theme.public_dir')]
-        private readonly string                $themePublicDir,
+        private readonly string                 $themePublicDir,
     )
     {
     }
@@ -69,37 +67,39 @@ class ThemeService
         }
 
 
-        /** @var string $projectDir */
-        $projectDir = $this->parameterBag->get('kernel.project_dir');
-
         try {
-            $value = $this->cache->get(
-                'theme_' . $url,
-                function (ItemInterface $item) use ($url, $projectDir) {
-                    $item->expiresAfter(3600);
+            $item = $this->cache->getItem('theme_' . $url);
+            if ($item->isHit()) {
+                return $item->get();
+            }
 
-                    $finder = new Finder();
-                    $finder->files()->in($this->themeDir)->name($url . '.' . 'theme.json.signed');
-                    if ($finder->count() > 0) {
-                        $arr = iterator_to_array($finder);
-                        /** @var \Symfony\Component\Finder\SplFileInfo $file */
-                        $file  = reset($arr);
-                        $theme = $file->getContents();
+            $item->expiresAfter(3600);
+            $value = false;
 
-                        $valid = $this->checkSignature->verifySignature($theme);
-                        if ($valid) {
-                            $res = $this->checkSignature->verifyValidUntil($theme);
-                            if ($res !== false) {
-                                return $res;
-                            }
-                            $this->logger->error('Theme valid until is before now');
-                        } else {
-                            $this->logger->error('Signature invalid');
-                        }
+            $finder = new Finder();
+            $finder->files()->in($this->themeDir)->name($url . '.' . 'theme.json.signed');
+            if ($finder->count() > 0) {
+                $arr = iterator_to_array($finder);
+                /** @var \Symfony\Component\Finder\SplFileInfo $file */
+                $file  = reset($arr);
+                $theme = $file->getContents();
+
+                $valid = $this->checkSignature->verifySignature($theme);
+                if ($valid) {
+                    $res = $this->checkSignature->verifyValidUntil($theme);
+                    if ($res !== false) {
+                        $value = $res;
+                    } else {
+                        $this->logger->error('Theme valid until is before now');
                     }
-                    return false;
+                } else {
+                    $this->logger->error('Signature invalid');
                 }
-            );
+            }
+
+            $item->set($value);
+            $this->cache->save($item);
+
             return $value;
         } catch (\Exception) {
         }

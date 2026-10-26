@@ -18,6 +18,7 @@ class ThemeUploadService
     public function __construct(
         private readonly CheckSignature         $checkSignature,
         private readonly CacheItemPoolInterface $cacheItemPool,
+        private readonly Filesystem             $filesystem,
         #[Autowire(param: 'app.theme.dir')]
         private readonly string                 $themeDir,
         #[Autowire(param: 'app.theme.cache_dir')]

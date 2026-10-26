@@ -96,7 +96,7 @@ class JitsiComponentSelectorService
     /**
      * @param User|null $user the user is null for anonymous callers, then the display name is required
      */
-    public function fetchComponentKey(Rooms $room, ?User $user, ?string $displayName = null)
+    public function fetchComponentKey(Rooms $room, ?User $user, ?string $displayName = null): string
     {
         if (!$this->baseUrl) {
             $this->setBaseUrlFromServer($room->getServer());;
@@ -112,7 +112,7 @@ class JitsiComponentSelectorService
             jwt: $room->getServer()->getAppId() ? $this->roomService->generateJwt(room: $room, user: $user, userName: $displayName ?? '') : null
         );
 
-        if (isset($res['componentKey'])) {
+        if (isset($res['componentKey']) && is_string($res['componentKey'])) {
             return $res['componentKey'];
         }
 

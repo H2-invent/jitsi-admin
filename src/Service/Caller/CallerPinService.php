@@ -29,7 +29,7 @@ class CallerPinService
      * Closed rooms identify the caller by the personal PIN. Total open rooms have no participant list, so
      * the PIN is optional there and the caller is identified by the phone number instead.
      */
-    public function createNewCallerSession(string $roomId, string $pin, string $callerId, bool $isSipVideo = false): ?CallerSession
+    public function createNewCallerSession(string $roomId, ?string $pin, ?string $callerId, bool $isSipVideo = false): ?CallerSession
     {
         $callerRoom = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $roomId]);
         if (!$callerRoom) {
@@ -37,22 +37,18 @@ class CallerPinService
             return null;
         }
 
-        /** @var CallerIdRepository $callerIdRepository */
-        $callerIdRepository = $this->em->getRepository(CallerId::class);
-        $room               = $callerRoom->getRoom();
-        $callInUser         = $callerIdRepository->findByRoomAndPin($room, $pin);
-        if (!$callInUser) {
-            $this->loggger->error('PIN not found for the room', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
-            return null;
-        }
+        $room = $callerRoom->getRoom();
 
         if ($room->isE2EEActive()) {
             $this->loggger->info('SIP dial-in refused because E2EE is active for the room', ['roomId' => $roomId, 'callerId' => $callerId]);
             return null;
         }
 
+        /** @var CallerIdRepository $callerIdRepository */
+        $callerIdRepository = $this->em->getRepository(CallerId::class);
+
         if ($pin !== null && $pin !== '') {
-            $callInUser = $this->em->getRepository(CallerId::class)->findByRoomAndPin($room, $pin);
+            $callInUser = $callerIdRepository->findByRoomAndPin($room, $pin);
             if (!$callInUser) {
                 $this->loggger->error('PIN not found for the room', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
                 return null;
@@ -112,11 +108,12 @@ class CallerPinService
      * Total open rooms have no participant list and therefore no prepared call-in user with a PIN.
      * The call-in user is created on the fly and carries the phone number instead of a PIN. It has no user.
      */
-    private function createCallInUserFromPhoneNumber(Rooms $room, $phoneNumber): ?CallerId
+    private function createCallInUserFromPhoneNumber(Rooms $room, ?string $phoneNumber): ?CallerId
     {
         if ($phoneNumber === null || $phoneNumber === '') {
             return null;
         }
+
         $callInUser = new CallerId();
         $callInUser->setRoom($room)
             ->setUser(null)
