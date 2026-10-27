@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,25 +23,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-/**
- * Ablage: tests/Controller/OutlookPluginControllerTest.php
- * Ziel: PHPUnit 10/11, ohne Kernel und Datenbank.
- * Tokenaufrufe senden Authorization: Bearer api-token; die Repository-Mocks
- * erwarten api-token ohne Praefix und pruefen damit dessen Entfernung.
- * Voraussetzungen: gemockte Klassen/Methoden sind nicht final;
- * getServersFromUser() liefert ein Array (wie vom Controller vorausgesetzt).
- * Der Raumtyp wird aus dem deklarierten Service-Rueckgabetyp ermittelt.
- * Falls dieser fehlt, createRoomMock() an die konkrete Raumklasse anpassen.
- * Die Route-Attribute werden separat geprueft. HTTP-Routing, Firewall und
- * eine tatsaechliche 405-Antwort benoetigen zusaetzliche funktionale Tests.
- * Hier mangels PHP und Projektabhaengigkeiten nicht ausgefuehrt.
- */
+
 final class OutlookPluginControllerTest extends TestCase
 {
     private EntityManagerInterface&MockObject $entityManager;
     private ServerUserManagment&MockObject $serverManagement;
     private PublicConferenceService&MockObject $conferenceService;
     private CreateHttpsUrl&MockObject $httpsUrl;
+    private LoggerInterface&MockObject $logger;
     private OutlookPluginController $controller;
     private Container $container;
 
@@ -50,6 +40,7 @@ final class OutlookPluginControllerTest extends TestCase
         $this->serverManagement = $this->createMock(ServerUserManagment::class);
         $this->conferenceService = $this->createMock(PublicConferenceService::class);
         $this->httpsUrl = $this->createMock(CreateHttpsUrl::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
         // Der finale Controller wird real instanziiert, nicht gemockt.
         $this->controller = new OutlookPluginController(
@@ -57,6 +48,7 @@ final class OutlookPluginControllerTest extends TestCase
             $this->serverManagement,
             $this->conferenceService,
             $this->httpsUrl,
+            $this->logger,
         );
         $this->container = new Container();
         $this->container->set('security.token_storage', new TokenStorage());
@@ -174,46 +166,80 @@ final class OutlookPluginControllerTest extends TestCase
         ], $this->controller->createConference($this->conferenceRequest()));
     }
 
-    public function testCreateConferenceConfiguresPersistsAndReturnsRoom(): void
+    public function testCreateConferenceConfiguresPersistsAndReturnsRoomWithoutPhone(): void
     {
-        $user = $this->user('api-token');
-        // Der Originalcontroller verwendet getUser() als Moderator.
-        $this->authenticate($user);
-        $server = $this->server(10, 'Server A');
-        $this->expectConferenceLookups($server, $user);
-        $this->serverManagement->expects(self::once())->method('getServersFromUser')
-            ->with(self::identicalTo($user))->willReturn([$server]);
+        $room = $this->expectCreatedConference(null);
+        $room->expects(self::never())->method('getCallerRoom');
+        $this->logger->expects(self::never())->method('error');
 
-        $room = $this->createRoomMock();
-        $room->method('getUid')->willReturn('room-uid-42');
-        $room->method('getName')->willReturn('Testkonferenz');
-        $room->method('getId')->willReturn(32);
-        $room->expects(self::once())->method('setModerator')
-            ->with(self::identicalTo($user))->willReturnSelf();
-        foreach (['setPublic', 'setTotalOpenRooms', 'setIsFastConference'] as $setter) {
-            $room->expects(self::once())->method($setter)->with(true)->willReturnSelf();
-        }
-        $this->conferenceService->expects(self::once())->method('createNewRoomFromName')
-            ->with(self::callback(static fn ($name): bool => is_string($name) && $name !== ''),
-                self::identicalTo($server))
-            ->willReturn($room);
-        $this->entityManager->expects(self::once())->method('persist')
-            ->with(self::identicalTo($room));
-        $this->entityManager->expects(self::once())->method('flush');
-
-        $router = $this->createMock(UrlGeneratorInterface::class);
-        $router->expects(self::once())->method('generate')
-            ->with('own_room_startPage', ['uid' => 'room-uid-42'], UrlGeneratorInterface::ABSOLUTE_PATH)
-            ->willReturn('/example-room/room-uid-42');
-        $this->container->set('router', $router);
-        $this->httpsUrl->expects(self::once())->method('createHttpsUrl')
-            ->with('/example-room/room-uid-42')->willReturn('https://example.test/example-room/room-uid-42');
-
-        $this->assertJsonResponse([
-            ['url' => 'https://example.test/example-room/room-uid-42', 'title' => 'Testkonferenz','id'=>32],
-        ], $this->controller->createConference($this->conferenceRequest()));
+        $this->assertCreatedConferencePhone([]);
     }
 
+    public function testCreateConferenceReturnsStructuredDialInNumbers(): void
+    {
+        $configuration = $this->dialInConfiguration(true);
+        $room = $this->expectCreatedConference(
+            json_encode($configuration, JSON_THROW_ON_ERROR)
+        );
+        $caller = $this->createCallerMock($room);
+        $caller->expects(self::once())->method('getCallerId')->willReturn('12345678');
+        $room->expects(self::once())->method('getCallerRoom')->willReturn($caller);
+        $this->logger->expects(self::never())->method('error');
+
+        // Vollstaendiges Konfigurationsobjekt, nicht nur die Laendernummern.
+        $this->assertCreatedConferencePhone([
+            'numbers' => $configuration,
+            'dialIn' => '12345678',
+        ]);
+    }
+
+    public function testCreateConferenceStillReturnsNumbersWhenNumbersEnabledIsFalse(): void
+    {
+        $configuration = $this->dialInConfiguration(false);
+        $room = $this->expectCreatedConference(
+            json_encode($configuration, JSON_THROW_ON_ERROR)
+        );
+        $caller = $this->createCallerMock($room);
+        $caller->expects(self::once())->method('getCallerId')->willReturn('12345678');
+        $room->expects(self::once())->method('getCallerRoom')->willReturn($caller);
+        $this->logger->expects(self::never())->method('error');
+
+        // Charakterisierung des Ist-Verhaltens: Der Controller prueft das Flag nicht.
+        $this->assertCreatedConferencePhone([
+            'numbers' => $configuration,
+            'dialIn' => '12345678',
+        ]);
+    }
+
+    public function testCreateConferenceReturnsNullNumbersForInvalidJsonWithoutLogging(): void
+    {
+        $room = $this->expectCreatedConference('{invalid-json');
+        $caller = $this->createCallerMock($room);
+        $caller->expects(self::once())->method('getCallerId')->willReturn('12345678');
+        $room->expects(self::once())->method('getCallerRoom')->willReturn($caller);
+        $this->logger->expects(self::never())->method('error');
+
+        // json_decode() ohne JSON_THROW_ON_ERROR wirft hier keine Exception.
+        $this->assertCreatedConferencePhone([
+            'numbers' => null,
+            'dialIn' => '12345678',
+        ]);
+    }
+
+    public function testCreateConferenceLogsCallerExceptionAndKeepsNumbers(): void
+    {
+        $configuration = $this->dialInConfiguration(true);
+        $room = $this->expectCreatedConference(
+            json_encode($configuration, JSON_THROW_ON_ERROR)
+        );
+        $room->expects(self::once())->method('getCallerRoom')
+            ->willThrowException(new \RuntimeException('Caller lookup failed'));
+        $this->logger->expects(self::once())->method('error')
+            ->with('Caller lookup failed');
+
+        // numbers wurde vor der Exception bereits gesetzt; dialIn fehlt.
+        $this->assertCreatedConferencePhone(['numbers' => $configuration]);
+    }
 
     public function testApiRoutesCombineClassAndMethodAttributes(): void
     {
@@ -311,17 +337,115 @@ final class OutlookPluginControllerTest extends TestCase
         return $request;
     }
 
+    /** Konfiguriert alle gemeinsamen Erwartungen eines erfolgreichen Aufrufs. */
+    private function expectCreatedConference(?string $numberConfiguration): MockObject
+    {
+        $user = $this->user('api-token');
+        // Ein anderer Sessionbenutzer darf nicht zum Moderator werden.
+        $this->authenticate($this->user('session-token'));
+        $server = $this->server(10, 'Server A');
+        $server->method('getJigasiNumberUrl')->willReturn($numberConfiguration);
+        $this->expectConferenceLookups($server, $user);
+        $this->serverManagement->expects(self::once())->method('getServersFromUser')
+            ->with(self::identicalTo($user))->willReturn([$server]);
+
+        $room = $this->createRoomMock();
+        $room->method('getUid')->willReturn('room-uid-42');
+        $room->method('getName')->willReturn('Testkonferenz');
+        $room->method('getId')->willReturn(32);
+        $room->expects(self::once())->method('setModerator')
+            ->with(self::identicalTo($user))->willReturnSelf();
+        foreach (['setPublic', 'setTotalOpenRooms', 'setIsFastConference'] as $setter) {
+            $room->expects(self::once())->method($setter)->with(true)->willReturnSelf();
+        }
+        $this->conferenceService->expects(self::once())->method('createNewRoomFromName')
+            ->with(
+                self::callback(static fn ($name): bool =>
+                    is_string($name) && $name !== ''
+                ),
+                self::identicalTo($server)
+            )
+            ->willReturn($room);
+        $this->entityManager->expects(self::once())->method('persist')
+            ->with(self::identicalTo($room));
+        $this->entityManager->expects(self::once())->method('flush');
+
+        $router = $this->createMock(UrlGeneratorInterface::class);
+        $router->expects(self::once())->method('generate')
+            ->with('own_room_startPage', ['uid' => 'room-uid-42'], UrlGeneratorInterface::ABSOLUTE_PATH)
+            ->willReturn('/example-room/room-uid-42');
+        $this->container->set('router', $router);
+        $this->httpsUrl->expects(self::once())->method('createHttpsUrl')
+            ->with('/example-room/room-uid-42')
+            ->willReturn('https://example.test/example-room/room-uid-42');
+
+        return $room;
+    }
+
+    private function dialInConfiguration(bool $enabled): array
+    {
+        return [
+            'message' => 'Einwahlnummern',
+            'numbers' => [
+                'DE' => '04122/012345',
+                'CH' => '04122/012345',
+            ],
+            'numbersEnabled' => $enabled,
+        ];
+    }
+
+    private function assertCreatedConferencePhone(array $phone): void
+    {
+        $response = $this->controller->createConference($this->conferenceRequest());
+        $this->assertJsonResponse([
+            [
+                'url' => 'https://example.test/example-room/room-uid-42',
+                'title' => 'Testkonferenz',
+                'id' => 32,
+                'phone' => $phone,
+            ],
+        ], $response);
+    }
+
     private function createRoomMock(): MockObject
     {
-        // Die Raumklasse ist im bereitgestellten Ausschnitt nicht benannt.
-        // Alternativ direkt: return $this->createMock(DeineRaumklasse::class);
-        $type = (new \ReflectionMethod(PublicConferenceService::class, 'createNewRoomFromName'))
-            ->getReturnType();
-        if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()
-            || !class_exists($type->getName())) {
-            self::fail('In createRoomMock() bitte die konkrete Raumklasse einsetzen; der Service hat keinen eindeutigen Klassen-Rueckgabetyp.');
+        // Alternativ: return $this->createMock(KonkreteRaumklasse::class);
+        return $this->createMethodReturnMock(
+            PublicConferenceService::class,
+            'createNewRoomFromName'
+        );
+    }
+
+    private function createCallerMock(MockObject $room): MockObject
+    {
+        // Alternativ: return $this->createMock(KonkreteCallerKlasse::class);
+        return $this->createMethodReturnMock(get_class($room), 'getCallerRoom');
+    }
+
+    private function createMethodReturnMock(string $class, string $method): MockObject
+    {
+        $reflection = new \ReflectionMethod($class, $method);
+        $type = $reflection->getReturnType();
+        if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()) {
+            self::fail(sprintf(
+                '%s::%s() hat keinen eindeutigen Klassen-Rueckgabetyp. '
+                . 'Bitte im zugehoerigen Mock-Helper die konkrete Entity-Klasse einsetzen.',
+                $class,
+                $method
+            ));
         }
-        return $this->createMock($type->getName());
+        $name = $type->getName();
+        if ($name === 'self' || $name === 'static') {
+            $name = $reflection->getDeclaringClass()->getName();
+        } elseif ($name === 'parent') {
+            $parent = $reflection->getDeclaringClass()->getParentClass();
+            self::assertNotFalse($parent);
+            $name = $parent->getName();
+        }
+        if (!class_exists($name) && !interface_exists($name)) {
+            self::fail(sprintf('Der Rueckgabetyp %s kann nicht geladen werden.', $name));
+        }
+        return $this->createMock($name);
     }
 
     private function expectNoWrites(): void

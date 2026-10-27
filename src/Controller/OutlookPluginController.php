@@ -9,6 +9,7 @@ use App\Service\PublicConference\PublicConferenceService;
 use App\Service\ServerUserManagment;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,8 @@ final class OutlookPluginController extends AbstractController
         private EntityManagerInterface $entityManager,
         private ServerUserManagment $serverUserManagment,
         private readonly PublicConferenceService $publicConferenceService,
-        private readonly  CreateHttpsUrl $createHttpsUrl
+        private readonly  CreateHttpsUrl $createHttpsUrl,
+        private LoggerInterface $logger,
     )
     {
 
@@ -66,6 +68,9 @@ final class OutlookPluginController extends AbstractController
     public function createConference(Request $request): Response
     {
         $serverID = $request->get('server_id');
+        /**
+         * @var Server $server
+         */
         $server = $this->entityManager->getRepository(Server::class)->find($serverID);
         if (!$server){
             return new JsonResponse(['error'=>true,'reason'=>'Server not found']);
@@ -89,9 +94,26 @@ final class OutlookPluginController extends AbstractController
         ;
         $this->entityManager->persist($room);
         $this->entityManager->flush();
+        $phone = [];
+        try {
+            if ($server->getJigasiNumberUrl()){
+                $nubers = json_decode($server->getJigasiNumberUrl(),true);
+               $phone['numbers']=$nubers;
+               $phone['dialIn'] = $room->getCallerRoom()->getCallerId();
+        }
+           
+        }catch (\Exception $exception){
+            $this->logger->error($exception->getMessage());
+        }
+
         return new JsonResponse(
             [
-                ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('own_room_startPage', ['uid' => $room->getUid()])), 'title' => $room->getName(),'id'=>$room->getId()]
+                [
+                    'url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('own_room_startPage', ['uid' => $room->getUid()])),
+                    'title' => $room->getName(),
+                    'id'=>$room->getId(),
+                    'phone'=>$phone
+                ]
             ]
         );
     }
