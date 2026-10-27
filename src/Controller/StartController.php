@@ -10,8 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StartController extends JitsiAdminController
 {
-    #[Route(path: '/room/join/{t}/{room}', name: 'room_join')]
-    public function joinRoom($t, ?Rooms $room, StartMeetingService $startMeetingService)
+    #[Route(path: '/room/join/{type}/{room}', name: 'room_join')]
+    public function joinRoom(string $type, ?Rooms $room, StartMeetingService $startMeetingService)
     {
         if ($room !== null && $room->getServer()->shouldProvisionNewServer()) {
             return $this->redirectToRoute('app_provisioner_create', ['uidReal' => $room->getUidReal()]);
@@ -19,7 +19,7 @@ class StartController extends JitsiAdminController
 
         return $startMeetingService->startMeeting($room,
             $this->getUser(),
-            $t,
+            $type,
             $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))
         );
     }
@@ -27,10 +27,10 @@ class StartController extends JitsiAdminController
     #[Route(path: '/room/checkCors', name: 'room_check_cors')]
     public function checkCorsRoom(Request $request)
     {
-        $weiterleitung = 'https://' . $request->get('url') . '/testRoom';
+        $redirectUrl = 'https://' . $request->get('url') . '/testRoom';
 
         return $this->render('start/corsTest.html.twig',
-            ['serverUrl' => $request->get('url'), 'cors' => $request->get('cors'), 'weiterleitung' => $weiterleitung]
+            ['serverUrl' => $request->get('url'), 'cors' => $request->get('cors'), 'redirectUrl' => $redirectUrl]
         );
     }
 }

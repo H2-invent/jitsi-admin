@@ -8,6 +8,7 @@ use App\Message\Provisioner\ProvisionerStatusMessage;
 use App\Service\Provisioner\ProvisionerStatus as Status;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
+use Psr\Log\LoggerInterface;
 
 class ProvisionerStatusService
 {
@@ -19,6 +20,7 @@ class ProvisionerStatusService
             Status::PROVISION_DONE,
             Status::PROVISION_FAILED,
             Status::PROVISION_STUCK,
+            Status::DELETION_REQUESTED,
         ],
         Status::PROVISION_STUCK->value => [
             Status::DELETION_STUCK,
@@ -30,6 +32,9 @@ class ProvisionerStatusService
             Status::DELETION_DONE,
             Status::DELETION_FAILED,
         ],
+        Status::DELETION_FAILED->value => [
+            Status::DELETION_REQUESTED,
+        ],
     ];
 
 
@@ -38,6 +43,7 @@ class ProvisionerStatusService
         private readonly ProvisionerPersistenceService $persistenceService,
         private readonly ProvisionerRecordService $recordService,
         private readonly EntityManagerInterface $entityManager,
+        private readonly LoggerInterface $logger,
     )
     {
     }
@@ -69,7 +75,23 @@ class ProvisionerStatusService
     public function requestDeletion(ProvisionerRecord $record): void
     {
         $this->assertTransition($record->getStatus(), Status::DELETION_REQUESTED);
-        $this->deletionRequest($record);
+
+        switch ($record->getStatus()) {
+            case Status::PROVISION_DONE:
+                $this->deletionRequest($record);
+                break;
+
+            case Status::PROVISION_REQUESTED:
+                $this->earlyDeletionRequest($record);
+                break;
+
+            case Status::PROVISION_FAILED:
+                $this->retryDeletionRequest($record);
+                break;
+
+            default:
+                throw new LogicException('Unimplemented transition.');
+        }
     }
 
     public function completeDeletion(ProvisionerRecord $record): void
@@ -80,8 +102,21 @@ class ProvisionerStatusService
 
     public function failDeletion(ProvisionerRecord $record): void
     {
-        $this->assertTransition($record->getStatus(), Status::DELETION_FAILED);
-        $this->deletionFailed($record);
+        switch ($record->getStatus()) {
+            case Status::DELETION_REQUESTED:
+                $this->assertTransition($record->getStatus(), Status::DELETION_FAILED);
+                $this->deletionFailed($record);
+
+                break;
+
+            case Status::PROVISION_STUCK:
+                $this->assertTransition($record->getStatus(), Status::DELETION_STUCK);
+                $this->deletionStuck($record);
+                break;
+
+            default:
+                throw new LogicException('Unimplemented transition.');
+        }
     }
 
     public function stuckDeletion(ProvisionerRecord $record): void
@@ -113,6 +148,14 @@ class ProvisionerStatusService
     private function provisionDone(ProvisionerRecord $record, ProvisionerStatusMessage $statusMessage): void
     {
         $room = $record->getRoom();
+        $runningProvisioning = $this->recordService->getRunningProvisioning($room);
+        if ($runningProvisioning !== null) {
+            // this might happen for two simultaneous provision requests (unlikely, but possible)
+            // so just delete the slower ones
+            $this->requestDeletion($record);
+
+            return;
+        }
 
         $this->persistenceService->saveNewServer($record, $statusMessage);
         $this->communicationService->sendWebsocketRedirect($record);
@@ -124,10 +167,12 @@ class ProvisionerStatusService
     {
         $this->setRecordStatus($record, Status::PROVISION_FAILED);
 
-        if ($this->recordService->shouldAttemptRetry($record)) {
-            $retryRecord = $this->recordService->createNewRetryRecord($record);
-            $this->requestProvision($retryRecord);
+        if (!$this->recordService->shouldAttemptRetry($record)) {
+            $this->logger->critical("Stopped retrying provisionings for record_id: {$record->getId()}");
+            return;
         }
+        $retryRecord = $this->recordService->createNewProvisionRetryRecord($record);
+        $this->requestProvision($retryRecord);
     }
 
     // TRANSITION PROVISION_REQUESTED -> PROVISION_STUCK
@@ -137,10 +182,12 @@ class ProvisionerStatusService
         $this->setRecordStatus($record, Status::PROVISION_STUCK);
         $this->communicationService->sendDeleteRequest($record);
 
-        if ($this->recordService->shouldAttemptRetry($record)) {
-            $retryRecord = $this->recordService->createNewRetryRecord($record);
-            $this->requestProvision($retryRecord);
+        if (!$this->recordService->shouldAttemptRetry($record)) {
+            $this->logger->critical("Stopped retrying provisionings for record_id: {$record->getId()}");
+            return;
         }
+        $retryRecord = $this->recordService->createNewProvisionRetryRecord($record);
+        $this->requestProvision($retryRecord);
     }
 
     // TRANSITION PROVISION_DONE -> DELETION_REQUESTED
@@ -148,8 +195,24 @@ class ProvisionerStatusService
     {
         $room = $record->getRoom();
 
+        $this->resetRetryCounter($record);
         $this->communicationService->sendDeleteRequest($record);
         $this->persistenceService->restoreOriginalServer($room);
+        $this->setRecordStatus($record, Status::DELETION_REQUESTED);
+    }
+
+    // TRANSITION PROVISION_REQUESTED -> DELETION_REQUESTED
+    private function earlyDeletionRequest(ProvisionerRecord $record): void
+    {
+        $this->resetRetryCounter($record);
+        $this->communicationService->sendDeleteRequest($record);
+        $this->setRecordStatus($record, Status::DELETION_REQUESTED);
+    }
+
+    // TRANSITION PROVISION_FAILED -> DELETION_REQUESTED
+    private function retryDeletionRequest(ProvisionerRecord $record): void
+    {
+        $this->communicationService->sendDeleteRequest($record);
         $this->setRecordStatus($record, Status::DELETION_REQUESTED);
     }
 
@@ -163,8 +226,15 @@ class ProvisionerStatusService
     // TRANSITION DELETION_REQUESTED -> DELETION_FAILED
     private function deletionFailed(ProvisionerRecord $record): void
     {
-        // ignore for now, this should be picked up by cronjob to restart deletion
         $this->setRecordStatus($record, Status::DELETION_FAILED);
+
+        if (!$this->recordService->shouldAttemptRetry($record)) {
+            $this->logger->critical("Stopped retrying provisionings for record_id: {$record->getId()}");
+            return;
+        }
+
+        $this->incrementRetryCounter($record);
+        $this->requestDeletion($record);
     }
 
     // TRANSITION PROVISION_STUCK -> DELETION_STUCK
@@ -172,6 +242,22 @@ class ProvisionerStatusService
     {
         // nothing to do here, we don't retry regardless because a deletion failure is expected
         $this->setRecordStatus($record, Status::DELETION_STUCK);
+    }
+
+    private function resetRetryCounter(ProvisionerRecord $record): void
+    {
+        $record->setRetryAttempts(0);
+
+        $this->entityManager->persist($record);
+        $this->entityManager->flush();
+    }
+
+    private function incrementRetryCounter(ProvisionerRecord $record): void
+    {
+        $record->setRetryAttempts($record->getRetryAttempts() + 1);
+
+        $this->entityManager->persist($record);
+        $this->entityManager->flush();
     }
 
     private function setRecordStatus(ProvisionerRecord $record, Status $status): void

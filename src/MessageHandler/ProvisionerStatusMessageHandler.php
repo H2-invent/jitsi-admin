@@ -57,11 +57,7 @@ final class ProvisionerStatusMessageHandler
                     switch ($message->status) {
                         case Status::FAILED:
                             $this->logger->info("Deletion status 'failed' for requestId: {$message->request_id}");
-                            if ($provisionerRecord->getStatus() === ProvisionerStatus::PROVISION_STUCK) {
-                                $this->provisionerStatusService->stuckDeletion($provisionerRecord);
-                            } else {
-                                $this->provisionerStatusService->failDeletion($provisionerRecord);
-                            }
+                            $this->provisionerStatusService->failDeletion($provisionerRecord);
 
                             return;
 

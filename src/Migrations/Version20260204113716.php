@@ -19,13 +19,15 @@ final class Version20260204113716 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE INDEX uid_real_idx ON rooms (uid_real)');
+        $schema->getTable('rooms')
+            ->addIndex(['uid_real'], 'uid_real_idx')
+        ;
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP INDEX uid_real_idx ON rooms');
+        $schema->getTable('rooms')
+            ->dropIndex('uid_real_idx')
+        ;
     }
 }

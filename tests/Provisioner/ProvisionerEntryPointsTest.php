@@ -77,7 +77,7 @@ class ProvisionerEntryPointsTest extends WebTestCase
             ->persist($entityManager);
 
         $client->loginUser($user);
-        $client->request('GET', $router->generate('room_join', ['t' => 'b', 'room' => $room->getId()]));
+        $client->request('GET', $router->generate('room_join', ['type' => 'b', 'room' => $room->getId()]));
 
         self::assertResponseRedirects($router->generate('app_provisioner_create', ['uidReal' => $room->getUidReal()]));
     }

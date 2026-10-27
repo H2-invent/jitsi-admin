@@ -51,7 +51,7 @@ class CreateFastConferenceController extends AbstractController
                 if ($this->server->shouldProvisionNewServer()) {
                     $url = $this->generateUrl('app_provisioner_create', ['uidReal' => $room->getUidReal()]);
                 } else {
-                    $url = $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()]));
+                    $url = $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['type' => 'b', 'room' => $room->getId()]));
                 }
 
                 return new JsonResponse(

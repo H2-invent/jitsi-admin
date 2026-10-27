@@ -16,7 +16,7 @@
     <script src='https://{{ serverUrl }}/external_api.js'></script>
     <script>
         if({{ cors }}){
-            window.location.replace("{{ weiterleitung }}");
+            window.location.replace("{{ redirectUrl }}");
         }
         const domain = '{{ serverUrl }}';
         const options = {

@@ -83,7 +83,7 @@ class AdHocMeetingController extends JitsiAdminController
                 [
                     'redirectUrl' => $this->generateUrl('dashboard'),
                     'popups' => [
-                        ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()])), 'title' => $room->getSecondaryName() ? : $room->getName()]
+                        ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['type' => 'b', 'room' => $room->getId()])), 'title' => $room->getSecondaryName() ? : $room->getName()]
                     ]
                 ]
             );

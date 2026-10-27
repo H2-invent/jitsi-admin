@@ -67,7 +67,7 @@ class ToModeratorWebsocketService
                     '{room}' => $room->getName()
                 ]
             ),
-            $this->urlgenerator->generate('room_join', ['room' => $room->getId(), 't' => 'b']),
+            $this->urlgenerator->generate('room_join', ['room' => $room->getId(), 'type' => 'b']),
             $room->getName(),
             $this->translator->trans('lobby.notification.newUser.toLobby')
         );

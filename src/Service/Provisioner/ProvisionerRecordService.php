@@ -65,7 +65,7 @@ class ProvisionerRecordService
         return $record->getRetryAttempts() < self::MAX_RETRY_ATTEMPTS;
     }
 
-    public function createNewRetryRecord(ProvisionerRecord $record): ProvisionerRecord
+    public function createNewProvisionRetryRecord(ProvisionerRecord $record): ProvisionerRecord
     {
         return $this->createNewProvisioningRecord($record->getRoom(), $record->getRetryAttempts() + 1);
     }

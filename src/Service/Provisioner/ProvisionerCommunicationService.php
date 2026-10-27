@@ -54,7 +54,7 @@ class ProvisionerCommunicationService
         $redirectUrl = $this->urlGenerator->generate(
             'room_join',
             [
-                't' => 'b',
+                'type' => 'b',
                 'room' => $room->getId()
             ],
             UrlGeneratorInterface::ABSOLUTE_PATH,

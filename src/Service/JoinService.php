@@ -77,7 +77,7 @@ class JoinService
             || $user->getKeycloakId()
         ) {
             if ($user->getKeycloakId()) {
-                return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
+                return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 'type' => $type]));
             }
 
             if ($this->session->getCurrentRequest()) {
@@ -144,7 +144,7 @@ class JoinService
     private function generateResponseCommonRoom($type, $name, Rooms $room, User $user)
     {
         if ($this->onlyWithUserAccount($room) || $this->userAccountLogin($room, $user)) {
-            return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
+            return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 'type' => $type]));
         }
         if ($room->getLobby()) {
             $res = new RedirectResponse($this->urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'type' => $type, 'userUid' => $user->getUid()]));

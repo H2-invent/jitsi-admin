@@ -71,7 +71,7 @@ class ContactApiController extends AbstractController
         $res = [];
         foreach ($persistantRooms as $data) {
             $tmp['name'] = $data->getName();
-            $tmp['startUrl'] = $this->generateUrl('room_join',['t'=>'b','room'=>$data->getId()],UrlGenerator::ABSOLUTE_URL);
+            $tmp['startUrl'] = $this->generateUrl('room_join',['type'=>'b','room'=>$data->getId()],UrlGenerator::ABSOLUTE_URL);
             $tmp['moderator'] = $this->participantSearchService->buildShowInFrontendStringNoString($data->getModerator());
             $res['rooms'][] = $tmp;
         }

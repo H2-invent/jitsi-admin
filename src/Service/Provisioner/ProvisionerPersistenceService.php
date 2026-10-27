@@ -25,7 +25,6 @@ class ProvisionerPersistenceService
             throw new RuntimeException("Room server or original server not set. Can not continue deletion. Room ID: {$room->getId()}");
         }
 
-        $server = $room->getServer();
         $room->setServer($room->getOriginalServer());
         $room->setOriginalServer(null);
 
@@ -35,7 +34,12 @@ class ProvisionerPersistenceService
 
     public function removeServerEntity(ProvisionerRecord $record): void
     {
-        $this->entityManager->remove($record->getProvisionedServer());
+        $provisionedServer = $record->getProvisionedServer();
+        if ($provisionedServer === null) {
+            return;
+        }
+
+        $this->entityManager->remove($provisionedServer);
         $record->setProvisionedServer(null);
 
         $this->entityManager->persist($record);

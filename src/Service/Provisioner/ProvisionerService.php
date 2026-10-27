@@ -5,6 +5,7 @@ namespace App\Service\Provisioner;
 
 use App\Entity\ProvisionerRecord;
 use App\Entity\Rooms;
+use App\Message\Provisioner\Enum\Status;
 use App\Repository\ProvisionerRecordRepository;
 use App\Repository\RoomsRepository;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -52,7 +53,7 @@ class ProvisionerService
     {
         $minutes ??= $this->scheduleMinutesTreshold;
 
-        $rooms = $this->roomsRepository->findRoomsToProvisionInXMinutes($minutes);
+        $rooms = $this->roomsRepository->findRoomsToProvisionIn($minutes);
         foreach ($rooms as $room) {
             $this->startProvision($room);
         }

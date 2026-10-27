@@ -696,21 +696,9 @@ class RoomsRepository extends ServiceEntityRepository
     /**
      * @return Rooms[]
      */
-    public function findRoomsToProvisionInXMinutes(int $minutes): array
+    public function findRoomsToProvisionIn(int $minutes): array
     {
-        $excludedStatuses = [
-            ProvisionerStatus::PROVISION_REQUESTED,
-            ProvisionerStatus::PROVISION_DONE,
-        ];
-        $runningProvisionings = $this->getEntityManager()->createQueryBuilder()
-            ->select('pr.id')
-            ->from(ProvisionerRecord::class, 'pr')
-            ->where('pr.room = room')
-            ->andWhere('pr.status IN (:excludedStatuses)')
-        ;
-
-        $qb = $this->createQueryBuilder('room');
-        return $qb
+        return $this->createQueryBuilder('room')
             ->innerJoin('room.server', 'server')
             ->andWhere('server.isAllowedToCloneForAutoscale = true')
             ->andWhere('server.isProvisioningEnabled = true')
@@ -718,14 +706,9 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('room.originalServer IS NULL')
             ->andWhere('room.startUtc < :threshold')
             ->andWhere('room.endDateUtc > :now')
-            ->andWhere(
-                $qb->expr()->not(
-                    $qb->expr()->exists($runningProvisionings->getDQL())
-                )
-            )
+            ->andWhere('room.provisionerRecords IS EMPTY')
             ->setParameter('threshold', new \DateTime("+ {$minutes} minutes", new \DateTimeZone('utc')))
             ->setParameter('now', new \DateTime('now', new \DateTimeZone('utc')))
-            ->setParameter('excludedStatuses', $excludedStatuses)
             ->getQuery()
             ->getResult()
         ;
