@@ -1311,6 +1311,10 @@
         <source>room.dashboard.e2ee.help.enforced</source>
         <target>Die Inhalte dieser Konferenz sind Ende-zu-Ende verschlüsselt. Der Server erzwingt das für alle Konferenzen.</target>
       </trans-unit>
+      <trans-unit id="e2sipBl1" resname="room.dashboard.sip.e2ee.blocked">
+        <source>room.dashboard.sip.e2ee.blocked</source>
+        <target>Die Telefoneinwahl ist bei aktiver Ende-zu-Ende-Verschlüsselung nicht möglich. Telefonteilnehmer könnten die verschlüsselten Inhalte nicht hören.</target>
+      </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
         <target>{name}</target>
@@ -1737,6 +1741,10 @@
       <trans-unit id="AohzXJm" resname="email.sip.roomnumber">
         <source>email.sip.roomnumber</source>
         <target>Raumnummer</target>
+      </trans-unit>
+      <trans-unit id="Pn1Prsn" resname="email.sip.personalpin">
+        <source>email.sip.personalpin</source>
+        <target>Persönliche PIN</target>
       </trans-unit>
       <trans-unit id="sIWTG7_" resname="status.offline">
         <source>status.offline</source>
