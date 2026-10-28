@@ -287,6 +287,19 @@ class RoomService
         $payload['context']['user']['language'] = $this->userPreferences->getLanguage();
         $payload['context']['user']['timezone'] = $this->userPreferences->getTimezone();
 
+        // Hot standby is enabled and the user is logged in
+        if ($user && $this->themeService->getApplicationProperties('LAF_SHOW_HOTSTANDBY')) {
+            $payload['context']['user']['hotstandby'] = [
+                'isEnabled' => $user->isHotstandbyEnabled() ?? false,
+                'groupId' => $user->getUid() ?? (string) $user->getId(),
+            ];
+        } else {
+            $payload['context']['user']['hotstandby'] = [
+                'isEnabled' => false,
+                'groupId' => null,
+            ];
+        }
+
         $screen = [
             'screen-sharing' => true,
             'private-message' => true,

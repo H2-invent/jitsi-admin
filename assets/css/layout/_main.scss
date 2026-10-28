@@ -1478,7 +1478,7 @@ a:hover {
 
   }
 
-  label {
+  label:not(.form-check-label) {
     @extend b;
     margin-bottom: 1rem;
   }

@@ -2613,6 +2613,10 @@ Your email address: {email}</target>
         <source>Recording</source>
         <target state="needs-translation">Recording</target>
       </trans-unit>
+      <trans-unit id="hSt4nDb" resname="Hot Standby">
+        <source>Hot Standby</source>
+        <target state="translated">Hot standby</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

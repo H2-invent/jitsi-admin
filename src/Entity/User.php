@@ -166,6 +166,9 @@ class User extends BaseUser
     #[ORM\ManyToOne(inversedBy: 'calendlyUsers')]
     private ?Server $calendlyServer = null;
 
+    #[ORM\Column]
+    private ?bool $hotstandbyEnabled = false;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -1414,6 +1417,18 @@ class User extends BaseUser
     public function setCalendlyServer(?Server $calendlyServer): static
     {
         $this->calendlyServer = $calendlyServer;
+
+        return $this;
+    }
+
+    public function isHotstandbyEnabled(): ?bool
+    {
+        return $this->hotstandbyEnabled;
+    }
+
+    public function setHotstandbyEnabled(bool $hotstandbyEnabled): static
+    {
+        $this->hotstandbyEnabled = $hotstandbyEnabled;
 
         return $this;
     }

@@ -250,6 +250,35 @@
                             </div>
                         </div>
                     {% endif %}
+
+                    {% if getApplicationProperties('LAF_SHOW_HOTSTANDBY') != false %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingHotStandby">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-mdb-collapse-init data-mdb-target="#collapseHotStandby"
+                                        aria-expanded="false" aria-controls="collapseHotStandby">
+                                    {{ 'Hot Standby'|trans }}
+                                </button>
+                            </h2>
+                            <div id="collapseHotStandby" class="accordion-collapse collapse" aria-labelledby="headingHotStandby">
+                                <div class="accordion-body">
+                                    {{ form_start(hotStandbyForm) }}
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            {{ form_row(hotStandbyForm.hotstandbyEnabled) }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 d-flex justify-content-end">
+                                            {{ form_widget(hotStandbyForm.submit) }}
+                                        </div>
+                                    </div>
+                                    {{ form_rest(hotStandbyForm) }}
+                                    {{ form_end(hotStandbyForm) }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
 
