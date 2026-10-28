@@ -295,6 +295,9 @@ class DashboardController extends JitsiAdminController
         ]);
     }
 
+    /**
+     * @return \Symfony\Component\Form\FormInterface<\App\Entity\User|null>
+     */
     private function createHotStandbyForm(): \Symfony\Component\Form\FormInterface
     {
         return $this->createForm(
