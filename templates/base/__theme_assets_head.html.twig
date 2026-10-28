@@ -1,0 +1,10 @@
+{% set themeHeaderCss = theme_assets.headerCss %}
+{% set themeHeaderJs = theme_assets.headerJs %}
+{% if themeHeaderCss %}
+    <!-- custom theme CSS -->
+    <link rel="stylesheet" href="{{ asset(themeHeaderCss) }}">
+{% endif %}
+{% if themeHeaderJs %}
+    <!-- custom theme JS -->
+    <script src="{{ asset(themeHeaderJs) }}"></script>
+{% endif %}

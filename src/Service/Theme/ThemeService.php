@@ -4,6 +4,7 @@ namespace App\Service\Theme;
 
 use App\Entity\Rooms;
 use H2Entwicklung\Signature\CheckSignature;
+use InvalidArgumentException;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -30,6 +31,8 @@ class ThemeService
         private TranslatorInterface $translator,
         #[Autowire(param: 'app.theme.dir')]
         private readonly string $themeDir,
+        #[Autowire(param: 'app.theme.public_dir')]
+        private readonly string $themePublicDir,
     )
     {
         $this->parameterBag = $parameterBag;
@@ -159,6 +162,83 @@ class ThemeService
         } catch (\Exception $exception) {
             return $variable;
         }
+    }
+
+    /**
+     * The theme asset getters return a path relative to public/ (e.g. "theme/custom/x.css"),
+     * ready to be passed to asset(), or null when the setting is not configured.
+     */
+    public function getHeaderCss(): ?string
+    {
+        return $this->resolveThemeAsset('THEME_HEADER_CSS', 'css');
+    }
+
+    public function getHeaderJs(): ?string
+    {
+        return $this->resolveThemeAsset('THEME_HEADER_JS', 'js');
+    }
+
+    public function getFooterCss(): ?string
+    {
+        return $this->resolveThemeAsset('THEME_FOOTER_CSS', 'css');
+    }
+
+    public function getFooterJs(): ?string
+    {
+        return $this->resolveThemeAsset('THEME_FOOTER_JS', 'js');
+    }
+
+    private function resolveThemeAsset(string $setting, string $extension): ?string
+    {
+        $configuredPath = $this->getApplicationProperties($setting);
+        if ($configuredPath === null || $configuredPath === '') {
+            return null;
+        }
+
+        if (!is_string($configuredPath)) {
+            throw new InvalidArgumentException(
+                sprintf('%s must reference a .%s file, %s given.', $setting, $extension, get_debug_type($configuredPath))
+            );
+        }
+
+        $path = trim($configuredPath);
+        if ($path === '') {
+            return null;
+        }
+
+        if (strtolower(pathinfo($path, PATHINFO_EXTENSION)) !== $extension) {
+            throw new InvalidArgumentException(
+                sprintf('%s must reference a .%s file, "%s" given.', $setting, $extension, $path)
+            );
+        }
+
+        $relativePath = $this->resolveThemeAssetRelativePath($path);
+        if ($relativePath === null) {
+            throw new InvalidArgumentException(
+                sprintf('%s references "%s", which does not exist or is not readable in %s.', $setting, $path, $this->themePublicDir)
+            );
+        }
+
+        return 'theme/' . str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
+    }
+
+    private function resolveThemeAssetRelativePath(string $path): ?string
+    {
+        $themePublicDir = realpath($this->themePublicDir);
+        if ($themePublicDir === false) {
+            return null;
+        }
+
+        $absolutePath = realpath($themePublicDir . DIRECTORY_SEPARATOR . ltrim($path, '/\\'));
+        if ($absolutePath === false || !is_file($absolutePath) || !is_readable($absolutePath)) {
+            return null;
+        }
+
+        if (!str_starts_with($absolutePath, $themePublicDir . DIRECTORY_SEPARATOR)) {
+            return null;
+        }
+
+        return substr($absolutePath, strlen($themePublicDir) + 1);
     }
 
     public function getAllThemes(): array

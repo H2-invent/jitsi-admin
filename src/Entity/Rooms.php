@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: RoomsRepository::class)]
+#[ORM\Index(fields: ['endDateUtc'], name: 'idx_rooms_end_date_utc')]
+#[ORM\Index(fields: ['startUtc'], name: 'idx_rooms_start_utc')]
+#[ORM\Index(fields: ['scheduleMeeting'], name: 'idx_rooms_schedule_meeting')]
+#[ORM\Index(fields: ['persistantRoom'], name: 'idx_rooms_persistant_room')]
+#[ORM\Index(fields: ['endDateUtc', 'startUtc', 'scheduleMeeting', 'persistantRoom'], name: 'idx_rooms_time_filter_composite')]
 #[ORM\HasLifecycleCallbacks]
 class Rooms
 {
