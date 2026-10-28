@@ -36,6 +36,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'room'=>[
                     'name'=>'TestMeeting: 0',
@@ -99,6 +103,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -148,6 +156,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -194,6 +206,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => false,
@@ -240,6 +256,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -293,6 +313,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -346,6 +370,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -396,6 +424,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => false,
@@ -447,6 +479,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -501,6 +537,10 @@ class JwtTest extends KernelTestCase
                     'lobbyModerator' => false,
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -555,6 +595,10 @@ class JwtTest extends KernelTestCase
                     'avatar' => 'https://image.de',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -651,6 +695,10 @@ class JwtTest extends KernelTestCase
                     'lobbyModerator' => true,
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,

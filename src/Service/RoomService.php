@@ -330,7 +330,7 @@ class RoomService
         if ($user && $this->themeService->getApplicationProperties('LAF_SHOW_HOTSTANDBY')) {
             $payload['context']['user']['hotstandby'] = [
                 'isEnabled' => $user->isHotstandbyEnabled() ?? false,
-                'groupId' => $user->getUid() ?? (string) $user->getId(),
+                'groupId' => $user->getUid() ?? ($user->getId() !== null ? (string) $user->getId() : null),
             ];
         } else {
             $payload['context']['user']['hotstandby'] = [
