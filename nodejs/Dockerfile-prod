@@ -1,5 +1,5 @@
 FROM node:23-alpine
-ARG VERSION=development
+ARG VERSION=
 
 LABEL version="${VERSION}" \
     Maintainer="H2 invent GmbH" \
