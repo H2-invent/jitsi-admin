@@ -241,6 +241,10 @@ final class JWTGenerateTest extends TestCase
                     'name' => 'Ada Lovelace',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'lobby' => [
                     'chatMessages' => [],
