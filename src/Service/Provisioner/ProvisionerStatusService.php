@@ -119,12 +119,6 @@ class ProvisionerStatusService
         }
     }
 
-    public function stuckDeletion(ProvisionerRecord $record): void
-    {
-        $this->assertTransition($record->getStatus(), Status::DELETION_STUCK);
-        $this->deletionStuck($record);
-    }
-
     private function assertTransition(Status $currentStatus, Status $nextStatus): void
     {
         if (!in_array($nextStatus, $this->allowedTransitions[$currentStatus->value] ?? [], true)) {
