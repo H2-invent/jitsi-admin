@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Service\OnlineStatus\PresenceService;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
@@ -19,11 +18,9 @@ class PresenceServiceTest extends TestCase
     ): PresenceService {
         return new PresenceService(
             $client,
-            new ParameterBag([
-                'WEBSOCKET_SECRET' => 'secret',
-                'WEBSOCKET_INTERNAL_URL' => $websocketInternalUrl,
-                'MERCURE_URL' => $mercureUrl,
-            ]),
+            $websocketInternalUrl,
+            $mercureUrl,
+            'secret',
             new NullLogger()
         );
     }

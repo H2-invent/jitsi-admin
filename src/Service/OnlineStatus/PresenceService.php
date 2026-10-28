@@ -4,7 +4,7 @@ namespace App\Service\OnlineStatus;
 
 use App\Entity\User;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class PresenceService
@@ -15,7 +15,12 @@ class PresenceService
 
     public function __construct(
         private HttpClientInterface $httpClient,
-        private ParameterBagInterface $parameterBag,
+        #[Autowire(param: 'WEBSOCKET_INTERNAL_URL')]
+        private string $websocketInternalUrl,
+        #[Autowire(param: 'MERCURE_URL')]
+        private string $mercureUrl,
+        #[Autowire(param: 'WEBSOCKET_SECRET')]
+        private string $websocketSecret,
         private LoggerInterface $logger,
     ) {
     }
@@ -56,7 +61,7 @@ class PresenceService
                 'GET',
                 $baseUrl . '/presence/' . rawurlencode($uid),
                 [
-                    'headers' => ['Authorization' => 'Bearer ' . $this->parameterBag->get('WEBSOCKET_SECRET')],
+                    'headers' => ['Authorization' => 'Bearer ' . $this->websocketSecret],
                     'timeout' => self::PRESENCE_TIMEOUT,
                 ]
             );
@@ -81,9 +86,9 @@ class PresenceService
      */
     private function getInternalBaseUrl(): ?string
     {
-        $url = trim((string)$this->parameterBag->get('WEBSOCKET_INTERNAL_URL'));
+        $url = trim($this->websocketInternalUrl);
         if ($url === '') {
-            $url = trim((string)$this->parameterBag->get('MERCURE_URL'));
+            $url = trim($this->mercureUrl);
         }
         if ($url === '') {
             return null;
