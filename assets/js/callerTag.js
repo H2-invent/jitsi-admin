@@ -1,10 +1,10 @@
 export class CallerTag {
-    emptyPrependText = ' - ';
-    text = 'Telefonteilnehmer anwesend';
+    prependHTML = '&nbsp;-&nbsp;';
+    innerHTML;
     textColor = '#000'; // black
     backgroundColor = '#ff5959'; // pastel red
 
-    previousText = '';
+    previousInnerHTML = '';
     previousTextColor = '';
     previousBackgroundColor = '';
 
@@ -15,6 +15,7 @@ export class CallerTag {
         amountOfPhoneCallers
     ) {
         this.tagContentElement = document.getElementById('tagContent');
+        this.innerHTML = this.tagContentElement.dataset.callerTagHtml;
         this.amountOfPhoneCallers = amountOfPhoneCallers;
         if (amountOfPhoneCallers > 0) {
             this.addCallerTag();
@@ -43,14 +44,14 @@ export class CallerTag {
     }
 
     addCallerTag() {
-        let textToAdd = this.text;
+        let htmlToAdd = this.innerHTML;
         if (this.hasExistingTag()) {
-            textToAdd = this.emptyPrependText + textToAdd;
-            this.previousText = this.tagContentElement.textContent;
+            htmlToAdd = this.prependHTML + htmlToAdd;
+            this.previousInnerHTML = this.tagContentElement.innerHTML;
             this.previousTextColor = this.tagContentElement.style.color;
             this.previousBackgroundColor = this.tagContentElement.style.backgroundColor;
         }
-        this.tagContentElement.textContent += textToAdd;
+        this.tagContentElement.innerHTML += htmlToAdd;
         this.tagContentElement.style.color = this.textColor;
         this.tagContentElement.style.backgroundColor = this.backgroundColor;
 
@@ -59,7 +60,7 @@ export class CallerTag {
     }
 
     removeCallerTag() {
-        this.tagContentElement.textContent = this.previousText;
+        this.tagContentElement.innerHTML = this.previousInnerHTML;
         this.tagContentElement.style.color = this.previousTextColor;
         this.tagContentElement.style.backgroundColor = this.previousBackgroundColor;
         this.updateFrame(this.previousBackgroundColor);
