@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Monolog\Handler;
@@ -12,8 +13,7 @@ class AsyncLokiHandler extends Handler
 {
     public function __construct(
         private readonly MessageBusInterface $messageBus,
-    )
-    {
+    ) {
     }
 
     public function handleBatch(array $records): void

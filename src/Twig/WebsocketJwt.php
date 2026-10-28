@@ -3,42 +3,31 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\User;
-use App\Service\MessageService;
 use App\Service\Websocket\WebsocketJwtService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
-class WebsocketJwt extends AbstractExtension
+class WebsocketJwt
 {
     public function __construct(
-        private WebsocketJwtService   $websocketJwtService,
-        private ParameterBagInterface $parameterBag
-    )
-    {
+        private readonly WebsocketJwtService   $websocketJwtService,
+        private readonly ParameterBagInterface $parameterBag
+    ) {
     }
 
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getJwtforWebsocket', [$this, 'getJwtforWebsocket']),
-            new TwigFunction('getUrlforWebsocket', [$this, 'getUrlforWebsocket']),
-
-        ];
-    }
-
-    public function getJwtforWebsocket($rooms, ?User $user)
+    /**
+     * @param array<int, string> $rooms
+     */
+    #[\Twig\Attribute\AsTwigFunction(name: 'getJwtforWebsocket')]
+    public function getJwtforWebsocket(array $rooms, ?User $user): string
     {
         return $this->websocketJwtService->createJwt($rooms, $user);
     }
 
-    public function getUrlforWebsocket()
+    #[\Twig\Attribute\AsTwigFunction(name: 'getUrlforWebsocket')]
+    public function getUrlforWebsocket(): string
     {
+        /** @var string $path */
         $path = $this->parameterBag->get('MERCURE_PUBLIC_URL');
         if (str_contains($path, 'https')) {
             $path = str_replace('https', 'wss', $path);

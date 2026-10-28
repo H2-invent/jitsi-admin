@@ -8,11 +8,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<PredefinedLobbyMessages>
- *
- * @method PredefinedLobbyMessages|null find($id, $lockMode = null, $lockVersion = null)
- * @method PredefinedLobbyMessages|null findOneBy(array $criteria, array $orderBy = null)
- * @method PredefinedLobbyMessages[]    findAll()
- * @method PredefinedLobbyMessages[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PredefinedLobbyMessagesRepository extends ServiceEntityRepository
 {

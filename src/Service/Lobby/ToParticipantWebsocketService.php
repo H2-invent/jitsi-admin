@@ -3,60 +3,31 @@
 namespace App\Service\Lobby;
 
 use App\Entity\LobbyWaitungUser;
-use App\Entity\Rooms;
-use App\Entity\User;
 use App\Service\RoomService;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Mercure\Exception\RuntimeException;
-use Symfony\Component\Mercure\HubInterface;
-use Symfony\Component\Mercure\Publisher;
-use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
-
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 class ToParticipantWebsocketService
 {
-    private $publisher;
-    private $urlgenerator;
-    private $parameterBag;
-    private $logger;
-    private $translator;
-    private $roomService;
-    private $twig;
-    private $directSend;
-    private $uploadHelper;
-    private $em;
-
-    public function __construct(EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper, DirectSendService $directSendService, Environment $environment, HubInterface $publisher, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
-    {
-        $this->publisher = $publisher;
-        $this->urlgenerator = $urlGenerator;
-        $this->parameterBag = $parameterBag;
-        $this->logger = $logger;
-        $this->translator = $translator;
-        $this->roomService = $roomService;
-        $this->twig = $environment;
-        $this->directSend = $directSendService;
-        $this->uploadHelper = $uploaderHelper;
-        $this->em = $entityManager;
+    public function __construct(private DirectSendService              $directSend,
+                                private readonly RoomService           $roomService,
+                                private readonly UrlGeneratorInterface $urlgenerator,
+                                private readonly ParameterBagInterface $parameterBag,
+                                private readonly TranslatorInterface   $translator
+    ) {
     }
 
-    public function setDirectSend(DirectSendService $directSendService)
+    public function setDirectSend(DirectSendService $directSendService): void
     {
         $this->directSend = $directSendService;
     }
 
-    public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser)
+    public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser): void
     {
-
-        $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
-        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success',2000);
+        $options = [];
+        $topic   = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
+        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success', 2000);
         $appUrl = $this->roomService->join(
             $lobbyWaitungUser->getRoom(),
             $lobbyWaitungUser->getUser(),
@@ -65,8 +36,6 @@ class ToParticipantWebsocketService
         );
 
         if ($lobbyWaitungUser->getType() === 'b') {
-
-
             if ($lobbyWaitungUser->getRoom()->getServer()->getAppId()) {
                 $options['jwt'] = $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
             }
@@ -81,25 +50,24 @@ class ToParticipantWebsocketService
                 $this->directSend->sendRedirect($topic, $browserUrl, 5000);
                 $this->directSend->sendRedirect($topic, '/', 6000);
             } else {
-                $this->directSend->sendNewJitsiMeeting($topic, $options, 5000);
+                $this->directSend->sendNewJitsiMeeting($topic, $options);
             }
         } elseif ($lobbyWaitungUser->getType() === 'a') {
             $this->directSend->sendRedirect($topic, $appUrl, 5000);
             $this->directSend->sendRedirect($topic, '/', 6000);
         }
-
     }
 
-    public function sendDecline(LobbyWaitungUser $lobbyWaitungUser)
+    public function sendDecline(LobbyWaitungUser $lobbyWaitungUser): void
     {
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
-        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger',2000);
+        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger', 2000);
         $this->directSend->sendRedirect($topic, $this->urlgenerator->generate('index'), $this->parameterBag->get('laf_lobby_popUpDuration'));
     }
-    public function sendMessage(LobbyWaitungUser $lobbyWaitungUser, $message, string $from)
+
+    public function sendMessage(LobbyWaitungUser $lobbyWaitungUser, ?string $message, string $from): void
     {
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
-        $this->directSend->sendSnackbar($topic,$message,'red',10000);
-
+        $this->directSend->sendSnackbar($topic, $message, 'red', 10000);
     }
 }

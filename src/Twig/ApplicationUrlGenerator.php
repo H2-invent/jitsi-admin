@@ -3,41 +3,25 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
 use App\Entity\LobbyWaitungUser;
-use App\Entity\MyUser;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Helper\ExternalApplication;
-use App\Service\MessageService;
 use App\Service\ParticipantSearchService;
 use Psr\Log\LoggerInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
-class ApplicationUrlGenerator extends AbstractExtension
+class ApplicationUrlGenerator
 {
     public function __construct(
-        private ExternalApplication      $externalApplication,
-        private ParticipantSearchService $participantSearchService,
-        private LoggerInterface          $logger,
-    )
-    {
-    }
-
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('createWhitebophirLink', [$this, 'createWhitebophirLink']),
-            new TwigFunction('createEtherpadLink', [$this, 'createEtherpadLink']),
-
-        ];
+        private readonly ExternalApplication      $externalApplication,
+        private readonly ParticipantSearchService $participantSearchService,
+        private readonly LoggerInterface          $logger,
+    ) {
     }
 
 
-    public function createEtherpadLink(Rooms $rooms, User|LobbyWaitungUser|null $user = null)
+    #[\Twig\Attribute\AsTwigFunction(name: 'createEtherpadLink')]
+    public function createEtherpadLink(Rooms $rooms, User|LobbyWaitungUser|null $user = null): string
     {
         try {
             $name = null;
@@ -53,9 +37,9 @@ class ApplicationUrlGenerator extends AbstractExtension
         }
     }
 
-    public function createWhitebophirLink(Rooms $rooms, $moderator = false)
+    #[\Twig\Attribute\AsTwigFunction(name: 'createWhitebophirLink')]
+    public function createWhitebophirLink(Rooms $rooms, bool $moderator = false): string
     {
-
         return $this->externalApplication->whitebophirLink($rooms, $moderator);
     }
 }

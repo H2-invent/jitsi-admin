@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20250213110732 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'is_allowed_to_clone_for_autoscale';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'is_allowed_to_clone_for_autoscale';
     public function getDescription(): string
     {
         return '';

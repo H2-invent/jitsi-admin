@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UploadedRecordingRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UploadedRecordingRepository::class)]
@@ -29,7 +28,6 @@ class UploadedRecording
 
     #[ORM\Column(length: 255)]
     private ?string $displayName = null;
-
 
 
     public function getId(): ?int

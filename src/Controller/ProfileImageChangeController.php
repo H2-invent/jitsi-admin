@@ -11,41 +11,40 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProfileImageChangeController extends JitsiAdminController
 {
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        TranslatorInterface $translator,
-        LoggerInterface $logger,
-        ParameterBagInterface $parameterBag,
-    private ThemeService $themeService,
-    )
-    {
+        ManagerRegistry               $managerRegistry,
+        TranslatorInterface           $translator,
+        LoggerInterface               $logger,
+        ParameterBagInterface         $parameterBag,
+        private readonly ThemeService $themeService,
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route(path: '/room/profileImage/change', name: 'profile_image_change')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/profileImage/change', name: 'profile_image_change')]
     public function index(Request $request, TranslatorInterface $translator): Response
     {
-        if ($this->themeService->getApplicationProperties('LAF_HIDE_PROFILEPICTURE') === 1){
+        if ($this->themeService->getApplicationProperties('LAF_HIDE_PROFILEPICTURE') === 1) {
             throw new NotFoundHttpException('This function is not allowed here');
         }
         $user = $this->getUser();
         $form = $this->createForm(ProfileImageType::class, $user, ['action' => $this->generateUrl('profile_image_save')]);
+
         return $this->render(
             'time_zone/index.html.twig',
             [
-                'form' => $form->createView(),
+                'form'  => $form->createView(),
                 'title' => $translator->trans('second.email.title')
             ]
         );
     }
 
-    #[Route(path: '/room/profileImage/save', name: 'profile_image_save')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/profileImage/save', name: 'profile_image_save')]
     public function new(Request $request, TranslatorInterface $translator, LoggerInterface $logger, ValidatorInterface $validator): Response
     {
         $user = $this->getUser();
@@ -55,7 +54,7 @@ class ProfileImageChangeController extends JitsiAdminController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $user = $form->getData();
+                $user  = $form->getData();
                 $error = $validator->validate($user->getProfilePicture());
                 if (sizeof($error)) {
                     foreach ($error as $data) {
@@ -95,6 +94,7 @@ class ProfileImageChangeController extends JitsiAdminController
             return $this->redirectToRoute('dashboard');
         }
         $this->addFlash('success', $translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}', ['{secondEmails}' => $user->getSecondEmail()]));
+
         return $this->redirectToRoute('dashboard');
     }
 }
