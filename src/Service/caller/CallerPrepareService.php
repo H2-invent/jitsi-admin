@@ -168,12 +168,7 @@ class CallerPrepareService
 
         // Load the PINs of all appointments in one query instead of one lookup per appointment and user.
         $roomIds = array_map(static fn(Rooms $room) => $room->getId(), $rooms);
-        $existingCallerIds = $this->em->getRepository(CallerId::class)
-            ->createQueryBuilder('c')
-            ->where('c.room IN (:roomIds)')
-            ->setParameter('roomIds', $roomIds)
-            ->getQuery()
-            ->getResult();
+        $existingCallerIds = $this->em->getRepository(CallerId::class)->findByRooms($roomIds);
 
         $existingByRoomAndUser = [];
         foreach ($existingCallerIds as $callerId) {

@@ -10,7 +10,7 @@ use App\Service\caller\CallerPrepareService;
 use App\Service\Jigasi\JigasiService;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Guides\RestructuredText\Directives\Replace;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -65,7 +65,8 @@ class RepeaterService
         EntityManagerInterface          $entityManager,
         private JoinUrlGeneratorService $joinUrlGeneratorService,
         private JigasiService           $jigasiService,
-        private ParameterBagInterface   $parameterBag,
+        #[Autowire(param: 'laf_max_repeat')]
+        private readonly string         $lafMaxRepeat,
     )
     {
         $this->em = $entityManager;
@@ -83,9 +84,9 @@ class RepeaterService
      */
     function createNewRepeater(Repeat $repeat): Repeat
     {
-        if ($repeat->getRepetation() > $this->parameterBag->get('laf_max_repeat')) {
+        if ($repeat->getRepetation() > (int)$this->lafMaxRepeat) {
             throw new \InvalidArgumentException(
-                'The repetition of a series may not exceed ' . $this->parameterBag->get('laf_max_repeat')
+                'The repetition of a series may not exceed ' . $this->lafMaxRepeat
             );
         }
 

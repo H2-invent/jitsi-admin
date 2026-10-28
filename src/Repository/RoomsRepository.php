@@ -594,8 +594,8 @@ class RoomsRepository extends ServiceEntityRepository
     public function findFutureRoomsWithNoCallerId($now)
     {
         $qb = $this->createQueryBuilder('r');
-        $qb->leftJoin('r.repeaterProtoype', 'repeaterProtoype');
         return $qb->leftJoin('r.callerRoom', 'callerRoom')
+            ->leftJoin('r.repeaterProtoype', 'repeaterProtoype')
             ->andWhere($qb->expr()->isNull('callerRoom'))
             ->andWhere($qb->expr()->isNull('repeaterProtoype.id'))
             ->andWhere($qb->expr()->isNotNull('r.moderator'))

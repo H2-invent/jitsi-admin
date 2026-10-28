@@ -31,7 +31,7 @@ class CallerFindRoomService
         $room = $caller->getRoom();
 
         // Phone participants can not decrypt E2EE media, so the dial-in is refused before any other check.
-        if ($caller->getRoom()->isE2EEActive()) {
+        if ($room->isE2EEActive()) {
             return [
                 'status' => 'HANGUP',
                 'reason' => 'E2EE_ENABLED',
@@ -42,7 +42,7 @@ class CallerFindRoomService
             ];
         }
 
-        if ($caller->getRoom()->getStartTimestamp() - 1800 > $now && $caller->getRoom()->getPersistantRoom() !== true) {
+        if ($room->getStartTimestamp() - 1800 > $now && $room->getPersistantRoom() !== true) {
             return [
                 'status' => 'HANGUP',
                 'reason' => 'TO_EARLY',

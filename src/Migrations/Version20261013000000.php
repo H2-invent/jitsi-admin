@@ -21,6 +21,10 @@ final class Version20261013000000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        // Data migration: generate one missing caller room per appointment. Kept on the DBAL connection on
+        // purpose as this is a bulk data operation. Using the ORM would run the full unit of work (lifecycle
+        // listeners, auto-flush of managed entities) and would couple this immutable migration to the current
+        // entity mappings which may drift over time.
         $rooms = $this->connection->fetchAllAssociative(
             'SELECT r.id FROM rooms r LEFT JOIN caller_room cr ON cr.room_id = r.id WHERE r.repeater_id IS NOT NULL AND cr.id IS NULL'
         );
