@@ -51,7 +51,7 @@
     <p class="floating-tag {{ laf_show_transparent_background }} {{ laf_floating_tag_force_show }} {{ room.tag is null ? 'd-none' : '' }}"
        id="tagContent"
        style="color: {{ room.tag is not null ? room.tag.color : '' }}; background-color: {{ room.tag is not null ? room.tag.backgroundColor : '' }}"
-       data-caller-tag-html="{{ getApplicationProperties('SIP_CALLER_TAG_HTML') }}"
+       data-caller-tag-html="{{ getApplicationProperties('SIP_CALLER_TAG_HTML') | trans }}"
     >
         {{ room.tag is not null ? room.tag.title|trans : '' }}
     </p>

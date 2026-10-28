@@ -2630,6 +2630,10 @@ Ihre E-Mail-Adresse: {email}</target>
           <source>Recording</source>
           <target>Recording</target>
       </trans-unit>
+      <trans-unit id="3ndFdnr" resname="Telefonteilnehmer anwesend">
+        <source>Telefonteilnehmer anwesend</source>
+        <target>Telefonteilnehmer anwesend</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
