@@ -6,6 +6,8 @@ use Agence104\LiveKit\EgressServiceClient;
 use App\Entity\Recording;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Enums\UidType;
+use App\Helper\UidGeneratorHelper;
 use App\Repository\RecordingRepository;
 use App\Service\LivekitRoomNameGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +35,7 @@ class EgressService
             $recording = new Recording();
             $recording->setRoom($rooms)
                 ->setUser($user)
-                ->setUid(md5(uniqid((string)random_int(0, mt_getrandmax()), true)))
+                ->setUid(UidGeneratorHelper::generate(UidType::RECORDING))
                 ->setCreatedAt(new \DateTimeImmutable());
 
             try {

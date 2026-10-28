@@ -7,6 +7,8 @@ use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
 use App\Entity\SchedulingTimeUser;
 use App\Entity\User;
+use App\Enums\UidType;
+use App\Helper\UidGeneratorHelper;
 use App\Repository\SchedulingTimeRepository;
 use App\Repository\SchedulingTimeUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,7 +55,7 @@ class SchedulingService
     {
         if (sizeof($rooms->getSchedulings()->toArray()) < 1) {
             $schedule = new Scheduling();
-            $schedule->setUid(md5(uniqid()));
+            $schedule->setUid(UidGeneratorHelper::generate(UidType::SCHEDULE));
             $schedule->setRoom($rooms);
             $this->em->persist($schedule);
             $this->em->flush();

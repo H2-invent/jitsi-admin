@@ -6,6 +6,8 @@ use App\Entity\CallerRoom;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Enums\UidType;
+use App\Helper\UidGeneratorHelper;
 use App\Service\Caller\CallerPrepareService;
 use App\Service\Theme\ThemeService;
 use App\Util\InputSettings;
@@ -33,13 +35,17 @@ class RoomGeneratorService
         $room->setServer($server);
         $room->addUser($user);
         $room->setDuration(60);
-        $room->setUid(random_int(01, 99) . time());
+        $room->setUid(UidGeneratorHelper::generate(UidType::ROOM));
         $room->setModerator($user);
         $room->setCreator($user);
         $room->setSequence(0);
-        $room->setUidReal(md5(uniqid('h2-invent', true)));
-        $room->setUidModerator(md5(uniqid('h2-invent', true)));
-        $room->setUidParticipant(md5(uniqid('h2-invent', true)));
+        $room->setUidReal(UidGeneratorHelper::generate(UidType::ROOM));
+        $room->setUidModerator(
+            UidGeneratorHelper::generate(UidType::MODERATOR)
+        );
+        $room->setUidParticipant(
+            UidGeneratorHelper::generate(UidType::PARTICIPANT)
+        );
         // here we set the default values
         $room->setPersistantRoom($this->themeService->getApplicationProperties(InputSettings::PERSISTENT_ROOMS_DEFAULT));
         $room->setOnlyRegisteredUsers($this->themeService->getApplicationProperties(InputSettings::ONLY_REGISTERED_DEFAULT));

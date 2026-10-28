@@ -2,6 +2,9 @@
 
 namespace App\Command\Installer;
 
+use App\Enums\UidType;
+use App\Helper\UidGeneratorHelper;
+
 class BasicConfig implements ConvertToEnvironmentInterface
 {
     use ConvertToEnvironmentTrait;
@@ -26,7 +29,7 @@ class BasicConfig implements ConvertToEnvironmentInterface
     {
         return new self(
             baseUrl: $baseUrl,
-            secret: $secret ?? md5(uniqid()),
+            secret: $secret ?? UidGeneratorHelper::generate(UidType::SECRET),
         );
     }
 

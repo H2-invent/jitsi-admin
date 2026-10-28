@@ -5,6 +5,8 @@ namespace App\Service\Lobby;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Enums\UidType;
+use App\Helper\UidGeneratorHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -31,7 +33,7 @@ class CreateLobbyUserService
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room);
             $lobbyUser->setCreatedAt(new \DateTimeImmutable());
-            $lobbyUser->setUid(md5(uniqid()));
+            $lobbyUser->setUid(UidGeneratorHelper::generate(UidType::USER));
             /** @var string $showNameInConference */
             $showNameInConference = $this->parameterBag->get('laf_showNameInConference');
             $lobbyUser->setShowName($showName ?? ($user ? $user->getFormatedName($showNameInConference) : ''));

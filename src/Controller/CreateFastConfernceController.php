@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Server;
 use App\Entity\User;
+use App\Enums\UidType;
+use App\Helper\UidGeneratorHelper;
 use App\Repository\ServerRepository;
 use App\Service\CreateHttpsUrl;
 use App\Service\PublicConference\PublicConferenceService;
@@ -36,7 +38,7 @@ class CreateFastConfernceController extends AbstractController
     {
         try {
             if ($this->server) {
-                $room = $this->publicConferenceService->createNewRoomFromName(md5(uniqid()), $this->server);
+                $room = $this->publicConferenceService->createNewRoomFromName(UidGeneratorHelper::generate(UidType::ROOM), $this->server);
                 /** @var User $user */
                 $user = $this->getUser();
                 $room

@@ -6,8 +6,10 @@ use App\Entity\Rooms;
 use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
 use App\Entity\User;
+use App\Enums\UidType;
 use App\Form\Type\SchedulerType;
 use App\Helper\JitsiAdminController;
+use App\Helper\UidGeneratorHelper;
 use App\Repository\RoomsRepository;
 use App\Repository\SchedulingTimeRepository;
 use App\Repository\SchedulingTimeUserRepository;
@@ -242,7 +244,7 @@ class ScheduleController extends JitsiAdminController
             $schedule = $rooms->getSchedulings();
             if (count($schedule) == 0) {
                 $schedule = new  Scheduling();
-                $schedule->setUid(md5(uniqid()));
+                $schedule->setUid(UidGeneratorHelper::generate(UidType::SCHEDULE));
                 $schedule->setRoom($rooms);
             } else {
                 $schedule = $schedule[0];

@@ -4,6 +4,8 @@ namespace App\Service\PublicConference;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Enums\UidType;
+use App\Helper\UidGeneratorHelper;
 use App\Service\Caller\CallerPrepareService;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +35,7 @@ class PublicConferenceService
                 ->setDuration(0)
                 ->setSequence(0)
                 ->setPersistantRoom(true)
-                ->setUidReal(md5(uniqid()));
+                ->setUidReal(UidGeneratorHelper::generate(UidType::ROOM));
             if ($this->requestStack->getCurrentRequest()) {
                 $room->setHostUrl($this->requestStack->getCurrentRequest()->getSchemeAndHttpHost());
             }
