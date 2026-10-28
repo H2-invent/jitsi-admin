@@ -1,4 +1,4 @@
-FROM node:26-alpine
+FROM node:23-alpine
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
