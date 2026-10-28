@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Service\Lobby\DirectSendService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,9 +11,8 @@ use Symfony\Component\Routing\Attribute\Route;
 final class TestNotificationController extends AbstractController
 {
     public function __construct(
-        private DirectSendService $directSendService
-    )
-    {
+        private readonly DirectSendService $directSendService
+    ) {
     }
 
     #[Route('/room/test/notification', name: 'app_test_notification')]
@@ -27,7 +24,7 @@ final class TestNotificationController extends AbstractController
             @ob_implicit_flush(true);
 
             /** @var \App\Entity\User $user */
-            $user = $this->getUser();
+            $user  = $this->getUser();
             $topic = 'personal/' . $user->getUid();
             echo 'set user topic: ' . $topic . '<br>';
             flush();
@@ -53,14 +50,14 @@ final class TestNotificationController extends AbstractController
             $this->directSendService->sendDialog($topic, 'dialog header', "I'm a test dialog body.", "do you want to accept this dialog?", [
                 [
                     'class' => 'testclass',
-                    'text' => 'test button text',
-                    'link' => 'testlink',
-                    'data' => ['roomname' => 'test'],
+                    'text'  => 'test button text',
+                    'link'  => 'testlink',
+                    'data'  => ['roomname' => 'test'],
                 ],
                 [
                     'class' => 'btn btn-danger',
-                    'text' => '<i class="fas fa-phone-slash"></i>',
-                    'data' => [],
+                    'text'  => '<i class="fas fa-phone-slash"></i>',
+                    'data'  => [],
                 ],
             ]);
             echo 'send dialog<br>';
@@ -71,30 +68,37 @@ final class TestNotificationController extends AbstractController
             echo 'send browser push<br>';
             flush();
             sleep(5);
+
             $this->directSendService->sendCleanBrowserNotification($topic, 123);
             echo 'remove browser push message<br>';
             flush();
             sleep(1);
+
             $this->directSendService->sendMessage($topic, 'test message', 'testuser');
             echo 'send message<br>';
             flush();
             sleep(5);
+
             $this->directSendService->sendRefreshDashboard($topic);
             echo 'refresh dashboard<br>';
             flush();
             sleep(15);
+
             $this->directSendService->sendModal($topic, '<h1>test html modal</h1>');
             echo 'send modal<br>';
             flush();
             sleep(5);
-            $this->directSendService->sendRedirect($topic,'room/dashboard');
+
+            $this->directSendService->sendRedirect($topic, 'room/dashboard');
             echo 'redirect to room dashboard<br>';
             flush();
             sleep(15);
+
             $this->directSendService->sendPlaySound($topic, 'caller', '123');
             echo 'send caller sound<br>';
             flush();
             sleep(2);
+
             echo 'Fertig.<br>';
             flush();
         });

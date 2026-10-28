@@ -3,38 +3,19 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
 use App\Entity\LobbyWaitungUser;
-use App\Entity\MyUser;
 use App\Entity\User;
-use App\Service\MessageService;
 use App\Service\ParticipantSearchService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Twig\Extension\AbstractExtension;
 use Twig\Markup;
-use Twig\TwigFilter;
-use function GuzzleHttp\Psr7\str;
 
-class Name extends AbstractExtension
+class Name
 {
-    private $parameterBag;
-    private ParticipantSearchService $participantSearchService;
-
-    public function __construct(ParameterBagInterface $parameterBag, ParticipantSearchService $participantSearchService)
+    public function __construct(private readonly ParticipantSearchService $participantSearchService)
     {
-        $this->parameterBag = $parameterBag;
-        $this->participantSearchService = $participantSearchService;
     }
 
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('nameOfUser', [$this, 'nameOfUser']),
-            new TwigFilter('nameOfUserNoSymbol', [$this, 'nameOfUserNoSymbol']),
-        ];
-    }
-
-    public function nameOfUser(User|LobbyWaitungUser $user)
+    #[\Twig\Attribute\AsTwigFilter(name: 'nameOfUser')]
+    public function nameOfUser(User|LobbyWaitungUser $user): Markup
     {
         if ($user instanceof LobbyWaitungUser) {
             $user = $user->getUser();
@@ -48,7 +29,9 @@ class Name extends AbstractExtension
             'utf-8'
         );
     }
-    public function nameOfUserNoSymbol(User|LobbyWaitungUser $user)
+
+    #[\Twig\Attribute\AsTwigFilter(name: 'nameOfUserNoSymbol')]
+    public function nameOfUserNoSymbol(User|LobbyWaitungUser $user): ?string
     {
         if ($user instanceof LobbyWaitungUser) {
             $userT = $user->getUser();

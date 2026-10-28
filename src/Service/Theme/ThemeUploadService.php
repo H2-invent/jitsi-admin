@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Theme;
@@ -15,36 +16,35 @@ use Symfony\Component\Finder\SplFileInfo;
 class ThemeUploadService
 {
     public function __construct(
-        private CheckSignature $checkSignature,
-        private CacheItemPoolInterface $cacheItemPool,
-        private Filesystem $filesystem,
+        private readonly CheckSignature         $checkSignature,
+        private readonly CacheItemPoolInterface $cacheItemPool,
+        private readonly Filesystem             $filesystem,
         #[Autowire(param: 'app.theme.dir')]
-        private readonly string $themeDir,
+        private readonly string                 $themeDir,
         #[Autowire(param: 'app.theme.cache_dir')]
-        private readonly string $cacheDir,
+        private readonly string                 $cacheDir,
         #[Autowire(param: 'app.theme.public_dir')]
-        private readonly string $publicDir,
-    )
-    {
+        private readonly string                 $publicDir,
+    ) {
     }
 
     public function uploadTheme(string $absoluteFilePathZip): ServiceResult
     {
-        $randomString = md5(uniqid());
+        $randomString   = md5(uniqid());
         $extractionPath = "{$this->cacheDir}/{$randomString}";
-        $success = $this->extractZipToPath($absoluteFilePathZip, $extractionPath);
+        $success        = $this->extractZipToPath($absoluteFilePathZip, $extractionPath);
         if (!$success) {
             return ServiceResult::failure(ThemeUploadError::INVALID_ZIP);
         }
 
-        $signatureFile = $this->findSignatureFile($extractionPath);
+        $signatureFile  = $this->findSignatureFile($extractionPath);
         $themeDirectory = $this->findThemeDirectory($extractionPath);
         if ($signatureFile === null || $themeDirectory === null) {
             return ServiceResult::failure(ThemeUploadError::NO_THEME_IN_ZIP);
         }
 
         $signatureFileContent = $signatureFile->getContents();
-        $validSignature = $this->checkSignature->verifySignature($signatureFileContent);
+        $validSignature       = $this->checkSignature->verifySignature($signatureFileContent);
         if (!$validSignature) {
             return ServiceResult::failure(ThemeUploadError::INVALID_THEME);
         }
@@ -58,7 +58,7 @@ class ThemeUploadService
 
     private function extractZipToPath(string $absoluteFilePathZip, string $path): bool
     {
-        $zip = new \ZipArchive();
+        $zip       = new \ZipArchive();
         $zipResult = $zip->open($absoluteFilePathZip);
         // $zipResult is either true or an int, which also evaluates truthy, so we have to check for bool like this
         if ($zipResult !== true) {

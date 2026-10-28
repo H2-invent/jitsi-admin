@@ -2,19 +2,19 @@
 
 namespace App\Security;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
+/**
+ * @implements UserProviderInterface<User>
+ */
 class UserProvider implements UserProviderInterface
 {
-    private $entityManager;
-
     /**
      * UserProvider constructor.
-     * @param EntityManagerInterface $entityManager
      * @internal param Client $httpClient
      * @internal param UserOptionService $userOptionService
      * @internal param ProjectService $projectService
@@ -22,9 +22,8 @@ class UserProvider implements UserProviderInterface
      * @internal param Session $session
      * @internal param UserOptionService $userOptionsService
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -35,13 +34,13 @@ class UserProvider implements UserProviderInterface
      *
      * @param string $username The username
      *
-     * @return UserInterface
+     * @return User
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function loadUserByUsername($username): UserInterface
+    public function loadUserByUsername(string $username): UserInterface
     {
-        return $this->entityManager->createQueryBuilder('u')
+        return $this->entityManager->createQueryBuilder()
             ->where('u.email = :email')
             ->setParameter('email', $username)
             ->getQuery()
@@ -56,15 +55,13 @@ class UserProvider implements UserProviderInterface
      * object can just be merged into some internal array of users/identity
      * map.
      *
-     * @param UserInterface $user
-     * @return UserInterface
      *
      */
     public function refreshUser(UserInterface $user): UserInterface
     {
         if (!$user instanceof User) {
             throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', get_class($user))
+                sprintf('Instances of "%s" are not supported.', $user::class)
             );
         }
         return $user;
@@ -73,17 +70,15 @@ class UserProvider implements UserProviderInterface
     /**
      * Whether this provider supports the given user class.
      *
-     * @param string $class
      *
-     * @return bool
      */
-    public function supportsClass($class): bool
+    public function supportsClass(string $class): bool
     {
         return $class === 'App\Security\User';
     }
 
-    public function loadUserByIdentifier(string $identifier): UserInterface
+    public function loadUserByIdentifier(string $identifier): User
     {
-        // TODO: Implement loadUserByIdentifier() method.
+        return $this->loadUserByUsername($identifier);
     }
 }

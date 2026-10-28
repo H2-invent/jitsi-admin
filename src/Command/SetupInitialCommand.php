@@ -6,9 +6,7 @@ use App\Service\SetupInitialService;
 use JsonException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -23,18 +21,17 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 )]
 class SetupInitialCommand extends Command
 {
-    private const JSON_FILE_NAME = 'initial-setup.json';
+    private const string JSON_FILE_NAME = 'initial-setup.json';
 
-    private string $jsonFileLocation;
+    private readonly string $jsonFileLocation;
 
     public function __construct(
         #[Autowire(param: 'kernel.project_dir')]
-        string $projectDir,
-        private Filesystem $filesystem,
-        private ValidatorInterface $validator,
-        private SetupInitialService $setupInitialService,
-    )
-    {
+        string                               $projectDir,
+        private readonly Filesystem          $filesystem,
+        private readonly ValidatorInterface  $validator,
+        private readonly SetupInitialService $setupInitialService,
+    ) {
         parent::__construct();
         $this->jsonFileLocation = $projectDir . DIRECTORY_SEPARATOR . self::JSON_FILE_NAME;
     }
@@ -51,7 +48,7 @@ class SetupInitialCommand extends Command
 
         try {
             $jsonContent = $this->filesystem->readFile($this->jsonFileLocation);
-            $content = json_decode($jsonContent, true, flags: JSON_THROW_ON_ERROR);
+            $content     = json_decode($jsonContent, true, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException|IOException $e) {
             $io->error("Could not read JSON: {$e->getMessage()}");
 
@@ -69,17 +66,20 @@ class SetupInitialCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * @param array<string, mixed> $json
+     */
     private function validateJsonStructure(array $json, SymfonyStyle $io): bool
     {
-        $Constraints = new Constraints\Collection([
+        $Constraints = new Constraints\Collection(fields: [
             'username' => [new Constraints\NotBlank(), new Constraints\Email()],
-            'server' => new Constraints\Collection([
-                'name' => new Constraints\NotBlank(),
-                'url' => new Constraints\NotBlank(),
-                'app_id' => new Constraints\NotBlank(),
-                'app_secret' => new Constraints\NotBlank(),
+            'server'   => new Constraints\Collection(fields: [
+                'name'            => new Constraints\NotBlank(),
+                'url'             => new Constraints\NotBlank(),
+                'app_id'          => new Constraints\NotBlank(),
+                'app_secret'      => new Constraints\NotBlank(),
                 'keycloak_groups' => [new Constraints\NotBlank(), new Constraints\Type('array')],
-                'middleware' => new Constraints\NotBlank(),
+                'middleware'      => new Constraints\NotBlank(),
             ])
         ]);
 

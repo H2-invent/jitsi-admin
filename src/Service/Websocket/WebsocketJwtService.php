@@ -10,25 +10,30 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class WebsocketJwtService
 {
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private OnlineStatusService   $onlineStatusService,
-    )
-    {
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly OnlineStatusService   $onlineStatusService,
+    ) {
     }
 
-    public function createJwt($rooms, ?User $user)
+    /**
+     * @param array<int, string> $rooms
+     */
+    public function createJwt(array $rooms, ?User $user): string
     {
         $payload = [
-            'iss' => 'jitsi-admin',
-            'aud' => 'jitsi-admin',
-            'sub' => $user ? $user->getUid() : null,
+            'iss'    => 'jitsi-admin',
+            'aud'    => 'jitsi-admin',
+            'sub'    => $user ? $user->getUid() : null,
             'status' => $user ? $this->onlineStatusService->getUserStatus($user) : 0,
-            'iat' => (new \DateTimeImmutable())->getTimestamp(),
-            'nbf' => (new \DateTimeImmutable())->getTimestamp(),
-            'exp' => (new \DateTimeImmutable())->modify('+3days')->getTimestamp(),
-            'rooms' => $rooms
+            'iat'    => new \DateTimeImmutable()->getTimestamp(),
+            'nbf'    => new \DateTimeImmutable()->getTimestamp(),
+            'exp'    => new \DateTimeImmutable()->modify('+3days')->getTimestamp(),
+            'rooms'  => $rooms
         ];
 
-        return JWT::encode($payload, $this->parameterBag->get('WEBSOCKET_SECRET'),'HS256');
+        /** @var string $secret */
+        $secret = $this->parameterBag->get('WEBSOCKET_SECRET');
+
+        return JWT::encode($payload, $secret, 'HS256');
     }
 }

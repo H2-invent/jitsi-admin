@@ -61,7 +61,7 @@ use App\Service\Jigasi\JigasiService;
 use App\Service\JoinUrlGeneratorService;
 use App\Service\MailerService;
 use App\Service\RepeaterService;
-use App\Service\caller\CallerPrepareService;
+use App\Service\Caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

@@ -13,12 +13,12 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20250211155608 extends AbstractMigration
 {
-    private const TABLE_NAME = 'fos_user';
-    private const COLUMN_NAME = 'calendly_server_id';
-    private const INDEX_NR='IDX_957A6479E6A6EB57';
-    private const FOREIGN_CONSTRAINT='FK_957A6479E6A6EB57';
-    private const FOREIGN_TABLE_NAME='server';
-    private const FOREIGN_COLUM_NAME='id';
+    private const string TABLE_NAME = 'fos_user';
+    private const string COLUMN_NAME = 'calendly_server_id';
+    private const string INDEX_NR='IDX_957A6479E6A6EB57';
+    private const string FOREIGN_CONSTRAINT='FK_957A6479E6A6EB57';
+    private const string FOREIGN_TABLE_NAME='server';
+    private const string FOREIGN_COLUM_NAME='id';
 
     public function getDescription(): string
     {

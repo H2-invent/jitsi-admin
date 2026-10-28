@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Transcription\Provider\Mistral;
@@ -12,8 +13,7 @@ class VoxtralMiniClientFactory
     public function __construct(
         #[Autowire(param: 'app.transcription.mistral.uri')]
         private readonly string $mistralUri,
-    )
-    {
+    ) {
     }
 
     public function create(Server $server): MistralClient
