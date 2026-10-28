@@ -22,7 +22,7 @@ class LogoutListenerTest extends TestCase
         $entityManager->expects(self::once())->method('persist')->with($user);
         $entityManager->expects(self::once())->method('flush');
 
-        $token = $this->createMock(TokenInterface::class);
+        $token = $this->createStub(TokenInterface::class);
         $token->method('getUser')->willReturn($user);
 
         (new LogoutListener($entityManager))(new LogoutEvent(new Request(), $token));
@@ -36,7 +36,7 @@ class LogoutListenerTest extends TestCase
         $entityManager->expects(self::never())->method('persist');
         $entityManager->expects(self::never())->method('flush');
 
-        $token = $this->createMock(TokenInterface::class);
+        $token = $this->createStub(TokenInterface::class);
         $token->method('getUser')->willReturn(null);
 
         (new LogoutListener($entityManager))(new LogoutEvent(new Request(), $token));
@@ -52,7 +52,7 @@ class LogoutListenerTest extends TestCase
         $impersonated = new User();
         $impersonated->setOnlineStatus(1);
 
-        $originalToken = $this->createMock(TokenInterface::class);
+        $originalToken = $this->createStub(TokenInterface::class);
         $originalToken->method('getUser')->willReturn($admin);
 
         $switchUserToken = new SwitchUserToken($impersonated, 'main', [], $originalToken);

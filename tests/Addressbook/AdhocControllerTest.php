@@ -18,7 +18,7 @@ class AdhocControllerTest extends WebTestCase
 {
     private function mockPresence(?bool $online): void
     {
-        $presence = $this->createMock(PresenceService::class);
+        $presence = $this->createStub(PresenceService::class);
         $presence->method('isUserOnline')->willReturn($online);
         self::getContainer()->set(PresenceService::class, $presence);
     }
