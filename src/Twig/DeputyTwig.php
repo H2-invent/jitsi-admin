@@ -5,40 +5,30 @@ namespace App\Twig;
 
 use App\Entity\Deputy;
 use App\Entity\User;
+use App\Repository\DeputyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
-class DeputyTwig extends AbstractExtension
+class DeputyTwig
 {
     /**
-     * @var array<int, array<int, Deputy>>
+     * @var array<int|string, array<int|string, Deputy>>
      */
     private array $deputyCache = [];
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ParameterBagInterface  $parameterBag
-    )
-    {
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ParameterBagInterface  $parameterBag
+    ) {
     }
 
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('deputyIsFromLDAP', [$this, 'deputyIsFromLDAP']),
-            new TwigFunction('userIsDisallowedToMakeDeputy', [$this, 'userIsDisallowedToMakeDeputy']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'deputyIsFromLDAP')]
     public function deputyIsFromLDAP(User $manager, User $deputy): bool
     {
         if (!isset($this->deputyCache[$manager->getId()])) {
-            $this->deputyCache[$manager->getId()] = $this->entityManager
-                ->getRepository(Deputy::class)
-                ->findForManager($manager);
+            /** @var DeputyRepository $deputyRepository */
+            $deputyRepository                     = $this->entityManager->getRepository(Deputy::class);
+            $this->deputyCache[$manager->getId()] = $deputyRepository->findForManager($manager);
         }
 
         $dep = $this->deputyCache[$manager->getId()][$deputy->getId()] ?? null;
@@ -46,16 +36,21 @@ class DeputyTwig extends AbstractExtension
         return $dep !== null && $dep->isIsFromLdap() === true;
     }
 
+    #[\Twig\Attribute\AsTwigFunction(name: 'userIsDisallowedToMakeDeputy')]
     public function userIsDisallowedToMakeDeputy(User $user): bool
     {
         if (!$user->getLdapUserProperties()) {
             return false;
         }
 
-        if (in_array($user->getLdapUserProperties()->getLdapNumber(), json_decode($this->parameterBag->get('LDAP_DISALLOW_PROMOTE_DEPUTY')))){
-           return  true;
+        /** @var string $ldapDisallowPromoteDeputy */
+        $ldapDisallowPromoteDeputy = $this->parameterBag->get('LDAP_DISALLOW_PROMOTE_DEPUTY');
+        /** @var array<int, mixed> $ldapDisallowed */
+        $ldapDisallowed = json_decode($ldapDisallowPromoteDeputy);
+        if (in_array($user->getLdapUserProperties()->getLdapNumber(), $ldapDisallowed)) {
+            return true;
         }
-        return  false;
+        return false;
     }
 
 }

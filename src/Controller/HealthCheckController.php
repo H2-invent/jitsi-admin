@@ -6,16 +6,15 @@ use App\Entity\User;
 use App\Helper\JitsiAdminController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class HealthCheckController extends JitsiAdminController
 {
-    #[Route(path: '/health/check', name: 'health_check', methods: ['GET'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/health/check', name: 'health_check', methods: ['GET'])]
     public function index(): Response
     {
         try {
             $res = $this->doctrine->getRepository(User::class)->findOneBy([]);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             throw $this->createNotFoundException('Database not working');
         }
 

@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Service\AdHocMeeting;
+
+use App\Entity\CalloutSession;
+use App\Entity\Rooms;
+use App\Entity\Server;
+use App\Entity\Tag;
+use App\Entity\User;
+use App\Message\AdhocCallTimeoutMessage;
+use App\Service\Callout\CalloutService;
+use App\Service\RoomGeneratorService;
+use App\Service\Theme\ThemeService;
+use App\Service\TimeZoneService;
+use App\Service\UserService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+class AdhocMeetingService
+{
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly RoomGeneratorService   $roomGeneratorService,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly TranslatorInterface    $translator,
+        private readonly UserService            $userService,
+        private readonly ThemeService           $theme,
+        private readonly CalloutService         $calloutService,
+        private readonly MessageBusInterface    $messageBus,
+    ) {
+    }
+
+    public function createAdhocMeeting(User $creator, User $reciever, Server $server, ?Tag $tag = null): ?Rooms
+    {
+        /** @var string $showName */
+        $showName = $this->parameterBag->get('laf_showName');
+        $room     = $this->roomGeneratorService->createRoom($creator, $server);
+        $room->setLobby(false);
+        if ($tag) {
+            $room->setTag($tag);
+        } else {
+            $room->setTag(null);
+        }
+
+        $now = new \DateTimeImmutable('now', TimeZoneService::getTimeZone($creator));
+        $room->setStart($now);
+        if ($this->theme->getApplicationProperties('allowTimeZoneSwitch') == 1) {
+            $room->setTimeZone($creator->getTimeZone());
+        }
+
+        $room->setEnddate($now->modify('+ 1 hour'));
+        $room->setDuration(60);
+        $room->setName($this->translator->trans('Konferenz mit {n}', ['{n}' => $creator->getFormatedName($showName)]));
+        $room->setSecondaryName($this->translator->trans('Konferenz mit {n}', ['{n}' => $reciever->getFormatedName($showName)]));
+        $this->em->persist($room);
+        $this->em->flush();
+        $reciever->addRoom($room);
+        $this->em->persist($reciever);
+        $creator->addRoom($room);
+        $this->em->persist($creator);
+        $this->em->flush();
+        $this->userService->addUser($reciever, $room);
+        $this->userService->addUser($creator, $room);
+        $calloutSession = $this->calloutService->initCalloutSession($room, $reciever, $creator, true);
+        if ($calloutSession && CalloutSession::isWaitingState($calloutSession->getState())) {
+            // Ring for the configured duration; if the callee has not answered by then the
+            // AdhocCallTimeoutHandler informs the caller.
+            $this->messageBus->dispatch(
+                new AdhocCallTimeoutMessage($calloutSession->getUid()),
+                [new DelayStamp($this->getSignalingDuration() * 1000)]
+            );
+        }
+
+        return $room;
+    }
+
+    private function getSignalingDuration(): int
+    {
+        $duration = (int) $this->parameterBag->get('ADHOC_CALL_SIGNALING_DURATION');
+
+        return $duration > 0 ? $duration : 30;
+    }
+}

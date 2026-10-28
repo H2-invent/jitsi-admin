@@ -18,22 +18,20 @@ final class TranscriptionController extends AbstractController
 {
     public function __construct(
         private readonly TranscriptionService $transcriptionService,
-        private readonly LoggerInterface $logger,
-    )
-    {
+        private readonly LoggerInterface      $logger,
+    ) {
     }
 
     #[Route('/room/transcription/{id}/download', name: 'app_transcription_download')]
     public function download(Transcription $transcription): Response
     {
-        $user = $this->getUser();
+        $user      = $this->getUser();
         $moderator = $transcription->getRoom()?->getModerator();
         if ($user === null || $moderator === null || $user !== $moderator) {
             throw $this->createAccessDeniedException('Only moderators are allowed to download room transcriptions.');
         }
 
         $fileName = $transcription->getFileName();
-
         $response = new Response($transcription->getText());
         $response->headers->set('Content-Type', 'text/markdown');
         $response->headers->set('Content-Disposition', $response->headers->makeDisposition('attachment', $fileName));
@@ -78,7 +76,7 @@ final class TranscriptionController extends AbstractController
         }
 
         try {
-            $data = json_decode($request->getContent(), true, flags: JSON_THROW_ON_ERROR);
+            $data    = json_decode($request->getContent(), true, flags: JSON_THROW_ON_ERROR);
             $enabled = $data['enabled'] ?? null;
             if (!is_bool($enabled)) {
                 throw new JsonException();
@@ -86,7 +84,6 @@ final class TranscriptionController extends AbstractController
         } catch (JsonException) {
             return new JsonResponse(['error' => true, 'message' => 'Invalid JSON']);
         }
-
         $this->transcriptionService->toggleTranscriptionForRoom($room, $enabled);
 
         return new JsonResponse(['error' => false]);

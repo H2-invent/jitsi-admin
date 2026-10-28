@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20231130104109 extends AbstractMigration
 {
-    private const TABLE_NAME = 'caller_session';
-    private const COLUMN_NAME = 'is_sip_video_user';
+    private const string TABLE_NAME = 'caller_session';
+    private const string COLUMN_NAME = 'is_sip_video_user';
     public function getDescription(): string
     {
         return 'Adds the is sip video user attibute to a caller session';

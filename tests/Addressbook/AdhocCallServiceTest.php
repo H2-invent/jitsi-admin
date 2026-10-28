@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\adhocmeeting\AdhocCallService;
+use App\Service\AdHocMeeting\AdhocCallService;
 use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -151,6 +151,8 @@ class AdhocCallServiceTest extends KernelTestCase
             ->method('sendCloseDialog')
             ->willReturnCallback(function ($topic) use (&$closedTopics) {
                 $closedTopics[] = $topic;
+
+                return true;
             });
 
         $adhocCallService = new AdhocCallService($em, $directSend);

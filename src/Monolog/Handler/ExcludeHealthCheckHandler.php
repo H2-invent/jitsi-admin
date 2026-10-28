@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Monolog\Handler;
@@ -8,7 +9,7 @@ use Monolog\LogRecord;
 
 class ExcludeHealthCheckHandler extends FilterHandler
 {
-    private const EXCLUDED_ROUTE = 'health_check';
+    private const string EXCLUDED_ROUTE = 'health_check';
 
     public function isHandling(LogRecord $record): bool
     {

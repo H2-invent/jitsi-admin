@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  * toggle. Unlike Symfony's PasswordType it keeps the current value populated when
  * the form is rendered again, so editing an existing server does not silently
  * clear the stored value.
+ *
+ * @extends AbstractType<mixed>
  */
 class MaskedTextType extends AbstractType
 {

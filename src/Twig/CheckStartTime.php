@@ -6,26 +6,16 @@ namespace App\Twig;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\StartMeetingService;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
-class CheckStartTime extends AbstractExtension
+class CheckStartTime
 {
     public function __construct(
-        private StartMeetingService $startMeetingService,
-    )
-    {
+        private readonly StartMeetingService $startMeetingService,
+    ) {
     }
 
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('isRoomOpen', [$this, 'isRoomOpen']),
-        ];
-    }
-
-    public function isRoomOpen(Rooms $room, ?User $user)
+    #[\Twig\Attribute\AsTwigFunction(name: 'isRoomOpen')]
+    public function isRoomOpen(Rooms $room, ?User $user): ?string
     {
         return $this->startMeetingService->isAllowedToEnter($room, $user);
     }

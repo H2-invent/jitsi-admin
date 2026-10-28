@@ -7,7 +7,7 @@ use App\Message\AdhocCallTimeoutMessage;
 use App\Repository\CalloutSessionRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
-use App\Service\adhocmeeting\AdhocMeetingService;
+use App\Service\AdHocMeeting\AdhocMeetingService;
 use App\Service\Lobby\DirectSendService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
