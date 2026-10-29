@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Helper\JitsiAdminController;
-use App\Service\OnlineStatusService;
+use App\Service\OnlineStatus\OnlineStatusService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

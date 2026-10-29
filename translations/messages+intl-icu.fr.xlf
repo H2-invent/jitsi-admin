@@ -1572,6 +1572,18 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>addhock.notification.pushMessage</source>
         <target state="translated">{name} veut crér une visioconférence instanée avec vous</target>
       </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target state="translated">Le participant est hors ligne ou n'est pas connecté. L'appel ne peut pas être démarré.</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_NO_ANSWER" resname="addhock.notification.noAnswer">
+        <source>addhock.notification.noAnswer</source>
+        <target state="translated">Le participant n'a pas répondu.</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_DECLINED" resname="addhock.notification.declined">
+        <source>addhock.notification.declined</source>
+        <target state="translated">Le participant a refusé l'appel.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">Temps de chargement</target>
@@ -2604,6 +2616,18 @@ Votre adresse e-mail : {email}</target>
       <trans-unit id="7kpQmRw" resname="recording.dropdownTitle">
         <source>Recording</source>
         <target state="needs-translation">Recording</target>
+      </trans-unit>
+      <trans-unit id="hSt4nDb" resname="Hot Standby">
+        <source>Hot Standby</source>
+        <target state="translated">Hot standby</target>
+      </trans-unit>
+      <trans-unit id="hSt4nOk" resname="Hot Standby Einstellung erfolgreich gespeichert">
+        <source>Hot Standby Einstellung erfolgreich gespeichert</source>
+        <target state="translated">Paramètre Hot Standby enregistré avec succès</target>
+      </trans-unit>
+      <trans-unit id="hSt4nEr" resname="Fehler beim Speichern der Hot Standby Einstellung">
+        <source>Fehler beim Speichern der Hot Standby Einstellung</source>
+        <target state="translated">Erreur lors de l'enregistrement du paramètre Hot Standby</target>
       </trans-unit>
     </body>
   </file>

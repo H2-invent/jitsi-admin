@@ -160,23 +160,28 @@ class RoomService
             $avatar = $avatarUrl;
         }
 
-        return JWT::encode(
-            $this->genereateJwtPayload(
-                $userName,
-                $room,
-                $room->getServer(),
-                $moderator,
-                $user,
-                $avatar,
-                $noModerator,
-                $skipLobby,
-                $enableMic,
-                $enableCamera,
-                $lobbyModerator
-            ),
-            $room->getServer()->getAppSecret(),
-            'HS256'
+        $payload = $this->genereateJwtPayload(
+            $userName,
+            $room,
+            $room->getServer(),
+            $moderator,
+            $user,
+            $avatar,
+            $noModerator,
+            $skipLobby,
+            $enableMic,
+            $enableCamera,
+            $lobbyModerator
         );
+        if ($payload === null) {
+            // The server has no JWT credentials configured (e.g. an open Jitsi
+            // server or a LiveKit server that authenticates through the middleware).
+            // There is nothing to sign, so return an empty token instead of passing
+            // null to JWT::encode().
+            return '';
+        }
+
+        return JWT::encode($payload, $room->getServer()->getAppSecret(), 'HS256');
     }
 
     /**
@@ -325,6 +330,18 @@ class RoomService
 
         $payload['context']['user']['language'] = $this->userPreferences->getLanguage();
         $payload['context']['user']['timezone'] = $this->userPreferences->getTimezone();
+
+        if ($user && $this->themeService->getApplicationProperties('LAF_SHOW_HOTSTANDBY')) {
+            $payload['context']['user']['hotstandby'] = [
+                'isEnabled' => $user->isHotstandbyEnabled() ?? false,
+                'groupId' => $user->getUid() ?? ($user->getId() !== null ? (string) $user->getId() : null),
+            ];
+        } else {
+            $payload['context']['user']['hotstandby'] = [
+                'isEnabled' => false,
+                'groupId' => null,
+            ];
+        }
 
         $screen = [
             'screen-sharing'  => true,

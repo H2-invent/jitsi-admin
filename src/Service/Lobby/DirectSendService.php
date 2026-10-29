@@ -7,11 +7,15 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Mercure\Exception\RuntimeException;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DirectSendService
 {
-    public function __construct(private HubInterface $publisher, private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        private HubInterface $publisher,
+        private readonly LoggerInterface $logger,
+        private readonly TranslatorInterface $translator
+    ) {
     }
 
     public function setMercurePublisher(HubInterface $hub): void
@@ -37,8 +41,9 @@ class DirectSendService
 
     /**
      * @param array<int, array<string, mixed>> $buttons
+     * @param array<string, mixed>             $extra
      */
-    public function sendDialog(string $topic, string $header, string $text, string $type = 'question', array $buttons = []): string
+    public function sendDialog(string $topic, string $header, string $text, string $type = 'question', array $buttons = [], array $extra = []): string
     {
         $data = [
             'type'       => 'dialog',
@@ -48,6 +53,7 @@ class DirectSendService
             'dialogType' => $type
 
         ];
+        $data   = array_merge($data, $extra);
         $update = new Update($topic, (string)json_encode($data));
 
         return $this->publisher->publish($update);
@@ -114,13 +120,17 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    public function sendPlaySound(string $topic, string $soundName, string|int $id): string
+    /**
+     * @param array<string, mixed> $extra
+     */
+    public function sendPlaySound(string $topic, string $soundName, string|int $id, array $extra = []): string
     {
         $data   = [
             'type'      => 'playSound',
             'soundName' => $soundName,
             'messageId' => $id,
         ];
+        $data   = array_merge($data, $extra);
         $update = new Update($topic, (string)json_encode($data));
 
         return $this->publisher->publish($update);
@@ -208,6 +218,32 @@ class DirectSendService
             'time'        => $time,
             'color'       => 'success',
             'messageId'   => $id
+        ];
+        $update = new Update($topic, (string)json_encode($data));
+
+        return $this->sendUpdate($update);
+    }
+
+    public function sendAdhocCallFailed(string $topic, ?int $roomId, string $reason = 'timeout'): bool
+    {
+        $message = $reason === 'declined'
+            ? $this->translator->trans('addhock.notification.declined')
+            : $this->translator->trans('addhock.notification.noAnswer');
+        $data = [
+            'type'    => 'adhocCallFailed',
+            'reason'  => $reason,
+            'roomId'  => $roomId,
+            'message' => $message,
+        ];
+        $update = new Update($topic, (string)json_encode($data));
+
+        return $this->sendUpdate($update);
+    }
+
+    public function sendCloseDialog(string $topic): bool
+    {
+        $data = [
+            'type' => 'closeDialog',
         ];
         $update = new Update($topic, (string)json_encode($data));
 

@@ -34,6 +34,15 @@ class CalloutSession
     /** @var int */
     public static $INITIATED = 0;
 
+    /**
+     * States in which a web ad-hoc call is still waiting for an answer. Answer handling,
+     * timeout scheduling and timeout handling must all use this single definition.
+     */
+    public static function isWaitingState(int $state): bool
+    {
+        return in_array($state, [self::$INITIATED, self::$RINGING], true);
+    }
+
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

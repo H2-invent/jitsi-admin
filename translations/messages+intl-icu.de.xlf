@@ -1600,6 +1600,18 @@
         <source>addhock.notification.pushMessage</source>
         <target>{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
       </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target>Der Teilnehmer ist offline oder nicht angemeldet. Der Anruf kann nicht gestartet werden.</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_NO_ANSWER" resname="addhock.notification.noAnswer">
+        <source>addhock.notification.noAnswer</source>
+        <target>Der Teilnehmer hat nicht geantwortet.</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_DECLINED" resname="addhock.notification.declined">
+        <source>addhock.notification.declined</source>
+        <target>Der Teilnehmer hat den Anruf abgelehnt.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target>Ladezeit</target>
@@ -2641,6 +2653,18 @@ Ihre E-Mail-Adresse: {email}</target>
       <trans-unit id="7kpQmRw" resname="recording.dropdownTitle">
           <source>Recording</source>
           <target>Recording</target>
+      </trans-unit>
+      <trans-unit id="hSt4nDb" resname="Hot Standby">
+        <source>Hot Standby</source>
+        <target state="translated">Hot Standby</target>
+      </trans-unit>
+      <trans-unit id="hSt4nOk" resname="Hot Standby Einstellung erfolgreich gespeichert">
+        <source>Hot Standby Einstellung erfolgreich gespeichert</source>
+        <target state="translated">Hot Standby Einstellung erfolgreich gespeichert</target>
+      </trans-unit>
+      <trans-unit id="hSt4nEr" resname="Fehler beim Speichern der Hot Standby Einstellung">
+        <source>Fehler beim Speichern der Hot Standby Einstellung</source>
+        <target state="translated">Fehler beim Speichern der Hot Standby Einstellung</target>
       </trans-unit>
     </body>
   </file>

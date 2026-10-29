@@ -2,10 +2,12 @@
 
 namespace App\Service\AdHocMeeting;
 
+use App\Entity\CalloutSession;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
+use App\Message\AdhocCallTimeoutMessage;
 use App\Service\Callout\CalloutService;
 use App\Service\RoomGeneratorService;
 use App\Service\Theme\ThemeService;
@@ -13,6 +15,8 @@ use App\Service\TimeZoneService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdhocMeetingService
@@ -25,6 +29,7 @@ class AdhocMeetingService
         private readonly UserService            $userService,
         private readonly ThemeService           $theme,
         private readonly CalloutService         $calloutService,
+        private readonly MessageBusInterface    $messageBus,
     ) {
     }
 
@@ -59,8 +64,23 @@ class AdhocMeetingService
         $this->em->flush();
         $this->userService->addUser($reciever, $room);
         $this->userService->addUser($creator, $room);
-        $this->calloutService->initCalloutSession($room, $reciever, $creator);
+        $calloutSession = $this->calloutService->initCalloutSession($room, $reciever, $creator, true);
+        if ($calloutSession && CalloutSession::isWaitingState($calloutSession->getState())) {
+            // Ring for the configured duration; if the callee has not answered by then the
+            // AdhocCallTimeoutHandler informs the caller.
+            $this->messageBus->dispatch(
+                new AdhocCallTimeoutMessage($calloutSession->getUid()),
+                [new DelayStamp($this->getSignalingDuration() * 1000)]
+            );
+        }
 
         return $room;
+    }
+
+    private function getSignalingDuration(): int
+    {
+        $duration = (int) $this->parameterBag->get('ADHOC_CALL_SIGNALING_DURATION');
+
+        return $duration > 0 ? $duration : 30;
     }
 }

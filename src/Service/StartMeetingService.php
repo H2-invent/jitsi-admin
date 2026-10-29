@@ -7,11 +7,13 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Helper\UidGeneratorHelper;
 use App\Repository\RoomStatusParticipantRepository;
+use App\Service\AdHocMeeting\AdhocCallService;
 use App\Service\Jigasi\JigasiService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\Webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,6 +50,8 @@ class StartMeetingService
         private readonly CheckIPService                  $checkIPService,
         private readonly CheckMaxUserService             $checkMaxUserService,
         private readonly RoomStatusParticipantRepository $participantRepository,
+        private readonly AdhocCallService                $adhocCallService,
+        private readonly Security                        $security,
     ) {
         $this->lobbyUser = null;
     }
@@ -76,6 +80,13 @@ class StartMeetingService
         $this->jigasiService->pingJigasi($room);
 
         if ($room && (in_array($user, $room->getUser()->toarray()) || $this->room->getModerator() === $user)) {
+            // Opening the join link counts as answering the ad-hoc call, but only when the acting
+            // user is the authenticated principal: the public /join flow must not be able to
+            // cancel another participant's pending callout.
+            $authenticatedUser = $this->security->getUser();
+            if ($authenticatedUser instanceof User && $authenticatedUser->getId() === $user->getId()) {
+                $this->adhocCallService->markAnswered($user, $room);
+            }
             $this->url = $this->roomService->join($room, $user, $t, $name);
             if (!$this->isAllowedToStartMeeting($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
                 $this->logger->debug('This room is closed by time restrictions');

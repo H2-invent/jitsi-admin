@@ -104,6 +104,7 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
                         'room'=>[
                             'name'=>'testRoom',
@@ -235,6 +236,7 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'name' => 'Testuser',
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
                         'room'=>[
                             'name'=>'testRoom',
@@ -325,6 +327,7 @@ class RoomServiceJWTTest extends KernelTestCase
 
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
                         'room'=>[
                             'name'=>'testRoom',
@@ -354,7 +357,6 @@ class RoomServiceJWTTest extends KernelTestCase
     public
     function testGenerateJwtPayloadWithInvalidKey()
     {
-
         $invalidEncryptionKEy = '-----BEGIN RSA PUBLIC KEY-----
 invalidKey
 -----END RSA PUBLIC KEY-----';
@@ -400,6 +402,7 @@ invalidKey
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
                         'room'=>[
                             'name'=>'testRoom',
@@ -444,6 +447,43 @@ invalidKey
         );
     }
 
+    public function testGenerateJwtReturnsEmptyStringWhenServerHasNoAppId(): void
+    {
+        $roomService = self::getContainer()->get(RoomService::class);
+
+        $server = new Server();
+        $server->setUrl('meet.jit.si')
+            ->setServerName('Server without JWT credentials')
+            ->setAppId(null)
+            ->setAppSecret(null);
+
+        $room = new Rooms();
+        $room->setServer($server);
+        $room->setName('testRoom');
+        $room->setUid('testUid')->setUidReal('uidReal');
+
+        self::assertSame('', $roomService->generateJwt($room, null, 'Testuser'));
+    }
+
+    public function testGenerateJwtReturnsEmptyStringForLiveKitServerWithoutAppId(): void
+    {
+        $roomService = self::getContainer()->get(RoomService::class);
+
+        $server = new Server();
+        $server->setUrl('livekit.test')
+            ->setServerName('LiveKit without JWT credentials')
+            ->setLiveKitServer(true)
+            ->setAppId(null)
+            ->setAppSecret(null);
+
+        $room = new Rooms();
+        $room->setServer($server);
+        $room->setName('testRoom');
+        $room->setUid('testUid')->setUidReal('uidReal');
+
+        self::assertSame('', $roomService->generateJwt($room, null, 'Testuser'));
+    }
+
     private function assertPayloadEquals(array $expected, array $actual): void
     {
         self::assertArrayHasKey('iat', $actual);
@@ -474,5 +514,16 @@ invalidKey
             ],
             $messages
         );
+    }
+
+    /**
+     * @return array{isEnabled: bool, groupId: string|null}
+     */
+    private function getHotStandbySettings(): array
+    {
+        return [
+            'isEnabled' => false,
+            'groupId' => null,
+        ];
     }
 }

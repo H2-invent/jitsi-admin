@@ -32,10 +32,11 @@ class CalloutService
     function initCalloutSession(
         Rooms $rooms,
         User  $user,
-        User  $inviter
+        User  $inviter,
+        bool  $webCall = false
     ): ?CalloutSession {
         $this->logger->debug('create callout session');
-        return $this->createCallout($rooms, $user, $inviter);
+        return $this->createCallout($rooms, $user, $inviter, $webCall);
     }
 
     /**
@@ -45,7 +46,8 @@ class CalloutService
     function createCallout(
         Rooms $rooms,
         User  $user,
-        User  $inviter
+        User  $inviter,
+        bool  $webCall = false
     ): ?CalloutSession {
         $callout = $this->checkCallout($rooms, $user);
         $callIn  = $this->checkCallIn($rooms, $user);
@@ -61,6 +63,10 @@ class CalloutService
         }
 
         if ($callout) {
+            // A web call is tracked once; do not re-invite or touch its state.
+            if ($webCall) {
+                return $callout;
+            }
             $this->logger->debug('there is already a calloutsession. Change retries und reinvite the callout user');
             if ($callout->getState() > 1) {//calloutsession is on hold
                 $this->logger->debug('The callout session is on hold an it is tried to recall the user');
@@ -76,9 +82,11 @@ class CalloutService
             return $callout;
         }
         $this->logger->debug('Send Callout message to websocket so the called user is invited');
-        $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
+        $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms, $webCall);
 
-        if (!$this->isAllowedToBeCalled($user)) {
+        // A browser (web) call does not need a phone number, so it is tracked regardless of
+        // whether the user can be dialed by the SIP callout system.
+        if (!$webCall && !$this->isAllowedToBeCalled($user)) {
             $this->logger->debug('The USer is not allowed to be called');
             return null;
         }
