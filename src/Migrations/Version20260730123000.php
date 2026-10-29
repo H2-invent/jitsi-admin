@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Migrations\AbstractMigration;
 
 final class Version20260730123000 extends AbstractMigration
@@ -22,17 +23,29 @@ final class Version20260730123000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $lobbyUserOfSession = $this->connection->createQueryBuilder()
+            ->select('lwu.id')
+            ->from(self::TABLE_LOBBY, 'lwu')
+            ->where('lwu.caller_session_id = ' . self::TABLE_CALLER . '.id')
+            ->getSQL()
+        ;
+
         $this->addSql(
-            'UPDATE caller_session cs INNER JOIN lobby_waitung_user lwu ON lwu.caller_session_id = cs.id SET cs.lobby_waiting_user_id = lwu.id WHERE cs.lobby_waiting_user_id IS NULL'
+            $this->connection->createQueryBuilder()
+                ->update(self::TABLE_CALLER)
+                ->set('lobby_waiting_user_id', '(' . $lobbyUserOfSession . ')')
+                ->where('lobby_waiting_user_id IS NULL')
+                ->andWhere('EXISTS (' . $lobbyUserOfSession . ')')
+                ->getSQL()
         );
 
         $lobbyTable = $schema->getTable(self::TABLE_LOBBY);
-        $lobbyTable->removeForeignKey(self::FK_LOBBY_CALLER);
+        $lobbyTable->dropForeignKey(self::FK_LOBBY_CALLER);
         $lobbyTable->dropIndex(self::IDX_LOBBY_CALLER);
         $lobbyTable->dropColumn('caller_session_id');
 
         $callerTable = $schema->getTable(self::TABLE_CALLER);
-        $callerTable->removeForeignKey(self::FK_CALLER_LOBBY);
+        $callerTable->dropForeignKey(self::FK_CALLER_LOBBY);
         $callerTable->addForeignKeyConstraint(
             self::TABLE_LOBBY,
             ['lobby_waiting_user_id'],
@@ -44,50 +57,45 @@ final class Version20260730123000 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // The data copy has to run between adding the column and adding its index/FK.
-        // Explicit addSql() statements are always executed before the schema-diff
-        // statements, so this direction uses ordered SQL instead of the schema API.
-        $dropCallerFk = sprintf(
-            'ALTER TABLE %s DROP FOREIGN KEY %s',
-            self::TABLE_CALLER,
+        $callerTable = $schema->getTable(self::TABLE_CALLER);
+        $callerTable->dropForeignKey(self::FK_CALLER_LOBBY);
+        $callerTable->addForeignKeyConstraint(
+            self::TABLE_LOBBY,
+            ['lobby_waiting_user_id'],
+            ['id'],
+            [],
             self::FK_CALLER_LOBBY,
         );
-        $this->addSql($dropCallerFk);
 
-        $restoreCallerFk = sprintf(
-            'ALTER TABLE %s ADD CONSTRAINT %s FOREIGN KEY (lobby_waiting_user_id) REFERENCES %s (id)',
+        $lobbyTable = $schema->getTable(self::TABLE_LOBBY);
+        $lobbyTable->addColumn('caller_session_id', Types::INTEGER)
+            ->setDefault(null)
+            ->setNotnull(false);
+
+        $lobbyTable->addIndex(['caller_session_id'], self::IDX_LOBBY_CALLER);
+        $lobbyTable->addForeignKeyConstraint(
             self::TABLE_CALLER,
-            self::FK_CALLER_LOBBY,
-            self::TABLE_LOBBY,
-        );
-        $this->addSql($restoreCallerFk);
-
-        $addColumn = sprintf(
-            'ALTER TABLE %s ADD caller_session_id INT DEFAULT NULL',
-            self::TABLE_LOBBY,
-        );
-        $this->addSql($addColumn);
-
-        $backfill = sprintf(
-            'UPDATE %s lwu INNER JOIN %s cs ON cs.lobby_waiting_user_id = lwu.id SET lwu.caller_session_id = cs.id',
-            self::TABLE_LOBBY,
-            self::TABLE_CALLER,
-        );
-        $this->addSql($backfill);
-
-        $createIndex = sprintf(
-            'CREATE UNIQUE INDEX %s ON %s (caller_session_id)',
-            self::IDX_LOBBY_CALLER,
-            self::TABLE_LOBBY,
-        );
-        $this->addSql($createIndex);
-
-        $restoreLobbyFk = sprintf(
-            'ALTER TABLE %s ADD CONSTRAINT %s FOREIGN KEY (caller_session_id) REFERENCES %s (id) ON DELETE SET NULL',
-            self::TABLE_LOBBY,
+            ['caller_session_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL'],
             self::FK_LOBBY_CALLER,
-            self::TABLE_CALLER,
         );
-        $this->addSql($restoreLobbyFk);
+    }
+
+    public function postDown(Schema $schema): void
+    {
+        // Runs after the schema changes of down(): caller_session_id only exists again at this point.
+        $sessionOfLobbyUser = $this->connection->createQueryBuilder()
+            ->select('cs.id')
+            ->from(self::TABLE_CALLER, 'cs')
+            ->where('cs.lobby_waiting_user_id = ' . self::TABLE_LOBBY . '.id')
+            ->getSQL()
+        ;
+
+        $this->connection->createQueryBuilder()
+            ->update(self::TABLE_LOBBY)
+            ->set('caller_session_id', '(' . $sessionOfLobbyUser . ')')
+            ->executeStatement()
+        ;
     }
 }
