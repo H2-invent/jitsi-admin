@@ -46,14 +46,14 @@
 {% endblock %}
 
 <div id="frame">
-    {% set laf_show_transparent_background = getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')== 1 ? 'transparent-bg' : '' %}
-    {% set laf_floating_tag_force_show = getApplicationProperties('LAF_FLOATING_TAG_FORCE_SHOW')== 1 ? 'forceShow' : ''  %}
+    {% set laf_show_transparent_background = getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND') == 1 ? 'transparent-bg' : '' %}
+    {% set laf_floating_tag_force_show = getApplicationProperties('LAF_FLOATING_TAG_FORCE_SHOW') == 1 ? 'forceShow' : ''  %}
 
     {# render element even when room.tag is null so we can dynamically change it from JS (see callerTag.js) #}
     <p class="floating-tag {{ laf_show_transparent_background }} {{ laf_floating_tag_force_show }} {{ room.tag is null ? 'd-none' : '' }}"
        id="tagContent"
        style="color: {{ room.tag is not null ? room.tag.color : '' }}; background-color: {{ room.tag is not null ? room.tag.backgroundColor : '' }}"
-       data-caller-tag-html="{{ getApplicationProperties('SIP_CALLER_TAG_HTML') | trans }}"
+       data-caller-tag-html="{{ (getApplicationProperties('SIP_CALLER_TAG_HTML') ?? '') | trans }}"
     >
         {{ room.tag is not null ? room.tag.title|trans : '' }}
     </p>
