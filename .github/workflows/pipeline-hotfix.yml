@@ -1,13 +1,12 @@
-name: Run Tests and create Hotfix Build
+name: Create Hotfix Build
 
 permissions:
   contents: read
   packages: write
 
 on:
-  push:
   pull_request:
-    types: [opened, synchronize, reopened, edited]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
     branches:
       - master
       - main
