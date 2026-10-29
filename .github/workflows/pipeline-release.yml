@@ -1,4 +1,4 @@
-name: Create Release Build
+name: Create Staging Build
 
 permissions:
   contents: write
@@ -6,7 +6,7 @@ permissions:
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, edited, closed]
+    types: [opened, synchronize, reopened, edited, closed, ready_for_review]
     branches:
       - "release/**"
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
       - version
       - artifact
 
-  docker_core:
+  harbor_core:
     if: needs.version.outputs.skip != 'true'
     needs:
       - version
@@ -40,7 +40,7 @@ jobs:
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       registry: reg.h2-invent.com
-      dockerfile_path: './Dockerfile-prod'
+      dockerfile_path: './Dockerfile'
       directory: '.'
       version: ${{ needs.version.outputs.version }}
       tags: reg.h2-invent.com/meetling/core:${{ needs.version.outputs.version }}
@@ -48,7 +48,7 @@ jobs:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
 
-  docker_websocket:
+  harbor_websocket:
     if: needs.version.outputs.skip != 'true'
     needs:
       - version
@@ -56,7 +56,7 @@ jobs:
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       registry: reg.h2-invent.com
-      dockerfile_path: './nodejs/Dockerfile-prod'
+      dockerfile_path: './nodejs/Dockerfile'
       directory: './nodejs'
       version: ${{ needs.version.outputs.version }}
       tags: reg.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }}
