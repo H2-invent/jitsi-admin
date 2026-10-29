@@ -10,32 +10,45 @@
 namespace App\Form\Type;
 
 use App\Service\Theme\ThemeService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @extends AbstractType<mixed>
+ */
 class JoinViewType extends AbstractType
 {
-    private $parameterBag;
-    private $themeService;
-    public function __construct(ParameterBagInterface $parameterBag, ThemeService $themeService)
+    public function __construct(private readonly ThemeService $themeService)
     {
-        $this->parameterBag = $parameterBag;
-        $this->themeService = $themeService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
-            ->add('uid', TextType::class, ['attr' => ['placeholder' => 'label.konferenzId'], 'label' => 'label.konferenzId', 'required' => true, 'translation_domain' => 'form'])
-            ->add('email', TextType::class, ['attr' => ['placeholder' => 'label.email'], 'label' => 'label.email', 'required' => true, 'translation_domain' => 'form'])
-            ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.name'], 'label' => 'label.name', 'required' => true, 'translation_domain' => 'form']);
+            ->add(
+                'uid',
+                TextType::class,
+                ['attr' => ['placeholder' => 'label.konferenzId'], 'label' => 'label.konferenzId', 'required' => true, 'translation_domain' => 'form']
+            )
+            ->add(
+                'email',
+                TextType::class,
+                ['attr' => ['placeholder' => 'label.email'], 'label' => 'label.email', 'required' => true, 'translation_domain' => 'form']
+            )
+            ->add(
+                'name',
+                TextType::class,
+                ['attr' => ['placeholder' => 'label.name'], 'label' => 'label.name', 'required' => true, 'translation_domain' => 'form']
+            );
         if ($this->themeService->getApplicationProperties('start_dropdown_allow_browser')) {
-            $builder->add('joinBrowser', SubmitType::class, ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.beitretenBrowser', 'translation_domain' => 'form']);
+            $builder->add(
+                'joinBrowser',
+                SubmitType::class,
+                ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.beitretenBrowser', 'translation_domain' => 'form']
+            );
         }
     }
 

@@ -2,7 +2,12 @@
 
 ## 1.7
 ### 🚀 Features:
-Allow disabling of survey from theme settings
+* Make ad-hoc calls skip lobby
+* Convert all DateTime usages to DateTimeImmutable
+* Convert hardcoded repeat method integers to Enum
+* Ad-hoc calls: the caller is notified when the callee does not answer within the configured time
+* Transmit the predefined lobby messages in the moderator/lobby-moderator JWT as context.lobby.chatMessages
+* Allow disabling of survey from theme settings & allow disabling of survey from theme settings
 
 ### ⭐ Improvements:
 * Upgrade to Symfony 7.4
@@ -19,6 +24,9 @@ Allow disabling of survey from theme settings
 ### ⭐ Improvements:
 * Add lobby moderator permission flag to the JWT
 * Redesigned homepage
+* Fix appointment modal
+* Adressbook refactoring
+* Change Drag and Drop Lib back to inteact js because it is more robust
 
 ## 1.4
 

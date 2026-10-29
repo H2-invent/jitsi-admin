@@ -72,6 +72,10 @@ final class Version20260730123000 extends AbstractMigration
             ->setDefault(null)
             ->setNotnull(false);
 
+        $this->addSql(
+            'UPDATE lobby_waitung_user lwu INNER JOIN caller_session cs ON cs.lobby_waiting_user_id = lwu.id SET lwu.caller_session_id = cs.id'
+        );
+
         $lobbyTable->addIndex(['caller_session_id'], self::IDX_LOBBY_CALLER);
         $lobbyTable->addForeignKeyConstraint(
             self::TABLE_CALLER,

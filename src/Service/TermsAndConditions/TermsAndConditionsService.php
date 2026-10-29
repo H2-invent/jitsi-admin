@@ -9,25 +9,26 @@ use Doctrine\ORM\EntityManagerInterface;
 class TermsAndConditionsService
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ThemeService           $themeService
-    )
-    {
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ThemeService           $themeService
+    ) {
     }
 
-    public function hasAcceptedTerms(User $user)
+    public function hasAcceptedTerms(User $user): bool
     {
         if ($user->isAcceptTermsAndConditions() || $this->themeService->getApplicationProperties('LAF_TERMS_AND_CONDITIONS') === '') {
             return true;
         }
+
         return false;
     }
 
-    public function acceptTerms(User $user)
+    public function acceptTerms(User $user): bool
     {
         $user->setAcceptTermsAndConditions(true);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
         return true;
     }
 }

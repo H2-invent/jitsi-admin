@@ -3,36 +3,26 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\Rooms;
 use App\Service\Jigasi\JigasiService;
-use App\Service\MessageService;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
-class Jigasi extends AbstractExtension
+class Jigasi
 {
-    public function __construct(private JigasiService $jigasiService)
+    public function __construct(private readonly JigasiService $jigasiService)
     {
     }
 
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getJigasiNumber', [$this, 'getJigasiNumber']),
-            new TwigFunction('getJigasiPin', [$this, 'getJigasiPin']),
-        ];
-    }
-
-    public function getJigasiNumber(?Rooms $rooms = null)
+    /**
+     * @return array<mixed>|null
+     */
+    #[\Twig\Attribute\AsTwigFunction(name: 'getJigasiNumber')]
+    public function getJigasiNumber(?Rooms $rooms = null): ?array
     {
         return $this->jigasiService->getNumber($rooms);
     }
 
-    public function getJigasiPin(?Rooms $rooms = null)
+    #[\Twig\Attribute\AsTwigFunction(name: 'getJigasiPin')]
+    public function getJigasiPin(?Rooms $rooms = null): ?string
     {
         return $this->jigasiService->getRoomPin($rooms);
     }

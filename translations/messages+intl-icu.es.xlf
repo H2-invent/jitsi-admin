@@ -1575,6 +1575,18 @@
         <source>addhock.notification.pushMessage</source>
         <target state="translated">{name} desea programar una videoconferencia rápida contigo</target>
       </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target state="translated">El participante está desconectado o no ha iniciado sesión. La llamada no se puede iniciar.</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_NO_ANSWER" resname="addhock.notification.noAnswer">
+        <source>addhock.notification.noAnswer</source>
+        <target state="translated">El participante no ha respondido.</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_DECLINED" resname="addhock.notification.declined">
+        <source>addhock.notification.declined</source>
+        <target state="translated">El participante rechazó la llamada.</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">Tiempo de carga</target>
@@ -2602,6 +2614,18 @@ Su dirección de correo electrónico: {email}</target>
       <trans-unit id="7kpQmRw" resname="recording.dropdownTitle">
         <source>Recording</source>
         <target state="needs-translation">Recording</target>
+      </trans-unit>
+      <trans-unit id="hSt4nDb" resname="Hot Standby">
+        <source>Hot Standby</source>
+        <target state="translated">Hot standby</target>
+      </trans-unit>
+      <trans-unit id="hSt4nOk" resname="Hot Standby Einstellung erfolgreich gespeichert">
+        <source>Hot Standby Einstellung erfolgreich gespeichert</source>
+        <target state="translated">Configuración de Hot Standby guardada correctamente</target>
+      </trans-unit>
+      <trans-unit id="hSt4nEr" resname="Fehler beim Speichern der Hot Standby Einstellung">
+        <source>Fehler beim Speichern der Hot Standby Einstellung</source>
+        <target state="translated">Error al guardar la configuración de Hot Standby</target>
       </trans-unit>
     </body>
   </file>

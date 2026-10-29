@@ -13,59 +13,79 @@ class RoomStatus
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
+
     #[ORM\Column(type: 'boolean')]
-    private $created;
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $RoomCreatedAt;
+    private ?bool $created = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $RoomCreatedAt = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $destroyed;
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $destroyedAt;
-    #[ORM\Column(type: 'datetime')]
-    private $createdAt;
-    #[ORM\Column(type: 'datetime')]
-    private $updatedAt;
+    private ?bool $destroyed = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $destroyedAt = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    /**
+     * @var Collection<int, RoomStatusParticipant>
+     */
     #[ORM\OneToMany(targetEntity: RoomStatusParticipant::class, mappedBy: 'roomStatus', orphanRemoval: true)]
-    private $roomStatusParticipants;
+    private Collection $roomStatusParticipants;
+
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'roomstatuses')]
     #[ORM\JoinColumn(nullable: true)]
-    private $room;
+    private ?Rooms $room = null;
+
     #[ORM\Column(type: 'text')]
-    private $jitsiRoomId;
+    private ?string $jitsiRoomId = null;
+
     public function __construct()
     {
         $this->roomStatusParticipants = new ArrayCollection();
     }
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getCreated(): ?bool
     {
         return $this->created;
     }
+
     public function setCreated(bool $created): self
     {
         $this->created = $created;
 
         return $this;
     }
-    public function getRoomCreatedAt(): ?\DateTimeInterface
+
+    public function getRoomCreatedAt(): ?\DateTimeImmutable
     {
         return $this->RoomCreatedAt;
     }
-    public function setRoomCreatedAt(?\DateTimeInterface $RoomCreatedAt): self
+
+    public function setRoomCreatedAt(?\DateTimeImmutable $RoomCreatedAt): self
     {
         $this->RoomCreatedAt = $RoomCreatedAt;
 
         return $this;
     }
-    public function getRoomCreatedAtUTC(): ?\DateTimeInterface
+
+    public function getRoomCreatedAtUTC(): ?\DateTimeImmutable
     {
-        return new \DateTime($this->RoomCreatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+        return new \DateTimeImmutable($this->RoomCreatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
-    public function getRoomCreatedAtwithTimeZone(?User $user = null): ?\DateTimeInterface
+
+    public function getRoomCreatedAtwithTimeZone(?User $user = null): ?\DateTimeImmutable
     {
         $data = $this->getCreatedUtc();
         if (!$data) {
@@ -77,27 +97,31 @@ class RoomStatus
             if ($this->room && $this->room->getTimeZone()) {
                 $localTimezone = new \DateTimeZone($this->room->getTimeZone());
             } else {
-                $localTimezone = (new \DateTime())->getTimezone();
+                $localTimezone = new \DateTimeImmutable()->getTimezone();
             }
         }
-        $data->setTimeZone($localTimezone);
+        $data = $data->setTimeZone($localTimezone);
         return $data;
     }
+
     public function getDestroyed(): ?bool
     {
         return $this->destroyed;
     }
+
     public function setDestroyed(?bool $destroyed): self
     {
         $this->destroyed = $destroyed;
 
         return $this;
     }
-    public function getDestroyedAt(): ?\DateTimeInterface
+
+    public function getDestroyedAt(): ?\DateTimeImmutable
     {
         return $this->destroyedAt;
     }
-    public function getDestroyedAtwithTimeZone(?User $user = null): ?\DateTimeInterface
+
+    public function getDestroyedAtwithTimeZone(?User $user = null): ?\DateTimeImmutable
     {
         $data = $this->getDestroyedAtUTC();
         if (!$data) {
@@ -109,52 +133,60 @@ class RoomStatus
             if ($this->room && $this->room->getTimeZone()) {
                 $localTimezone = new \DateTimeZone($this->room->getTimeZone());
             } else {
-                $localTimezone = (new \DateTime())->getTimezone();
+                $localTimezone = new \DateTimeImmutable()->getTimezone();
             }
         }
-        $data->setTimeZone($localTimezone);
+        $data = $data->setTimeZone($localTimezone);
         return $data;
     }
-    public function getDestroyedAtUTC(): ?\DateTimeInterface
+
+    public function getDestroyedAtUTC(): ?\DateTimeImmutable
     {
         if (!$this->destroyedAt) {
             return null;
         }
-        return new \DateTime($this->destroyedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+        return new \DateTimeImmutable($this->destroyedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
-    public function setDestroyedAt(?\DateTimeInterface $destroyedAt): self
+
+    public function setDestroyedAt(?\DateTimeImmutable $destroyedAt): self
     {
         $this->destroyedAt = $destroyedAt;
 
         return $this;
     }
-    public function getCreatedAt(): ?\DateTimeInterface
+
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
-    public function getUpdatedAt(): ?\DateTimeInterface
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
+
     /**
-     * @return Collection|RoomStatusParticipant[]
+     * @return Collection<int, RoomStatusParticipant>
      */
     public function getRoomStatusParticipants(): Collection
     {
         return $this->roomStatusParticipants;
     }
+
     public function addRoomStatusParticipant(RoomStatusParticipant $roomStatusParticipant): self
     {
         if (!$this->roomStatusParticipants->contains($roomStatusParticipant)) {
@@ -164,6 +196,7 @@ class RoomStatus
 
         return $this;
     }
+
     public function removeRoomStatusParticipant(RoomStatusParticipant $roomStatusParticipant): self
     {
         if ($this->roomStatusParticipants->removeElement($roomStatusParticipant)) {
@@ -175,36 +208,42 @@ class RoomStatus
 
         return $this;
     }
+
     public function getRoom(): ?Rooms
     {
         return $this->room;
     }
+
     public function setRoom(?Rooms $room): self
     {
         $this->room = $room;
 
         return $this;
     }
+
     public function getJitsiRoomId(): ?string
     {
         return $this->jitsiRoomId;
     }
+
     public function setJitsiRoomId(string $jitsiRoomId): self
     {
         $this->jitsiRoomId = $jitsiRoomId;
 
         return $this;
     }
-    public function getCreatedUtc(): ?\DateTimeInterface
+
+    public function getCreatedUtc(): ?\DateTimeImmutable
     {
-        return new \DateTime($this->RoomCreatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+        return new \DateTimeImmutable($this->RoomCreatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
-    public function getDestroyedUtc(): ?\DateTimeInterface
+
+    public function getDestroyedUtc(): ?\DateTimeImmutable
     {
         if ($this->destroyedAt) {
-            return new \DateTime($this->destroyedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
-        } else {
-            return new \DateTime($this->updatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+            return new \DateTimeImmutable($this->destroyedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
         }
+
+        return new \DateTimeImmutable($this->updatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
 }

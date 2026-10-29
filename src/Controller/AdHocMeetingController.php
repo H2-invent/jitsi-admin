@@ -2,60 +2,104 @@
 
 namespace App\Controller;
 
+use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
 use App\Helper\JitsiAdminController;
-use App\Service\adhocmeeting\AdhocMeetingService;
+use App\Service\AdHocMeeting\AdhocCallService;
+use App\Service\AdHocMeeting\AdhocMeetingService;
 use App\Service\CreateHttpsUrl;
+use App\Service\OnlineStatus\OnlineStatusService;
+use App\Service\OnlineStatus\PresenceService;
 use App\Service\ServerUserManagment;
 use Doctrine\Persistence\ManagerRegistry;
-use GuzzleHttp\Promise\Create;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/room/adhoc/', name: 'add_hoc')]
+#[\Symfony\Component\Routing\Attribute\Route(path: '/room/adhoc/', name: 'add_hoc')]
 class AdHocMeetingController extends JitsiAdminController
 {
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        TranslatorInterface $translator,
-        LoggerInterface $logger,
-        ParameterBagInterface $parameterBag,
-        private CreateHttpsUrl $createHttpsUrl,
-    )
-    {
+        ManagerRegistry                 $managerRegistry,
+        TranslatorInterface             $translator,
+        LoggerInterface                 $logger,
+        ParameterBagInterface           $parameterBag,
+        private readonly CreateHttpsUrl $createHttpsUrl,
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route(path: 'confirmation/{userId}/{serverId}', name: '_confirm')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'confirmation/{userId}/{serverId}', name: '_confirm')]
     public function confirmation(
-        #[MapEntity(id: 'userId')] User   $user,
+        #[MapEntity(id: 'userId')] User     $user,
         #[MapEntity(id: 'serverId')] Server $server,
-    ): Response
-    {
+    ): Response {
         $tag = $server->getTag();
         return $this->render('add_hoc_meeting/__confirmation.html.twig', ['server' => $server, 'user' => $user, 'tag' => $tag]);
     }
 
-    #[Route(path: 'meeting/{userId}/{serverId}/{tagId}', name: '_meeting')]
-    #[Route(path: 'meeting/{userId}/{serverId}', name: '_meeting_no_tag')]
-    public function index(
-        #[MapEntity(id: 'userId')] User                $user,
-        #[MapEntity(id: 'serverId')] Server              $server,
-        TranslatorInterface $translator,
-        ServerUserManagment $serverUserManagment,
-        AdhocMeetingService $adhocMeetingService,
-        #[MapEntity(id: 'tagId')] ?Tag $tag = null,
+    /**
+     * The callee refused the ringing ad-hoc call. Removes the waiting callout session and tells
+     * the caller right away, instead of letting the caller wait for the signaling timeout.
+     */
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'decline/{roomId}', name: '_decline')]
+    public function decline(
+        #[MapEntity(id: 'roomId')] Rooms $room,
+        AdhocCallService                $adhocCallService,
+    ): JsonResponse {
+        $declined = $adhocCallService->markDeclined($this->getUser(), $room);
 
-    ): Response
+        return new JsonResponse(['status' => $declined ? 'DECLINED' : 'NO_ACTIVE_CALL']);
+    }
+
+    /**
+     * The caller stopped the attempt (left/ended the conference) before the callee answered.
+     * Cancels all still ringing calls started by the current user so the callee stops ringing.
+     */
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'cancel', name: '_cancel')]
+    public function cancel(AdhocCallService $adhocCallService): JsonResponse
     {
+        $cancelled = $adhocCallService->cancelPendingCallsByInviter($this->getUser());
 
+        return new JsonResponse(['cancelled' => $cancelled]);
+    }
+
+    /**
+     * The callee's ringing dialog reached the configured signaling duration without an answer.
+     * Marks the call as timed out and tells the caller, independent of the messenger worker.
+     */
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'timeout/{roomId}', name: '_timeout')]
+    public function timeout(
+        #[MapEntity(id: 'roomId')] Rooms $room,
+        AdhocCallService                $adhocCallService,
+    ): JsonResponse {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return new JsonResponse(['status' => 'UNAUTHORIZED'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $timedOut = $adhocCallService->markTimedOut($user, $room);
+
+        return new JsonResponse(['status' => $timedOut ? 'NO_ANSWER' : 'ANSWERED']);
+    }
+
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'meeting/{userId}/{serverId}/{tagId}', name: '_meeting')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'meeting/{userId}/{serverId}', name: '_meeting_no_tag')]
+    public function index(
+        #[MapEntity(id: 'userId')] User     $user,
+        #[MapEntity(id: 'serverId')] Server $server,
+        TranslatorInterface                 $translator,
+        ServerUserManagment                 $serverUserManagment,
+        AdhocMeetingService                 $adhocMeetingService,
+        OnlineStatusService                 $onlineStatusService,
+        PresenceService                     $presenceService,
+        #[MapEntity(id: 'tagId')] ?Tag      $tag = null,
+    ): Response {
         if (!in_array($user, $this->getUser()->getAddressbook()->toArray())) {
             $this->addFlash('danger', $translator->trans('Fehler, Der User wurde nicht gefunden'));
             return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
@@ -67,13 +111,28 @@ class AdHocMeetingController extends JitsiAdminController
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
             return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
         }
+
+        // The stored status is authoritative for an explicit "offline" and avoids a network call.
+        // Live websocket presence is only consulted when the stored status says online; if it is
+        // unknown (null, e.g. websocket service unreachable) we keep the stored answer.
+        if (!$onlineStatusService->isUserOnline($user) || $presenceService->isUserOnline($user) === false) {
+            return new JsonResponse(
+                [
+                    'redirectUrl' => $this->generateUrl('dashboard'),
+                    'error'       => $translator->trans('addhock.notification.offline'),
+                ]
+            );
+        }
+
         try {
             $room = $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server, $tag);
             return new JsonResponse(
                 [
                     'redirectUrl' => $this->generateUrl('dashboard'),
-                    'popups' => [
-                        ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()])), 'title' => $room->getSecondaryName() ? : $room->getName()]
+                    'popups'      => [
+                        ['url'   => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()])),
+                         'title' => $room->getSecondaryName() ?: $room->getName()
+                        ]
                     ]
                 ]
             );

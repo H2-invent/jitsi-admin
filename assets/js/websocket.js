@@ -119,7 +119,23 @@ export function enterMeeting() {
 
 export function leaveMeeting() {
     sendViaWebsocket('leaveMeeting',);
+    cancelPendingAdhocCall();
     removeListnerFromMEssage();
+}
+
+// When the ad-hoc caller leaves/ends the conference before the callee answered, tell the backend
+// so it stops ringing the callee instead of waiting for the signaling timeout. The global is only
+// defined on conference pages; keepalive lets the request survive the iframe/tab teardown.
+function cancelPendingAdhocCall() {
+    if (typeof adhocCancelUrl === 'undefined' || !adhocCancelUrl) {
+        return;
+    }
+    try {
+        fetch(adhocCancelUrl, {keepalive: true}).catch(() => {
+        });
+    } catch (e) {
+        // Never let a failed cancel request block the leave flow.
+    }
 }
 
 export function sendViaWebsocket(event, message) {

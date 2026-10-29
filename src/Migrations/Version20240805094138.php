@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20240805094138 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'livekit_middleware_url';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'livekit_middleware_url';
     public function getDescription(): string
     {
         return 'Adds the livekit base url  ';

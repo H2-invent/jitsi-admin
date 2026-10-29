@@ -4,7 +4,7 @@ namespace App\Tests\JitsiEvents\controller;
 
 use App\Entity\RoomStatus;
 use App\Repository\RoomStatusRepository;
-use App\Service\api\EventSyncApiService;
+use App\Service\Api\EventSyncApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -24,9 +24,9 @@ class JitsiEventSyncApiControllerTest extends WebTestCase
         $roomsStatus = new RoomStatus();
         $roomsStatus->setJitsiRoomId('123456|meet.jit.si')
             ->setCreated(true)
-            ->setUpdatedAt(new \DateTime())
-            ->setRoomCreatedAt(new \DateTime())
-        ->setCreatedAt(new \DateTime());
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+        ->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($roomsStatus);
         $manager->flush();
 

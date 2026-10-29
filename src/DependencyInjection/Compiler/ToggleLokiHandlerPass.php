@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\DependencyInjection\Compiler;
@@ -13,7 +14,7 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class ToggleLokiHandlerPass implements CompilerPassInterface
 {
-    private const LOKI_SERVICES = [
+    private const array LOKI_SERVICES = [
         LokiLogMessageHandler::class,
         LokiLogMessage::class,
         AsyncLokiHandler::class,

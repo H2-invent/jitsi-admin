@@ -35,6 +35,7 @@ framework:
       # Route your messages to the transports
       # 'App\Message\YourMessage': async
       App\Message\LobbyLeaverMessage: async
+      App\Message\AdhocCallTimeoutMessage: async
       App\Message\LokiLogMessage: async #TODO proper retry strategy and rabbitmq
       App\Message\RecordingUploadedMessage: async_slow
       App\Message\TranscriptionMessage: async_slow

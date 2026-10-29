@@ -9,28 +9,26 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserBase implements UserInterface
 {
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $uuid;
+    private ?string $uuid = null;
 
+    /**
+     * @var array<int, string>
+     */
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column(type: 'string')]
-    private $password;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    private string $password;
 
     public function getUuid(): ?string
     {
         return $this->uuid;
     }
 
-    public function setUuid(string $uuid): self
+    public function setUuid(string $uuid): static
     {
         $this->uuid = $uuid;
 
@@ -42,11 +40,12 @@ class UserBase implements UserInterface
         return $this->uuid;
     }
 
-    /**
-     * @return string
-     */
     public function getUserIdentifier(): string
     {
+        if (!$this->uuid) {
+            throw new \LogicException('Cannot build the user identifier: uuid is not set.');
+        }
+
         return $this->uuid;
     }
 
@@ -62,7 +61,10 @@ class UserBase implements UserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    /**
+     * @param array<int, string> $roles
+     */
+    public function setRoles(array $roles): static
     {
         $this->roles = $roles;
 
@@ -77,7 +79,7 @@ class UserBase implements UserInterface
         return (string)$this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): static
     {
         $this->password = $password;
 
@@ -88,14 +90,15 @@ class UserBase implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials():void
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
         // TODO: Implement getSalt() method.
+        return null;
     }
 }

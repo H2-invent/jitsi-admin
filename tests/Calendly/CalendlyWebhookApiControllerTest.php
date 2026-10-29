@@ -3,7 +3,7 @@
 namespace App\Tests\Calendly;
 
 use App\Repository\UserRepository;
-use App\Service\calendly\CallendlyConnect;
+use App\Service\Calendly\CallendlyConnect;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;

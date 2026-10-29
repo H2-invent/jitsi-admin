@@ -29,7 +29,7 @@ class JoinPublicLobbyTest extends WebTestCase
 
         $wu = new LobbyWaitungUser();
         $wu->setShowName('test Me Lobby WaitingUser');
-        $wu->setCreatedAt(new \DateTime())
+        $wu->setCreatedAt(new \DateTimeImmutable())
             ->setRoom($room)
             ->setType('b')
             ->setUid('lksdjflkdsjf');
@@ -90,7 +90,7 @@ class JoinPublicLobbyTest extends WebTestCase
 
         $wu = new LobbyWaitungUser();
         $wu->setShowName('test Me Lobby WaitingUser');
-        $wu->setCreatedAt(new \DateTime())
+        $wu->setCreatedAt(new \DateTimeImmutable())
             ->setRoom($room)
             ->setType('b')
             ->setUid('lksdjflkdsjf');

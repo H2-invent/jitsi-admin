@@ -12,11 +12,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:migrate:emailToUsername', 'This command migrates emails to username. This is important when the email should be used in the JItsi-admin as usernmae but the prefered_username in the keycloak was not set and the emails are different to the username (F.ex. in LDAP)')]
 class MigrateEmailToUsernameCommand extends Command
 {
-    private $em;
-    public function __construct(EntityManagerInterface $entityManager, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $em, ?string $name = null)
     {
         parent::__construct($name);
-        $this->em = $entityManager;
     }
 
     protected function configure(): void
@@ -25,8 +23,8 @@ class MigrateEmailToUsernameCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $users = $this->em->getRepository(User::class)->findAll();
+        $io      = new SymfonyStyle($input, $output);
+        $users   = $this->em->getRepository(User::class)->findAll();
         $counter = 0;
         foreach ($users as $data) {
             $data->setUsername($data->getEmail());

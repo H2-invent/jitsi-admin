@@ -8,11 +8,11 @@ use App\Entity\RoomStatus;
 use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
-use App\Service\caller\CallerLeftService;
-use App\Service\caller\CallerPinService;
-use App\Service\caller\CallerPrepareService;
-use App\Service\caller\CallerSessionService;
-use App\Service\caller\JitsiComponentSelectorService;
+use App\Service\Caller\CallerLeftService;
+use App\Service\Caller\CallerPinService;
+use App\Service\Caller\CallerPrepareService;
+use App\Service\Caller\CallerSessionService;
+use App\Service\Caller\JitsiComponentSelectorService;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -76,11 +76,11 @@ class CallerControllerSipVideoTest extends WebTestCase
         $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
 

@@ -4,48 +4,22 @@ namespace App\Service\Lobby;
 
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
-use App\Entity\User;
-use App\Service\RoomService;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Mercure\Exception\RuntimeException;
-use Symfony\Component\Mercure\HubInterface;
-use Symfony\Component\Mercure\Publisher;
-use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
-
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 class ToModeratorWebsocketService
 {
-    private $publisher;
-    private $urlgenerator;
-    private $parameterBag;
-    private $logger;
-    private $translator;
-    private $roomService;
-    private $twig;
-    private $directSend;
-
-    public function __construct(DirectSendService $directSendService, Environment $environment, HubInterface $publisher, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
-    {
-        $this->publisher = $publisher;
-        $this->urlgenerator = $urlGenerator;
-        $this->parameterBag = $parameterBag;
-        $this->logger = $logger;
-        $this->translator = $translator;
-        $this->roomService = $roomService;
-        $this->twig = $environment;
-        $this->directSend = $directSendService;
+    public function __construct(
+        private readonly DirectSendService     $directSend,
+        private readonly UrlGeneratorInterface $urlgenerator,
+        private readonly TranslatorInterface   $translator
+    ) {
     }
 
-    public function newParticipantInLobby(LobbyWaitungUser $lobbyWaitungUser)
+    public function newParticipantInLobby(LobbyWaitungUser $lobbyWaitungUser): void
     {
-
-        $room = $lobbyWaitungUser->getRoom();
-        $title = $this->translator->trans('lobby.notification.newUser.title', ['{name}' => $lobbyWaitungUser->getShowName()]);
+        $room    = $lobbyWaitungUser->getRoom();
+        $title   = $this->translator->trans('lobby.notification.newUser.title', ['{name}' => $lobbyWaitungUser->getShowName()]);
         $message = $this->translator->trans(
             'lobby.notification.newUser.message',
             [
@@ -53,9 +27,9 @@ class ToModeratorWebsocketService
                 '{room}' => $room->getName()
             ]
         );
-        $topic = 'lobby_moderator/' . $room->getUidReal();
+        $topic   = 'lobby_moderator/' . $room->getUidReal();
         // this message goes to the moderators wich are in the lobby
-        $this->directSend->sendBrowserNotification($topic, $title, $message, $message, $lobbyWaitungUser->getUid(), 'info',5000);
+        $this->directSend->sendBrowserNotification($topic, $title, $message, $message, $lobbyWaitungUser->getUid(), 'info', 5000);
         sleep(1);
 
         $messageDashboard = sprintf(
@@ -83,20 +57,19 @@ class ToModeratorWebsocketService
         $this->directSend->sendBrowserNotification($topic, $title, $messageDashboard, $message, $lobbyWaitungUser->getUid(), 'info');
     }
 
-    public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser)
+    public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser): void
     {
         $this->refreshLobbyByRoom($lobbyWaitungUser->getRoom());
     }
 
-    public function refreshLobbyByRoom(Rooms $room)
+    public function refreshLobbyByRoom(Rooms $room): void
     {
-
         $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSend->sendRefresh($topic, $this->urlgenerator->generate('lobby_moderator', ['uid' => $room->getUidReal()]) . ' #waitingUser');
     }
 
 
-    public function participantLeftLobby(LobbyWaitungUser $lobbyWaitungUser)
+    public function participantLeftLobby(LobbyWaitungUser $lobbyWaitungUser): void
     {
         $room = $lobbyWaitungUser->getRoom();
 
@@ -109,7 +82,7 @@ class ToModeratorWebsocketService
         $topic = 'personal/' . $room->getModerator()->getUid();
         $this->directSend->sendCleanBrowserNotification($topic, $lobbyWaitungUser->getUid());
 
-        $room = $lobbyWaitungUser->getRoom();
+        $room  = $lobbyWaitungUser->getRoom();
         $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSend->sendCleanBrowserNotification($topic, $lobbyWaitungUser->getUid());
     }

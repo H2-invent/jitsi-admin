@@ -1,16 +1,17 @@
 <?php
+
 namespace App\EventListener;
 
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(event: KernelEvents::RESPONSE)]
 class CorsHeaderListener
 {
     public function __invoke(ResponseEvent $event): void
     {
-        $request = $event->getRequest();
+        $request  = $event->getRequest();
         $response = $event->getResponse();
 
         // Nur auf bestimmte Pfade beschränken, z. B. /theme/
