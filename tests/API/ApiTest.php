@@ -87,7 +87,7 @@ class ApiTest extends WebTestCase
         $this->assertEquals('meet.jit.si2', json_decode($client->getResponse()->getContent(), true)['server']);
         $this->assertEquals($room->getStart()->format('Y-m-dTH:i:s'), json_decode($client->getResponse()->getContent(), true)['start']);
         $this->assertEquals($room->getEnddate()->format('Y-m-dTH:i:s'), json_decode($client->getResponse()->getContent(), true)['end']);
-        $this->assertEquals($urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => 'b'], UrlGeneratorInterface::ABSOLUTE_URL), json_decode($client->getResponse()->getContent(), true)['joinBrowser']);
-        $this->assertEquals($urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => 'a'], UrlGeneratorInterface::ABSOLUTE_URL), json_decode($client->getResponse()->getContent(), true)['joinApp']);
+        $this->assertEquals($urlGenerator->generate('room_join', ['room' => $room->getId(), 'type' => 'b'], UrlGeneratorInterface::ABSOLUTE_URL), json_decode($client->getResponse()->getContent(), true)['joinBrowser']);
+        $this->assertEquals($urlGenerator->generate('room_join', ['room' => $room->getId(), 'type' => 'a'], UrlGeneratorInterface::ABSOLUTE_URL), json_decode($client->getResponse()->getContent(), true)['joinApp']);
     }
 }

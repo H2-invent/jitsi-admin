@@ -8,7 +8,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -29,7 +28,7 @@ class ServerAllowToCloneCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('server', InputArgument::OPTIONAL, 'Allow this server to be used a a prototype server to clone new servers for autoscale via api')
+            ->addArgument('server', InputArgument::REQUIRED, 'Allow this server to be used a a prototype server to clone new servers for autoscale via api')
         ;
     }
 
@@ -37,16 +36,22 @@ class ServerAllowToCloneCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $serverId = $input->getArgument('server');
+
         $server = $this->serverRepository->find($serverId);
-        if ($server){
-           $server->setAllowedToCloneForAutoscale(!$server->isAllowedToCloneForAutoscale());
+        if ($server === null) {
+            $io->error('Server could not be found, check given id');
+
+            return Command::FAILURE;
         }
 
-       $this->entityManager->persist($server);
+        $server->setIsAllowedToCloneForAutoscale(!$server->isAllowedToCloneForAutoscale());
+
+        $this->entityManager->persist($server);
         $this->entityManager->flush();
-        if ($server->isAllowedToCloneForAutoscale()){
+
+        if ($server->isAllowedToCloneForAutoscale()) {
             $io->success('Server ALLOW to autoscale via api');
-        }else{
+        } else {
             $io->success('Server DISALLOW to autoscale via api');
         }
 

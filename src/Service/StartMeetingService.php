@@ -94,7 +94,7 @@ class StartMeetingService
     /**
      * @param Rooms|null $room
      * @param User $user
-     * @param $t
+     * @param $type
      * @param $name
      * @return RedirectResponse|Response|NotFoundHttpException
      * @throws \Exception
@@ -102,7 +102,7 @@ class StartMeetingService
      * this function checks if the meeting is already started or if it is too late or to early
      * This function checks if the room has the lobby function activated
      */
-    public function startMeeting(?Rooms $room, User $user, $t, $name): NotFoundHttpException|RedirectResponse|Response
+    public function startMeeting(?Rooms $room, User $user, $type, $name): NotFoundHttpException|RedirectResponse|Response
     {
         if ($this->flashBag->getCurrentRequest() && $room){
             $ip = $this->flashBag->getCurrentRequest()->getClientIp();
@@ -115,11 +115,11 @@ class StartMeetingService
         }
         $this->room = $room;
         $this->user = $user;
-        $this->type = $t;
+        $this->type = $type;
         $this->name = $name;
         $this->jigasiService->pingJigasi($room);
         if ($room && (in_array($user, $room->getUser()->toarray())|| $this->room->getModerator() === $user)) {
-            $this->url = $this->roomService->join($room, $user, $t, $name);
+            $this->url = $this->roomService->join($room, $user, $type, $name);
             if (!$this->isAllowedToStartMeeting($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
                 $this->logger->debug('This room is closed by time restrictions');
                 return $this->RoomClosed();
@@ -135,12 +135,18 @@ class StartMeetingService
         return $this->roomNotFound();
     }
 
+    public function getAllowedToEnterString(Rooms $room, User $user): ?string
+    {
+        if ($this->isAllowedToEnter($room, $user)) {
+            return null;
+        }
+
+        return $this->buildClosedString($room);
+    }
+
     public function isAllowedToEnter(Rooms $room, User $user): ?string
     {
-        if (!$this->isAllowedToStartMeeting($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
-            return $this->buildClosedString($room);
-        }
-        return null;
+        return $this->isAllowedToStartMeeting($room, $user) || $this->roomStatusFrontendService->isRoomCreated($room);
     }
 
     public function setAttribute(Rooms $rooms, ?User $user, $t, $name)

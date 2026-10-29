@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\ProvisionerRecord;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Service\Provisioner\ProvisionerStatus;
 use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
@@ -691,5 +693,27 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('true', true)
             ->getQuery()
             ->getResult();
+    }
+
+
+    /**
+     * @return Rooms[]
+     */
+    public function findRoomsToProvisionIn(int $minutes): array
+    {
+        return $this->createQueryBuilder('room')
+            ->innerJoin('room.server', 'server')
+            ->andWhere('server.isAllowedToCloneForAutoscale = true')
+            ->andWhere('server.isProvisioningEnabled = true')
+            ->andWhere('room.persistantRoom = false')
+            ->andWhere('room.originalServer IS NULL')
+            ->andWhere('room.startUtc < :threshold')
+            ->andWhere('room.endDateUtc > :now')
+            ->andWhere('room.provisionerRecords IS EMPTY')
+            ->setParameter('threshold', new \DateTime("+ {$minutes} minutes", new \DateTimeZone('utc')))
+            ->setParameter('now', new \DateTime('now', new \DateTimeZone('utc')))
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

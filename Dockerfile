@@ -1,9 +1,10 @@
-FROM thecodingmachine/php:8.3-v4-fpm-node22 AS builder
+FROM thecodingmachine/php:8.4.27-v5-fpm-node22 AS builder
 ARG VERSION=development
 
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
 ENV PHP_EXTENSION_BCMATH=1
+ENV PHP_EXTENSION_AMQP=1
 ENV COMPOSER_MEMORY_LIMIT=-1
 
 COPY . /var/www/html
@@ -57,7 +58,8 @@ USER root
 RUN echo "Europe/Berlin" > /etc/timezone
 
 RUN apt update && apt install -y \
-    ffmpeg
+    ffmpeg \
+    php8.4-amqp
 
 RUN echo "#!/bin/sh" > /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console cache:clear" >> /docker-entrypoint-init.d/03-symfony.sh \
