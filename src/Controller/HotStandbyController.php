@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class HotStandbyController extends JitsiAdminController
 {
-    #[\Symfony\Component\Routing\Annotation\Route(path: '/room/hotstandby/save', name: 'hotstandby_save')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/hotstandby/save', name: 'hotstandby_save')]
     public function save(Request $request, ThemeService $themeService): RedirectResponse
     {
         if (!$themeService->getApplicationProperties('LAF_SHOW_HOTSTANDBY')) {
@@ -35,7 +35,7 @@ final class HotStandbyController extends JitsiAdminController
             }
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
-            $this->addFlash('danger', $this->translator->trans('Fehler beim Speichern der Hot Standby Einstellung: {error}', ['{error}' => $exception->getMessage()]));
+            $this->addFlash('danger', $this->translator->trans('Fehler beim Speichern der Hot Standby Einstellung'));
         }
 
         return $this->redirectToRoute('dashboard');

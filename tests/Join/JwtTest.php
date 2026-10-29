@@ -719,6 +719,50 @@ class JwtTest extends KernelTestCase
         $this->assertPayloadEquals($res, $payload);
     }
 
+    public function testJwtHotStandbyEnabledUserWithGroupId(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+        $testUser = new User();
+        $testUser->setUid('t35Ti2E4S');
+        $testUser->setHotstandbyEnabled(true);
+
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $testUser);
+        $res = [
+            'aud' => 'jitsi_admin',
+            'iss' => $server->getAppId(),
+            'sub' => $server->getUrl(),
+            'room' => $room->getUid(),
+            'context' => [
+                'user' => [
+                    'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => true,
+                        'groupId' => 't35Ti2E4S',
+                    ],
+                ],
+                'room' => [
+                    'name' => 'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
+                ],
+            ],
+            'moderator' => false,
+            'lobbyModerator' => false,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
+        ];
+        $this->assertPayloadEquals($res, $payload);
+    }
+
     public function testLobbyModeratorDerivedInContextWhenJwtModeratorPositionIsOne(): void
     {
         $kernel = self::bootKernel();

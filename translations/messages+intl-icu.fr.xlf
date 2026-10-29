@@ -2609,6 +2609,14 @@ Votre adresse e-mail : {email}</target>
         <source>Hot Standby</source>
         <target state="translated">Hot standby</target>
       </trans-unit>
+      <trans-unit id="hSt4nOk" resname="Hot Standby Einstellung erfolgreich gespeichert">
+        <source>Hot Standby Einstellung erfolgreich gespeichert</source>
+        <target state="translated">Paramètre Hot Standby enregistré avec succès</target>
+      </trans-unit>
+      <trans-unit id="hSt4nEr" resname="Fehler beim Speichern der Hot Standby Einstellung">
+        <source>Fehler beim Speichern der Hot Standby Einstellung</source>
+        <target state="translated">Erreur lors de l'enregistrement du paramètre Hot Standby</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
