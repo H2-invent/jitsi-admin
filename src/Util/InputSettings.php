@@ -27,6 +27,8 @@ class InputSettings
     public const ALLOW_TIMEZONE_DEFAULT = 'input_settings_allow_timezone_default';
     public const ALLOW_LOBBY = 'input_settings_allowLobby';
     public const ALLOW_LOBBY_DEFAULT = 'input_settings_allowLobby_default';
+    public const E2EE = 'input_settings_e2ee';
+    public const E2EE_DEFAULT = 'input_settings_e2ee_default';
     public const ALLOW_TAG = 'input_settings_allow_tag';
     public const ALLOW_EDIT_TAG = 'input_settings_allow_edit_tag';
     public const ALLOW_MAYBE_OPTION = 'INPUT_SETTINGS_ALLOW_MAYBE_OPTION';

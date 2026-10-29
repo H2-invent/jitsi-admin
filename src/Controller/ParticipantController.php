@@ -159,17 +159,27 @@ class ParticipantController extends JitsiAdminController
     #[Route(path: '/room/participant/resend', name: 'room_user_resend')]
     public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
+        $isAjax = $request->isXmlHttpRequest();
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('room')]);
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
+            if ($isAjax) {
+                return new JsonResponse(['error' => true, 'toast' => true, 'message' => $this->translator->trans('Keine Berechtigung'), 'color' => 'danger']);
+            }
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         if (!in_array($room, $user->getRooms()->toArray())) {
+            if ($isAjax) {
+                return new JsonResponse(['error' => true, 'toast' => true, 'message' => $this->translator->trans('Keine Berechtigung'), 'color' => 'danger']);
+            }
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
         $userService->addUser($user, $room);
+        if ($isAjax) {
+            return new JsonResponse(['error' => false, 'toast' => true, 'message' => $this->translator->trans('participant.resend.invitation.sucess'), 'color' => 'success']);
+        }
         $this->addFlash('success', $this->translator->trans('participant.resend.invitation.sucess'));
         return $this->redirectToRoute('dashboard');
     }

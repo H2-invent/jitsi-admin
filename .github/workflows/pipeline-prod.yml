@@ -16,59 +16,24 @@ jobs:
     uses: ./.github/workflows/task-version.yml
 
   artifact:
+    if: needs.version.outputs.skip != 'true'
     uses: ./.github/workflows/task-artifact.yml
+    needs:
+      - version
 
   test:
+    if: needs.version.outputs.skip != 'true'
     uses: ./.github/workflows/task-test.yml
     needs:
+      - version
       - artifact
 
-  release:
-    needs:
-      - test
-      - version
-    uses: ./.github/workflows/task-release.yml
-    with:
-      version: ${{ needs.version.outputs.version }}
-      prerelease: false
-
-  release_note:
-    uses: ./.github/workflows/task-wiki-release.yml
-    needs:
-      - release
-      - version
-    with:
-      version: ${{ needs.version.outputs.version }}
-
-  upload_dockerhub_main:
-    needs:
-      - version
-      - test
-    uses: ./.github/workflows/task-upload-docker-hub.yml
-    with:
-      dockerfile_path: './Dockerfile'
-      directory: '.'
-      version: ${{ needs.version.outputs.version }}
-      tags: h2invent/jitsi-admin-main:latest,h2invent/jitsi-admin-main:${{ needs.version.outputs.version }}
-    secrets:
-      dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
-      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
-
-  upload_dockerhub_websocket:
-    needs:
-      - version
-      - test
-    uses: ./.github/workflows/task-upload-docker-hub.yml
-    with:
-      dockerfile_path: './nodejs/Dockerfile'
-      directory: './nodejs'
-      version: ${{ needs.version.outputs.version }}
-      tags: h2invent/jitsi-admin-websocket:latest,h2invent/jitsi-admin-websocket:${{ needs.version.outputs.version }}
-    secrets:
-      dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
-      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+###########################################
+# Docker H2 invent Registry Jobs
+###########################################
 
   docker_prod_core:
+    if: needs.version.outputs.skip != 'true'
     needs:
       - version
       - test
@@ -84,6 +49,7 @@ jobs:
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
 
   docker_prod_websocket:
+    if: needs.version.outputs.skip != 'true'
     needs:
       - version
       - test
@@ -99,6 +65,7 @@ jobs:
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
 
   docker_prod_application:
+    if: needs.version.outputs.skip != 'true'
     needs:
       - version
       - test
@@ -114,3 +81,62 @@ jobs:
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
+
+###########################################
+# Docker Dockerhub Jobs
+###########################################
+
+  upload_dockerhub_main:
+    if: needs.version.outputs.skip != 'true'
+    needs:
+      - version
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      dockerfile_path: './Dockerfile'
+      directory: '.'
+      version: ${{ needs.version.outputs.version }}
+      tags: h2invent/jitsi-admin-main:latest,h2invent/jitsi-admin-main:${{ needs.version.outputs.version }}
+    secrets:
+      dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
+      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+
+  upload_dockerhub_websocket:
+    if: needs.version.outputs.skip != 'true'
+    needs:
+      - version
+      - test
+    uses: ./.github/workflows/task-upload-docker-hub.yml
+    with:
+      dockerfile_path: './nodejs/Dockerfile'
+      directory: './nodejs'
+      version: ${{ needs.version.outputs.version }}
+      tags: h2invent/jitsi-admin-websocket:latest,h2invent/jitsi-admin-websocket:${{ needs.version.outputs.version }}
+    secrets:
+      dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
+      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+
+###########################################
+# Release
+###########################################
+
+  release:
+    if: needs.version.outputs.skip != 'true'
+    needs:
+      - version
+      - test
+    uses: ./.github/workflows/task-release.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      prerelease: false
+
+  release_note:
+    if: needs.version.outputs.skip != 'true'
+    needs:
+      - version
+      - test
+      - docker_prod_core
+      - docker_prod_websocket
+    uses: ./.github/workflows/task-wiki-release.yml
+    with:
+      version: ${{ needs.version.outputs.version }}

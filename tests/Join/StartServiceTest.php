@@ -3,6 +3,7 @@
 namespace App\Tests\Join;
 
 use App\Entity\RoomStatus;
+use App\Entity\RoomStatusParticipant;
 use App\Entity\RoomsUser;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
@@ -235,6 +236,49 @@ class StartServiceTest extends KernelTestCase
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
         self::assertStringContainsString(
             '<title>Room Tomorrow</title>',
+            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
+        );
+    }
+
+    public function testRoomIsInPast_But_HasParticipants_User_CanJoin(): void
+    {
+        $kernel = self::bootKernel();
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $startService = self::getContainer()->get(StartMeetingService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'Room yesterday']);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
+
+        // Create RoomStatus with destroyed = null (room is still active)
+        $roomStatus = new RoomStatus();
+        $roomStatus->setCreatedAt($room->getStart());
+        $roomStatus->setRoom($room);
+        $roomStatus->setCreated(true);
+        $roomStatus->setJitsiRoomId('room-yesterday-jitsi-id');
+        $roomStatus->setRoomCreatedAt($room->getStart());
+        $roomStatus->setUpdatedAt($room->getStart());
+        $roomStatus->setDestroyed(null); // Room is not destroyed
+        $manager->persist($roomStatus);
+
+        // Create a participant that is still in the room
+        $participant = new RoomStatusParticipant();
+        $participant->setRoomStatus($roomStatus);
+        $participant->setInRoom(true);
+        $participant->setEnteredRoomAt($room->getStart());
+        $participant->setParticipantId('participant-123');
+        $participant->setParticipantName('Test Participant');
+        $manager->persist($participant);
+
+        $manager->flush();
+
+        $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+
+        // User should be able to join the room even though it's in the past,
+        // because there are still participants in it
+        self::assertStringContainsString(
+            '<title>Room Yesterday</title>',
             $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))
         );
     }

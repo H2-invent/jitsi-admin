@@ -20,14 +20,20 @@ jobs:
     uses: ./.github/workflows/task-version.yml
 
   artifact:
+    if: needs.version.outputs.skip != 'true'
     uses: ./.github/workflows/task-artifact.yml
+    needs:
+      - version
 
   test:
+    if: needs.version.outputs.skip != 'true'
     uses: ./.github/workflows/task-test.yml
     needs:
+      - version
       - artifact
 
   docker_core:
+    if: needs.version.outputs.skip != 'true'
     needs:
       - version
       - test
@@ -43,6 +49,7 @@ jobs:
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
 
   docker_websocket:
+    if: needs.version.outputs.skip != 'true'
     needs:
       - version
       - test

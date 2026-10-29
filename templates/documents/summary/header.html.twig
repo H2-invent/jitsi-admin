@@ -1,0 +1,91 @@
+<div class="doc-header">
+    <h1>{{ room.name }}</h1>
+    <div class="doc-subtitle">{{ 'Meeting'|trans }}</div>
+</div>
+
+<table class="grid section">
+    <tbody>
+    <tr>
+        <td style="width: 60%;">
+            <div class="section-title">{{ 'Agenda'|trans }}</div>
+            <div class="card">
+                {{ room.agenda ? room.agenda|markdown_to_html : ('Keine Agenda'|trans) }}
+            </div>
+        </td>
+        <td style="width: 40%; padding-right: 0;">
+            <div class="section-title">{{ 'Organisator'|trans }}</div>
+            <div class="card">
+                <div class="value">{{ room.moderator|nameOfUserNoSymbol }}</div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p class="muted" style="font-size: 10px; margin-bottom: 16px;">
+    {% trans with {'{timezone}': room.timeZone} %}report.info.timezone{% endtrans %}
+</p>
+
+<table class="grid section">
+    <tbody>
+    <tr>
+        <td style="width: 50%;">
+            <div class="section-title">
+                {% if room.persistantRoom %}
+                    {{ 'fixed.Room.name'|trans }}
+                {% else %}
+                    {{ 'Geplant'|trans }}
+                {% endif %}
+            </div>
+            <div class="card">
+                {% if room.persistantRoom %}
+                    <span class="badge badge-fixed">{{ 'fixed.Room.name'|trans }}</span>
+                {% else %}
+                    <div class="label">{{ 'Datum'|trans }}</div>
+                    <div class="value">{{ room.start|date('d.m.Y') }}</div>
+                    <div class="label" style="margin-top: 8px;">{{ 'Uhrzeit'|trans }}</div>
+                    <div class="value">{{ room.start|date('H:i') }} &ndash; {{ room.enddate|date('H:i') }}</div>
+                {% endif %}
+            </div>
+        </td>
+        <td style="width: 50%; padding-right: 0;">
+            <div class="section-title">{{ 'Durchgeführt'|trans }}</div>
+            <div class="card">
+                {% if room.roomstatuses|length > 0 %}
+                    <table class="timeline">
+                        <tbody>
+                        {% for roomStatus in room.roomstatuses|reverse|slice(0, 5) %}
+                            <tr>
+                                <td>
+                                    <strong>{{ roomStatus.roomCreatedAtwithTimeZone()|date('d.m.Y') }}</strong>
+                                    <span class="muted">
+                                        {{ roomStatus.roomCreatedAtwithTimeZone()|date('H:i') }}
+                                        &ndash;
+                                        {% if roomStatus.destroyedAt is not null %}
+                                            {{ roomStatus.destroyedAtwithTimeZone()|date('H:i') }}
+                                        {% else %}
+                                            {{ 'Jetzt'|trans }}
+                                        {% endif %}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <span class="muted">&ndash;</span>
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="section">
+    <div class="section-title">{{ 'Teilnehmerliste'|trans }} ({{ room.user|length }})</div>
+    <div class="card">
+        {% for user in room.user %}
+            <span class="chip">{{ user|nameOfUserNoSymbol }}</span>
+        {% endfor %}
+    </div>
+</div>
