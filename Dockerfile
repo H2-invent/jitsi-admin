@@ -1,42 +1,94 @@
-FROM thecodingmachine/php:8.2-v4-apache-node20
+FROM thecodingmachine/php:8.3-v4-fpm-node22 AS builder
+ARG VERSION=development
+
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
 ENV PHP_EXTENSION_BCMATH=1
 ENV COMPOSER_MEMORY_LIMIT=-1
-ENV STARTUP_COMMAND_1="php bin/console cache:clear"
-ENV STARTUP_COMMAND_2="php bin/console doctrine:mig:mig --no-interaction"
-ENV STARTUP_COMMAND_3="php bin/console app:system:repair"
-ENV STARTUP_COMMAND_4="php bin/console cache:clear"
-
-
-ENV TZ=Europe/Berlin
-USER root
-RUN usermod -a -G www-data docker
-#Do npm install
 
 COPY . /var/www/html
 
-RUN npm install
-USER docker
+USER root
+
 RUN composer install --no-scripts
-USER root
-#do npm build
-RUN mkdir var
-RUN chmod -R 775 var/
-RUN chown -R docker:docker var/
-RUN chown -R docker:docker public/uploads/
-RUN chown -R docker:docker public/theme/
-RUN chown -R docker:docker theme/
-RUN chown -R  docker:docker data/
-RUN mkdir -m 775 -p public/build
-USER docker
-RUN php bin/console cache:clear
-RUN php bin/console cache:warmup
-USER root
-RUN npm run build
 
-RUN rm -rf node_modules/
-RUN chown -R docker:docker var/
-#copy all the rest of the app
+RUN php bin/console cache:clear\
+    && php bin/console cache:warmup
 
-USER docker
+RUN npm install \
+    && npm run build
+
+RUN sed -i "s/^laF_version=.*/laF_version=${VERSION}/" .env
+
+RUN tar \
+    --exclude='./.github' \
+    --exclude='./.git' \
+    --exclude='./docs' \
+    --exclude='./documentation' \
+    --exclude='./installer' \
+    --exclude='./docker' \
+    --exclude='./nodejs' \
+    --exclude='./debian_installer' \
+    --exclude='./jstest' \
+    --exclude='./testjwt' \
+    --exclude='./traefik' \
+    --exclude='./node_modules' \
+    --exclude='./var/cache' \
+    --exclude='./var/log' \
+    -zcvf /artifact.tgz .
+
+FROM reg.h2-invent.com/public-system-design/debian-php84-cron-webserver:3.23.11-6782
+ARG VERSION=development
+
+LABEL version="${VERSION}" \
+    Maintainer="H2 invent GmbH" \
+    Description="Core Docker Image for Jitsi Admin" \
+    org.opencontainers.version="${VERSION}" \
+    org.opencontainers.image.title="Jitsi Admin" \
+    org.opencontainers.image.license="AGPLv3" \
+    org.opencontainers.image.vendor="H2 invent GmbH" \
+    org.opencontainers.image.authors="Emanuel Holzmann <support@h2-invent.com>" \
+    org.opencontainers.image.source="https://github.com/h2-invent/jitsi-admin" \
+    org.opencontainers.image.documentation="https://meetling.de" \
+    org.opencontainers.image.url="https://jitsi-admin.de"
+
+USER root
+
+RUN echo "Europe/Berlin" > /etc/timezone
+
+RUN apt update && apt install -y \
+    ffmpeg
+
+RUN echo "#!/bin/sh" > /docker-entrypoint-init.d/03-symfony.sh \
+    && echo "php bin/console cache:clear" >> /docker-entrypoint-init.d/03-symfony.sh \
+    && echo "php bin/console doc:mig:mig --no-interaction" >> /docker-entrypoint-init.d/03-symfony.sh \
+    && echo "php bin/console cache:clear" >> /docker-entrypoint-init.d/03-symfony.sh \
+    && echo "php bin/console cache:warmup" >> /docker-entrypoint-init.d/03-symfony.sh \
+    && echo "php bin/console app:setup:initial" >> /docker-entrypoint-init.d/03-symfony.sh \
+    && chmod +x /docker-entrypoint-init.d/03-symfony.sh
+
+RUN echo "" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.enable=1" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.enable_cli=1" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.preload=/var/www/html/config/preload.php" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.preload_user=nobody" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.memory_consumption=256" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.max_accelerated_files=32531" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.interned_strings_buffer=32" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.validate_timestamps=0" >> /etc/php/active/fpm/conf.d/custom.ini
+
+USER nobody
+
+COPY --from=builder /artifact.tgz artifact.tgz
+
+RUN tar -zxvf artifact.tgz \
+    && rm artifact.tgz \
+    && mkdir -p var/cache \
+    && mkdir -p var/log
+
+ENV nginx_root_directory=/var/www/html/public \
+    client_max_body_size=20M \
+    memory_limit=1024M \
+    post_max_size=20M \
+    upload_max_filesize=20M \
+    date_timezone=Europe/Berlin

@@ -1730,6 +1730,10 @@
         <source>email.sip.pin</source>
         <target>PIN</target>
       </trans-unit>
+      <trans-unit id="sip.personalpin" resname="email.sip.personalpin">
+        <source>email.sip.personalpin</source>
+        <target>Persönliche PIN</target>
+      </trans-unit>
       <trans-unit id="MI..OPw" resname="enterprise.settings.header.sip">
         <source>enterprise.settings.header.sip</source>
         <target>Jigasi SIP-Einwahldaten</target>

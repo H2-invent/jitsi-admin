@@ -161,23 +161,37 @@ class CallerPrepareService
     public function createUserCallerIDforRepeater(Repeat $repeat)
     {
         $prototype = $repeat->getPrototyp();
+        $rooms = $repeat->getRooms()->toArray();
+        if ($rooms === []) {
+            return;
+        }
+
+        // Load the PINs of all appointments in one query instead of one lookup per appointment and user.
+        $roomIds = array_map(static fn(Rooms $room) => $room->getId(), $rooms);
+        $existingCallerIds = $this->em->getRepository(CallerId::class)->findByRooms($roomIds);
+
+        $existingByRoomAndUser = [];
+        foreach ($existingCallerIds as $callerId) {
+            $existingByRoomAndUser[$callerId->getRoom()->getId() . ':' . $callerId->getUser()?->getId()] = true;
+        }
+
         foreach ($prototype->getPrototypeUsers() as $pUser) {
-            $callerID = new CallerId();
-            $callerID
-                ->setRoom($prototype)
-                ->setUser($pUser)
-                ->setCreatedAt(new \DateTime())
-                ->setCallerId($this->generateCallerUserId($prototype, 999999));
-            foreach ($repeat->getRooms() as $room){
-                $callerIDClone = clone $callerID;
-                $callerIDClone->setRoom($room)
-                    ->setUser($pUser);
-                $this->em->persist($callerIDClone);
-                $room->addCallerId($callerIDClone);
+            foreach ($rooms as $room) {
+                if (isset($existingByRoomAndUser[$room->getId() . ':' . $pUser->getId()])) {
+                    continue;
+                }
+                $callerID = new CallerId();
+                $callerID
+                    ->setRoom($room)
+                    ->setUser($pUser)
+                    ->setCreatedAt(new \DateTime())
+                    ->setCallerId($this->generateCallerUserId($room, 999999));
+                $this->em->persist($callerID);
+                $room->addCallerId($callerID);
             }
         }
-      $this->em->flush();
 
+        $this->em->flush();
     }
 
 
