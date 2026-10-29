@@ -2,7 +2,7 @@ export class CallerTag {
     prependHTML = '&nbsp;-&nbsp;';
     innerHTML;
     textColor = '#000'; // black
-    backgroundColor = '#ff5959'; // pastel red
+    backgroundColor = '#ffb347'; // pastel orange
 
     previousInnerHTML = '';
     previousTextColor = '';
