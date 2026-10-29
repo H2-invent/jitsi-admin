@@ -241,7 +241,6 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-
     private function sendUpdate(Update $update)
     {
         try {

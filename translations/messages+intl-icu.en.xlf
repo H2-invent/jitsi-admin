@@ -2611,6 +2611,10 @@ Your email address: {email}</target>
         <source>Recording</source>
         <target state="needs-translation">Recording</target>
       </trans-unit>
+      <trans-unit id="3ndFdnr" resname="Telefonteilnehmer anwesend">
+        <source>Telefonteilnehmer anwesend</source>
+        <target state="translated">Phone caller present</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
