@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Log;
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
@@ -56,10 +55,10 @@ class NewRoomService
             $sequence = $room->getSequence() + 1;
             $room->setSequence($sequence);
             if (!$room->getUidModerator()) {
-                $room->setUidModerator(UidGeneratorHelper::generate(UidType::MODERATOR));
+                $room->setUidModerator(UidGeneratorHelper::generate());
             }
             if (!$room->getUidParticipant()) {
-                $room->setUidParticipant(UidGeneratorHelper::generate(UidType::PARTICIPANT));
+                $room->setUidParticipant(UidGeneratorHelper::generate());
             }
             $serverChoose = $room->getServer();
         } else {

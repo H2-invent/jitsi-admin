@@ -10,7 +10,6 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
-use App\Enums\UidType;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
 use App\Helper\UidGeneratorHelper;
@@ -61,12 +60,12 @@ class DashboardController extends JitsiAdminController
         $changed = false;
 
         if (!$user->getUid()) {
-            $user->setUid(UidGeneratorHelper::generate(UidType::USER));
+            $user->setUid(UidGeneratorHelper::generate());
             $changed = true;
         }
 
         if (!$user->getOwnRoomUid()) {
-            $user->setOwnRoomUid(UidGeneratorHelper::generate(UidType::OWN_ROOM));
+            $user->setOwnRoomUid(UidGeneratorHelper::generate());
             $changed = true;
         }
 

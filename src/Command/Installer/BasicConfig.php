@@ -2,7 +2,6 @@
 
 namespace App\Command\Installer;
 
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 
 class BasicConfig implements ConvertToEnvironmentInterface
@@ -29,7 +28,7 @@ class BasicConfig implements ConvertToEnvironmentInterface
     {
         return new self(
             baseUrl: $baseUrl,
-            secret: $secret ?? UidGeneratorHelper::generate(UidType::SECRET),
+            secret: $secret ?? UidGeneratorHelper::generate(),
         );
     }
 

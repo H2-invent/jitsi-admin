@@ -5,7 +5,6 @@ namespace App\Service\Ldap;
 use App\DataType\LdapType;
 use App\Entity\LdapUserProperties;
 use App\Entity\User;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Repository\UserRepository;
 use App\Service\IndexUserService;
@@ -46,7 +45,7 @@ class LdapUserService
 
             if (!$user) {
                 $user = $this->userCreationService->createUser($email, $uid, $firstName, $lastName, $dryRun);
-                $user->setUid(UidGeneratorHelper::generate(UidType::USER));
+                $user->setUid(UidGeneratorHelper::generate());
             }
 
             if (!$user->getLdapUserProperties()) {

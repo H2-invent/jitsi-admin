@@ -6,7 +6,6 @@ use App\Entity\LobbyWaitungUser;
 use App\Entity\PredefinedLobbyMessages;
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Service\Theme\ThemeService;
 use App\UtilsHelper;
@@ -67,7 +66,7 @@ class SendMessageToWaitingUser
                 if ($waitingUser->getCallerSession()) {
                     $this->logger->debug('The Waitunguser is from a callersession', ['calleruid' => $waitingUser->getCallerSession()->getId()]);
                     $callerSession = $waitingUser->getCallerSession();
-                    $callerSession->setMessageUid(messageUid: UidGeneratorHelper::generate(UidType::MESSAGE));
+                    $callerSession->setMessageUid(messageUid: UidGeneratorHelper::generate());
                     $callerSession->setMessageText(messageText: $res);
                     $this->entityManager->persist($callerSession);
                     $this->entityManager->flush();

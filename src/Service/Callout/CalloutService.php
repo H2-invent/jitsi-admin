@@ -6,7 +6,6 @@ use App\Entity\CallerSession;
 use App\Entity\CalloutSession;
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
@@ -95,7 +94,7 @@ class CalloutService
             ->setRoom($rooms)
             ->setCreatedAt(new \DateTimeImmutable())
             ->setInvitedFrom($inviter)
-            ->setUid(UidGeneratorHelper::generate(UidType::CALLOUT))
+            ->setUid(UidGeneratorHelper::generate())
             ->setState(CalloutSession::$INITIATED)
             ->setLeftRetries($this->themeService->getApplicationProperties('CALLOUT_MAX_RETRIES'));
         $this->entityManager->persist($callout);

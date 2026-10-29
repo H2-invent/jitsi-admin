@@ -11,7 +11,6 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Service\Caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,7 +47,7 @@ class UserService
     public function addUser(User $user, Rooms $room): bool
     {
         if (!$user->getUid()) {
-            $user->setUid(UidGeneratorHelper::generate(UidType::USER));
+            $user->setUid(UidGeneratorHelper::generate());
             $this->em->persist($user);
             $this->em->flush();
         }
@@ -69,7 +68,7 @@ class UserService
     public function addWaitinglist(User $user, Rooms $room): bool
     {
         if (!$user->getUid()) {
-            $user->setUid(UidGeneratorHelper::generate(UidType::USER));
+            $user->setUid(UidGeneratorHelper::generate());
             $this->em->persist($user);
             $this->em->flush();
         }

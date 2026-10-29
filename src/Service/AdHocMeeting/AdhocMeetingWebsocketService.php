@@ -4,7 +4,6 @@ namespace App\Service\AdHocMeeting;
 
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Theme\ThemeService;
@@ -70,13 +69,13 @@ class AdhocMeetingWebsocketService
             $topic,
             $header,
             $text,
-            UidGeneratorHelper::generate(UidType::MESSAGE)
+            UidGeneratorHelper::generate()
         );
 
         $this->directSendService->sendPlaySound(
             $topic,
             'caller',
-            UidGeneratorHelper::generate(UidType::MESSAGE)
+            UidGeneratorHelper::generate()
         );
     }
 }

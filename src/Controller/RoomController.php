@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\Tag;
-use App\Enums\UidType;
 use App\Form\Type\RoomType;
 use App\Helper\JitsiAdminController;
 use App\Helper\UidGeneratorHelper;
@@ -224,7 +223,7 @@ class RoomController extends JitsiAdminController
         foreach ($roomNew->getSchedulings() as $data) {
             $roomNew->removeScheduling($data);
         }
-        $roomNew->setUid(UidGeneratorHelper::generate(UidType::ROOM));
+        $roomNew->setUid(UidGeneratorHelper::generate());
         $roomNew->setSequence(0);
 
         $snack = $translator->trans('Keine Berechtigung');
@@ -256,11 +255,11 @@ class RoomController extends JitsiAdminController
                     $tmp = clone $data;
                     $roomNew->addUserAttribute($tmp);
                 }
-                $roomNew->setUidReal(UidGeneratorHelper::generate(UidType::ROOM));
-                $roomNew->setUidModerator(UidGeneratorHelper::generate(UidType::MODERATOR));
-                $roomNew->setUidParticipant(UidGeneratorHelper::generate(UidType::PARTICIPANT));
+                $roomNew->setUidReal(UidGeneratorHelper::generate());
+                $roomNew->setUidModerator(UidGeneratorHelper::generate());
+                $roomNew->setUidParticipant(UidGeneratorHelper::generate());
                 $roomNew->setSequence(0);
-                $roomNew->setUid(UidGeneratorHelper::generate(UidType::ROOM));
+                $roomNew->setUid(UidGeneratorHelper::generate());
                 $em      = $this->doctrine->getManager();
                 $error   = [];
                 $roomNew = $roomCheckService->checkRoom($roomNew, $error);

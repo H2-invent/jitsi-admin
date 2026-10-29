@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * Rotate every legacy uid value (md5(uniqid()) or the weak random_int/time variant) to the
- * UidGeneratorHelper format, so previously guessable capability tokens are re-rolled.
+ * Rotate every legacy uid value (md5(uniqid()) or the weak random_int/time variant) to a UUID v4,
+ * so previously guessable capability tokens are re-rolled.
  *
  * Uids deliberately NOT migrated, with the reason rotation cannot touch them:
  * - rooms.uid with moderator_id IS NULL (public/fast conferences): derived natural key
@@ -35,7 +34,7 @@ final class Version20261028162409 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Rotate legacy weak uids to UidGeneratorHelper format';
+        return 'Rotate legacy weak uids to UUID v4';
     }
 
     public function up(Schema $schema): void
@@ -43,21 +42,20 @@ final class Version20261028162409 extends AbstractMigration
         $this->rotate(
             'rooms',
             'uid',
-            UidType::ROOM,
             '^[0-9a-f]{32}$|^[0-9]{11,12}$',
             'moderator_id IS NOT NULL'
         );
-        $this->rotate('rooms', 'uid_real', UidType::ROOM);
-        $this->rotate('rooms', 'uid_moderator', UidType::MODERATOR);
-        $this->rotate('rooms', 'uid_participant', UidType::PARTICIPANT);
-        $this->rotate('fos_user', 'uid', UidType::USER);
-        $this->rotate('fos_user', 'own_room_uid', UidType::OWN_ROOM);
-        $this->rotate('subscriber', 'uid', UidType::SUBSCRIBER);
-        $this->rotate('scheduling', 'uid', UidType::SCHEDULE);
-        $this->rotate('`repeat`', 'uid', UidType::REPEATER);
-        $this->rotate('callout_session', 'uid', UidType::CALLOUT);
-        $this->rotate('lobby_waitung_user', 'uid', UidType::USER);
-        $this->rotate('caller_session', 'message_uid', UidType::MESSAGE);
+        $this->rotate('rooms', 'uid_real');
+        $this->rotate('rooms', 'uid_moderator');
+        $this->rotate('rooms', 'uid_participant');
+        $this->rotate('fos_user', 'uid');
+        $this->rotate('fos_user', 'own_room_uid');
+        $this->rotate('subscriber', 'uid');
+        $this->rotate('scheduling', 'uid');
+        $this->rotate('`repeat`', 'uid');
+        $this->rotate('callout_session', 'uid');
+        $this->rotate('lobby_waitung_user', 'uid');
+        $this->rotate('caller_session', 'message_uid');
     }
 
     public function down(Schema $schema): void
@@ -68,7 +66,6 @@ final class Version20261028162409 extends AbstractMigration
     private function rotate(
         string $table,
         string $column,
-        UidType $type,
         string $pattern = '^[0-9a-f]{32}$',
         string $extraWhere = ''
     ): void {
@@ -84,7 +81,7 @@ final class Version20261028162409 extends AbstractMigration
         foreach ($rows as $row) {
             $this->addSql(
                 sprintf('UPDATE %s SET %s = ? WHERE id = ?', $table, $column),
-                [UidGeneratorHelper::generate($type), $row['id']]
+                [UidGeneratorHelper::generate(), $row['id']]
             );
         }
     }

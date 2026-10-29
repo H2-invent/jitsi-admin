@@ -7,7 +7,6 @@ namespace App\Service;
 use App\Entity\Rooms;
 use App\Entity\UploadedRecording;
 use App\Entity\User;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Message\RecordingUploadedMessage;
 use App\Message\TranscriptionMessage;
@@ -111,7 +110,7 @@ class RecordingService
         if ($fileStream === false) {
             return ServiceResult::failure(RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE);
         }
-        $fileName = UidGeneratorHelper::generate(UidType::RECORDING) . '.mp4';
+        $fileName = UidGeneratorHelper::generate() . '.mp4';
         // The local Gaufrette-Adapter passes the contents to file_put_contents(), also accepts a stream
         /** @phpstan-ignore-next-line */
         $this->recordingFilesystem->write($fileName, $fileStream);

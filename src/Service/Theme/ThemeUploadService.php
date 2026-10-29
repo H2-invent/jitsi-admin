@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\Theme;
 
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Service\Result\Error\ThemeUploadError;
 use App\Service\Result\ServiceResult;
@@ -32,7 +31,7 @@ class ThemeUploadService
 
     public function uploadTheme(string $absoluteFilePathZip): ServiceResult
     {
-        $randomString   = UidGeneratorHelper::generate(UidType::THEME);
+        $randomString   = UidGeneratorHelper::generate();
         $extractionPath = "{$this->cacheDir}/{$randomString}";
         $success        = $this->extractZipToPath($absoluteFilePathZip, $extractionPath);
         if (!$success) {

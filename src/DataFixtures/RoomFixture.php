@@ -16,7 +16,6 @@ use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
 use App\Entity\Server;
 use App\Entity\Tag;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -277,7 +276,7 @@ class RoomFixture extends Fixture
             $room->setSequence(0);
             $room->setServer($server);
             $selectDate = new Scheduling();
-            $selectDate->setUid(UidGeneratorHelper::generate(UidType::SCHEDULE));
+            $selectDate->setUid(UidGeneratorHelper::generate());
             $selectDate->setDescription('test');
             $selectDate->setRoom($room);
             for ($c = 0; $c < 5; $c++) {
@@ -334,8 +333,8 @@ class RoomFixture extends Fixture
         $end   = $start->modify('+60min');
         $room->setStart($start);
         $room->setEnddate($end);
-        $room->setUid(UidGeneratorHelper::generate(UidType::ROOM));
-        $room->setUidReal(UidGeneratorHelper::generate(UidType::ROOM));
+        $room->setUid(UidGeneratorHelper::generate());
+        $room->setUidReal(UidGeneratorHelper::generate());
         $room->setSlug('test7');
         $room->setScheduleMeeting(false);
         $room->setName('No Right');
@@ -359,7 +358,7 @@ class RoomFixture extends Fixture
         $room->addUser($user);
         $room->addUser($user2);
         $room->setUid('roomTomorrow');
-        $room->setUidReal(UidGeneratorHelper::generate(UidType::ROOM));
+        $room->setUidReal(UidGeneratorHelper::generate());
         $room->setSlug('test5');
         $room->setScheduleMeeting(false);
         $room->setName('Room Tomorrow');
@@ -383,8 +382,8 @@ class RoomFixture extends Fixture
         $room->addUser($user);
         $room->setCreator($user);
         $room->addUser($user2);
-        $room->setUid(UidGeneratorHelper::generate(UidType::ROOM));
-        $room->setUidReal(UidGeneratorHelper::generate(UidType::ROOM));
+        $room->setUid(UidGeneratorHelper::generate());
+        $room->setUidReal(UidGeneratorHelper::generate());
         $room->setSlug('test5');
         $room->setScheduleMeeting(false);
         $room->setName('Room Yesterday');
@@ -412,7 +411,7 @@ class RoomFixture extends Fixture
         $room->addUser($user);
         $room->addUser($user2);
         $room->setUid('runningRoomNow');
-        $room->setUidReal(UidGeneratorHelper::generate(UidType::ROOM));
+        $room->setUidReal(UidGeneratorHelper::generate());
         $room->setSlug('test5');
         $room->setScheduleMeeting(false);
         $room->setName('Running Room');

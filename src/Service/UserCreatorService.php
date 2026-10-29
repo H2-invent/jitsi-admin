@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\User;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,9 +28,9 @@ class UserCreatorService
                 ->setLastName($lastName)
                 ->setFirstName($firstName)
                 ->setEmail($email)
-                ->setRegisterId(UidGeneratorHelper::generate(UidType::REGISTER))
+                ->setRegisterId(UidGeneratorHelper::generate())
                 ->setPassword('123')
-                ->setUid(UidGeneratorHelper::generate(UidType::USER));
+                ->setUid(UidGeneratorHelper::generate());
             $user->setIndexer($this->indexer->indexUser($user));
             if (!$dryrun) {
                 $this->em->persist($user);

@@ -3,7 +3,6 @@
 namespace App\Helper;
 
 use App\Entity\Rooms;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -20,7 +19,7 @@ class UidHelper
         if ($rooms->getRepeater()) {
             if (!$rooms->getRepeater()->getUid()) {
                 $rep = $rooms->getRepeater();
-                $rep->setUid(UidGeneratorHelper::generate(UidType::REPEATER));
+                $rep->setUid(UidGeneratorHelper::generate());
                 $this->entityManager->persist($rep);
                 $this->entityManager->flush();
             }

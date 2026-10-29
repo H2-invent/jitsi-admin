@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Enums\UidType;
 use App\Form\CalendlyTokenType;
 use App\Helper\UidGeneratorHelper;
 use App\Repository\RoomsRepository;
@@ -84,7 +83,7 @@ class CalendlyWebhookApiController extends AbstractController
                         $user->setCalendlyOrgUri($res['current_organization']);
                         $user->setCalendlyUserUri($res['uri']);
                         $user->setCalendlySucessfullyAdded(false);
-                        $user->setCalendlySecret(UidGeneratorHelper::generate(UidType::CALENDLY));
+                        $user->setCalendlySecret(UidGeneratorHelper::generate());
                         $cleanRes = $this->callendlyConnect->getWebhooks($user);
 
                         foreach ($cleanRes['collection'] as $data) {

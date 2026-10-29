@@ -7,7 +7,6 @@ use App\Entity\RoomsUser;
 use App\Entity\Subscriber;
 use App\Entity\User;
 use App\Entity\Waitinglist;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -154,7 +153,7 @@ class SubcriptionService
     public function createNewSubscriber(User $user, Rooms $rooms): array
     {
         $subscriber = new Subscriber();
-        $subscriber->setUser($user)->setRoom($rooms)->setUid(UidGeneratorHelper::generate(UidType::SUBSCRIBER));
+        $subscriber->setUser($user)->setRoom($rooms)->setUid(UidGeneratorHelper::generate());
         $this->em->persist($subscriber);
         $this->em->flush();
 

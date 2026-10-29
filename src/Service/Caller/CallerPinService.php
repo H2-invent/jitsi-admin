@@ -5,7 +5,6 @@ namespace App\Service\Caller;
 use App\Entity\CallerId;
 use App\Entity\CallerRoom;
 use App\Entity\CallerSession;
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use App\Repository\CallerIdRepository;
 use App\Entity\Rooms;
@@ -84,7 +83,7 @@ class CallerPinService
 
         $this->loggger->debug('We create a session for the caller', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
         $session = new CallerSession();
-        $session->setSessionId(UidGeneratorHelper::generate(UidType::SESSION))
+        $session->setSessionId(UidGeneratorHelper::generate())
             ->setCreatedAt(new \DateTimeImmutable())
             ->setAuthOk(false)
             ->setLobbyWaitingUser($lobbyUser)

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\Transcription\Provider;
 
-use App\Enums\UidType;
 use App\Helper\UidGeneratorHelper;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
@@ -55,8 +54,8 @@ abstract class AbstractMediaConverter
         }
 
         $recordingFile = $filesystem->get($recordingFileKey);
-        $tempVideoPath = sys_get_temp_dir() . '/' . UidGeneratorHelper::generate(UidType::TEMP) . '.mp4';
-        $tempAudioPath = sys_get_temp_dir() . '/' . UidGeneratorHelper::generate(UidType::TEMP) . '.mp3';
+        $tempVideoPath = sys_get_temp_dir() . '/' . UidGeneratorHelper::generate() . '.mp4';
+        $tempAudioPath = sys_get_temp_dir() . '/' . UidGeneratorHelper::generate() . '.mp3';
 
         try {
             file_put_contents($tempVideoPath, $recordingFile->getContent());
@@ -86,7 +85,7 @@ abstract class AbstractMediaConverter
 
         $startTime = 0;
         while ($startTime < $duration) {
-            $chunkPath = sys_get_temp_dir() . '/' . UidGeneratorHelper::generate(UidType::TEMP) . '.mp3';
+            $chunkPath = sys_get_temp_dir() . '/' . UidGeneratorHelper::generate() . '.mp3';
             $audio     = $this->ffmpeg->open($mp3FilePath);
             $audio->filters()->clip(
                 TimeCode::fromSeconds($startTime),

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Repeat;
 use App\Entity\Rooms;
-use App\Enums\UidType;
 use App\Form\Type\RepeaterType;
 use App\Form\Type\RoomType;
 use App\Helper\JitsiAdminController;
@@ -65,7 +64,7 @@ class RepeaterController extends JitsiAdminController
                 $room->setPublic(false);
                 $em->persist($room);
                 $em->flush();
-                $repeater->setUid(UidGeneratorHelper::generate(UidType::REPEATER));
+                $repeater->setUid(UidGeneratorHelper::generate());
                 $repeater->setPrototyp($room);
                 $repeater->setStartDate($room->getStart());
 
