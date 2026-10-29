@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
@@ -19,8 +20,9 @@ final class Version20260814092541 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('UPDATE rooms SET enable_transcription = 0 WHERE enable_transcription IS NULL');
-        $this->addSql('UPDATE server SET enable_transcription = 0 WHERE enable_transcription IS NULL');
+        // Bound as a typed boolean so Doctrine converts it per platform (0 on MySQL/MariaDB, false on PostgreSQL)
+        $this->addSql('UPDATE rooms SET enable_transcription = ? WHERE enable_transcription IS NULL', [false], [Types::BOOLEAN]);
+        $this->addSql('UPDATE server SET enable_transcription = ? WHERE enable_transcription IS NULL', [false], [Types::BOOLEAN]);
 
         $schema->getTable('rooms')
             ->modifyColumn('enable_transcription', [
