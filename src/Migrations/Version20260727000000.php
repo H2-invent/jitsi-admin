@@ -84,6 +84,9 @@ final class Version20260727000000 extends AbstractMigration
                     continue;
                 }
                 $json = json_encode($unserialized, JSON_UNESCAPED_UNICODE);
+                if ($json === false) {
+                    continue;
+                }
             }
 
             $this->updateValue($table, $column, $id, $json);
