@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DoctrineMigrations;
 
 use App\Helper\UidGeneratorHelper;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -69,18 +70,22 @@ final class Version20261028162409 extends AbstractMigration
         string $pattern = '^[0-9a-f]{32}$',
         string $extraWhere = ''
     ): void {
-        $where = sprintf("%s IS NOT NULL AND %s REGEXP '%s'", $column, $column, $pattern);
+        $quotedTable = $this->connection->quoteSingleIdentifier(str_replace('`', '', $table));
+        // MySQL uses REGEXP, PostgreSQL uses the POSIX operator ~ for the same pattern.
+        $regexOperator = $this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform ? '~' : 'REGEXP';
+
+        $where = sprintf("%s IS NOT NULL AND %s %s '%s'", $column, $column, $regexOperator, $pattern);
         if ($extraWhere !== '') {
             $where .= ' AND ' . $extraWhere;
         }
 
         $rows = $this->connection->fetchAllAssociative(
-            sprintf('SELECT id, %s AS uid_value FROM %s WHERE %s', $column, $table, $where)
+            sprintf('SELECT id, %s AS uid_value FROM %s WHERE %s', $column, $quotedTable, $where)
         );
 
         foreach ($rows as $row) {
             $this->addSql(
-                sprintf('UPDATE %s SET %s = ? WHERE id = ?', $table, $column),
+                sprintf('UPDATE %s SET %s = ? WHERE id = ?', $quotedTable, $column),
                 [UidGeneratorHelper::generate(), $row['id']]
             );
         }
