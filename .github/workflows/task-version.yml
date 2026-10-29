@@ -1,4 +1,4 @@
-name: Define version
+name: Task - Define version
 
 on:
   workflow_call:

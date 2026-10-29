@@ -1,4 +1,4 @@
-name: Create Release Build
+name: Create Staging Build
 
 permissions:
   contents: write

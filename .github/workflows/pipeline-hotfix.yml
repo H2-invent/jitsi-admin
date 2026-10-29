@@ -1,4 +1,4 @@
-name: Create Hotfix Build
+name: Run Tests and create Hotfix Build
 
 permissions:
   contents: read
