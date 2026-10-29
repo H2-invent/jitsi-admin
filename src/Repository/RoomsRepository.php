@@ -595,7 +595,9 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->leftJoin('r.callerRoom', 'callerRoom')
+            ->leftJoin('r.repeaterProtoype', 'repeaterProtoype')
             ->andWhere($qb->expr()->isNull('callerRoom'))
+            ->andWhere($qb->expr()->isNull('repeaterProtoype.id'))
             ->andWhere($qb->expr()->isNotNull('r.moderator'))
             ->andWhere(
                 $qb->expr()->orX(
@@ -609,6 +611,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findRoomsForRoomInGivenMinutes(Server $server, $minutes = 0)
     {
         $qb = $this->createQueryBuilder('r');
