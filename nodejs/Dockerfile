@@ -27,8 +27,6 @@ EXPOSE 3000
 
 USER node
 
-ENV WEBSOCKET_SECRET=CHANGEME
-
 HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:3000/healthz || exit 1
 
 CMD [ "node", "server.mjs" ]
