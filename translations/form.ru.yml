@@ -82,7 +82,7 @@ help:
   jigasiNumberUrl: 'Введите здесь номер для дозвона в формате JSON. Для этого они должны быть введены как они введены в Jigasi в "numbers.json" (например.: {"message":"Dial-in numbers","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: Введите здесь домен Prosody. Обычно это соответствует шаблону "conference.domain.topdomain".
   disallowFirefox: Браузер Firefox отключен. Все участники, желающие присоединиться с помощью браузера Firefox, будут перенаправлены на браузер на основе Chromium.
-  enforceE2e: Безопасность сквозного шифрования обеспечивается в каждой конференции на этом сервере Jitsi.
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Server erzwungen.
   allowIp: Только указанные IP-адреса или диапазоны IP адресов могут подключиться к конференции. IP диапазоны должны быть заданы в нотации 10.10.10.10/24. Несколько IP адресов или диапазонов могут быть заданы с разделением запятыми.
   jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
   disableFilmstripe: Filmstripe in Jitsi deaktivieren
@@ -143,6 +143,7 @@ label:
   timezone: Часовой пояс
   serverName: Название сервера
   lobby: Активировать комнату
+  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
   secondEmail: CC-E-Mail
   profilImage: Изображение профиля (отображается на собрании Jitsi-Meet Meeting)
   corsHeader: CORS-Header oder frame-ancestor Header
