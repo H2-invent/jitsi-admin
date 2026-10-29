@@ -77,6 +77,7 @@ help:
   teilnehmerEmailhinzufuegenModerator: Multiple email addresses can be added at once. Each email address has to be written into a new line.
   serverName: Please enter the server name. This will be shown to the participants.
   secondEmail: All emails to my default email address should be sent to this additional email addresses (comma-separated).
+  hotstandbyEnabled: You can join a conference with several devices at once. If the active device fails or disconnects, it automatically switches to a backup device.
   corsHeader: If a CORS or frame-ancestor header is set, that does not point to this URL, it is not possible to use JITSI iFrame API. This causes loss of some functionality.
   jigasiApiUrl: Enter URL to Jigasi API which will be used for getting conference pin. It usually ends with "ConferenceManager".
   jigasiNumberUrl: 'Enter the dial-in number here in JSON format. To do this, these must be entered as they are entered in Jigasi in the "numbers.json" (e.g.: {"message":"Dial-in numbers","numbers":{"DE":["04122/012345"]},"numbersEnabled" :true}).'
@@ -145,6 +146,7 @@ label:
   lobby: Activate lobby
   isE2EEEnabled: Enable end-to-end encryption (E2EE)
   secondEmail: CC Email
+  hotstandbyEnabled: Enable hot standby for all conferences
   profilImage: Profile picture (Shown in Jitsi-Meet meeting)
   corsHeader: CORS- or frame-ancestor header
   tag: Category

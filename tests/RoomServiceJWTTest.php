@@ -104,6 +104,7 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
                         'room'=>[
                             'name'=>'testRoom',
@@ -235,6 +236,7 @@ class RoomServiceJWTTest extends KernelTestCase
                                 'name' => 'Testuser',
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
                         'room'=>[
                             'name'=>'testRoom',
@@ -325,6 +327,7 @@ class RoomServiceJWTTest extends KernelTestCase
 
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
                         'room'=>[
                             'name'=>'testRoom',
@@ -400,6 +403,7 @@ invalidKey
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
                         'room'=>[
                             'name'=>'testRoom',
@@ -474,5 +478,16 @@ invalidKey
             ],
             $messages
         );
+    }
+
+    /**
+     * @return array{isEnabled: bool, groupId: string|null}
+     */
+    private function getHotStandbySettings(): array
+    {
+        return [
+            'isEnabled' => false,
+            'groupId' => null,
+        ];
     }
 }

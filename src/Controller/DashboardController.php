@@ -10,6 +10,7 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
+use App\Form\Type\HotStandbyType;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
 use App\Repository\RoomsRepository;
@@ -199,6 +200,7 @@ class DashboardController extends JitsiAdminController
                 'time'                    => $timer->getDuration(),
                 'publicServer'            => $publicServer,
                 'doAllowUserCreation'     => $this->userCreatorService->doAllowUserCreation(),
+                'hotStandbyForm'          => $this->createHotStandbyForm()->createView(),
             ],
         );
 
@@ -291,5 +293,19 @@ class DashboardController extends JitsiAdminController
             'servers'             => $servers,
             'doAllowUserCreation' => $this->userCreatorService->doAllowUserCreation(),
         ]);
+    }
+
+    /**
+     * @return \Symfony\Component\Form\FormInterface<\App\Entity\User|null>
+     */
+    private function createHotStandbyForm(): \Symfony\Component\Form\FormInterface
+    {
+        return $this->createForm(
+            HotStandbyType::class,
+            $this->getUser(),
+            [
+                'action' => $this->generateUrl('hotstandby_save'),
+            ],
+        );
     }
 }
