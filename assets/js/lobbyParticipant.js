@@ -282,7 +282,6 @@ function askHangup() {
 
 
 
-
 //
 // function switchCameraOn(videoOn) {
 //     if (videoOn === true) {

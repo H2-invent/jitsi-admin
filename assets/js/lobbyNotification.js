@@ -70,7 +70,7 @@ function masterNotify(data) {
     } else if (data.type === 'message') {
         addmessage(data);
     } else {
-        console.log()('Error, Please reload the page')
+        console.log('Error, Please reload the page');
     }
 }
 
