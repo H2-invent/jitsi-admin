@@ -337,4 +337,32 @@ describe("WebSocket Server", function () {
       observer.close();
     });
   });
+
+  describe("getStatusForUserId (server-side presence)", function () {
+    it("should return offline for unknown user ids", async function () {
+      const { getStatusForUserId } = await import("../login.mjs");
+      expect(await getStatusForUserId("presence-unknown")).to.equal("offline");
+    });
+
+    it("should reflect online, away, inMeeting and offline for a connected user", async function () {
+      const { getStatusForUserId } = await import("../login.mjs");
+      const client = connectClient({ sub: "presence-user-1", status: 1 });
+      await once(client, "sendUserStatus");
+      await sleep(300);
+
+      expect(await getStatusForUserId("presence-user-1")).to.equal("online");
+
+      client.emit("setStatus", "away");
+      await once(client, "sendUserStatus");
+      expect(await getStatusForUserId("presence-user-1")).to.equal("away");
+
+      client.emit("enterMeeting");
+      await once(client, "sendUserStatus");
+      expect(await getStatusForUserId("presence-user-1")).to.equal("inMeeting");
+
+      client.close();
+      await sleep(8000);
+      expect(await getStatusForUserId("presence-user-1")).to.equal("offline");
+    });
+  });
 });

@@ -4,7 +4,7 @@
 namespace App\Twig;
 
 use App\Entity\User;
-use App\Service\OnlineStatusService;
+use App\Service\OnlineStatus\OnlineStatusService;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OnlineStatus
