@@ -103,7 +103,9 @@ class CalloutService
             ->setCreatedAt(new \DateTimeImmutable())
             ->setInvitedFrom($inviter)
             ->setUid(UidGeneratorHelper::generate())
-            ->setState(CalloutSession::$INITIATED)
+            // RINGING keeps web calls out of the SIP callout pools (which only pick up
+            // INITIATED/DIALED/ON_HOLD sessions).
+            ->setState($webCall ? CalloutSession::$RINGING : CalloutSession::$INITIATED)
             ->setLeftRetries($this->themeService->getApplicationProperties('CALLOUT_MAX_RETRIES'));
         $this->entityManager->persist($callout);
         $this->entityManager->flush();
