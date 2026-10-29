@@ -6,6 +6,7 @@ use App\Entity\CallerSession;
 use App\Entity\CalloutSession;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Helper\UidGeneratorHelper;
 use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Service\AdHocMeeting\AdhocMeetingWebsocketService;
@@ -101,7 +102,7 @@ class CalloutService
             ->setRoom($rooms)
             ->setCreatedAt(new \DateTimeImmutable())
             ->setInvitedFrom($inviter)
-            ->setUid(md5(uniqid()))
+            ->setUid(UidGeneratorHelper::generate())
             // RINGING keeps web calls out of the SIP callout pools (which only pick up
             // INITIATED/DIALED/ON_HOLD sessions).
             ->setState($webCall ? CalloutSession::$RINGING : CalloutSession::$INITIATED)

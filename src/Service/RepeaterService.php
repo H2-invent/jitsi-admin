@@ -6,6 +6,7 @@ use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Enums\RepeatTypeEnum;
+use App\Helper\UidGeneratorHelper;
 use App\Service\Caller\CallerPrepareService;
 use App\Service\Jigasi\JigasiService;
 use Doctrine\Common\Collections\Collection;
@@ -238,10 +239,10 @@ class RepeaterService
             $room->removeUserAttribute($data);
         }
 
-        $room->setUid(md5(uniqid()));
-        $room->setUidReal(md5(uniqid()));
-        $room->setUidParticipant(md5(uniqid()));
-        $room->setUidModerator(md5(uniqid()));
+        $room->setUid(UidGeneratorHelper::generate());
+        $room->setUidReal(UidGeneratorHelper::generate());
+        $room->setUidParticipant(UidGeneratorHelper::generate());
+        $room->setUidModerator(UidGeneratorHelper::generate());
         $room->setRepeaterRemoved(false);
         $room->setRepeater($repeat);
         $room->setStart($start);

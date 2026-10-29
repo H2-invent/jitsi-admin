@@ -4,6 +4,7 @@ namespace App\Service\AdHocMeeting;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Helper\UidGeneratorHelper;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Theme\ThemeService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -86,14 +87,13 @@ class AdhocMeetingWebsocketService
             $topic,
             $header,
             $text,
-            md5(uniqid())
+            UidGeneratorHelper::generate()
         );
 
         $this->directSendService->sendPlaySound(
             $topic,
             'caller',
-            md5(uniqid()),
-            $timeout ? ['timeout' => $timeout] : []
+            UidGeneratorHelper::generate()
         );
     }
 

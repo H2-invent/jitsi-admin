@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Helper\UidGeneratorHelper;
 use App\Repository\RoomStatusParticipantRepository;
 use App\Service\AdHocMeeting\AdhocCallService;
 use App\Service\Jigasi\JigasiService;
@@ -197,7 +198,7 @@ class StartMeetingService
             $lobbyUser->setUser($this->user);
             $lobbyUser->setRoom($this->room);
             $lobbyUser->setCreatedAt(new \DateTimeImmutable());
-            $lobbyUser->setUid(md5(uniqid()));
+            $lobbyUser->setUid(UidGeneratorHelper::generate());
             $lobbyUser->setShowName($this->name);
             $this->em->persist($lobbyUser);
             $this->em->flush();

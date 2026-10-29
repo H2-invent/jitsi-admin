@@ -13,6 +13,7 @@ use App\Entity\Rooms;
 use App\Form\Type\HotStandbyType;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
+use App\Helper\UidGeneratorHelper;
 use App\Repository\RoomsRepository;
 use App\Repository\SchedulingTimeUserRepository;
 use App\Repository\ServerRepository;
@@ -60,12 +61,12 @@ class DashboardController extends JitsiAdminController
         $changed = false;
 
         if (!$user->getUid()) {
-            $user->setUid(md5(uniqid()));
+            $user->setUid(UidGeneratorHelper::generate());
             $changed = true;
         }
 
         if (!$user->getOwnRoomUid()) {
-            $user->setOwnRoomUid(md5(uniqid()));
+            $user->setOwnRoomUid(UidGeneratorHelper::generate());
             $changed = true;
         }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Theme;
 
+use App\Helper\UidGeneratorHelper;
 use App\Service\Result\Error\ThemeUploadError;
 use App\Service\Result\ServiceResult;
 use H2Entwicklung\Signature\CheckSignature;
@@ -30,7 +31,7 @@ class ThemeUploadService
 
     public function uploadTheme(string $absoluteFilePathZip): ServiceResult
     {
-        $randomString   = md5(uniqid());
+        $randomString   = UidGeneratorHelper::generate();
         $extractionPath = "{$this->cacheDir}/{$randomString}";
         $success        = $this->extractZipToPath($absoluteFilePathZip, $extractionPath);
         if (!$success) {

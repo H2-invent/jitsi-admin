@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Helper\UidGeneratorHelper;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -27,9 +28,9 @@ class UserCreatorService
                 ->setLastName($lastName)
                 ->setFirstName($firstName)
                 ->setEmail($email)
-                ->setRegisterId(md5(uniqid('ksdjhfkhsdkjhjksd', true)))
+                ->setRegisterId(UidGeneratorHelper::generate())
                 ->setPassword('123')
-                ->setUid(md5(uniqid()));
+                ->setUid(UidGeneratorHelper::generate());
             $user->setIndexer($this->indexer->indexUser($user));
             if (!$dryrun) {
                 $this->em->persist($user);

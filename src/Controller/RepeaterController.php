@@ -7,6 +7,7 @@ use App\Entity\Rooms;
 use App\Form\Type\RepeaterType;
 use App\Form\Type\RoomType;
 use App\Helper\JitsiAdminController;
+use App\Helper\UidGeneratorHelper;
 use App\Service\RemoveRoomService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
@@ -63,7 +64,7 @@ class RepeaterController extends JitsiAdminController
                 $room->setPublic(false);
                 $em->persist($room);
                 $em->flush();
-                $repeater->setUid(md5(uniqid()));
+                $repeater->setUid(UidGeneratorHelper::generate());
                 $repeater->setPrototyp($room);
                 $repeater->setStartDate($room->getStart());
 

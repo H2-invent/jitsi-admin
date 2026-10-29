@@ -82,6 +82,7 @@
     "symfony/twig-bridge": "^7.4",
     "symfony/twig-bundle": "^7.4",
     "symfony/type-info": "^7.4",
+    "symfony/uid": "7.4.*",
     "symfony/ux-translator": "^3.0",
     "symfony/validator": "^7.4",
     "symfony/var-dumper": "^7.4",
