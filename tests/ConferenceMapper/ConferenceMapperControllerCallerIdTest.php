@@ -46,14 +46,14 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
 
         $result = json_decode($res, true, 512, JSON_THROW_ON_ERROR);
         self::assertEquals('STARTED', $result['state']);
-        self::assertEquals('123456780@testdomain.com', $result['room_name']);
+        self::assertEquals($callerRoom->getRoom()->getUid() . '@testdomain.com', $result['room_name']);
         self::assertEquals('User2, Test2, test@local2.de', $result['display_name']);
 
         $decoded = JWT::decode($result['jwt'], new Key($callerRoom->getRoom()->getServer()->getAppSecret(), 'HS256'));
         self::assertEquals('jitsi_admin', $decoded->aud);
         self::assertEquals('jitsiId', $decoded->iss);
         self::assertEquals('meet.jit.si2', $decoded->sub);
-        self::assertEquals('123456780', $decoded->room);
+        self::assertEquals($callerRoom->getRoom()->getUid(), $decoded->room);
         self::assertEquals('User2, Test2, test@local2.de', $decoded->context->user->name);
     }
 
@@ -90,14 +90,14 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
 
         $result = json_decode($res, true, 512, JSON_THROW_ON_ERROR);
         self::assertEquals('STARTED', $result['state']);
-        self::assertEquals('123456780@testdomain.com', $result['room_name']);
+        self::assertEquals($callerRoom->getRoom()->getUid() . '@testdomain.com', $result['room_name']);
         self::assertEquals('0098765455325', $result['display_name']);
 
         $decoded = JWT::decode($result['jwt'], new Key($callerRoom->getRoom()->getServer()->getAppSecret(), 'HS256'));
         self::assertEquals('jitsi_admin', $decoded->aud);
         self::assertEquals('jitsiId', $decoded->iss);
         self::assertEquals('meet.jit.si2', $decoded->sub);
-        self::assertEquals('123456780', $decoded->room);
+        self::assertEquals($callerRoom->getRoom()->getUid(), $decoded->room);
         self::assertEquals('0098765455325', $decoded->context->user->name);
     }
 }

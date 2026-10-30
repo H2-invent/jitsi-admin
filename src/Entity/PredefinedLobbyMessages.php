@@ -14,7 +14,7 @@ class PredefinedLobbyMessages
     #[ORM\Column()]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $text = null;
 
     #[ORM\Column]

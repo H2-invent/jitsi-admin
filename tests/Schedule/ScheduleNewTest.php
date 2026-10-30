@@ -226,7 +226,7 @@ class ScheduleNewTest extends WebTestCase
         $manger = self::getContainer()->get(EntityManagerInterface::class);
         $uid = "1234567890";
         $scheduleTimerRoomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $scheduleTimerRoomRepo->findOneBy(array('uid' => '123456789100'));
+        $room = $scheduleTimerRoomRepo->findOneBy(['name' => 'Termin finden: 0']);
         $room->addUser($testUser2);
         foreach ($room->getSchedulings()[0]->getSchedulingTimes() as $schedulingTime) {
             $schedulingTimeUser = (new SchedulingTimeUser())->setUser($testUser)->setScheduleTime($schedulingTime)->setAccept(0);

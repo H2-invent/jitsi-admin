@@ -16,6 +16,10 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Index(fields: ['persistantRoom'], name: 'idx_rooms_persistant_room')]
 #[ORM\Index(fields: ['endDateUtc', 'startUtc', 'scheduleMeeting', 'persistantRoom'], name: 'idx_rooms_time_filter_composite')]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Index(fields: ['uid'], name: 'idx_rooms_uid')]
+#[ORM\Index(fields: ['uidReal'], name: 'idx_rooms_uid_real')]
+#[ORM\Index(fields: ['uidParticipant'], name: 'idx_rooms_uid_participant')]
+#[ORM\Index(fields: ['uidModerator'], name: 'idx_rooms_uid_moderator')]
 class Rooms
 {
     #[ORM\Id]
@@ -23,7 +27,7 @@ class Rooms
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
@@ -43,7 +47,7 @@ class Rooms
     #[ORM\JoinColumn(nullable: false)]
     private ?Server $server = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $uid = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator')]
@@ -57,13 +61,13 @@ class Rooms
     #[ORM\Column(type: 'integer')]
     private ?int $sequence = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', length: 36, nullable: true)]
     private ?string $uidReal = null;
 
     #[ORM\Column(type: 'boolean')]
     private bool $onlyRegisteredUsers = false;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', length: 3000, nullable: true)]
     private ?string $agenda = null;
 
     /**
@@ -85,10 +89,10 @@ class Rooms
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $showRoomOnJoinpage = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', length: 36, nullable: true)]
     private ?string $uidParticipant = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', length: 36, nullable: true)]
     private ?string $uidModerator = null;
 
     /**
@@ -141,7 +145,7 @@ class Rooms
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $persistantRoom = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $slug = null;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
@@ -203,10 +207,10 @@ class Rooms
     #[Ignore]
     private ?Tag $tag = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $hostUrl = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $secondaryName = null;
 
     /** @var Collection<int, CalloutSession> */

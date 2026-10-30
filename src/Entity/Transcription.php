@@ -20,7 +20,7 @@ class Transcription
     #[ORM\JoinColumn(nullable: false)]
     private ?Rooms $room = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, length: 16777215)]
     private ?string $text = null;
 
     #[ORM\Column]

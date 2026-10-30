@@ -56,8 +56,8 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithEmptyUser($userArr, $string);
         $this->assertEquals(
             [
-                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
-                ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => "test@local3.de", 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
+                ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => "test@local3.de", 'uid' => 'ee8d670c-bcf2-4b9b-b763-3dc088945366', 'roles' => ['participant', 'moderator']]
             ],
             $res
         );
@@ -66,7 +66,7 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithEmptyUser($userArr, $string);
         $this->assertEquals(
             [
-                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
+                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
             ],
             $res
         );
@@ -84,7 +84,7 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithEmptyUser($userArr, $string);
         $this->assertEquals(
             [
-                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
+                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
             ],
             $res
         );
@@ -123,8 +123,8 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(
             [
-                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
-                ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => "test@local3.de", 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
+                ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => "test@local3.de", 'uid' => 'ee8d670c-bcf2-4b9b-b763-3dc088945366', 'roles' => ['participant', 'moderator']]
             ],
             $res
         );
@@ -133,7 +133,7 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(
             [
-                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
+                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
             ],
             $res
         );
@@ -174,9 +174,7 @@ class AdressbookTest extends KernelTestCase
         $this->assertEquals(
             [
                 ['name' => '<i class="fa fa-phone" title="987654321012" data-toggle="tooltip"></i> AA, 45689, Ldap, LdapUSer',
-                    'nameNoIcon' => 'AA, 45689, Ldap, LdapUSer',
-                    'id' => 'ldapUser@local.de',
-                    'uid' => 'kljlsdkjflkjxcvvxcxcvddfgslfjsdlkjsdflkj',
+                    'nameNoIcon' => 'AA, 45689, Ldap, LdapUSer', 'id' => 'ldapUser@local.de', 'uid' => 'd9c56bda-cd43-4dd6-b8fe-24b444a04f9f',
                     'roles' => ['participant']]
             ],
             $res
@@ -198,8 +196,8 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(
             [
-                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => "test2@local.de", 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
-                ['name' => 'test@local3.de', 'id' => "test@local3.de", 'nameNoIcon' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => "test2@local.de", 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'roles' => ['participant', 'moderator']],
+                ['name' => 'test@local3.de', 'id' => "test@local3.de", 'nameNoIcon' => 'test@local3.de', 'uid' => 'ee8d670c-bcf2-4b9b-b763-3dc088945366', 'roles' => ['participant', 'moderator']]
             ],
             $res
         );
@@ -208,7 +206,7 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(
             [
-                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => "test2@local.de", 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
+                ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => "test2@local.de", 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'roles' => ['participant', 'moderator']],
             ],
             $res
         );

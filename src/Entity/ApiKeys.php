@@ -13,10 +13,10 @@ class ApiKeys
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $clientId = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $clientSecret = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
