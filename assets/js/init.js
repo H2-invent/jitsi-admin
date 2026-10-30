@@ -325,7 +325,7 @@ function initProtip() {
 function openConferenceEditorFromUrl() {
     let params = new URLSearchParams(document.location.search);
     if (params.has('editConference_id')) {
-        let conference_id = parseInt(params.get("editConference_id"), 10); // is the number 18
+        let conference_id = parseInt(params.get("editConference_id"), 10);
         openContentFromUrl('/room/new?id=' + conference_id);
         let url = new URL(window.location.href);
         url.searchParams.delete('editConference_id');
