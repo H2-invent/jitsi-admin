@@ -167,7 +167,7 @@ class User extends BaseUser
     #[ORM\ManyToOne(inversedBy: 'calendlyUsers')]
     private ?Server $calendlyServer = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
     private ?string $outlookPluginToken = null;
 
     public function __construct()

@@ -30,11 +30,18 @@ final class OutlookPluginLoginController extends AbstractController
     {
         /**@var \App\Entity\User $user * */
         $user = $this->getUser();
+
         if (!$user){
             return new JsonResponse(['error' => true,'reason'=>'No user loged in' ]);
         }
+        $user->setOutlookPluginToken(null);
         if (!$user->getOutlookPluginToken()) {
-            $user->setOutlookPluginToken(md5(uniqid($user->getUid(), true)));
+            do {
+                $token = md5(uniqid($user->getUid(), true));
+                $search = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken' => $token]);
+            }while($search);
+
+            $user->setOutlookPluginToken($token);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
