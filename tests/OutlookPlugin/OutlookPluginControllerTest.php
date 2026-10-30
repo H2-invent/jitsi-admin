@@ -16,6 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,6 +25,12 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 
+/**
+ * Unit-Tests ohne Symfony-Kernel oder Datenbank.
+ * Die Entity- und Service-Klassen sowie ihre verwendeten Methoden muessen mockbar sein.
+ * Die Raum- und Caller-Mocks werden aus den deklarierten Rueckgabetypen abgeleitet.
+ * Route-Assertions pruefen Attribute, nicht die Router-/Firewall-Konfiguration.
+ */
 final class OutlookPluginControllerTest extends TestCase
 {
     private EntityManagerInterface&MockObject $entityManager;
@@ -70,7 +77,47 @@ final class OutlookPluginControllerTest extends TestCase
 
         self::assertNull($user->getOutlookPluginToken());
         self::assertSame('other-token', $sessionUser->getOutlookPluginToken());
-        $this->assertJsonResponse(['token' => null], $response);
+        $this->assertJsonResponse(['success' => true], $response);
+    }
+
+    public function testLogoutReturnsErrorWhenReadingAuthorizationThrows(): void
+    {
+        $request = $this->withFailingAuthorizationRead($this->logoutRequest());
+
+        $this->entityManager->expects(self::never())->method('getRepository');
+        $this->expectNoWrites();
+
+        $this->assertJsonResponse(
+            ['error' => 'Error reading token'],
+            $this->controller->logout($request),
+        );
+    }
+
+    public function testLogoutRejectsEmptyTokenWithoutRepositoryAccess(): void
+    {
+        $request = $this->logoutRequest();
+        $request->headers->set('Authorization', 'Bearer ');
+
+        $this->entityManager->expects(self::never())->method('getRepository');
+        $this->expectNoWrites();
+
+        $this->assertJsonResponse(
+            ['error' => 'Error reading token'],
+            $this->controller->logout($request),
+        );
+    }
+
+    public function testLogoutDoesNotWriteWhenFoundUserHasNoToken(): void
+    {
+        // Deckt den defensiven Zweig nach der Repository-Suche ab.
+        $user = $this->user(null);
+        $this->expectUserLookup($user);
+        $this->expectNoWrites();
+
+        $response = $this->controller->logout($this->logoutRequest());
+
+        self::assertNull($user->getOutlookPluginToken());
+        $this->assertJsonResponse(['success' => true], $response);
     }
 
     public function testLogoutRejectsUnknownTokenWithoutWriting(): void
@@ -115,6 +162,37 @@ final class OutlookPluginControllerTest extends TestCase
         $this->assertJsonResponse([], $this->controller->server($request));
     }
 
+    public function testServerReturnsErrorWhenReadingAuthorizationThrows(): void
+    {
+        $request = $this->withFailingAuthorizationRead(
+            Request::create('/api/v1/outlook/plugin/server'),
+        );
+
+        $this->entityManager->expects(self::never())->method('getRepository');
+        $this->serverManagement->expects(self::never())->method('getServersFromUser');
+        $this->expectNoWrites();
+
+        $this->assertJsonResponse(
+            ['error' => 'Error reading token'],
+            $this->controller->server($request),
+        );
+    }
+
+    public function testServerRejectsEmptyTokenWithoutRepositoryAccess(): void
+    {
+        $request = Request::create('/api/v1/outlook/plugin/server');
+        $request->headers->set('Authorization', 'Bearer ');
+
+        $this->entityManager->expects(self::never())->method('getRepository');
+        $this->serverManagement->expects(self::never())->method('getServersFromUser');
+        $this->expectNoWrites();
+
+        $this->assertJsonResponse(
+            ['error' => 'Error reading token'],
+            $this->controller->server($request),
+        );
+    }
+
     public function testServerRejectsUnknownToken(): void
     {
         $this->expectUserLookup(null);
@@ -140,6 +218,49 @@ final class OutlookPluginControllerTest extends TestCase
         $this->assertJsonResponse([
             'error' => true, 'reason' => 'Server not found',
         ], $this->controller->createConference($this->conferenceRequest()));
+    }
+
+    public function testCreateConferenceReturnsErrorWhenReadingAuthorizationThrows(): void
+    {
+        $server = $this->server(10, 'Server A');
+        $repository = $this->createMock(EntityRepository::class);
+        $repository->expects(self::once())->method('find')
+            ->with('10')->willReturn($server);
+
+        // Der Server muss existieren, damit der Controller den try-Block erreicht.
+        $this->entityManager->expects(self::once())->method('getRepository')
+            ->with(Server::class)->willReturn($repository);
+        $this->serverManagement->expects(self::never())->method('getServersFromUser');
+        $this->expectNoConferenceCreation();
+
+        $request = $this->withFailingAuthorizationRead($this->conferenceRequest());
+
+        $this->assertJsonResponse(
+            ['error' => 'Error reading token'],
+            $this->controller->createConference($request),
+        );
+    }
+
+    public function testCreateConferenceRejectsEmptyTokenAfterServerLookup(): void
+    {
+        $server = $this->server(10, 'Server A');
+        $repository = $this->createMock(EntityRepository::class);
+        $repository->expects(self::once())->method('find')
+            ->with('10')->willReturn($server);
+
+        // Der Controller sucht den Server, bevor er den Token prueft.
+        $this->entityManager->expects(self::once())->method('getRepository')
+            ->with(Server::class)->willReturn($repository);
+        $this->serverManagement->expects(self::never())->method('getServersFromUser');
+        $this->expectNoConferenceCreation();
+
+        $request = $this->conferenceRequest();
+        $request->headers->set('Authorization', 'Bearer ');
+
+        $this->assertJsonResponse(
+            ['error' => 'Error reading token'],
+            $this->controller->createConference($request),
+        );
     }
 
     public function testCreateConferenceRejectsUnknownUser(): void
@@ -323,6 +444,20 @@ final class OutlookPluginControllerTest extends TestCase
             ->willReturnMap([[Server::class, $servers], [User::class, $users]]);
     }
 
+    private function withFailingAuthorizationRead(Request $request): Request
+    {
+        // Gezielte Exception fuer catch (\Exception), statt nur eines leeren Tokens.
+        $headers = $this->createMock(HeaderBag::class);
+        $headers->expects(self::once())
+            ->method('get')
+            ->with('Authorization')
+            ->willThrowException(new \RuntimeException('Authorization read failed'));
+
+        $request->headers = $headers;
+
+        return $request;
+    }
+
     private function conferenceRequest(): Request
     {
         $request = Request::create('/api/v1/outlook/plugin/createConference', 'POST', ['server_id' => '10']);
@@ -361,7 +496,7 @@ final class OutlookPluginControllerTest extends TestCase
         $this->conferenceService->expects(self::once())->method('createNewRoomFromName')
             ->with(
                 self::callback(static fn ($name): bool =>
-                    is_string($name) && $name !== ''
+                    is_string($name) && preg_match('/^[a-f0-9]{32}$/', $name) === 1
                 ),
                 self::identicalTo($server)
             )
@@ -398,12 +533,10 @@ final class OutlookPluginControllerTest extends TestCase
     {
         $response = $this->controller->createConference($this->conferenceRequest());
         $this->assertJsonResponse([
-            [
-                'url' => 'https://example.test/example-room/room-uid-42',
-                'title' => 'Testkonferenz',
-                'id' => 32,
-                'phone' => $phone,
-            ],
+            'url' => 'https://example.test/example-room/room-uid-42',
+            'title' => 'Testkonferenz',
+            'id' => 32,
+            'phone' => $phone,
         ], $response);
     }
 

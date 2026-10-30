@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class OutlookPluginLoginController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private readonly EntityManagerInterface $entityManager,
     )
     {
 
@@ -31,21 +31,21 @@ final class OutlookPluginLoginController extends AbstractController
         /**@var \App\Entity\User $user * */
         $user = $this->getUser();
 
-        if (!$user){
-            return new JsonResponse(['error' => true,'reason'=>'No user loged in' ]);
+        if (!$user) {
+            return new JsonResponse(['error' => true, 'reason' => 'No user loged in']);
         }
         $user->setOutlookPluginToken(null);
-        if (!$user->getOutlookPluginToken()) {
-            do {
-                $token = md5(uniqid($user->getUid(), true));
-                $search = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken' => $token]);
-            }while($search);
 
-            $user->setOutlookPluginToken($token);
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-        }
-        return new JsonResponse(['token' => $user->getOutlookPluginToken(),'name'=>$user->getFirstName().' '.$user->getLastName()]);
+        do {
+            $token = md5(uniqid($user->getUid(), true));
+            $search = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken' => $token]);
+        } while ($search);
+
+        $user->setOutlookPluginToken($token);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['token' => $user->getOutlookPluginToken(), 'name' => $user->getFirstName() . ' ' . $user->getLastName()]);
     }
 
 }
