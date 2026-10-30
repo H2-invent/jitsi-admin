@@ -13,10 +13,10 @@ class Notification
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 1024)]
     private ?string $text = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'notifications')]
@@ -26,7 +26,7 @@ class Notification
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $url = null;
 
     public function getId(): ?int

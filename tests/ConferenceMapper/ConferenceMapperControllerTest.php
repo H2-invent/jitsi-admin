@@ -82,7 +82,7 @@ class ConferenceMapperControllerTest extends WebTestCase
 
         $result = json_decode($res, true, 512, JSON_THROW_ON_ERROR);
         self::assertEquals('STARTED', $result['state']);
-        self::assertEquals('123456780@testdomain.com', $result['room_name']);
+        self::assertEquals($callerRoom->getRoom()->getUid() . '@testdomain.com', $result['room_name']);
         self::assertEquals('123456225566', $result['display_name']);
 
         // Verify JWT payload (signature will differ due to appSecret change)
@@ -91,7 +91,7 @@ class ConferenceMapperControllerTest extends WebTestCase
             'aud' => 'jitsi_admin',
             'iss' => 'jitsiId',
             'sub' => 'meet.jit.si2',
-            'room' => '123456780',
+            'room' => $callerRoom->getRoom()->getUid(),
             'moderator' => false,
             'lobbyModerator' => false,
         ];

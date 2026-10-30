@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\LicenseRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LicenseRepository::class)]
+#[ORM\Index(fields: ['licenseKey'], name: 'idx_license_license_key')]
 class License
 {
     #[ORM\Id]
@@ -13,16 +15,16 @@ class License
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $licenseKey = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::TEXT, length: 65535)]
     private ?string $license = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $validUntil = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $url = null;
 
     public function getId(): ?int

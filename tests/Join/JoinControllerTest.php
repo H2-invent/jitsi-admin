@@ -28,7 +28,7 @@ class JoinControllerTest extends WebTestCase
         preg_match("/jwt: '([^']+)'/", $content, $matches);
         self::assertNotEmpty($matches[1]);
         $decoded = JWT::decode($matches[1], new Key($room->getServer()->getAppSecret(), 'HS256'));
-        self::assertEquals('123456781', $decoded->room);
+        self::assertEquals($room->getUid(), $decoded->room);
         self::assertEquals(true, $decoded->moderator);
     }
     public function testjoinRoomApp(): void

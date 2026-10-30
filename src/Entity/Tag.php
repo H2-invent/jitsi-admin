@@ -15,7 +15,7 @@ class Tag
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $title = null;
 
     /**
@@ -30,10 +30,10 @@ class Tag
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $priority = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', length: 32, nullable: true)]
     private ?string $color = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'string', length: 32, nullable: true)]
     private ?string $backgroundColor = null;
 
     /** @var Collection<int, Server> */

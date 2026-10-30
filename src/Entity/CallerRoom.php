@@ -6,6 +6,7 @@ use App\Repository\CallerRoomRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CallerRoomRepository::class)]
+#[ORM\Index(fields: ['callerId'], name: 'idx_caller_room_caller_id')]
 class CallerRoom
 {
     #[ORM\Id]
@@ -13,7 +14,7 @@ class CallerRoom
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'string', length: 32)]
     private ?string $callerId = null;
 
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'callerRoom')]

@@ -39,7 +39,7 @@ class JoinServiceTest extends KernelTestCase
         self::assertEquals('jitsi_admin', $decoded->aud);
         self::assertEquals('jitsiId', $decoded->iss);
         self::assertEquals('meet.jit.si2', $decoded->sub);
-        self::assertEquals('123456781', $decoded->room);
+        self::assertEquals($room->getUid(), $decoded->room);
         self::assertEquals('Test User', $decoded->context->user->name);
         self::assertEquals(false, $decoded->moderator);
 

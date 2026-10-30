@@ -40,7 +40,7 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
     public function testAccessDenied()
     {
         // Beispiel: Room mit ID 1 hat nicht diesen API-Key
-        $this->client->request('POST', '/api/v1/room/move/9876543210', [], [], [
+        $this->client->request('POST', '/api/v1/room/move/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b', [], [], [
             'HTTP_AUTHORIZATION' => 'Bearer wrongApiKey'
         ]);
 

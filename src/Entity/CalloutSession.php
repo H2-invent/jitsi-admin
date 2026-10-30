@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CalloutSessionRepository::class)]
+#[ORM\Index(fields: ['uid'], name: 'idx_callout_session_uid')]
 class CalloutSession
 {
     /** @var array<int, string> */
@@ -64,7 +65,7 @@ class CalloutSession
     #[ORM\JoinColumn(nullable: false)]
     private ?User $invitedFrom = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: 'string', length: 36)]
     private ?string $uid = null;
 
     #[ORM\Column]

@@ -22,20 +22,95 @@ use Doctrine\Persistence\ObjectManager;
 
 class RoomFixture extends Fixture
 {
+    /**
+     * Stable per-index UUIDs for the reminder rooms (TestMeeting: i) — deterministic
+     * fixture data that other tests reference by value.
+     *
+     * @var array<int, string>
+     */
+    private const array REMINDER_UIDS = [
+        'bed6ca41-512f-409f-95c1-4ad7e9b73018',
+        '50902e5e-93a6-4ee1-817d-de4871b52d31',
+        '02bbd5ca-e7ee-4f4d-8cac-76b803b4bab8',
+        '1191c920-96ee-49bd-bc12-a8f6aa2a664b',
+        'eb006faf-e0d0-4b64-ae5c-ca7329fb7830',
+        '4ac48f8d-d20a-40a5-8a8a-b8fb218e7e7e',
+        'c071e3ca-8e3a-4b42-a8b5-5fcf5ce7c5d0',
+        '91fbee99-579e-4e17-9892-0011a7acbf46',
+        'd4914751-9b3f-46d4-a7e2-d8eb0e77d159',
+        '6e04846f-abaf-4e34-949a-9e9b614a5c43',
+        '774c4b89-131c-4a51-9285-2d058f91ec01',
+        'c5af0a70-b93e-488e-86e0-5bf1c0e5c01b',
+        'b205e5e2-9695-4030-96d5-af2adbf9d01c',
+        '1b0da9dc-c094-4b02-918e-9faf8669f1f7',
+        '064f1054-0dc1-4ff9-afef-076c216d6cd8',
+        '45545e43-b1c0-40b6-8b70-9f2c810c3ec1',
+        '50230496-3a92-4d39-b3dd-bed471aaaf87',
+        'f355ec2f-e4a0-40e5-aabf-a0869ec47ec3',
+        'c9cd7ea0-577b-4115-884f-c53be296a2ad',
+        '3e04d11b-6dfc-4ec1-975d-a66850856644',
+    ];
+
+    /**
+     * Stable per-index UUIDs for the reminder rooms' uid_real values.
+     *
+     * @var array<int, string>
+     */
+    private const array REMINDER_UIDREALS = [
+        'ecab6ec4-84dc-40c4-b97f-e364b3d23f3b',
+        '6aa97048-fabb-4f75-865a-3b9be0af4d03',
+        '0a75bbe7-fdeb-4406-a8e5-d15e9becd0ba',
+        'b23a3619-fc4c-475b-90eb-79d86029538b',
+        'fab456ec-460f-4bdd-b9ac-9240c09bb014',
+        '598e835f-4eea-4f5c-b520-c101efd38463',
+        'e8685926-be4e-48a4-ba96-79709226e155',
+        'bcc66819-67d2-4202-9d33-8bea0690fa3c',
+        '845e8bc6-fdff-4447-8632-2bec5fe22e1e',
+        '487d5172-e132-476f-a188-3e6ed97545c9',
+        '8771c307-df6d-47a6-86d5-15c2f7b5d29e',
+        '872ac175-3a6f-4940-a2e9-01fd1165901e',
+        '2ea5e507-67b5-403e-8d59-4d05f2a9e245',
+        '0f660474-80be-44a6-9d88-bab7140b6395',
+        'de987b92-6bd2-45d5-ab3e-d8673382c31d',
+        '6d163a3d-2538-42be-ae96-bd4b9be250c3',
+        '11cd3bf2-f9f6-4f3a-aa23-b50062a65d35',
+        'ce991452-90cf-484e-9cf0-678ba82d0292',
+        '33da3f45-364a-48bc-a33f-17ac60c4181f',
+        'ad9b55a7-7578-4143-9482-6b5ea32e913e',
+    ];
+
+    /**
+     * Stable per-index UUIDs for the lobby waiting users.
+     *
+     * @var array<int, string>
+     */
+    private const array LOBBY_UIDS = [
+        'b61e49bf-c885-493c-8f26-89419f9c8b0b',
+        '9e1d7a68-2bfd-4923-8f54-3fb7dbd87142',
+        'a18a4c08-0e10-412c-af5a-b87ef0adf1a3',
+        '88671974-70df-4f93-9bf7-6d46960e4c95',
+        'b7704a6f-d2a4-4cfb-826c-6cbe44c5d078',
+        'cc175eab-cab7-4e4c-ab03-af7a1cc014b6',
+        '3f825a0a-2bf6-4c20-a51f-a1c9796a7c5f',
+        'eed21817-3e11-4710-8136-9a803b1e271f',
+        '83a04527-ba47-4530-a14b-fec9cfc31602',
+        '96c5ce99-f175-4e97-b97d-326971af6747',
+    ];
+
     public function load(ObjectManager $manager): void
     {
         // create a user
         $user = new \App\Entity\User();
         $user->setEmail('test@local.de');
         $user->setCreatedAt(new \DateTimeImmutable());
-        $user->setKeycloakId('123456');
+        $user->setKeycloakId('5a041ecb-02e0-47f8-9ae3-29ecbb5c20ab');
         $user->setFirstName('Test');
         $user->setLastName('User');
-        $user->setRegisterId('123456');
+        $user->setRegisterId('542ae603-835a-41d1-93be-774ab255642e');
         $user->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user->setTimeZone('Europe/Berlin');
-        $user->setUuid('lksdhflkjdsljflkjds');
-        $user->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
+        $user->setUuid('3910f10e-23b2-4381-9343-72fffa0187b2');
+        $user->setUid('6bb9f8b7-05e8-4b1d-95d3-787eb2fa2ffb');
         $user->setUsername('test@local.de');
         $user->setCreatedAt(new \DateTimeImmutable());
         $user->setIndexer('test@local.de test@local.de test user 1234 test1 0123456789');
@@ -45,14 +120,14 @@ class RoomFixture extends Fixture
         $user2 = new \App\Entity\User();
         $user2->setEmail('test@local2.de');
         $user2->setCreatedAt(new \DateTimeImmutable());
-        $user2->setKeycloakId('123456');
+        $user2->setKeycloakId('f8b2e8d9-aa79-4d3b-ac46-739b930048c5');
         $user2->setFirstName('Test2');
         $user2->setLastName('User2');
-        $user2->setRegisterId('123456');
+        $user2->setRegisterId('6ee34e16-5fe5-431a-98b0-33bc5aeeb3b7');
         $user2->setSpezialProperties(['ou' => 'Test2', 'departmentNumber' => '1234', 'telephoneNumber' => '9876543210',]);
         $user2->setTimeZone('Europe/Berlin');
-        $user2->setUuid('lksdhflkjdsljflhjkkjds');
-        $user2->setUid('kljlsdkjflkjddfgslfjsdlkjsdflkj');
+        $user2->setUuid('6d085d6f-e7bc-40d4-ab3e-eed89fca2703');
+        $user2->setUid('a0591bf8-d69a-4039-97d2-e9fd69077785');
         $user2->setUsername('test2@local.de');
         $user2->setCreatedAt(new \DateTimeImmutable());
         $user2->setIndexer('test@local2.de test@local2.de test2 user2 1234 test2 9876543210');
@@ -62,14 +137,14 @@ class RoomFixture extends Fixture
         $userLDAP = new \App\Entity\User();
         $userLDAP->setEmail('ldapUser@local.de');
         $userLDAP->setCreatedAt(new \DateTimeImmutable());
-        $userLDAP->setKeycloakId('123456');
+        $userLDAP->setKeycloakId('abc87dc1-4835-4e39-ab23-04189ab77742');
         $userLDAP->setFirstName('LdapUSer');
         $userLDAP->setLastName('Ldap');
-        $userLDAP->setRegisterId('123456');
+        $userLDAP->setRegisterId('bd4455ef-78c2-42e3-92ef-2a93114dede4');
         $userLDAP->setSpezialProperties(['ou' => 'AA', 'departmentNumber' => '45689', 'telephoneNumber' => '987654321012',]);
         $userLDAP->setTimeZone('Europe/Berlin');
-        $userLDAP->setUuid('dfsdffscxv');
-        $userLDAP->setUid('kljlsdkjflkjxcvvxcxcvddfgslfjsdlkjsdflkj');
+        $userLDAP->setUuid('39c2fbd3-ee6d-4ee8-b907-27dfdda225ff');
+        $userLDAP->setUid('d9c56bda-cd43-4dd6-b8fe-24b444a04f9f');
         $userLDAP->setUsername('ldapUser@local.de');
         $userLDAP->setCreatedAt(new \DateTimeImmutable());
         $userLDAP->setIndexer('ldapuser@local.de ldapuser@local.de ldapuser ldap 45689 aa 987654321012');
@@ -87,9 +162,9 @@ class RoomFixture extends Fixture
         $user3->setEmail('test@local3.de');
         $user3->setUsername('test@local3.de');
         $user3->setCreatedAt(new \DateTimeImmutable());
-        $user3->setRegisterId('123456');
+        $user3->setRegisterId('6bd4bc96-39a4-4c7f-b7c6-de04711ddcfd');
         $user3->setCreatedAt(new \DateTimeImmutable());
-        $user3->setUid('kjsdfhkjds');
+        $user3->setUid('ee8d670c-bcf2-4b9b-b763-3dc088945366');
         $user3->setIndexer('test@local3.de test@local3.de');
         $manager->persist($user3);
 
@@ -97,9 +172,9 @@ class RoomFixture extends Fixture
         $user4->setEmail('test@local4.de');
         $user4->setUsername('test@local4.de');
         $user4->setCreatedAt(new \DateTimeImmutable());
-        $user4->setRegisterId('123456');
+        $user4->setRegisterId('2d11c143-c3a3-412a-a037-b6ed69e90479');
         $user4->setCreatedAt(new \DateTimeImmutable());
-        $user4->setUid('bjhxbcvuzcbxv7');
+        $user4->setUid('9cb8cf62-86e2-417b-bd24-117100fb0f42');
         $user4->setIndexer('test@local4.de test@local4.de');
         $manager->persist($user4);
 
@@ -107,14 +182,14 @@ class RoomFixture extends Fixture
         $user5 = new \App\Entity\User();
         $user5->setEmail('test@australia.de');
         $user5->setCreatedAt(new \DateTimeImmutable());
-        $user5->setKeycloakId('123456');
+        $user5->setKeycloakId('c8d51f2d-834c-4de5-87fa-87c7d9e5fd19');
         $user5->setFirstName('Test');
         $user5->setLastName('User');
-        $user5->setRegisterId('123456');
+        $user5->setRegisterId('ce351e33-b7b6-4a47-9649-3cb91f151c42');
         $user5->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user5->setTimeZone('Australia/Lindeman');
-        $user5->setUuid('lksdhflkjdsljflkjds');
-        $user5->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
+        $user5->setUuid('aa58c86f-8a0b-403d-8b3c-f1c85b911155');
+        $user5->setUid('43160891-0802-4073-97ca-cd472486b769');
         $user5->setUsername('test@australia.de');
         $user5->setCreatedAt(new \DateTimeImmutable());
         $user5->setIndexer('test@australia.de test@australia.de test user 1234 test1 0123456789');
@@ -123,13 +198,13 @@ class RoomFixture extends Fixture
         $user6 = new \App\Entity\User();
         $user6->setEmail('test@noTimeZone.de');
         $user6->setCreatedAt(new \DateTimeImmutable());
-        $user6->setKeycloakId('123456');
+        $user6->setKeycloakId('31478228-80ca-4ce2-97ad-a24414dbc709');
         $user6->setFirstName('Test');
         $user6->setLastName('User');
-        $user6->setRegisterId('123456');
+        $user6->setRegisterId('4f634be0-4e4c-49bc-8caf-751ba57102f2');
         $user6->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
-        $user6->setUuid('lksdhflkjdsljflkjds');
-        $user6->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
+        $user6->setUuid('217b9ab9-c2c7-445d-9c5e-f44b79a4a28f');
+        $user6->setUid('2c41a124-b8de-4074-83ae-3c0f786cd11b');
         $user6->setUsername('test@noTimeZone.de');
         $user6->setCreatedAt(new \DateTimeImmutable());
         $user6->setIndexer('test@noTimeZone.de test@noTimeZone.de test user 1234 test1 0123456789');
@@ -239,8 +314,8 @@ class RoomFixture extends Fixture
             $room->addUser($user);
             $room->addUser($user2);
             $room->addUser($user3);
-            $room->setUid('12345678' . $i);
-            $room->setUidReal('987654321' . $i);
+            $room->setUid(self::REMINDER_UIDS[$i]);
+            $room->setUidReal(self::REMINDER_UIDREALS[$i]);
             $room->setSlug('test');
             $room->setScheduleMeeting(false);
             $room->setName('TestMeeting: ' . $i);
@@ -268,8 +343,8 @@ class RoomFixture extends Fixture
             $room->addUser($user);
             $room->addUser($user2);
             $room->addUser($user3);
-            $room->setUid('12345678910' . $i);
-            $room->setUidReal('10987654321' . $i);
+            $room->setUid(UidGeneratorHelper::generate());
+            $room->setUidReal(UidGeneratorHelper::generate());
             $room->setSlug('test');
             $room->setScheduleMeeting(true);
             $room->setName('Termin finden: ' . $i);
@@ -306,8 +381,8 @@ class RoomFixture extends Fixture
             $room->addUser($user);
             $room->addUser($user2);
             $room->addUser($user3);
-            $room->setUid('13579' . $i);
-            $room->setUid('97531' . $i);
+            $room->setUid(UidGeneratorHelper::generate());
+            $room->setUid(UidGeneratorHelper::generate());
             $room->setSlug('test');
             $room->setScheduleMeeting(false);
             $room->setName('TestMeeting_Amerika: ' . $i);
@@ -357,7 +432,7 @@ class RoomFixture extends Fixture
         $room->setCreator($user);
         $room->addUser($user);
         $room->addUser($user2);
-        $room->setUid('roomTomorrow');
+        $room->setUid('ccd854d7-7d27-4633-a072-9f89cdbf7d65');
         $room->setUidReal(UidGeneratorHelper::generate());
         $room->setSlug('test5');
         $room->setScheduleMeeting(false);
@@ -410,7 +485,7 @@ class RoomFixture extends Fixture
         $room->setCreator($user);
         $room->addUser($user);
         $room->addUser($user2);
-        $room->setUid('runningRoomNow');
+        $room->setUid('2660b602-2824-43cc-b743-39f170652943');
         $room->setUidReal(UidGeneratorHelper::generate());
         $room->setSlug('test5');
         $room->setScheduleMeeting(false);
@@ -501,8 +576,8 @@ class RoomFixture extends Fixture
         $room->setModerator($user);
         $room->setCreator($user);
         $room->addUser($user);
-        $room->setUid('561d6f51s6f');
-        $room->setUidReal('5615ds1f65ds');
+        $room->setUid('c6f40763-d28f-40f6-85c9-2566042ea4bd');
+        $room->setUidReal('6f6cff93-e324-41e4-98ab-7edef502f477');
         $room->setSlug('test_open_room3');
         $room->setScheduleMeeting(false);
         $room->setName('This Room has no participants and fixed room');
@@ -525,8 +600,8 @@ class RoomFixture extends Fixture
         $room->setModerator($user);
         $room->setCreator($user);
         $room->addUser($user);
-        $room->setUid('561d6rtzf51s6fwer');
-        $room->setUidReal('5615dfggfdds1f65ds');
+        $room->setUid('e06ec9c5-7ddd-464d-b6da-8cff8138b63f');
+        $room->setUidReal('459164c0-a5e8-4c52-aa07-43c1a75c0910');
         $room->setSlug('test_open_room3');
         $room->setScheduleMeeting(false);
         $room->setName('This Room has no participants and fixed room and Lobby activated');
@@ -550,8 +625,8 @@ class RoomFixture extends Fixture
         $room->addUser($user);
         $room->addUser($user2);
         $room->addUser($user3);
-        $room->setUid('12313231sdf');
-        $room->setUidReal('561984sdf');
+        $room->setUid('9860a9ad-833a-45f7-a010-6e463ae1e2f1');
+        $room->setUidReal('5f17d274-a1df-4b87-9c14-be6106b7f379');
         $room->setSlug('test_open_room2');
         $room->setScheduleMeeting(false);
         $room->setName('This is a fixed room');
@@ -575,8 +650,8 @@ class RoomFixture extends Fixture
         $room->setModerator($user);
         $room->setCreator($user);
         $room->addUser($user);
-        $room->setUid('lkdsjfkljvcxk');
-        $room->setUidReal('5615sd6fs');
+        $room->setUid('3e9e41aa-2883-45ab-83a7-e3c8f9f655c2');
+        $room->setUidReal('4328e3cb-4f33-4ae1-8932-2a4397f23b13');
         $room->setSlug('test5');
         $room->setScheduleMeeting(false);
         $room->setName('Room with Start and no Participants list');
@@ -599,8 +674,8 @@ class RoomFixture extends Fixture
         $room1->setModerator($user);
         $room1->setCreator($user);
         $room1->addUser($user);
-        $room1->setUid('wertzzrtrrew');
-        $room1->setUidReal('sdfgfhhjtr980joifjhg');
+        $room1->setUid('e761af5d-b686-4ff5-b05f-d263a9572c0c');
+        $room1->setUidReal('2678924b-b3c6-4d18-8945-466cfcb61355');
         $room1->setSlug('test534');
         $room1->setScheduleMeeting(false);
         $room1->setName('Room with Start and no Participants list and Lobby Activated');
@@ -616,8 +691,7 @@ class RoomFixture extends Fixture
             $lobbyUser->setWebsocketReady(true);
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room1);
-            // Deliberately deterministic: stable, reproducible fixture data, not weak-random (no uniqid).
-            $lobbyUser->setUid(md5((string)$i));
+            $lobbyUser->setUid(self::LOBBY_UIDS[$i]);
             $lobbyTime = $lobbyTime->modify('-1 hour');
             $lobbyUser->setCreatedAt($lobbyTime);
             $lobbyUser->setShowName('LobbyUser ' . $i);
@@ -641,8 +715,8 @@ class RoomFixture extends Fixture
         $room->addUser($user);
         $room->addUser($user2);
         $room->addUser($user3);
-        $room->setUid('12313231ghjgfdsdf');
-        $room->setUidReal('561ghj984ssdfdf');
+        $room->setUid('ff17a3fe-58c3-485a-abc0-e48c15fc558c');
+        $room->setUidReal('5245ba59-53e8-40c6-adad-acf196245cdb');
         $room->setSlug('lobby_room');
         $room->setScheduleMeeting(false);
         $room->setName('This is a room with Lobby');

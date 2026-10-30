@@ -17,10 +17,10 @@ class Log
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $userName = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, length: 65535)]
     private ?string $message = null;
 
     #[ORM\ManyToOne(inversedBy: 'logs')]
