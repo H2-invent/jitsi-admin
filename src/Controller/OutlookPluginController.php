@@ -34,14 +34,12 @@ final class OutlookPluginController extends AbstractController
     #[Route('/logout', name: 'logout', methods: ['GET'])]
     public function logout(Request $request): Response
     {
-        try {
-            $token = substr($request->headers->get('Authorization'),7);
-        }catch (\Exception $exception){
-            return new JsonResponse(['error'=>'Error reading token']);
-        }
+        $token = $request->headers->get('Authorization');
         if (!$token){
             return new JsonResponse(['error'=>'Error reading token']);
         }
+        $token = substr($token,7);
+
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken' => $token]);
         if (!$user){
             return new JsonResponse(['error' => true,'reason'=>'No user loged found' ]);
@@ -57,14 +55,13 @@ final class OutlookPluginController extends AbstractController
     #[Route('/server', name: 'server', methods: ['GET'])]
     public function server(Request $request): Response
     {
-        try {
-            $token = substr($request->headers->get('Authorization'),7);
-        }catch (\Exception $exception){
-            return new JsonResponse(['error'=>'Error reading token']);
-        }
+
+        $token = $request->headers->get('Authorization');
         if (!$token){
             return new JsonResponse(['error'=>'Error reading token']);
         }
+        $token = substr($token,7);
+
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken' => $token]);
         if (!$user){
             return new JsonResponse(['error'=>true,'reason'=>'User not found']);
@@ -72,8 +69,8 @@ final class OutlookPluginController extends AbstractController
 
            $servers = $this->serverUserManagment->getServersFromUser($user);
            $serverArr = [];
-           foreach($servers as $data){
-               $serverArr[] = ['id'=>$data->getId(),'name'=>$data->getServerName()];
+           foreach($servers as $server){
+               $serverArr[] = ['id'=>$server->getId(),'name'=>$server->getServerName()];
            }
         return new JsonResponse($serverArr);
 
@@ -91,14 +88,12 @@ final class OutlookPluginController extends AbstractController
             return new JsonResponse(['error'=>true,'reason'=>'Server not found']);
 
         }
-        try {
-            $token = substr($request->headers->get('Authorization'),7);
-        }catch (\Exception $exception){
-            return new JsonResponse(['error'=>'Error reading token']);
-        }
+        $token = $request->headers->get('Authorization');
         if (!$token){
             return new JsonResponse(['error'=>'Error reading token']);
         }
+        $token = substr($token,7);
+
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken'=>$token]);
         if (!$user){
             return new JsonResponse(['error'=>true,'reason'=>'User not found']);

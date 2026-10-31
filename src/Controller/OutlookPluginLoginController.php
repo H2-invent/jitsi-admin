@@ -34,7 +34,6 @@ final class OutlookPluginLoginController extends AbstractController
         if (!$user) {
             return new JsonResponse(['error' => true, 'reason' => 'No user loged in']);
         }
-        $user->setOutlookPluginToken(null);
 
         do {
             $token = md5(uniqid($user->getUid(), true));

@@ -25,12 +25,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 
-/**
- * Unit-Tests ohne Symfony-Kernel oder Datenbank.
- * Die Entity- und Service-Klassen sowie ihre verwendeten Methoden muessen mockbar sein.
- * Die Raum- und Caller-Mocks werden aus den deklarierten Rueckgabetypen abgeleitet.
- * Route-Assertions pruefen Attribute, nicht die Router-/Firewall-Konfiguration.
- */
+
 final class OutlookPluginControllerTest extends TestCase
 {
     private EntityManagerInterface&MockObject $entityManager;
@@ -49,7 +44,6 @@ final class OutlookPluginControllerTest extends TestCase
         $this->httpsUrl = $this->createMock(CreateHttpsUrl::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
-        // Der finale Controller wird real instanziiert, nicht gemockt.
         $this->controller = new OutlookPluginController(
             $this->entityManager,
             $this->serverManagement,
@@ -66,7 +60,7 @@ final class OutlookPluginControllerTest extends TestCase
     {
         $user = $this->user('api-token');
         $this->expectUserLookup($user);
-        // Logout muss den Headerbenutzer verwenden, nicht den Sessionbenutzer.
+
         $sessionUser = $this->user('other-token');
         $this->authenticate($sessionUser);
         $this->entityManager->expects(self::once())->method('persist')
@@ -109,7 +103,7 @@ final class OutlookPluginControllerTest extends TestCase
 
     public function testLogoutDoesNotWriteWhenFoundUserHasNoToken(): void
     {
-        // Deckt den defensiven Zweig nach der Repository-Suche ab.
+
         $user = $this->user(null);
         $this->expectUserLookup($user);
         $this->expectNoWrites();
@@ -227,7 +221,7 @@ final class OutlookPluginControllerTest extends TestCase
         $repository->expects(self::once())->method('find')
             ->with('10')->willReturn($server);
 
-        // Der Server muss existieren, damit der Controller den try-Block erreicht.
+
         $this->entityManager->expects(self::once())->method('getRepository')
             ->with(Server::class)->willReturn($repository);
         $this->serverManagement->expects(self::never())->method('getServersFromUser');
@@ -340,7 +334,7 @@ final class OutlookPluginControllerTest extends TestCase
         $room->expects(self::once())->method('getCallerRoom')->willReturn($caller);
         $this->logger->expects(self::never())->method('error');
 
-        // json_decode() ohne JSON_THROW_ON_ERROR wirft hier keine Exception.
+
         $this->assertCreatedConferencePhone([
             'numbers' => null,
             'dialIn' => '12345678',
@@ -358,13 +352,13 @@ final class OutlookPluginControllerTest extends TestCase
         $this->logger->expects(self::once())->method('error')
             ->with('Caller lookup failed');
 
-        // numbers wurde vor der Exception bereits gesetzt; dialIn fehlt.
+
         $this->assertCreatedConferencePhone(['numbers' => $configuration]);
     }
 
     public function testApiRoutesCombineClassAndMethodAttributes(): void
     {
-        // Attribute-Vertrag; keine funktionale Pruefung des Symfony-Routers.
+
         $reflection = new \ReflectionClass(OutlookPluginController::class);
         self::assertFalse($reflection->hasMethod('login'));
         $classAttributes = $reflection->getAttributes(Route::class);
@@ -393,7 +387,7 @@ final class OutlookPluginControllerTest extends TestCase
 
     private function user(?string $token): User
     {
-        // Zustandsbehafteter Stub ohne Annahmen ueber den Entity-Konstruktor.
+
         $user = $this->createStub(User::class);
         $user->method('getOutlookPluginToken')->willReturnCallback(
             static function () use (&$token): ?string { return $token; }
@@ -446,7 +440,7 @@ final class OutlookPluginControllerTest extends TestCase
 
     private function withFailingAuthorizationRead(Request $request): Request
     {
-        // Gezielte Exception fuer catch (\Exception), statt nur eines leeren Tokens.
+
         $headers = $this->createMock(HeaderBag::class);
         $headers->expects(self::once())
             ->method('get')
@@ -472,11 +466,11 @@ final class OutlookPluginControllerTest extends TestCase
         return $request;
     }
 
-    /** Konfiguriert alle gemeinsamen Erwartungen eines erfolgreichen Aufrufs. */
+
     private function expectCreatedConference(?string $numberConfiguration): MockObject
     {
         $user = $this->user('api-token');
-        // Ein anderer Sessionbenutzer darf nicht zum Moderator werden.
+
         $this->authenticate($this->user('session-token'));
         $server = $this->server(10, 'Server A');
         $server->method('getJigasiNumberUrl')->willReturn($numberConfiguration);
@@ -542,7 +536,7 @@ final class OutlookPluginControllerTest extends TestCase
 
     private function createRoomMock(): MockObject
     {
-        // Alternativ: return $this->createMock(KonkreteRaumklasse::class);
+
         return $this->createMethodReturnMock(
             PublicConferenceService::class,
             'createNewRoomFromName'
@@ -551,7 +545,7 @@ final class OutlookPluginControllerTest extends TestCase
 
     private function createCallerMock(MockObject $room): MockObject
     {
-        // Alternativ: return $this->createMock(KonkreteCallerKlasse::class);
+
         return $this->createMethodReturnMock(get_class($room), 'getCallerRoom');
     }
 
@@ -596,7 +590,7 @@ final class OutlookPluginControllerTest extends TestCase
 
     private function assertJsonResponse(array $expected, Response $response): void
     {
-        // Auch Fehlerantworten verwenden im Originalcontroller HTTP 200.
+
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
         self::assertSame('application/json', $response->headers->get('Content-Type'));
         self::assertSame($expected, json_decode((string) $response->getContent(), true, 512, JSON_THROW_ON_ERROR));

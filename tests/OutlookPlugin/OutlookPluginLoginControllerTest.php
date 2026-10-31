@@ -16,11 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-/**
- * Unit-Tests ohne Kernel oder Datenbank.
- * Die User-Klasse und ihre verwendeten Methoden muessen mockbar sein.
- * Route-Assertions pruefen Attribute, nicht die Router-/Firewall-Konfiguration.
- */
+
 final class OutlookPluginLoginControllerTest extends TestCase
 {
     private EntityManagerInterface&MockObject $entityManager;
@@ -94,7 +90,7 @@ final class OutlookPluginLoginControllerTest extends TestCase
         $user = $this->user(null);
         $this->authenticate($user);
 
-        // Erste Suche: Kollision. Zweite Suche: Token frei.
+        // First Round colission.  second round: free user token.
         $this->expectTokenLookups([$this->user('occupied-token'), null]);
 
         $this->entityManager->expects(self::once())
@@ -119,7 +115,7 @@ final class OutlookPluginLoginControllerTest extends TestCase
 
     public function testLoginRejectsMissingAuthenticatedUser(): void
     {
-        // TokenStorage ist vorhanden, enthaelt aber kein Security-Token.
+        // TokenStorage ist accesable, but contains no token.
         $this->expectNoWrites();
         $this->entityManager->expects(self::never())
             ->method('getRepository');
@@ -194,7 +190,7 @@ final class OutlookPluginLoginControllerTest extends TestCase
 
     private function user(?string $token): User
     {
-        // Zustandsbehafteter Stub ohne Annahmen ueber den Entity-Konstruktor.
+
         $user = $this->createStub(User::class);
         $user->method('getUid')->willReturn('test-user');
         $user->method('getFirstName')->willReturn('Erika');
@@ -236,7 +232,7 @@ final class OutlookPluginLoginControllerTest extends TestCase
 
     private function assertJsonResponse(array $expected, Response $response): void
     {
-        // Auch Fehlerantworten verwenden im Originalcontroller HTTP 200.
+
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
         self::assertSame(
             'application/json',
