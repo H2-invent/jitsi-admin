@@ -67,7 +67,7 @@ class Rooms
     #[ORM\Column(type: 'boolean')]
     private bool $onlyRegisteredUsers = false;
 
-    #[ORM\Column(type: Types::STRING, length: 16000, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $agenda = null;
 
     /**
