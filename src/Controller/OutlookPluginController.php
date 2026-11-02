@@ -20,11 +20,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class OutlookPluginController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ServerUserManagment $serverUserManagment,
+        private EntityManagerInterface           $entityManager,
+        private ServerUserManagment              $serverUserManagment,
         private readonly PublicConferenceService $publicConferenceService,
-        private readonly  CreateHttpsUrl $createHttpsUrl,
-        private LoggerInterface $logger,
+        private readonly CreateHttpsUrl          $createHttpsUrl,
+        private LoggerInterface                  $logger,
     )
     {
 
@@ -34,44 +34,49 @@ final class OutlookPluginController extends AbstractController
     #[Route('/logout', name: 'logout', methods: ['GET'])]
     public function logout(Request $request): Response
     {
-        $token = $request->headers->get('Authorization');
-        if (!$token){
-            return new JsonResponse(['error'=>'Error reading token']);
+        if (!$request->headers->has('Authorization')) {
+            return new JsonResponse(['error' => 'Error reading Authorization']);
         }
-        $token = substr($token,7);
+        $token = $request->headers->get('Authorization');
+        if (!$token) {
+            return new JsonResponse(['error' => 'Error reading token']);
+        }
+        $token = substr($token, 7);
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken' => $token]);
-        if (!$user){
-            return new JsonResponse(['error' => true,'reason'=>'No user loged found' ]);
+        if (!$user) {
+            return new JsonResponse(['error' => true, 'reason' => 'No user loged found']);
         }
         if ($user->getOutlookPluginToken()) {
             $user->setOutlookPluginToken(null);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
-        return new JsonResponse(['success'=>true]);
+        return new JsonResponse(['success' => true]);
     }
 
     #[Route('/server', name: 'server', methods: ['GET'])]
     public function server(Request $request): Response
     {
-
-        $token = $request->headers->get('Authorization');
-        if (!$token){
-            return new JsonResponse(['error'=>'Error reading token']);
+        if (!$request->headers->has('Authorization')) {
+            return new JsonResponse(['error' => 'Error reading Authorization']);
         }
-        $token = substr($token,7);
+        $token = $request->headers->get('Authorization');
+        if (!$token) {
+            return new JsonResponse(['error' => 'Error reading token']);
+        }
+        $token = substr($token, 7);
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken' => $token]);
-        if (!$user){
-            return new JsonResponse(['error'=>true,'reason'=>'User not found']);
+        if (!$user) {
+            return new JsonResponse(['error' => true, 'reason' => 'User not found']);
         }
 
-           $servers = $this->serverUserManagment->getServersFromUser($user);
-           $serverArr = [];
-           foreach($servers as $server){
-               $serverArr[] = ['id'=>$server->getId(),'name'=>$server->getServerName()];
-           }
+        $servers = $this->serverUserManagment->getServersFromUser($user);
+        $serverArr = [];
+        foreach ($servers as $server) {
+            $serverArr[] = ['id' => $server->getId(), 'name' => $server->getServerName()];
+        }
         return new JsonResponse($serverArr);
 
     }
@@ -84,52 +89,54 @@ final class OutlookPluginController extends AbstractController
          * @var Server $server
          */
         $server = $this->entityManager->getRepository(Server::class)->find($serverID);
-        if (!$server){
-            return new JsonResponse(['error'=>true,'reason'=>'Server not found']);
+        if (!$server) {
+            return new JsonResponse(['error' => true, 'reason' => 'Server not found']);
 
+        }
+        if (!$request->headers->has('Authorization')) {
+            return new JsonResponse(['error' => 'Error reading Authorization']);
         }
         $token = $request->headers->get('Authorization');
-        if (!$token){
-            return new JsonResponse(['error'=>'Error reading token']);
+        if (!$token) {
+            return new JsonResponse(['error' => 'Error reading token']);
         }
-        $token = substr($token,7);
+        $token = substr($token, 7);
 
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken'=>$token]);
-        if (!$user){
-            return new JsonResponse(['error'=>true,'reason'=>'User not found']);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['outlookPluginToken' => $token]);
+        if (!$user) {
+            return new JsonResponse(['error' => true, 'reason' => 'User not found']);
         }
         $serverAvailable = $this->serverUserManagment->getServersFromUser($user);
-        if (!in_array($server,$serverAvailable)){
-            return new JsonResponse(['error'=>true,'reason'=>'Server not allowed for user']);
+        if (!in_array($server, $serverAvailable)) {
+            return new JsonResponse(['error' => true, 'reason' => 'Server not allowed for user']);
         }
         $room = $this->publicConferenceService->createNewRoomFromName(md5(uniqid()), $server);
         $room
             ->setModerator($user)
             ->setPublic(true)
             ->setTotalOpenRooms(true)
-            ->setIsFastConference(true)
-        ;
+            ->setIsFastConference(true);
         $this->entityManager->persist($room);
         $this->entityManager->flush();
         $phone = [];
         try {
-            if ($server->getJigasiNumberUrl()){
-                $nubers = json_decode($server->getJigasiNumberUrl(),true);
-               $phone['numbers']=$nubers;
-               $phone['dialIn'] = $room->getCallerRoom()->getCallerId();
-        }
-           
-        }catch (\Exception $exception){
+            if ($server->getJigasiNumberUrl()) {
+                $nubers = json_decode($server->getJigasiNumberUrl(), true);
+                $phone['numbers'] = $nubers;
+                $phone['dialIn'] = $room->getCallerRoom()->getCallerId();
+            }
+
+        } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
         }
 
         return new JsonResponse(
-                [
-                    'url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('own_room_startPage', ['uid' => $room->getUid()])),
-                    'title' => $room->getName(),
-                    'id'=>$room->getId(),
-                    'phone'=>$phone
-                ]
+            [
+                'url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('own_room_startPage', ['uid' => $room->getUid()])),
+                'title' => $room->getName(),
+                'id' => $room->getId(),
+                'phone' => $phone
+            ]
 
         );
     }

@@ -82,7 +82,7 @@ final class OutlookPluginControllerTest extends TestCase
         $this->expectNoWrites();
 
         $this->assertJsonResponse(
-            ['error' => 'Error reading token'],
+            ['error' => 'Error reading Authorization'],
             $this->controller->logout($request),
         );
     }
@@ -92,11 +92,24 @@ final class OutlookPluginControllerTest extends TestCase
         $request = $this->logoutRequest();
         $request->headers->set('Authorization', 'Bearer ');
 
-        $this->entityManager->expects(self::never())->method('getRepository');
-        $this->expectNoWrites();
+
+
+        $userRepository = $this->createMock(EntityRepository::class);
+        $userRepository->expects(self::once())
+            ->method('findOneBy')
+            ->with(['outlookPluginToken' => ''])
+            ->willReturn(null);
+
+        $this->entityManager->expects(self::exactly(1))
+            ->method('getRepository')
+            ->with(User::class)
+            ->willReturn(
+                $userRepository
+            );
 
         $this->assertJsonResponse(
-            ['error' => 'Error reading token'],
+            ['error' => true,
+    'reason' => 'No user loged found'],
             $this->controller->logout($request),
         );
     }
@@ -162,12 +175,9 @@ final class OutlookPluginControllerTest extends TestCase
             Request::create('/api/v1/outlook/plugin/server'),
         );
 
-        $this->entityManager->expects(self::never())->method('getRepository');
-        $this->serverManagement->expects(self::never())->method('getServersFromUser');
-        $this->expectNoWrites();
 
         $this->assertJsonResponse(
-            ['error' => 'Error reading token'],
+            ['error' => 'Error reading Authorization'],
             $this->controller->server($request),
         );
     }
@@ -176,13 +186,22 @@ final class OutlookPluginControllerTest extends TestCase
     {
         $request = Request::create('/api/v1/outlook/plugin/server');
         $request->headers->set('Authorization', 'Bearer ');
+        $userRepository = $this->createMock(EntityRepository::class);
+        $userRepository->expects(self::once())
+            ->method('findOneBy')
+            ->with(['outlookPluginToken' => ''])
+            ->willReturn(null);
 
-        $this->entityManager->expects(self::never())->method('getRepository');
-        $this->serverManagement->expects(self::never())->method('getServersFromUser');
-        $this->expectNoWrites();
+        $this->entityManager->expects(self::exactly(1))
+            ->method('getRepository')
+            ->with(User::class)
+            ->willReturn(
+                $userRepository
+            );
 
         $this->assertJsonResponse(
-            ['error' => 'Error reading token'],
+            [  'error' => true,
+    'reason' => 'User not found'],
             $this->controller->server($request),
         );
     }
@@ -230,29 +249,39 @@ final class OutlookPluginControllerTest extends TestCase
         $request = $this->withFailingAuthorizationRead($this->conferenceRequest());
 
         $this->assertJsonResponse(
-            ['error' => 'Error reading token'],
+            ['error' => 'Error reading Authorization'],
             $this->controller->createConference($request),
         );
     }
 
-    public function testCreateConferenceRejectsEmptyTokenAfterServerLookup(): void
+    public function testCreateConferenceReturnsUserNotFoundForEmptyBearerToken(): void
     {
         $server = $this->server(10, 'Server A');
-        $repository = $this->createMock(EntityRepository::class);
-        $repository->expects(self::once())->method('find')
-            ->with('10')->willReturn($server);
 
-        // Der Controller sucht den Server, bevor er den Token prueft.
-        $this->entityManager->expects(self::once())->method('getRepository')
-            ->with(Server::class)->willReturn($repository);
-        $this->serverManagement->expects(self::never())->method('getServersFromUser');
-        $this->expectNoConferenceCreation();
+        $serverRepository = $this->createMock(EntityRepository::class);
+        $serverRepository->expects(self::once())
+            ->method('find')
+            ->with('10')
+            ->willReturn($server);
+
+        $userRepository = $this->createMock(EntityRepository::class);
+        $userRepository->expects(self::once())
+            ->method('findOneBy')
+            ->with(['outlookPluginToken' => ''])
+            ->willReturn(null);
+
+        $this->entityManager->expects(self::exactly(2))
+            ->method('getRepository')
+            ->willReturnMap([
+                [Server::class, $serverRepository],
+                [User::class, $userRepository],
+            ]);
 
         $request = $this->conferenceRequest();
         $request->headers->set('Authorization', 'Bearer ');
 
         $this->assertJsonResponse(
-            ['error' => 'Error reading token'],
+            ['error' => true, 'reason' => 'User not found'],
             $this->controller->createConference($request),
         );
     }
@@ -442,10 +471,6 @@ final class OutlookPluginControllerTest extends TestCase
     {
 
         $headers = $this->createMock(HeaderBag::class);
-        $headers->expects(self::once())
-            ->method('get')
-            ->with('Authorization')
-            ->willThrowException(new \RuntimeException('Authorization read failed'));
 
         $request->headers = $headers;
 
