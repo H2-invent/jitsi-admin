@@ -1,4 +1,4 @@
-name: Build Artifacts
+name: Run Tests
 
 on: workflow_call
 
@@ -13,18 +13,22 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: jitsiadmintest
+          MYSQL_USER: jitsiadmintest
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     # endregion declare_services
 
+    env:
+      DATABASE_URL: "mysql://jitsiadmintest:password@127.0.0.1:3306/jitsiadmintest?serverVersion=5.7"
+
     steps:
-      # region mysql_start
-      - name: MySQL start
-        run: |
-          sudo /etc/init.d/mysql start
-          sudo mysql --user=root --password=root -e "CREATE DATABASE jitsiadmintest;"
-          sudo mysql --user=root --password=root -e "CREATE USER 'jitsiadmintest'@'localhost' IDENTIFIED  BY 'password';"
-          sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON jitsiadmintest.* TO 'jitsiadmintest'@'localhost';"
-          sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;"
-      # endregion mysql_start
       # region load_artifact
       - name: Download Artifact
         uses: actions/download-artifact@v7
@@ -50,13 +54,38 @@ jobs:
       - name: Warm up test cache
         run: php bin/console cache:warmup --env=test
 
-      - name: Run phpstan
-        run: composer phpstan
-
       - name: Run php test
         run: composer test
       # endregion phpunit
       # endregion test
+
+  run_phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      # region load_artifact
+      - name: Download Artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: artifact_${{github.run_number}}
+
+      - name: Unzip Artifact
+        run: unzip -qq artifact_${{github.run_number}}.zip -d .
+      # endregion load_artifact
+
+      - name: Update PHP Version and tools
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ vars.PHP_VERSION }}
+          ini-values: date.timezone ="Europe/Berlin"
+          tools: composer:v2
+
+      # phpstan.neon reads the test container XML from var/cache/test
+      - name: Warm up test cache
+        run: php bin/console cache:warmup --env=test
+
+      - name: Run phpstan
+        run: composer phpstan
 
   run_postgres_migrations:
     runs-on: ubuntu-latest
