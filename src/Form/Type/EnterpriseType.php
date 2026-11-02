@@ -26,6 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @extends AbstractType<Server>
@@ -35,7 +36,7 @@ class EnterpriseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('smtpHost', TextType::class, ['required' => false, 'label' => 'label.serverSmtpHostName', 'translation_domain' => 'form'])
+            ->add('smtpHost', TextType::class, ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.serverSmtpHostName', 'translation_domain' => 'form'])
             ->add('smtpPort', TextType::class, ['required' => false, 'label' => 'label.serverSmtpHostPort', 'translation_domain' => 'form'])
             ->add(
                 'smtpEncryption',
@@ -48,18 +49,18 @@ class EnterpriseType extends AbstractType
                         ['choice.tls' => 'tls', 'choice.ssl' => 'ssl', 'choice.none' => null]
                 ]
             )
-            ->add('smtpUsername', TextType::class, ['required' => false, 'label' => 'label.serverSmtpUsername', 'translation_domain' => 'form'])
-            ->add('smtpPassword', TextType::class, ['required' => false, 'label' => 'label.serverSmtpPassword', 'translation_domain' => 'form'])
-            ->add('smtpEmail', TextType::class, ['required' => false, 'label' => 'label.serverSmtpSenderEmail', 'translation_domain' => 'form'])
-            ->add('smtpSenderName', TextType::class, ['required' => false, 'label' => 'label.serverSmtpSenderName', 'translation_domain' => 'form'])
-            ->add('logoUrl', TextType::class, ['required' => false, 'label' => 'label.serverLintLogo', 'translation_domain' => 'form'])
-            ->add('privacyPolicy', TextType::class, ['required' => false, 'label' => 'label.serverPrivacyPolicy', 'translation_domain' => 'form'])
+            ->add('smtpUsername', TextType::class, ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.serverSmtpUsername', 'translation_domain' => 'form'])
+            ->add('smtpPassword', TextType::class, ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.serverSmtpPassword', 'translation_domain' => 'form'])
+            ->add('smtpEmail', TextType::class, ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.serverSmtpSenderEmail', 'translation_domain' => 'form'])
+            ->add('smtpSenderName', TextType::class, ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.serverSmtpSenderName', 'translation_domain' => 'form'])
+            ->add('logoUrl', TextType::class, ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.serverLintLogo', 'translation_domain' => 'form'])
+            ->add('privacyPolicy', TextType::class, ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.serverPrivacyPolicy', 'translation_domain' => 'form'])
             ->add('serverEmailHeader', TextType::class, ['required' => false, 'label' => 'label.serverEmailHeader', 'translation_domain' => 'form'])
             ->add('serverEmailBody', TextareaType::class, ['required' => false, 'label' => 'label.serverEmailBody', 'translation_domain' => 'form'])
             ->add(
                 'apiKey',
                 TextType::class,
-                ['required' => false, 'attr' => ['readonly' => 'readonly',], 'label' => 'label.apiKey', 'translation_domain' => 'form']
+                ['required' => false, 'constraints' => [new Length(['max' => 255])], 'attr' => ['readonly' => 'readonly',], 'label' => 'label.apiKey', 'translation_domain' => 'form']
             )
             ->add(
                 'showStaticBackgroundColor',
@@ -75,7 +76,7 @@ class EnterpriseType extends AbstractType
             ->add(
                 'jigasiApiUrl',
                 TextType::class,
-                ['required' => false, 'label' => 'label.jigasiApiUrl', 'help' => 'help.jigasiApiUrl', 'translation_domain' => 'form']
+                ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.jigasiApiUrl', 'help' => 'help.jigasiApiUrl', 'translation_domain' => 'form']
             )
             ->add(
                 'jigasiNumberUrl',
@@ -85,17 +86,17 @@ class EnterpriseType extends AbstractType
             ->add(
                 'jigasiProsodyDomain',
                 TextType::class,
-                ['required' => false, 'label' => 'label.jigasiProsodyDomain', 'help' => 'help.jigasiProsodyDomain', 'translation_domain' => 'form']
+                ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.jigasiProsodyDomain', 'help' => 'help.jigasiProsodyDomain', 'translation_domain' => 'form']
             )
             ->add(
                 'jitsiEventSyncUrl',
                 TextType::class,
-                ['required' => false, 'label' => 'label.jitsiEventSyncUrl', 'help' => 'help.jitsiEventSyncUrl', 'translation_domain' => 'form']
+                ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.jitsiEventSyncUrl', 'help' => 'help.jitsiEventSyncUrl', 'translation_domain' => 'form']
             )
             ->add(
                 'livekitMiddlewareUrl',
                 TextType::class,
-                ['required' => false, 'label' => 'label.livekitMiddlewareUrl', 'help' => 'help.livekitMiddlewareUrl', 'translation_domain' => 'form']
+                ['required' => false, 'constraints' => [new Length(['max' => 512])], 'label' => 'label.livekitMiddlewareUrl', 'help' => 'help.livekitMiddlewareUrl', 'translation_domain' => 'form']
             )
             ->add('enableRecording', CheckboxType::class, ['required' => false, 'label' => 'label.enableRecording', 'translation_domain' => 'form'])
             ->add(
@@ -109,7 +110,7 @@ class EnterpriseType extends AbstractType
                     'translation_domain' => 'form'
                 ]
             )
-            ->add('apiKeyTranscription', TextType::class, ['required' => false, 'label' => 'label.apiKeyTranscription', 'translation_domain' => 'form'])
+            ->add('apiKeyTranscription', TextType::class, ['required' => false, 'constraints' => [new Length(['max' => 255])], 'label' => 'label.apiKeyTranscription', 'translation_domain' => 'form'])
             ->add('enableTranscription', CheckboxType::class, ['required' => false, 'label' => 'label.enableTranscription', 'translation_domain' => 'form'])
             ->add('tag', EntityType::class, [
                 'class'              => Tag::class,

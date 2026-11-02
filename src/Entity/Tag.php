@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
@@ -15,7 +16,7 @@ class Tag
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $title = null;
 
     /**
@@ -30,10 +31,10 @@ class Tag
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $priority = null;
 
-    #[ORM\Column(type: 'string', length: 32, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 32, nullable: true)]
     private ?string $color = null;
 
-    #[ORM\Column(type: 'string', length: 32, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 32, nullable: true)]
     private ?string $backgroundColor = null;
 
     /** @var Collection<int, Server> */

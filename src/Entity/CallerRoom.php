@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CallerRoomRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CallerRoomRepository::class)]
@@ -14,7 +15,7 @@ class CallerRoom
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 32)]
+    #[ORM\Column(type: Types::STRING, length: 32)]
     private ?string $callerId = null;
 
     #[ORM\OneToOne(targetEntity: Rooms::class, inversedBy: 'callerRoom')]

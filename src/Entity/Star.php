@@ -21,7 +21,7 @@ class Star
     #[ORM\Column(type: 'integer')]
     private ?int $star = null;
 
-    #[ORM\Column(type: 'string', length: 1024, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 1024, nullable: true)]
     private ?string $comment = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]

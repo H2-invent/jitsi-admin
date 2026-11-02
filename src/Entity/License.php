@@ -15,7 +15,7 @@ class License
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $licenseKey = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535)]
@@ -24,7 +24,7 @@ class License
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $validUntil = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $url = null;
 
     public function getId(): ?int

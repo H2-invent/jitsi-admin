@@ -20,13 +20,13 @@ class Server
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $url = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $appId = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $appSecret = null;
 
     /**
@@ -45,43 +45,43 @@ class Server
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $administrator = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $logoUrl = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $smtpHost = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $smtpPort = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $smtpPassword = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $smtpUsername = null;
 
-    #[ORM\Column(type: 'string', length: 16, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 16, nullable: true)]
     private ?string $smtpEncryption = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $smtpEmail = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $smtpSenderName = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $slug = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $privacyPolicy = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $licenseKey = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $apiKey = null;
 
-    #[ORM\Column(type: 'string', length: 7, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 7, nullable: true)]
     private ?string $staticBackgroundColor = null;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
@@ -111,7 +111,7 @@ class Server
     #[ORM\Column(type: 'integer')]
     private ?int $jwtModeratorPosition = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $serverName = null;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
@@ -129,16 +129,16 @@ class Server
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $jigasiApiUrl = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $jigasiNumberUrl = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $jigasiProsodyDomain = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $starUrl = null;
 
     #[ORM\Column(nullable: true)]
@@ -150,7 +150,7 @@ class Server
     #[ORM\Column(nullable: true)]
     private ?bool $enforceE2e = null;
 
-    #[ORM\Column(type: 'string', length: 1024, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 1024, nullable: true)]
     private ?string $allowIp = null;
 
     /** @var Collection<int, Tag> */

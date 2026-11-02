@@ -92,12 +92,12 @@ class RoomType extends AbstractType
                 [
                     'disabled'           => $during,
                     'required'           => true,
-                    'constraints'        => [new Length(['max' => 250])],
+                    'constraints'        => [new Length(['max' => 255])],
                     'label'              => 'label.konferenzName',
                     'translation_domain' => 'form'
                 ]
             )
-            ->add('agenda', TextareaType::class, ['disabled' => $during, 'required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
+            ->add('agenda', TextareaType::class, ['disabled' => $during, 'required' => false,                    'constraints'        => [new Length(['max' => 16000])], 'label' => 'label.agenda', 'translation_domain' => 'form'])
             ->add(
                 'start',
                 DateTimeType::class,

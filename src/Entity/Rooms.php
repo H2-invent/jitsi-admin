@@ -27,7 +27,7 @@ class Rooms
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
@@ -47,7 +47,7 @@ class Rooms
     #[ORM\JoinColumn(nullable: false)]
     private ?Server $server = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $uid = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator')]
@@ -61,13 +61,13 @@ class Rooms
     #[ORM\Column(type: 'integer')]
     private ?int $sequence = null;
 
-    #[ORM\Column(type: 'string', length: 36, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $uidReal = null;
 
     #[ORM\Column(type: 'boolean')]
     private bool $onlyRegisteredUsers = false;
 
-    #[ORM\Column(type: 'string', length: 3000, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 16000, nullable: true)]
     private ?string $agenda = null;
 
     /**
@@ -89,10 +89,10 @@ class Rooms
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $showRoomOnJoinpage = null;
 
-    #[ORM\Column(type: 'string', length: 36, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $uidParticipant = null;
 
-    #[ORM\Column(type: 'string', length: 36, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $uidModerator = null;
 
     /**
@@ -145,7 +145,7 @@ class Rooms
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $persistantRoom = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $slug = null;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
@@ -154,7 +154,7 @@ class Rooms
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $totalOpenRoomsOpenTime = 30;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $timeZone = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
@@ -207,10 +207,10 @@ class Rooms
     #[Ignore]
     private ?Tag $tag = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $hostUrl = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $secondaryName = null;
 
     /** @var Collection<int, CalloutSession> */

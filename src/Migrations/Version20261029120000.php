@@ -61,7 +61,7 @@ final class Version20261029120000 extends AbstractMigration
         $this->modifyColumn($schema, 'rooms', 'name', $stringType, 255, true);
         $this->modifyColumn($schema, 'rooms', 'uid', $stringType, 255, true);
         $this->modifyColumn($schema, 'rooms', 'uid_real', $stringType, 36, false);
-        $this->modifyColumn($schema, 'rooms', 'agenda', $stringType, 3000, false);
+        $this->modifyColumn($schema, 'rooms', 'agenda', $stringType, 16000, false);
         $this->modifyColumn($schema, 'rooms', 'uid_participant', $stringType, 36, false);
         $this->modifyColumn($schema, 'rooms', 'uid_moderator', $stringType, 36, false);
         $this->modifyColumn($schema, 'rooms', 'slug', $stringType, 255, false);

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AddressGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AddressGroupRepository::class)]
@@ -15,7 +16,7 @@ class AddressGroup
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'AddressGroupLeader')]
@@ -34,7 +35,7 @@ class AddressGroup
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $indexer = null;
 
     public function __construct()

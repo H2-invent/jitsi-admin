@@ -14,7 +14,7 @@ class LdapUserProperties
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $ldapHost = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535)]
@@ -24,10 +24,10 @@ class LdapUserProperties
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $rdn = null;
 
-    #[ORM\Column(type: 'string', length: 64)]
+    #[ORM\Column(type: Types::STRING, length: 64)]
     private ?string $ldapNumber = null;
 
     public function getId(): ?int

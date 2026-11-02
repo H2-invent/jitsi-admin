@@ -65,7 +65,7 @@ class CalloutSession
     #[ORM\JoinColumn(nullable: false)]
     private ?User $invitedFrom = null;
 
-    #[ORM\Column(type: 'string', length: 36)]
+    #[ORM\Column(type: Types::STRING, length: 36)]
     private ?string $uid = null;
 
     #[ORM\Column]

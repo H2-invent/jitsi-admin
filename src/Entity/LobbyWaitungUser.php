@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LobbyWaitungUserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LobbyWaitungUserRepository::class)]
@@ -26,13 +27,13 @@ class LobbyWaitungUser
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: 'string', length: 36)]
+    #[ORM\Column(type: Types::STRING, length: 36)]
     private ?string $uid = null;
 
-    #[ORM\Column(type: 'string', length: 5)]
+    #[ORM\Column(type: Types::STRING, length: 5)]
     private ?string $type = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $showName = null;
 
     #[ORM\OneToOne(targetEntity: CallerSession::class, mappedBy: 'lobbyWaitingUser', cascade: ['persist'])]

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RoomStatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoomStatusRepository::class)]
@@ -44,7 +45,7 @@ class RoomStatus
     #[ORM\JoinColumn(nullable: true)]
     private ?Rooms $room = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $jitsiRoomId = null;
 
     public function __construct()

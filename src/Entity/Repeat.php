@@ -102,7 +102,7 @@ class Repeat implements \Stringable
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $repeatYearlyRelativeHowOften = null;
 
-    #[ORM\Column(type: 'string', length: 36, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $uid = null;
 
     public function __construct()

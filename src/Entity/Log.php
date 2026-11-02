@@ -17,7 +17,7 @@ class Log
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $userName = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535)]

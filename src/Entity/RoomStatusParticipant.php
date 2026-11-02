@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RoomStatusParticipantRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoomStatusParticipantRepository::class)]
@@ -27,10 +28,10 @@ class RoomStatusParticipant
     #[ORM\JoinColumn(nullable: false)]
     private ?RoomStatus $roomStatus = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $participantId = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $participantName = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
