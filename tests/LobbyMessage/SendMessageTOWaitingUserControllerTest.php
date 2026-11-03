@@ -33,12 +33,12 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
                 self::assertIsArray($updateData);
                 self::assertArrayHasKey('message', $updateData);
                 self::assertSame($message->getText(), $updateData['message']);
-                self::assertEquals(['lobby_WaitingUser_websocket/c4ca4238a0b923820dcc509a6f75849b'], $update->getTopics());
+                self::assertEquals(['lobby_WaitingUser_websocket/9e1d7a68-2bfd-4923-8f54-3fb7dbd87142'], $update->getTopics());
                 return 'id';
             }
         );
         $directSend->setMercurePublisher($hub);
-        $crawler = $client->request('POST', '/room/lobby/message/send', [], [], [], json_encode(['uid' => md5(1), 'message' => $message->getId()]));
+        $crawler = $client->request('POST', '/room/lobby/message/send', [], [], [], json_encode(['uid' => '9e1d7a68-2bfd-4923-8f54-3fb7dbd87142', 'message' => $message->getId()]));
 
         self::assertResponseIsSuccessful();
         self::assertEquals(['error' => false, 'message' => 'Die Nachricht wurde erfolgreich übermittelt.'], json_decode($client->getResponse()->getContent(), true));

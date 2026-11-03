@@ -237,7 +237,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser2->setRoom($room);
         $lobbyUser2->setCreatedAt(new \DateTimeImmutable());
         $lobbyUser2->setUser($moderator);
-        $lobbyUser2->setUid('lkdsjhflkjlkdsfghhgfjflkjdslkjflkjdslkjf');
+        $lobbyUser2->setUid('lkdsjhflkjlkdsfghhgfjflkjdslkjflkjds');
         $lobbyUser2->setShowName($moderator->getFirstName() . ' ' . $moderator->getLastName());
         $em->persist($lobbyUser2);
         $em->flush();
@@ -247,8 +247,8 @@ class LobbyModeratorControllerTest extends WebTestCase
         self::assertEquals(0, $crawler->filter('.waitingUserCard')->count());
         assertEquals(false,$lobbyUser2->isWebsocketReady());
         $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
-        $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsfghhgfjflkjdslkjflkjdslkjf');
-        $lobbyUser2 = $lobbyUSerRepo->findOneBy(['uid'=>'lkdsjhflkjlkdsfghhgfjflkjdslkjflkjdslkjf']);
+        $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsfghhgfjflkjdslkjflkjds');
+        $lobbyUser2 = $lobbyUSerRepo->findOneBy(['uid'=>'lkdsjhflkjlkdsfghhgfjflkjdslkjflkjds']);
         self::assertTrue($lobbyUser2->isWebsocketReady());
         $crawler = $client->request('GET', $url->generate('lobby_moderator', ['uid' => $room->getUidReal()]));
         self::assertEquals(2, $crawler->filter('.waitingUserCard')->count());

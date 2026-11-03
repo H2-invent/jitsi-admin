@@ -39,7 +39,7 @@ class CalloutInviteControllerTest extends WebTestCase
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['uidReal' => '561ghj984ssdfdf']);
+        $room = $roomRepo->findOneBy(['uidReal' => '5245ba59-53e8-40c6-adad-acf196245cdb']);
 
         $crawler = $client->request('POST', '/room/callout/invite/' . $room->getUidReal(), ['uid' => 'newUser@local.de']);
 
@@ -58,7 +58,7 @@ class CalloutInviteControllerTest extends WebTestCase
         $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($user);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['uidReal' => '561ghj984ssdfdf']);
+        $room = $roomRepo->findOneBy(['uidReal' => '5245ba59-53e8-40c6-adad-acf196245cdb']);
 
         $crawler = $client->request('POST', '/room/callout/invite/' . $room->getUidReal(), ['uid' => 'newUser@local.de']);
 

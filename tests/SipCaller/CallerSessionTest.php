@@ -655,7 +655,7 @@ class CallerSessionTest extends KernelTestCase
 
         $message = $messageRepo->findAll();
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $waitingUser = $waitingUSerRepo->findOneBy(['uid' => md5(1)]);
+        $waitingUser = $waitingUSerRepo->findOneBy(['uid' => '9e1d7a68-2bfd-4923-8f54-3fb7dbd87142']);
 
         $callerSession = new CallerSession();
         $callerSession->setSessionId('test')
@@ -677,12 +677,12 @@ class CallerSessionTest extends KernelTestCase
                 self::assertIsArray($updateData);
                 self::assertArrayHasKey('message', $updateData);
                 self::assertSame($testMessage, $updateData['message']);
-                self::assertEquals(['lobby_WaitingUser_websocket/c4ca4238a0b923820dcc509a6f75849b'], $update->getTopics());
+                self::assertEquals(['lobby_WaitingUser_websocket/9e1d7a68-2bfd-4923-8f54-3fb7dbd87142'], $update->getTopics());
                 return 'id';
             }
         );
         $directSend->setMercurePublisher($hub);
-        $messageResult = $sendMessage->sendMessage(md5(1), $testMessage, $user);
+        $messageResult = $sendMessage->sendMessage('9e1d7a68-2bfd-4923-8f54-3fb7dbd87142', $testMessage, $user);
 
         self::assertEquals(true, $messageResult);
 

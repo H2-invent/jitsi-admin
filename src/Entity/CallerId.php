@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CallerIdRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CallerIdRepository::class)]
@@ -21,7 +22,7 @@ class CallerId
     #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::STRING, length: 32)]
     private ?string $callerId = null;
 
     #[ORM\Column(type: 'datetime_immutable')]

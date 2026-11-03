@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @extends AbstractType<AddressGroup>
@@ -34,7 +35,7 @@ class AddressGroupType extends AbstractType
             ->add(
                 'name',
                 TextType::class,
-                ['attr' => ['placeholder' => 'label.addressgroupName'], 'label' => 'label.addressgroupName', 'required' => true, 'translation_domain' => 'form']
+                ['attr' => ['placeholder' => 'label.addressgroupName'], 'constraints' => [new Length(['max' => 255])], 'label' => 'label.addressgroupName', 'required' => true, 'translation_domain' => 'form']
             )
             ->add(
                 'member',

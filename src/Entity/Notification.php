@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\NotificationRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
@@ -13,10 +14,10 @@ class Notification
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::STRING, length: 1024)]
     private ?string $text = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'notifications')]
@@ -26,7 +27,7 @@ class Notification
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $url = null;
 
     public function getId(): ?int

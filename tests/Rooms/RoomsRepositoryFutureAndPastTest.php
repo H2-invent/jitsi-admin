@@ -143,7 +143,7 @@ class RoomsRepositoryFutureAndPastTest extends KernelTestCase
         $room->setEnddate($end);
         $room->setName($name);
         $room->setUid('uid-' . md5(uniqid((string) $name, true)));
-        $room->setUidReal('uidreal-' . md5(uniqid((string) $name, true)));
+        $room->setUidReal(md5(uniqid((string) $name, true)));
         $room->setSequence(0);
         $room->setDuration(60);
         $room->setAgenda('Agenda of ' . $name);

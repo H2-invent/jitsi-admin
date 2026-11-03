@@ -54,11 +54,11 @@ class CalloutAPIRemoveServiceFromRingingTest extends KernelTestCase
             function (Update $update): string {
                 if (json_decode($update->getData(), true)['type'] === 'snackbar') {
                     self::assertEquals('{"type":"snackbar","message":"AA, 45689, Ldap, LdapUSer hat abgelehnt.","color":"danger","closeAfter":2000}', $update->getData());
-                    self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+                    self::assertEquals(['lobby_moderator/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b'], $update->getTopics());
                 }
                 if (json_decode($update->getData(), true)['type'] === 'refresh') {
-                    self::assertEquals('{"type":"refresh","reloadUrl":"\/room\/lobby\/moderator\/a\/9876543210 #waitingUser"}', $update->getData());
-                    self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+                    self::assertEquals('{"type":"refresh","reloadUrl":"\/room\/lobby\/moderator\/a\/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b #waitingUser"}', $update->getData());
+                    self::assertEquals(['lobby_moderator/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b'], $update->getTopics());
                 }
                 return 'id';
             }
@@ -90,11 +90,11 @@ class CalloutAPIRemoveServiceFromRingingTest extends KernelTestCase
             function (Update $update): string {
                 if (json_decode($update->getData(), true)['type'] === 'snackbar') {
                     self::assertEquals('{"type":"snackbar","message":"Fehler. Melden Sie sich bei Ihrem Support.","color":"danger","closeAfter":2000}', $update->getData());
-                    self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+                    self::assertEquals(['lobby_moderator/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b'], $update->getTopics());
                 }
                 if (json_decode($update->getData(), true)['type'] === 'refresh') {
-                    self::assertEquals('{"type":"refresh","reloadUrl":"\/room\/lobby\/moderator\/a\/9876543210 #waitingUser"}', $update->getData());
-                    self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+                    self::assertEquals('{"type":"refresh","reloadUrl":"\/room\/lobby\/moderator\/a\/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b #waitingUser"}', $update->getData());
+                    self::assertEquals(['lobby_moderator/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b'], $update->getTopics());
                 }
                 return 'id';
             }
@@ -128,11 +128,11 @@ class CalloutAPIRemoveServiceFromRingingTest extends KernelTestCase
             function (Update $update): string {
                 if (json_decode($update->getData(), true)['type'] === 'snackbar') {
                     self::assertEquals('{"type":"snackbar","message":"AA, 45689, Ldap, LdapUSer ist nicht erreichbar.","color":"danger","closeAfter":2000}', $update->getData());
-                    self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+                    self::assertEquals(['lobby_moderator/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b'], $update->getTopics());
                 }
                 if (json_decode($update->getData(), true)['type'] === 'refresh') {
-                    self::assertEquals('{"type":"refresh","reloadUrl":"\/room\/lobby\/moderator\/a\/9876543210 #waitingUser"}', $update->getData());
-                    self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+                    self::assertEquals('{"type":"refresh","reloadUrl":"\/room\/lobby\/moderator\/a\/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b #waitingUser"}', $update->getData());
+                    self::assertEquals(['lobby_moderator/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b'], $update->getTopics());
                 }
                 return 'id';
             }

@@ -40,13 +40,13 @@ class StartServiceTest extends KernelTestCase
         $name = $user->getFormatedName($paramterBag->get('laf_showNameInConference'));
         $response = $startService->startMeeting($room, $user, 'a', $name);
         self::assertInstanceOf(RedirectResponse::class, $response);
-        self::assertStringContainsString('jitsi-meet://meet.jit.si2/123456781?jwt=', $response->getTargetUrl());
+        self::assertStringContainsString('jitsi-meet://meet.jit.si2/' . $room->getUid() . '?jwt=', $response->getTargetUrl());
         self::assertStringContainsString('#config.subject=%22testmeeting_1%22', $response->getTargetUrl());
 
         preg_match('/jwt=([^#]+)/', $response->getTargetUrl(), $matches);
         $jwt = $matches[1];
         $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
-        self::assertEquals('123456781', $decoded->room);
+        self::assertEquals($room->getUid(), $decoded->room);
         self::assertEquals(true, $decoded->moderator);
 
         $responseB = $startService->startMeeting($room, $user, 'b', $name);
@@ -69,13 +69,13 @@ class StartServiceTest extends KernelTestCase
         $name = $user->getFormatedName($paramterBag->get('laf_showNameInConference'));
         $response = $startService->startMeeting($room, $user, 'a', $name);
         self::assertInstanceOf(RedirectResponse::class, $response);
-        self::assertStringContainsString('jitsi-meet://meet.jit.si2/561d6f51s6f?jwt=', $response->getTargetUrl());
+        self::assertStringContainsString('jitsi-meet://meet.jit.si2/c6f40763-d28f-40f6-85c9-2566042ea4bd?jwt=', $response->getTargetUrl());
         self::assertStringContainsString('#config.subject=%22this_room_has_no_participants_and_fixed_room%22', $response->getTargetUrl());
 
         preg_match('/jwt=([^#]+)/', $response->getTargetUrl(), $matches);
         $jwt = $matches[1];
         $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
-        self::assertEquals('561d6f51s6f', $decoded->room);
+        self::assertEquals('c6f40763-d28f-40f6-85c9-2566042ea4bd', $decoded->room);
         self::assertEquals(true, $decoded->moderator);
 
         $responseB = $startService->startMeeting($room, $user, 'b', $name);
@@ -86,7 +86,7 @@ class StartServiceTest extends KernelTestCase
         preg_match("/jwt: '([^']+)'/", $responseB, $browserMatches);
         self::assertNotEmpty($browserMatches[1]);
         $browserDecoded = JWT::decode($browserMatches[1], new Key($appSecret, 'HS256'));
-        self::assertEquals('561d6f51s6f', $browserDecoded->room);
+        self::assertEquals('c6f40763-d28f-40f6-85c9-2566042ea4bd', $browserDecoded->room);
     }
 
     public function test_RoomHasLobby_userisOrganizer(): void

@@ -107,7 +107,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             ['user' => [
                 [
-                    'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']
+                    'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'roles' => ['participant', 'moderator']
                 ]
             ], 'group' => []
             ],
@@ -118,7 +118,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             ['user' => [
                 [
-                    'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']
+                    'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'roles' => ['participant', 'moderator']
                 ]
             ], 'group' => []
             ],
@@ -129,8 +129,8 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             [
                 'user' => [
-                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
-                    ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'roles' => ['participant', 'moderator']],
+                    ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'ee8d670c-bcf2-4b9b-b763-3dc088945366', 'roles' => ['participant', 'moderator']]
                 ],
                 'group' => [
                     ['name' => 'Testgruppe', 'user' => ['test2@local.de','test@local3.de']]
@@ -163,8 +163,8 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             [
                 'user' => [
-                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
-                    ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'roles' => ['participant', 'moderator']],
+                    ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'ee8d670c-bcf2-4b9b-b763-3dc088945366', 'roles' => ['participant', 'moderator']]
                 ],
                 'group' => [
                     ['name' => 'Testgruppe', 'user' => ['test2@local.de','test@local3.de']]
@@ -179,8 +179,8 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             [
                 'user' => [
-                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
-                    ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'roles' => ['participant', 'moderator']],
+                    ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'ee8d670c-bcf2-4b9b-b763-3dc088945366', 'roles' => ['participant', 'moderator']]
                 ],
                 'group' => [
                     ['name' => 'Testgruppe', 'user' => ['test2@local.de','test@local3.de']]
@@ -195,7 +195,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             [
                 'user' => [
-                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => 'test2@local.de', 'roles' => ['participant', 'moderator']]
+                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'a0591bf8-d69a-4039-97d2-e9fd69077785', 'id' => 'test2@local.de', 'roles' => ['participant', 'moderator']]
                 ],
                 'group' => []
             ],

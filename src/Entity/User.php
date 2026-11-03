@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use App\Service\FormatName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -16,6 +17,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 #[ORM\Table(name: 'fos_user')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Index(fields: ['email'], name: 'idx_fos_user_email')]
+#[ORM\Index(fields: ['username'], name: 'idx_fos_user_username')]
+#[ORM\Index(fields: ['uid'], name: 'idx_fos_user_uid')]
+#[ORM\Index(fields: ['keycloakId'], name: 'idx_fos_user_keycloak_id')]
 class User extends BaseUser
 {
     private FormatName $formatName;
@@ -28,28 +33,28 @@ class User extends BaseUser
     #[Assert\Length(min: 8, minMessage: 'fos_user.password.short', groups: ['Registration', 'Profile', 'ResetPassword', 'ChangePassword'])]
     protected ?string $plainPassword = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $keycloakId = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $username = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $lastLogin = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $firstName = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $lastName = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $registerId = null;
 
     /**
@@ -112,7 +117,7 @@ class User extends BaseUser
     #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'user')]
     private Collection $schedulingTimeUsers;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $uid = null;
 
     /**
@@ -139,7 +144,7 @@ class User extends BaseUser
     #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'prototypeUsers')]
     private Collection $protoypeRooms;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $ownRoomUid = null;
 
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'OwnRoomUSer')]
@@ -160,7 +165,7 @@ class User extends BaseUser
     #[ORM\OneToOne(targetEntity: LdapUserProperties::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?LdapUserProperties $ldapUserProperties = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $timeZone = null;
 
     /**
@@ -181,10 +186,10 @@ class User extends BaseUser
     #[ORM\OneToMany(targetEntity: LobbyWaitungUser::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $lobbyWaitungUsers;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 2048, nullable: true)]
     private ?string $indexer = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $secondEmail = null;
 
     #[ORM\OneToOne(targetEntity: Documents::class, cascade: ['persist', 'remove'])]

@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\CallerSessionRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CallerSessionRepository::class)]
+#[ORM\Index(fields: ['sessionId'], name: 'idx_caller_session_session_id')]
 class CallerSession
 {
     #[ORM\Id]
@@ -13,7 +15,7 @@ class CallerSession
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::STRING, length: 36)]
     private ?string $sessionId = null;
 
     #[ORM\OneToOne(targetEntity: LobbyWaitungUser::class, inversedBy: 'callerSession', cascade: ['persist', 'remove'])]
@@ -26,13 +28,13 @@ class CallerSession
     #[ORM\Column(type: 'boolean')]
     private ?bool $authOk = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 32, nullable: true)]
     private ?string $callerId = null;
 
     #[ORM\OneToOne(targetEntity: CallerId::class, mappedBy: 'callerSession', cascade: ['persist'])]
     private ?CallerId $caller = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $showName = null;
 
     #[ORM\Column(type: 'boolean')]

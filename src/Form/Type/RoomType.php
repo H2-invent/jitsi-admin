@@ -35,6 +35,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @extends AbstractType<Rooms>
@@ -85,8 +86,18 @@ class RoomType extends AbstractType
 
 
         $builder
-            ->add('name', TextType::class, ['disabled' => $during, 'required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
-            ->add('agenda', TextareaType::class, ['disabled' => $during, 'required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
+            ->add(
+                'name',
+                TextType::class,
+                [
+                    'disabled'           => $during,
+                    'required'           => true,
+                    'constraints'        => [new Length(['max' => 255])],
+                    'label'              => 'label.konferenzName',
+                    'translation_domain' => 'form'
+                ]
+            )
+            ->add('agenda', TextareaType::class, ['disabled' => $during, 'required' => false, 'constraints' => [new Length(['max' => 65535])], 'label' => 'label.agenda', 'translation_domain' => 'form'])
             ->add(
                 'start',
                 DateTimeType::class,
