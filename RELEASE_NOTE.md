@@ -11,6 +11,7 @@
 
 ### ⭐ Improvements:
 * Upgrade to Symfony 7.4
+* Fixed npm build deprecation warnings
 
 ## 1.6
 * Removed matomo dependency
@@ -38,6 +39,8 @@
 ### Bug Fixes:
 * Header shows Theme text
 * theme page is vissible
+* Fix button layout/rendering in all lobby instances
+* Centered footer (1.4.6)
 
 ## 1.3
 
