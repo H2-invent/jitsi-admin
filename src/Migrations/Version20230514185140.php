@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230514185140 extends AbstractMigration
 {
-    private const TABLE_NAME = 'scheduling';
-    private const COLUMN_NAME = 'completed_email_sent';
+    private const string TABLE_NAME = 'scheduling';
+    private const string COLUMN_NAME = 'completed_email_sent';
     public function getDescription(): string
     {
         return '';

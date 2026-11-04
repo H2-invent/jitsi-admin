@@ -20,7 +20,7 @@ class Transcription
     #[ORM\JoinColumn(nullable: false)]
     private ?Rooms $room = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, length: 16777215)]
     private ?string $text = null;
 
     #[ORM\Column]
@@ -73,5 +73,14 @@ class Transcription
         $this->createdAt = new DateTimeImmutable();
 
         return $this;
+    }
+
+    public function getFileName(): ?string
+    {
+        if ($this->room === null) {
+            return null;
+        }
+
+        return "transcription_{$this->room->getName()}_{$this->createdAt->format('y-m-d_H-i-s')}.md";
     }
 }

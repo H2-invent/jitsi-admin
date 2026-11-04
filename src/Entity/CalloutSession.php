@@ -7,10 +7,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CalloutSessionRepository::class)]
+#[ORM\Index(fields: ['uid'], name: 'idx_callout_session_uid')]
 class CalloutSession
 {
+    /** @var array<int, string> */
     public static $STATE = [
-        0 => 'INITIATED',
+        0  => 'INITIATED',
         10 => 'DIALED',
         15 => 'RINGING',
         20 => 'ON_HOLD',
@@ -18,13 +20,29 @@ class CalloutSession
         40 => 'LATER',
         50 => 'TIMEOUT',
     ];
+    /** @var int */
     public static $RINGING = 15;
+    /** @var int */
     public static $TIMEOUT = 50;
+    /** @var int */
     public static $LATER = 40;
+    /** @var int */
     public static $OCCUPIED = 30;
+    /** @var int */
     public static $ON_HOLD = 20;
+    /** @var int */
     public static $DIALED = 10;
+    /** @var int */
     public static $INITIATED = 0;
+
+    /**
+     * States in which a web ad-hoc call is still waiting for an answer. Answer handling,
+     * timeout scheduling and timeout handling must all use this single definition.
+     */
+    public static function isWaitingState(int $state): bool
+    {
+        return in_array($state, [self::$INITIATED, self::$RINGING], true);
+    }
 
 
     #[ORM\Id]
@@ -40,14 +58,14 @@ class CalloutSession
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $invitedFrom = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::STRING, length: 36)]
     private ?string $uid = null;
 
     #[ORM\Column]
@@ -88,12 +106,12 @@ class CalloutSession
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

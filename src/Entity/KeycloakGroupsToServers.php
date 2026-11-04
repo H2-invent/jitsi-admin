@@ -3,38 +3,47 @@
 namespace App\Entity;
 
 use App\Repository\KeycloakGroupsToServersRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: KeycloakGroupsToServersRepository::class)]
+#[ORM\Index(fields: ['keycloakGroup'], name: 'idx_kctg_keycloak_group')]
 class KeycloakGroupsToServers
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
+
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'keycloakGroups', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
-    private $server;
-    #[ORM\Column(type: 'text')]
-    private $keycloakGroup;
+    private ?Server $server = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $keycloakGroup = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getServer(): ?Server
     {
         return $this->server;
     }
+
     public function setServer(?Server $server): self
     {
         $this->server = $server;
 
         return $this;
     }
+
     public function getKeycloakGroup(): ?string
     {
         return $this->keycloakGroup;
     }
+
     public function setKeycloakGroup(string $keycloakGroup): self
     {
         $this->keycloakGroup = $keycloakGroup;

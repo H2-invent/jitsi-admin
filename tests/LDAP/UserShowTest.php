@@ -2,10 +2,10 @@
 
 namespace App\Tests\LDAP;
 
-use App\dataType\LdapType;
+use App\DataType\LdapType;
 use App\Repository\UserRepository;
-use App\Service\ldap\LdapService;
-use App\Service\ldap\LdapUserService;
+use App\Service\Ldap\LdapService;
+use App\Service\Ldap\LdapUserService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 

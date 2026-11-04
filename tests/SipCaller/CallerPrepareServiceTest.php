@@ -4,7 +4,7 @@ namespace App\Tests\SipCaller;
 
 use App\Entity\CallerRoom;
 use App\Repository\RoomsRepository;
-use App\Service\caller\CallerPrepareService;
+use App\Service\Caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -22,7 +22,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('123456');
-        $callerId->setCreatedAt(new \DateTime());
+        $callerId->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($callerId);
         $manager->flush();
         self::assertTrue($callerPrpareService->checkRandomId('123456'));
@@ -39,7 +39,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('1');
-        $callerId->setCreatedAt(new \DateTime());
+        $callerId->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($callerId);
         $manager->flush();
         $callerPrpareService->generateRoomId(1);
@@ -56,7 +56,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('1');
-        $callerId->setCreatedAt(new \DateTime());
+        $callerId->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($callerId);
         $manager->flush();
         $callerPrpareService->generateRoomId(1);

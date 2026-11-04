@@ -1,5 +1,3 @@
-[deutsch](README_de.md)
-
 <div align="center">
   <img src="docs/images/meetling-admin-readme-header-en.png" alt="Jitsi Admin Header" width="100%" />
 </div>
@@ -34,6 +32,16 @@ The platform focuses on <strong>control, security and scalability</strong>.
 It is built for organizations that want predictable behavior instead of ad-hoc meetings
 and unmanaged conference links.
 </p>
+
+<hr/>
+
+<h2>Related Documents</h2>
+
+<ul>
+  <li><strong><a href="docs/README_de.md">README German/Deutsch</a></strong>
+  <li><strong><a href="docs/README-dev.md">Development Setup (English)</a></strong>
+  <li><strong><a href="docs/README-dev_de.md">Development Setup (German/Deutsch)</a></strong>
+</ul>
 
 <hr/>
 
@@ -140,7 +148,7 @@ The difference in latency and media quality compared to classic Jitsi is obvious
 
 <h3>Dashboard</h3>
 <p>Central overview of conferences and system state.</p>
-<img src="docs/images/dashboard-heading.png" width="100%" />
+<img src="docs/images/jitsiadmin-en-laptop.png" width="100%" />
 
 <h3>Server Management</h3>
 <p>Multiple Jitsi servers combined into one logical setup.</p>

@@ -15,6 +15,7 @@ services:
       - REDIS_ENABLED=true
       - REDIS_HOST=redis
       - WEBSOCKET_SECRET=${MERCURE_JWT_SECRET:-CHANGEME}
+      - WEBSOCKET_STALE_TIMEOUT_MS=${WEBSOCKET_STALE_TIMEOUT_MS:-30000}
     links:
       - redis:ddev-${DDEV_SITENAME}-redis
     volumes:

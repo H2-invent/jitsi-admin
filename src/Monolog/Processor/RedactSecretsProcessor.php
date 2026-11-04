@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Monolog\Processor;
@@ -15,7 +16,7 @@ class RedactSecretsProcessor implements ProcessorInterface
 {
     public function __invoke(LogRecord $record): LogRecord
     {
-        $extra = $record->extra;
+        $extra   = $record->extra;
         $context = $record->context;
 
         foreach (['request_uri', 'uri', 'url'] as $field) {

@@ -3,121 +3,155 @@
 namespace App\Entity;
 
 use App\Repository\LobbyWaitungUserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LobbyWaitungUserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Index(fields: ['uid'], name: 'idx_lobby_waitung_user_uid')]
 class LobbyWaitungUser
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'lobbyWaitungUsers')]
     #[ORM\JoinColumn(nullable: true)]
-    private $user;
+    private ?User $user = null;
+
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'lobbyWaitungUsers')]
     #[ORM\JoinColumn(nullable: false)]
-    private $room;
-    #[ORM\Column(type: 'datetime')]
-    private $createdAt;
-    #[ORM\Column(type: 'text')]
-    private $uid;
-    #[ORM\Column(type: 'string', length: 5)]
-    private $type;
-    #[ORM\Column(type: 'text')]
-    private $showName;
+    private ?Rooms $room = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::STRING, length: 36)]
+    private ?string $uid = null;
+
+    #[ORM\Column(type: Types::STRING, length: 5)]
+    private ?string $type = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $showName = null;
+
     #[ORM\OneToOne(targetEntity: CallerSession::class, mappedBy: 'lobbyWaitingUser', cascade: ['persist'])]
-    #[ORM\JoinColumn(onDelete: 'SET NULL')]
-    private $callerSession;
+    private ?CallerSession $callerSession = null;
+
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $closeBrowser;
+    private ?bool $closeBrowser = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $websocketReady = false;
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getUser(): ?User
     {
         return $this->user;
     }
+
     public function setUser(?User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
+
     public function getRoom(): ?Rooms
     {
         return $this->room;
     }
+
     public function setRoom(?Rooms $room): self
     {
         $this->room = $room;
 
         return $this;
     }
-    public function getCreatedAt(): ?\DateTimeInterface
+
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
+
     public function getUid(): ?string
     {
         return $this->uid;
     }
+
     public function setUid(string $uid): self
     {
         $this->uid = $uid;
 
         return $this;
     }
+
     public function getType(): ?string
     {
         return $this->type;
     }
+
     public function setType(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
+
     public function getShowName(): ?string
     {
         return $this->showName;
     }
+
     public function setShowName(string $showName): self
     {
         $this->showName = $showName;
 
         return $this;
     }
+
     public function getCallerSession(): ?CallerSession
     {
         return $this->callerSession;
     }
-    public function setCallerSession(CallerSession $callerSession): self
+
+    public function setCallerSession(?CallerSession $callerSession): self
     {
-        // set the owning side of the relation if necessary
-        if ($callerSession->getLobbyWaitingUser() !== $this) {
+        if ($this->callerSession === $callerSession) {
+            return $this;
+        }
+
+        $previousCallerSession = $this->callerSession;
+        $this->callerSession   = $callerSession;
+
+        if ($previousCallerSession?->getLobbyWaitingUser() === $this) {
+            $previousCallerSession->setLobbyWaitingUser(null);
+        }
+
+        if ($callerSession !== null && $callerSession->getLobbyWaitingUser() !== $this) {
             $callerSession->setLobbyWaitingUser($this);
         }
 
-        $this->callerSession = $callerSession;
-
         return $this;
     }
+
     public function getCloseBrowser(): ?bool
     {
         return $this->closeBrowser;
     }
+
     public function setCloseBrowser(?bool $closeBrowser): self
     {
         $this->closeBrowser = $closeBrowser;

@@ -1,10 +1,11 @@
-FROM thecodingmachine/php:8.3-v4-fpm-node22 AS builder
+FROM thecodingmachine/php:8.4-v5-fpm-node24 AS builder
 ARG VERSION=development
 
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
 ENV PHP_EXTENSION_BCMATH=1
 ENV COMPOSER_MEMORY_LIMIT=-1
+ENV PHP_INI_MEMORY_LIMIT=-1
 
 COPY . /var/www/html
 
@@ -37,7 +38,7 @@ RUN tar \
     --exclude='./var/log' \
     -zcvf /artifact.tgz .
 
-FROM reg.h2-invent.com/public-system-design/debian-php84-cron-webserver:3.23.9
+FROM reg.h2-invent.com/public-system-design/debian-php84-cron-webserver:3.23.11-6782
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
@@ -55,6 +56,9 @@ LABEL version="${VERSION}" \
 USER root
 
 RUN echo "Europe/Berlin" > /etc/timezone
+
+RUN apt update && apt install -y \
+    ffmpeg
 
 RUN echo "#!/bin/sh" > /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console cache:clear" >> /docker-entrypoint-init.d/03-symfony.sh \

@@ -8,8 +8,16 @@
         {{ room.name }}
     </h4>
     <p>
-        {% trans with {'{name}': room.name} %}recording.email.body{% endtrans %}
+        {% if room.fastConference %}
+            {% trans with {'{name}': room.name} %}recording.email.body.fastconference{% endtrans %}
+        {% else %}
+            {% trans with {'{name}': room.name} %}recording.email.body{% endtrans %}
+        {% endif %}
     </p>
 
-<a class="text-center" href="{{ laF_baseUrl }}{{ path('dashboard') }}"> <button href="{{ laF_baseUrl }}{{ path('dashboard') }}" class="expanded rounded">{{ 'Dashboard'|trans }}</button></a>
+    {% if room.fastConference %}
+        <a class="text-center" href="{{ laF_baseUrl }}{{ path('recording_download_fastconference', {'id': room.id}) }}"> <button href="{{ laF_baseUrl }}{{ path('recording_download_fastconference', {'id': room.id}) }}" class="expanded rounded">{{ 'Download'|trans }}</button></a>
+    {% else %}
+        <a class="text-center" href="{{ laF_baseUrl }}{{ path('dashboard') }}"> <button href="{{ laF_baseUrl }}{{ path('dashboard') }}" class="expanded rounded">{{ 'Dashboard'|trans }}</button></a>
+    {% endif %}
 {% endblock %}

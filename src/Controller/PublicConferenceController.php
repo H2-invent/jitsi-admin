@@ -7,7 +7,7 @@ use App\Form\Type\PublicConferenceType;
 use App\Helper\JitsiAdminController;
 use App\Service\PublicConference\PublicConferenceService;
 use App\Service\Theme\ThemeService;
-use App\Service\webhook\RoomStatusFrontendService;
+use App\Service\Webhook\RoomStatusFrontendService;
 use App\UtilsHelper;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PublicConferenceController extends JitsiAdminController
@@ -24,72 +23,78 @@ class PublicConferenceController extends JitsiAdminController
     private ?Server $server;
 
     public function __construct(
-        ManagerRegistry                   $managerRegistry,
-        TranslatorInterface               $translator,
-        LoggerInterface                   $logger,
-        ParameterBagInterface             $parameterBag,
-        private ThemeService              $themeService,
-        private RequestStack              $requestStack,
-        private RoomStatusFrontendService $roomStatusFrontendService,
-        private PublicConferenceService   $publicConferenceService,
+        ManagerRegistry                            $managerRegistry,
+        TranslatorInterface                        $translator,
+        LoggerInterface                            $logger,
+        ParameterBagInterface                      $parameterBag,
+        private readonly ThemeService              $themeService,
+        private readonly RequestStack              $requestStack,
+        private readonly RoomStatusFrontendService $roomStatusFrontendService,
+        private readonly PublicConferenceService   $publicConferenceService,
 
 
-    )
-    {
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->server = $this->doctrine->getRepository(Server::class)->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
     }
 
-    #[Route('/m', name: 'app_public_form')]
+    #[\Symfony\Component\Routing\Attribute\Route('/m', name: 'app_public_form')]
     public function index(Request $request): Response
     {
         if (!$this->server) {
             return $this->redirectToRoute('dashboard');
         }
         $data = [
-            'server'=>$this->server,
-            'roomName' => UtilsHelper::readable_random_string(5),
-            'myName'=> $this->requestStack->getSession()->get('myName')?:''
+            'server'   => $this->server,
+            'roomName' => UtilsHelper::readableRandomString(5),
+            'myName'   => $this->requestStack->getSession()->get('myName') ?: ''
         ];
+
         $form = $this->createForm(PublicConferenceType::class, $data);
-        if ($this->server->isLiveKitServer()){
+        if ($this->server->isLiveKitServer()) {
             $form->remove('myName');
         }
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $name = $data['myName'];
-            $this->requestStack->getSession()->set('myName',$name);
+            $this->requestStack->getSession()->set('myName', $name);
             $room = $this->publicConferenceService->createNewRoomFromName($data['roomName'], $this->server);
             return $this->redirectToRoute('app_public_conference', ['confId' => $room->getName()]);
         }
+
         return $this->render(
             'public_conference/index.html.twig',
             [
-                'form' => $form->createView(),
+                'form'   => $form->createView(),
                 'server' => $this->server
             ]
         );
     }
 
-    #[Route('/m/{confId}', name: 'app_public_conference')]
-    public function startMeeting($confId, Request $request): Response
+    #[\Symfony\Component\Routing\Attribute\Route('/m/{confId}', name: 'app_public_conference')]
+    public function startMeeting(string $confId, Request $request): Response
     {
-        $room = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
+        $room         = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
         $this->server = $room->getServer();
-        $firstUser = $this->roomStatusFrontendService->isRoomCreated($room);
-        $name = $this->requestStack->getSession()->get('myName')?:'Meetling';
-        $response = $this->render(
+        $firstUser    = $this->roomStatusFrontendService->isRoomCreated($room);
+        $name         = $this->requestStack->getSession()->get('myName') ?: 'Meetling';
+        /** @var string $showNameFrontend */
+        $showNameFrontend = $this->parameterBag->get('laf_showNameFrontend');
+        $response         = $this->render(
             'public_conference/publicConference.html.twig',
             [
-                'room' => $room,
-                'user' => null,
-                'name' => $this->getUser() ? $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')) : $name,
-                'moderator' => !$firstUser,
-                'server' => $this->server,
-                'noModerator'=>true,
+                'room'        => $room,
+                'user'        => null,
+                'name'        => $this->getUser() ? $this->getUser()->getFormatedName($showNameFrontend) : $name,
+                'moderator'   => !$firstUser,
+                'server'      => $this->server,
+                'noModerator' => true,
             ]
         );
+
+        /** @var string|null $lastConf */
         $lastConf = $request->cookies->get('LAST_CONFERENCE');
         if (!$lastConf) {
             $lastConf = [$confId];
@@ -99,13 +104,16 @@ class PublicConferenceController extends JitsiAdminController
                 $lastConf[] = $confId;
             }
         }
+
+        $lastConfEncoded = json_encode($lastConf, flags: JSON_THROW_ON_ERROR);
         $response->headers->setCookie(
             Cookie::create(
                 'LAST_CONFERENCE',
-                json_encode($lastConf),
+                $lastConfEncoded,
                 time() + (2 * 365 * 24 * 60 * 60),
             )
         );
+
         return $response;
     }
 

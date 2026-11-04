@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Service\ldap\LdapUserService;
+use App\Service\Ldap\LdapUserService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,11 +13,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:ConnectAllUserInAdressBook', 'This Command adds all LDAP Users in the Adressbook of each other. This command only works after app:ldap:sync')]
 class ConnectAllUserInAdressBookCommand extends Command
 {
-    private $ldapUSerService;
-    public function __construct(LdapUserService $ldapUserService, ?string $name = null)
+    public function __construct(private readonly LdapUserService $ldapUSerService, ?string $name = null)
     {
         parent::__construct($name);
-        $this->ldapUSerService = $ldapUserService;
     }
 
     protected function configure(): void
@@ -35,7 +33,7 @@ class ConnectAllUserInAdressBookCommand extends Command
             $this->ldapUSerService->cleanUpAdressbook();
             $io->success(sprintf('We connect %d user in the adressbook', $count));
             return Command::SUCCESS;
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $io->error('Error. Connecting all users failed');
             return Command::FAILURE;
         }

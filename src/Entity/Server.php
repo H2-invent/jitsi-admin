@@ -3,95 +3,142 @@
 namespace App\Entity;
 
 use App\Repository\ServerRepository;
+use App\Service\Transcription\TranscriptionProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ServerRepository::class)]
+#[ORM\Index(fields: ['slug'], name: 'idx_server_slug')]
+#[ORM\Index(fields: ['apiKey'], name: 'idx_server_api_key')]
+#[ORM\Index(fields: ['licenseKey'], name: 'idx_server_license_key')]
 class Server
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
-    #[ORM\Column(type: 'text')]
-    private $url;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $appId;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $appSecret;
+    private ?int $id = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $url = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $appId = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $appSecret = null;
+
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'servers')]
-    private $user;
+    private Collection $user;
+
+    /**
+     * @var Collection<int, Rooms>
+     */
     #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'server')]
-    private $rooms;
+    private Collection $rooms;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'serverAdmins')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
-    private $administrator;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $logoUrl;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpHost;
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $smtpPort;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpPassword;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpUsername;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpEncryption;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpEmail;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $smtpSenderName;
-    #[ORM\Column(type: 'text')]
-    private $slug;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $privacyPolicy;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $licenseKey;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $apiKey;
-    #[ORM\Column(type: 'string', length: 7, nullable: true)]
-    private $staticBackgroundColor;
-    #[ORM\Column(type: 'boolean', nullable: true)]
-    private $showStaticBackgroundColor;
-    #[ORM\Column(type: 'boolean', nullable: true)]
-    private $featureEnableByJWT = false;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $serverEmailHeader;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $serverEmailBody;
-    #[ORM\OneToMany(targetEntity: KeycloakGroupsToServers::class, mappedBy: 'server', cascade: ['persist'])]
-    private $keycloakGroups;
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'myOwnRoomServer')]
-    private $OwnRoomUSer;
-    #[ORM\Column(type: 'integer')]
-    private $jwtModeratorPosition;
-    #[ORM\Column(type: 'text')]
-    private $serverName;
-    #[ORM\Column(type: 'boolean', nullable: true)]
-    private $corsHeader;
-    #[ORM\OneToMany(targetEntity: Star::class, mappedBy: 'server', orphanRemoval: true)]
-    private $stars;
-    /**
-     * @var Documents
-     */
-    #[ORM\OneToOne(targetEntity: Documents::class, cascade: ['persist', 'remove'])]
-    private $serverBackgroundImage;
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $updatedAt;
+    private ?User $administrator = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $logoUrl = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $smtpHost = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $smtpPort = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $smtpPassword = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $smtpUsername = null;
+
+    #[ORM\Column(type: Types::STRING, length: 16, nullable: true)]
+    private ?string $smtpEncryption = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $smtpEmail = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $smtpSenderName = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $slug = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $privacyPolicy = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $licenseKey = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $apiKey = null;
+
+    #[ORM\Column(type: Types::STRING, length: 7, nullable: true)]
+    private ?string $staticBackgroundColor = null;
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $showStaticBackgroundColor = null;
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $featureEnableByJWT = false;
+
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $serverEmailHeader = null;
+
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $serverEmailBody = null;
+
+    /**
+     * @var Collection<int, KeycloakGroupsToServers>
+     */
+    #[ORM\OneToMany(targetEntity: KeycloakGroupsToServers::class, mappedBy: 'server', cascade: ['persist'])]
+    private Collection $keycloakGroups;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'myOwnRoomServer')]
+    private Collection $OwnRoomUSer;
+
+    #[ORM\Column(type: 'integer')]
+    private ?int $jwtModeratorPosition = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $serverName = null;
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $corsHeader = null;
+
+    /**
+     * @var Collection<int, Star>
+     */
+    #[ORM\OneToMany(targetEntity: Star::class, mappedBy: 'server', orphanRemoval: true)]
+    private Collection $stars;
+
+    #[ORM\OneToOne(targetEntity: Documents::class, cascade: ['persist', 'remove'])]
+    private ?Documents $serverBackgroundImage = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $jigasiApiUrl = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $jigasiNumberUrl = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $jigasiProsodyDomain = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $starUrl = null;
 
     #[ORM\Column(nullable: true)]
@@ -103,9 +150,10 @@ class Server
     #[ORM\Column(nullable: true)]
     private ?bool $enforceE2e = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 1024, nullable: true)]
     private ?string $allowIp = null;
 
+    /** @var Collection<int, Tag> */
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'servers')]
     private Collection $tag;
 
@@ -136,7 +184,7 @@ class Server
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $livekitMiddlewareUrl = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $livekitBackgroundImages = "[
     {
       \"description\":\"\",
@@ -164,16 +212,26 @@ class Server
     #[ORM\Column(nullable: true)]
     private ?bool $isAllowedToCloneForAutoscale = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $apiKeyTranscription = null;
+
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $enableTranscription = false;
+
+    #[ORM\Column(nullable: true, enumType: TranscriptionProvider::class)]
+    private ?TranscriptionProvider $transcription_provider = null;
+
     public function __construct()
     {
-        $this->user = new ArrayCollection();
-        $this->rooms = new ArrayCollection();
+        $this->user           = new ArrayCollection();
+        $this->rooms          = new ArrayCollection();
         $this->keycloakGroups = new ArrayCollection();
-        $this->OwnRoomUSer = new ArrayCollection();
-        $this->stars = new ArrayCollection();
-        $this->tag = new ArrayCollection();
-        $this->calendlyUsers = new ArrayCollection();
+        $this->OwnRoomUSer    = new ArrayCollection();
+        $this->stars          = new ArrayCollection();
+        $this->tag            = new ArrayCollection();
+        $this->calendlyUsers  = new ArrayCollection();
     }
+
     public function __clone()
     {
         // ID zurücksetzen
@@ -181,9 +239,9 @@ class Server
 
         // Collection leeren, damit ManyToMany nicht übernommen wird
         $this->user = new ArrayCollection();
-
         // Falls du andere Beziehungen hast: individuell behandeln
     }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -226,7 +284,7 @@ class Server
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getUser(): Collection
     {
@@ -250,7 +308,7 @@ class Server
     }
 
     /**
-     * @return Collection|Rooms[]
+     * @return Collection<int, Rooms>
      */
     public function getRooms(): Collection
     {
@@ -403,10 +461,9 @@ class Server
     {
         if ($this->isPrefixRoomUidWithHash()) {
             return md5($this->id . $this->slug) . '/';
-        } else {
-            return '';
         }
 
+        return '';
     }
 
     public function getPrivacyPolicy(): ?string
@@ -506,7 +563,7 @@ class Server
     }
 
     /**
-     * @return Collection|KeycloakGroupsToServers[]
+     * @return Collection<int, KeycloakGroupsToServers>
      */
     public function getKeycloakGroups(): Collection
     {
@@ -536,7 +593,7 @@ class Server
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection<int, User>
      */
     public function getOwnRoomUSer(): Collection
     {
@@ -643,12 +700,12 @@ class Server
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -757,9 +814,7 @@ class Server
     public function getTag(): Collection
     {
         $data = $this->tag->toArray();
-        usort($data, function (Tag $a, Tag $b) {
-            return $a->getPriority() <=> $b->getPriority();
-        });
+        usort($data, fn(Tag $a, Tag $b) => $a->getPriority() <=> $b->getPriority());
         $res = [];
         foreach ($data as $datum) {
             if (!$datum->getDisabled()) {
@@ -955,6 +1010,42 @@ class Server
     public function setAllowedToCloneForAutoscale(?bool $isAllowedToCloneForAutoscale): static
     {
         $this->isAllowedToCloneForAutoscale = $isAllowedToCloneForAutoscale;
+
+        return $this;
+    }
+
+    public function getApiKeyTranscription(): ?string
+    {
+        return $this->apiKeyTranscription;
+    }
+
+    public function setApiKeyTranscription(?string $apiKeyTranscription): static
+    {
+        $this->apiKeyTranscription = $apiKeyTranscription;
+
+        return $this;
+    }
+
+    public function isEnableTranscription(): ?bool
+    {
+        return $this->enableTranscription;
+    }
+
+    public function setEnableTranscription(bool $enableTranscription): static
+    {
+        $this->enableTranscription = $enableTranscription;
+
+        return $this;
+    }
+
+    public function getTranscriptionProvider(): ?TranscriptionProvider
+    {
+        return $this->transcription_provider;
+    }
+
+    public function setTranscriptionProvider(?TranscriptionProvider $transcription_provider): static
+    {
+        $this->transcription_provider = $transcription_provider;
 
         return $this;
     }

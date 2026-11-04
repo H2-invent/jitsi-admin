@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20231011112703 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'disable_filmstripe';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'disable_filmstripe';
     public function getDescription(): string
     {
         return '';

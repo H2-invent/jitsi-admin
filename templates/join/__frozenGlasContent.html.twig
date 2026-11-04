@@ -9,7 +9,4 @@
     {% if theme == false or (theme is not null and theme.allowRegister == true) %}
             | <a href="{{ path('register_keycloak') }}" class="text-black-50 small">{{ 'Registrieren'|trans }}</a>
     {% endif %}
-    {% if theme == false or (theme is not null and theme.allowHelp == true) %}
-            | <a href="{{ helpUrlParticipants }}" class="text-black-50 small" target="_blank">{{ 'Hilfe'|trans }}</a>
-    {% endif %}
 </div>

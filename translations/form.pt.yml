@@ -70,6 +70,8 @@ option:
 lable.serverUrl: URL do servidor de conferência
 label.appId: ID do App
 label.appSecret: Segredo do App
+label.showPassword: Mostrar senha
+label.hidePassword: Ocultar senha
 label.scheduleMeeting: Agendar conferência
 help:
   serverUrl: Entre com ou sem "https://" (como em meet.jit.si)
@@ -171,6 +173,9 @@ label:
   calendlyToken: Token OAuth do Calendly
   enableRecording: Ativar gravação
   calendlyServer: Servidor de conferência para conferências Calendly
+  enableTranscription: Transkription aktivieren
+  apiKeyTranscription: Api Key für die Transkription
+  transcriptionProvider: Transkription Anbieter
 choice:
   tls: STARTTLS / TLS
   ssl: SSL

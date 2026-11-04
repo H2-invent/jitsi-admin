@@ -25,7 +25,7 @@ class RenameServerNameTest extends KernelTestCase
         $s->setUrl('testRename.de');
         $s->setServerName('');
         $s->setAppId('test');
-        $s->setAppSecret('test');
+        $s->setAppSecret('testtesttesttesttesttesttesttest12');
         $s->setSlug('testRename');
         $s->setJwtModeratorPosition(1);
         $s->setAdministrator($user);
@@ -56,7 +56,7 @@ class RenameServerNameTest extends KernelTestCase
         $s->setUrl('testRename.de');
         $s->setServerName('');
         $s->setAppId('test');
-        $s->setAppSecret('test');
+        $s->setAppSecret('testtesttesttesttesttesttesttest12');
         $s->setSlug('testRename');
         $s->setJwtModeratorPosition(1);
         $s->setAdministrator($user);

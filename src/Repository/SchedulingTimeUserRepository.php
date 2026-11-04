@@ -9,10 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method SchedulingTimeUser|null find($id, $lockMode = null, $lockVersion = null)
- * @method SchedulingTimeUser|null findOneBy(array $criteria, array $orderBy = null)
- * @method SchedulingTimeUser[]    findAll()
- * @method SchedulingTimeUser[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<SchedulingTimeUser>
  */
 class SchedulingTimeUserRepository extends ServiceEntityRepository
 {
@@ -40,19 +37,51 @@ class SchedulingTimeUserRepository extends ServiceEntityRepository
      /**
       * @return SchedulingTimeUser[] Returns an array of SchedulingTimeUser objects
       */
-    public function findVotesForUserAndRoom(Rooms $rooms, User $user)
+
+    /**
+     * @return SchedulingTimeUser[]
+     */
+    public function findVotesForUserAndRoom(Rooms $rooms, User $user): array
     {
         return $this->createQueryBuilder('s')
             ->innerJoin('s.user', 'u')
             ->andWhere('u = :user')
             ->join('s.scheduleTime', 'time')
-            ->innerJoin('time.scheduling','scheduling')
+            ->innerJoin('time.scheduling', 'scheduling')
             ->join('scheduling.room', 'r')
             ->andWhere('r = :room')
             ->setParameter('room', $rooms)
             ->setParameter('user', $user)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param int[] $roomIds
+     * @return array<int, bool>
+     */
+    public function findVotesForUserAndRooms(User $user, array $roomIds): array
+    {
+        if (empty($roomIds)) {
+            return [];
+        }
+        $result = $this->createQueryBuilder('s')
+            ->innerJoin('s.scheduleTime', 'time')
+            ->innerJoin('time.scheduling', 'scheduling')
+            ->innerJoin('scheduling.room', 'r')
+            ->andWhere('s.user = :user')
+            ->andWhere('r.id IN (:roomIds)')
+            ->setParameter('roomIds', $roomIds)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+        $map = [];
+        foreach ($result as $schedulingTimeUser) {
+            $room                = $schedulingTimeUser->getScheduleTime()->getScheduling()->getRoom();
+            $map[$room->getId()] = true;
+        }
+        return $map;
     }
 
 
