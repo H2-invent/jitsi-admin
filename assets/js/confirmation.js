@@ -3,7 +3,7 @@ import {initSearchUser} from './searchUser'
 import {Popover, Tooltip, Collapse, Dropdown, Input, initMDB} from "mdb-ui-kit";
 import {createIframe} from "./createConference";
 import {setSnackbar} from "./myToastr";
-import {trans, ADDRESSBOOKERRORTITLE, ADDRESSBOOKCONFIRMTITLE, ADDRESSBOOKCONFIRMTEXT, ADDRESSBOOKCONFIRMCANCEL} from '../translator.js';
+import {trans} from '../translator.js';
 import {reloadAddressBookPane} from './addressGroup';
 
 var title = "Bestätigung";
@@ -156,15 +156,15 @@ function initconfirmHref() {
         // address book actions, on an inner icon.
         const text = triggerElement.dataset.text
             || triggerElement.querySelector('i')?.dataset?.text
-            || (ajaxUrl ? trans(ADDRESSBOOKCONFIRMTEXT, {}, 'ux_message') : 'Wollen Sie die Aktion durchführen?');
+            || (ajaxUrl ? trans('ADDRESSBOOK_CONFIRM_TEXT', {}, 'ux_message') : 'Wollen Sie die Aktion durchführen?');
 
         Swal.fire({
-            title: ajaxUrl ? trans(ADDRESSBOOKCONFIRMTITLE, {}, 'ux_message') : title,
+            title: ajaxUrl ? trans('ADDRESSBOOK_CONFIRM_TITLE', {}, 'ux_message') : title,
             text: text,
             icon: 'question',
             backdrop: false,
             showCancelButton: true,
-            cancelButtonText: ajaxUrl ? trans(ADDRESSBOOKCONFIRMCANCEL, {}, 'ux_message') : cancel,
+            cancelButtonText: ajaxUrl ? trans('ADDRESSBOOK_CONFIRM_CANCEL', {}, 'ux_message') : cancel,
             heightAuto: false,
             customClass: {
                 confirmButton: 'btn-danger btn',
@@ -200,7 +200,7 @@ function confirmHrefAjax(ajaxUrl) {
             if (result.json) {
                 if (result.json.error) {
                     Swal.fire({
-                        title: trans(ADDRESSBOOKERRORTITLE, {}, 'ux_message'),
+                        title: trans('ADDRESSBOOK_ERROR_TITLE', {}, 'ux_message'),
                         text: result.json.error,
                         icon: 'error',
                         confirmButtonText: 'OK',

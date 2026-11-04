@@ -21,7 +21,7 @@ import { Dropdown,Popover,Modal,Tooltip,Collapse, initMDB } from "mdb-ui-kit";
 
 import Swal from 'sweetalert2';
 
-import {trans, ADDRESSBOOKERRORTITLE, ADDRESSBOOKERRORDEFAULT} from '../translator.js';
+import {trans} from '../translator.js';
 
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
@@ -261,7 +261,7 @@ $('#loadContentModal').on('submit', '#newContactForm', function (e) {
                 reloadAddressBookPane();
             } else if (data.error) {
                 Swal.fire({
-                    title: trans(ADDRESSBOOKERRORTITLE, {}, 'ux_message'),
+                    title: trans('ADDRESSBOOK_ERROR_TITLE', {}, 'ux_message'),
                     text: data.error,
                     icon: 'error',
                     confirmButtonText: 'OK',
@@ -303,8 +303,8 @@ $('#loadContentModal').on('submit', '#addressGroupForm', function (e) {
         .then(result => {
             if (result.json) {
                 Swal.fire({
-                    title: trans(ADDRESSBOOKERRORTITLE, {}, 'ux_message'),
-                    text: result.json.error || trans(ADDRESSBOOKERRORDEFAULT, {}, 'ux_message'),
+                    title: trans('ADDRESSBOOK_ERROR_TITLE', {}, 'ux_message'),
+                    text: result.json.error || trans('ADDRESSBOOK_ERROR_DEFAULT', {}, 'ux_message'),
                     icon: 'error',
                     confirmButtonText: 'OK',
                     confirmButtonColor: '#3085d6',
