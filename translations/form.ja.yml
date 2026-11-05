@@ -93,6 +93,8 @@ help:
   liveKitServer: このサーバーは Livekit サーバーであり、Livekit API 機能を使用することを目的としています。
   livekitBackgroundImages: 参加者が会議中に背景として選択できる画像を含む JSON 配列。
   livekitMiddlewareUrl: ここで Url (https://middlewareUrl.com) を指定できます。これまでのところ、Meetling ミドルウェアのみがサポートされています。ここに何を入力すればよいかわからない場合は、デフォルトのミドルウェアが使用されるように、空白のままにしておきます。独自のミドルウェアを使用したい場合は、info@h2-invent.com までお問い合わせください。
+  isProvisioningEnabled: Server Provisioning für alle Konferenzen aktivieren
+  isAllowedToCloneForAutoscale: Server darf für Autoskalierung geklont werden (erforderlich für Provisioning)
 label:
   beitretenApp: Elektron アプリで参加する
   beitretenBrowser: 参加する。
@@ -175,6 +177,8 @@ label:
   enableTranscription: Transkription aktivieren
   apiKeyTranscription: Api Key für die Transkription
   transcriptionProvider: Transkription Anbieter
+  isProvisioningEnabled: Provisioning aktivieren
+  isAllowedToCloneForAutoscale: Klonen aktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
