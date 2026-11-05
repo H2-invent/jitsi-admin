@@ -93,6 +93,8 @@ help:
   liveKitServer: Ten serwer jest serwerem Livekit i jest przeznaczony do korzystania z funkcjonalności Livekit API
   livekitBackgroundImages: Tablica JSON z obrazami tła, które uczestnicy konferencji mogą wybrać podczas konferencji.
   livekitMiddlewareUrl: Tutaj można określić adres URL (https://middlewareUrl.com). Jak dotąd obsługiwane jest tylko oprogramowanie pośrednie Meetling. Jeśli nie wiesz, co tu wpisać, po prostu pozostaw to pole puste, aby zostało użyte domyślne oprogramowanie pośredniczące. Jeżeli chcesz skorzystać z własnego oprogramowania pośredniczącego, napisz na adres info@h2-invent.com
+  isProvisioningEnabled: Server Provisioning für alle Konferenzen aktivieren
+  isAllowedToCloneForAutoscale: Server darf für Autoskalierung geklont werden (erforderlich für Provisioning)
 label:
   beitretenApp: Dołącz za pomocą aplikacji Elektron
   beitretenBrowser: Dołącz w przeglądarce
@@ -175,6 +177,8 @@ label:
   enableTranscription: Transkription aktivieren
   apiKeyTranscription: Api Key für die Transkription
   transcriptionProvider: Transkription Anbieter
+  isProvisioningEnabled: Provisioning aktivieren
+  isAllowedToCloneForAutoscale: Klonen aktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
