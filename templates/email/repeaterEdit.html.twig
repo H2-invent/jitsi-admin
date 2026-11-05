@@ -19,6 +19,6 @@
     <p>
         {% trans  %}Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.{% endtrans %}
     </p>
-    {% include 'email/__roomInfo.html.twig' %}
+    {% include 'email/__roomInfo.html.twig' with {'showDialIn': false} %}
 
 {% endblock %}

@@ -58,7 +58,7 @@ class JoinController extends JitsiAdminController
 
             //If the room ID is correct set and the room exists
             if ($this->onlyWithUserAccount($room)) {
-                return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => 'b']);
+                return $this->redirectToRoute('room_join', ['room' => $room->getId(), 'type' => 'b']);
             }
         } else {
             $snack = $translator->trans('Zugangsdaten in das Formular eingeben');

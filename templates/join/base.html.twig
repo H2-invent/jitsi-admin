@@ -242,6 +242,7 @@
     {{ encore_entry_script_tags('frontend') }}
 {% endblock %}
 {% block pageEnd %}{% endblock %}
+{{ include('base/__theme_assets_footer.html.twig') }}
 {% if theme and theme.extrahtml is defined %}
     {% if app.user is defined and app.user is not null %}
         {{ include(template_from_string(theme.extrahtml|raw)) }}

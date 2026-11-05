@@ -4,3 +4,5 @@ services:
 
 parameters:
     ldap_test_url: '%env(ldap_test_url)%'
+    encryption.private_key_path: '%kernel.project_dir%/tests/Provisioner/backend_private.pem'
+    encryption.public_key_path: '%kernel.project_dir%/tests/Provisioner/backend_public.pem'

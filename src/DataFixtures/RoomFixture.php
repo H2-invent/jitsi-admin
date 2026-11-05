@@ -215,8 +215,6 @@ class RoomFixture extends Fixture
         $server->setJwtModeratorPosition(0);
         $server->setLicenseKey('f5c627f7ac98bef45fcfdd5fcade0246');
         $server->setApiKey('TestApi');
-
-
         $server->setShowStaticBackgroundColor(false);
         $server->setServerName('Server with License');
         $manager->persist($server);
@@ -424,7 +422,6 @@ class RoomFixture extends Fixture
         $room->setServer($server);
         $manager->persist($room);
         $manager->flush();
-
 
         //here we create some rommstatuses
 

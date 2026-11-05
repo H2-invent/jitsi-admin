@@ -39,12 +39,12 @@ class Jwt extends AbstractExtension
         return $this->roomService->generateJwt($rooms, $user, $name, $moderatorExplizit, noModerator: $noModerator,skipLobby: $skipLobby,enableMic: $enableMic,enableCamera: $enableCamera);
     }
 
-    public function urlFromRoom(?User $user, Rooms $rooms, $name, $t)
+    public function urlFromRoom(?User $user, Rooms $rooms, $name, string $type)
     {
         if ($user) {
-            return $this->roomService->join($rooms, $user, $t, $name);
+            return $this->roomService->join($rooms, $user, $type, $name);
         } else {
-            return $this->roomService->joinUrl($t, $rooms, $name, false);
+            return $this->roomService->joinUrl($type, $rooms, $name, false);
         }
     }
     public function generateEncryptedSecret( Rooms $rooms)
