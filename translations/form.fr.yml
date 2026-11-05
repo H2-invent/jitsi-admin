@@ -82,7 +82,7 @@ help:
   jigasiNumberUrl: 'Indiquez ici le numéro d''accès au format JSON. Pour cela, il faut les saisir comme ils sont saisis dans le fichier « numbers.json » de Jigasi (par ex : {« message »:« Einwahlnummern »,« numbers »:{« DE »:[« 04122/012345 »]},« numbersEnabled »:true}).'
   jigasiProsodyDomain: Indiquez ici le domaine du serveur Prosody. Celui-ci suit généralement le modèle « conference.domain.topdomain ».
   disallowFirefox: Le navigateur Firefox n'est pas autorisé. Tous les participants qui souhaitent se connecter avec un navigateur Firefox seront redirigés vers un navigateur basé sur Chromium.
-  enforceE2e: Active la fonction de sécurité « Encryption de bout en bout » dans chaque conférence sur ce serveur Jitsi.
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Server erzwungen.
   allowIp: Seules l'adresse IP ou les plages d'adresses IP spécifiées peuvent rejoindre la conférence. Les plages d'IP doivent être indiquées au format 10.10.10.10/24. Plusieurs IP ou plages peuvent être saisies séparées par des virgules.
   jitsiEventSyncUrl: Il est possible d'indiquer ici un autre admin Jitsi qui a enregistré les Jitsi Event Syncs correspondants lors de requêtes SIP. Il suffit d'indiquer l'URL de base. Cette fonction nécessite Jitsi-admin dans la version >0.77.x
   disableFilmstripe: Désactiver la bande de film dans Jitsi
@@ -93,6 +93,8 @@ help:
   liveKitServer: Ce serveur est un serveur Livekit et doit utiliser les fonctionnalités de l'API Livekit
   livekitBackgroundImages: Liste JSON contenant les images d'arrière-plan qui peuvent être sélectionnées par les participants comme image d'arrière-plan pendant la conférence.
   livekitMiddlewareUrl: Une url (https://middlewareUrl.com) peut être indiquée ici. Jusqu'à présent, seul le middleware Meetling est supporté. Si vous ne savez pas ce que vous devez indiquer ici, laissez simplement le champ vide pour que le middleware par défaut soit utilisé. Si vous souhaitez utiliser votre propre middleware, veuillez contacter info@h2-invent.com
+  isProvisioningEnabled: Server Provisioning für alle Konferenzen aktivieren
+  isAllowedToCloneForAutoscale: Server darf für Autoskalierung geklont werden (erforderlich für Provisioning)
 label:
   beitretenApp: Rejoindre via l'application Elektron
   beitretenBrowser: Rejoindre via le navigateur
@@ -143,6 +145,7 @@ label:
   timezone: Fuseau horaire
   serverName: Nom du serveur
   lobby: Activer le Lobby
+  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
   secondEmail: E-mail CC
   profilImage: Photo de profil (sera affichée lors de la réunion Jitsi-Meet)
   corsHeader: Header Cors ou Header Frame-ancestor
@@ -174,6 +177,8 @@ label:
   enableTranscription: Transkription aktivieren
   apiKeyTranscription: Api Key für die Transkription
   transcriptionProvider: Transkription Anbieter
+  isProvisioningEnabled: Provisioning aktivieren
+  isAllowedToCloneForAutoscale: Klonen aktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

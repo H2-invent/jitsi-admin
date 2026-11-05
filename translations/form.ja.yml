@@ -82,7 +82,7 @@ help:
   jigasiNumberUrl: 'ダイヤルイン番号をJSON形式で入力します。Jigasiの "numbers.json "に入力されているように入力してください。 (例: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: ここにProsodyドメインを入力します。これは通常、「conference.domain.topdomain」のパターンに従います。
   disallowFirefox: Firefox ブラウザはブラウザ内で非アクティブになります。Firefoxブラウザで参加を希望する参加者は、Chromiumベースのブラウザにリダイレクトされます。
-  enforceE2e: このJitsiサーバーのすべての会議において「エンド・ツー・エンド暗号化」セキュリティ機能を強制する。
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Server erzwungen.
   allowIp: 指定したIPアドレスまたはIP範囲のみが会議に参加できます。IP範囲は10.10.10.10/24の表記で指定する必要があります。複数の IP アドレスまたは IP 範囲をカンマ区切りで入力できます。
   jitsiEventSyncUrl: ここには、SIPリクエストに対応するJitsiイベント同期を保存している別のJitsi管理者を指定できます。ベースURLのみを指定する必要があります。この関数を使用するには、バージョン >0.77.x の Jitsi-admin が必要です。
   disableFilmstripe: ビデオのストライプ表示を無効にする
@@ -93,6 +93,8 @@ help:
   liveKitServer: このサーバーは Livekit サーバーであり、Livekit API 機能を使用することを目的としています。
   livekitBackgroundImages: 参加者が会議中に背景として選択できる画像を含む JSON 配列。
   livekitMiddlewareUrl: ここで Url (https://middlewareUrl.com) を指定できます。これまでのところ、Meetling ミドルウェアのみがサポートされています。ここに何を入力すればよいかわからない場合は、デフォルトのミドルウェアが使用されるように、空白のままにしておきます。独自のミドルウェアを使用したい場合は、info@h2-invent.com までお問い合わせください。
+  isProvisioningEnabled: Server Provisioning für alle Konferenzen aktivieren
+  isAllowedToCloneForAutoscale: Server darf für Autoskalierung geklont werden (erforderlich für Provisioning)
 label:
   beitretenApp: Elektron アプリで参加する
   beitretenBrowser: 参加する。
@@ -143,6 +145,7 @@ label:
   timezone: タイムゾーン
   serverName: サーバ名
   lobby: ロビーを有効化
+  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
   secondEmail: メールのCC
   profilImage: プロフィール写真(会議で表示する)
   corsHeader: CORSもしくは親フレームヘッダー
@@ -174,6 +177,8 @@ label:
   enableTranscription: Transkription aktivieren
   apiKeyTranscription: Api Key für die Transkription
   transcriptionProvider: Transkription Anbieter
+  isProvisioningEnabled: Provisioning aktivieren
+  isAllowedToCloneForAutoscale: Klonen aktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
