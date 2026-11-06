@@ -1,5 +1,5 @@
 <div class="card card-body mb-4 text-lg-start text-center triggerHide mb-3
-    {% if runningRooms is defined and room in runningRooms %} olineBorder {% elseif room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %} awayBorder {% endif %}"
+    {% if runningRooms is defined and room in runningRooms and room.endTimestamp is not null and room.endTimestamp < timestamp %} olineBorder {% elseif room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %} awayBorder {% endif %}"
      id="room_card{{ room.uidReal }}">
     <div class="row align-items-start g-4">
         {% if roomIsReadOnly(room,app.user) == true %}
@@ -17,7 +17,7 @@
         {% endif %}
     </div>
 
-    {% if runningRooms is defined and room in runningRooms %}
+    {% if runningRooms is defined and room in runningRooms and room.endTimestamp is not null and room.endTimestamp < timestamp %}
         <div class="showTime bg-online">
             {{ 'Jetzt'|trans }}
         </div>
