@@ -1293,6 +1293,26 @@
         <source>room.new.help.lobby</source>
         <target state="needs-translation">Für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
       </trans-unit>
+      <trans-unit id="DiHUDGM" resname="room.new.help.isE2EEEnabled">
+        <source>room.new.help.isE2EEEnabled</source>
+        <target state="needs-translation">Aktiviert die Sicherheitsfunktion „Ende-zu-Ende-Verschlüsselung“ für diese Konferenz.</target>
+      </trans-unit>
+      <trans-unit id="n9kfdtZ" resname="room.dashboard.e2ee.title">
+        <source>room.dashboard.e2ee.title</source>
+        <target state="needs-translation">Ende-zu-Ende-Verschlüsselung (E2EE)</target>
+      </trans-unit>
+      <trans-unit id="n3f4gc0" resname="room.dashboard.e2ee.help">
+        <source>room.dashboard.e2ee.help</source>
+        <target state="needs-translation">Die Inhalte dieser Konferenz sind Ende-zu-Ende verschlüsselt.</target>
+      </trans-unit>
+      <trans-unit id="vBtgsCz" resname="room.dashboard.e2ee.help.enforced">
+        <source>room.dashboard.e2ee.help.enforced</source>
+        <target state="needs-translation">Die Inhalte dieser Konferenz sind Ende-zu-Ende verschlüsselt. Der Server erzwingt das für alle Konferenzen.</target>
+      </trans-unit>
+      <trans-unit id="e2sipBl1" resname="room.dashboard.sip.e2ee.blocked">
+        <source>room.dashboard.sip.e2ee.blocked</source>
+        <target state="needs-translation">Die Telefoneinwahl ist bei aktiver Ende-zu-Ende-Verschlüsselung nicht möglich. Telefonteilnehmer könnten die verschlüsselten Inhalte nicht hören.</target>
+      </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
         <target state="translated">{name}</target>
@@ -1708,6 +1728,10 @@
         <source>email.sip.pin</source>
         <target state="translated">PIN</target>
       </trans-unit>
+      <trans-unit id="sip.personalpin" resname="email.sip.personalpin">
+        <source>email.sip.personalpin</source>
+        <target state="needs-translation">Persönliche PIN</target>
+      </trans-unit>
       <trans-unit id="MI..OPw" resname="enterprise.settings.header.sip">
         <source>enterprise.settings.header.sip</source>
         <target state="translated">Dane telefoniczne Jigasi SIP</target>
@@ -1719,6 +1743,10 @@
       <trans-unit id="AohzXJm" resname="email.sip.roomnumber">
         <source>email.sip.roomnumber</source>
         <target state="translated">Numer pokoju</target>
+      </trans-unit>
+      <trans-unit id="Pn1Prsn" resname="email.sip.personalpin">
+        <source>email.sip.personalpin</source>
+        <target state="needs-translation">Persönliche PIN</target>
       </trans-unit>
       <trans-unit id="sIWTG7_" resname="status.offline">
         <source>status.offline</source>
@@ -2218,6 +2246,10 @@
         <source>browser.warning.text</source>
         <target state="translated">Twoja bieżąca przeglądarka nie jest obsługiwana. Przejdź na nowoczesną przeglądarkę, która w pełni obsługuje WebRTC.</target>
       </trans-unit>
+      <trans-unit id="bLnK2xT" resname="browser.link.text">
+        <source>browser.link.text</source>
+        <target state="needs-translation">Kopieren Sie diesen Link in einen Chromium/Safari basierten Browser:</target>
+      </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
         <target state="translated">Kontynuuj z Edge</target>
@@ -2456,18 +2488,18 @@
       </trans-unit>
       <trans-unit id="ySnvUZv" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.&#10;Name: {name} &#10;Moderator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
-Name: {name} 
+Name: {name}
 Moderator: {moderator} </source>
         <target state="needs-translation">Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
-Name: {name} 
+Name: {name}
 Moderator: {moderator} </target>
       </trans-unit>
       <trans-unit id="w0B3UQg" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&#10;Konferenz ID: {id} &#10;Ihre E-Mail-Adresse: {email}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:
-Konferenz ID: {id} 
+Konferenz ID: {id}
 Ihre E-Mail-Adresse: {email}</source>
         <target state="needs-translation">Folgende Daten benötigen Sie um der Konferenz beizutreten:
-Konferenz ID: {id} 
+Konferenz ID: {id}
 Ihre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="dQuQ3zm" resname="transcription.ready.subject">
@@ -2609,6 +2641,14 @@ Ihre E-Mail-Adresse: {email}</target>
       <trans-unit id="7kpQmRw" resname="recording.dropdownTitle">
         <source>Recording</source>
         <target state="needs-translation">Recording</target>
+      </trans-unit>
+      <trans-unit id="3ndFdnr" resname="Telefonteilnehmer anwesend">
+        <source>Telefonteilnehmer anwesend</source>
+        <target state="needs-translation">Telefonteilnehmer anwesend</target>
+      </trans-unit>
+      <trans-unit id="iMnx3Yn" resname="Bitte warten Sie. Ihre Konferenz wird bereitgestellt">
+        <source>Bitte warten Sie. Ihre Konferenz wird bereitgestellt</source>
+        <target state="needs-translation">Bitte warten Sie. Ihre Konferenz wird bereitgestellt</target>
       </trans-unit>
     </body>
   </file>
