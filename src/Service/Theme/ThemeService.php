@@ -30,9 +30,9 @@ class ThemeService
         LoggerInterface             $logger,
         private TranslatorInterface $translator,
         #[Autowire(param: 'app.theme.dir')]
-        private readonly string $themeDir,
+        private readonly string     $themeDir,
         #[Autowire(param: 'app.theme.public_dir')]
-        private readonly string $themePublicDir,
+        private readonly string     $themePublicDir,
     )
     {
         $this->parameterBag = $parameterBag;
@@ -76,7 +76,6 @@ class ThemeService
                 return false;
             }
         }
-
 
 
         try {
@@ -128,8 +127,8 @@ class ThemeService
             if ($this->parameterBag->has($input)) {
                 $variable = $this->parameterBag->get($input);
             }
-        }catch (\Exception $exception){
-
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
         }
 
 
@@ -138,10 +137,10 @@ class ThemeService
         if ($tmp !== null) {
             try {
                 $res = json_decode($tmp, true);
-                if ($res=== null) {
+                if ($res === null) {
                     return $tmp;
                 }
-                if ($res === false){
+                if ($res === false) {
                     return $res;
                 }
                 return $res;
@@ -157,10 +156,10 @@ class ThemeService
                 $res = json_decode($variable, true);
             }
 
-            if ($res=== null) {
+            if ($res === null) {
                 return $variable;
             }
-            if ($res === false){
+            if ($res === false) {
                 return $res;
             }
             return $res;
@@ -263,13 +262,13 @@ class ThemeService
             if (!\is_array($data)) {
                 // kaputte Datei -> trotzdem listen, aber markieren
                 $themes[] = [
-                    'filename'   => $file->getFilename(),
-                    'title'      => null,
+                    'filename' => $file->getFilename(),
+                    'title' => null,
                     'validUntil' => null,
                     'validUntilTs' => null,
-                    'modified'   => (new \DateTimeImmutable())->setTimestamp($file->getMTime()),
-                    'size'       => $file->getSize(),
-                    'error'      => 'Invalid JSON',
+                    'modified' => (new \DateTimeImmutable())->setTimestamp($file->getMTime()),
+                    'size' => $file->getSize(),
+                    'error' => 'Invalid JSON',
                 ];
                 continue;
             }
@@ -288,21 +287,21 @@ class ThemeService
             }
 
             $themes[] = [
-                'filename'     => $file->getFilename(),
-                'title'        => $data['entry']['title'] ?? null,
+                'filename' => $file->getFilename(),
+                'title' => $data['entry']['title'] ?? null,
                 'primaryColor' => $data['entry']['primaryColor'] ?? null,
-                'signature' => $data['signature']?? null,
-                'validUntil'   => $validUntil,     // DateTimeImmutable|null
-                'validUntilRaw'=> $validUntilStr,  // string|null (falls Format kaputt)
+                'signature' => $data['signature'] ?? null,
+                'validUntil' => $validUntil,     // DateTimeImmutable|null
+                'validUntilRaw' => $validUntilStr,  // string|null (falls Format kaputt)
                 'validUntilTs' => $validUntilTs,   // int|null (zum Sortieren)
-                'modified'     => (new \DateTimeImmutable())->setTimestamp($file->getMTime()),
-                'size'         => $file->getSize(),
-                'error'        => null,
+                'modified' => (new \DateTimeImmutable())->setTimestamp($file->getMTime()),
+                'size' => $file->getSize(),
+                'error' => null,
             ];
         }
 
         // Optional: nach validUntil sortieren (frühestes zuerst), dann filename
-        usort($themes, static function(array $a, array $b): int {
+        usort($themes, static function (array $a, array $b): int {
             $at = $a['validUntilTs'] ?? PHP_INT_MAX;
             $bt = $b['validUntilTs'] ?? PHP_INT_MAX;
             if ($at === $bt) {
