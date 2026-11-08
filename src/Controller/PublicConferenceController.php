@@ -43,6 +43,9 @@ class PublicConferenceController extends JitsiAdminController
     #[Route('/m', name: 'app_public_form')]
     public function index(Request $request): Response
     {
+        if ($this->themeService->getApplicationProperties('SKIP_PUBLIC_ROOMS')===1){
+            return $this->redirectToRoute('dashboard');
+        }
         if (!$this->server) {
             return $this->redirectToRoute('dashboard');
         }

@@ -170,6 +170,7 @@ parameters:
     encryption.private_key_path: '%kernel.project_dir%/backend_private.pem'
     encryption.public_key_path: '%kernel.project_dir%/backend_public.pem'
     provisioner.schedule.minutes_threshold: '%env(int:PROVISIONER_SCHEDULE_MINUTES_THRESHOLD)%'
+    SKIP_PUBLIC_ROOMS: '%env(SKIP_PUBLIC_ROOMS)%'
 
 services:
     Gaufrette\FilesystemInterface $recordingFilesystem:
