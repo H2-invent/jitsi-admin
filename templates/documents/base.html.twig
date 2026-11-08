@@ -155,17 +155,173 @@
         }
 
 
-        .page_break { page-break-before: always; }
-        body{
-            font-family: Roboto;
+        @page {
+            margin: 32px 40px;
         }
-        table td {
-            padding: 16px;
+
+        * {
+            box-sizing: border-box;
         }
-        h1, h2, h3, h4{
+
+        body {
+            font-family: Roboto, sans-serif;
+            color: #1f2733;
+            font-size: 12px;
+            line-height: 1.5;
             margin: 0;
             padding: 0;
-            font-family: Roboto;
+        }
+
+        h1, h2, h3, h4 {
+            margin: 0;
+            padding: 0;
+            font-family: Roboto, sans-serif;
+            color: #111827;
+        }
+
+        p {
+            margin: 0 0 6px;
+        }
+
+        .page_break {
+            page-break-before: always;
+        }
+
+        /* Document header */
+        .doc-header {
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .doc-header h1 {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+        }
+
+        .doc-header .doc-subtitle {
+            color: #6b7280;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* Layout helpers */
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #2563eb;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 4px;
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .grid td {
+            vertical-align: top;
+            padding: 0 12px 0 0;
+        }
+
+        .card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 12px 14px;
+        }
+
+        .muted {
+            color: #6b7280;
+        }
+
+        .label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            margin-bottom: 2px;
+        }
+
+        .value {
+            font-size: 13px;
+            color: #111827;
+        }
+
+        /* Lists */
+        .list {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .list td {
+            padding: 5px 0;
+            border-bottom: 1px solid #eef1f5;
+            font-size: 12px;
+        }
+
+        .list tr:last-child td {
+            border-bottom: none;
+        }
+
+        .timeline td {
+            padding: 4px 0;
+            border-bottom: 1px solid #eef1f5;
+            font-size: 11px;
+        }
+
+        .timeline tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .badge.badge-fixed {
+            background: #059669;
+        }
+
+        /* Inline, wrapping participant chips */
+        .chip {
+            display: inline-block;
+            background: #eef2ff;
+            border: 1px solid #dfe4f5;
+            color: #1f2733;
+            font-size: 11px;
+            line-height: 1.4;
+            padding: 2px 9px;
+            margin: 0 4px 4px 0;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+        /* Attachment sections (whiteboard / etherpad) */
+        .attachment {
+            margin-top: 8px;
+        }
+
+        .attachment img {
+            width: 100%;
+            max-width: 640px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
         }
 
     </style>

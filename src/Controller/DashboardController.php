@@ -105,7 +105,7 @@ class DashboardController extends JitsiAdminController
                 'room_join',
                 [
                     'room' => $request->get('join_room'),
-                    't' => $request->get('type'),
+                    'type' => $request->get('type'),
                 ],
             );
         }

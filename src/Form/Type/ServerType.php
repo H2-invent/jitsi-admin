@@ -57,6 +57,8 @@ class ServerType extends AbstractType
             ->add('disableFilmstripe', CheckboxType::class, ['required' => false, 'label' => 'label.disableFilmstripe', 'help' => 'help.disableFilmstripe', 'translation_domain' => 'form'])
             ->add('disableEtherpad', CheckboxType::class, ['required' => false, 'label' => 'label.disableEtherpad', 'help' => 'help.disableEtherpad', 'translation_domain' => 'form'])
             ->add('disableWhiteboard', CheckboxType::class, ['required' => false, 'label' => 'label.disableWhiteboard', 'help' => 'help.disableWhiteboard', 'translation_domain' => 'form'])
+            ->add('isProvisioningEnabled', CheckboxType::class, ['required' => false, 'label' => 'label.isProvisioningEnabled', 'help' => 'help.isProvisioningEnabled', 'translation_domain' => 'form'])
+            ->add('isAllowedToCloneForAutoscale', CheckboxType::class, ['required' => false, 'label' => 'label.isAllowedToCloneForAutoscale', 'help' => 'help.isAllowedToCloneForAutoscale', 'translation_domain' => 'form'])
             ->add('disableChat', CheckboxType::class, ['required' => false, 'label' => 'label.disableChat', 'help' => 'help.disableChat', 'translation_domain' => 'form'])
             ->add('prefixRoomUidWithHash', CheckboxType::class, ['required' => false, 'label' => 'label.prefixRoomUidWithHash', 'help' => 'help.prefixRoomUidWithHash', 'translation_domain' => 'form'])
             ->add('prefixRoomUidWithHash', CheckboxType::class, ['required' => false, 'label' => 'label.prefixRoomUidWithHash', 'help' => 'help.prefixRoomUidWithHash', 'translation_domain' => 'form'])

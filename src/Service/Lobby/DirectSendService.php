@@ -169,6 +169,17 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
+    public function sendRedirectLocal($topic, $url, $timeout = 1000)
+    {
+        $data = [
+            'type' => 'redirect_local',
+            'url' => $url,
+            'timeout' => $timeout,
+        ];
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
+
     public function sendEndMeeting($topic, $url, $timeout = 1000)
     {
         $data = [
@@ -229,7 +240,6 @@ class DirectSendService
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
     }
-
 
     private function sendUpdate(Update $update)
     {

@@ -1,0 +1,28 @@
+{
+	"realm" : "ddev",
+	"users" : [ {
+		"id" : "49fcf95e-6fb3-4430-a29a-506a8b20e77c",
+		"username" : "test",
+		"firstName" : "Homer",
+		"lastName" : "Doh",
+		"email" : "test@keycloak.de",
+		"emailVerified" : true,
+		"createdTimestamp" : 1673444664000,
+		"enabled" : true,
+		"totp" : false,
+		"credentials" : [ {
+			"id" : "b9fbc30d-4269-49cc-a0ea-9170dc44a30c",
+			"type" : "password",
+			"createdDate" : 1673444664000,
+			"secretData" : "{\"value\":\"MyXj6XF7ecyBpnV1PQrADuky8CYL3zZ4fmi1Tya1bMc=\",\"salt\":\"30bBOrRAr3Xod/QGeureYA==\",\"additionalParameters\":{}}",
+			"credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+		} ],
+		"disableableCredentialTypes" : [ ],
+		"requiredActions" : [ ],
+		"clientRoles" : {
+			"account" : [ "manage-account" ]
+		},
+		"notBefore" : 0,
+		"groups" : [ ]
+	} ]
+}

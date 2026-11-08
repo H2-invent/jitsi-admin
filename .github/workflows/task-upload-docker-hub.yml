@@ -7,7 +7,7 @@
 # To get a newer version, you will need to update the SHA.
 # You can also reference a tag or branch, but the action may change without warning.
 
-name: Build and Publish Docker Image
+name: Task - Build Docker Image
 
 on:
   workflow_call:
@@ -44,10 +44,6 @@ jobs:
     name: Build and Publish
     runs-on: ubuntu-latest
     steps:
-      - name: Get current Username
-        id: date
-        run: echo "${{ secrets.dockerhub_password }}"
-
       - name: Check out the repo
         uses: actions/checkout@v7
 

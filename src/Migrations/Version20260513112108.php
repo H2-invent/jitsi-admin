@@ -23,6 +23,9 @@ final class Version20260513112108 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        // some installations had problems with the table already existing
+        $this->dropTableIfExists($schema);
+
         $table = $schema->createTable(self::TABLE_NAME);
         $table->addColumn('id', Types::INTEGER)
             ->setAutoincrement(true)
@@ -46,6 +49,20 @@ final class Version20260513112108 extends AbstractMigration
     {
         $table = $schema->getTable(self::TABLE_NAME);
         $table->removeForeignKey(self::FOREIGN_KEY_NAME);
+        $schema->dropTable(self::TABLE_NAME);
+    }
+
+    public function dropTableIfExists(Schema $schema): void
+    {
+        if (!$schema->hasTable(self::TABLE_NAME)) {
+            return;
+        }
+
+        $table = $schema->getTable(self::TABLE_NAME);
+        $foreignKeys = $table->getForeignKeys();
+        foreach ($foreignKeys as $foreignKey) {
+            $table->removeForeignKey($foreignKey->getName());
+        }
         $schema->dropTable(self::TABLE_NAME);
     }
 }

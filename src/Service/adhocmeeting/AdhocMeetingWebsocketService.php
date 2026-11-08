@@ -35,7 +35,7 @@ class AdhocMeetingWebsocketService
             [
                 'class' => 'btn btn-success ' . ($this->theme->getApplicationProperties('LAF_USE_MULTIFRAME') == 1 ? 'startIframe' : ''),
                 'text' => '<i class="fas fa-phone" ></i > ' . $this->translator->trans('Hier beitreten'),
-                'link' => $this->urlGen->generate('room_join', ['room' => $room->getId(), 't' => 'b']),
+                'link' => $this->urlGen->generate('room_join', ['room' => $room->getId(), 'type' => 'b']),
                 'data' =>
                     [
                         'roomname' => $room->getSecondaryName() ?: $room->getName()
@@ -53,7 +53,7 @@ class AdhocMeetingWebsocketService
 //        $toastText = sprintf(
 //            $format,
 //            $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]),
-//            $this->urlGen->generate('room_join', ['room' => $room->getId(), 't' => 'b']),
+//            $this->urlGen->generate('room_join', ['room' => $room->getId(), 'type' => 'b']),
 //            $room->getSecondaryName() ?: $room->getName(),
 //            $this->translator->trans('Hier beitreten'),
 //        );

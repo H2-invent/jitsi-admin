@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DownloadSummaryController extends JitsiAdminController
 {
-    #[Route('room/download/summary', name: 'app_download_sumary')]
+    #[Route('room/download/summary', name: 'app_download_summary')]
     public function index(Request $request, CreateSummaryService $createSummaryService)
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));

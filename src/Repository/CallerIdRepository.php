@@ -60,4 +60,17 @@ class CallerIdRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * @param int[] $roomIds
+     * @return CallerId[]
+     */
+    public function findByRooms(array $roomIds): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.room IN (:roomIds)')
+            ->setParameter('roomIds', $roomIds)
+            ->getQuery()
+            ->getResult();
+    }
 }

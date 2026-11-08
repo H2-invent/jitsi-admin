@@ -26,6 +26,8 @@
             }
         </style>
     {% endif %}
+
+    {{ include('base/__theme_assets_head.html.twig') }}
 </head>
 <body style="margin: 0"
       class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
@@ -44,16 +46,18 @@
 {% endblock %}
 
 <div id="frame">
-    {% if room.tag is not null %}
-        <p class="floating-tag
-{{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'transparent-bg':'' }}
-{{ getApplicationProperties('LAF_FLOATING_TAG_FORCE_SHOW')==1?'forceShow':'' }}
+    {% set laf_show_transparent_background = getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND') == 1 ? 'transparent-bg' : '' %}
+    {% set laf_floating_tag_force_show = getApplicationProperties('LAF_FLOATING_TAG_FORCE_SHOW') == 1 ? 'forceShow' : ''  %}
 
-" id="tagContent"
-           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
-    {% endif %}
+    {# render element even when room.tag is null so we can dynamically change it from JS (see callerTag.js) #}
+    <p class="floating-tag {{ laf_show_transparent_background }} {{ laf_floating_tag_force_show }} {{ room.tag is null ? 'd-none' : '' }}"
+       id="tagContent"
+       style="color: {{ room.tag is not null ? room.tag.color : '' }}; background-color: {{ room.tag is not null ? room.tag.backgroundColor : '' }}"
+       data-caller-tag-html="{{ (getApplicationProperties('SIP_CALLER_TAG_HTML') ?? '') | trans }}"
+    >
+        {{ room.tag is not null ? room.tag.title|trans : '' }}
+    </p>
     <div class="w-100" id="jitsiWindow">
-
     </div>
 </div>
 
@@ -146,20 +150,18 @@
 
 {% include 'conference_end/__rating.html.twig' with {'room':room} %}
 {% if theme and theme.extrahtml is defined %}
-    <script>
-        window.chatwootSettings = Object.assign({}, window.chatwootSettings, { showBubble: false });
-    </script>
     {% if app.user is defined and app.user is not null %}
         {{ include(template_from_string(theme.extrahtml|raw)) }}
     {% endif %}
     <script>
         window.addEventListener("chatwoot:ready", function () {
             if (window.$chatwoot) {
+                window.$chatwoot.toggleBubbleVisibility("hide");
                 const questionButton = document.getElementById('chatwoot-helper');
                 if (questionButton){
                     questionButton.classList.remove('d-none');
                     questionButton.querySelector('.conference-icon').addEventListener('click',()=>{
-                        window.$chatwoot.toggle(); // show/hide the bubble
+                        window.$chatwoot.toggle(); // show/hide the chat window
                     })
                 }
             }
@@ -167,6 +169,7 @@
     </script>
 {% endif %}
 
+{{ include('base/__theme_assets_footer.html.twig') }}
 </html>
 
 

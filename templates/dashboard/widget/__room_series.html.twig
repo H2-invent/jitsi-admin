@@ -24,7 +24,7 @@
 {% include('optionsWidget/optionsExtraApps.html.twig') with {'room':room} %}
 
 {% if getApplicationProperties('DROPDOWN_SETTINGS_DOWNLOAD_PDF') == 1 %}
-    <li><a href="{{ path('app_download_sumary',{'room':room.id}) }}" target="_blank"
+    <li><a href="{{ path('app_download_summary',{'room':room.id}) }}" target="_blank"
            class="dropdown-item">
             <i class="fa-solid fa-file-pdf"></i>
             {{ 'PDF Download'|trans }}</a></li>

@@ -1730,6 +1730,10 @@
         <source>email.sip.pin</source>
         <target>PIN</target>
       </trans-unit>
+      <trans-unit id="sip.personalpin" resname="email.sip.personalpin">
+        <source>email.sip.personalpin</source>
+        <target>Persönliche PIN</target>
+      </trans-unit>
       <trans-unit id="MI..OPw" resname="enterprise.settings.header.sip">
         <source>enterprise.settings.header.sip</source>
         <target>Jigasi SIP-Einwahldaten</target>
@@ -2246,6 +2250,10 @@
         <source>browser.warning.text</source>
         <target>Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</target>
       </trans-unit>
+      <trans-unit id="bLnK2xT" resname="browser.link.text">
+        <source>browser.link.text</source>
+        <target>Kopieren Sie diesen Link in einen Chromium/Safari basierten Browser:</target>
+      </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
         <target>Weiter mit Edge</target>
@@ -2484,18 +2492,18 @@
       </trans-unit>
       <trans-unit id="ySnvUZv" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.&#10;Name: {name} &#10;Moderator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
-Name: {name} 
+Name: {name}
 Moderator: {moderator} </source>
         <target>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
-Name: {name} 
+Name: {name}
 Moderator: {moderator} </target>
       </trans-unit>
       <trans-unit id="w0B3UQg" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&#10;Konferenz ID: {id} &#10;Ihre E-Mail-Adresse: {email}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:
-Konferenz ID: {id} 
+Konferenz ID: {id}
 Ihre E-Mail-Adresse: {email}</source>
         <target>Folgende Daten benötigen Sie um der Konferenz beizutreten:
-Konferenz ID: {id} 
+Konferenz ID: {id}
 Ihre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="dQuQ3zm" resname="transcription.ready.subject">
@@ -2637,6 +2645,14 @@ Ihre E-Mail-Adresse: {email}</target>
       <trans-unit id="7kpQmRw" resname="recording.dropdownTitle">
           <source>Recording</source>
           <target>Recording</target>
+      </trans-unit>
+      <trans-unit id="3ndFdnr" resname="Telefonteilnehmer anwesend">
+        <source>Telefonteilnehmer anwesend</source>
+        <target>Telefonteilnehmer anwesend</target>
+      </trans-unit>
+      <trans-unit id="iMnx3Yn" resname="Bitte warten Sie. Ihre Konferenz wird bereitgestellt">
+        <source>Bitte warten Sie. Ihre Konferenz wird bereitgestellt</source>
+        <target>Bitte warten Sie. Ihre Konferenz wird bereitgestellt</target>
       </trans-unit>
     </body>
   </file>

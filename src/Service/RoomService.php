@@ -60,13 +60,13 @@ class RoomService
      * Creates the JWT Token to send to the Information of the User to the jitsi-Meet Server
      * @param Rooms $room
      * @param User $user
-     * @param $t
+     * @param $type
      * @param $userName
      * @return string
      * @author Emanuel Holzmann
      * @de
      */
-    function join(Rooms $room, ?User $user, $t, $userName)
+    function join(Rooms $room, ?User $user, string $type, $userName)
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -79,7 +79,7 @@ class RoomService
         if ($user && $user->getProfilePicture()) {
             $avatar = $this->uploaderHelper->asset($user->getProfilePicture(), 'documentFile');
         }
-        $url = $this->createUrl($t, $room, $moderator, $user, $userName, $avatar);
+        $url = $this->createUrl($type, $room, $moderator, $user, $userName, $avatar);
         return $url;
     }
 
@@ -87,29 +87,29 @@ class RoomService
      * Creates the JWT Token to send to the Information of the User to the jitsi-Meet Server
      * @param Rooms $room
      * @param User $user
-     * @param $t
+     * @param $type
      * @param $userName
      * @return string
      * @author Emanuel Holzmann
      * @de
      */
-    function joinUrl($t, Rooms $room, $name, $isModerator)
+    function joinUrl(string $type, Rooms $room, $name, $isModerator)
     {
-        return $this->createUrl($t, $room, $isModerator, null, $name);
+        return $this->createUrl($type, $room, $isModerator, null, $name);
     }
 
     public
-    function createUrl($t, Rooms $room, $isModerator, ?User $user, $userName, $avatar = null)
+    function createUrl(string $type, Rooms $room, $isModerator, ?User $user, $userName, $avatar = null)
     {
-        if ($t === 'a') {
-            $type = 'jitsi-meet://';
+        if ($type === 'a') {
+            $protocol = 'jitsi-meet://';
         } else {
-            $type = 'https://';
+            $protocol = 'https://';
         }
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         $serverUrl = $room->getServer()->getUrl();
         $serverUrl = str_replace(['https://', 'http://'], '', $serverUrl);
-        $jitsi_server_url = $type . $serverUrl;
+        $jitsi_server_url = $protocol . $serverUrl;
         $roomName = $this->getRoomName($room);
         $url = $jitsi_server_url . '/' . $roomName;
 
