@@ -162,6 +162,7 @@ parameters:
     app.log.loki.log_level: '%env(LOKI_LOG_LEVEL)%'
     app.transcription.openai.uri: '%env(OPENAI_API_URI)%'
     app.transcription.mistral.uri: '%env(MISTRAL_API_URI)%'
+    SKIP_PUBLIC_ROOMS: '%env(SKIP_PUBLIC_ROOMS)%'
 
 services:
     Gaufrette\FilesystemInterface $recordingFilesystem:
