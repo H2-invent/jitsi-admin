@@ -14,20 +14,20 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230927072637 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server_tag';
-    private const COLUMN_NAME_SERVER = 'server_id';
-    private const COLUMN_NAME_TAG = 'tag_id';
+    private const string TABLE_NAME = 'server_tag';
+    private const string COLUMN_NAME_SERVER = 'server_id';
+    private const string COLUMN_NAME_TAG = 'tag_id';
 
-    private const FOREIGN_COLUMN_NAME_SERVER = 'id';
-    private const FOREIGN_TABLE_NAME_SERVER = 'server';
+    private const string FOREIGN_COLUMN_NAME_SERVER = 'id';
+    private const string FOREIGN_TABLE_NAME_SERVER = 'server';
 
-    private const FOREIGN_COLUMN_NAME_TAG = 'id';
-    private const FOREIGN_TABLE_NAME_TAG = 'tag';
+    private const string FOREIGN_COLUMN_NAME_TAG = 'id';
+    private const string FOREIGN_TABLE_NAME_TAG = 'tag';
 
-    private const CONSTRAINT_NAME_SERVER = 'IDX_3D40BDD91844E6B7';
-    private const INDEX_NAME_SERVER = 'IDX_3D40BDD91844E6B7';
-    private const CONSTRAINT_NAME_TAG = 'IDX_3D40BDD9BAD26311';
-    private const INDEX_NAME_TAG = 'IDX_3D40BDD9BAD26311';
+    private const string CONSTRAINT_NAME_SERVER = 'IDX_3D40BDD91844E6B7';
+    private const string INDEX_NAME_SERVER = 'IDX_3D40BDD91844E6B7';
+    private const string CONSTRAINT_NAME_TAG = 'IDX_3D40BDD9BAD26311';
+    private const string INDEX_NAME_TAG = 'IDX_3D40BDD9BAD26311';
 
     public function getDescription(): string
     {

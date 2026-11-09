@@ -9,10 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method CallerSession|null find($id, $lockMode = null, $lockVersion = null)
- * @method CallerSession|null findOneBy(array $criteria, array $orderBy = null)
- * @method CallerSession[]    findAll()
- * @method CallerSession[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<CallerSession>
  */
 class CallerSessionRepository extends ServiceEntityRepository
 {
@@ -24,7 +21,7 @@ class CallerSessionRepository extends ServiceEntityRepository
     /**
      * @return CallerSession[] Returns an array of CallerSession objects
      */
-    public function findCallerSessionsByRoom(Rooms $rooms)
+    public function findCallerSessionsByRoom(Rooms $rooms): array
     {
         return $this->createQueryBuilder('c')
             ->innerJoin('c.caller', 'caller')
@@ -36,20 +33,19 @@ class CallerSessionRepository extends ServiceEntityRepository
     }
 
 
-public function findCallerSessionByUserAndRoom(User $user, Rooms $rooms): ?CallerSession
-{
-    return $this->createQueryBuilder('c')
-        ->innerJoin('c.caller','caller')
-        ->innerJoin('caller.user', 'user')
-        ->innerJoin('caller.room','room')
-        ->andWhere('user = :user')
-        ->setParameter('user',$user)
-        ->andWhere('room = :room')
-        ->setParameter('room', $rooms)
-        ->getQuery()
-        ->getOneOrNullResult()
-    ;
-}
+    public function findCallerSessionByUserAndRoom(User $user, Rooms $rooms): ?CallerSession
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.caller', 'caller')
+            ->innerJoin('caller.user', 'user')
+            ->innerJoin('caller.room', 'room')
+            ->andWhere('user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('room = :room')
+            ->setParameter('room', $rooms)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
     // /**
     //  * @return CallerSession[] Returns an array of CallerSession objects

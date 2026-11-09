@@ -9,7 +9,11 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    {{ encore_entry_link_tags('join') }}
+    {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+        {{ encore_entry_link_tags('joinBlack') }}
+    {% else %}
+        {{ encore_entry_link_tags('join') }}
+    {% endif %}
     {% set theme =  getThemeProperties() %}
     {% if theme is defined and theme != false %}
         <style>
@@ -22,6 +26,8 @@
             }
         </style>
     {% endif %}
+
+    {{ include('base/__theme_assets_head.html.twig') }}
 </head>
 <body style="margin: 0"
       class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
@@ -71,7 +77,7 @@
         {% endif %}
     <script>
         {% if room.server.liveKitServer %}
-        var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name,moderator,noModerator is defined?noModerator:false) }}&secret={{ generateEncryptedSecret(room) }}';
+        var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ getLiveKitName(room) }}?jwt={{ jwtFromRoom(user,room,name,moderator,noModerator is defined?noModerator:false,app.request.get('skipLobby') is defined?app.request.get('skipLobby'):false,app.request.get('enableMic') is defined?app.request.get('enableMic'):null,app.request.get('enableCamera') is defined?app.request.get('enableCamera'):null) }}&secret={{ generateEncryptedSecret(room) }}';
         const displayName = '{{ name }}';
         {% endif %}
         var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
@@ -95,28 +101,30 @@
                 SHOW_JITSI_WATERMARK: false,
                 HIDE_DEEP_LINKING_LOGO: true,
                 {% if server is defined and server.dynamicBrandingUrl %}
-                dynamicBrandingUrl: '{{ server.dynamicBrandingUrl }}',
+                    dynamicBrandingUrl: '{{ server.dynamicBrandingUrl }}',
                 {% endif %}
                 SHOW_BRAND_WATERMARK: false,
             },
 
             parentNode: document.querySelector('#jitsiWindow'),
-            {% if room.server.appId is not null %}
-
-            jwt: '{{ jwtFromRoom(user,room,name,moderator) }}',
+            {% if room.server.appId and room.server.appSecret %}
+                jwt: '{{ jwtFromRoom(user,room,name,moderator) }}',
             {% endif %}
             userInfo: {
                 displayName: '{{ name }}',
                 {% if user is not null and  user.profilePicture is not null %}
-                avatarUrl: '{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
+                    avatarUrl: '{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
                 {% endif %}
             }
         };
         var conferenzeName = '{{ room.name }}';
         var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
-        var websocketTopics = "{{ getJwtforWebsocket(['whiteboard/'~room.uidReal],app.user) }}";
+        var websocketTopics = "{{ getJwtforWebsocket([room.uidReal],app.user) }}";
         var websocketUrl = "{{ getUrlforWebsocket() }}";
+        {% if app.user %}
+        var adhocCancelUrl = "{{ path('add_hoc_cancel') }}";
+        {% endif %}
 
     </script>
 
@@ -141,5 +149,27 @@
 
 
 {% include 'conference_end/__rating.html.twig' with {'room':room} %}
+{% if theme and theme.extrahtml is defined %}
+    {% if app.user is defined and app.user is not null %}
+        {{ include(template_from_string(theme.extrahtml|raw)) }}
+    {% endif %}
+    <script>
+        window.addEventListener("chatwoot:ready", function () {
+            if (window.$chatwoot) {
+                window.$chatwoot.toggleBubbleVisibility("hide");
+                const questionButton = document.getElementById('chatwoot-helper');
+                if (questionButton){
+                    questionButton.classList.remove('d-none');
+                    questionButton.querySelector('.conference-icon').addEventListener('click',()=>{
+                        window.$chatwoot.toggle(); // show/hide the chat window
+                    })
+                }
+            }
+        });
+    </script>
+{% endif %}
 
+{{ include('base/__theme_assets_footer.html.twig') }}
 </html>
+
+

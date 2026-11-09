@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+#ddev-generated
+
+## Description: Create and destroy solr cores and configsets
+## Usage: kcctl <realm>
+## Example: ddev kcctl
+
+CONTAINER_NAME=ddev-"$DDEV_SITENAME"-keycloak
+CONTAINER_NAME_DB=ddev-"$DDEV_SITENAME"-keycloak-database
+
+set -eu -o pipefail
+
+CMD=$1
+REALM_NAME="${2:-}"
+
+function restart() {
+    docker restart "$CONTAINER_NAME" >/dev/null
+    # Wait for the keycloak container to become available again
+    ddev exec bash -c "until nc -z keycloak 8080; do echo 'Waiting for Keycloak to start...' && sleep 2; done;"
+}
+
+case $CMD in
+import)
+    # Copy files to the keycloak volume
+    import_data="$DDEV_APPROOT/.ddev/keycloak/import"
+    echo "➡️  Copy '$import_data' to container and import data"
+    docker cp -q "$import_data/." "$CONTAINER_NAME:/opt/keycloak/data/import"
+    docker exec -u 0 -i "$CONTAINER_NAME" chown -R keycloak:keycloak /opt/keycloak/data/import
+    restart
+    ;;
+
+export)
+    REALM=""
+    if [ "$REALM_NAME" != "" ]; then
+        REALM="--realm $REALM_NAME"
+    fi
+
+    if [ "$REALM_NAME" = "master" ]; then
+        echo "'master' is not exported because it is the default realm. Please use the 'ddev' realm or any other you want to export."
+        exit 0
+    fi
+
+    export_data="$DDEV_APPROOT/.ddev/keycloak/import"
+    docker exec -u 0 -i "$CONTAINER_NAME" sh -c "rm -Rf /opt/keycloak/data/import/$REALM*"
+    ddev exec -s keycloak /opt/keycloak/bin/kc.sh export --users same_file "$REALM" --dir /opt/keycloak/data/import
+    docker exec -u 0 -i "$CONTAINER_NAME" sh -c 'rm -f /opt/keycloak/data/import/master-*'
+    docker cp -q "$CONTAINER_NAME:/opt/keycloak/data/import/." "$export_data/"
+    restart
+    ;;
+
+delete)
+    echo "➡️  Delete database and configuration in container"
+    docker exec -u 0 -i "$CONTAINER_NAME" sh -c 'rm -Rf /opt/keycloak/data/import/*'
+    docker exec -i -u 0 "$CONTAINER_NAME_DB" mysql -uroot -pdb -e "DROP DATABASE db; CREATE DATABASE db;"
+    restart
+    ;;
+
+--help | *)
+    echo "——————————————"
+    echo -e "\033[1mExample Usage:\033[0m"
+    echo "——————————————"
+    echo -e "\033[1mImport\033[0m"
+    echo "—————"
+    echo "Push config to keycloak and import it"
+    echo "👉 ddev kcctl import"
+    echo ""
+    echo -e "\033[1mImport\033[0m"
+    echo "—————"
+    echo "Export current config (realms and users) to .ddev/keycloak/import"
+    echo "👉 ddev kcctl export <realm> - Exports all if no realm defined"
+    echo ""
+    echo -e "\033[1mWipe\033[0m"
+    echo "—————"
+    echo "Delete all realms and users"
+    echo "👉 ddev kcctl delete"
+    ;;
+esac

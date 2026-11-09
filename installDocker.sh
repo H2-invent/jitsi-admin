@@ -1,21 +1,19 @@
 echo Welcome to the installer:
 FILE=docker.conf
-if [ -f "$FILE" ]; then
-  source $FILE
-else
+if [ ! -f "$FILE" ]; then
   touch $FILE
-    KEYCLOAK_PW=$(date +%s | sha256sum | base64 | head -c 32)
-    JITSI_ADMIN_PW=$(date +%s | sha256sum | base64 | head -c 32)
-    MERCURE_JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32)
-    KEYCLOAK_ADMIN_PW=$(date +%s | sha256sum | base64 | head -c 32)
-    NEW_UUID=$(date +%s | sha256sum | base64 | head -c 32)
-    echo "KEYCLOAK_PW=$KEYCLOAK_PW" >> $FILE
-    echo "MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET" >> $FILE
-    echo "KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW" >> $FILE
-    echo "NEW_UUID=$NEW_UUID" >> $FILE
-    echo "JITSI_ADMIN_PW=$JITSI_ADMIN_PW" >> $FILE
-  source $FILE
-fi
+
+  KEYCLOAK_PW=$(date +%s | sha256sum | base64 | head -c 32)
+  JITSI_ADMIN_PW=$(date +%s | sha256sum | base64 | head -c 32)
+  MERCURE_JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32)
+  KEYCLOAK_ADMIN_PW=$(date +%s | sha256sum | base64 | head -c 32)
+  NEW_UUID=$(date +%s | sha256sum | base64 | head -c 32)
+  echo "KEYCLOAK_PW=$KEYCLOAK_PW" >> $FILE
+  echo "MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET" >> $FILE
+  echo "KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW" >> $FILE
+  echo "NEW_UUID=$NEW_UUID" >> $FILE
+  echo "JITSI_ADMIN_PW=$JITSI_ADMIN_PW" >> $FILE
+
   ENVIRONMENT=${ENVIRONMENT:=prod}
   read -p "Enter the environment dev/prod[$ENVIRONMENT]: " input
   ENVIRONMENT=${input:=$ENVIRONMENT}
@@ -34,9 +32,10 @@ fi
   sed -i '/PUBLIC_URL/d' $FILE
   echo "PUBLIC_URL=$PUBLIC_URL" >> $FILE
 
-  echo --------------------------------------------------------------------------
-  echo -----------------We looking for all the other parameters-------------------
-  echo --------------------------------------------------------------------------
+  echo -------------------------------------------------------------------------------
+  echo -----------------We are looking for all the other parameters-------------------
+  echo -------------------------------------------------------------------------------
+
   echo -------------------------------------------------------------
   echo -----------------Mailer--------------------------------------
   echo -------------------------------------------------------------
@@ -83,10 +82,13 @@ fi
   default_language=${input:=$default_language}
   sed -i '/default_language/d' $FILE
   echo "default_language=$default_language" >> $FILE
+fi
 
-  echo -------------------------------------------------------------
-  echo -----------------we build the KEycloak-----------------------
-  echo -------------------------------------------------------------
+source $FILE
+
+echo -------------------------------------------------------------
+echo -----------------We build the Keycloak-----------------------
+echo -------------------------------------------------------------
 sed -i "s|<clientsecret>|$NEW_UUID|g" docker/keycloak/realm-export.json
 sed -i "s|<clientUrl>|$HTTP_METHOD://$PUBLIC_URL|g" docker/keycloak/realm-export.json
 
@@ -105,9 +107,9 @@ elif [ "$smtpEncryption" == 'ssl' ]; then
      sed -i "s|<smtpEncyption>| \"ssl\": \"false\",\n\"starttls\": \"false\",|g" docker/keycloak/realm-export.json
 fi
 
-  echo -------------------------------------------------------------
-  echo -----------------we build the Database-----------------------
-  echo -------------------------------------------------------------
+echo -------------------------------------------------------------
+echo -----------------We build the Database-----------------------
+echo -------------------------------------------------------------
 sed -i "s|<jitsi-admin-pw>|$JITSI_ADMIN_PW|g" docker/docker-entrypoint-initdb.d/init-userdb.sql
 sed -i "s|<keycloak-pw>|$KEYCLOAK_PW|g" docker/docker-entrypoint-initdb.d/init-userdb.sql
 
@@ -138,7 +140,7 @@ fi
 cat <<EOL > .env.local
 MAILER_DSN='smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort'
 DEFAULT_EMAIL=$smtpFrom
-DATABASE_URL='mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin'
+DATABASE_URL='mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin?serverVersion=12.0.2-MariaDB-ubu2404'
 laF_baseUrl='$HTTP_METHOD://$PUBLIC_URL'
 VICH_BASE='$HTTP_METHOD://$PUBLIC_URL'
 GIT_VERSION=$(git rev-parse --short=5 HEAD)
@@ -171,15 +173,23 @@ echo ".env.local Datei wurde erfolgreich erstellt."
 
 chmod +x dockerupdate.sh
 
-if [ "$ENVIRONMENT" == 'dev' ]; then
-  docker-compose -f docker-compose.test.yml build
-  docker-compose -f docker-compose.test.yml up -d --remove-orphans 
-elif [ "$ENVIRONMENT" == 'cluster' ]; then
-  docker-compose -f docker-compose.test.yml build
-  docker-compose -f docker-compose.cluster.yml up -d --remove-orphans 
+# New version of docker uses "docker compose" instead of "docker-compose"
+if command -v docker-compose; then
+    DOCKER_COMPOSE="docker-compose"
 else
-   docker-compose -f docker-compose.yml build
-  docker-compose -f docker-compose.yml up -d --remove-orphans 
+    DOCKER_COMPOSE="docker compose"
+fi
+
+if [ "$ENVIRONMENT" == 'dev' ]; then
+  # use env to set conf file variables without leaking them to the host system
+  env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.test.yml build
+  env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.test.yml up -d --remove-orphans
+elif [ "$ENVIRONMENT" == 'cluster' ]; then
+  $env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.test.yml build
+  $env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.cluster.yml up -d --remove-orphans
+else
+  $env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.yml build
+  $env $(xargs < $FILE) $DOCKER_COMPOSE -f docker-compose.yml up -d --remove-orphans
 fi
 RED='\033[0;31m'
 NC='\033[0m' # No Color

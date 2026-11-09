@@ -155,6 +155,7 @@ function askHangup() {
         showCancelButton: true,
         confirmButtonText: hangupText,
         cancelButtonText: cancel,
+        heightAuto: false,
         customClass: {
             confirmButton: 'btn-danger btn',
             denyButton: 'btn-danger btn',

@@ -5,66 +5,57 @@ namespace App\Service;
 use App\Entity\EmailDomainsToServers;
 use App\Entity\KeycloakGroupsToServers;
 use App\Entity\Rooms;
-use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Repository\RoomsRepository;
+use App\Repository\RoomStatusParticipantRepository;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ServerUserManagment
 {
-    private $em;
-    private $parameter;
-    private ThemeService $themeService;
-
-    public function __construct(ThemeService $themeService, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager)
-    {
-        $this->parameter = $parameterBag;
-        $this->em = $entityManager;
-        $this->themeService = $themeService;
+    public function __construct(private readonly ThemeService           $themeService,
+                                private readonly ParameterBagInterface  $parameter,
+                                private readonly EntityManagerInterface $em
+    ) {
     }
 
     /**
-     * @param User $user
      * @return Server[]
      * Return the Server for an User. This can be
      * individual server
      * default server for all users
      * keycloakserver by group or domain
      */
-    public function getServersFromUser(User $user)
+    public function getServersFromUser(User $user): array
     {
-        $servers = [];
-        //here we add theserver which is directed connected to a user
         $servers = $user->getServers()->toArray();
 
-
-        // here we add the servers from thekeycloak group
+        $searchTerms = [];
         if ($user->getGroups()) {
-            foreach ($user->getGroups() as $data1) {
-                $tmpG = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(['keycloakGroup' => $data1]);
-                foreach ($tmpG as $data2) {
-                    if (!in_array($data2->getServer(), $servers)) {
-                        $servers[] = $data2->getServer();
-                    }
-                }
+            foreach ($user->getGroups() as $group) {
+                $searchTerms[] = $group;
             }
         }
+
         try {
-            $domainArr =explode('@', $user->getEmail());
-            if (count($domainArr) > 1){
-                $domain = explode('@', $user->getEmail())[1];
-                $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(['keycloakGroup' => $domain]);
-                foreach ($tmpE as $data2) {
-                    if (!in_array($data2->getServer(), $servers)) {
-                        $servers[] = $data2->getServer();
-                    }
-                }
+            $domainArr = explode('@', $user->getEmail());
+            if (count($domainArr) > 1) {
+                $searchTerms[] = explode('@', $user->getEmail())[1];
             }
         } catch (\Exception $exception) {
         }
 
+        if (!empty($searchTerms)) {
+            $tmpResults = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(['keycloakGroup' => $searchTerms]);
+            foreach ($tmpResults as $mapping) {
+                if (!in_array($mapping->getServer(), $servers)) {
+                    $servers[] = $mapping->getServer();
+                }
+            }
+        }
 
         $default = $this->em->getRepository(Server::class)->find($this->parameter->get('default_jitsi_server_id'));
         //here we add the default group which is set in the env
@@ -90,7 +81,7 @@ class ServerUserManagment
                     }
                 }
                 $servers = $serTmp;
-                $serTmp = [];
+                $serTmp  = [];
 
                 if ($this->themeService->getTheme()['showOnlyShowServer']) {
                     $sTmp = $this->themeService->getTheme()['showServer'];
@@ -102,21 +93,29 @@ class ServerUserManagment
                     $servers = $serTmp;
                 }
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
         }
 
         return $servers;
     }
 
-    function getActualConference(Server $server)
+    /**
+     * @return Rooms[]
+     */
+    public function getActualConference(Server $server): array
     {
-        $actualConf = $this->em->getRepository(Rooms::class)->findActualConferenceForServerByStatus($server);
-        return $actualConf;
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->em->getRepository(Rooms::class);
+        return $roomsRepository->findActualConferenceForServerByStatus($server);
     }
 
-    function getActualParticipantsFromServer(Server $server)
+    /**
+     * @return RoomStatusParticipant[]
+     */
+    public function getActualParticipantsFromServer(Server $server): array
     {
-        $actualPart = $this->em->getRepository(RoomStatusParticipant::class)->findActualParticipantsByServer($server);
-        return $actualPart;
+        /** @var RoomStatusParticipantRepository $roomStatusParticipantRepository */
+        $roomStatusParticipantRepository = $this->em->getRepository(RoomStatusParticipant::class);
+        return $roomStatusParticipantRepository->findActualParticipantsByServer($server);
     }
 }

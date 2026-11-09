@@ -17,7 +17,6 @@ $border-width-entry: 6px;
   border-radius: 8px;
   margin-bottom: 8px;
   border-top-width: 1px !important;
-  box-shadow: $card-box-shadow;
   margin-left: 4px;
   margin-right: 4px;
   background-color: $cardBackground_bright;
@@ -241,24 +240,38 @@ $border-width-entry: 6px;
 
 
 @mixin statusDot {
-  a {
+  .dropdown-item {
     display: flex;
     align-items: center;
 
     .dot {
       width: 8px;
       height: 8px;
+      min-width: 8px;
       border-radius: 50000px;
-      margin-right: 4px;
+      margin-right: 8px;
+      border: none;
+      position: static;
     }
-
-
   }
 }
 
 
 .onlineSelector {
   @include statusDot();
+
+  .changeStatus[data-status="online"] .dot {
+    background-color: $online;
+  }
+  .changeStatus[data-status="away"] .dot {
+    background-color: $away;
+  }
+  .changeStatus[data-status="offline"] .dot {
+    background-color: grey;
+  }
+  .changeStatus[data-status="inMeeting"] .dot {
+    background-color: $in-a-meeting;
+  }
 }
 
 

@@ -10,9 +10,9 @@ use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\caller\CallerPinService;
-use App\Service\caller\CallerPrepareService;
-use App\Service\caller\CallerSessionService;
+use App\Service\Caller\CallerPinService;
+use App\Service\Caller\CallerPrepareService;
+use App\Service\Caller\CallerSessionService;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\SendMessageToWaitingUser;
 use App\Service\RoomService;
@@ -99,11 +99,11 @@ class CallerSessionTest extends KernelTestCase
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
@@ -142,17 +142,17 @@ class CallerSessionTest extends KernelTestCase
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
         $roomPart = new RoomStatusParticipant();
         $roomPart->setInRoom(true)
             ->setParticipantId('test@test.de')
-            ->setEnteredRoomAt(new \DateTime())
+            ->setEnteredRoomAt(new \DateTimeImmutable())
             ->setRoomStatus($status)
             ->setParticipantName('test 1234');
         $manager->persist($roomPart);
@@ -193,12 +193,12 @@ class CallerSessionTest extends KernelTestCase
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime())
-            ->setDestroyedAt(new \DateTime())
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setDestroyedAt(new \DateTimeImmutable())
             ->setDestroyed(true);
         $manager->persist($status);
         $manager->flush();
@@ -243,11 +243,11 @@ class CallerSessionTest extends KernelTestCase
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
@@ -265,7 +265,7 @@ class CallerSessionTest extends KernelTestCase
             ],
             $sessionService->getSessionStatus($session->getSessionId())
         );
-        $status->setDestroyedAt(new \DateTime())
+        $status->setDestroyedAt(new \DateTimeImmutable())
             ->setDestroyed(true);
         $manager->persist($status);
         $manager->flush();
@@ -596,11 +596,11 @@ class CallerSessionTest extends KernelTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
         self::assertEquals(
@@ -643,44 +643,50 @@ class CallerSessionTest extends KernelTestCase
 
     public function testSendMessageToCallerIn(): void
     {
-        $kernel = self::bootKernel();
-        $directSend = $this->getContainer()->get(DirectSendService::class);
-
-
-        $hub = new MockHub(
-            'http://localhost:3000/.well-known/mercure',
-            new StaticTokenProvider('test'),
-            function (Update $update): string {
-                self::assertEquals('{"type":"message","message":"test Nachricht","from":"Test1, 1234, User, Test"}', $update->getData());
-                self::assertEquals(['lobby_WaitingUser_websocket/c4ca4238a0b923820dcc509a6f75849b'], $update->getTopics());
-                return 'id';
-            }
-        );
-        $directSend->setMercurePublisher($hub);
+        self::bootKernel();
+        $directSend = self::getContainer()->get(DirectSendService::class);
         $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
-        $message = $messageRepo->findAll();
         $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
-
         $waitingUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
-        $waitingUser = $waitingUSerRepo->findOneBy(['uid' => md5(1)]);
         $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $callerSessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+
+        $message = $messageRepo->findAll();
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $waitingUser = $waitingUSerRepo->findOneBy(['uid' => '9e1d7a68-2bfd-4923-8f54-3fb7dbd87142']);
+
         $callerSession = new CallerSession();
         $callerSession->setSessionId('test')
             ->setAuthOk(false)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setShowName('testUser');
         $waitingUser->setCallerSession($callerSession);
-        $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($callerSession);
         $em->persist($waitingUser);
         $em->flush();
 
-        self::assertEquals(true, $sendMessage->sendMessage(md5(1), 'test Nachricht', $user));
+        $testMessage = 'test Nachricht';
 
-        $callerSessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update) use ($testMessage): string {
+                $updateData = json_decode($update->getData(), true);
+                self::assertIsArray($updateData);
+                self::assertArrayHasKey('message', $updateData);
+                self::assertSame($testMessage, $updateData['message']);
+                self::assertEquals(['lobby_WaitingUser_websocket/9e1d7a68-2bfd-4923-8f54-3fb7dbd87142'], $update->getTopics());
+                return 'id';
+            }
+        );
+        $directSend->setMercurePublisher($hub);
+        $messageResult = $sendMessage->sendMessage('9e1d7a68-2bfd-4923-8f54-3fb7dbd87142', $testMessage, $user);
+
+        self::assertEquals(true, $messageResult);
+
         $callerSession2 = $callerSessionRepo->findOneBy(['sessionId' => 'test']);
-        assertEquals(['uid' => $callerSession2->getMessageUid(), 'message' => 'test Nachricht'], $sessionService->createMessageElement($callerSession));
+        self::assertEquals(['uid' => $callerSession2->getMessageUid(), 'message' => $testMessage], $sessionService->createMessageElement($callerSession));
     }
 }

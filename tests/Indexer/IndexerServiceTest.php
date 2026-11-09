@@ -38,7 +38,7 @@ class IndexerServiceTest extends KernelTestCase
         self::assertNull($indexer->indexUser(null));
         $user->setSpezialProperties(['mobile'=>'+49 (012) 0123456','email1'=>'email1@test.de']);
         $index = $indexer->indexUser($user);
-        self::assertEquals('test@local.de test@local.de test user 490120123456 email1@test.de', $index);
+        self::assertEquals('test@local.de test@local.de test user email1@test.de 490120123456', $index);
         self::assertNull($indexer->indexUser(null));
     }
 }

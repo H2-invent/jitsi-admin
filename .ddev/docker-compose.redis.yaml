@@ -1,0 +1,18 @@
+services:
+  redis:
+    container_name: ddev-${DDEV_SITENAME}-redis
+    image: redis:7-alpine
+    hostname: ${DDEV_SITENAME}-redis
+    restart: "no"
+    volumes:
+      - redis:/data
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+
+  web:
+    links:
+      - redis
+
+volumes:
+  redis:

@@ -3,18 +3,18 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     exception_controller: null
-    form_themes: ['bootstrap_4_layout.html.twig','form/ja_theme.html.twig']
+    form_themes:
+        - 'bootstrap_4_layout.html.twig'
+        - 'form/ja_theme.html.twig'
     paths:
         '%kernel.project_dir%/public/mail/css': css
     globals:
+        theme_assets: '@App\Service\Theme\ThemeService'
         imprint: '%env(imprint)%'
         dataPrivacy: '%env(dataPrivacy)%'
         helpUrl: '%env(helpUrl)%'
         helpUrlParticipants: '%env(helpUrlParticipants)%'
         laf_version: '%env(laF_version)%'
-        matomo_enable: '%env(matomo_enable)%'
-        matomo_id: '%env(matomo_id)%'
-        matomo_url: '%env(matomo_url)%'
         laf_bbb: '%env(laF_bbb)%'
         laF_baseUrl: '%env(laF_baseUrl)%'
         laF_emailTextLogin: '%env(laF_emailTextLogin)%'

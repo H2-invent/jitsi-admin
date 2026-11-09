@@ -1,6 +1,8 @@
 
 .jitsiadminiframe {
   position: absolute;
+  top :0;
+  left: 0;
   transform: translate(50px, 50px);
   width: 500px;
   height: 500px;
@@ -126,6 +128,7 @@
   height: unset !important;
   flex-direction: column-reverse !important;
   bottom: 0;
+  top: unset;
   left: 0;
   z-index: 500 !important;
   border-width: 8px !important;
@@ -172,7 +175,11 @@
       -ms-transition-delay: 0.25s;
       -o-transition-delay: 0.25s;
       transition-delay: 0.25s;
-
+      position: absolute!important;
+      left: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: $box-shadow;
     }
   }
 
@@ -194,6 +201,7 @@
 
   .pausedFrame {
     position: absolute;
+    z-index: 50;
     top: 0;
     left: 0;
     width: 100%;

@@ -1,0 +1,15 @@
+<div id="scheduleSlots">
+    <div id="slot">
+        {% if room.schedulings|length>0 %}
+            <ul class="list-group">
+                {% for s in room.schedulings[0].schedulingTimes|sort((a, b) => a.time <=> b.time) %}
+                    <li class="list-group-item d-flex flex-column mb-1">
+                        <div class="d-flex">
+                            <p class="mb-0">{{ s.time|date('d.m.Y  H:i') }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>

@@ -6,7 +6,7 @@ namespace App\Tests\JitsiEvents\service;
 
 use App\Entity\RoomStatus;
 use App\Repository\RoomStatusRepository;
-use App\Service\api\EventSyncApiService;
+use App\Service\Api\EventSyncApiService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class JItsiEventSyncAPITest extends KernelTestCase
@@ -49,6 +49,6 @@ class JItsiEventSyncAPITest extends KernelTestCase
         $result = $this->eventSyncApiService->getCallerSessionFromUid($uid);
 
         // Assert
-        $this->assertEquals(['status' => 'ROOOM_CLOSED'], $result);
+        $this->assertEquals(['status' => 'ROOM_CLOSED'], $result);
     }
 }

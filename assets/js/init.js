@@ -2,7 +2,6 @@ import $ from 'jquery';
 import {Popover, Modal, Input, initMDB} from "mdb-ui-kit";
 
 global.$ = global.jQuery = $;
-import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
@@ -34,7 +33,6 @@ import {
 
 function initGenerell() {
     checkFirefox();
-    Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
     initStartIframe();
@@ -46,8 +44,12 @@ function initGenerell() {
     if (window.innerWidth < 768) {
         document.body.classList.add("in-smartPhone");
     }
-    openBlankTarget(blankTarget);
-    initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
+    if (typeof blankTarget !== 'undefined'){
+        openBlankTarget(blankTarget);
+    }
+    if (typeof confirmTitle !== 'undefined'){
+        initAdhocMeeting(confirmTitle, confirmCancel, confirmOk, typeof adhocOfflineMessage !== 'undefined' ? adhocOfflineMessage : null);
+    }
     hotkeys('1', function () {
         $('#ex1-tab-1-tab').trigger('click');
     });
@@ -75,11 +77,39 @@ function initGenerell() {
         $('#profile-tab').trigger('click');
     });
     hotkeys('n', function () {
-        $('#createNewConference').trigger('click');
+        document.getElementById('createNewConference').click();
+
     });
     initWebsocket(websocketTopics);
     initLoadContent();
+    initPasswordToggle();
 
+}
+
+// Toggle password fields between masked and plaintext. Delegated on document so
+// it also works for fields inside modals that are loaded via AJAX.
+function initPasswordToggle() {
+    document.addEventListener('click', function (e) {
+        const toggle = e.target.closest('.toggle-password');
+        if (!toggle) {
+            return;
+        }
+        e.preventDefault();
+        const input = document.getElementById(toggle.getAttribute('data-password-target'));
+        if (!input) {
+            return;
+        }
+        const showPlaintext = input.type === 'password';
+        input.type = showPlaintext ? 'text' : 'password';
+        const icon = toggle.querySelector('i');
+        if (icon) {
+            icon.classList.toggle('fa-eye', !showPlaintext);
+            icon.classList.toggle('fa-eye-slash', showPlaintext);
+        }
+        toggle.setAttribute('aria-label', showPlaintext
+            ? (toggle.dataset.labelHide || '')
+            : (toggle.dataset.labelShow || ''));
+    });
 }
 
 export function wrapOneSelect(ele) {
@@ -172,6 +202,13 @@ function initNewModal() {
     initdateTimePicker('.flatpickr');
     initNewRoomModal();
     $('form').submit(function () {
+        // Skip AJAX forms (marked with data-ajax-url or data-ajax); they handle
+        // their own submit UX (spinner + fetch) via delegated handlers, so running
+        // this generic spinner would produce a duplicate spinner.
+        if (this.dataset.ajaxUrl || this.dataset.ajax) {
+            return;
+        }
+
         const btn = $(this).find('button[type=submit]');
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled", true)
@@ -196,15 +233,56 @@ function initNewModal() {
     initPrettyJson();
     wrapSelect();
     initMDB({Input});
+    initLoadedChart(document.getElementById('loadContentModal'));
 
-    if (document.getElementById("lineChart") !== null) {
-        const ctx = document.getElementById("lineChart").getContext('2d');
-         new Chart(ctx, {
-            type: 'line',
-            data: data,
-            options: options
-        });
+}
+
+function initLoadedChart(container) {
+    const canvas = container.querySelector('#lineChart');
+    const jsonElement = container.querySelector('#lineChartData');
+
+    if (!canvas || !jsonElement) {
+        return;
     }
+
+    let chartData;
+
+    try {
+        chartData = JSON.parse(jsonElement.textContent);
+    } catch (e) {
+        console.error('Ungültige Chart-Daten', e);
+        return;
+    }
+
+    const options = {
+        responsive: true,
+        scales: {
+            yAxes: [
+                {
+                    id: 'A',
+                    type: 'linear',
+                    position: 'left',
+                    ticks: {
+                        min: 0
+                    }
+                },
+                {
+                    id: 'B',
+                    type: 'linear',
+                    position: 'right',
+                    ticks: {
+                        min: 0
+                    }
+                }
+            ]
+        }
+    };
+
+    new Chart(canvas, {
+        type: 'line',
+        data: chartData,
+        options: options
+    });
 }
 
 function initCopytoClipboard() {
@@ -249,7 +327,20 @@ function initProtip() {
     const proTip = document.getElementById('proTip')
 
     if (proTip) {
-        proTip.style.transform = 'translateY(-' + (proTip.querySelector('.first-line').clientHeight + 8 + 8) + 'px)';
+        var totalHeight = proTip.offsetHeight;
+        var firstLineHeight = proTip.querySelector('.first-line').clientHeight;
+        var visiblePart = firstLineHeight + 13 + 10; // padding-top + padding-bottom
+        // Disable the transition while collapsing and reveal the bubble so it
+        // appears already minimized without flashing open/closed.
+        proTip.classList.add('proTips-collapsed');
+        proTip.style.transform = 'translateY(' + (totalHeight - visiblePart) + 'px)';
+        // Re-enable the transition on the next frame so the hover animation works.
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                proTip.classList.remove('proTips-collapsed');
+                proTip.classList.add('proTips-initialized');
+            });
+        });
     }
 }
 

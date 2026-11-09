@@ -6,6 +6,9 @@ use RuntimeException;
 
 trait ConvertToEnvironmentTrait
 {
+    /**
+     * @return array<int, string>
+     */
     public function getAsEnvironment(): array
     {
         $result = [];

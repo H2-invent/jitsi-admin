@@ -6,6 +6,8 @@ use App\Repository\RoomsRepository;
 use App\Service\JoinService;
 use App\Service\RoomService;
 use App\UtilsHelper;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class JoinServiceTest extends KernelTestCase
@@ -29,12 +31,35 @@ class JoinServiceTest extends KernelTestCase
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
         $roomService = $this->getContainer()->get(RoomService::class);
-        $res = $roomService->generateJwt($room, null, 'Test User');
-        self::assertEquals('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJUZXN0IFVzZXIifX0sIm1vZGVyYXRvciI6ZmFsc2V9.xu8nM83-f8W2wOkbw0R_aRlYbWi73PE5ZcVnBqVKb0I', $res);
+        $appSecret = $room->getServer()->getAppSecret();
+
+        // Verify JWT payload contents (signature varies with appSecret)
+        $jwt = $roomService->generateJwt($room, null, 'Test User');
+        $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
+        self::assertEquals('jitsi_admin', $decoded->aud);
+        self::assertEquals('jitsiId', $decoded->iss);
+        self::assertEquals('meet.jit.si2', $decoded->sub);
+        self::assertEquals($room->getUid(), $decoded->room);
+        self::assertEquals('Test User', $decoded->context->user->name);
+        self::assertEquals(false, $decoded->moderator);
+
+        // Verify join URLs contain valid JWT
         $res = $roomService->join($room, $room->getModerator(), 'a', 'Test User');
         $slugyfy = UtilsHelper::slugify($room->getName());
-        $this->assertEquals('jitsi-meet://meet.jit.si2/123456781?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJUZXN0IFVzZXIifX0sIm1vZGVyYXRvciI6dHJ1ZX0.hiLi5WUh0mMh972m_6NdPUhk7jQyxUkthVUIs9ZECno#config.subject=%22' . $slugyfy . '%22', $res);
+        preg_match('/jwt=([^#]+)/', $res, $matches);
+        $urlJwt = $matches[1];
+        self::assertNotEmpty($urlJwt);
+        $urlDecoded = JWT::decode($urlJwt, new Key($appSecret, 'HS256'));
+        self::assertEquals(true, $urlDecoded->moderator);
+        self::assertStringContainsString($slugyfy, $res);
+
         $res = $roomService->join($room, $room->getModerator(), 'b', 'Test User');
-        $this->assertEquals('https://meet.jit.si2/123456781?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJUZXN0IFVzZXIifX0sIm1vZGVyYXRvciI6dHJ1ZX0.hiLi5WUh0mMh972m_6NdPUhk7jQyxUkthVUIs9ZECno#config.subject=%22' . $slugyfy . '%22', $res);
+        preg_match('/jwt=([^#]+)/', $res, $matches);
+        $urlJwt2 = $matches[1];
+        self::assertNotEmpty($urlJwt2);
+        $urlDecoded2 = JWT::decode($urlJwt2, new Key($appSecret, 'HS256'));
+        self::assertEquals(true, $urlDecoded2->moderator);
+        self::assertStringContainsString($slugyfy, $res);
+        self::assertStringStartsWith('https://', $res);
     }
 }

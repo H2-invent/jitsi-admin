@@ -1,0 +1,40 @@
+{% extends 'email/base.html.twig' %}
+{% block header %}
+    {{ 'transcription.ready.subject'|trans({'{roomName}': room.name}) }}
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center">
+        {{ room.name }}
+    </h4>
+    <p>
+        {% if room.fastConference %}
+            {% trans with {'{roomName}': room.name} %}transcription.ready.text.fastconference{% endtrans %}
+        {% else %}
+            {% trans with {'{roomName}': room.name} %}transcription.ready.text{% endtrans %}
+        {% endif %}
+    </p>
+
+    <p>
+        {% if room.fastConference %}
+            <a class="text-center" href="{{ laF_baseUrl }}{{ path('app_transcription_download', {'id': transcription.id}) }}">
+                <button href="{{ laF_baseUrl }}{{ path('app_transcription_download', {'id': transcription.id}) }}" class="expanded rounded">
+                    {{ 'Download'|trans }}
+                </button>
+            </a>
+        {% else %}
+            <a class="text-center" href="{{ laF_baseUrl }}{{ path('dashboard') }}">
+                <button href="{{ laF_baseUrl }}{{ path('dashboard') }}" class="expanded rounded">
+                    {{ 'Dashboard'|trans }}
+                </button>
+            </a>
+        {% endif %}
+    </p>
+
+    <p>
+        {% if server is defined and server is not null and server.serverEmailBody is not null %}
+            {{ server.serverEmailBody|nl2br }}
+        {% endif %}
+    </p>
+
+{% endblock %}

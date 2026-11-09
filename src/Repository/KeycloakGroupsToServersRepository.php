@@ -7,10 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method KeycloakGroupsToServers|null find($id, $lockMode = null, $lockVersion = null)
- * @method KeycloakGroupsToServers|null findOneBy(array $criteria, array $orderBy = null)
- * @method KeycloakGroupsToServers[]    findAll()
- * @method KeycloakGroupsToServers[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<KeycloakGroupsToServers>
  */
 class KeycloakGroupsToServersRepository extends ServiceEntityRepository
 {

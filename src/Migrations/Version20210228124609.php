@@ -19,7 +19,7 @@ final class Version20210228124609 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === false) {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE server ADD static_background_color VARCHAR(7) DEFAULT NULL');
         }
@@ -27,7 +27,7 @@ final class Version20210228124609 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === false) {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE server DROP static_background_color');
         }

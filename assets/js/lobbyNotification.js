@@ -15,6 +15,10 @@ import {close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
 import { Tooltip, initMDB } from "mdb-ui-kit";
 import {initAllComponents} from "./confirmation";
+import {showDialog} from "./createDialog";
+import Swal from 'sweetalert2';
+import {closeIframeByRoomId} from './createConference';
+import {startCallerRingtone, stopCallerRingtone} from './callerSound';
 
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
@@ -23,15 +27,17 @@ var closeCallbackFkt = null;
 var reloadTimeout = null;
 
 function initNotofication(closeFkt = null) {
-    Push.Permission.request();
     closeCallbackFkt = closeFkt;
 }
 
 function masterNotify(data) {
 
-    Push.Permission.request();
     if (data.type === 'notification') {
         notifymoderator(data)
+    }else if (data.type === 'browserPush') {
+        showPush(data)
+    }else if (data.type === 'playSound') {
+        playSound(data)
     } else if (data.type === 'cleanNotification') {
         deleteToast(data.messageId);
     } else if (data.type === 'refresh') {
@@ -42,7 +48,10 @@ function masterNotify(data) {
         redirect(data);
     } else if (data.type === 'snackbar') {
         setSnackbar(data.message,'', data.color, false,'0x00',data.closeAfter)
-    } else if (data.type === 'newJitsi') {
+    }
+    else if (data.type === 'dialog') {
+        showDialog(data);
+    }else if (data.type === 'newJitsi') {
         //do nothing. Is handeled somewhere localy
     } else if (data.type === 'refreshDashboard') {
         refreshDashboard();
@@ -63,9 +72,32 @@ function masterNotify(data) {
         callAddhock(data);
     } else if (data.type === 'message') {
         addmessage(data);
+    } else if (data.type === 'adhocCallFailed') {
+        adhocCallFailed(data);
+    } else if (data.type === 'closeDialog') {
+        stopCallerRingtone();
+        Swal.close();
     } else {
         console.log()('Error, Please reload the page')
     }
+}
+
+function adhocCallFailed(data) {
+    closeIframeByRoomId(data.roomId);
+    // The websocket message is produced in the callee's request context, so its locale may not
+    // match the caller's page. Prefer the caller's own translated global when it is available.
+    let message = data.message;
+    if (data.reason === 'declined') {
+        if (typeof adhocDeclinedMessage !== 'undefined' && adhocDeclinedMessage) {
+            message = adhocDeclinedMessage;
+        }
+    } else if (typeof adhocNoAnswerMessage !== 'undefined' && adhocNoAnswerMessage) {
+        message = adhocNoAnswerMessage;
+    }
+    Swal.fire({
+        icon: 'error',
+        text: message
+    });
 }
 
 function addmessage(data) {
@@ -166,14 +198,34 @@ function showPush(data) {
             var audio = new Audio(notificationSound);
             audio.play();
             if (document.visibilityState === 'hidden') {
-                Push.create(data.title, {
-                    body: data.pushNotification,
-                    icon: '/favicon.ico',
-                    onClick: function (ele) {
-                        window.focus();
-                        this.close();
-                    }
-                });
+                Push.Permission.request(
+                    function () {
+                        Push.create(data.title, {
+                            body: data.pushNotification,
+                            icon: '/favicon.ico',
+                            onClick: function (ele) {
+                                window.focus();
+                                this.close();
+                            }
+                        });
+                    },
+                    function () {}
+                );
+            }
+        }, 2500)
+    }, Math.floor(Math.random() * 50) + 50);
+}
+function playSound(data) {
+    setTimeout(function () {
+        TabUtils.lockFunction('notification' + data.messageId, function () {
+            if (data.soundName === 'caller'){
+                startCallerRingtone(data.timeout);
+            }else if (data.soundName === 'notfication'){
+                var audio = new Audio(notificationSound);
+                audio.play();
+            }else if (data.soundName === 'newMessage'){
+                var audio = new Audio(newMessageSound);
+                audio.play();
             }
         }, 2500)
     }, Math.floor(Math.random() * 50) + 50);
@@ -188,23 +240,30 @@ function callAddhock(data) {
                 callersoundplay.currentTime = 0;
             }, data.time)
 
-            Push.create(data.title, {
-                body: data.pushMessage,
-                icon: '/favicon.ico',
-                onClick: function (ele) {
-                    window.focus();
-                    this.close();
-                }
-            });
+            Push.Permission.request(
+                function () {
+                    Push.create(data.title, {
+                        body: data.pushMessage,
+                        icon: '/favicon.ico',
+                        onClick: function (ele) {
+                            window.focus();
+                            this.close();
+                        }
+                    });
+                },
+                function () {}
+            );
 
         }, 5000)
     }, Math.floor(Math.random() * 50) + 50);
+
     setSnackbar(data.message,'Lobby', data.color, true);
 }
 
 function stopCallerPlay() {
     callersoundplay.pause();
     callersoundplay.currentTime = 0;
+    stopCallerRingtone();
 }
 
 export {masterNotify, initNotofication, stopCallerPlay}

@@ -5,6 +5,7 @@ import {enterMeeting, leaveMeeting} from "../websocket";
 import {initStartWhiteboard} from "../startWhiteboard";
 import {showPlayPause} from "../moderatorIframe";
 import {initStarSend} from "../endModal";
+import {initRecording} from "./egress";
 
 export class LivekitUtils {
     conferenceRunning = false;
@@ -27,8 +28,9 @@ export class LivekitUtils {
             enterMeeting();
             initStartWhiteboard();
             showPlayPause();
-            initSocialIcons(changeCamera.bind(this));
-            this.initChatToggle();
+            // initSocialIcons(changeCamera.bind(this));
+            // this.initChatToggle();
+            initRecording();
             this.conferenceRunning = true;
             this.initMicAndCamera();
             window.onbeforeunload = function (e) {
@@ -111,6 +113,9 @@ export class LivekitUtils {
                     case 'playIframe':
                         this.conferencePaused = false;
                         this.playConference();
+                        break;
+                    case 'pleaseClose':
+                        this.hangup();
                         break;
                     // Weitere Fälle können hier hinzugefügt werden
                     default:

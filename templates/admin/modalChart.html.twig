@@ -1,47 +1,52 @@
 <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
 
-        <div class="modal-header  light-blue darken-3 white-text">
+        <div class="modal-header light-blue darken-3 white-text">
             <h5 class="modal-title">{{ server.serverName }}</h5>
             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body ">
+
+        <div class="modal-body">
             <div class="row">
                 <div class="col-lg-6 mb-2 mt-2">
-                    <div class="card text-white border-info text-center {% if getActualParticipants(server) | length %} bg-danger  {% else %}bg-success{% endif %}">
+                    <div class="card text-white border-info text-center {% if getActualParticipants(server) | length %} bg-danger {% else %}bg-success{% endif %}">
                         <div class="card-body">
-
                             {{ 'statistic.actualRooms'|trans }}:
-                            {{ getActualConference(server)| length }}
-                            {% if   getActualConference(server)| length %}
-                                <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus" data-mdp-html="true"
-                                   data-mdb-content="<ul>{% for r in getActualConference(server) %}<li>{{ r.name }}</li> {% endfor %}</ul>">
+                            {{ getActualConference(server)|length }}
+
+                            {% if getActualConference(server)|length %}
+                                <a tabindex="0"
+                                   data-mdb-popover-init
+                                   data-mdb-trigger="focus"
+                                   data-mdp-html="true"
+                                   data-mdb-content="<ul>{% for r in getActualConference(server) %}<li>{{ r.name }}</li>{% endfor %}</ul>">
                                     <i class="fa-solid fa-circle-info"></i>
                                 </a>
                             {% endif %}
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6 mb-2 mt-2">
-                    <div class="card text-white  border-info text-center {% if getActualParticipants(server) | length %} bg-danger {% else %}bg-success{% endif %}">
+                    <div class="card text-white border-info text-center {% if getActualParticipants(server) | length %} bg-danger {% else %}bg-success{% endif %}">
                         <div class="card-body">
-
                             {{ 'statistic.actualParticipant'|trans }}:
-                            {{ getActualParticipants(server) | length }}
-
+                            {{ getActualParticipants(server)|length }}
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
+
+                <div class="col-md-6 col-sm-6 col-lg-4 mb-2">
                     <div class="card border-info text-center">
                         <div class="card-body">
                             {{ 'Konferenzen'|trans }}
                             <hr>
-                            {{ server.rooms | length }}
+                            {{ server.rooms|length }}
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
+
+                <div class="col-md-6 col-sm-6 col-lg-4 mb-2">
                     <div class="card border-info text-center">
                         <div class="card-body">
                             {{ 'Teilnehmer'|trans }}
@@ -50,52 +55,56 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-lg-3 mb-2" id="rating">
-                    <div class="card border-info text-center {% if (showAverageStar(server)-lastAverage) > 0.5%}bg-danger text-white{% endif %}">
-                        <div class="card-body ">
-                            {{ 'Bewertung'|trans }} {% if server.stars| length %}
-                                <a tabindex="0"  data-mdb-popover-init data-mdb-trigger="focus" data-mdp-html="true"
-                                   data-mdb-content="<p>{{ server.stars|length }} {{ 'Bewertungen'|trans }}</p><p>&Oslash; {{ 'stars.lastTen'|trans }}: {{ lastAverage|round(0, 'floor') }}</p><ul>{% for s in server.stars %}{% if s.comment is not null and s.comment != '' %}<li>{{ s.comment }}</li>{% endif %} {% endfor %}</ul>">
+
+                <div class="col-md-6 col-sm-6 col-lg-4 mb-2" id="rating">
+                    <div class="card border-info text-center {% if (showAverageStar(server) - lastAverage) > 0.5 %}bg-danger text-white{% endif %}">
+                        <div class="card-body">
+                            {{ 'Bewertung'|trans }}
+
+                            {% if server.stars|length %}
+                                <a tabindex="0"
+                                   data-mdb-popover-init
+                                   data-mdb-trigger="focus"
+                                   data-mdp-html="true"
+                                   data-mdb-content="<p>{{ server.stars|length }} {{ 'Bewertungen'|trans }}</p><p>&Oslash; {{ 'stars.lastTen'|trans }}: {{ lastAverage|round(0, 'floor') }}</p><ul>{% for s in server.stars %}{% if s.comment is not null and s.comment != '' %}<li>{{ s.comment }}</li>{% endif %}{% endfor %}</ul>">
                                     <i class="fa-solid fa-circle-info"></i>
                                 </a>
                             {% endif %}
+
                             <hr>
-                            <div class="rating value-{{ showAverageStar(server)|round(0, 'floor') }} {% if showAverageStar(server) - showAverageStar(server)|round(0, 'floor') >= 0.25 %} half {% endif %} large  label-left star-svg">
+
+                            <div class="rating value-{{ showAverageStar(server)|round(0, 'floor') }} {% if showAverageStar(server) - showAverageStar(server)|round(0, 'floor') >= 0.25 %}half{% endif %} large label-left star-svg">
                                 <div class="label-value">{{ showAverageStar(server)|number_format(1) }}</div>
+
                                 <div class="star-container">
                                     <div class="star">
                                         {% if showAverageStar(server) - 1 >= 0 %}
                                             <svg class="star-filled">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-filled"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-filled"></use>
                                             </svg>
                                         {% elseif showAverageStar(server) - 1 >= -0.75 %}
                                             <svg class="star-half">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-half"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-half"></use>
                                             </svg>
                                         {% else %}
                                             <svg class="star-empty">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-empty"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-empty"></use>
                                             </svg>
                                         {% endif %}
                                     </div>
+
                                     <div class="star">
                                         {% if showAverageStar(server) - 2 >= 0 %}
                                             <svg class="star-filled">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-filled"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-filled"></use>
                                             </svg>
                                         {% elseif showAverageStar(server) - 2 >= -0.75 %}
                                             <svg class="star-half">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-half"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-half"></use>
                                             </svg>
                                         {% else %}
                                             <svg class="star-empty">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-empty"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-empty"></use>
                                             </svg>
                                         {% endif %}
                                     </div>
@@ -103,150 +112,110 @@
                                     <div class="star">
                                         {% if showAverageStar(server) - 3 >= 0 %}
                                             <svg class="star-filled">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-filled"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-filled"></use>
                                             </svg>
                                         {% elseif showAverageStar(server) - 3 >= -0.75 %}
                                             <svg class="star-half">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-half"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-half"></use>
                                             </svg>
                                         {% else %}
                                             <svg class="star-empty">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-empty"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-empty"></use>
                                             </svg>
                                         {% endif %}
-
                                     </div>
-                                    <div class="star">
 
+                                    <div class="star">
                                         {% if showAverageStar(server) - 4 >= 0 %}
                                             <svg class="star-filled">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-filled"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-filled"></use>
                                             </svg>
-                                        {% elseif showAverageStar(server) - 4.0 >= -0.75 %}
+                                        {% elseif showAverageStar(server) - 4 >= -0.75 %}
                                             <svg class="star-half">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-half"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-half"></use>
                                             </svg>
                                         {% else %}
                                             <svg class="star-empty">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-empty"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-empty"></use>
                                             </svg>
                                         {% endif %}
-
                                     </div>
+
                                     <div class="star">
                                         {% if showAverageStar(server) - 5 >= 0 %}
                                             <svg class="star-filled">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-filled"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-filled"></use>
                                             </svg>
-                                        {% elseif showAverageStar(server) - 5.0 >= -0.75 %}
+                                        {% elseif showAverageStar(server) - 5 >= -0.75 %}
                                             <svg class="star-half">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-half"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-half"></use>
                                             </svg>
                                         {% else %}
                                             <svg class="star-empty">
-                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                     xlink:href="/build/star-rating.icons.svg#star-empty"></use>
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/build/star-rating.icons.svg#star-empty"></use>
                                             </svg>
                                         {% endif %}
                                     </div>
                                 </div>
-
                             </div>
-
-
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
-                    {% if tags is defined and tags is not null %}
-                        <a href="https://github.com/H2-invent/jitsi-admin/releases/tag/{{ tags[0].name }}"
-                           referrerpolicy="no-referrer " target="_blank" rel="noreferrer noopener">
-                            <div class="card border border-2 {% if laf_version != tags[0].name %}border-danger{% else %}border-info{% endif %} text-center">
-                                <div class="card-body">
-                                    {% if laf_version != tags[0].name %}{{ 'Neue Version von Jitsi Admin verfügbar'|trans }}{% else %}{{ 'Aktuellste Jitsi Admin Version installiert'|trans }}{% endif %}
-                                </div>
-                            </div>
-                        </a>
-                    {% endif %}
-                </div>
             </div>
+
+
             <hr>
-            <h3 class="h3-responsive">
-                {{ 'Konferenzen'|trans }}
-            </h3>
+            <h3 class="h3-responsive">{{ 'Konferenzen'|trans }}</h3>
+
             <canvas id="lineChart"></canvas>
+
+            <script type="application/json" id="lineChartData">
+                {
+                    "labels": [
+                {% for date in chart %}
+                            "{{ date['date']|date('d.m.Y') }}"{% if not loop.last %},{% endif %}
+                {% endfor %}
+                ],
+                "datasets": [
+                    {
+                        "label": "{{ 'Anzahl Konferenzen'|trans|e('js') }}",
+                            "yAxisID": "A",
+                            "data": [
+                {% for date in chart %}
+                    {{ date['rooms']|default(0) }}{% if not loop.last %},{% endif %}
+                {% endfor %}
+                ],
+                "backgroundColor": "rgba(105, 0, 132, .2)",
+                "borderColor": "rgba(200, 99, 132, .7)",
+                "borderWidth": 2
+            },
+            {
+                "label": "{{ 'Anzahl Teilnehmer'|trans|e('js') }}",
+                            "yAxisID": "B",
+                            "data": [
+                {% for date in chart %}
+                    {{ date['participants']|default(0) }}{% if not loop.last %},{% endif %}
+                {% endfor %}
+                ],
+                "backgroundColor": "rgba(0, 137, 132, .2)",
+                "borderColor": "rgba(0, 10, 130, .7)",
+                "borderWidth": 2
+            },
+            {
+                "label": "{{ 'statistic.real.participants'|trans|e('js') }}",
+                            "yAxisID": "B",
+                            "data": [
+                {% for date in chart %}
+                    {{ date['participants_real']|default(0) }}{% if not loop.last %},{% endif %}
+                {% endfor %}
+                ],
+                "backgroundColor": "rgba(0, 137, 132, .2)",
+                "borderColor": "rgba(0, 10, 130, .7)",
+                "borderWidth": 2
+            }
+        ]
+    }
+            </script>
         </div>
     </div>
 </div>
-<script>
-    data = {
-        labels: [{% for date in chart %}"{{ date['date']|date('d.m.Y') }}",{% endfor %}],
-        datasets: [{
-            label: "{{ 'Anzahl Konferenzen'|trans }}",
-            yAxisID: 'A',
-            data: [{% for date in chart %}"{{ date['rooms'] }}",{% endfor %}],
-            backgroundColor: [
-                'rgba(105, 0, 132, .2)',
-            ],
-            borderColor: [
-                'rgba(200, 99, 132, .7)',
-            ],
-            borderWidth: 2
-        },
-            {
-                label: "{{ 'Anzahl Teilnehmer'|trans }}",
-                yAxisID: 'B',
-                data: [{% for date in chart %}"{{ date['participants'] }}",{% endfor %}],
-                backgroundColor: [
-                    'rgba(0, 137, 132, .2)',
-                ],
-                borderColor: [
-                    'rgba(0, 10, 130, .7)',
-                ],
-                borderWidth: 2
-            }
-            ,
-            {
-                label: "{{ 'statistic.real.participants'|trans }}",
-                yAxisID: 'B',
-                data: [{% for date in chart %}"{{ date['participants_real'] }}",{% endfor %}],
-                backgroundColor: [
-                    'rgba(0, 137, 132, .2)',
-                ],
-                borderColor: [
-                    'rgba(0, 10, 130, .7)',
-                ],
-                borderWidth: 2
-            }
-        ]
-    };
-    options = {
-        responsive: true,
-        scales: {
-            yAxes: [{
-                id: 'A',
-                type: 'linear',
-                position: 'left',
-                ticks: {
-                    min: 0
-                }
-            }, {
-                id: 'B',
-                type: 'linear',
-                position: 'right',
-                ticks: {
-                    min: 0
-                }
-            }]
-        }
-    };
-
-</script>

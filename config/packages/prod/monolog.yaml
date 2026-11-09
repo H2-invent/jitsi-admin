@@ -14,3 +14,10 @@ monolog:
             type: console
             process_psr_3_messages: false
             channels: ["!event", "!doctrine"]
+        # toggle handled by \App\DependencyInjection\Compiler\ToggleLokiHandlerPass
+        # remember to keep the pass up to date when changing any loki service definitions
+        loki_filtered:
+            type: service
+            id: monolog.handler.loki_healthcheck_filter
+            level: '%app.log.loki.log_level%'
+            channels: [ "app", "php", "request", "http_client", "console" ]

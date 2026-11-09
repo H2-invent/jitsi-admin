@@ -12,18 +12,33 @@ import ('jquery-confirm');
 let title = "Bestätigung";
 let cancel = "Abbrechen";
 let ok = "OK";
+// German fallback; replaced at runtime by the translated `adhocOfflineMessage` global passed to
+// initAdhocMeeting() (see base.html.twig).
+let offlineMessage = "Der Teilnehmer ist offline oder nicht angemeldet. Der Anruf kann nicht gestartet werden.";
 
 
 function initconfirmLoadOpenPopUp() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('adhocConfirm')) {
+        const triggerElement = e.target.closest('.adhocConfirm');
+        if (triggerElement) {
             e.preventDefault();
 
-            var url = e.target.href;
-            var text = e.target.getAttribute('data-text') || 'Wollen Sie die Aktion durchführen?';
-            var title = e.target.getAttribute('data-title') || 'Bestätigung';
-            var ok = 'Bestätigen'; // Passe den Text nach Bedarf an
-            var cancel = 'Abbrechen'; // Passe den Text nach Bedarf an
+            // The address book row carries the live websocket presence in data-status. When it has
+            // not arrived yet the attribute is undefined and the call is allowed (fail-open).
+            const contact = triggerElement.closest('.adressbookline');
+            if (contact && contact.dataset.status === 'offline') {
+                Swal.fire({
+                    title: 'Fehler',
+                    text: offlineMessage,
+                    icon: 'error'
+                });
+                return;
+            }
+
+            var url = triggerElement.href;
+            var title = triggerElement.getAttribute('data-title') || 'Bestätigung';
+            var ok = 'Bestätigen';
+            var cancel = 'Abbrechen';
 
             fetch(url)
                 .then(response => response.text())
@@ -35,24 +50,42 @@ function initconfirmLoadOpenPopUp() {
                         showCancelButton: true,
                         confirmButtonText: ok,
                         cancelButtonText: cancel,
+                        heightAuto: false,
                         customClass: {
                             confirmButton: 'btn btn-outline-danger',
                             cancelButton: 'btn btn-outline-primary',
                         },
                         width: '50%',
                         preConfirm: () => {
-                            var selectedOption = document.querySelector('#adhocTag option:checked').getAttribute('data-value');
+                            var checkedOption = document.querySelector('#adhocTag option:checked');
+                            if (!checkedOption) {
+                                Swal.showValidationMessage('No tag selected');
+                                return false;
+                            }
+                            var selectedOption = checkedOption.getAttribute('data-value');
                             return fetch(selectedOption)
-                                .then(response => response.json())
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('HTTP ' + response.status);
+                                    }
+                                    return response.json();
+                                })
                                 .then(data => {
                                     if (data.popups) {
                                         data.popups.forEach(function (value) {
                                             createIframe(value.url, value.title);
                                         });
+                                    } else if (data.error) {
+                                        // Server-side rejection, e.g. the callee is offline.
+                                        Swal.showValidationMessage(data.error);
+                                        return false;
+                                    } else if (data.redirectUrl) {
+                                        Swal.showValidationMessage('Die Konferenz konnte nicht erstellt werden.');
+                                        return false;
                                     }
                                 })
-                                .catch(() => {
-                                    Swal.showValidationMessage('Request failed');
+                                .catch((error) => {
+                                    Swal.showValidationMessage('Request failed: ' + error.message);
                                 });
                         }
                     });
@@ -70,10 +103,13 @@ function initconfirmLoadOpenPopUp() {
 }
 
 
-function initAdhocMeeting(titleL, cancelL, okL) {
+function initAdhocMeeting(titleL, cancelL, okL, offlineMessageL) {
     title = titleL;
     cancel = cancelL;
     ok = okL;
+    if (offlineMessageL) {
+        offlineMessage = offlineMessageL;
+    }
 
     initconfirmLoadOpenPopUp();
 

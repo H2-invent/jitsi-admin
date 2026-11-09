@@ -4,8 +4,9 @@ namespace App\Tests\Calendly;
 
 
 use App\Entity\User;
-use App\Service\calendly\CallendlyConnect;
+use App\Service\Calendly\CallendlyConnect;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -16,6 +17,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class CallendlyConnectTest extends TestCase
 {
     private HttpClientInterface $httpClient;
@@ -178,6 +180,14 @@ class CallendlyConnectTest extends TestCase
             ->method('request')
             ->willThrowException($this->createMock(ClientExceptionInterface::class));
 
+        // just to suppress str_replace $subject = null deprecation
+        $this->parameterBag
+            ->method('get')
+            ->willReturn('http://localhost');
+        $this->urlGenerator
+            ->method('generate')
+            ->willReturn('/webhook');
+
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Ungültige Anfrage oder Token:');
 
@@ -192,6 +202,14 @@ class CallendlyConnectTest extends TestCase
         $this->httpClient
             ->method('request')
             ->willThrowException($this->createMock(ServerExceptionInterface::class));
+
+        // just to suppress str_replace $subject = null deprecation
+        $this->parameterBag
+            ->method('get')
+            ->willReturn('http://localhost');
+        $this->urlGenerator
+            ->method('generate')
+            ->willReturn('/webhook');
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Fehler beim Aufruf der Calendly-API:');

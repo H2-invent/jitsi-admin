@@ -242,16 +242,12 @@ label.required:after {
 ----------------------------------------------------- */
 
 #mainContent {
-    position: relative;
     min-height: 100%;
-    height: auto !important;
-    height: 100%;
     background-color: whitesmoke
 }
 
 #footer {
-    position: absolute;
-    bottom: 0px;
+    /* removed sticky footer: position: absolute; bottom: 0px; */
 }
 
 

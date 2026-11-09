@@ -14,8 +14,8 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20240729074912 extends AbstractMigration
 {
 
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'live_kit_server';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'live_kit_server';
     public function getDescription(): string
     {
         return 'Adds the livekit server option';

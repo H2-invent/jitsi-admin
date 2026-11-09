@@ -19,7 +19,7 @@ final class Version20230330075157 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() === 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('CREATE TABLE addressbook_favorites (user_source INT NOT NULL, user_target INT NOT NULL, PRIMARY KEY(user_source, user_target))');
             $this->addSql('CREATE INDEX IDX_D3FE5EA53AD8644E ON addressbook_favorites (user_source)');
@@ -31,7 +31,7 @@ final class Version20230330075157 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() === 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('CREATE SCHEMA public');
             $this->addSql('ALTER TABLE addressbook_favorites DROP CONSTRAINT FK_D3FE5EA53AD8644E');

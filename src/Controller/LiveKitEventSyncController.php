@@ -3,12 +3,10 @@
 namespace App\Controller;
 
 use Agence104\LiveKit\WebhookReceiver;
-use App\Entity\RoomStatus;
 use App\Repository\RoomsRepository;
 use App\Repository\RoomStatusRepository;
-use App\Service\api\CheckAuthorizationService;
-use App\Service\livekit\EgressService;
-use App\Service\webhook\RoomWebhookService;
+use App\Service\Livekit\EgressService;
+use App\Service\Webhook\RoomWebhookService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -16,20 +14,22 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class LiveKitEventSyncController extends AbstractController
 {
 
-    private WebhookReceiver $webhookReceiver;
+    private readonly WebhookReceiver $webhookReceiver;
 
     public function __construct(
-        private RoomWebhookService   $webhookService,
-        private LoggerInterface      $logger,
-        private RoomsRepository      $roomsRepository,
-        private EgressService        $egressService,
-        private RoomStatusRepository $roomStatusRepository,
-    )
-    {
+        private readonly RoomWebhookService    $webhookService,
+        private readonly LoggerInterface       $logger,
+        private readonly RoomsRepository       $roomsRepository,
+        private readonly EgressService         $egressService,
+        private readonly RoomStatusRepository  $roomStatusRepository,
+        private readonly HttpClientInterface   $httpClient,
+        private readonly ParameterBagInterface $parameterBag,
+    ) {
         $this->webhookReceiver = new WebhookReceiver('test', 'test');
     }
 
@@ -37,9 +37,10 @@ class LiveKitEventSyncController extends AbstractController
     public function index(Request $request): Response
     {
         $this->logger->debug('livekit', ['message' => 'receive new livekit event']);
-        $event = null;
+        $event   = null;
         $content = $request->getContent();
         $this->logger->debug('livekit content from request', ['content' => $content]);
+
         try {
             $this->logger->debug('livekit before parsing content');
             $event = $this->webhookReceiver->receive($content, null, true);
@@ -48,37 +49,74 @@ class LiveKitEventSyncController extends AbstractController
             $this->logger->error('livekit error', ['message' => $exception->getMessage()]);
             $this->logger->debug('livekit error', ['message' => 'Invalid event token found']);
 
-            $array = ['authorized' => false];
-            $response = new JsonResponse($array, 401);
+            $array    = ['authorized' => false];
+            $response = new JsonResponse($array, \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
             return $response;
         }
 
-
         $this->logger->debug('livekit event token valid');
-        $eventType = $event->getEvent();
-        $roomName = $event->getRoom()->getName();
-        $room = $this->roomsRepository->findOneBy(['name' => $roomName]);
+        $eventType   = $event->getEvent();
+        $rawRoomName = $event->getRoom()->getName();
+        $this->logger->debug('Roomname in Event', [$rawRoomName]);
+
+        $roomNameParts = explode('@', $rawRoomName);
+        $roomName      = $roomNameParts[0];
+        $roomSid       = $event->getRoom()->getSid();
+        $this->logger->debug('Roomname in Event', [$roomName]);
+        $this->logger->debug('SID in Event', [$roomSid]);
+        $room = $this->roomsRepository->findOneBy(['uid' => $roomName]);
+
+        if ($room) {
+            try {
+                /** @var string $livekitBaseUrl */
+                $livekitBaseUrl = $this->parameterBag->get('LIVEKIT_BASE_URL');
+                $targetUrl      = $room->getServer()->getLivekitMiddlewareUrl() ?: $livekitBaseUrl;
+                $targetUrl      .= '/webhook/recieve';
+                $this->logger->debug('livekit relay', ['target' => $targetUrl]);
+
+                $relayResponse = $this->httpClient->request('POST', $targetUrl, [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                    ],
+                    'body'    => $content,
+                ]);
+
+                $statusCode = $relayResponse->getStatusCode();
+                $relayBody  = $relayResponse->getContent(false); // false to prevent exceptions on non-2xx
+
+                $this->logger->debug('livekit relay response', ['status' => $statusCode, 'body' => $relayBody]);
+            } catch (\Exception $e) {
+                $this->logger->error('livekit relay error', ['message' => $e->getMessage()]);
+            }
+        }
+
+        if (preg_match('/@.*_lobby_/', $rawRoomName)) {
+            $this->logger->info('Lobby-Raum erkannt, Request wird beendet.', ['room' => $rawRoomName]);
+            return new JsonResponse(['status' => 'ignored_lobby_room']);
+        }
+
         $res = ['error' => false];
         $this->logger->debug('livekit Event found', ['event' => $eventType]);
         switch ($eventType) {
             case 'room_finished':
-                $res = $this->webhookService->roomDestroyed(false,
+                $res        = $this->webhookService->roomDestroyed(
+                    false,
                     null,
-                    $event->getRoom()->getSid(),
-                    $event->getCreatedAt()
+                    $roomSid,
+                    (int)$event->getCreatedAt()
                 );
-                $roomStatus = $this->roomStatusRepository->findCreatedRoomsbyJitsiId($event->getRoom()->getSid());
-                if ($roomStatus){
+                $roomStatus = $this->roomStatusRepository->findCreatedRoomsbyJitsiId($roomSid);
+                if ($roomStatus) {
                     $this->egressService->stopAllEgress($roomStatus->getRoom());
                 }
                 break;
             case 'room_started':
                 $res = $this->webhookService->roomCreated(
-                    $event->getRoom()->getName(),
+                    $roomName,
                     false,
                     null,
-                    $event->getRoom()->getSid(),
-                    $event->getRoom()->getCreationTime()
+                    $roomSid,
+                    (int)$event->getRoom()->getCreationTime()
                 );
                 break;
             case 'participant_left':
@@ -86,7 +124,7 @@ class LiveKitEventSyncController extends AbstractController
                     false,
                     null,
                     $event->getParticipant()->getSid(),
-                    $event->getCreatedAt(),
+                    (int)$event->getCreatedAt(),
                     null
                 );
                 break;
@@ -94,9 +132,9 @@ class LiveKitEventSyncController extends AbstractController
                 $res = $this->webhookService->roomParticipantJoin(
                     false,
                     null,
-                    $event->getRoom()->getSid(),
+                    $roomSid,
                     $event->getParticipant()->getSid(),
-                    $event->getParticipant()->getJoinedAt(),
+                    (string)$event->getParticipant()->getJoinedAt(),
                     $event->getParticipant()->getName()
                 );
                 break;
@@ -104,15 +142,14 @@ class LiveKitEventSyncController extends AbstractController
                 $this->logger->debug('unregistered Event found', ['event' => $eventType]);
                 break;
         }
+
         if (!$res) {
             $res = ['error' => false];
         } else {
-            $res = [
-                'error' => $res
-            ];
+            $res = [ 'error' => $res ];
         }
-        return new JsonResponse($res);
 
+        return new JsonResponse($res);
     }
 
 }

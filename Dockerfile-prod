@@ -1,10 +1,11 @@
-FROM thecodingmachine/php:8.3-v4-fpm-node22 AS builder
+FROM thecodingmachine/php:8.4-v5-fpm-node24 AS builder
 ARG VERSION=development
 
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
 ENV PHP_EXTENSION_BCMATH=1
 ENV COMPOSER_MEMORY_LIMIT=-1
+ENV PHP_INI_MEMORY_LIMIT=-1
 
 COPY . /var/www/html
 
@@ -37,12 +38,12 @@ RUN tar \
     --exclude='./var/log' \
     -zcvf /artifact.tgz .
 
-FROM git.h2-invent.com/public-system-design/alpine-php8-cron-webserver:3.20.9
+FROM reg.h2-invent.com/public-system-design/debian-php84-cron-webserver:3.23.11-6782
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
     Maintainer="H2 invent GmbH" \
-    Description="Docker Image der Anwendung Jitsi Admin" \
+    Description="Core Docker Image for Jitsi Admin" \
     org.opencontainers.version="${VERSION}" \
     org.opencontainers.image.title="Jitsi Admin" \
     org.opencontainers.image.license="AGPLv3" \
@@ -54,32 +55,28 @@ LABEL version="${VERSION}" \
 
 USER root
 
-RUN apk --no-cache add \
-    php83-ldap \
-    php83-bcmath \
-    && rm -rf /var/cache/apk/*
-
 RUN echo "Europe/Berlin" > /etc/timezone
 
-RUN mkdir /etc/service/symfony_messenger \
-    && echo "#!/bin/sh -e" > /etc/service/symfony_messenger/run \
-    && echo "exec 2>&1 php -d memory_limit=-1 /var/www/html/bin/console messenger:consume async --memory-limit=512m --env=prod" >> /etc/service/symfony_messenger/run \
-    && chown -R nobody:nobody /etc/service/symfony_messenger \
-    && chmod -R +x /etc/service/symfony_messenger 
-
-RUN echo "# Docker Cron Jobs" > /var/crontab \
-    && echo "SHELL=/bin/sh" >> /var/crontab \
-    && echo "TZ=Europe/Berlin" >> /var/crontab \
-    && echo "*/10 * * * * /bin/sh /distributed_cron.sh '/var/www/html/data/cron_lock' 'sleep 5' 'php /var/www/html/bin/console cron:run'" >> /var/crontab \
-    && echo "" >> /var/crontab \
-    && chown nobody:nobody /var/crontab
+RUN apt update && apt install -y \
+    ffmpeg
 
 RUN echo "#!/bin/sh" > /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console cache:clear" >> /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console doc:mig:mig --no-interaction" >> /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console cache:clear" >> /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console cache:warmup" >> /docker-entrypoint-init.d/03-symfony.sh \
+    && echo "php bin/console app:setup:initial" >> /docker-entrypoint-init.d/03-symfony.sh \
     && chmod +x /docker-entrypoint-init.d/03-symfony.sh
+
+RUN echo "" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.enable=1" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.enable_cli=1" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.preload=/var/www/html/config/preload.php" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.preload_user=nobody" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.memory_consumption=256" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.max_accelerated_files=32531" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.interned_strings_buffer=32" >> /etc/php/active/fpm/conf.d/custom.ini \
+    && echo "opcache.validate_timestamps=0" >> /etc/php/active/fpm/conf.d/custom.ini
 
 USER nobody
 

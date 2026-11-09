@@ -24,7 +24,7 @@
                     value="{{ httpsAbolutUrl(url,room is defined?room:null) }}"
                     disabled="disabled"
             />
-            <button class="btn btn-outline-primary copyLink"
+            <button class="btn btn-outline-bordered copyLink"
                     type="button" id="button-addon2"
                     data-mdb-ripple-color="dark"
                     data-clipboard-text="{{ httpsAbolutUrl(url,room is defined?room:null) }}"
@@ -98,7 +98,7 @@
                         <p>
                         <br>
                     {% elseif  room.callerRoom %}
-                        <p><small>({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}
+                        <p><small>({{ key }}) {{ number }} {{ 'email.sip.roomnumber'|trans }}
                                 : {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#
                                 <a href="#" data-clipboard-text="{{ number }},,,,{{ room.callerRoom.callerId }}#"
                                    class="text-white copyLink">

@@ -13,11 +13,11 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20241203123551 extends AbstractMigration
 {
-    private const TABLE_NAME = 'uploaded_recording';
-    private const COLUMN_NAME_FILENAME = 'filename';
-    private const COLUMN_NAME_ROOM_ID = 'room_id';
-    private const COLUMN_NAME_CREATED_AT = 'created_at';
-    private const COLUMN_NAME_TYPE = 'type';
+    private const string TABLE_NAME = 'uploaded_recording';
+    private const string COLUMN_NAME_FILENAME = 'filename';
+    private const string COLUMN_NAME_ROOM_ID = 'room_id';
+    private const string COLUMN_NAME_CREATED_AT = 'created_at';
+    private const string COLUMN_NAME_TYPE = 'type';
 
     public function getDescription(): string
     {

@@ -19,7 +19,7 @@
       </trans-unit>
       <trans-unit id="LkZyqGT" resname="Konferenz bearbeiten">
         <source>Konferenz bearbeiten</source>
-        <target state="translated">Bitte Konferenz bearbeiten</target>
+        <target state="translated">Konferenz bearbeiten</target>
       </trans-unit>
       <trans-unit id="HAPXOlo" resname="Konferenz erfolgreich erstellt">
         <source>Konferenz erfolgreich erstellt</source>
@@ -27,7 +27,7 @@
       </trans-unit>
       <trans-unit id="HoXvwMv" resname="Neue Konferenz erstellen">
         <source>Neue Konferenz erstellen</source>
-        <target state="translated">Bitte neue Konferenz erstellen</target>
+        <target state="translated">Neue Konferenz erstellen</target>
       </trans-unit>
       <trans-unit id="ElYkn.a" resname="Fehler, Bitte kontrollieren Sie ihre Daten.">
         <source>Fehler, Bitte kontrollieren Sie ihre Daten.</source>
@@ -1025,7 +1025,7 @@
       </trans-unit>
       <trans-unit id="kMS4.OC" resname="Alle Serienelement der Serie bearbeiten">
         <source>Alle Serienelement der Serie bearbeiten</source>
-        <target state="translated">Bitte bearbeiten Sie alle Serienelemente der Serie.</target>
+        <target state="translated">Bearbeiten Sie alle Serienelemente der Serie.</target>
       </trans-unit>
       <trans-unit id="CyrT0si" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
@@ -1157,7 +1157,7 @@
       </trans-unit>
       <trans-unit id="pZTj_Lm" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="translated">Bitte leiten Sie diesen Link an die Teilnehmenden weiter.</target>
+        <target state="translated">Leiten Sie diesen Link an die Teilnehmenden weiter.</target>
       </trans-unit>
       <trans-unit id="tSRnGXc" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
@@ -1185,7 +1185,7 @@
       </trans-unit>
       <trans-unit id="boEqtE1" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="translated">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">Wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
       </trans-unit>
       <trans-unit id="L5CLtca" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1293,7 +1293,27 @@
       </trans-unit>
       <trans-unit id="5FL2Xdx" resname="room.new.help.lobby">
         <source>room.new.help.lobby</source>
-        <target>Bitte für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
+        <target>Für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
+      </trans-unit>
+      <trans-unit id="DiHUDGM" resname="room.new.help.isE2EEEnabled">
+        <source>room.new.help.isE2EEEnabled</source>
+        <target>Aktiviert die Sicherheitsfunktion „Ende-zu-Ende-Verschlüsselung“ für diese Konferenz.</target>
+      </trans-unit>
+      <trans-unit id="n9kfdtZ" resname="room.dashboard.e2ee.title">
+        <source>room.dashboard.e2ee.title</source>
+        <target>Ende-zu-Ende-Verschlüsselung (E2EE)</target>
+      </trans-unit>
+      <trans-unit id="n3f4gc0" resname="room.dashboard.e2ee.help">
+        <source>room.dashboard.e2ee.help</source>
+        <target>Die Inhalte dieser Konferenz sind Ende-zu-Ende verschlüsselt.</target>
+      </trans-unit>
+      <trans-unit id="vBtgsCz" resname="room.dashboard.e2ee.help.enforced">
+        <source>room.dashboard.e2ee.help.enforced</source>
+        <target>Die Inhalte dieser Konferenz sind Ende-zu-Ende verschlüsselt. Der Server erzwingt das für alle Konferenzen.</target>
+      </trans-unit>
+      <trans-unit id="e2sipBl1" resname="room.dashboard.sip.e2ee.blocked">
+        <source>room.dashboard.sip.e2ee.blocked</source>
+        <target>Die Telefoneinwahl ist bei aktiver Ende-zu-Ende-Verschlüsselung nicht möglich. Telefonteilnehmer könnten die verschlüsselten Inhalte nicht hören.</target>
       </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
@@ -1502,7 +1522,7 @@
       </trans-unit>
       <trans-unit id="NrftFQI" resname="participant.resend.invitation.sucess">
         <source>participant.resend.invitation.sucess</source>
-        <target>Die Einladung wurde erfolgreich versandt.</target>
+        <target>Der Teilnehmer wurde erfolgreich eingeladen.</target>
       </trans-unit>
       <trans-unit id="mIUK2UT" resname="secondEmail.help">
         <source>secondEmail.help</source>
@@ -1579,6 +1599,18 @@
       <trans-unit id="928J8pd" resname="addhock.notification.pushMessage">
         <source>addhock.notification.pushMessage</source>
         <target>{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target>Der Teilnehmer ist offline oder nicht angemeldet. Der Anruf kann nicht gestartet werden.</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_NO_ANSWER" resname="addhock.notification.noAnswer">
+        <source>addhock.notification.noAnswer</source>
+        <target>Der Teilnehmer hat nicht geantwortet.</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_DECLINED" resname="addhock.notification.declined">
+        <source>addhock.notification.declined</source>
+        <target>Der Teilnehmer hat den Anruf abgelehnt.</target>
       </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
@@ -1721,6 +1753,10 @@
       <trans-unit id="AohzXJm" resname="email.sip.roomnumber">
         <source>email.sip.roomnumber</source>
         <target>Raumnummer</target>
+      </trans-unit>
+      <trans-unit id="Pn1Prsn" resname="email.sip.personalpin">
+        <source>email.sip.personalpin</source>
+        <target>Persönliche PIN</target>
       </trans-unit>
       <trans-unit id="sIWTG7_" resname="status.offline">
         <source>status.offline</source>
@@ -2222,6 +2258,10 @@
         <source>browser.warning.text</source>
         <target>Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</target>
       </trans-unit>
+      <trans-unit id="bLnK2xT" resname="browser.link.text">
+        <source>browser.link.text</source>
+        <target>Kopieren Sie diesen Link in einen Chromium/Safari basierten Browser:</target>
+      </trans-unit>
       <trans-unit id="17yC6zL" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
         <target>Weiter mit Edge</target>
@@ -2348,11 +2388,15 @@
       </trans-unit>
       <trans-unit id="nYMq8lL" resname="recording.email.title">
         <source>recording.email.title</source>
-        <target>Es wurde eine Aufnahme für die Videokonferenz hochgladen</target>
+        <target>Es wurde eine Aufnahme für die Videokonferenz hochgeladen</target>
       </trans-unit>
       <trans-unit id="cG2pjfJ" resname="recording.email.body">
         <source>recording.email.body</source>
-        <target>Es wurde eine Aufnahme zu der Konfernz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
+        <target>Es wurde eine Aufnahme zu der Konferenz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über die Optionen im Dashboard herunterladen.</target>
+      </trans-unit>
+      <trans-unit id="c27mnLJ" resname="recording.email.body.fastconference">
+        <source>recording.email.body.fastconference</source>
+        <target>Es wurde eine Aufnahme zu der Konferenz {name} hochgeladen. Sie können die Aufzeichnung der Konferenz über diesen Link herunterladen.</target>
       </trans-unit>
       <trans-unit id="NiTNsQy" resname="recording.startSpeakerOnly">
         <source>recording.startSpeakerOnly</source>
@@ -2429,6 +2473,198 @@
       <trans-unit id="p3mIz7q" resname="Mehrere E-Mail-Adressen auf einmal eingeben">
         <source>Mehrere E-Mail-Adressen auf einmal eingeben</source>
         <target>Mehrere E-Mail-Adressen auf einmal eingeben</target>
+      </trans-unit>
+      <trans-unit id="n2SdnDl" resname="meetling Konferenz">
+        <source>meetling Konferenz</source>
+        <target>meetling Konferenz</target>
+      </trans-unit>
+      <trans-unit id="uFBYrBR" resname="meetling">
+        <source>meetling</source>
+        <target>meetling</target>
+      </trans-unit>
+      <trans-unit id="JmOALRn" resname="Sie wurden zu einer Videokonferenz hinzugefügt.">
+        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
+        <target>Sie wurden zu einer Videokonferenz hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit id="vhXQ7u." resname="Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.">
+        <source>Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.</source>
+        <target>Jede Konferenz hat einen eigenen Link den Sie zum beitreten anklicken müssen.</target>
+      </trans-unit>
+      <trans-unit id="Z3Ow33K" resname="Sie wurden zu einer Videokonferenz eingeladen.">
+        <source>Sie wurden zu einer Videokonferenz eingeladen.</source>
+        <target>Sie wurden zu einer Videokonferenz eingeladen.</target>
+      </trans-unit>
+      <trans-unit id="cWEPkYB" resname="options.lookylooky">
+        <source>options.lookylooky</source>
+        <target>Secure Document Share</target>
+      </trans-unit>
+      <trans-unit id="ySnvUZv" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.&#10;Name: {name} &#10;Moderator: {moderator} ">
+        <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
+Name: {name} 
+Moderator: {moderator} </source>
+        <target>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
+Name: {name} 
+Moderator: {moderator} </target>
+      </trans-unit>
+      <trans-unit id="w0B3UQg" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&#10;Konferenz ID: {id} &#10;Ihre E-Mail-Adresse: {email}">
+        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:
+Konferenz ID: {id} 
+Ihre E-Mail-Adresse: {email}</source>
+        <target>Folgende Daten benötigen Sie um der Konferenz beizutreten:
+Konferenz ID: {id} 
+Ihre E-Mail-Adresse: {email}</target>
+      </trans-unit>
+      <trans-unit id="dQuQ3zm" resname="transcription.ready.subject">
+        <source>transcription.ready.subject</source>
+        <target>Transkript bereit für {roomName}</target>
+      </trans-unit>
+      <trans-unit id="sf9Dapx" resname="Zeit und Datum auswählen">
+        <source>Zeit und Datum auswählen</source>
+        <target>Zeit und Datum auswählen</target>
+      </trans-unit>
+      <trans-unit id="ntQ1lBx" resname="CC-E-Mail">
+        <source>CC-E-Mail</source>
+        <target>CC-E-Mail</target>
+      </trans-unit>
+      <trans-unit id="kHIraMt" resname="transcription.ready.text">
+        <source>transcription.ready.text</source>
+        <target>Es wurde eine Transkription zu der Konferenz {roomName} hochgeladen. Sie können die Transkription der Konferenz über die Optionen im Dashboard herunterladen.</target>
+      </trans-unit>
+      <trans-unit id="p7mraxT" resname="transcription.ready.text.fastconference">
+        <source>transcription.ready.text</source>
+        <target>Die Transkription für {roomName} ist fertig und liegt zum Download bereit.</target>
+      </trans-unit>
+      <trans-unit id="2dzwmpu" resname="Klicken Sie hier um das Transkript runterzuladen.">
+        <source>Klicken Sie hier um das Transkript runterzuladen.</source>
+        <target>Klicken Sie hier um das Transkript runterzuladen.</target>
+      </trans-unit>
+      <trans-unit id="wF2hSYC" resname="Einladen">
+        <source>Einladen</source>
+        <target>Einladen</target>
+      </trans-unit>
+      <trans-unit id="73BWd7Q" resname="Suchen">
+        <source>Suchen</source>
+        <target>Suchen</target>
+      </trans-unit>
+      <trans-unit id="7hD4Tt9" resname="Eingeladen">
+        <source>Eingeladen</source>
+        <target>Eingeladen</target>
+      </trans-unit>
+      <trans-unit id="OCUWKbn" resname="Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.">
+        <source>Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.</source>
+        <target>Geben Sie die E-Mail-Adressen der Teilnehmer ein, die Sie einladen möchten.</target>
+      </trans-unit>
+      <trans-unit id="P_hpDEL" resname="Termin hinzufügen">
+        <source>Termin hinzufügen</source>
+        <target>Termin hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="8RvSb2d" resname="Übernehmen">
+        <source>Übernehmen</source>
+        <target>Übernehmen</target>
+      </trans-unit>
+      <trans-unit id="CB8hcji" resname="Ergebnisse">
+        <source>Ergebnisse</source>
+        <target>Ergebnisse</target>
+      </trans-unit>
+      <trans-unit id="V0nRUNJ" resname="Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.">
+        <source>Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.</source>
+        <target>Hier sehen Sie die Abstimmungsergebnisse der Teilnehmer. Wählen Sie den passenden Termin aus, um eine Konferenz zu planen.</target>
+      </trans-unit>
+      <trans-unit id="hosJvXm" resname="Termin löschen">
+        <source>Termin löschen</source>
+        <target>Termin löschen</target>
+      </trans-unit>
+      <trans-unit id="NVRxBaB" resname="Termin wählen und Konferenz planen">
+        <source>Termin wählen und Konferenz planen</source>
+        <target>Termin wählen und Konferenz planen</target>
+      </trans-unit>
+      <trans-unit id="W9itCKb" resname="Termin">
+        <source>Termin</source>
+        <target>Termin</target>
+      </trans-unit>
+      <trans-unit id="DItqb3E" resname="Termine">
+        <source>Termine</source>
+        <target>Termine</target>
+      </trans-unit>
+      <trans-unit id="PVBIN9w" resname="Planen">
+        <source>Planen</source>
+        <target>Planen</target>
+      </trans-unit>
+      <trans-unit id="aPyOdXY" resname="Sofort">
+        <source>Sofort</source>
+        <target>Sofort</target>
+      </trans-unit>
+      <trans-unit id="newContact" resname="Neuer Kontakt">
+        <source>Neuer Kontakt</source>
+        <target>Neuer Kontakt</target>
+      </trans-unit>
+      <trans-unit id="emailAddress" resname="E-Mail-Adresse">
+        <source>E-Mail-Adresse</source>
+        <target>E-Mail-Adresse</target>
+      </trans-unit>
+      <trans-unit id="groupNameExists" resname="Es existiert bereits eine Gruppe mit diesem Namen.">
+        <source>Es existiert bereits eine Gruppe mit diesem Namen.</source>
+        <target>Es existiert bereits eine Gruppe mit diesem Namen.</target>
+      </trans-unit>
+      <trans-unit id="enterEmail" resname="Bitte geben Sie eine E-Mail-Adresse ein.">
+        <source>Bitte geben Sie eine E-Mail-Adresse ein.</source>
+        <target>Bitte geben Sie eine E-Mail-Adresse ein.</target>
+      </trans-unit>
+      <trans-unit id="enterValidEmail" resname="Bitte geben Sie eine gültige E-Mail-Adresse ein.">
+        <source>Bitte geben Sie eine gültige E-Mail-Adresse ein.</source>
+        <target>Bitte geben Sie eine gültige E-Mail-Adresse ein.</target>
+      </trans-unit>
+      <trans-unit id="cannotAddSelf" resname="Sie können sich nicht selbst hinzufügen.">
+        <source>Sie können sich nicht selbst hinzufügen.</source>
+        <target>Sie können sich nicht selbst hinzufügen.</target>
+      </trans-unit>
+      <trans-unit id="contactAlreadyExists" resname="Der Kontakt ist bereits im Adressbuch.">
+        <source>Der Kontakt ist bereits im Adressbuch.</source>
+        <target>Der Kontakt ist bereits im Adressbuch.</target>
+      </trans-unit>
+      <trans-unit id="userNotFoundByEmail" resname="Kein Benutzer mit dieser E-Mail-Adresse gefunden.">
+        <source>Kein Benutzer mit dieser E-Mail-Adresse gefunden.</source>
+        <target>Kein Benutzer mit dieser E-Mail-Adresse gefunden.</target>
+      </trans-unit>
+      <trans-unit id="notFound" resname="Nicht gefunden">
+        <source>Nicht gefunden</source>
+        <target>Nicht gefunden</target>
+      </trans-unit>
+      <trans-unit id="RoomCannotBeChangedDuringSession" resname="Die Konferenz kann während einer laufenden Sitzung nicht geändert werden">
+        <source>Die Konferenz kann während einer laufenden Sitzung nicht geändert werden</source>
+        <target state="translated">Die Konferenz kann während einer laufenden Sitzung nicht geändert werden.</target>
+      </trans-unit>
+      <trans-unit id="oWIBNXX" resname="enterprise.settings.transcription">
+        <source>enterprise.settings.transcription</source>
+        <target>Transkript Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="VitJXBB" resname="transcription.modal.title">
+        <source>transcription.modal.title</source>
+        <target>Transkripte von Videokonferenzen</target>
+      </trans-unit>
+      <trans-unit id="N93tNXa">
+        <source>Transkripte</source>
+        <target>Transkripte</target>
+      </trans-unit>
+      <trans-unit id="3hdoEuh" resname="recording.toggleTranscription">
+          <source>Transkription aktivieren</source>
+          <target>Transkription aktivieren</target>
+      </trans-unit>
+      <trans-unit id="7kpQmRw" resname="recording.dropdownTitle">
+          <source>Recording</source>
+          <target>Recording</target>
+      </trans-unit>
+      <trans-unit id="hSt4nDb" resname="Hot Standby">
+        <source>Hot Standby</source>
+        <target state="translated">Hot Standby</target>
+      </trans-unit>
+      <trans-unit id="hSt4nOk" resname="Hot Standby Einstellung erfolgreich gespeichert">
+        <source>Hot Standby Einstellung erfolgreich gespeichert</source>
+        <target state="translated">Hot Standby Einstellung erfolgreich gespeichert</target>
+      </trans-unit>
+      <trans-unit id="hSt4nEr" resname="Fehler beim Speichern der Hot Standby Einstellung">
+        <source>Fehler beim Speichern der Hot Standby Einstellung</source>
+        <target state="translated">Fehler beim Speichern der Hot Standby Einstellung</target>
       </trans-unit>
     </body>
   </file>

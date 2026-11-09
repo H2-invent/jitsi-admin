@@ -10,25 +10,43 @@
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
+/**
+ * @extends AbstractType<array<string, mixed>>
+ */
 class PublicRegisterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
-            ->add('firstName', TextType::class, ['attr' => ['placeholder' => 'label.vorname'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('lastName', TextType::class, ['attr' => ['placeholder' => 'label.nachname'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('email', TextType::class, ['attr' => ['placeholder' => 'label.email'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('subscribe', SubmitType::class, ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.subscribe', 'translation_domain' => 'form']);
+            ->add(
+                'firstName',
+                TextType::class,
+                ['attr' => ['placeholder' => 'label.vorname'], 'constraints' => [new Length(['max' => 255])], 'label' => 'label.vorname', 'required' => true, 'translation_domain' => 'form']
+            )
+            ->add(
+                'lastName',
+                TextType::class,
+                ['attr' => ['placeholder' => 'label.nachname'], 'constraints' => [new Length(['max' => 255])], 'label' => 'label.nachname', 'required' => true, 'translation_domain' => 'form']
+            )
+            ->add(
+                'email',
+                TextType::class,
+                ['attr' => ['placeholder' => 'label.email'], 'constraints' => [new Length(['max' => 255])], 'label' => 'label.email', 'required' => true, 'translation_domain' => 'form']
+            )
+            ->add(
+                'subscribe',
+                SubmitType::class,
+                ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.subscribe', 'translation_domain' => 'form']
+            );
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
     }
 }

@@ -18,9 +18,14 @@ class OwnRoomJoinTest extends WebTestCase
     {
         $client = static::createClient();
         $room = $this->getRoomByName('Room with Start and no Participants list');
+    
+        $room->setStart((new \DateTimeImmutable())->modify('+2 hours'));
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+    
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $urlGen = $this->getContainer()->get(UrlGeneratorInterface::class);
-
         $url = $urlGen->generate('join_index_no_slug', ['snack' => 'Der Beitritt ist nur von ' . $room->getStart()->modify('-30min')->format('d.m.Y H:i T') . ' bis ' . $room->getEnddate()->format('d.m.Y H:i T') . ' möglich']);
         self::assertTrue($client->getResponse()->isRedirect());
     }
@@ -29,7 +34,7 @@ class OwnRoomJoinTest extends WebTestCase
     {
         $client = static::createClient();
         $room = $this->getRoomByName('Room with Start and no Participants list');
-        $room->setStart((new \DateTime())->modify('+15min'));
+        $room->setStart((new \DateTimeImmutable())->modify('+15min'));
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($room);
         $em->flush();
@@ -48,7 +53,7 @@ class OwnRoomJoinTest extends WebTestCase
     {
         $client = static::createClient();
         $room = $this->getRoomByName('Room with Start and no Participants list');
-        $room->setStart((new \DateTime())->modify('+15min'));
+        $room->setStart((new \DateTimeImmutable())->modify('+15min'));
         $server = $room->getServer();
         $server->setLicenseKey(null);
         $em = self::getContainer()->get(EntityManagerInterface::class);
@@ -68,7 +73,7 @@ class OwnRoomJoinTest extends WebTestCase
     {
         $client = static::createClient();
         $room = $this->getRoomByName('Room with Start and no Participants list');
-        $room->setStart((new \DateTime())->modify('+15min'));
+        $room->setStart((new \DateTimeImmutable())->modify('+15min'));
         $server = $room->getServer();
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($room);
@@ -91,7 +96,7 @@ class OwnRoomJoinTest extends WebTestCase
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
         $room = $this->getRoomByName('Room with Start and no Participants list');
-        $room->setStart((new \DateTime())->modify('+15min'));
+        $room->setStart((new \DateTimeImmutable())->modify('+15min'));
         $server = $room->getServer();
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($room);
@@ -128,7 +133,7 @@ class OwnRoomJoinTest extends WebTestCase
         $manager->persist($room);
         $manager->flush();
 
-        $room->setStart((new \DateTime())->modify('+15min'));
+        $room->setStart((new \DateTimeImmutable())->modify('+15min'));
         $server = $room->getServer();
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($room);
@@ -157,13 +162,13 @@ class OwnRoomJoinTest extends WebTestCase
         $url = self::getContainer()->get(UrlGeneratorInterface::class);
         $room = $this->getRoomByName('Room with Start and no Participants list');
         $manager = $this->getContainer()->get(EntityManagerInterface::class);
-        $room->setStart((new \DateTime())->modify('+10min'));
+        $room->setStart((new \DateTimeImmutable())->modify('+10min'));
         $manager->persist($room);
         $manager->flush();
         $crawler = $client->request('GET', '/mywaiting/check/' . $room->getUid() . '/Test User 123/b');
         $this->assertResponseIsSuccessful();
         $this->assertEquals('{"error":true}', $client->getResponse()->getContent());
-        $room->setStart((new \DateTime())->modify('-10min'));
+        $room->setStart((new \DateTimeImmutable())->modify('-10min'));
         $manager->persist($room);
         $manager->flush();
         $urlGenService = self::getContainer()->get(RoomService::class);
@@ -187,13 +192,13 @@ class OwnRoomJoinTest extends WebTestCase
         $manager->persist($room);
         $manager->flush();
         $manager = $this->getContainer()->get(EntityManagerInterface::class);
-        $room->setStart((new \DateTime())->modify('+10min'));
+        $room->setStart((new \DateTimeImmutable())->modify('+10min'));
         $manager->persist($room);
         $manager->flush();
         $crawler = $client->request('GET', '/mywaiting/check/' . $room->getUid() . '/Test User 123/b');
         $this->assertResponseIsSuccessful();
         $this->assertEquals('{"error":true}', $client->getResponse()->getContent());
-        $room->setStart((new \DateTime())->modify('-10min'));
+        $room->setStart((new \DateTimeImmutable())->modify('-10min'));
         $manager->persist($room);
         $manager->flush();
         $urlGenService = self::getContainer()->get(RoomService::class);
@@ -212,7 +217,7 @@ class OwnRoomJoinTest extends WebTestCase
     {
         $client = static::createClient();
         $room = $this->getRoomByName('Room with Start and no Participants list and Lobby Activated');
-        $room->setStart((new \DateTime())->modify('+15min'));
+        $room->setStart((new \DateTimeImmutable())->modify('+15min'));
         $server = $room->getServer();
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($room);
@@ -243,7 +248,7 @@ class OwnRoomJoinTest extends WebTestCase
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
         $room = $this->getRoomByName('Room with Start and no Participants list and Lobby Activated');
-        $room->setStart((new \DateTime())->modify('+15min'));
+        $room->setStart((new \DateTimeImmutable())->modify('+15min'));
         $server = $room->getServer();
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($room);
@@ -295,7 +300,7 @@ class OwnRoomJoinTest extends WebTestCase
         $manager->persist($room);
         $manager->flush();
 
-        $room->setStart((new \DateTime())->modify('+15min'));
+        $room->setStart((new \DateTimeImmutable())->modify('+15min'));
         $server = $room->getServer();
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($room);
@@ -353,6 +358,92 @@ class OwnRoomJoinTest extends WebTestCase
 //        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
         self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
     }
+    public function test_hasNoStart_isModerator_NoLobby_with_NamePreset(): void
+    {
+        $client = static::createClient();
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $client->loginUser($user);
+        $room = $this->getRoomByName('This Room has no participants and fixed room');
+        $room->getServer()->setLiveKitServer(true);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+        $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid().'?userName=Testuser');
+
+        self::assertResponseIsSuccessful();
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $urlGenService = self::getContainer()->get(RoomService::class);
+        self::assertStringContainsString( $urlGenService->generateJwt($room, $user, 'Testuser'), $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+    }
+
+    public function test_hasNoStart_isModerator_NoLobby_with_NamePreset_and_Skip_Lobby(): void
+    {
+        $client = static::createClient();
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $client->loginUser($user);
+        $room = $this->getRoomByName('This Room has no participants and fixed room');
+        $room->getServer()->setLiveKitServer(true);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+        $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid().'?userName=Testuser&skipLobby=true');
+
+        self::assertResponseIsSuccessful();
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $urlGenService = self::getContainer()->get(RoomService::class);
+        self::assertStringContainsString( $urlGenService->generateJwt($room, $user, 'Testuser',skipLobby: "true"), $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+    }
+    public function test_hasNoStart_isModerator_NoLobby_with_NamePreset_and_Skip_Lobby_and_enableMic(): void
+    {
+        $client = static::createClient();
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $client->loginUser($user);
+        $room = $this->getRoomByName('This Room has no participants and fixed room');
+        $room->getServer()->setLiveKitServer(true);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+        $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid().'?userName=Testuser&enableMic=true');
+
+        self::assertResponseIsSuccessful();
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $urlGenService = self::getContainer()->get(RoomService::class);
+        self::assertStringContainsString($urlGenService->generateJwt($room, $user, 'Testuser',enableMic: "true"), $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+    }
+    public function test_hasNoStart_isModerator_NoLobby_with_NamePreset_and_Skip_Lobbby_and_enaleCamera(): void
+    {
+        $client = static::createClient();
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $client->loginUser($user);
+        $room = $this->getRoomByName('This Room has no participants and fixed room');
+        $room->getServer()->setLiveKitServer(true);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($room);
+        $em->flush();
+        $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid().'?userName=Testuser&enableCamera=true');
+
+        self::assertResponseIsSuccessful();
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $urlGenService = self::getContainer()->get(RoomService::class);
+        self::assertStringContainsString($urlGenService->generateJwt($room, $user, 'Testuser',enableCamera: "true"), $client->getResponse()->getContent());
+        self::assertStringContainsString("displayName: 'Testuser'", $client->getResponse()->getContent());
+//        self::assertStringContainsString(" roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/" . $room->getUid() . "'", $client->getResponse()->getContent());
+        self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
+    }
+
     public function test_hasNoStart_isModerator_NoLobbyWithPrefix(): void
     {
         $client = static::createClient();

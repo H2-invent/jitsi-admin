@@ -8,20 +8,20 @@ use App\Helper\JitsiAdminController;
 use App\Service\AdminService;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdminController extends JitsiAdminController
 {
-    #[Route(path: '/admin/server/{server}', name: 'admin_server')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/admin/server/{server}', name: 'admin_server')]
     public function server(
-        ParameterBagInterface $parameterBag,
+        ParameterBagInterface             $parameterBag,
         #[MapEntity(id: 'server')] Server $server,
-        AdminService $adminService,
-        HttpClientInterface $httpClient,
-        TranslatorInterface $translator)
-    {
+        AdminService                      $adminService,
+        HttpClientInterface               $httpClient,
+        TranslatorInterface               $translator
+    ): Response {
         $countPart = 0;
         foreach ($server->getRooms() as $room) {
             $countPart = $countPart + count($room->getUser());
@@ -29,34 +29,26 @@ class AdminController extends JitsiAdminController
 
         if (!in_array($this->getUser(), $server->getUser()->toArray())) {
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
-             return $this->redirectToRoute('dashboard');
-        }
-        $tags = null;
-        try {
-            if ($parameterBag->get('enterprise_noExternal') == 0) {
-                $req = $httpClient->request('GET', 'https://api.github.com/repos/H2-invent/jitsi-admin/tags');
-                $tags = json_decode($req->getContent(), true);
-            }
-        } catch (\Exception $exception) {
-            $tags = null;
+            return $this->redirectToRoute('dashboard');
         }
 
-        $chart = $adminService->createChart($server);
+
+        $chart     = $adminService->createChart($server);
         $lastStars = $this->doctrine->getRepository(Star::class)->findBy(['server' => $server], ['createdAt' => 'DESC'], 5);
-        $average = 0;
+        $average   = 0;
         foreach ($lastStars as $data) {
             $average += $data->getStar();
         }
         if (sizeof($lastStars) > 0) {
             $average = $average / sizeof($lastStars);
         }
+
         return $this->render(
             'admin/modalChart.html.twig',
             [
-                'server' => $server,
-                'countPart' => $countPart,
-                'chart' => $chart,
-                'tags' => $tags,
+                'server'      => $server,
+                'countPart'   => $countPart,
+                'chart'       => $chart,
                 'lastAverage' => $average
             ]
         );

@@ -20,7 +20,6 @@ export function initStatus() {
         }
         var target = this.closest('.profile').querySelector('.profileLine');
         profillLine.dataset.status = this.dataset.status;
-        document.getElementById('onlineSelector').innerHTML = this.innerText;
         status = this.dataset.status;
         setStatus();
     })
@@ -77,11 +76,6 @@ export function setMyStatus(status) {
     var switcher = document.getElementById('onlineSelector')
     if (switcher) {
         profillLine.dataset.status = status;
-        var query = '.changeStatus[data-status="' + status + '"]';
-        var source = document.querySelector(query)
-        var text = source.innerText;
-
-        switcher.innerHTML = text;
     }
 
 }

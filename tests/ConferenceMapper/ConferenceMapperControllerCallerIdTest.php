@@ -5,6 +5,8 @@ namespace App\Tests\ConferenceMapper;
 use App\Entity\RoomStatus;
 use App\Repository\CallerRoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ConferenceMapperControllerCallerIdTest extends WebTestCase
@@ -27,11 +29,11 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $status = new RoomStatus();
         $status->setRoom($callerRoom->getRoom())
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $callerRoom->getRoom()->getServer()->setJigasiProsodyDomain('testdomain.com');
         $manager->flush();
@@ -42,17 +44,17 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
         $res = $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
 
-        self::assertEquals(
-            json_encode(
-                [
-                    'state' => 'STARTED',
-                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJVc2VyMiwgVGVzdDIsIHRlc3RAbG9jYWwyLmRlIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.tBl3a2rCTYla8Bxeg3kSxPLenTgnUuZIURHQoxSPvbY',
-                    'room_name' => '123456780@testdomain.com',
-                    "display_name" => "User2, Test2, test@local2.de"
-                ]
-            ),
-            $res
-        );
+        $result = json_decode($res, true, 512, JSON_THROW_ON_ERROR);
+        self::assertEquals('STARTED', $result['state']);
+        self::assertEquals($callerRoom->getRoom()->getUid() . '@testdomain.com', $result['room_name']);
+        self::assertEquals('User2, Test2, test@local2.de', $result['display_name']);
+
+        $decoded = JWT::decode($result['jwt'], new Key($callerRoom->getRoom()->getServer()->getAppSecret(), 'HS256'));
+        self::assertEquals('jitsi_admin', $decoded->aud);
+        self::assertEquals('jitsiId', $decoded->iss);
+        self::assertEquals('meet.jit.si2', $decoded->sub);
+        self::assertEquals($callerRoom->getRoom()->getUid(), $decoded->room);
+        self::assertEquals('User2, Test2, test@local2.de', $decoded->context->user->name);
     }
 
     public function testRoomStartedCallerIdtoNameNotFound(): void
@@ -71,11 +73,11 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $status = new RoomStatus();
         $status->setRoom($callerRoom->getRoom())
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $callerRoom->getRoom()->getServer()->setJigasiProsodyDomain('testdomain.com');
         $manager->flush();
@@ -86,16 +88,16 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
         $res = $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
 
-        self::assertEquals(
-            json_encode(
-                [
-                    'state' => 'STARTED',
-                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiIwMDk4NzY1NDU1MzI1In19LCJtb2RlcmF0b3IiOmZhbHNlfQ.f_A4MtvIEUJ06FWTmimXbCiEP98JcYrHfYJAabNu29M',
-                    'room_name' => '123456780@testdomain.com',
-                    "display_name" => "0098765455325"
-                ]
-            ),
-            $res
-        );
+        $result = json_decode($res, true, 512, JSON_THROW_ON_ERROR);
+        self::assertEquals('STARTED', $result['state']);
+        self::assertEquals($callerRoom->getRoom()->getUid() . '@testdomain.com', $result['room_name']);
+        self::assertEquals('0098765455325', $result['display_name']);
+
+        $decoded = JWT::decode($result['jwt'], new Key($callerRoom->getRoom()->getServer()->getAppSecret(), 'HS256'));
+        self::assertEquals('jitsi_admin', $decoded->aud);
+        self::assertEquals('jitsiId', $decoded->iss);
+        self::assertEquals('meet.jit.si2', $decoded->sub);
+        self::assertEquals($callerRoom->getRoom()->getUid(), $decoded->room);
+        self::assertEquals('0098765455325', $decoded->context->user->name);
     }
 }

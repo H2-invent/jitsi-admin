@@ -2,7 +2,7 @@
 
 namespace App\Tests\LDAP;
 
-use App\dataType\LdapType;
+use App\DataType\LdapType;
 use App\Entity\CallerId;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Notification;
@@ -13,8 +13,8 @@ use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
 use App\Service\IndexUserService;
-use App\Service\ldap\LdapService;
-use App\Service\ldap\LdapUserService;
+use App\Service\Ldap\LdapService;
+use App\Service\Ldap\LdapUserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -114,7 +114,8 @@ class LdapUserServiceTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneBy(['username' => 'UnitTest1']);
         $this->assertNotEquals(null, $ldapUserService->checkUserInLdap($user, $ldapConnection));
-        $user->getLdapUserProperties()->setLdapDn('uid=unitTest100,o=unitTest,dc=example,dc=com');
+        $user->getLdapUserProperties()->setLdapDn('uid=unitTest156,o=unitTest,dc=example,dc=com');
+        $user->setUsername('unitTest156');
         $this->assertEquals(null, $ldapUserService->checkUserInLdap($user, $ldapConnection));
 
         $ldapUserService->deleteUser($user);
@@ -260,8 +261,8 @@ class LdapUserServiceTest extends WebTestCase
         $room = new Rooms();
         $room->setModerator($user);
         $room->addUser($user);
-        $room->setStart(new \DateTime());
-        $room->setEnddate((new \DateTime())->modify('+60min'));
+        $room->setStart(new \DateTimeImmutable());
+        $room->setEnddate((new \DateTimeImmutable())->modify('+60min'));
         $room->setDuration(60);
         $room->setName('testRaum');
         $room->setServer($server);
@@ -331,7 +332,8 @@ class LdapUserServiceTest extends WebTestCase
         $users = $userRepository->findUsersfromLdapService();
         $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES, sizeof($users));
         $user = $userRepository->findOneBy(['username' => 'unitTest1']);
-        $user->getLdapUserProperties()->setLdapDn('uid=unitTest100,o=unitTest,dc=example,dc=com');
+        $user->getLdapUserProperties()->setLdapDn('uid=unitTest10,o=unitTest,dc=example,dc=com');
+        $user->setUsername('invalidLdapUsername');
         $em = static::getContainer()->get(EntityManagerInterface::class);
         $em->persist($user);
         $em->flush();
@@ -520,7 +522,7 @@ class LdapUserServiceTest extends WebTestCase
         $lobbyUSer = new LobbyWaitungUser();
         $lobbyUSer->setUser($user);
         $lobbyUSer->setRoom($room);
-        $lobbyUSer->setCreatedAt(new \DateTime());
+        $lobbyUSer->setCreatedAt(new \DateTimeImmutable());
         $lobbyUSer->setUid('test');
         $lobbyUSer->setShowName('test');
         $lobbyUSer->setType('a');
@@ -528,7 +530,7 @@ class LdapUserServiceTest extends WebTestCase
         $em->flush();
 
         $wait = new Waitinglist();
-        $wait->setCreatedAt(new \DateTime());
+        $wait->setCreatedAt(new \DateTimeImmutable());
         $wait->setRoom($room);
         $wait->setUser($user);
 
@@ -537,7 +539,7 @@ class LdapUserServiceTest extends WebTestCase
 
         $user->addFavorite($room);
         $notification = new Notification();
-        $notification->setCreatedAt(new \DateTime());
+        $notification->setCreatedAt(new \DateTimeImmutable());
         $notification->setUser($user);
         $notification->setUrl('test');
         $notification->setText('test');
@@ -547,7 +549,7 @@ class LdapUserServiceTest extends WebTestCase
 
         $callerID = new CallerId();
         $callerID->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setUser($user)
             ->setCallerId('tesstId');
         $em->persist($callerID);

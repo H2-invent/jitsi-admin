@@ -4,11 +4,11 @@
               style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</span>
     {% endif %}
 
-    {% if RoomStatusOpen(room) == true %}
+    {% if roomStatusOpenMap[room.id] is defined %}
         <div class="occupant">
             <div class="number">
                 <small>
-                    {{ 'status.inconference.number'|trans( {'{number}' : RoomStatusOccupats(room)|length}) }}
+                    {{ 'status.inconference.number'|trans( {'{number}' : roomStatusOccupantsMap[room.id]|default([])|length}) }}
 
                 </small>
                 <a tabindex="0"
@@ -16,7 +16,7 @@
                    data-mdb-trigger="focus"
                    data-mdb-html="true"
                    title="{{ 'status.inconference'|trans }}"
-                   data-mdb-content="{% for u in RoomStatusOccupats(room) %}{{ u.participantName }}<br>{% endfor %}"><i
+                   data-mdb-content="{% for name in roomStatusOccupantsMap[room.id]|default([]) %}{{ name }}<br>{% endfor %}"><i
                             class="fa fa-info-circle"></i>
                 </a>
             </div>
@@ -27,7 +27,7 @@
 
         </div>
     {% endif %}
-    {% if RoomStatusClosed(room) == true %}
+    {% if roomStatusClosedMap[room.id] is defined and roomStatusClosedMap[room.id] is same as(true) %}
         <div class="occupant text-danger">
             <div class="text">
                 {{ 'status.finished'|trans }}
@@ -53,7 +53,6 @@
             {% endif %}
 
             {{ 'Organisator'|trans }}</span>
-        <br>
     {% endif %}
 
 
@@ -69,18 +68,14 @@
         >
             <span class="badge badge-danger" {% if theme %} style="background-color: {{ theme.colorBadgeShedule }} !important;" {% endif %}>{{ 'Terminplaner'|trans }}</span>
         </a>
-        <br>
     {% endif %}
     {% if app.user == room.onlyRegisteredUsers %}
         <span class="badge badge-warning" {% if theme %} style="background-color: {{ theme.colorBadgeInternal }} !important;" {% endif %}>{{ 'Intern'|trans }}</span>
-        <br>
     {% endif %}
 
     {% if room.repeater is not null %}
         <span class="badge badge-warning" {% if theme %} style="background-color: {{ theme.colorBadgeSeries }} !important;" {% endif %}>{{ 'Serie'|trans }}</span>
-        <br>
     {% endif %}
-
 
 </div>
 <div class="col-md-4">
@@ -93,12 +88,34 @@
         {% endif %}<a href="{{ path('room_favorite_toogle',{'uid':room.uidReal}) }}"><i
                     class="{{ room in app.user.favorites?'fa':'far' }} fa-star"></i> </a>
         {% if getApplicationProperties('SIP_SHOW_ROOMNUMBER_IN_DETAILS') == 1 and  room.callerRoom and getJigasiNumber(room)|length > 0 %}
+            {% if room.isE2EEActive %}
+            {# Phone participants can not decrypt E2EE media, so the dial-in is shown struck through and the api refuses the call #}
+            <a tabindex="0"
+               class="sipDialInBlocked text-muted"
+                data-mdb-popover-init
+               data-mdb-html="true"
+               title="{{ 'email.sip.number'|trans }}"
+               data-mdb-content="
+               <p>{{ 'room.dashboard.sip.e2ee.blocked'|trans }}</p>
+               <p><s>{{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</s></p>
+    {% for key,n in getJigasiNumber(room) %}
+    {% for number in n %}
+    <p><s>({{ key }}) {{ number }}</s></p>
+            <br>
+
+        {% endfor %}
+        {% endfor %}"><i
+                        class="fa fa-phone-slash"></i></a>
+            {% else %}
             <a tabindex="0"
                 data-mdb-popover-init
                data-mdb-html="true"
                title="{{ 'email.sip.number'|trans }}"
                data-mdb-content="
-               <p>{{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</p>
+               <p>{{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</p>
+               {% if room.lobby and getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and app.user and sipPinFromRoomAndUser(room, app.user) is not null %}
+               <p>{{ 'email.sip.personalpin'|trans }}: {{ sipPinFromRoomAndUser(room, app.user).callerId|addRepetiveCharacters(' ',3) }}#</p>
+               {% endif %}
     {% for key,n in getJigasiNumber(room) %}
     {% for number in n %}
     <p> ({{ key }}) {{ number }} </p>
@@ -107,6 +124,7 @@
         {% endfor %}
         {% endfor %}"><i
                         class="fa fa-phone"></i></a>
+            {% endif %}
         {% endif %}
 
         <a tabindex="0"
@@ -117,6 +135,16 @@
            data-mdb-content="{% if room.agenda is not null %}{{ room.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
                     class="fa fa-info-circle"></i>
         </a>
+
+        {% if room.isE2EEEnabled or room.server.isEnforceE2e %}
+            <a tabindex="0"
+                data-mdb-popover-init
+               data-mdb-trigger="focus"
+               title="{{ 'room.dashboard.e2ee.title'|trans }}"
+               data-mdb-content="{{ (room.server.isEnforceE2e ? 'room.dashboard.e2ee.help.enforced' : 'room.dashboard.e2ee.help')|trans }}"><i
+                        class="fa-solid fa-lock"></i>
+            </a>
+        {% endif %}
     </h5>
 
 

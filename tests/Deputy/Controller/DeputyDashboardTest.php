@@ -27,7 +27,7 @@ class DeputyDashboardTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = 'test von deputy';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d') . 'T' . (new \DateTime())->format('H:i');
+        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d') . 'T' . (new \DateTimeImmutable())->format('H:i');
         $form['room[duration]'] = "60";
         $client->submit($form);
 
@@ -44,7 +44,7 @@ class DeputyDashboardTest extends WebTestCase
         $deputyEle = new Deputy();
         $deputyEle->setDeputy($deputy)
             ->setManager($master)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setIsFromLdap(false);
         $master->addManagerElement($deputyEle);
         $deputy->addDeputiesElement($deputyEle);
@@ -58,7 +58,7 @@ class DeputyDashboardTest extends WebTestCase
         $conf = $crawler->filter('#room_card' . $room->getUidReal())->count();
         self::assertEquals($conf, 1);
         self::assertStringContainsString('Private Konferenz', $crawler->filter('#room_card' . $room->getUidReal())->text());
-        $conf = $crawler->filter('#room_card' . $room->getUidReal() . ' .startDropdown')->count();
+        $conf = $crawler->filter('#room_card' . $room->getUidReal() . ' .startIframe')->count();
         self::assertEquals($conf, 0);
         $conf = $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-edit')->count();
         self::assertEquals($conf, 0);
@@ -94,7 +94,7 @@ class DeputyDashboardTest extends WebTestCase
         $form['room[server]'] = $server->getId();
         $form['room[moderator]'] = $master->getId();
         $form['room[name]'] = 'test von deputy';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d') . 'T' . (new \DateTime())->format('H:i');
+        $form['room[start]'] = (new \DateTimeImmutable())->format('Y-m-d') . 'T' . (new \DateTimeImmutable())->format('H:i');
         $form['room[duration]'] = "60";
         $client->submit($form);
 

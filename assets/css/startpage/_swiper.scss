@@ -15,6 +15,7 @@ $colors: (
 :root {
   --swiper-theme-color: #{$themeColor};
 }
+.swiper,
 .swiper-container {
   margin-left: auto;
   margin-right: auto;
@@ -25,6 +26,7 @@ $colors: (
   /* Fix of Webkit flickering */
   z-index: 1;
 }
+.swiper-vertical > .swiper-wrapper,
 .swiper-container-vertical > .swiper-wrapper {
   flex-direction: column;
 }

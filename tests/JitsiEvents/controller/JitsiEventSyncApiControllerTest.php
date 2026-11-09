@@ -4,7 +4,7 @@ namespace App\Tests\JitsiEvents\controller;
 
 use App\Entity\RoomStatus;
 use App\Repository\RoomStatusRepository;
-use App\Service\api\EventSyncApiService;
+use App\Service\Api\EventSyncApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -15,7 +15,7 @@ class JitsiEventSyncApiControllerTest extends WebTestCase
         $client = static::createClient([],['HTTP_AUTHORIZATION' => 'Bearer 123456']);
         $crawler = $client->request('POST', '/api/v1/event/sync/?room_uid=00000',);
         $this->assertResponseIsSuccessful();
-        self::assertJsonStringEqualsJsonString('{"status":"ROOOM_CLOSED"}',$client->getResponse()->getContent());
+        self::assertJsonStringEqualsJsonString('{"status":"ROOM_CLOSED"}',$client->getResponse()->getContent());
     }
     public function testRoomStarted(): void
     {
@@ -24,9 +24,9 @@ class JitsiEventSyncApiControllerTest extends WebTestCase
         $roomsStatus = new RoomStatus();
         $roomsStatus->setJitsiRoomId('123456|meet.jit.si')
             ->setCreated(true)
-            ->setUpdatedAt(new \DateTime())
-            ->setRoomCreatedAt(new \DateTime())
-        ->setCreatedAt(new \DateTime());
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+        ->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($roomsStatus);
         $manager->flush();
 

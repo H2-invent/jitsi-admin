@@ -10,14 +10,11 @@ use Symfony\Component\HttpClient\HttpClient;
 
 class FavoriteService
 {
-    private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
-    public function changeFavorite(User $user, Rooms $room)
+    public function changeFavorite(User $user, Rooms $room): bool
     {
         if (in_array($user, $room->getUser()->toArray())) {
             if (in_array($room, $user->getFavorites()->toArray())) {
@@ -30,30 +27,41 @@ class FavoriteService
         } else {
             return false;
         }
+
         return true;
     }
 
-    public function cleanFavorites(User $user)
+    public function cleanFavorites(User $user): void
     {
-        $favs = $user->getFavorites();
-        $now = (new \DateTime())->setTimezone(new \DateTimeZone('utc'));
-        foreach ($favs as $data) {
-            if ($data->getPersistantRoom() !== true && $data->getScheduleMeeting() !== true && $data->getEndDateUtc() < $now) {
-                $user->removeFavorite($data);
+        $favorites = $user->getFavorites();
+        $now       = new \DateTimeImmutable()->setTimezone(new \DateTimeZone('utc'));
+        $changed   = false;
+
+        foreach ($favorites as $favorite) {
+            if (!$favorite->getUser()->contains($user)
+                || ($favorite->getPersistantRoom() !== true
+                    && $favorite->getScheduleMeeting() !== true
+                    && $favorite->getEndDateUtc() < $now)
+            ) {
+                $user->removeFavorite($favorite);
+                $changed = true;
             }
         }
-        $this->em->persist($user);
-        $this->em->flush();
+
+        if ($changed) {
+            $this->em->persist($user);
+            $this->em->flush();
+        }
     }
 
-    public function sendMe()
+    public function sendMe(): void
     {
         try {
             $browser = new HttpBrowser(HttpClient::create());
             $browser->followMetaRefresh(true);
             $link = $browser->request('GET', 'https://h2-invent.github.io/jitsi-admin/');
-            $res = $link->text();
-        } catch (\Exception $exception) {
+            $res  = $link->text();
+        } catch (\Exception) {
         }
     }
 }

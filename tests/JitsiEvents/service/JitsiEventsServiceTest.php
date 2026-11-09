@@ -5,7 +5,7 @@ namespace App\Tests\JitsiEvents\service;
 use App\Entity\RoomStatusParticipant;
 use App\Repository\RoomsRepository;
 use App\Repository\RoomStatusRepository;
-use App\Service\webhook\RoomWebhookService;
+use App\Service\Webhook\RoomWebhookService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class JitsiEventsServiceTest extends KernelTestCase
@@ -13,14 +13,14 @@ class JitsiEventsServiceTest extends KernelTestCase
     public static $roomCreatedData = [
         "event_name" => "muc-room-created",
         "created_at" => 1647337556,
-        "room_name" => "123456780",
+        "room_name" => "bed6ca41-512f-409f-95c1-4ad7e9b73018",
         "is_breakout" => false,
-        "room_jid" => "123456780@conference.testserver.de"
+        "room_jid" => "bed6ca41-512f-409f-95c1-4ad7e9b73018@conference.testserver.de"
     ];
     public static $roomDestroyedData = [
         "all_occupants" => [
             [
-                "occupant_jid" => "123456780@conference.testserver.de",
+                "occupant_jid" => "bed6ca41-512f-409f-95c1-4ad7e9b73018@conference.testserver.de",
                 "joined_at" => 1647337556,
                 "name" => "TEst USer in the Meeting",
                 "left_at" => 1647337563,
@@ -28,8 +28,8 @@ class JitsiEventsServiceTest extends KernelTestCase
             ]
         ],
         "event_name" => "muc-room-destroyed",
-        "room_jid" => "123456780@conference.testserver.de",
-        "room_name" => "123456780",
+        "room_jid" => "bed6ca41-512f-409f-95c1-4ad7e9b73018@conference.testserver.de",
+        "room_name" => "bed6ca41-512f-409f-95c1-4ad7e9b73018",
         "is_breakout" => false,
         "created_at" => 1647337556,
         "destroyed_at" => 1647337563
@@ -41,9 +41,9 @@ class JitsiEventsServiceTest extends KernelTestCase
             "joined_at" => 1647337850,
             "name" => "TEst USer in the Meeting"
         ],
-        "room_name" => "123456780",
+        "room_name" => "bed6ca41-512f-409f-95c1-4ad7e9b73018",
         "is_breakout" => false,
-        "room_jid" => "123456780@conference.testserver.de"
+        "room_jid" => "bed6ca41-512f-409f-95c1-4ad7e9b73018@conference.testserver.de"
     ];
     public static $participantLeftD = [
         "event_name" => "muc-occupant-left",
@@ -58,11 +58,6 @@ class JitsiEventsServiceTest extends KernelTestCase
         ]
     ];
 
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-    }
-
     public function testroomCreatedWebhook(): void
     {
         $kernel = self::bootKernel();
@@ -72,7 +67,7 @@ class JitsiEventsServiceTest extends KernelTestCase
 
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         self::assertEquals(true, $room->getRoomstatuses()[0]->getCreated());
         self::assertEquals(null, $room->getRoomstatuses()[0]->getDestroyed());
@@ -90,9 +85,9 @@ class JitsiEventsServiceTest extends KernelTestCase
 
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $testData = self::$roomCreatedData;
-        $testData['room_name'] = 'roomtomorrow';
+        $testData['room_name'] = strtoupper('ccd854d7-7d27-4633-a072-9f89cdbf7d65');
         self::assertNull($webhookService->startWebhook($testData));
-        $room = $roomRepo->findOneBy(['uid' => 'roomtomorrow']);
+        $room = $roomRepo->findOneBy(['uid' => 'ccd854d7-7d27-4633-a072-9f89cdbf7d65']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         self::assertEquals(true, $room->getRoomstatuses()[0]->getCreated());
         self::assertEquals(null, $room->getRoomstatuses()[0]->getDestroyed());
@@ -110,7 +105,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         self::assertEquals(true, $room->getRoomstatuses()[0]->getCreated());
         self::assertNotNull($room->getRoomstatuses()[0]->getDestroyedAt());
@@ -128,7 +123,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         $webhookService = self::getContainer()->get(RoomWebhookService::class);
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         $roomStatus = $room->getRoomstatuses()[0];
         self::assertEquals(1, sizeof($roomStatus->getRoomStatusParticipants()));
         self::assertEquals(true, $roomStatus->getRoomStatusParticipants()[0]->getInRoom());
@@ -144,7 +139,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         $roomStatus = $room->getRoomstatuses()[0];
         self::assertEquals(1, sizeof($roomStatus->getRoomStatusParticipants()));
         self::assertEquals(false, $roomStatus->getRoomStatusParticipants()[0]->getInRoom());
@@ -162,7 +157,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         $testData = JitsiEventsServiceTest::$participantLeftD;
         unset($testData['occupant']['total_dominant_speaker_time']);
         self::assertNull($webhookService->startWebhook($testData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         $roomStatus = $room->getRoomstatuses()[0];
         self::assertEquals(1, sizeof($roomStatus->getRoomStatusParticipants()));
         self::assertEquals(false, $roomStatus->getRoomStatusParticipants()[0]->getInRoom());
@@ -180,7 +175,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         $roomStatus = $room->getRoomstatuses()[0];
         self::assertEquals(1, sizeof($roomStatus->getRoomStatusParticipants()));
         self::assertEquals(false, $roomStatus->getRoomStatusParticipants()[0]->getInRoom());
@@ -197,7 +192,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
 
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         $roomStatus = $room->getRoomstatuses()[0];
         self::assertEquals(1, sizeof($roomStatus->getRoomStatusParticipants()));
@@ -212,7 +207,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         $createBreaktoutRoomData['is_breakout'] = true;
         $createBreaktoutRoomData['breakout_room_id'] = '98127398721';
         self::assertEquals('Room is a breakout room; we don`t create a status', $webhookService->startWebhook($createBreaktoutRoomData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         self::assertEquals('Room is a breakout room we don`t join the participant', $webhookService->startWebhook($breakoutRoomJoinData));
         $breakoutLeaveRoomData = self::$participantLeftD;
@@ -223,7 +218,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         $closeBreakoutRoom['is_breakout'] = true;
         $closeBreakoutRoom['breakout_room_id'] = '98127398721';
         self::assertEquals('Room is a breakout room we don`t remove the main room', $webhookService->startWebhook($closeBreakoutRoom));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         self::assertEquals(1, sizeof($roomStatus->getRoomStatusParticipants()));
 
@@ -231,7 +226,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         $newPartJoind['occupant']['occupant_jid'] = 'kjdshnfkjhds';
         self::assertNull($webhookService->startWebhook($newPartJoind));
 
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         $roomStatus = $room->getRoomstatuses()[0];
         self::assertEquals(2, sizeof($roomStatus->getRoomStatusParticipants()));
         self::assertEquals(false, $roomStatus->getRoomStatusParticipants()[0]->getInRoom());
@@ -239,7 +234,7 @@ class JitsiEventsServiceTest extends KernelTestCase
 
 
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         $roomStatus = $room->getRoomstatuses()[0];
         self::assertEquals(2, sizeof($roomStatus->getRoomStatusParticipants()));
         self::assertEquals(false, $roomStatus->getRoomStatusParticipants()[0]->getInRoom());
@@ -260,7 +255,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertEquals('NO_DATA', $webhookService->startWebhook($testJoin));
         self::assertEquals('Wrong occupant ID. The occupant is not in the database', $webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         $roomStatus = $room->getRoomstatuses()[0];
         self::assertEquals(0, sizeof($roomStatus->getRoomStatusParticipants()));
     }
@@ -287,7 +282,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         $testLEft['occupant']['occupant_jid'] = '000';
         self::assertNull($webhookService->startWebhook($testLEft));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
 
         self::assertEquals(2, sizeof($room->getRoomstatuses()));
         self::assertEquals(1, sizeof($room->getRoomstatuses()[0]->getRoomStatusParticipants()));
@@ -306,7 +301,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
         self::assertEquals('Room Jitsi ID not found', $webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
         self::assertEquals('Wrong occupant ID. The occupant is not in the database', $webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         $roomStatus = $room->getRoomstatuses()[0];
         self::assertEquals(0, sizeof($roomStatus->getRoomStatusParticipants()));
     }
@@ -321,7 +316,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertEquals(null, $webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
         self::assertEquals('Room Jitsi ID not found', $webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
         self::assertEquals('Wrong occupant ID. The occupant is not in the database', $webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         self::assertEquals(0, sizeof($room->getRoomstatuses()[0]->getRoomStatusParticipants()));
     }
@@ -336,17 +331,17 @@ class JitsiEventsServiceTest extends KernelTestCase
         $testData = JitsiEventsServiceTest::$roomCreatedData;
         $testData['room_name'] = '0000';
         self::assertEquals(null, $webhookService->startWebhook($testData));
-        $roomStatus = $roomStattusRepo->findBy(['jitsiRoomId' => '123456780@conference.testserver.de']);
+        $roomStatus = $roomStattusRepo->findBy(['jitsiRoomId' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018@conference.testserver.de']);
         self::assertEquals(1, count($roomStatus));
         self::assertNull($roomStatus[0]->getRoom());
         self::assertEquals(null, $webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
-        $roomStatus = $roomStattusRepo->findBy(['jitsiRoomId' => '123456780@conference.testserver.de']);
+        $roomStatus = $roomStattusRepo->findBy(['jitsiRoomId' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018@conference.testserver.de']);
         self::assertEquals(1, count($roomStatus[0]->getRoomStatusParticipants()));
 
         self::assertEquals(null, $webhookService->startWebhook(self::$roomDestroyedData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(0, sizeof($room->getRoomstatuses()));
-        $roomStatus = $roomStattusRepo->findBy(['jitsiRoomId' => '123456780@conference.testserver.de']);
+        $roomStatus = $roomStattusRepo->findBy(['jitsiRoomId' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018@conference.testserver.de']);
         self::assertEquals(0, count($roomStatus));
     }
 
@@ -361,10 +356,10 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertEquals(null, $webhookService->startWebhook($testData));
         unset($testData['event_name']);
         self::assertEquals('No event defined', $webhookService->startWebhook($testData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(0, sizeof($room->getRoomstatuses()));
         $roomStattusRepo  = self::getContainer()->get(RoomStatusRepository::class);
-        $roomStatus = $roomStattusRepo->findBy(['jitsiRoomId' => '123456780@conference.testserver.de']);
+        $roomStatus = $roomStattusRepo->findBy(['jitsiRoomId' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018@conference.testserver.de']);
         self::assertEquals(1, count($roomStatus));
         self::assertNull($roomStatus[0]->getRoom());
     }
@@ -377,7 +372,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         $webhookService = self::getContainer()->get(RoomWebhookService::class);
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
         self::assertEquals('Room already created', $webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
     }
 
@@ -391,7 +386,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertNull($webhookService->startWebhook($testData));
         $testData['room_jid'] = '000';
         self::assertEquals('Room already created', $webhookService->startWebhook($testData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         self::assertEquals(null, $room->getRoomstatuses()[0]->getDestroyed());
     }
@@ -405,7 +400,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
         self::assertEquals('Room Jitsi ID not found', $webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
     }
 
@@ -422,7 +417,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertEquals('Room Jitsi ID not found', $webhookService->startWebhook($test));
         unset($test['event_name']);
         self::assertEquals('No event defined', $webhookService->startWebhook($test));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
     }
 
@@ -440,7 +435,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertEquals('Room Jitsi ID not found', $webhookService->startWebhook($testData));
         unset($testData['event_name']);
         self::assertEquals('No event defined', $webhookService->startWebhook($testData));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         self::assertEquals(1, sizeof($room->getRoomstatuses()[0]->getRoomStatusParticipants()));
     }
@@ -459,7 +454,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertEquals('Wrong occupant ID. The occupant is not in the database', $webhookService->startWebhook($testData2));
         unset($testData2['event_name']);
         self::assertEquals('No event defined', $webhookService->startWebhook($testData2));
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         self::assertEquals(1, sizeof($room->getRoomstatuses()[0]->getRoomStatusParticipants()));
     }
@@ -472,7 +467,7 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         $roomPart = new RoomStatusParticipant();
         $roomStatus = $room->getRoomstatuses()[0];
 
@@ -486,7 +481,7 @@ class JitsiEventsServiceTest extends KernelTestCase
 
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
 
-        $room = $roomRepo->findOneBy(['uid' => '123456780']);
+        $room = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
         $roomStatus = $room->getRoomstatuses()[0];
         self::assertEquals(1, sizeof($roomStatus->getRoomStatusParticipants()));
         self::assertNotNull($room->getRoomstatuses()[0]->getRoomStatusParticipants()[0]->getEnteredRoomAt());

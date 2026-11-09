@@ -2,9 +2,11 @@
 
 namespace App\Tests;
 
+use App\Entity\PredefinedLobbyMessages;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\Server;
+use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Service\RoomService;
 use Composer\Console\Application;
 use PhpCsFixer\Console\Output\Progress\NullOutput;
@@ -71,7 +73,7 @@ class RoomServiceJWTTest extends KernelTestCase
         $server->setLiveKitServer(true)
             ->setUrl('testLivekit.de')
             ->setAppId('testID')
-            ->setAppSecret('testSecret');
+            ->setAppSecret('testSecrettestSecrettestSecrettestSecret');
         $rooms = new Rooms();
         $rooms->setServer($server);
         $rooms->setName('testRoom');
@@ -84,23 +86,33 @@ class RoomServiceJWTTest extends KernelTestCase
         openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
 
         self::assertEquals(
-            'testSecret',
+            'testSecrettestSecrettestSecrettestSecret',
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
                 'sub' => 'testLivekit.de',
-                'room' => 'testuid',
+                'room' => 'testuid@localhost:8000',
                 'context' =>
                     [
                         'user' =>
                             array(
                                 'name' => 'Testuser',
-                                'identity' => $payload['context']['user']['identity']
+                                'identity' => $payload['context']['user']['identity'],
+                                'language' => 'de',
+                                'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
+                        'room'=>[
+                            'name'=>'testRoom',
+                            'isE2EEEnabled' => false,
+                        ],
+                        'lobby' => [
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -108,6 +120,7 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
                 'backgroundImages'=>[
 
                     [
@@ -125,6 +138,9 @@ class RoomServiceJWTTest extends KernelTestCase
                         'url' => 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg'
 
                     ]
+                ],
+                'theme' => [
+                    'colorScheme' => 'light',
                 ],
 
             ],
@@ -159,7 +175,7 @@ class RoomServiceJWTTest extends KernelTestCase
         $server->setLiveKitServer(true)
             ->setUrl('testLivekit.de')
             ->setAppId('testID')
-            ->setAppSecret('testSecret');
+            ->setAppSecret('testSecrettestSecrettestSecrettestSecret');
         $server->setLivekitBackgroundImages(
             "[
     {
@@ -188,16 +204,16 @@ class RoomServiceJWTTest extends KernelTestCase
         openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
 
         self::assertEquals(
-            'testSecret',
+            'testSecrettestSecrettestSecrettestSecret',
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
                 'sub' => 'testLivekit.de',
-                'room' => 'testuid',
+                'room' => 'testuid@localhost:8000',
                 'backgroundImages'=>[
                     [
                         'description'=>'Im Land',
@@ -218,7 +234,17 @@ class RoomServiceJWTTest extends KernelTestCase
                             array(
                                 'identity' => $payload['context']['user']['identity'],
                                 'name' => 'Testuser',
+                                'language' => 'de',
+                                'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
+                        'room'=>[
+                            'name'=>'testRoom',
+                            'isE2EEEnabled' => false,
+                        ],
+                        'lobby' => [
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -226,6 +252,10 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
+                'theme' => [
+                    'colorScheme' => 'light',
+                ],
             ],
             $payload
         );
@@ -259,7 +289,7 @@ class RoomServiceJWTTest extends KernelTestCase
         $server->setLiveKitServer(true)
             ->setUrl('testLivekit.de')
             ->setAppId('testID')
-            ->setAppSecret('testSecret');
+            ->setAppSecret('testSecrettestSecrettestSecrettestSecret');
         $server->setLivekitBackgroundImages(
             "[
    invalidJsonIshere
@@ -277,16 +307,16 @@ class RoomServiceJWTTest extends KernelTestCase
         openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
 
         self::assertEquals(
-            'testSecret',
+            'testSecrettestSecrettestSecrettestSecret',
             $decryptedSecret
         );
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
                 'sub' => 'testLivekit.de',
-                'room' => 'testuid',
+                'room' => 'testuid@localhost:8000',
                 'context' =>
                     [
                         'user' =>
@@ -295,7 +325,17 @@ class RoomServiceJWTTest extends KernelTestCase
 
                                 'identity' => $payload['context']['user']['identity'],
 
+                                'language' => 'de',
+                                'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
+                        'room'=>[
+                            'name'=>'testRoom',
+                            'isE2EEEnabled' => false,
+                        ],
+                        'lobby' => [
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
@@ -303,6 +343,10 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
+                'theme' => [
+                    'colorScheme' => 'light',
+                ],
             ],
             $payload
         );
@@ -313,7 +357,6 @@ class RoomServiceJWTTest extends KernelTestCase
     public
     function testGenerateJwtPayloadWithInvalidKey()
     {
-
         $invalidEncryptionKEy = '-----BEGIN RSA PUBLIC KEY-----
 invalidKey
 -----END RSA PUBLIC KEY-----';
@@ -336,7 +379,7 @@ invalidKey
         $server->setLiveKitServer(true)
             ->setUrl('testLivekit.de')
             ->setAppId('testID')
-            ->setAppSecret('testSecret');
+            ->setAppSecret('testSecrettestSecrettestSecrettestSecret');
         $rooms = new Rooms();
         $rooms->setServer($server);
         $rooms->setName('testRoom');
@@ -345,25 +388,36 @@ invalidKey
         $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true, null, null);
         // Arrange
 
-        self::assertEquals(
+        $this->assertPayloadEquals(
             [
                 'aud' => 'jitsi_admin',
                 'iss' => 'testID',
                 'sub' => 'testLivekit.de',
-                'room' => 'testuid',
+                'room' => 'testuid@localhost:8000',
                 'context' =>
                     [
                         'user' =>
                             array(
                                 'name' => 'Testuser',
                                 'identity' => $payload['context']['user']['identity'],
+                                'language' => 'de',
+                                'timezone' => 'Europe/Berlin',
+                                'hotstandby' => $this->getHotStandbySettings(),
                             ),
+                        'room'=>[
+                            'name'=>'testRoom',
+                            'isE2EEEnabled' => false,
+                        ],
+                        'lobby' => [
+                            'chatMessages' => $this->expectedLobbyChatMessages(),
+                        ],
                     ],
                 'livekit' =>
                     [
                         "error" => 'Invalid Foreign encryption key'
                     ],
                 'moderator' => true,
+                'lobbyModerator' => false,
 
                 'backgroundImages'=>[
 
@@ -384,9 +438,92 @@ invalidKey
                     ]
 
                 ],
+                'theme' => [
+                    'colorScheme' => 'light',
+                ],
 
             ],
             $payload
         );
+    }
+
+    public function testGenerateJwtReturnsEmptyStringWhenServerHasNoAppId(): void
+    {
+        $roomService = self::getContainer()->get(RoomService::class);
+
+        $server = new Server();
+        $server->setUrl('meet.jit.si')
+            ->setServerName('Server without JWT credentials')
+            ->setAppId(null)
+            ->setAppSecret(null);
+
+        $room = new Rooms();
+        $room->setServer($server);
+        $room->setName('testRoom');
+        $room->setUid('testUid')->setUidReal('uidReal');
+
+        self::assertSame('', $roomService->generateJwt($room, null, 'Testuser'));
+    }
+
+    public function testGenerateJwtReturnsEmptyStringForLiveKitServerWithoutAppId(): void
+    {
+        $roomService = self::getContainer()->get(RoomService::class);
+
+        $server = new Server();
+        $server->setUrl('livekit.test')
+            ->setServerName('LiveKit without JWT credentials')
+            ->setLiveKitServer(true)
+            ->setAppId(null)
+            ->setAppSecret(null);
+
+        $room = new Rooms();
+        $room->setServer($server);
+        $room->setName('testRoom');
+        $room->setUid('testUid')->setUidReal('uidReal');
+
+        self::assertSame('', $roomService->generateJwt($room, null, 'Testuser'));
+    }
+
+    private function assertPayloadEquals(array $expected, array $actual): void
+    {
+        self::assertArrayHasKey('iat', $actual);
+        self::assertArrayHasKey('exp', $actual);
+        self::assertSame(
+            (int) self::getContainer()->getParameter('JWT_LIFETIME_IN_SEC'),
+            $actual['exp'] - $actual['iat']
+        );
+
+        unset($actual['iat'], $actual['exp']);
+
+        self::assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array<int, array{id: int|null, text: string|null}>
+     */
+    private function expectedLobbyChatMessages(): array
+    {
+        $messages = self::getContainer()
+            ->get(PredefinedLobbyMessagesRepository::class)
+            ->findActiveOrderedByPriority();
+
+        return array_map(
+            static fn (PredefinedLobbyMessages $message): array => [
+                'id' => $message->getId(),
+                'text' => $message->getText(),
+            ],
+            $messages
+        );
+    }
+
+    /**
+     * @return array{isEnabled: bool, groupId: string|null}
+     */
+    private function getHotStandbySettings(): array
+    {
+        return [
+            'isEnabled' => false,
+            'groupId' => null,
+        ];
     }
 }

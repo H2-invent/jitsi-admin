@@ -3,21 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Server;
+use App\Entity\User;
+use App\Helper\UidGeneratorHelper;
 use App\Repository\ServerRepository;
 use App\Service\CreateHttpsUrl;
 use App\Service\PublicConference\PublicConferenceService;
-use App\Service\ThemeService;
+use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateFastConfernceController extends AbstractController
 {
-    private Server $server;
+    private readonly ?Server $server;
 
     public function __construct(
 
@@ -27,37 +28,40 @@ class CreateFastConfernceController extends AbstractController
         private readonly CreateHttpsUrl          $createHttpsUrl,
         private readonly TranslatorInterface     $translator,
         private readonly EntityManagerInterface  $entityManager,
-    )
-    {
+    ) {
         $this->server = $this->serverRepository->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
-
     }
 
     #[Route('/room/create/fast/confernce', name: 'app_create_fast_confernce')]
-    public function index(Request $request): Response
+    public function index(): Response
     {
         try {
             if ($this->server) {
-                $room = $this->publicConferenceService->createNewRoomFromName(md5(uniqid()), $this->server);
-                $room->setModerator($this->getUser());
-                $room->setPublic(true);
-                $room->setTotalOpenRooms(true);
+                $room = $this->publicConferenceService->createNewRoomFromName(UidGeneratorHelper::generate(), $this->server);
+                /** @var User $user */
+                $user = $this->getUser();
+                $room
+                    ->setModerator($user)
+                    ->setPublic(true)
+                    ->setTotalOpenRooms(true)
+                    ->setIsFastConference(true);
                 $this->entityManager->persist($room);
                 $this->entityManager->flush();
                 return new JsonResponse(
                     [
                         'redirectUrl' => $this->generateUrl('dashboard'),
-                        'popups' => [
-                            ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()])), 'title' => $room->getName()]
+                        'popups'      => [
+                            ['url'   => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()])),
+                             'title' => $room->getName()
+                            ]
                         ]
                     ]
                 );
-            } else {
-
-                $this->addFlash('danger', $this->translator->trans('Fehler'));
-                return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
             }
-        } catch (\Exception $exception) {
+
+            $this->addFlash('danger', $this->translator->trans('Fehler'));
+            return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
+        } catch (\Exception) {
             $this->addFlash('danger', $this->translator->trans('Fehler'));
             return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
         }

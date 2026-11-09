@@ -22,7 +22,7 @@ class RoomControllerTest extends WebTestCase
         $client->request('GET', '/room/new');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h5', 'Bitte neue Konferenz erstellen');
+        $this->assertSelectorTextContains('h5', 'Neue Konferenz erstellen');
     }
 
 

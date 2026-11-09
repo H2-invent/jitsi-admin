@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\UserBase as BaseUser;
 use App\Repository\UserRepository;
 use App\Service\FormatName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\UserBase as BaseUser;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -17,123 +17,245 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 #[ORM\Table(name: 'fos_user')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Index(fields: ['email'], name: 'idx_fos_user_email')]
+#[ORM\Index(fields: ['username'], name: 'idx_fos_user_username')]
+#[ORM\Index(fields: ['uid'], name: 'idx_fos_user_uid')]
+#[ORM\Index(fields: ['keycloakId'], name: 'idx_fos_user_keycloak_id')]
 class User extends BaseUser
 {
     private FormatName $formatName;
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected $id;
+    protected ?int     $id = null;
+
     #[Assert\NotBlank(message: 'fos_user.password.blank', groups: ['Registration', 'ResetPassword', 'ChangePassword'])]
     #[Assert\Length(min: 8, minMessage: 'fos_user.password.short', groups: ['Registration', 'Profile', 'ResetPassword', 'ChangePassword'])]
-    protected $plainPassword;
-    #[ORM\Column(type: 'text')]
-    private $email;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $keycloakId;
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $createdAt;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $username;
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $lastLogin;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $firstName;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $lastName;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $registerId;
-    #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'user')]
-    private $rooms;
-    #[ORM\ManyToMany(targetEntity: Server::class, mappedBy: 'user')]
-    private $servers;
-    #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'moderator')]
-    private $roomModerator;
-    #[ORM\OneToMany(targetEntity: Server::class, mappedBy: 'administrator')]
-    private $serverAdmins;
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'addressbookInverse')]
-    private $addressbook;
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'addressbook')]
-    private $addressbookInverse;
-    #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'user')]
-    private $roomsAttributes;
-    #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'user')]
-    private $subscribers;
-    #[ORM\Column(type: 'array', nullable: true, name: 'keycloakGroup')]
-    private $groups = [];
-    #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'user')]
-    private $schedulingTimeUsers;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $uid;
-    #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'user', cascade: ['remove'])]
-    private $waitinglists;
-    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
-    private $notifications;
-    #[ORM\ManyToMany(targetEntity: Repeat::class, mappedBy: 'participants')]
-    private $repeaterUsers;
-    #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'prototypeUsers')]
-    private $protoypeRooms;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $ownRoomUid;
-    #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'OwnRoomUSer')]
-    private $myOwnRoomServer;
-    #[ORM\OneToMany(targetEntity: AddressGroup::class, mappedBy: 'leader', cascade: ['remove'])]
-    private $AddressGroupLeader;
-    #[ORM\ManyToMany(targetEntity: AddressGroup::class, mappedBy: 'member')]
-    private $AddressGroupMember;
-    #[ORM\OneToOne(targetEntity: LdapUserProperties::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private $ldapUserProperties;
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $timeZone;
-    #[ORM\Column(type: 'array', nullable: true)]
-    private $spezialProperties = [];
-    #[ORM\ManyToMany(targetEntity: Rooms::class, inversedBy: 'favoriteUsers')]
-    private $favorites;
-    #[ORM\OneToMany(targetEntity: LobbyWaitungUser::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private $lobbyWaitungUsers;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $indexer;
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $secondEmail;
+    protected ?string $plainPassword = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $email = null;
+
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
+    private ?string $keycloakId = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $username = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $lastLogin = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
+    private ?string $registerId = null;
+
     /**
-     * @var Documents
+     * @var Collection<int, Rooms>
      */
+    #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'user')]
+    private Collection $rooms;
+
+    /**
+     * @var Collection<int, Server>
+     */
+    #[ORM\ManyToMany(targetEntity: Server::class, mappedBy: 'user')]
+    private Collection $servers;
+
+    /**
+     * @var Collection<int, Rooms>
+     */
+    #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'moderator')]
+    private Collection $roomModerator;
+
+    /**
+     * @var Collection<int, Server>
+     */
+    #[ORM\OneToMany(targetEntity: Server::class, mappedBy: 'administrator')]
+    private Collection $serverAdmins;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'addressbookInverse')]
+    private Collection $addressbook;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'addressbook')]
+    private Collection $addressbookInverse;
+
+    /**
+     * @var Collection<int, RoomsUser>
+     */
+    #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'user')]
+    private Collection $roomsAttributes;
+
+    /**
+     * @var Collection<int, Subscriber>
+     */
+    #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'user')]
+    private Collection $subscribers;
+
+    /**
+     * @var array<int|string, mixed>|null
+     */
+    #[ORM\Column(type: 'json', nullable: true, name: 'keycloakGroup')]
+    private ?array $groups = [];
+
+    /**
+     * @var Collection<int, SchedulingTimeUser>
+     */
+    #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'user')]
+    private Collection $schedulingTimeUsers;
+
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
+    private ?string $uid = null;
+
+    /**
+     * @var Collection<int, Waitinglist>
+     */
+    #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'user', cascade: ['remove'])]
+    private Collection $waitinglists;
+
+    /**
+     * @var Collection<int, Notification>
+     */
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
+    private Collection $notifications;
+
+    /**
+     * @var Collection<int, Repeat>
+     */
+    #[ORM\ManyToMany(targetEntity: Repeat::class, mappedBy: 'participants')]
+    private Collection $repeaterUsers;
+
+    /**
+     * @var Collection<int, Rooms>
+     */
+    #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'prototypeUsers')]
+    private Collection $protoypeRooms;
+
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
+    private ?string $ownRoomUid = null;
+
+    #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'OwnRoomUSer')]
+    private ?Server $myOwnRoomServer = null;
+
+    /**
+     * @var Collection<int, AddressGroup>
+     */
+    #[ORM\OneToMany(targetEntity: AddressGroup::class, mappedBy: 'leader', cascade: ['remove'])]
+    private Collection $AddressGroupLeader;
+
+    /**
+     * @var Collection<int, AddressGroup>
+     */
+    #[ORM\ManyToMany(targetEntity: AddressGroup::class, mappedBy: 'member')]
+    private Collection $AddressGroupMember;
+
+    #[ORM\OneToOne(targetEntity: LdapUserProperties::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?LdapUserProperties $ldapUserProperties = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $timeZone = null;
+
+    /**
+     * @var array<string, mixed>|null
+     */
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $spezialProperties = [];
+
+    /**
+     * @var Collection<int, Rooms>
+     */
+    #[ORM\ManyToMany(targetEntity: Rooms::class, inversedBy: 'favoriteUsers')]
+    private Collection $favorites;
+
+    /**
+     * @var Collection<int, LobbyWaitungUser>
+     */
+    #[ORM\OneToMany(targetEntity: LobbyWaitungUser::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private Collection $lobbyWaitungUsers;
+
+    #[ORM\Column(type: Types::STRING, length: 2048, nullable: true)]
+    private ?string $indexer = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $secondEmail = null;
+
     #[ORM\OneToOne(targetEntity: Documents::class, cascade: ['persist', 'remove'])]
-    private $profilePicture;
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $updatedAt;
+    private ?Documents $profilePicture = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    /**
+     * @var Collection<int, CallerId>
+     */
     #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'user', cascade: ['remove'])]
-    private $callerIds;
+    private Collection $callerIds;
 
     #[ORM\Column(nullable: true)]
     private ?int $onlineStatus = null;
 
+    /**
+     * @var Collection<int, CalloutSession>
+     */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: CalloutSession::class, orphanRemoval: true)]
     private Collection $calloutSessions;
 
     #[ORM\Column(nullable: true)]
     private ?bool $acceptTermsAndConditions = null;
 
+    /**
+     * @var Collection<int, Rooms>
+     */
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Rooms::class)]
     private Collection $creatorOf;
 
+    /**
+     * @var Collection<int, Log>
+     */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Log::class)]
     private Collection $logs;
 
+    /**
+     * @var Collection<int, Deputy>
+     */
     #[ORM\OneToMany(mappedBy: 'deputy', targetEntity: Deputy::class, orphanRemoval: true)]
     private Collection $deputiesElement;
 
+    /**
+     * @var Collection<int, Deputy>
+     */
     #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Deputy::class, orphanRemoval: true)]
     private Collection $managerElement;
 
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'isAdressbookFavoriteFrom')]
     #[ORM\JoinTable(name: 'addressbook_favorites')]
     private Collection $AdressbookFavorites;
 
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'AdressbookFavorites')]
-    #[ORM\JoinTable(name: 'addressbook_favorites')]
     private Collection $isAdressbookFavoriteFrom;
 
+    /**
+     * @var Collection<int, SchedulingTime>
+     */
     #[ORM\OneToMany(mappedBy: 'createdFrom', targetEntity: SchedulingTime::class)]
     private Collection $schedulingTimesCreated;
 
@@ -167,35 +289,43 @@ class User extends BaseUser
     #[ORM\ManyToOne(inversedBy: 'calendlyUsers')]
     private ?Server $calendlyServer = null;
 
+    #[ORM\Column]
+    private ?bool $hotstandbyEnabled = false;
+
     public function __construct()
     {
-        $this->rooms = new ArrayCollection();
-        $this->servers = new ArrayCollection();
-        $this->roomModerator = new ArrayCollection();
-        $this->serverAdmins = new ArrayCollection();
-        $this->addressbook = new ArrayCollection();
-        $this->addressbookInverse = new ArrayCollection();
-        $this->roomsAttributes = new ArrayCollection();
-        $this->subscribers = new ArrayCollection();
-        $this->schedulingTimeUsers = new ArrayCollection();
-        $this->waitinglists = new ArrayCollection();
-        $this->notifications = new ArrayCollection();
-        $this->repeaterUsers = new ArrayCollection();
-        $this->protoypeRooms = new ArrayCollection();
-        $this->AddressGroupLeader = new ArrayCollection();
-        $this->AddressGroupMember = new ArrayCollection();
-        $this->favorites = new ArrayCollection();
-        $this->lobbyWaitungUsers = new ArrayCollection();
-        $this->callerIds = new ArrayCollection();
-        $this->calloutSessions = new ArrayCollection();
-        $this->creatorOf = new ArrayCollection();
-        $this->logs = new ArrayCollection();
-        $this->deputiesElement = new ArrayCollection();
-        $this->managerElement = new ArrayCollection();
-        $this->AdressbookFavorites = new ArrayCollection();
+        $this->rooms                    = new ArrayCollection();
+        $this->servers                  = new ArrayCollection();
+        $this->roomModerator            = new ArrayCollection();
+        $this->serverAdmins             = new ArrayCollection();
+        $this->addressbook              = new ArrayCollection();
+        $this->addressbookInverse       = new ArrayCollection();
+        $this->roomsAttributes          = new ArrayCollection();
+        $this->subscribers              = new ArrayCollection();
+        $this->schedulingTimeUsers      = new ArrayCollection();
+        $this->waitinglists             = new ArrayCollection();
+        $this->notifications            = new ArrayCollection();
+        $this->repeaterUsers            = new ArrayCollection();
+        $this->protoypeRooms            = new ArrayCollection();
+        $this->AddressGroupLeader       = new ArrayCollection();
+        $this->AddressGroupMember       = new ArrayCollection();
+        $this->favorites                = new ArrayCollection();
+        $this->lobbyWaitungUsers        = new ArrayCollection();
+        $this->callerIds                = new ArrayCollection();
+        $this->calloutSessions          = new ArrayCollection();
+        $this->creatorOf                = new ArrayCollection();
+        $this->logs                     = new ArrayCollection();
+        $this->deputiesElement          = new ArrayCollection();
+        $this->managerElement           = new ArrayCollection();
+        $this->AdressbookFavorites      = new ArrayCollection();
         $this->isAdressbookFavoriteFrom = new ArrayCollection();
-        $this->schedulingTimesCreated = new ArrayCollection();
-        $this->livekitRecordings = new ArrayCollection();
+        $this->schedulingTimesCreated   = new ArrayCollection();
+        $this->livekitRecordings        = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getEmail(): ?string
@@ -222,12 +352,12 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -246,12 +376,12 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getLastLogin(): ?\DateTimeInterface
+    public function getLastLogin(): ?\DateTimeImmutable
     {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?\DateTimeInterface $lastLogin): self
+    public function setLastLogin(?\DateTimeImmutable $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
 
@@ -295,7 +425,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Rooms[]
+     * @return Collection<int, Rooms>
      */
     public function getRooms(): Collection
     {
@@ -322,7 +452,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Server[]
+     * @return Collection<int, Server>
      */
     public function getServers(): Collection
     {
@@ -349,7 +479,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Rooms[]
+     * @return Collection<int, Rooms>
      */
     public function getRoomModerator(): Collection
     {
@@ -379,7 +509,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Server[]
+     * @return Collection<int, Server>
      */
     public function getServerAdmins(): Collection
     {
@@ -409,7 +539,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|self[]
+     * @return Collection<int, User>
      */
     public function getAddressbook(): Collection
     {
@@ -433,7 +563,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|self[]
+     * @return Collection<int, User>
      */
     public function getAddressbookInverse(): Collection
     {
@@ -460,7 +590,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|RoomsUser[]
+     * @return Collection<int, RoomsUser>
      */
     public function getRoomsAttributes(): Collection
     {
@@ -490,7 +620,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Subscriber[]
+     * @return Collection<int, Subscriber>
      */
     public function getSubscribers(): Collection
     {
@@ -519,11 +649,17 @@ class User extends BaseUser
         return $this;
     }
 
+    /**
+     * @return array<int|string, mixed>|null
+     */
     public function getGroups(): ?array
     {
         return $this->groups;
     }
 
+    /**
+     * @param array<int|string, mixed>|null $groups
+     */
     public function setGroups(?array $groups): self
     {
         $this->groups = $groups;
@@ -532,7 +668,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|SchedulingTimeUser[]
+     * @return Collection<int, SchedulingTimeUser>
      */
     public function getSchedulingTimeUsers(): Collection
     {
@@ -574,7 +710,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Waitinglist[]
+     * @return Collection<int, Waitinglist>
      */
     public function getWaitinglists(): Collection
     {
@@ -604,7 +740,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Notification[]
+     * @return Collection<int, Notification>
      */
     public function getNotifications(): Collection
     {
@@ -634,7 +770,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Repeat[]
+     * @return Collection<int, Repeat>
      */
     public function getRepeaterUsers(): Collection
     {
@@ -661,7 +797,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Rooms[]
+     * @return Collection<int, Rooms>
      */
     public function getProtoypeRooms(): Collection
     {
@@ -712,7 +848,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|AddressGroup[]
+     * @return Collection<int, AddressGroup>
      */
     public function getAddressGroupLeader(): Collection
     {
@@ -742,7 +878,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|AddressGroup[]
+     * @return Collection<int, AddressGroup>
      */
     public function getAddressGroupMember(): Collection
     {
@@ -797,11 +933,17 @@ class User extends BaseUser
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getSpezialProperties(): ?array
     {
         return $this->spezialProperties;
     }
 
+    /**
+     * @param array<string, mixed>|null $spezialProperties
+     */
     public function setSpezialProperties(?array $spezialProperties): self
     {
         $this->spezialProperties = $spezialProperties;
@@ -809,7 +951,7 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getFormatedName($string)
+    public function getFormatedName(string $string): string
     {
         $this->formatName = new FormatName();
         return $this->formatName->formatName($string, $this);
@@ -817,11 +959,15 @@ class User extends BaseUser
 
     public function getUserIdentifier(): string
     {
-        return $this->username?:'';
+        if (!$this->username) {
+            throw new \LogicException('Cannot build the user identifier: username is not set.');
+        }
+
+        return $this->username;
     }
 
     /**
-     * @return Collection|Rooms[]
+     * @return Collection<int, Rooms>
      */
     public function getFavorites(): Collection
     {
@@ -845,7 +991,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|LobbyWaitungUser[]
+     * @return Collection<int, LobbyWaitungUser>
      */
     public function getLobbyWaitungUsers(): Collection
     {
@@ -876,7 +1022,6 @@ class User extends BaseUser
 
     public function getPermissionForRoom(Rooms $rooms): RoomsUser
     {
-
         foreach ($this->roomsAttributes as $data) {
             if ($data->getRoom()->getId() == $rooms->getId()) {
                 return $data;
@@ -922,12 +1067,12 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -935,7 +1080,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|CallerId[]
+     * @return Collection<int, CallerId>
      */
     public function getCallerIds(): Collection
     {
@@ -964,7 +1109,10 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getCategories()
+    /**
+     * @return array<int, string|null>
+     */
+    public function getCategories(): array
     {
         $res = [];
 
@@ -1023,23 +1171,32 @@ class User extends BaseUser
     {
         $deputy = [];
         foreach ($this->getManagerElement() as $data) {
-            $deputy[] = $data->getDeputy();
+            $managerDeputy = $data->getDeputy();
+            if ($managerDeputy !== null) {
+                $deputy[] = $managerDeputy;
+            }
         }
         return new ArrayCollection($deputy);
     }
 
-    public function addDeputy(self $deputy): self
+    public function addDeputy(Deputy $deputy): self
     {
-        if (!$this->deputy->contains($deputy)) {
-            $this->deputy[] = $deputy;
+        if (!$this->deputiesElement->contains($deputy)) {
+            $this->deputiesElement->add($deputy);
+            $deputy->setDeputy($this);
         }
 
         return $this;
     }
 
-    public function removeDeputy(self $deputy): self
+    public function removeDeputy(Deputy $deputy): self
     {
-        $this->deputy->removeElement($deputy);
+        if ($this->deputiesElement->removeElement($deputy)) {
+            // set the owning side to null (unless already changed)
+            if ($deputy->getDeputy() === $this) {
+                $deputy->setDeputy(null);
+            }
+        }
 
         return $this;
     }
@@ -1051,25 +1208,31 @@ class User extends BaseUser
     {
         $managers = [];
         foreach ($this->getDeputiesElement() as $data) {
-            $managers[] = $data->getManager();
+            $deputyManager = $data->getManager();
+            if ($deputyManager !== null) {
+                $managers[] = $deputyManager;
+            }
         }
         return new ArrayCollection($managers);
     }
 
-    public function addManager(self $manager): self
+    public function addManager(Deputy $manager): self
     {
-        if (!$this->managers->contains($manager)) {
-            $this->managers[] = $manager;
-            $manager->addDeputy($this);
+        if (!$this->managerElement->contains($manager)) {
+            $this->managerElement->add($manager);
+            $manager->setManager($this);
         }
 
         return $this;
     }
 
-    public function removeManager(self $manager): self
+    public function removeManager(Deputy $manager): self
     {
-        if ($this->managers->removeElement($manager)) {
-            $manager->removeDeputy($this);
+        if ($this->managerElement->removeElement($manager)) {
+            // set the owning side to null (unless already changed)
+            if ($manager->getManager() === $this) {
+                $manager->setManager(null);
+            }
         }
 
         return $this;
@@ -1415,6 +1578,18 @@ class User extends BaseUser
     public function setCalendlyServer(?Server $calendlyServer): static
     {
         $this->calendlyServer = $calendlyServer;
+
+        return $this;
+    }
+
+    public function isHotstandbyEnabled(): ?bool
+    {
+        return $this->hotstandbyEnabled;
+    }
+
+    public function setHotstandbyEnabled(bool $hotstandbyEnabled): static
+    {
+        $this->hotstandbyEnabled = $hotstandbyEnabled;
 
         return $this;
     }
