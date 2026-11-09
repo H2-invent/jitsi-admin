@@ -251,7 +251,8 @@ class DashboardController extends JitsiAdminController
                 [
                     'persistantRooms' => $persistantRooms,
                     'servers' => $servers,
-                    'offset' => $offset
+                    'offset' => $offset,
+                    'timestamp' => (new \DateTimeImmutable())->getTimestamp(),
                 ]
             );
         } elseif ($type === 'past') {
