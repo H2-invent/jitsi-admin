@@ -7,6 +7,7 @@ use App\Repository\RoomsRepository;
 use App\Repository\TagRepository;
 use App\Service\ParticipantSearchService;
 use App\Service\ServerUserManagment;
+use App\Twig\WebsocketJwt;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,7 @@ class ContactApiController extends AbstractController
         private readonly ServerUserManagment      $serverUserManagment,
         private readonly TagRepository            $tagRepository,
         private readonly RoomsRepository          $roomsRepository,
+        private readonly WebsocketJwt             $websocketJwt,
     ) {
     }
 
@@ -59,6 +61,14 @@ class ContactApiController extends AbstractController
 
         $res['servers'] = $serverArr;
         $res['tags']    = $tagArr;
+
+        // The Chrome extension connects with its own JWT: personal/<uid> keeps the normal
+        // notifications, extension/<uid> is the extension-only ring topic.
+        $res['websocketUrl']    = $this->websocketJwt->getUrlforWebsocket();
+        $res['websocketTopics'] = $this->websocketJwt->getJwtforWebsocket(
+            ['personal/' . $user->getUid(), 'extension/' . $user->getUid()],
+            $user
+        );
 
         return new JsonResponse($res);
     }

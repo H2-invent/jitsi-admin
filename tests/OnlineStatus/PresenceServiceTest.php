@@ -116,4 +116,47 @@ class PresenceServiceTest extends TestCase
 
         self::assertContains('Authorization: Bearer secret', $requestedHeaders);
     }
+
+    public function testExtensionRegistrationIsReported(): void
+    {
+        $client = new MockHttpClient(
+            new MockResponse(
+                json_encode(['status' => 'online', 'extensionRegistered' => true], JSON_THROW_ON_ERROR),
+                ['http_code' => 200]
+            )
+        );
+
+        self::assertTrue($this->createService($client)->isExtensionRegistered($this->createUser()));
+    }
+
+    public function testMissingExtensionFlagIsNotRegistered(): void
+    {
+        $client = new MockHttpClient(
+            new MockResponse(json_encode(['status' => 'online'], JSON_THROW_ON_ERROR), ['http_code' => 200])
+        );
+
+        self::assertFalse($this->createService($client)->isExtensionRegistered($this->createUser()));
+    }
+
+    public function testUnknownPresenceIsNotRegistered(): void
+    {
+        $client = new MockHttpClient(new MockResponse('', ['http_code' => 503]));
+
+        self::assertFalse($this->createService($client)->isExtensionRegistered($this->createUser()));
+    }
+
+    public function testPresenceLookupReturnsStatusAndExtensionFlag(): void
+    {
+        $client = new MockHttpClient(
+            new MockResponse(
+                json_encode(['status' => 'away', 'extensionRegistered' => true], JSON_THROW_ON_ERROR),
+                ['http_code' => 200]
+            )
+        );
+
+        self::assertSame(
+            ['status' => 'away', 'extensionRegistered' => true],
+            $this->createService($client)->getPresenceForUid('uid-1')
+        );
+    }
 }

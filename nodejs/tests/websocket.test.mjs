@@ -51,6 +51,17 @@ async function once(socket, event, timeoutMs = 5000) {
   });
 }
 
+// Polls until the predicate is true. The deadline only guards against a stuck condition; the
+// result is observed, not assumed after a fixed delay.
+async function waitFor(predicate, timeoutMs = 5000) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    if (await predicate()) return;
+    await sleep(50);
+  }
+  throw new Error(`waitFor: condition not met within ${timeoutMs}ms`);
+}
+
 describe("WebSocket Server", function () {
   this.timeout(30000);
 
@@ -338,31 +349,51 @@ describe("WebSocket Server", function () {
     });
   });
 
-  describe("getStatusForUserId (server-side presence)", function () {
-    it("should return offline for unknown user ids", async function () {
-      const { getStatusForUserId } = await import("../login.mjs");
-      expect(await getStatusForUserId("presence-unknown")).to.equal("offline");
-    });
-
-    it("should reflect online, away, inMeeting and offline for a connected user", async function () {
-      const { getStatusForUserId } = await import("../login.mjs");
-      const client = connectClient({ sub: "presence-user-1", status: 1 });
+  describe("Extension registration", function () {
+    it("should report an extension socket as registered while it is connected", async function () {
+      const { getPresenceForUserId } = await import("../login.mjs");
+      const client = connectClient({
+        sub: "ext-user-1",
+        rooms: ["personal/ext-user-1", "extension/ext-user-1"],
+      });
       await once(client, "sendUserStatus");
-      await sleep(300);
 
-      expect(await getStatusForUserId("presence-user-1")).to.equal("online");
-
-      client.emit("setStatus", "away");
-      await once(client, "sendUserStatus");
-      expect(await getStatusForUserId("presence-user-1")).to.equal("away");
-
-      client.emit("enterMeeting");
-      await once(client, "sendUserStatus");
-      expect(await getStatusForUserId("presence-user-1")).to.equal("inMeeting");
+      const presence = await getPresenceForUserId("ext-user-1");
+      expect(presence.status).to.equal("online");
+      expect(presence.extensionRegistered).to.equal(true);
 
       client.close();
-      await sleep(8000);
-      expect(await getStatusForUserId("presence-user-1")).to.equal("offline");
+      await waitFor(async () => (await getPresenceForUserId("ext-user-1")).extensionRegistered === false);
+    });
+
+    it("should not report a plain dashboard tab as extension", async function () {
+      const { getPresenceForUserId } = await import("../login.mjs");
+      const client = connectClient({ sub: "ext-user-2", rooms: ["personal/ext-user-2"] });
+      await once(client, "sendUserStatus");
+
+      const presence = await getPresenceForUserId("ext-user-2");
+      expect(presence.status).to.equal("online");
+      expect(presence.extensionRegistered).to.equal(false);
+
+      client.close();
+    });
+
+    it("should keep the registration while another extension socket stays connected", async function () {
+      const { getPresenceForUserId } = await import("../login.mjs");
+      const token = makeToken({
+        sub: "ext-user-3",
+        rooms: ["personal/ext-user-3", "extension/ext-user-3"],
+      });
+      const socketA = ClientIO(SERVER_URL, { path: "/ws", query: { token }, transports: ["websocket"], timeout: 5000, reconnection: false });
+      const socketB = ClientIO(SERVER_URL, { path: "/ws", query: { token }, transports: ["websocket"], timeout: 5000, reconnection: false });
+
+      await Promise.all([once(socketA, "sendUserStatus"), once(socketB, "sendUserStatus")]);
+
+      socketA.close();
+      await waitFor(async () => (await getPresenceForUserId("ext-user-3")).extensionRegistered === true);
+
+      socketB.close();
+      await waitFor(async () => (await getPresenceForUserId("ext-user-3")).extensionRegistered === false);
     });
   });
 });

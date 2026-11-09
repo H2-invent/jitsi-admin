@@ -115,6 +115,10 @@ export async function loginUser(socket) {
 
     const initialStatus = getUserInitialOnlineStatus(socket);
 
+    // An extension socket registers with an extra "extension/<uid>" room. It must not change the
+    // presence status, but the PHP side needs to know it is there (it takes over ringing).
+    socket.isExtension = isExtensionSocket(socket, userId);
+
     // Always create/manage local User for socket operations (sendToAllSockets, away timer, etc.)
     if (!user[userId]) {
       user[userId] = new User(userId, socket, initialStatus);
@@ -125,10 +129,12 @@ export async function loginUser(socket) {
     // Also persist to Redis for cross-instance presence
     const existingData = await redisGetUser(userId);
     const socketCount = (existingData?.socketsCount || 0) + 1;
+    const extensionSockets = (existingData?.extensionSockets || 0) + (socket.isExtension ? 1 : 0);
     await redisSetUser(userId, {
       id: userId,
       status: initialStatus,
       socketsCount: socketCount,
+      extensionSockets,
       inMeetingCount: existingData?.inMeetingCount || 0,
       away: existingData?.away || false,
       awayTime: existingData?.awayTime || AWAY_TIME
@@ -137,6 +143,12 @@ export async function loginUser(socket) {
     return getUserFromSocket(socket);
   }
   return null;
+}
+
+export function isExtensionSocket(socket, userId = null) {
+  const jwtObj = jwt.decode(socket.handshake.query.token);
+  const uid = userId || jwtObj?.sub;
+  return Array.isArray(jwtObj?.rooms) && uid && jwtObj.rooms.includes("extension/" + uid);
 }
 
 export async function disconnectUser(socket) {
@@ -156,6 +168,7 @@ export async function disconnectUser(socket) {
       await redisDeleteUser(userId);
     } else {
       existing.socketsCount = newCount;
+      existing.extensionSockets = Math.max((existing.extensionSockets || 0) - (socket.isExtension ? 1 : 0), 0);
       await redisSetUser(userId, existing);
     }
   }
@@ -302,7 +315,14 @@ function getUserStatusFromData(data) {
 // mode (or when Redis has no entry for the user). Returns null only when Redis cannot be read,
 // so callers can tell "unknown" apart from a definite "offline".
 export async function getStatusForUserId(userId) {
-  if (!userId) return "offline";
+  const presence = await getPresenceForUserId(userId);
+  return presence === null ? null : presence.status;
+}
+
+// Same lookup as getStatusForUserId, plus whether a Chrome extension socket is registered for the
+// user. Null means "unknown" (Redis unreadable); callers must not treat that as registered.
+export async function getPresenceForUserId(userId) {
+  if (!userId) return { status: "offline", extensionRegistered: false };
 
   if (redis) {
     let raw;
@@ -315,16 +335,23 @@ export async function getStatusForUserId(userId) {
     }
 
     if (raw) {
-      return resolveStatusFromRedisData(raw);
+      let extensionRegistered = false;
+      try {
+        const data = JSON.parse(raw);
+        extensionRegistered = !isStale(data) && (data.extensionSockets || 0) > 0;
+      } catch {
+        // Malformed entry: resolveStatusFromRedisData reports offline and nothing is registered.
+      }
+      return { status: resolveStatusFromRedisData(raw), extensionRegistered };
     }
   }
 
   const local = user[userId];
   if (local) {
-    return local.getStatus();
+    return { status: local.getStatus(), extensionRegistered: local.countExtensionSockets() > 0 };
   }
 
-  return "offline";
+  return { status: "offline", extensionRegistered: false };
 }
 
 export function getUserFromSocket(socket) {

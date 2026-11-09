@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Helper\UidGeneratorHelper;
 use App\Service\Lobby\DirectSendService;
+use App\Service\OnlineStatus\PresenceService;
 use App\Service\Theme\ThemeService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -20,6 +21,7 @@ class AdhocMeetingWebsocketService
         private readonly DirectSendService     $directSendService,
         private readonly UrlGeneratorInterface $urlGen,
         private readonly ThemeService          $theme,
+        private readonly PresenceService       $presenceService,
     ) {
     }
 
@@ -32,6 +34,22 @@ class AdhocMeetingWebsocketService
         $topic      = 'personal/' . $reciever->getUid();
         $header     = $this->translator->trans('addhock.notification.title');
         $dialogType = 'question';
+
+        // A registered Chrome extension is the only client that may ring: the invite goes to the
+        // extension-only topic and the browser tabs (which subscribe to personal/<uid>) stay silent.
+        if ($this->presenceService->isExtensionRegistered($reciever)) {
+            $this->directSendService->sendCallAdhockmeeding(
+                $header,
+                'extension/' . $reciever->getUid(),
+                $this->buildJoinLink($room),
+                $text,
+                $this->getSignalingDuration() * 1000,
+                UidGeneratorHelper::generate()
+            );
+
+            return;
+        }
+
         // Only the web ad-hoc flow lets the callee's browser enforce the configured ringing
         // duration; phone callouts are continued by the SIP callout system.
         $timeoutExtra = [];
@@ -102,5 +120,18 @@ class AdhocMeetingWebsocketService
         $duration = (int) $this->parameterBag->get('ADHOC_CALL_SIGNALING_DURATION');
 
         return $duration > 0 ? $duration : 30;
+    }
+
+    /**
+     * The extension popup extracts the first href from the ring message and opens it to accept
+     * the call. The join flow itself marks the callout as answered.
+     */
+    private function buildJoinLink(Rooms $room): string
+    {
+        return sprintf(
+            '<a href="%s">%s</a>',
+            $this->urlGen->generate('room_join', ['room' => $room->getId(), 't' => 'b']),
+            $this->translator->trans('Hier beitreten')
+        );
     }
 }

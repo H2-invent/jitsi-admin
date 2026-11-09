@@ -9,7 +9,7 @@ import { Server } from "socket.io";
 
 import { checkFileContains } from "./checkCertAndKey.js";
 import { websocketState } from "./websocketState.mjs";
-import { loginUser, getOnlineUser, getUserId, redisGetUser, redisSetUser, getStatusForUserId } from "./login.mjs";
+import { loginUser, getOnlineUser, getUserId, redisGetUser, redisSetUser, getPresenceForUserId } from "./login.mjs";
 import { setIO } from "./ioRegistry.mjs";
 import {
   MERCURE_INTERNAL_URL,
@@ -132,6 +132,8 @@ function setupRoutes(io) {
   // Internal server-to-server endpoint used by the PHP PresenceService. It is authenticated with
   // the raw shared WEBSOCKET_SECRET (not a user JWT), so browser users cannot call it. A 503
   // signals "presence unknown" so the caller can fall back to the stored online status.
+  // extensionRegistered tells the PHP ring publisher whether a Chrome extension is connected; the
+  // extension is then the only client that may ring.
   router.get("/presence/:uid", (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) return res.sendStatus(403);
@@ -139,10 +141,14 @@ function setupRoutes(io) {
     const token = authHeader.split(" ")[1];
     if (!token || !constantTimeSecretEquals(token, WEBSOCKET_SECRET)) return res.sendStatus(403);
 
-    getStatusForUserId(req.params.uid)
-      .then((status) => {
-        if (status === null) return res.status(503).json({ error: "presence unavailable" });
-        res.json({ uid: req.params.uid, status });
+    getPresenceForUserId(req.params.uid)
+      .then((presence) => {
+        if (presence === null) return res.status(503).json({ error: "presence unavailable" });
+        res.json({
+          uid: req.params.uid,
+          status: presence.status,
+          extensionRegistered: presence.extensionRegistered
+        });
       })
       .catch((presenceError) => {
         console.error("❌ Presence-Lookup fehlgeschlagen:", presenceError.message);
@@ -183,6 +189,7 @@ function startHeartbeat(io, redis) {
           id: userId,
           status: existingData.status || (socket.decoded?.status === 1 ? "online" : "offline"),
           socketsCount: existingData.socketsCount || 1,
+          extensionSockets: existingData.extensionSockets || 0,
           inMeetingCount: existingData.inMeetingCount || 0,
           away: existingData.away || false,
           awayTime: existingData.awayTime || 5
