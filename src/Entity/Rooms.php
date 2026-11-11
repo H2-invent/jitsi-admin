@@ -286,6 +286,32 @@ class Rooms
         $this->transcriptions     = new ArrayCollection();
     }
 
+    public function __clone()
+    {
+        // A cloned room is a new occurrence: it must not share the identifier or
+        // any collection with the room it was copied from.
+        $this->id = null;
+
+        $this->user               = new ArrayCollection();
+        $this->userAttributes     = new ArrayCollection();
+        $this->subscribers        = new ArrayCollection();
+        $this->schedulings        = new ArrayCollection();
+        $this->waitinglists       = new ArrayCollection();
+        $this->prototypeUsers     = new ArrayCollection();
+        $this->favoriteUsers      = new ArrayCollection();
+        $this->lobbyWaitungUsers  = new ArrayCollection();
+        $this->roomstatuses       = new ArrayCollection();
+        $this->callerIds          = new ArrayCollection();
+        $this->calloutSessions    = new ArrayCollection();
+        $this->logs               = new ArrayCollection();
+        $this->uploadedRecordings = new ArrayCollection();
+        $this->liveKitRecordings  = new ArrayCollection();
+        $this->transcriptions     = new ArrayCollection();
+
+        $this->callerRoom       = null;
+        $this->repeaterProtoype = null;
+    }
+
     public function normalize(string $propertyName): string
     {
         return 'org_' . $propertyName;

@@ -242,7 +242,7 @@ class RoomController extends JitsiAdminController
             $form = $this->createForm(
                 RoomType::class,
                 $roomNew,
-                ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['room' => $roomNew->getId()])]
+                ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['room' => $roomOld->getId()])]
             );
             $form->remove('scheduleMeeting');
             $form->handleRequest($request);
