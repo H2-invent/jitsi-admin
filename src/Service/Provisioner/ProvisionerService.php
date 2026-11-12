@@ -16,8 +16,6 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 class ProvisionerService
 {
     public function __construct(
-        private readonly ProvisionerCommunicationService $communicationService,
-        private readonly ProvisionerPersistenceService $persistenceService,
         private readonly ProvisionerRecordService $recordService,
         private readonly ProvisionerStatusService $statusService,
         #[Autowire(param: 'provisioner.schedule.minutes_threshold')]

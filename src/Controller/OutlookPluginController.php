@@ -85,13 +85,9 @@ final class OutlookPluginController extends AbstractController
     public function createConference(Request $request): Response
     {
         $serverID = $request->get('server_id');
-        /**
-         * @var Server $server
-         */
         $server = $this->entityManager->getRepository(Server::class)->find($serverID);
         if (!$server) {
             return new JsonResponse(['error' => true, 'reason' => 'Server not found']);
-
         }
         if (!$request->headers->has('Authorization')) {
             return new JsonResponse(['error' => 'Error reading Authorization']);

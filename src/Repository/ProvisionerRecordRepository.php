@@ -25,6 +25,8 @@ class ProvisionerRecordRepository extends ServiceEntityRepository
 
     /**
      * @param ProvisionerStatus[] $statuses
+     *
+     * @return ProvisionerRecord[]
      */
     public function findByStatuses(Rooms $room, array $statuses): array
     {

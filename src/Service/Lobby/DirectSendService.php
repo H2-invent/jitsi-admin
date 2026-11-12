@@ -171,14 +171,15 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendRedirectLocal($topic, $url, $timeout = 1000)
+    public function sendRedirectLocal(string $topic, string $url, mixed $timeout = 1000): bool
     {
-        $data = [
-            'type' => 'redirect_local',
-            'url' => $url,
+        $data   = [
+            'type'    => 'redirect_local',
+            'url'     => $url,
             'timeout' => $timeout,
         ];
-        $update = new Update($topic, json_encode($data));
+        $update = new Update($topic, (string)json_encode($data));
+
         return $this->sendUpdate($update);
     }
 

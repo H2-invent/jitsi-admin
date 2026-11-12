@@ -26,7 +26,6 @@ class RoomWebhookService
                                 private readonly ThemeService               $themeService,
                                 private readonly EgressService              $egressService,
                                 private readonly ProvisionerService         $provisionerService,
-                                private readonly RoomsRepository            $roomsRepository,
     ) {
     }
 

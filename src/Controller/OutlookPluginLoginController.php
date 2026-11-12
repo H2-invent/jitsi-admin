@@ -28,10 +28,8 @@ final class OutlookPluginLoginController extends AbstractController
     #[Route('/outlooklogin', name: 'login', methods: ['GET'])]
     public function login(): Response
     {
-        /**@var \App\Entity\User $user * */
         $user = $this->getUser();
-
-        if (!$user) {
+        if (!$user instanceof User) {
             return new JsonResponse(['error' => true, 'reason' => 'No user loged in']);
         }
 

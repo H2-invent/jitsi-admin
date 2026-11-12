@@ -12,6 +12,9 @@ use Psr\Log\LoggerInterface;
 
 class ProvisionerStatusService
 {
+    /**
+     * @var array<string, Status[]>
+     */
     private array $allowedTransitions = [
         Status::IDLE->value => [
             Status::PROVISION_REQUESTED,

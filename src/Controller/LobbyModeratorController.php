@@ -63,9 +63,9 @@ class LobbyModeratorController extends JitsiAdminController
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/room/lobby/start/moderator/{type}/{room}', name: 'lobby_moderator_start')]
-    public function startMeeting($room, string $type, RoomService $roomService, Request $request): Response
+    public function startMeeting(string $roomUid, string $type, RoomService $roomService, Request $request): Response
     {
-        $roomL = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $room]);
+        $roomL = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomUid]);
         if (!$this->checkLobbyPermissionService->checkPermissions($roomL, $this->getSessionUser($request->getSession()))) {
             $this->logger->log(
                 'error',

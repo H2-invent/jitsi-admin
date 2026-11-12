@@ -44,6 +44,10 @@ class RsaEncryptionService
             throw new \RuntimeException('Could not decrypt string', previous: $e);
         }
 
+        if (!is_string($decrypted)) {
+            throw new \RuntimeException('Could not decrypt string');
+        }
+
         return $decrypted;
     }
 
@@ -57,6 +61,10 @@ class RsaEncryptionService
             $encrypted = $this->publicKey->encrypt($data);
         } catch (\Throwable $e) {
             throw new \RuntimeException('Could not encrypt string', 0, $e);
+        }
+
+        if (!is_string($encrypted)) {
+            throw new \RuntimeException('Could not encrypt string');
         }
 
         return base64_encode($encrypted);

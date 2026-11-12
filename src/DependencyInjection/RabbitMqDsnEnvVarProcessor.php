@@ -30,6 +30,9 @@ class RabbitMqDsnEnvVarProcessor implements EnvVarProcessorInterface
         return $this->buildDsn($parsedUrl, $tlsMode);
     }
 
+    /**
+     * @param array{scheme?: string, host?: string, port?: int, user?: string, pass?: string, path?: string, query?: string, fragment?: string} $parsedUrl
+     */
     private function buildDsn(array $parsedUrl, string $tlsMode): string
     {
         $scheme = match ($tlsMode) {
@@ -47,6 +50,9 @@ class RabbitMqDsnEnvVarProcessor implements EnvVarProcessorInterface
         $portParam = [];
         // when using TLS we have to give the port as query param, don't ask me why
         if ($scheme === 'amqps') {
+            if (!isset($parsedUrl['port'])) {
+                throw new \InvalidArgumentException('RABBITMQ_DSN is missing the port required for TLS');
+            }
             $portParam['port'] = $parsedUrl['port'];
             unset($parsedUrl['port']);
         }
@@ -76,6 +82,9 @@ class RabbitMqDsnEnvVarProcessor implements EnvVarProcessorInterface
         return $dsn;
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function getTlsQueryParams(string $tlsMode): array
     {
         return match ($tlsMode) {
