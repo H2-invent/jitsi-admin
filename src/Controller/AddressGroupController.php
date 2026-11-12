@@ -10,25 +10,25 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AddressGroupController extends JitsiAdminController
 {
-    #[Route(path: 'room/address/group/new', name: 'address_group_new')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/address/group/new', name: 'address_group_new')]
     public function new(Request $request, TranslatorInterface $translator, IndexGroupsService $indexGroupsService): Response
     {
         $addressGroup = new AddressGroup();
         $addressGroup->setCreatedAt(new \DateTimeImmutable());
         $addressGroup->setLeader($this->getUser());
-        $title = $translator->trans('Neue Kontaktgruppe erstellen');
+        $title  = $translator->trans('Neue Kontaktgruppe erstellen');
         $isEdit = false;
+
         if ($request->get('id')) {
             $addressGroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
             if ($addressGroup->getLeader() !== $this->getUser()) {
                 throw new NotFoundHttpException($translator->trans('Nicht gefunden'));
             }
-            $title = $translator->trans('Kontaktgruppe bearbeiten');
+            $title  = $translator->trans('Kontaktgruppe bearbeiten');
             $isEdit = true;
         }
         $form = $this->createForm(AddressGroupType::class, $addressGroup, ['user' => $this->getUser()]);
@@ -37,7 +37,7 @@ class AddressGroupController extends JitsiAdminController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $existingName = $this->doctrine->getRepository(AddressGroup::class)->findOneBy([
-                    'name' => $addressGroup->getName(),
+                    'name'   => $addressGroup->getName(),
                     'leader' => $this->getUser(),
                 ]);
                 if ($existingName && (!$isEdit || $existingName->getId() !== $addressGroup->getId())) {
@@ -48,7 +48,7 @@ class AddressGroupController extends JitsiAdminController
                 $this->addFlash('success', $translator->trans('Kontaktgruppe erfolgreich angelegt'));
                 return $this->redirectToRoute('dashboard');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $this->addFlash('danger', $snack);
             return $this->redirectToRoute('dashboard');
@@ -57,19 +57,20 @@ class AddressGroupController extends JitsiAdminController
         return $this->render(
             'address_group/index.html.twig',
             [
-                'form' => $form->createView(),
+                'form'  => $form->createView(),
                 'title' => $title
             ]
         );
     }
 
-    #[Route(path: 'room/address/group/new-ajax', name: 'address_group_new_ajax', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/address/group/new-ajax', name: 'address_group_new_ajax', methods: ['POST'])]
     public function newAjax(Request $request, TranslatorInterface $translator, IndexGroupsService $indexGroupsService): Response
     {
         $addressGroup = new AddressGroup();
         $addressGroup->setCreatedAt(new \DateTimeImmutable());
         $addressGroup->setLeader($this->getUser());
         $isEdit = false;
+
         if ($request->get('id')) {
             $addressGroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
             if ($addressGroup->getLeader() !== $this->getUser()) {
@@ -83,7 +84,7 @@ class AddressGroupController extends JitsiAdminController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $existingName = $this->doctrine->getRepository(AddressGroup::class)->findOneBy([
-                    'name' => $addressGroup->getName(),
+                    'name'   => $addressGroup->getName(),
                     'leader' => $this->getUser(),
                 ]);
                 if ($existingName && (!$isEdit || $existingName->getId() !== $addressGroup->getId())) {
@@ -93,7 +94,7 @@ class AddressGroupController extends JitsiAdminController
                 $this->doctrine->getManager()->refresh($this->getUser());
                 return $this->render('addressbook/__addressGroups.html.twig');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return new JsonResponse(['error' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')], Response::HTTP_BAD_REQUEST);
         }
 
@@ -101,34 +102,39 @@ class AddressGroupController extends JitsiAdminController
         foreach ($form->getErrors(true) as $error) {
             $errors[] = $error->getMessage();
         }
+
         return new JsonResponse(['errors' => $errors], Response::HTTP_BAD_REQUEST);
     }
 
-    #[Route(path: 'room/address/group/remove', name: 'address_group_remove')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/address/group/remove', name: 'address_group_remove')]
     public function remove(Request $request, TranslatorInterface $translator): Response
     {
         $addressGroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
         if (!$addressGroup || $addressGroup->getLeader() != $this->getUser()) {
             throw new NotFoundHttpException($translator->trans('Nicht gefunden'));
         }
+
         $em = $this->doctrine->getManager();
         $em->remove($addressGroup);
         $em->flush();
         $this->addFlash('success', $translator->trans('Kontaktgruppe gelöscht'));
+
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route(path: 'room/address/group/remove-ajax', name: 'address_group_remove_ajax', methods: ['POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route(path: 'room/address/group/remove-ajax', name: 'address_group_remove_ajax', methods: ['POST'])]
     public function removeAjax(Request $request, TranslatorInterface $translator): Response
     {
         $addressGroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
         if (!$addressGroup || $addressGroup->getLeader() != $this->getUser()) {
             return new JsonResponse(['error' => $translator->trans('Nicht gefunden')], Response::HTTP_NOT_FOUND);
         }
+
         $em = $this->doctrine->getManager();
         $em->remove($addressGroup);
         $em->flush();
         $this->doctrine->getManager()->refresh($this->getUser());
+
         return $this->render('addressbook/__addressGroups.html.twig');
     }
 

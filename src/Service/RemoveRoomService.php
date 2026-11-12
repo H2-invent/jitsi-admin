@@ -6,23 +6,20 @@ use App\Entity\Rooms;
 use App\Service\Provisioner\ProvisionerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RemoveRoomService
 {
 
     public function __construct(
-        private EntityManagerInterface $em,
-        private UserService            $userService,
-        private LoggerInterface        $logger,
-        private ProvisionerService     $provisionerService,
-    )
-    {
-
+        private readonly EntityManagerInterface $em,
+        private readonly UserService            $userService,
+        private readonly LoggerInterface        $logger,
+        private readonly ProvisionerService     $provisionerService,
+    ) {
     }
 
 
-    public function deleteRoom(Rooms $room)
+    public function deleteRoom(Rooms $room): bool
     {
         try {
             foreach ($room->getUser() as $user) {
@@ -32,28 +29,39 @@ class RemoveRoomService
                 $room->removeUser($user);
                 $this->em->persist($room);
             }
+
             if ($room->getRepeater()) {
                 $room->setRepeater(null);
             }
             $this->em->persist($room);
             $room->setModerator(null);
+
             foreach ($room->getFavoriteUsers() as $data) {
                 $room->removeFavoriteUser($data);
             }
             $this->em->persist($room);
+
             foreach ($room->getLobbyWaitungUsers() as $data) {
+                if ($data->getCallerSession()) {
+                    $session = $data->getCallerSession();
+                    $session->setLobbyWaitingUser(null);
+                    $this->em->persist($session);
+                }
                 $room->removeLobbyWaitungUser($data);
             }
             $this->em->persist($room);
+
             foreach ($room->getSubscribers() as $data) {
                 $room->removeSubscriber($data);
                 $this->em->remove($data);
             }
             $this->em->persist($room);
+
             foreach ($room->getWaitinglists() as $data) {
                 $room->removeWaitinglist($data);
                 $this->em->remove($data);
             }
+
             foreach ($room->getCallerIds() as $data) {
                 $this->em->remove($data);
                 $room->removeCallerId($data);
@@ -66,6 +74,7 @@ class RemoveRoomService
                 $this->em->remove($callerRoom);
                 $this->em->flush();
             }
+
             if ($room->getCalloutSessions()->count() > 0) {
                 foreach ($room->getCalloutSessions() as $session) {
                     $this->em->remove($session);

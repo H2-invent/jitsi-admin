@@ -2,19 +2,14 @@
 
 namespace App\Exceptions;
 
-use App\Entity\User;
-
 class UserNotInAdressbookException extends \Exception
 {
-    private User $user;
-
-    public function __construct(User $user)
+    public function __construct()
     {
         parent::__construct('User not in Adressbook');
     }
 
-    public function customMessage()
+    public function customMessage(): void
     {
-
     }
 }

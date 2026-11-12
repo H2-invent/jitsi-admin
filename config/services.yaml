@@ -50,6 +50,7 @@ parameters:
     LAF_FLOATING_TAG_FORCE_SHOW: '%env(LAF_FLOATING_TAG_FORCE_SHOW)%'
     LAF_RESEND_SUBSCRIPTION_DOUBLE_OPTIN_EMAIL: '%env(LAF_RESEND_SUBSCRIPTION_DOUBLE_OPTIN_EMAIL)%'
     LAF_SHOW_CALENDLY: '%env(LAF_SHOW_CALENDLY)%'
+    LAF_SHOW_HOTSTANDBY: '%env(LAF_SHOW_HOTSTANDBY)%'
     ALLOW_SERVER_CHANGE_WHEN_DISABLED: '%env(ALLOW_SERVER_CHANGE_WHEN_DISABLED)%'
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
@@ -79,6 +80,7 @@ parameters:
 
     CALLOUT_MAX_RETRIES: '%env(CALLOUT_MAX_RETRIES)%'
     CALLOUT_WAITING_TIME: '%env(CALLOUT_WAITING_TIME)%'
+    ADHOC_CALL_SIGNALING_DURATION: '%env(ADHOC_CALL_SIGNALING_DURATION)%'
     strict_username_only: '%env(strict_username_only)%'
     STRICT_EMAIL_SET_ENVELOP_FROM: '%env(STRICT_EMAIL_SET_ENVELOP_FROM)%'
     strict_allow_user_creation: '%env(strict_allow_user_creation)%'
@@ -123,6 +125,8 @@ parameters:
     SIP_CALLER_SHOW_IN_FRONTEND: '%env(SIP_CALLER_SHOW_IN_FRONTEND)%'
     SIP_CALLER_TAG_HTML: '%env(SIP_CALLER_TAG_HTML)%'
     WEBSOCKET_SECRET: '%env(WEBSOCKET_SECRET)%'
+    WEBSOCKET_INTERNAL_URL: '%env(default:MERCURE_URL:WEBSOCKET_INTERNAL_URL)%'
+    MERCURE_URL: '%env(MERCURE_URL)%'
     MERCURE_PUBLIC_URL: '%env(MERCURE_PUBLIC_URL)%'
     WHITEBOARD_SECRET: '%env(WHITEBOARD_SECRET)%'
     WHITEBOARD_URL: '%env(WHITEBOARD_URL)%'
@@ -150,6 +154,7 @@ parameters:
     JITSI_COMPONENT_SELECTOR_PRIVATE_PATH: '%env(JITSI_COMPONENT_SELECTOR_PRIVATE_PATH)%'
     JITSI_COMPONENT_SELECTOR_PUBLIC_PATH: '%env(JITSI_COMPONENT_SELECTOR_PUBLIC_PATH)%'
     JITSI_COMPONENT_SELECTOR_JWT_KID: '%env(JITSI_COMPONENT_SELECTOR_JWT_KID)%'
+    JWT_LIFETIME_IN_SEC: '%env(int:JWT_LIFETIME_IN_SEC)%'
     LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'
     API_TOKEN_BEARER_THEME: '%env(API_TOKEN_BEARER_THEME)%'
     API_TOKEN_BEARER_TRANSCRIPTION: '%env(API_TOKEN_BEARER_TRANSCRIPTION)%'
@@ -237,7 +242,6 @@ services:
         class: App\Monolog\Handler\ExcludeHealthCheckHandler
         arguments:
             $handler: '@monolog.handler.loki_async'
-            $minLevelOrList: '%app.log.loki.log_level%'
         tags:
             - { name: monolog.handler, handler: loki_filtered }
 

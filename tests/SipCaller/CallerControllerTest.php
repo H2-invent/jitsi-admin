@@ -10,10 +10,10 @@ use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\caller\CallerLeftService;
-use App\Service\caller\CallerPinService;
-use App\Service\caller\CallerPrepareService;
-use App\Service\caller\CallerSessionService;
+use App\Service\Caller\CallerLeftService;
+use App\Service\Caller\CallerPinService;
+use App\Service\Caller\CallerPrepareService;
+use App\Service\Caller\CallerSessionService;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -68,8 +68,8 @@ class CallerControllerTest extends WebTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
-        $room->setStart((new \DateTime())->modify('+2 hours'));
-        $room->setEnddate((new \DateTime())->modify('+4 hours'));
+        $room->setStart((new \DateTimeImmutable())->modify('+2 hours'));
+        $room->setEnddate((new \DateTimeImmutable())->modify('+4 hours'));
         $manager->persist($room);
         $manager->flush();
         $callerPrepareService->createUserCallerIDforRoom($room);
@@ -315,11 +315,11 @@ class CallerControllerTest extends WebTestCase
         $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
 
@@ -347,7 +347,7 @@ class CallerControllerTest extends WebTestCase
         $status = $room->getRoomstatuses()[0];
         $roomPart = new RoomStatusParticipant();
         $roomPart->setParticipantName('test12')
-            ->setEnteredRoomAt(new \DateTime())
+            ->setEnteredRoomAt(new \DateTimeImmutable())
             ->setRoomStatus($status)
             ->setInRoom(true)
             ->setParticipantId('1234');
@@ -373,7 +373,7 @@ class CallerControllerTest extends WebTestCase
 
         $roomPart = new RoomStatusParticipant();
         $roomPart->setParticipantName('test122')
-            ->setEnteredRoomAt(new \DateTime())
+            ->setEnteredRoomAt(new \DateTimeImmutable())
             ->setRoomStatus($status)
             ->setInRoom(true)
             ->setParticipantId('12345');
@@ -397,8 +397,8 @@ class CallerControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $status->setDestroyedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime())
+        $status->setDestroyedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable())
             ->setCreated(false)
             ->setDestroyed(true);
         $manager->persist($status);
@@ -434,11 +434,11 @@ class CallerControllerTest extends WebTestCase
         $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
 
@@ -494,11 +494,11 @@ class CallerControllerTest extends WebTestCase
         $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
 
@@ -563,11 +563,11 @@ class CallerControllerTest extends WebTestCase
         $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
 
@@ -630,11 +630,11 @@ class CallerControllerTest extends WebTestCase
         $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
 

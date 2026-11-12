@@ -68,7 +68,7 @@ class RoomsRepositoryFutureAndPastTest extends KernelTestCase
             $deputyRelation->setManager($manager)
                 ->setDeputy($deputy)
                 ->setIsFromLdap(false)
-                ->setCreatedAt(new \DateTime());
+                ->setCreatedAt(new \DateTimeImmutable());
             $em->persist($deputyRelation);
         }
 
@@ -139,11 +139,11 @@ class RoomsRepositoryFutureAndPastTest extends KernelTestCase
 
         $room = new Rooms();
         $room->setTimeZone('UTC');
-        $room->setStart(\DateTime::createFromImmutable($start));
-        $room->setEnddate(\DateTime::createFromImmutable($end));
+        $room->setStart($start);
+        $room->setEnddate($end);
         $room->setName($name);
         $room->setUid('uid-' . md5(uniqid((string) $name, true)));
-        $room->setUidReal('uidreal-' . md5(uniqid((string) $name, true)));
+        $room->setUidReal(md5(uniqid((string) $name, true)));
         $room->setSequence(0);
         $room->setDuration(60);
         $room->setAgenda('Agenda of ' . $name);

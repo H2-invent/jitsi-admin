@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Result;
@@ -8,11 +9,10 @@ use BackedEnum;
 readonly class ServiceResult
 {
     private function __construct(
-        private bool $success,
-        private mixed $data = null,
+        private bool        $success,
+        private mixed       $data = null,
         private ?BackedEnum $errorType = null,
-    )
-    {
+    ) {
     }
 
     public static function success(mixed $data = null): self

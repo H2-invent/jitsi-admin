@@ -6,10 +6,10 @@ use App\Repository\CallerIdRepository;
 use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
-use App\Service\caller\CallerFindRoomService;
-use App\Service\caller\CallerPinService;
-use App\Service\caller\CallerPrepareService;
-use App\Service\caller\CallerSessionService;
+use App\Service\Caller\CallerFindRoomService;
+use App\Service\Caller\CallerPinService;
+use App\Service\Caller\CallerPrepareService;
+use App\Service\Caller\CallerSessionService;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -83,7 +83,7 @@ class CallerServiceTest extends KernelTestCase
     public function testGetRoomWithLobbyAndPersonalPin(): void
     {
         $kernel = self::bootKernel();
-        $themeService = $this->createMock(ThemeService::class);
+        $themeService = $this->createStub(ThemeService::class);
         $themeService->method('getApplicationProperties')->willReturn(1);
         self::getContainer()->set(ThemeService::class, $themeService);
 
@@ -274,8 +274,8 @@ class CallerServiceTest extends KernelTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
-        $room->setStart((new \DateTime())->modify('+2 hours'));
-        $room->setEnddate((new \DateTime())->modify('+4 hours'));
+        $room->setStart((new \DateTimeImmutable())->modify('+2 hours'));
+        $room->setEnddate((new \DateTimeImmutable())->modify('+4 hours'));
         $manager->persist($room);
         $manager->flush();
         self::assertEquals(['status' => 'HANGUP', 'reason' => 'TO_EARLY', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'links' => []], $callerService->findRoom($id));

@@ -2,6 +2,7 @@ name: jitsi-admin
 type: symfony
 docroot: public
 php_version: "8.4"
+nodejs_version: "24"
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: []
@@ -17,6 +18,7 @@ hooks:
   post-start:
   - exec: cp tests/Provisioner/backend_private.pem backend_private.pem
   - exec: cp tests/Provisioner/backend_public.pem backend_public.pem
+host_db_port: "59999"
 timezone: Europe/Berlin
 
 # Key features of DDEV's config.yaml:

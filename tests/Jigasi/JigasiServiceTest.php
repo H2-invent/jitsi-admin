@@ -66,7 +66,7 @@ class JigasiServiceTest extends KernelTestCase
 
 
         $callback = function ($method, $url, $options) {
-            if ($url === 'https://jigasi.org/conferenceMapper?conference=123456780@conference.jigasi.org&url=https://meet.jit.si2/123456780') {
+            if ($url === 'https://jigasi.org/conferenceMapper?conference=bed6ca41-512f-409f-95c1-4ad7e9b73018@conference.jigasi.org&url=https://meet.jit.si2/bed6ca41-512f-409f-95c1-4ad7e9b73018') {
                 return new MockResponse(
                     '
                 {

@@ -70,6 +70,8 @@ option:
 lable.serverUrl: 컨퍼런스 서버 URL
 label.appId: App-ID
 label.appSecret: App-Secret
+label.showPassword: 비밀번호 표시
+label.hidePassword: 비밀번호 숨기기
 label.scheduleMeeting: Termin vorschlagen
 help:
   serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)

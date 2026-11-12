@@ -18,10 +18,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ServerAllowToCloneCommand extends Command
 {
     public function __construct(
-        private ServerRepository $serverRepository,
-        private EntityManagerInterface $entityManager,
-    )
-    {
+        private readonly ServerRepository       $serverRepository,
+        private readonly EntityManagerInterface $entityManager,
+    ) {
         parent::__construct();
     }
 
@@ -34,7 +33,7 @@ class ServerAllowToCloneCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $io       = new SymfonyStyle($input, $output);
         $serverId = $input->getArgument('server');
 
         $server = $this->serverRepository->find($serverId);

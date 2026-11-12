@@ -3,18 +3,20 @@ declare(strict_types=1);
 
 namespace Controller;
 
-use App\Controller\api\ApiThemeController;
+use App\Controller\Api\ApiThemeController;
 use App\Helper\BearerTokenAuthHelper;
 use App\Service\Result\Error\ThemeUploadError;
 use App\Service\Result\ServiceResult;
 use App\Service\Theme\ThemeUploadService;
 use Exception;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+#[AllowMockObjectsWithoutExpectations]
 class ApiThemeControllerTest extends TestCase
 {
     private string $validToken = 'valid-bearer-token';

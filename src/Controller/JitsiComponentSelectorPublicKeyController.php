@@ -8,22 +8,21 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 class JitsiComponentSelectorPublicKeyController extends AbstractController
 {
-    private $publicKeyPath;
+    private string $publicKeyPath;
 
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private KernelInterface       $kernel,
-        private LoggerInterface       $logger)
-    {
-        $dir = $this->kernel->getProjectDir();
-        $this->publicKeyPath = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly KernelInterface       $kernel,
+        private readonly LoggerInterface       $logger
+    ) {
+        /** @var string $publicPath */
+        $publicPath          = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
+        $dir                 = $this->kernel->getProjectDir();
+        $this->publicKeyPath = $dir . $publicPath;
         $this->publicKeyPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $this->publicKeyPath);
-
-
     }
 
     public function setPublicKeyPath(string $publicKeyPath): void
@@ -31,21 +30,20 @@ class JitsiComponentSelectorPublicKeyController extends AbstractController
         $this->publicKeyPath = $publicKeyPath;
     }
 
-    #[Route('/signal/{keyfile}', name: 'app_jitsi_component_selector_public_key')]
-    public function index($keyfile): Response
+    #[\Symfony\Component\Routing\Attribute\Route('/signal/{keyfile}', name: 'app_jitsi_component_selector_public_key')]
+    public function index(string $keyfile): Response
     {
-        $pattern = '/\.pem$/'; // Regex-Pattern für ".pem" am Ende der Zeichenkette
-
-        if (!preg_match($pattern, $keyfile)) {
+        if (!str_ends_with($keyfile, '.pem')) {
             throw new NotFoundHttpException('File Not Found');
         }
-        $publicKey = '';
-        try {
-            $publicKey = file_get_contents($this->publicKeyPath.$keyfile);
-        } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage());
-            throw new NotFoundHttpException('This function is not activated.');
+
+        $publicKey = @file_get_contents($this->publicKeyPath . $keyfile);
+        if ($publicKey === false) {
+            $msg = 'This function is not activated.';
+            $this->logger->error($msg);
+            throw new NotFoundHttpException($msg);
         }
+
         return new Response($publicKey);
     }
 }

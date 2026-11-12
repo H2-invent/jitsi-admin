@@ -23,8 +23,8 @@ class SeriesPerAppointmentDialInTest extends WebTestCase
         $appointment = $this->createSeries($client)[0];
 
         // the appointment is running right now and a participant joined its conference
-        $appointment->setStart((new \DateTime())->modify('-10 minutes'));
-        $appointment->setEnddate((new \DateTime())->modify('+50 minutes'));
+        $appointment->setStart((new \DateTimeImmutable())->modify('-10 minutes'));
+        $appointment->setEnddate((new \DateTimeImmutable())->modify('+50 minutes'));
         $appointment->setLobby(false);
         $manager = $this->manager();
         $manager->persist($appointment);
@@ -70,13 +70,13 @@ class SeriesPerAppointmentDialInTest extends WebTestCase
         $manager = $this->manager();
         $roomRepo = $this->rooms();
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        $room->setStart((new \DateTime())->modify('-10 minutes'));
-        $room->setEnddate((new \DateTime())->modify('+50 minutes'));
+        $room->setStart((new \DateTimeImmutable())->modify('-10 minutes'));
+        $room->setEnddate((new \DateTimeImmutable())->modify('+50 minutes'));
         $manager->persist($room);
         $manager->flush();
 
         $repeat = new Repeat();
-        $repeat->setRepeatType(0);
+        $repeat->setRepeatType(\App\Enums\RepeatTypeEnum::DAILY);
         $repeat->setRepeaterDays(7);
         $repeat->setRepetation(2);
         $repeat->setUid(md5(uniqid()));

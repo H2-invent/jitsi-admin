@@ -6,7 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\Server;
 use App\Repository\CallerRoomRepository;
-use App\Service\api\ConferenceMapperService;
+use App\Service\Api\ConferenceMapperService;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -112,11 +112,11 @@ class ConferenceMapperTest extends KernelTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $status = new RoomStatus();
         $status->setRoom($callerRoom->getRoom())
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setJitsiRoomId('test')
             ->setCreated(true)
-            ->setRoomCreatedAt(new \DateTime())
-            ->setUpdatedAt(new \DateTime());
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($status);
         $manager->flush();
         $callerRoom->getRoom()->addRoomstatus($status);
@@ -129,7 +129,7 @@ class ConferenceMapperTest extends KernelTestCase
             [
                 'state' => 'STARTED',
                 'jwt' => $jwt,
-                'room_name' => '123456780@testdomain.com',
+                'room_name' => $callerRoom->getRoom()->getUid() . '@testdomain.com',
                 "display_name" => "012345123"
             ],
             $res

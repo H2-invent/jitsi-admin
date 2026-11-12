@@ -8,6 +8,7 @@ use App\Controller\OutlookPluginLoginController;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
@@ -17,6 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 
+#[AllowMockObjectsWithoutExpectations]
 final class OutlookPluginLoginControllerTest extends TestCase
 {
     private EntityManagerInterface&MockObject $entityManager;
@@ -135,8 +137,8 @@ final class OutlookPluginLoginControllerTest extends TestCase
 
         $prefix = $classAttributes[0]->newInstance();
 
-        self::assertSame('/room/outlook/plugin', $prefix->getPath());
-        self::assertSame('app_outlook_plugin', $prefix->getName());
+        self::assertSame('/room/outlook/plugin', $prefix->path);
+        self::assertSame('app_outlook_plugin', $prefix->name);
 
         $attributes = $reflection->getMethod('login')->getAttributes(Route::class);
 
@@ -144,16 +146,16 @@ final class OutlookPluginLoginControllerTest extends TestCase
 
         $route = $attributes[0]->newInstance();
 
-        self::assertSame('/outlooklogin', $route->getPath());
-        self::assertSame('login', $route->getName());
-        self::assertSame(['GET'], $route->getMethods());
+        self::assertSame('/outlooklogin', $route->path);
+        self::assertSame('login', $route->name);
+        self::assertSame(['GET'], $route->methods);
         self::assertSame(
             '/room/outlook/plugin/outlooklogin',
-            $prefix->getPath() . $route->getPath(),
+            $prefix->path . $route->path,
         );
         self::assertSame(
             'app_outlook_pluginlogin',
-            $prefix->getName() . $route->getName(),
+            $prefix->name . $route->name,
         );
     }
 

@@ -6,11 +6,11 @@ use App\Entity\User;
 
 class FormatName
 {
-    public function formatName($string, User $user)
+    public function formatName(string $string, User $user): string
     {
-        $pattern = '/[^\$]*user\.[a-zA-Z0-9.]*\$/';
+        $pattern     = '/[^\$]*user\.[a-zA-Z0-9.]*\$/';
         $patternItem = '/user\.[a-zA-Z0-9.]*\$/';
-        $arr = null;
+        $arr         = null;
         preg_match_all($pattern, $string, $arr);
         $splitedName = $arr[0];
 
@@ -22,7 +22,7 @@ class FormatName
             }
 
             try {
-                if (strpos($data, 'specialField') !== false) {
+                if (str_contains($data, 'specialField')) {
                     $spezialfield = $fieldName;
                     // we have a spezialField to read
                     if (isset($user->getSpezialProperties()[$spezialfield]) && $user->getSpezialProperties()[$spezialfield] !== '') {
@@ -53,17 +53,20 @@ class FormatName
                 if ($splitedName[$key] === '') {
                     unset($splitedName[$key]);
                 }
-            } catch (\Exception $exception) {
+            } catch (\Exception) {
                 $value = '';
             }
         }
         $string = '';
+
         foreach ($splitedName as $data) {
             $string .= $data;
         }
-        if ($string ===''){
+
+        if ($string === '') {
             $string = $user->getUsername();
         }
+
         return $string;
     }
 }

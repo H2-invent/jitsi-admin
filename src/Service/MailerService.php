@@ -29,23 +29,27 @@ class MailerService
     private ?CustomMailerMessage $customMailer = null;
 
     public function __construct(
-        private MessageBusInterface   $bus,
-        private LicenseService        $licenseService,
-        private LoggerInterface       $logger,
-        private ParameterBagInterface $parameter,
-        private KernelInterface       $kernel,
-        private MailerInterface       $mailer,
-        private ThemeService          $themeService
-    ) {}
+        private readonly MessageBusInterface   $bus,
+        private readonly LicenseService        $licenseService,
+        private readonly LoggerInterface       $logger,
+        private readonly ParameterBagInterface $parameter,
+        private readonly KernelInterface       $kernel,
+        private readonly MailerInterface       $mailer,
+        private readonly ThemeService          $themeService
+    ) {
+    }
 
+    /**
+     * @param array<int, array{type: string, filename: string, body: string}> $attachment
+     */
     public function sendEmail(
-        User $user,
-        string $betreff,
-        string $content,
-        Server $server,
+        User    $user,
+        string  $betreff,
+        string  $content,
+        Server  $server,
         ?string $replyTo = null,
-        ?Rooms $rooms = null,
-        array $attachment = []
+        ?Rooms  $rooms = null,
+        array   $attachment = []
     ): bool {
         $to = $user->getEmail();
         $cc = $this->extractValidEmails($user->getSecondEmail());
@@ -55,7 +59,7 @@ class MailerService
             return true;
         }
 
-        if ($this->parameter->get('DISALLOW_ALL_EMAILS') === 1) {
+        if ((int)$this->parameter->get('DISALLOW_ALL_EMAILS') === 1) {
             $this->logger->debug('Global email sending disabled.');
             return true;
         }
@@ -77,15 +81,19 @@ class MailerService
         }
     }
 
+    /**
+     * @param array<int, array{type: string, filename: string, body: string}> $attachment
+     * @param array<int, string> $cc
+     */
     private function sendViaMailer(
-        string $to,
-        string $betreff,
-        string $content,
-        Server $server,
+        string  $to,
+        string  $betreff,
+        string  $content,
+        Server  $server,
         ?string $replyTo = null,
-        ?Rooms $rooms = null,
-        array $attachment = [],
-        array $cc = []
+        ?Rooms  $rooms = null,
+        array   $attachment = [],
+        array   $cc = []
     ): bool {
         $this->buildTransport($server);
 
@@ -98,7 +106,9 @@ class MailerService
         try {
             if ($server->getSmtpHost()) {
                 if ($this->kernel->getEnvironment() === 'dev') {
-                    foreach ($this->parameter->get('delivery_addresses') as $devRecipient) {
+                    /** @var array<int, string> $deliveryAddresses */
+                    $deliveryAddresses = $this->parameter->get('delivery_addresses');
+                    foreach ($deliveryAddresses as $devRecipient) {
                         $email->to($devRecipient);
                     }
                 }
@@ -113,7 +123,7 @@ class MailerService
                 $this->logger->info('Sending via Custom Mailer');
                 $this->bus->dispatch(
                     $this->customMailer->send($email),
-                    [new DelayStamp(rand(1000, 10000))]
+                    [new DelayStamp(random_int(1000, 10000))]
                 );
             } else {
                 $this->mailer->send($email);
@@ -121,10 +131,16 @@ class MailerService
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $fallbackEmail = new Email();
-            $fallbackEmail->from(new Address(
-                $this->parameter->get('registerEmailAdress'),
-                $this->parameter->get('registerEmailName')
-            ));
+            /** @var string $registerEmailAdress */
+            $registerEmailAdress = $this->parameter->get('registerEmailAdress');
+            /** @var string $registerEmailName */
+            $registerEmailName = $this->parameter->get('registerEmailName');
+            $fallbackEmail->from(
+                new Address(
+                    $registerEmailAdress,
+                    $registerEmailName
+                )
+            );
             $this->mailer->send($fallbackEmail);
             throw $e;
         }
@@ -134,7 +150,9 @@ class MailerService
 
     public function buildTransport(Server $server): void
     {
-        if (!$server->getSmtpHost()) return;
+        if (!$server->getSmtpHost()) {
+            return;
+        }
 
         $this->logger->info('Building new Transport: ' . $server->getSmtpHost());
         $dsn = $server->getSmtpUsername()
@@ -150,17 +168,21 @@ class MailerService
         $this->customMailer = new CustomMailerMessage($dsn);
     }
 
+    /**
+     * @param array<int, array{type: string, filename: string, body: string}> $attachments
+     * @param array<int, string> $cc
+     */
     private function createEmailMessage(
-        string $to,
-        string $subject,
-        string $htmlContent,
-        string $fromEmail,
-        string $fromName,
+        string  $to,
+        string  $subject,
+        string  $htmlContent,
+        string  $fromEmail,
+        string  $fromName,
         ?string $replyTo,
-        array $attachments,
-        array $cc
+        array   $attachments,
+        array   $cc
     ): Email {
-        $email = (new Email())
+        $email = new Email()
             ->subject($subject)
             ->from(new Address($fromEmail, $fromName))
             ->to($to)
@@ -171,7 +193,7 @@ class MailerService
         }
 
         foreach ($attachments as $file) {
-            $email->attach($file['body'], UtilsHelper::slugifywithDot($file['filename']), $file['type']);
+            $email->attach($file['body'], UtilsHelper::slugifyWithDot($file['filename']), $file['type']);
         }
 
         if ($this->kernel->getEnvironment() !== 'dev') {
@@ -186,9 +208,11 @@ class MailerService
     private function applyRoomThemeSender(Email $email, ?Rooms $rooms): void
     {
         $theme = $rooms ? $this->themeService->getTheme($rooms) : null;
-        if (!$theme) return;
+        if (!$theme) {
+            return;
+        }
 
-        $name = $theme['EMAIL_SENDER_NAME'] ?? '';
+        $name    = $theme['EMAIL_SENDER_NAME'] ?? '';
         $address = $theme['EMAIL_SENDER_ADDRESS'] ?? '';
 
         if ($address) {
@@ -199,7 +223,7 @@ class MailerService
 
     private function applyReturnPath(Email $email, ?Rooms $rooms): void
     {
-        if ($this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') === 1 && $rooms?->getModerator()) {
+        if ((int)$this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') === 1 && $rooms?->getModerator()) {
             $moderatorEmail = $rooms->getModerator()->getEmail();
             if ($this->isValidEmail($moderatorEmail)) {
                 $email->returnPath($moderatorEmail);
@@ -207,26 +231,39 @@ class MailerService
         }
     }
 
+    /**
+     * @return array{0: string, 1: string}
+     */
     private function resolveSender(Server $server, ?Rooms $rooms): array
     {
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
-            return [$server->getSmtpEmail(), $server->getSmtpSenderName()];
+            return [(string)$server->getSmtpEmail(), (string)$server->getSmtpSenderName()];
         }
 
         if ($rooms?->getModerator() && $this->parameter->get('emailSenderIsModerator')) {
             $moderator = $rooms->getModerator();
+            /** @var string $registerEmailAdress */
+            $registerEmailAdress = $this->parameter->get('registerEmailAdress');
             return [
-                $this->parameter->get('registerEmailAdress'),
+                $registerEmailAdress,
                 $moderator->getFirstName() . ' ' . $moderator->getLastName()
             ];
         }
 
+        /** @var string $registerEmailAdress */
+        $registerEmailAdress = $this->parameter->get('registerEmailAdress');
+        /** @var string $registerEmailName */
+        $registerEmailName = $this->parameter->get('registerEmailName');
+
         return [
-            $this->parameter->get('registerEmailAdress'),
-            $this->parameter->get('registerEmailName')
+            $registerEmailAdress,
+            $registerEmailName
         ];
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function extractValidEmails(?string $emails): array
     {
         $list = [];
@@ -236,6 +273,7 @@ class MailerService
                 $list[] = $email;
             }
         }
+
         return $list;
     }
 

@@ -44,7 +44,7 @@ class CalloutApiControllerTest extends WebTestCase
         );
         $userRepo = self::getContainer()->get(UserRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['uidReal' => '561ghj984ssdfdf']);
+        $room = $roomRepo->findOneBy(['uidReal' => '5245ba59-53e8-40c6-adad-acf196245cdb']);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
         $invite = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);

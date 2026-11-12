@@ -202,8 +202,8 @@ class RoomCardRenderTest extends TestCase
         $room->setUidReal('room-card-test');
         $room->setServer($server);
         $room->setModerator($this->user);
-        $room->setStart(new \DateTime('@' . ($now + $startOffset)));
-        $room->setEnddate(null === $endOffset ? null : new \DateTime('@' . ($now + $endOffset)));
+        $room->setStart(new \DateTimeImmutable('@' . ($now + $startOffset)));
+        $room->setEnddate(null === $endOffset ? null : new \DateTimeImmutable('@' . ($now + $endOffset)));
 
         return $room;
     }

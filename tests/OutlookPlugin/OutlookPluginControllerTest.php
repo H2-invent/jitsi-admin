@@ -12,6 +12,7 @@ use App\Service\PublicConference\PublicConferenceService;
 use App\Service\ServerUserManagment;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -26,6 +27,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 
 
+#[AllowMockObjectsWithoutExpectations]
 final class OutlookPluginControllerTest extends TestCase
 {
     private EntityManagerInterface&MockObject $entityManager;
@@ -393,8 +395,8 @@ final class OutlookPluginControllerTest extends TestCase
         $classAttributes = $reflection->getAttributes(Route::class);
         self::assertCount(1, $classAttributes);
         $prefix = $classAttributes[0]->newInstance();
-        self::assertSame('/api/v1/outlook/plugin', $prefix->getPath());
-        self::assertSame('app_outlook_plugin', $prefix->getName());
+        self::assertSame('/api/v1/outlook/plugin', $prefix->path);
+        self::assertSame('app_outlook_plugin', $prefix->name);
 
         $expectedRoutes = [
             'logout' => ['/logout', ['GET'], '/api/v1/outlook/plugin/logout', 'app_outlook_pluginlogout'],
@@ -406,11 +408,11 @@ final class OutlookPluginControllerTest extends TestCase
             $attributes = $reflection->getMethod($method)->getAttributes(Route::class);
             self::assertCount(1, $attributes, $method);
             $route = $attributes[0]->newInstance();
-            self::assertSame($path, $route->getPath(), $method);
-            self::assertSame($method, $route->getName(), $method);
-            self::assertSame($httpMethods, $route->getMethods(), $method);
-            self::assertSame($fullPath, $prefix->getPath() . $route->getPath(), $method);
-            self::assertSame($fullName, $prefix->getName() . $route->getName(), $method);
+            self::assertSame($path, $route->path, $method);
+            self::assertSame($method, $route->name, $method);
+            self::assertSame($httpMethods, $route->methods, $method);
+            self::assertSame($fullPath, $prefix->path . $route->path, $method);
+            self::assertSame($fullName, $prefix->name . $route->name, $method);
         }
     }
 

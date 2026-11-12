@@ -19,13 +19,13 @@ class RepeaterMaxRepeatTest extends KernelTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        $room->setStart((new \DateTime())->modify('+1 day')->setTime(10, 0));
+        $room->setStart((new \DateTimeImmutable())->modify('+1 day')->setTime(10, 0));
         $room->setEnddate((clone $room->getStart())->modify('+60 minutes'));
         $manager->persist($room);
         $manager->flush();
 
         $repeat = new Repeat();
-        $repeat->setRepeatType(0);
+        $repeat->setRepeatType(\App\Enums\RepeatTypeEnum::DAILY);
         $repeat->setRepeaterDays(7);
         $repeat->setRepetation($maxRepeat + 1);
         $repeat->setUid(md5(uniqid()));
@@ -44,13 +44,13 @@ class RepeaterMaxRepeatTest extends KernelTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        $room->setStart((new \DateTime())->modify('+1 day')->setTime(10, 0));
+        $room->setStart((new \DateTimeImmutable())->modify('+1 day')->setTime(10, 0));
         $room->setEnddate((clone $room->getStart())->modify('+60 minutes'));
         $manager->persist($room);
         $manager->flush();
 
         $repeat = new Repeat();
-        $repeat->setRepeatType(0);
+        $repeat->setRepeatType(\App\Enums\RepeatTypeEnum::DAILY);
         $repeat->setRepeaterDays(7);
         $repeat->setRepetation($maxRepeat);
         $repeat->setUid(md5(uniqid()));

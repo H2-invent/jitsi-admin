@@ -28,6 +28,14 @@ class ApiMiddlewareControllerTest extends WebTestCase
 
     protected function tearDown(): void
     {
+        // setUp() bails out via markTestSkipped() before $entityManager is assigned, but PHPUnit
+        // still runs tearDown() for skipped tests, so guard against the uninitialized property.
+        if (!isset($this->entityManager)) {
+            parent::tearDown();
+
+            return;
+        }
+
         // Remove in reverse order to handle dependencies
         foreach (array_reverse($this->entitiesToCleanup) as $entity) {
             try {

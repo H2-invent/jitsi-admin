@@ -19,7 +19,7 @@ final class Version20220714070503 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('CREATE SEQUENCE star_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
             $this->addSql('CREATE TABLE star (id INT NOT NULL, server_id INT NOT NULL, star INT NOT NULL, comment TEXT DEFAULT NULL, PRIMARY KEY(id))');
@@ -30,7 +30,7 @@ final class Version20220714070503 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\PostgreSQLPlatform === true) {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('DROP SEQUENCE star_id_seq CASCADE');
             $this->addSql('DROP TABLE star');

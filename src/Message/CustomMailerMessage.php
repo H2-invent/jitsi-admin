@@ -6,101 +6,68 @@ use Symfony\Component\Mime\Email;
 
 class CustomMailerMessage
 {
-    private string $dsn;
     private Email $email;
-    private $absender;
-    private $roomId;
-    private $to;
+    private mixed $absender;
+    private mixed $roomId;
+    private mixed $to;
 
-    public function __construct(string $dsn)
+    public function __construct(private string $dsn)
     {
-
-        $this->dsn = $dsn;
     }
 
-    public function send(Email $email)
+    public function send(Email $email): self
     {
         $this->email = $email;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDsn(): string
     {
         return $this->dsn;
     }
 
-    /**
-     * @param string $dsn
-     */
     public function setDsn(string $dsn): void
     {
         $this->dsn = $dsn;
     }
 
 
-    /**
-     * @return Email
-     */
     public function getEmail(): Email
     {
         return $this->email;
     }
 
-    /**
-     * @param Email $email
-     */
     public function setEmail(Email $email): void
     {
         $this->email = $email;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAbsender()
+    public function getAbsender(): mixed
     {
         return $this->absender;
     }
 
-    /**
-     * @param mixed $absender
-     */
-    public function setAbsender($absender): void
+    public function setAbsender(mixed $absender): void
     {
         $this->absender = $absender;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRoomId()
+    public function getRoomId(): mixed
     {
         return $this->roomId;
     }
 
-    /**
-     * @param mixed $roomId
-     */
-    public function setRoomId($roomId): void
+    public function setRoomId(mixed $roomId): void
     {
         $this->roomId = $roomId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTo()
+    public function getTo(): mixed
     {
         return $this->to;
     }
 
-    /**
-     * @param mixed $to
-     */
-    public function setTo($to): void
+    public function setTo(mixed $to): void
     {
         $this->to = $to;
     }

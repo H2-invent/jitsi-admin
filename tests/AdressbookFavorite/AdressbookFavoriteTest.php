@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Exceptions\UserAlreadyAdressbookFavoriteException;
 use App\Exceptions\UserNotInAdressbookException;
 use App\Repository\UserRepository;
-use App\Service\adressbookFavoriteService\AdressbookFavoriteService;
+use App\Service\AdressbookFavoriteService\AdressbookFavoriteService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertTrue;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Transcription\Provider;
@@ -10,7 +11,7 @@ abstract class AbstractTranscriptionProvider
 {
     public function __construct(
         protected readonly AbstractMediaConverter $converter,
-        protected readonly AbstractTranscriber $transcriber,
+        protected readonly AbstractTranscriber    $transcriber,
     ) {
     }
 

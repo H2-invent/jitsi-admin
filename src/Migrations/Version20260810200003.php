@@ -9,8 +9,8 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20260810200003 extends AbstractMigration
 {
-    private const TABLE_NAME = 'rooms';
-    private const INDEX_NAME = 'idx_rooms_schedule_meeting';
+    private const string TABLE_NAME = 'rooms';
+    private const string INDEX_NAME = 'idx_rooms_schedule_meeting';
 
     public function getDescription(): string
     {

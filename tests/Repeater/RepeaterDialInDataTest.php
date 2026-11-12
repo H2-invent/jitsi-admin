@@ -6,7 +6,7 @@ use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\caller\CallerPrepareService;
+use App\Service\Caller\CallerPrepareService;
 use App\Service\RepeaterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -74,13 +74,13 @@ class RepeaterDialInDataTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
-        $room->setStart((new \DateTime())->modify('+1 day')->setTime(10, 0));
+        $room->setStart((new \DateTimeImmutable())->modify('+1 day')->setTime(10, 0));
         $room->setEnddate((clone $room->getStart())->modify('+60 minutes'));
         $manager->persist($room);
         $manager->flush();
 
         $repeat = new Repeat();
-        $repeat->setRepeatType(0);
+        $repeat->setRepeatType(\App\Enums\RepeatTypeEnum::DAILY);
         $repeat->setRepeaterDays(7);
         $repeat->setRepetation(3);
         $repeat->setUid(md5(uniqid()));

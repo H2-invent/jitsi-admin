@@ -1574,6 +1574,18 @@
         <source>addhock.notification.pushMessage</source>
         <target state="translated">{name} はあなたとのアドホック ウェブ会議を開催したいと考えています。</target>
       </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target state="translated">参加者はオフラインであるか、ログインしていません。通話を開始できません。</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_NO_ANSWER" resname="addhock.notification.noAnswer">
+        <source>addhock.notification.noAnswer</source>
+        <target state="translated">参加者は応答しませんでした。</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_DECLINED" resname="addhock.notification.declined">
+        <source>addhock.notification.declined</source>
+        <target state="translated">参加者は通話を拒否しました。</target>
+      </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
         <target state="translated">ロード時間：</target>

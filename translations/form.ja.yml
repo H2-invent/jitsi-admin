@@ -70,6 +70,8 @@ option:
 lable.serverUrl: サーバURL
 label.appId: AppID
 label.appSecret: Appシークレット
+label.showPassword: パスワードを表示
+label.hidePassword: パスワードを非表示
 label.scheduleMeeting: ミーティングのスケジュールを設定する
 help:
   serverUrl: '「https://」を指定しないで入力(例：meet.jit.si)'

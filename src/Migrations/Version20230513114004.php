@@ -19,11 +19,11 @@ final class Version20230513114004 extends AbstractMigration
     }
 
 
-    private const TABLE_NAME = 'scheduling_time';
-    private const COLUMN_NAME = 'created_from_id';
-    private const FOREIGN_COLUMN_NAME = 'id';
-    private const FOREIGN_TABLE_NAME = 'fos_user';
-    private const CONSTRAINT_NAME = 'IDX_6B3A7EB43EA4CB4D';
+    private const string TABLE_NAME = 'scheduling_time';
+    private const string COLUMN_NAME = 'created_from_id';
+    private const string FOREIGN_COLUMN_NAME = 'id';
+    private const string FOREIGN_TABLE_NAME = 'fos_user';
+    private const string CONSTRAINT_NAME = 'IDX_6B3A7EB43EA4CB4D';
     public function up(Schema $schema): void
     {
         $table = $schema->getTable(self::TABLE_NAME);

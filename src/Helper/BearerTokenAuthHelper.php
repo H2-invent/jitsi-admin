@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Helper;
@@ -13,7 +14,7 @@ class BearerTokenAuthHelper
      * "Bearer:Token"
      * where Token must not contain whitespace
      */
-    private const BEARER_TOKEN_REGEX = '/^Bearer[ :](?<token>\S+)$/';
+    private const string BEARER_TOKEN_REGEX = '/^Bearer[ :](?<token>\S+)$/';
 
     public function getBearerTokenFromRequest(Request $request): ?string
     {

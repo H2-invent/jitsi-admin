@@ -19,15 +19,14 @@ use Twig\Environment;
 class ServerService
 {
     public function __construct(
-        private TranslatorInterface $translator,
-        private EntityManagerInterface $em,
-        private Environment $twig,
-        private NotificationService $notification,
-    )
-    {
+        private readonly TranslatorInterface    $translator,
+        private readonly EntityManagerInterface $em,
+        private readonly Environment            $twig,
+        private readonly NotificationService    $notification
+    ) {
     }
 
-    public function addPermission(Server $server, User $user)
+    public function addPermission(Server $server, User $user): bool
     {
         $content = $this->twig->render('email/serverPermission.html.twig', ['user' => $user, 'server' => $server]);
         $subject = $this->translator->trans('[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt');
@@ -36,20 +35,21 @@ class ServerService
         return true;
     }
 
-    public function makeSlug($urlString)
+    public function makeSlug(string $urlString): ?string
     {
         $counter = 0;
-        $slug = UtilsHelper::slugify($urlString);
-        $slug = preg_replace('/[^\w\-\ ]/', '', $slug);
-        $tmp = $slug;
+        $slug    = UtilsHelper::slugify($urlString);
+        $slug    = preg_replace('/[^\w\-\ ]/', '', $slug);
+        $tmp     = $slug;
+
         while (true) {
             $server = $this->em->getRepository(Server::class)->findOneBy(['slug' => $tmp]);
             if (!$server) {
                 return $tmp;
-            } else {
-                $counter++;
-                $tmp = $slug . '-' . $counter;
             }
+
+            $counter++;
+            $tmp = $slug . '-' . $counter;
         }
     }
 
@@ -66,7 +66,7 @@ class ServerService
             ->setServerName($name)
             ->setAppId($appId)
             ->setAppSecret($appSecret)
-            ->setUpdatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTimeImmutable())
             ->setIsAllowedToCloneForAutoscale(null)
             ->setSlug(urlencode($url))
         ;

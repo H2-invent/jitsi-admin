@@ -2,10 +2,13 @@
 
 namespace App\Tests\Addressbook;
 
+use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use App\Service\Lobby\DirectSendService;
+use App\Service\OnlineStatus\PresenceService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
@@ -13,6 +16,20 @@ use Symfony\Component\Mercure\Update;
 
 class AdhocControllerTest extends WebTestCase
 {
+    private function mockPresence(?bool $online): void
+    {
+        $presence = $this->createStub(PresenceService::class);
+        $presence->method('isUserOnline')->willReturn($online);
+        self::getContainer()->set(PresenceService::class, $presence);
+    }
+
+    private function mockPresenceNever(): void
+    {
+        $presence = $this->createMock(PresenceService::class);
+        $presence->expects(self::never())->method('isUserOnline');
+        self::getContainer()->set(PresenceService::class, $presence);
+    }
+
     public function testcreateAdhocMeetingNoTag(): void
     {
         $client = static::createClient();
@@ -37,10 +54,10 @@ class AdhocControllerTest extends WebTestCase
                 if ($tmp['type'] === "call") {
                     self::assertStringContainsString('{"type":"call","title":"Ad Hoc Meeting"', $update->getData());
                     self::assertEquals('Ad Hoc Meeting', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 } elseif (str_contains($data, '"type":"notification"')) {
                     self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test1, 1234, User, Test.', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 }
                 return 'id';
             }
@@ -48,6 +65,7 @@ class AdhocControllerTest extends WebTestCase
         $directSend->setMercurePublisher($hub);
 
 
+        $this->mockPresence(true);
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'Konferenz mit Test1, 1234, User, Test'));
@@ -64,7 +82,10 @@ class AdhocControllerTest extends WebTestCase
             $client->getResponse()->getContent()
         );
         $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(), true)['popups'][0]['url']);
-        self::assertSelectorNotExists('#tagContent');
+        // The floating tag container is always rendered (hidden via d-none when the room has no tag)
+        // so callerTag.js can fill it in dynamically; assert it stays hidden and empty here.
+        self::assertSelectorExists('#tagContent.d-none');
+        self::assertSelectorTextSame('#tagContent', '');
 
         $crawler = $client->request('GET', '/room/dashboard');
 
@@ -96,10 +117,10 @@ class AdhocControllerTest extends WebTestCase
                 if ($tmp['type'] === "call") {
                     self::assertStringContainsString('{"type":"call","title":"Ad Hoc Meeting"', $update->getData());
                     self::assertEquals('Ad Hoc Meeting', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 } elseif (str_contains($data, '"type":"notification"')) {
                     self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test1, 1234, User, Test.', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 }
                 return 'id';
             }
@@ -109,6 +130,7 @@ class AdhocControllerTest extends WebTestCase
 
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $tag = $tagRepo->findOneBy(['title' => 'Test Tag Enabled']);
+        $this->mockPresence(true);
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId() . '/' . $tag->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'Konferenz mit Test1, 1234, User, Test'));
@@ -129,5 +151,40 @@ class AdhocControllerTest extends WebTestCase
         $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(), true)['popups'][0]['url']);
         self::assertSelectorTextContains('#tagContent', 'Test Tag Enabled');
         self::assertResponseIsSuccessful();
+    }
+
+    public function testAdhocMeetingSkipsLobbyForReceiver(): void
+    {
+        $client = static::createClient();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $client->loginUser($user);
+
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                return 'id';
+            }
+        );
+        $directSend->setMercurePublisher($hub);
+
+        $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $roomUrl = $response['popups'][0]['url'];
+        $roomId = basename(parse_url($roomUrl, PHP_URL_PATH));
+
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->find($roomId);
+        self::assertNotNull($room);
+        self::assertFalse($room->getLobby());
+
+        $client->loginUser($user2);
+        $client->request('GET', $roomUrl);
+        self::assertResponseIsSuccessful();
+        self::assertSelectorNotExists('#lobbyWebcam');
+        self::assertSelectorNotExists('#stopEntry');
     }
 }

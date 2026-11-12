@@ -226,7 +226,7 @@ class CalloutServiceTest extends KernelTestCase
         $callerId->setUser($user)
         ->setRoom($room)
        ->setCallerId('test')
-            ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($callerId);
         $manager->flush();
         $callerSession = new CallerSession();
@@ -234,7 +234,7 @@ class CalloutServiceTest extends KernelTestCase
             ->setCallerId('test123')
             ->setSessionId('test1234')
             ->setAuthOk(true)
-            ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($callerSession);
         $manager->flush();
         self::assertEquals(0, sizeof($callOurRepo->findAll()));

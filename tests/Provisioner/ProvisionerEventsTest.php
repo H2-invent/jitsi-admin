@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Provisioner;
 
-use App\Controller\api\ApiMiddlewareController;
+use App\Controller\Api\ApiMiddlewareController;
 use App\Controller\ProvisionerController;
 use App\Message\Provisioner\Enum\Status;
 use App\Message\Provisioner\Enum\Type;

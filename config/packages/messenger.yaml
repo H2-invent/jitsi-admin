@@ -67,6 +67,7 @@ framework:
       # Route your messages to the transports
 #      App\Message\CustomMailerMessage: async
       App\Message\LobbyLeaverMessage: async
+      App\Message\AdhocCallTimeoutMessage: async
       App\Message\LokiLogMessage: async
       App\Message\RecordingUploadedMessage: async_slow
       App\Message\TranscriptionMessage: async_slow

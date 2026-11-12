@@ -70,6 +70,8 @@ option:
 lable.serverUrl: Konferenz Server URL
 label.appId: 应用 ID
 label.appSecret: App密钥
+label.showPassword: 显示密码
+label.hidePassword: 隐藏密码
 label.scheduleMeeting: 进行预约
 help:
   serverUrl: 输入除“https://”以外的链接（例如：meet.jit.si）

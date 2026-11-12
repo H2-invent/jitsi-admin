@@ -2,8 +2,10 @@
 
 namespace App\Tests\Join;
 
+use App\Entity\PredefinedLobbyMessages;
 use App\Entity\RoomsUser;
 use App\Entity\User;
+use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Repository\RoomsRepository;
 use App\Service\RoomService;
 use App\UtilsHelper;
@@ -34,11 +36,18 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'room'=>[
                     'name'=>'TestMeeting: 0',
                     'isE2EEEnabled' => false,
-                ]
+                ],
+                'lobby' => [
+                    'chatMessages' => $this->expectedLobbyChatMessages(),
+                ],
             ],
             'moderator' => true,
             'lobbyModerator' => false,
@@ -46,7 +55,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
@@ -94,6 +103,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -102,7 +115,10 @@ class JwtTest extends KernelTestCase
                 'room'=>[
                     'name'=>'TestMeeting: 0',
                     'isE2EEEnabled' => false,
-                ]
+                ],
+                'lobby' => [
+                    'chatMessages' => $this->expectedLobbyChatMessages(),
+                ],
             ],
             'moderator' => true,
             'lobbyModerator' => false,
@@ -110,7 +126,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
@@ -140,6 +156,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -156,7 +176,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, null, 'Test User');
@@ -186,6 +206,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => false,
@@ -202,7 +226,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, null, 'Test User');
@@ -232,6 +256,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -240,7 +268,10 @@ class JwtTest extends KernelTestCase
                 'room'=>[
                     'name'=>'TestMeeting: 0',
                     'isE2EEEnabled' => false,
-                ]
+                ],
+                'lobby' => [
+                    'chatMessages' => $this->expectedLobbyChatMessages(),
+                ],
             ],
             'moderator' => true,
             'lobbyModerator' => false,
@@ -248,7 +279,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
@@ -282,6 +313,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -290,7 +325,10 @@ class JwtTest extends KernelTestCase
                 'room'=>[
                     'name'=>'TestMeeting: 0',
                     'isE2EEEnabled' => false,
-                ]
+                ],
+                'lobby' => [
+                    'chatMessages' => $this->expectedLobbyChatMessages(),
+                ],
             ],
             'moderator' => true,
             'lobbyModerator' => false,
@@ -298,7 +336,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
@@ -332,6 +370,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -348,7 +390,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
@@ -382,6 +424,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => false,
@@ -398,7 +444,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
@@ -433,6 +479,10 @@ class JwtTest extends KernelTestCase
                     'name' => 'Test User',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -449,7 +499,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
@@ -487,6 +537,10 @@ class JwtTest extends KernelTestCase
                     'lobbyModerator' => false,
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -502,7 +556,7 @@ class JwtTest extends KernelTestCase
             ],
 
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
@@ -541,6 +595,10 @@ class JwtTest extends KernelTestCase
                     'avatar' => 'https://image.de',
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -555,7 +613,7 @@ class JwtTest extends KernelTestCase
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User', 'https://image.de');
         $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User', 'https://image.de');
@@ -637,6 +695,10 @@ class JwtTest extends KernelTestCase
                     'lobbyModerator' => true,
                     'language' => 'de',
                     'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => false,
+                        'groupId' => null,
+                    ],
                 ],
                 'features' => [
                     'screen-sharing' => true,
@@ -646,12 +708,59 @@ class JwtTest extends KernelTestCase
                     'name' => 'TestMeeting: 0',
                     'isE2EEEnabled' => false,
                 ],
+                'lobby' => [
+                    'chatMessages' => $this->expectedLobbyChatMessages(),
+                ],
             ],
             'theme' => [
                 'colorScheme' => 'light',
             ],
         ];
-        $this->assertEquals($res, $payload);
+        $this->assertPayloadEquals($res, $payload);
+    }
+
+    public function testJwtHotStandbyEnabledUserWithGroupId(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+        $testUser = new User();
+        $testUser->setUid('t35Ti2E4S');
+        $testUser->setHotstandbyEnabled(true);
+
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $testUser);
+        $res = [
+            'aud' => 'jitsi_admin',
+            'iss' => $server->getAppId(),
+            'sub' => $server->getUrl(),
+            'room' => $room->getUid(),
+            'context' => [
+                'user' => [
+                    'name' => 'Test User',
+                    'language' => 'de',
+                    'timezone' => 'Europe/Berlin',
+                    'hotstandby' => [
+                        'isEnabled' => true,
+                        'groupId' => 't35Ti2E4S',
+                    ],
+                ],
+                'room' => [
+                    'name' => 'TestMeeting: 0',
+                    'isE2EEEnabled' => false,
+                ],
+            ],
+            'moderator' => false,
+            'lobbyModerator' => false,
+            'theme' => [
+                'colorScheme' => 'light',
+            ],
+        ];
+        $this->assertPayloadEquals($res, $payload);
     }
 
     public function testLobbyModeratorDerivedInContextWhenJwtModeratorPositionIsOne(): void
@@ -694,5 +803,72 @@ class JwtTest extends KernelTestCase
 
         $this->assertArrayNotHasKey('moderator', $payload);
         $this->assertArrayNotHasKey('lobbyModerator', $payload);
+        $this->assertArrayNotHasKey('lobby', $payload['context']);
+    }
+
+    public function testLobbyChatMessagesAreAddedForLobbyModerator(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, null, null, lobbyModerator: true);
+
+        $messages = $payload['context']['lobby']['chatMessages'];
+        $this->assertNotEmpty($messages);
+        $this->assertSame($this->expectedLobbyChatMessages(), $messages);
+    }
+
+    public function testLobbyChatMessagesAreNotAddedForParticipant(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false);
+
+        $this->assertArrayNotHasKey('lobby', $payload['context']);
+    }
+
+    /**
+     * @return array<int, array{id: int|null, text: string|null}>
+     */
+    private function expectedLobbyChatMessages(): array
+    {
+        $messages = $this->getContainer()
+            ->get(PredefinedLobbyMessagesRepository::class)
+            ->findActiveOrderedByPriority();
+
+        return array_map(
+            static fn (PredefinedLobbyMessages $message): array => [
+                'id' => $message->getId(),
+                'text' => $message->getText(),
+            ],
+            $messages
+        );
+    }
+
+    private function assertPayloadEquals(array $expected, array $actual): void
+    {
+        self::assertArrayHasKey('iat', $actual);
+        self::assertArrayHasKey('exp', $actual);
+        self::assertSame(
+            (int) self::getContainer()->getParameter('JWT_LIFETIME_IN_SEC'),
+            $actual['exp'] - $actual['iat']
+        );
+
+        unset($actual['iat'], $actual['exp']);
+
+        self::assertEquals($expected, $actual);
     }
 }

@@ -8,32 +8,28 @@ use App\Entity\Rooms;
 use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Repository\RoomsRepository;
+use App\Repository\RoomStatusParticipantRepository;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ServerUserManagment
 {
-    private $em;
-    private $parameter;
-    private ThemeService $themeService;
-
-    public function __construct(ThemeService $themeService, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager)
-    {
-        $this->parameter = $parameterBag;
-        $this->em = $entityManager;
-        $this->themeService = $themeService;
+    public function __construct(private readonly ThemeService           $themeService,
+                                private readonly ParameterBagInterface  $parameter,
+                                private readonly EntityManagerInterface $em
+    ) {
     }
 
     /**
-     * @param User $user
      * @return Server[]
      * Return the Server for an User. This can be
      * individual server
      * default server for all users
      * keycloakserver by group or domain
      */
-    public function getServersFromUser(User $user)
+    public function getServersFromUser(User $user): array
     {
         $servers = $user->getServers()->toArray();
 
@@ -43,6 +39,7 @@ class ServerUserManagment
                 $searchTerms[] = $group;
             }
         }
+
         try {
             $domainArr = explode('@', $user->getEmail());
             if (count($domainArr) > 1) {
@@ -84,7 +81,7 @@ class ServerUserManagment
                     }
                 }
                 $servers = $serTmp;
-                $serTmp = [];
+                $serTmp  = [];
 
                 if ($this->themeService->getTheme()['showOnlyShowServer']) {
                     $sTmp = $this->themeService->getTheme()['showServer'];
@@ -96,19 +93,29 @@ class ServerUserManagment
                     $servers = $serTmp;
                 }
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
         }
 
         return $servers;
     }
 
-    public function getActualConference(Server $server)
+    /**
+     * @return Rooms[]
+     */
+    public function getActualConference(Server $server): array
     {
-        return $this->em->getRepository(Rooms::class)->findActualConferenceForServerByStatus($server);
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->em->getRepository(Rooms::class);
+        return $roomsRepository->findActualConferenceForServerByStatus($server);
     }
 
-    public function getActualParticipantsFromServer(Server $server)
+    /**
+     * @return RoomStatusParticipant[]
+     */
+    public function getActualParticipantsFromServer(Server $server): array
     {
-        return $this->em->getRepository(RoomStatusParticipant::class)->findActualParticipantsByServer($server);
+        /** @var RoomStatusParticipantRepository $roomStatusParticipantRepository */
+        $roomStatusParticipantRepository = $this->em->getRepository(RoomStatusParticipant::class);
+        return $roomStatusParticipantRepository->findActualParticipantsByServer($server);
     }
 }

@@ -15,14 +15,13 @@ use Twig\Environment;
 class CreateSummaryService
 {
     public function __construct(
-        private Environment          $environment,
-        private HttpClientInterface  $httpClient,
-        private ThemeService         $themeService,
-        private WhiteboardJwtService $whiteboardJwtService,
-        private KernelInterface      $appKernel,
-        private LoggerInterface      $logger
-    )
-    {
+        private readonly Environment          $environment,
+        private HttpClientInterface           $httpClient,
+        private readonly ThemeService         $themeService,
+        private readonly WhiteboardJwtService $whiteboardJwtService,
+        private readonly KernelInterface      $appKernel,
+        private readonly LoggerInterface      $logger
+    ) {
     }
 
     public function setHttpClient(HttpClientInterface $httpClient): void
@@ -36,10 +35,10 @@ class CreateSummaryService
     public function createSummary(Rooms $room): string
     {
         return $this->environment->render('documents/summary/template.html.twig', [
-            'title' => $room->getName(),
-            'header' => $this->createHeader($room),
+            'title'      => $room->getName(),
+            'header'     => $this->createHeader($room),
             'whiteboard' => $this->createWhiteBoardSummary($room),
-            'etherpad' => $this->createEtherpadExport($room),
+            'etherpad'   => $this->createEtherpadExport($room),
         ]);
     }
 
@@ -49,8 +48,8 @@ class CreateSummaryService
     public function createSummaryPdf(Rooms $room): ?Dompdf
     {
         $fontDirectory = $this->appKernel->getProjectDir()
-            . DIRECTORY_SEPARATOR . 'var'
-            . DIRECTORY_SEPARATOR . 'cache';
+                         . DIRECTORY_SEPARATOR . 'var'
+                         . DIRECTORY_SEPARATOR . 'cache';
         $this->logger->debug($fontDirectory);
 
         $options = new Options();
@@ -83,16 +82,16 @@ class CreateSummaryService
     {
         try {
             $url = $this->themeService->getApplicationProperties('WHITEBOARD_URL')
-                . '/preview/' . $room->getUidReal()
-                . '?token=' . $this->whiteboardJwtService->createJwt($room);
+                   . '/preview/' . $room->getUidReal()
+                   . '?token=' . $this->whiteboardJwtService->createJwt($room);
 
             $response = $this->httpClient->request('GET', $url);
 
             if ($response->getStatusCode() === 200
                 && $response->getContent() !== '<text>Sorry, an error occured</text>') {
                 return '<div class="page_break"></div><img src="data:image/svg+xml;base64,'
-                    . base64_encode($response->getContent())
-                    . '" style="width: 600px"/>';
+                       . base64_encode($response->getContent())
+                       . '" style="width: 600px"/>';
             }
         } catch (\Exception $exception) {
             $this->logger->debug('Whiteboard summary could not be fetched: ' . $exception->getMessage());
@@ -109,13 +108,11 @@ class CreateSummaryService
     {
         try {
             $url = $this->themeService->getApplicationProperties('ETHERPAD_URL')
-                . '/p/' . $room->getUidReal() . '/export/html';
+                   . '/p/' . $room->getUidReal() . '/export/html';
 
             $response = $this->httpClient->request('GET', $url);
 
-            if ($response) {
-                return '<div class="page_break"></div>' . $response->getContent();
-            }
+            return '<div class="page_break"></div>' . $response->getContent();
         } catch (\Exception $exception) {
             $this->logger->debug('Etherpad export could not be fetched: ' . $exception->getMessage());
         }
