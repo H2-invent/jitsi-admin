@@ -214,15 +214,11 @@ class RoomController extends JitsiAdminController
     ): Response {
         $roomOld = $this->doctrine->getRepository(Rooms::class)->find($room);
         $edit    = true;
-        $roomNew = clone $roomOld;
+        $roomNew = $roomOld->duplicate();
         $roomNew->setStart(null);
         $roomNew->setEnddate(null);
         $roomNew = $roomGeneratorService->createCallerId($roomNew);
 
-        // here we clean all the schedules from the old room
-        foreach ($roomNew->getSchedulings() as $data) {
-            $roomNew->removeScheduling($data);
-        }
         $roomNew->setUid(UidGeneratorHelper::generate());
         $roomNew->setSequence(0);
 
@@ -251,10 +247,6 @@ class RoomController extends JitsiAdminController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $roomNew = $form->getData();
-                foreach ($roomOld->getUserAttributes() as $data) {
-                    $tmp = clone $data;
-                    $roomNew->addUserAttribute($tmp);
-                }
                 $roomNew->setUidReal(UidGeneratorHelper::generate());
                 $roomNew->setUidModerator(UidGeneratorHelper::generate());
                 $roomNew->setUidParticipant(UidGeneratorHelper::generate());

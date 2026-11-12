@@ -317,6 +317,9 @@ class RoomNewTest extends WebTestCase
         $client->submit($form);
         $room = $roomRepo->findOneBy(['name' => 'Roome Clone']);
         $this->assertNotNull($room);
+        self::assertCount(1, $room->getUser());
+        self::assertSame('test@local.de', $room->getUser()->first()->getEmail());
+        self::assertCount(1, $room->getCallerIds());
         $modalUrl = base64_encode($urlGenerator->generate('room_add_user', ['room' => $room->getId()]));
         $test = $client->getResponse()->getContent();
         $this->assertJsonStringEqualsJsonString(

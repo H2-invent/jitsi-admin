@@ -312,6 +312,26 @@ class Rooms
         $this->repeaterProtoype = null;
     }
 
+    /**
+     * Returns a fully populated copy of this room: a clean clone (fresh identity
+     * and collections) that gets the participants and their room attributes
+     * copied into it again. Dial-in data, schedules, subscribers and live-session
+     * state are not copied: the copy is a new meeting and must get its own.
+     */
+    public function duplicate(): self
+    {
+        $copy = clone $this;
+
+        foreach ($this->getUser() as $user) {
+            $copy->addUser($user);
+        }
+        foreach ($this->getUserAttributes() as $attribute) {
+            $copy->addUserAttribute($attribute->copyForRoom($copy));
+        }
+
+        return $copy;
+    }
+
     public function normalize(string $propertyName): string
     {
         return 'org_' . $propertyName;

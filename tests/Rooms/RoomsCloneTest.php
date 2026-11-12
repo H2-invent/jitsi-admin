@@ -5,6 +5,8 @@ namespace App\Tests\Rooms;
 use App\Entity\CallerRoom;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
+use App\Entity\Scheduling;
+use App\Entity\Subscriber;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
@@ -41,5 +43,63 @@ class RoomsCloneTest extends TestCase
         self::assertCount(1, $room->getUser());
         self::assertCount(1, $room->getUserAttributes());
         self::assertSame($callerRoom, $room->getCallerRoom());
+    }
+
+    public function testDuplicateCopiesParticipantsAndTheirAttributes(): void
+    {
+        $room = new Rooms();
+        $room->setName('Prototype');
+
+        $user = new User();
+        $room->addUser($user);
+
+        $attribute = new RoomsUser();
+        $attribute->setUser($user);
+        $attribute->setModerator(true);
+        $attribute->setShareDisplay(true);
+        $attribute->setPrivateMessage(false);
+        $attribute->setLobbyModerator(true);
+        $room->addUserAttribute($attribute);
+
+        $copy = $room->duplicate();
+
+        self::assertNotSame($room, $copy);
+        self::assertNull($copy->getId());
+        self::assertSame('Prototype', $copy->getName());
+        self::assertCount(1, $copy->getUser());
+        self::assertSame($user, $copy->getUser()->first());
+        self::assertCount(1, $copy->getUserAttributes());
+
+        $copiedAttribute = $copy->getUserAttributes()->first();
+        self::assertNotSame($attribute, $copiedAttribute);
+        self::assertSame($copy, $copiedAttribute->getRoom());
+        self::assertSame($user, $copiedAttribute->getUser());
+        self::assertTrue($copiedAttribute->getModerator());
+        self::assertTrue($copiedAttribute->getShareDisplay());
+        self::assertFalse($copiedAttribute->getPrivateMessage());
+        self::assertTrue($copiedAttribute->getLobbyModerator());
+
+        // the source keeps its own data
+        self::assertCount(1, $room->getUser());
+        self::assertCount(1, $room->getUserAttributes());
+        self::assertSame($room, $attribute->getRoom());
+    }
+
+    public function testDuplicateDoesNotCopyDialInSchedulesOrSubscribers(): void
+    {
+        $room = new Rooms();
+        $room->setCallerRoom(new CallerRoom());
+        $room->addScheduling(new Scheduling());
+        $room->addSubscriber(new Subscriber());
+
+        $copy = $room->duplicate();
+
+        self::assertNull($copy->getCallerRoom());
+        self::assertCount(0, $copy->getSchedulings());
+        self::assertCount(0, $copy->getSubscribers());
+
+        self::assertNotNull($room->getCallerRoom());
+        self::assertCount(1, $room->getSchedulings());
+        self::assertCount(1, $room->getSubscribers());
     }
 }
