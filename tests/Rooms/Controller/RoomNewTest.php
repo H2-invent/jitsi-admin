@@ -307,7 +307,7 @@ class RoomNewTest extends WebTestCase
         $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
 
-        $crawler = $client->request('GET', $urlGenerator->generate('room_clone', ['room' => $room->getId()]));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_clone', ['roomId' => $room->getId()]));
         self::assertResponseIsSuccessful();
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
