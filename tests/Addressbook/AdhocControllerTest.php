@@ -82,7 +82,10 @@ class AdhocControllerTest extends WebTestCase
             $client->getResponse()->getContent()
         );
         $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(), true)['popups'][0]['url']);
-        self::assertSelectorNotExists('#tagContent');
+        // The floating tag container is always rendered (hidden via d-none when the room has no tag)
+        // so callerTag.js can fill it in dynamically; assert it stays hidden and empty here.
+        self::assertSelectorExists('#tagContent.d-none');
+        self::assertSelectorTextSame('#tagContent', '');
 
         $crawler = $client->request('GET', '/room/dashboard');
 

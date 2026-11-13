@@ -127,7 +127,7 @@ class RepeaterControllerTest extends WebTestCase
         $client->loginUser($user);
         $max = (int)self::getContainer()->get(ParameterBagInterface::class)->get('laf_max_repeat');
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $room = $roomRepo->findBy(['name' => 'TestMeeting: 0'])[0];
 
         $crawler = $client->request('GET', '/room/repeater/new?room=' . $room->getId());
         $form = $crawler->selectButton('Speichern')->form();
@@ -136,14 +136,10 @@ class RepeaterControllerTest extends WebTestCase
         $form['repeater[repetation]'] = (string)($max + 1);
         $client->submit($form);
 
-        self::assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
-
-        $crawler = $client->request('GET', '/room/dashboard');
-        self::assertResponseIsSuccessful();
-        self::assertStringContainsString(
-            'Sie dürfen nur maximal ' . $max . ' Wiederholungen angeben',
-            $crawler->filter('.snackbar .bg-danger')->text()
-        );
+        // The Range(max = laf_max_repeat) constraint on the form rejects the value at validation
+        // time, so the request re-renders the form with an error instead of creating the series.
+        self::assertResponseStatusCodeSame(200);
+        self::assertSelectorExists('.form-error-message');
         self::assertCount(1, $roomRepo->findBy(['name' => 'TestMeeting: 0']));
     }
 

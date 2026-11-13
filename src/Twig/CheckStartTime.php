@@ -17,6 +17,6 @@ class CheckStartTime
     #[\Twig\Attribute\AsTwigFunction(name: 'isRoomOpen')]
     public function isRoomOpen(Rooms $room, ?User $user): ?string
     {
-        return $this->startMeetingService->isAllowedToEnter($room, $user);
+        return $this->startMeetingService->getAllowedToEnterString($room, $user);
     }
 }

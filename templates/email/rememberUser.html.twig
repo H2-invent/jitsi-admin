@@ -17,6 +17,6 @@
         <p>
             {% trans with {'{url}' : room.server.serverName} %}Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.{% endtrans %}
         </p>
-        {% include 'email/__roomInfo.html.twig' %}
+        {% include 'email/__roomInfo.html.twig' with {'showPersonalPin': true} %}
     {% endif %}
 {% endblock %}

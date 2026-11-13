@@ -95,6 +95,16 @@ class ServerType extends AbstractType
                 ['required' => false, 'label' => 'label.disableWhiteboard', 'help' => 'help.disableWhiteboard', 'translation_domain' => 'form']
             )
             ->add(
+                'isProvisioningEnabled',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'label.isProvisioningEnabled', 'help' => 'help.isProvisioningEnabled', 'translation_domain' => 'form']
+            )
+            ->add(
+                'isAllowedToCloneForAutoscale',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'label.isAllowedToCloneForAutoscale', 'help' => 'help.isAllowedToCloneForAutoscale', 'translation_domain' => 'form']
+            )
+            ->add(
                 'disableChat',
                 CheckboxType::class,
                 ['required' => false, 'label' => 'label.disableChat', 'help' => 'help.disableChat', 'translation_domain' => 'form']

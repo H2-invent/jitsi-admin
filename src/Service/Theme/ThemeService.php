@@ -125,6 +125,7 @@ class ThemeService
             $variable = $this->parameterBag->get($input);
         }
 
+
         $tmp = $this->getThemeProperty($input);
 
         if ($tmp !== null) {

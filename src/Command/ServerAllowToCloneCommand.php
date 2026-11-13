@@ -26,17 +26,24 @@ class ServerAllowToCloneCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('server', InputArgument::OPTIONAL, 'Allow this server to be used a a prototype server to clone new servers for autoscale via api');
+        $this
+            ->addArgument('server', InputArgument::REQUIRED, 'Allow this server to be used a a prototype server to clone new servers for autoscale via api')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io       = new SymfonyStyle($input, $output);
         $serverId = $input->getArgument('server');
-        $server   = $this->serverRepository->find($serverId);
-        if ($server) {
-            $server->setAllowedToCloneForAutoscale(!$server->isAllowedToCloneForAutoscale());
+
+        $server = $this->serverRepository->find($serverId);
+        if ($server === null) {
+            $io->error('Server could not be found, check given id');
+
+            return Command::FAILURE;
         }
+
+        $server->setIsAllowedToCloneForAutoscale(!$server->isAllowedToCloneForAutoscale());
 
         $this->entityManager->persist($server);
         $this->entityManager->flush();
