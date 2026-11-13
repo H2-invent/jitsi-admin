@@ -1351,4 +1351,27 @@ class RepeaterServiceTest extends KernelTestCase
         }
         self::assertCount(10, array_unique($numbers));
     }
+
+    /**
+     * The service itself must reject a series exceeding laf_max_repeat, even
+     * when it is called without the controller/form validation layer.
+     */
+    public function testCreateNewRepeaterRejectsMoreThanMaxRepetitions(): void
+    {
+        self::bootKernel();
+        $repeaterService = self::getContainer()->get(RepeaterService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $this->prepareRoom($roomRepo);
+        $max = (int) self::getContainer()->getParameter('laf_max_repeat');
+
+        $repeat = new Repeat();
+        $repeat->setRepeatType(RepeatTypeEnum::DAILY);
+        $repeat->setPrototyp($room);
+        $repeat->setStartDate($room->getStart());
+        $repeat->setRepetation($max + 1);
+        $repeat->setRepeaterDays(1);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $repeaterService->createNewRepeater($repeat);
+    }
 }

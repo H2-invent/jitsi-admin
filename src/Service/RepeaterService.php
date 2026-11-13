@@ -37,6 +37,12 @@ class RepeaterService
      */
     public function createNewRepeater(Repeat $repeat): Repeat
     {
+        if ($repeat->getRepetation() > (int) $this->lafMaxRepeat) {
+            throw new \InvalidArgumentException(
+                'The repetition of a series may not exceed ' . $this->lafMaxRepeat
+            );
+        }
+
         $prototype = $repeat->getPrototyp();
         [$start, $anchor] = $this->getInitialStartDate($repeat);
 
