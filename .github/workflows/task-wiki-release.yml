@@ -1,4 +1,4 @@
-name: Release Note
+name: Task - Release Note
 
 on:
   workflow_call:

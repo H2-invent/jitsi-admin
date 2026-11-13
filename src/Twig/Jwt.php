@@ -37,13 +37,13 @@ class Jwt
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'urlFromRoom')]
-    public function urlFromRoom(?User $user, Rooms $rooms, string $name, string $t): string
+    public function urlFromRoom(?User $user, Rooms $rooms, string $name, string $type): string
     {
         if ($user) {
-            return $this->roomService->join($rooms, $user, $t, $name);
+            return $this->roomService->join($rooms, $user, $type, $name);
         }
 
-        return $this->roomService->joinUrl($t, $rooms, $name, false);
+        return $this->roomService->joinUrl($type, $rooms, $name, false);
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'generateEncryptedSecret')]
