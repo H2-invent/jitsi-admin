@@ -62,7 +62,7 @@ class StartMeetingService
      * this function checks if the meeting is already started or if it is too late or to early
      * This function checks if the room has the lobby function activated
      */
-    public function startMeeting(?Rooms $room, User $user, ?string $t, ?string $name): NotFoundHttpException|RedirectResponse|Response
+    public function startMeeting(?Rooms $room, User $user, ?string $type, ?string $name): NotFoundHttpException|RedirectResponse|Response
     {
         if ($this->flashBag->getCurrentRequest() && $room) {
             $ip = $this->flashBag->getCurrentRequest()->getClientIp();
@@ -75,10 +75,9 @@ class StartMeetingService
         }
         $this->room = $room;
         $this->user = $user;
-        $this->type = $t;
+        $this->type = $type;
         $this->name = $name;
         $this->jigasiService->pingJigasi($room);
-
         if ($room && (in_array($user, $room->getUser()->toarray()) || $this->room->getModerator() === $user)) {
             // Opening the join link counts as answering the ad-hoc call, but only when the acting
             // user is the authenticated principal: the public /join flow must not be able to
@@ -87,7 +86,7 @@ class StartMeetingService
             if ($authenticatedUser instanceof User && $authenticatedUser->getId() === $user->getId()) {
                 $this->adhocCallService->markAnswered($user, $room);
             }
-            $this->url = $this->roomService->join($room, $user, $t, $name);
+            $this->url = $this->roomService->join($room, $user, $type, $name);
             if (!$this->isAllowedToStartMeeting($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
                 $this->logger->debug('This room is closed by time restrictions');
                 return $this->RoomClosed();
@@ -102,6 +101,15 @@ class StartMeetingService
         $this->logger->debug('Room not found or iuser is not in the userList');
 
         return $this->roomNotFound();
+    }
+
+    public function getAllowedToEnterString(Rooms $room, User $user): ?string
+    {
+        if ($this->isAllowedToEnter($room, $user)) {
+            return null;
+        }
+
+        return $this->buildClosedString($room);
     }
 
     public function isAllowedToEnter(Rooms $room, User $user): ?string

@@ -19,14 +19,23 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 /**
  * @extends AbstractType<Repeat>
  */
 class RepeaterType extends AbstractType
 {
+    public function __construct(
+        #[Autowire(param: 'laf_max_repeat')]
+        private readonly string $lafMaxRepeat,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -140,7 +149,7 @@ class RepeaterType extends AbstractType
             ->add(
                 'repetation',
                 NumberType::class,
-                ['label' => 'label.repetation', 'required' => true, 'attr' => ['placeholder' => 'label.repetation'], 'translation_domain' => 'form']
+                ['label' => 'label.repetation', 'required' => true, 'attr' => ['placeholder' => 'label.repetation'], 'constraints' => [new NotBlank(), new Range(['min' => 1, 'max' => (int)$this->lafMaxRepeat])], 'translation_domain' => 'form']
             )
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-outline-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']
             );

@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Rooms;
+use App\Service\Provisioner\ProvisionerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -13,6 +14,7 @@ class RemoveRoomService
         private readonly EntityManagerInterface $em,
         private readonly UserService            $userService,
         private readonly LoggerInterface        $logger,
+        private readonly ProvisionerService     $provisionerService,
     ) {
     }
 
@@ -79,6 +81,7 @@ class RemoveRoomService
                 }
                 $this->em->flush();
             }
+            $this->provisionerService->deleteProvision($room);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             return false;

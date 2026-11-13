@@ -11,6 +11,7 @@ use App\Service\Caller\CallerPrepareService;
 use App\Service\Jigasi\JigasiService;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -23,7 +24,9 @@ class RepeaterService
         private readonly MailerService           $mailer,
         private readonly EntityManagerInterface  $em,
         private readonly JoinUrlGeneratorService $joinUrlGeneratorService,
-        private readonly JigasiService           $jigasiService
+        private readonly JigasiService           $jigasiService,
+        #[Autowire(param: 'laf_max_repeat')]
+        private readonly string                  $lafMaxRepeat,
     ) {
     }
 
