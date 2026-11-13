@@ -17,14 +17,13 @@ class UidHelper
     {
         $ui = $rooms->getUidReal();
         if ($rooms->getRepeater()) {
-            if (!$rooms->getRepeater()->getUid()) {
-                $rep = $rooms->getRepeater();
-                $rep->setUid(UidGeneratorHelper::generate());
-                $this->entityManager->persist($rep);
-                $this->entityManager->flush();
+            $repeat = $rooms->getRepeater();
+            if (!$repeat->getUid()) {
+                $repeat->setUid(UidGeneratorHelper::generate());
+                $this->entityManager->persist($repeat);
             }
 
-            $ui = $rooms->getRepeater()->getUid();
+            $ui = $repeat->getUid();
         }
 
         return $ui;
