@@ -61,7 +61,7 @@ class JoinService
             || $user->getKeycloakId()
         ) {
             if ($user->getKeycloakId()) {
-                return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
+                return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 'type' => $type]));
             }
 
             if ($this->session->getCurrentRequest()) {

@@ -41,6 +41,8 @@ class CallerServiceTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'This is a fixed room']);
         $callerPrepareService->addCallerIdToRoom($room);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $manager->flush();
         $room = $roomRepo->findOneBy(['name' => 'This is a fixed room']);
         $id = $room->getCallerRoom()->getCallerId();
         self::assertEquals(['status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'lobby_enabled' => false, 'e2ee_enabled' => false, 'total_open_rooms' => false, 'pin_required' => false, 'links' => ['open' => $urlGen->generate('caller_open', ['roomId' => $id])]], $callerService->findRoom($id));

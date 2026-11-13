@@ -201,9 +201,14 @@ class RoomController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/clone/{room}', name: 'room_clone')]
+    /**
+     * Clones a room. The route parameter identifies the room to clone FROM; the
+     * form edits the new (in-memory) room.
+     * The form's data object is $roomNew: that is where the edited values live.
+     */
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/clone/{roomId}', name: 'room_clone')]
     public function roomClone(
-        string               $room,
+        string               $roomId,
         RoomGeneratorService $roomGeneratorService,
         RoomCheckService     $roomCheckService,
         Request              $request,
@@ -212,17 +217,13 @@ class RoomController extends JitsiAdminController
         SchedulingService    $schedulingService,
         ServerUserManagment  $serverUserManagment
     ): Response {
-        $roomOld = $this->doctrine->getRepository(Rooms::class)->find($room);
+        $roomOld = $this->doctrine->getRepository(Rooms::class)->find($roomId);
         $edit    = true;
-        $roomNew = clone $roomOld;
+        $roomNew = $roomOld->duplicate();
         $roomNew->setStart(null);
         $roomNew->setEnddate(null);
         $roomNew = $roomGeneratorService->createCallerId($roomNew);
 
-        // here we clean all the schedules from the old room
-        foreach ($roomNew->getSchedulings() as $data) {
-            $roomNew->removeScheduling($data);
-        }
         $roomNew->setUid(UidGeneratorHelper::generate());
         $roomNew->setSequence(0);
 
@@ -239,11 +240,9 @@ class RoomController extends JitsiAdminController
                 }
             }
 
-            $form = $this->createForm(
-                RoomType::class,
-                $roomNew,
-                ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['room' => $roomNew->getId()])]
-            );
+            // The route clones FROM this room; the form edits the in-memory clone and persists it on submit
+            $params = ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['roomId' => $roomOld->getId()])];
+            $form = $this->createForm(RoomType::class, $roomNew, $params);
             $form->remove('scheduleMeeting');
             $form->handleRequest($request);
 
@@ -251,10 +250,6 @@ class RoomController extends JitsiAdminController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $roomNew = $form->getData();
-                foreach ($roomOld->getUserAttributes() as $data) {
-                    $tmp = clone $data;
-                    $roomNew->addUserAttribute($tmp);
-                }
                 $roomNew->setUidReal(UidGeneratorHelper::generate());
                 $roomNew->setUidModerator(UidGeneratorHelper::generate());
                 $roomNew->setUidParticipant(UidGeneratorHelper::generate());

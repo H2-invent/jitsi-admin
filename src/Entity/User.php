@@ -289,6 +289,9 @@ class User extends BaseUser
     #[ORM\ManyToOne(inversedBy: 'calendlyUsers')]
     private ?Server $calendlyServer = null;
 
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    private ?string $outlookPluginToken = null;
+
     #[ORM\Column]
     private ?bool $hotstandbyEnabled = false;
 
@@ -1578,6 +1581,18 @@ class User extends BaseUser
     public function setCalendlyServer(?Server $calendlyServer): static
     {
         $this->calendlyServer = $calendlyServer;
+
+        return $this;
+    }
+
+    public function getOutlookPluginToken(): ?string
+    {
+        return $this->outlookPluginToken;
+    }
+
+    public function setOutlookPluginToken(?string $outlookPluginToken): static
+    {
+        $this->outlookPluginToken = $outlookPluginToken;
 
         return $this;
     }
