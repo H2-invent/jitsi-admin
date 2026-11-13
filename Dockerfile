@@ -13,8 +13,8 @@ USER root
 
 RUN composer install --no-scripts
 
-RUN php bin/console cache:clear\
-    && php bin/console cache:warmup
+RUN php -d memory_limit=-1 bin/console cache:clear \
+    && php -d memory_limit=-1 bin/console cache:warmup
 
 RUN npm install \
     && npm run build
