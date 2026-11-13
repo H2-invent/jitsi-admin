@@ -1,3 +1,5 @@
+@use "sass:color";
+
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import '~@fortawesome/fontawesome-free/css/all.css';
 @import "helper/variables"; // app design tokens (card background, colors, …)
@@ -375,7 +377,7 @@ a:hover {
   transition: background 0.3s;
 }
 .hp-feature-card:hover .hp-feature-card-visual {
-  background: scale-color($main-color, $lightness: 85%);
+  background: color.scale($main-color, $lightness: 85%);
 }
 .hp-feature-icon-svg {
   width: 44px;
