@@ -112,10 +112,12 @@ class AdHocMeetingController extends JitsiAdminController
             return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
         }
 
-        // The stored status is authoritative for an explicit "offline" and avoids a network call.
-        // Live websocket presence is only consulted when the stored status says online; if it is
-        // unknown (null, e.g. websocket service unreachable) we keep the stored answer.
-        if (!$onlineStatusService->isUserOnline($user) || $presenceService->isUserOnline($user) === false) {
+        // Live websocket presence is authoritative: an active connection (including a Chrome
+        // extension socket) means callable, a definite "offline" means not. The stored status is
+        // only the fallback when presence cannot be determined (null, e.g. websocket service
+        // unreachable) so a presence outage does not block or allow calls by accident.
+        $presence = $presenceService->isUserOnline($user);
+        if ($presence === false || ($presence === null && !$onlineStatusService->isUserOnline($user))) {
             return new JsonResponse(
                 [
                     'redirectUrl' => $this->generateUrl('dashboard'),
