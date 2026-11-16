@@ -50,6 +50,8 @@ class ContactApiController extends AbstractController
         $contact = $user->getAddressbook();
         $res     = [];
 
+        // Always expose contacts - the Meetling Chrome extension checks Array.isArray(data.contacts).
+        $res['contacts'] = [];
 
         foreach ($contact as $data) {
             $tmp['name']       = $this->participantSearchService->buildShowInFrontendStringNoString($data);
