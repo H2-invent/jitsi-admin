@@ -7,6 +7,7 @@
 * Convert hardcoded repeat method integers to Enum
 * Ad-hoc calls: the caller is notified when the callee does not answer within the configured time
 * Transmit the predefined lobby messages in the moderator/lobby-moderator JWT as context.lobby.chatMessages
+* LiveKit: anonymous Meetling participants no longer get a name in the JWT, so the middleware asks for name and company itself; the privacy policy link (dataPrivacy) is transmitted as context.user.privacyPolicy
 * Allow disabling of survey from theme settings & allow disabling of survey from theme settings
 
 ### ⭐ Improvements:

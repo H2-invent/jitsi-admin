@@ -259,7 +259,9 @@ class RoomService
         }
 
         if ($userName === 'Meetling' && $server->isLiveKitServer()) {
-            $payload['context']['user']['name'] = '';
+            // Meetling does not ask anonymous participants for a name; the LiveKit
+            // middleware shows its own name/company form when the claim is absent.
+            unset($payload['context']['user']['name']);
         }
 
         if ($server->getJigasiNumberUrl()) {
@@ -296,6 +298,11 @@ class RoomService
                 } catch (\Exception) {
                     $this->logger->error('Invalid JSON in background images');
                 }
+            }
+            // The middleware shows this link next to its own name/company form.
+            $privacyPolicyUrl = $this->themeService->getApplicationProperties('dataPrivacy');
+            if (is_string($privacyPolicyUrl) && $privacyPolicyUrl !== '') {
+                $payload['context']['user']['privacyPolicy'] = $privacyPolicyUrl;
             }
             $payload['context']['user']['identity'] = 'meetling_' . $this->slugger->slug($userName) . '_' . $this->identity;
         }
