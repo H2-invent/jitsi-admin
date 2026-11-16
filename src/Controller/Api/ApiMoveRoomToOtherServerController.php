@@ -22,11 +22,11 @@ final class ApiMoveRoomToOtherServerController extends AbstractController
     ) {
     }
 
-    #[Route('/api/v1/room/move/{roomId}', name: 'app_api_move_room_to_other_server', methods: ['POST'])]
-    public function index(Request $request, string $roomId): Response
+    #[Route('/api/v1/room/move', name: 'app_api_move_room_to_other_server', methods: ['POST'])]
+    public function index(Request $request): Response
     {
         $apiKey = $this->bearerTokenAuthHelper->getBearerTokenFromRequest($request);
-        $room   = $this->roomsRepository->findOneBy(['uidReal' => $roomId]);
+        $room   = $this->roomsRepository->findOneBy(['uidReal' => $request->get('uid')]);
         if (!$room) {
             return new JsonResponse(['error' => true, 'message' => 'Room not found'], Response::HTTP_NOT_FOUND);
         }
@@ -34,7 +34,7 @@ final class ApiMoveRoomToOtherServerController extends AbstractController
             return new JsonResponse(['error' => true, 'message' => 'Access denied'], Response::HTTP_FORBIDDEN);
         }
 
-        $newServer = $this->serverRepository->findOneBy(['id' => $request->get('serverId'), 'apiKey' => $apiKey]);
+        $newServer = $this->serverRepository->findOneBy(['id' => $request->get('server'), 'apiKey' => $apiKey]);
         if (!$newServer) {
             return new JsonResponse(['error' => true, 'message' => 'New Server not found'], Response::HTTP_NOT_FOUND);
         }

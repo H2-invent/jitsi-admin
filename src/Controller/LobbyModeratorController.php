@@ -62,8 +62,8 @@ class LobbyModeratorController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/lobby/start/moderator/{t}/{room}', name: 'lobby_moderator_start')]
-    public function startMeeting(string $room, string $t, RoomService $roomService, Request $request): Response
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/room/lobby/start/moderator/{type}/{room}', name: 'lobby_moderator_start')]
+    public function startMeeting(string $room, string $type, RoomService $roomService, Request $request): Response
     {
         $roomL = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $room]);
         if (!$this->checkLobbyPermissionService->checkPermissions($roomL, $this->getSessionUser($request->getSession()))) {
@@ -75,13 +75,12 @@ class LobbyModeratorController extends JitsiAdminController
             $this->addFlash('danger', $this->translator->trans('Fehler'));
             return $this->redirectToRoute('dashboard');
         }
-
         /** @var string $showNameInConference */
         $showNameInConference = $this->parameterBag->get('laf_showNameInConference');
         $url                  = $roomService->join(
             $roomL,
             $this->getUser(),
-            $t,
+            $type,
             $this->getSessionUser($request->getSession())->getFormatedName($showNameInConference)
         );
 

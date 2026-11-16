@@ -1,9 +1,13 @@
-name: Test Pipeline
+name: Run Tests
 
-on: [push]
+permissions:
+  contents: read
+  packages: write
+
+on:
+  push:
 
 jobs:
-
   artifact:
     uses: ./.github/workflows/task-artifact.yml
 

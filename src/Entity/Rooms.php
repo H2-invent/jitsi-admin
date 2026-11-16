@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RoomsRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -251,6 +252,9 @@ class Rooms
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $calendly_uri = null;
 
+    #[ORM\ManyToOne]
+    private ?Server $originalServer = null;
+
     /**
      * @var Collection<int, Transcription>
      */
@@ -266,6 +270,14 @@ class Rooms
     #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $enableTranscription = false;
 
+    #[ORM\Column(nullable: false)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    /**
+     * @var Collection<int, ProvisionerRecord>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: ProvisionerRecord::class, orphanRemoval: true)]
+    private Collection $provisionerRecords;
 
     public function __construct()
     {
@@ -282,8 +294,55 @@ class Rooms
         $this->calloutSessions    = new ArrayCollection();
         $this->logs               = new ArrayCollection();
         $this->uploadedRecordings = new ArrayCollection();
+        $this->liveKitRecordings   = new ArrayCollection();
+        $this->transcriptions      = new ArrayCollection();
+        $this->provisionerRecords  = new ArrayCollection();
+    }
+
+    public function __clone()
+    {
+        // A cloned room is a new occurrence: it must not share the identifier or
+        // any collection with the room it was copied from.
+        $this->id = null;
+
+        $this->user               = new ArrayCollection();
+        $this->userAttributes     = new ArrayCollection();
+        $this->subscribers        = new ArrayCollection();
+        $this->schedulings        = new ArrayCollection();
+        $this->waitinglists       = new ArrayCollection();
+        $this->prototypeUsers     = new ArrayCollection();
+        $this->favoriteUsers      = new ArrayCollection();
+        $this->lobbyWaitungUsers  = new ArrayCollection();
+        $this->roomstatuses       = new ArrayCollection();
+        $this->callerIds          = new ArrayCollection();
+        $this->calloutSessions    = new ArrayCollection();
+        $this->logs               = new ArrayCollection();
+        $this->uploadedRecordings = new ArrayCollection();
         $this->liveKitRecordings  = new ArrayCollection();
         $this->transcriptions     = new ArrayCollection();
+
+        $this->callerRoom       = null;
+        $this->repeaterProtoype = null;
+    }
+
+    /**
+     * Returns a fully populated copy of this room: a clean clone (fresh identity
+     * and collections) that gets the participants and their room attributes
+     * copied into it again. Dial-in data, schedules, subscribers and live-session
+     * state are not copied: the copy is a new meeting and must get its own.
+     */
+    public function duplicate(): self
+    {
+        $copy = clone $this;
+
+        foreach ($this->getUser() as $user) {
+            $copy->addUser($user);
+        }
+        foreach ($this->getUserAttributes() as $attribute) {
+            $copy->addUserAttribute($attribute->copyForRoom($copy));
+        }
+
+        return $copy;
     }
 
     public function normalize(string $propertyName): string
@@ -1285,6 +1344,18 @@ class Rooms
         return $this;
     }
 
+    public function getOriginalServer(): ?Server
+    {
+        return $this->originalServer;
+    }
+
+    public function setOriginalServer(?Server $originalServer): static
+    {
+        $this->originalServer = $originalServer;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Transcription>
      */
@@ -1352,6 +1423,54 @@ class Rooms
     public function setEnableTranscription(bool $enableTranscription): static
     {
         $this->enableTranscription = $enableTranscription;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt ??= new DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection<int, ProvisionerRecord>
+     */
+    public function getProvisionerRecords(): Collection
+    {
+        return $this->provisionerRecords;
+    }
+
+    public function addProvisionerRecord(ProvisionerRecord $provisionerRecord): static
+    {
+        if (!$this->provisionerRecords->contains($provisionerRecord)) {
+            $this->provisionerRecords->add($provisionerRecord);
+            $provisionerRecord->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProvisionerRecord(ProvisionerRecord $provisionerRecord): static
+    {
+        if ($this->provisionerRecords->removeElement($provisionerRecord)) {
+            // set the owning side to null (unless already changed)
+            if ($provisionerRecord->getRoom() === $this) {
+                $provisionerRecord->setRoom(null);
+            }
+        }
 
         return $this;
     }

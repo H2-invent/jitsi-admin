@@ -69,7 +69,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    public function join(Rooms $room, ?User $user, string $t, string $userName): string
+    public function join(Rooms $room, ?User $user, string $type, string $userName): string
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -83,7 +83,7 @@ class RoomService
             $avatar = $this->uploaderHelper->asset($user->getProfilePicture(), 'documentFile');
         }
 
-        return $this->createUrl($t, $room, $moderator, $user, $userName, $avatar);
+        return $this->createUrl($type, $room, $moderator, $user, $userName, $avatar);
     }
 
     /**
@@ -91,28 +91,28 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    public function joinUrl(string $t, Rooms $room, string $name, bool $isModerator): string
+    public function joinUrl(string $type, Rooms $room, string $name, bool $isModerator): string
     {
-        return $this->createUrl($t, $room, $isModerator, null, $name);
+        return $this->createUrl($type, $room, $isModerator, null, $name);
     }
 
     public function createUrl(
-        string  $t,
+        string  $type,
         Rooms   $room,
         bool    $isModerator,
         ?User   $user,
         string  $userName,
         ?string $avatar = null
     ): string {
-        if ($t === 'a') {
-            $type = 'jitsi-meet://';
+        if ($type === 'a') {
+            $protocol = 'jitsi-meet://';
         } else {
-            $type = 'https://';
+            $protocol = 'https://';
         }
         $roomUser         = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         $serverUrl        = $room->getServer()->getUrl();
         $serverUrl        = str_replace(['https://', 'http://'], '', $serverUrl);
-        $jitsi_server_url = $type . $serverUrl;
+        $jitsi_server_url = $protocol . $serverUrl;
         $roomName         = $this->getRoomName($room);
         $url              = $jitsi_server_url . '/' . $roomName;
 
