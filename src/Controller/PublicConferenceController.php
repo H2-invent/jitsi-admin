@@ -79,6 +79,10 @@ class PublicConferenceController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/m/{confId}', name: 'app_public_conference')]
     public function startMeeting(string $confId, Request $request): Response
     {
+        if (!$this->server) {
+            return $this->redirectToRoute('dashboard');
+        }
+
         $room         = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
         $this->server = $room->getServer();
         $firstUser    = $this->roomStatusFrontendService->isRoomCreated($room);

@@ -84,6 +84,10 @@ class User {
         return this.sockets.length === 0;
     }
 
+    countExtensionSockets() {
+        return this.sockets.filter((socket) => socket.isExtension === true).length;
+    }
+
     async setAwayTime(awayTime) {
         try {
             awayTime = parseInt(awayTime);
