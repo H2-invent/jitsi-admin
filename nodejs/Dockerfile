@@ -1,4 +1,4 @@
-FROM node:23-alpine
+FROM node:26-alpine
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
@@ -21,7 +21,9 @@ RUN apk --no-cache add \
     curl \
     && rm -rf /var/cache/apk/*
 
-RUN npm install
+# Install exactly the generated packages from the package-lock.json file;
+# No update here.
+RUN npm ci --omit=dev
 
 EXPOSE 3000
 
