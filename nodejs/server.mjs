@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import http from "http";
 import https from "https";
 import fs from "fs";
@@ -108,8 +107,8 @@ function setupSocketEvents(io) {
 }
 
 function setupRoutes(io) {
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
 
   router.post(MERCURE_INTERNAL_URL, async (req, res) => {
     const authHeader = req.headers.authorization;
