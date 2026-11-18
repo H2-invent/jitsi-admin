@@ -221,6 +221,9 @@ class Server
     #[ORM\Column(nullable: true, enumType: TranscriptionProvider::class)]
     private ?TranscriptionProvider $transcription_provider = null;
 
+    #[ORM\OneToOne(mappedBy: 'server', cascade: ['persist', 'remove'])]
+    private ?ProtocolTemplate $protocolTemplate = null;
+
     public function __construct()
     {
         $this->user           = new ArrayCollection();
@@ -1046,6 +1049,23 @@ class Server
     public function setTranscriptionProvider(?TranscriptionProvider $transcription_provider): static
     {
         $this->transcription_provider = $transcription_provider;
+
+        return $this;
+    }
+
+    public function getProtocolTemplate(): ?ProtocolTemplate
+    {
+        return $this->protocolTemplate;
+    }
+
+    public function setProtocolTemplate(ProtocolTemplate $protocolTemplate): static
+    {
+        // set the owning side of the relation if necessary
+        if ($protocolTemplate->getServer() !== $this) {
+            $protocolTemplate->setServer($this);
+        }
+
+        $this->protocolTemplate = $protocolTemplate;
 
         return $this;
     }

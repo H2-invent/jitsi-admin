@@ -12,3 +12,10 @@ vich_uploader:
             delete_on_update: true
             delete_on_remove: true
             namer: vich_uploader.namer_uniqid
+        logo:
+            inject_on_load: true
+            uri_prefix: "%env(VICH_BASE)%/uploads/images/logo"
+            upload_destination: logo_fs
+            delete_on_update: true
+            delete_on_remove: true
+            namer: vich_uploader.namer_uniqid

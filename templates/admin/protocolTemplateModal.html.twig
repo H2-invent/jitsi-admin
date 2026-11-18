@@ -1,0 +1,30 @@
+{{ form_start(form) }}
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ title }}</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mt-3">
+                {{ form_row(form.header) }}
+                {{ form_row(form.footer) }}
+
+                {% if template.logo and template.logo.name %}
+                    <div class="mb-2">
+                        <small class="d-block text-muted">{{ 'protocol.template.currentLogo'|trans }}: {{ template.logo.originalName ?? template.logo.name }}</small>
+                        <img src="{{ vich_uploader_asset(template, 'logoFile') }}" alt="Logo"
+                             style="max-height: 80px; max-width: 100%;" class="border rounded p-1">
+                    </div>
+                {% endif %}
+                {{ form_row(form.logoFile) }}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">{{ 'Speichern'|trans }}</button>
+            {{ form_rest(form) }}
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

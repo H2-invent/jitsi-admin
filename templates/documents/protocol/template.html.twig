@@ -1,0 +1,241 @@
+{% extends 'documents/base.html.twig' %}
+
+{% set hasHeader = logo or (template and template.header) %}
+{% set hasFooter = template and template.footer %}
+
+{% block stylesheets %}
+    <style>
+        @page {
+            margin: {{ hasHeader ? '120px' : '40px' }} 40px {{ hasFooter ? '90px' : '50px' }};
+        }
+
+        .protocol-header {
+            position: fixed;
+            top: -100px;
+            left: 0;
+            right: 0;
+            height: 85px;
+            border-bottom: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+
+        .protocol-header table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .protocol-header td {
+            vertical-align: middle;
+        }
+
+        .protocol-header .logo {
+            max-height: 70px;
+            max-width: 200px;
+        }
+
+        .protocol-header .header-text {
+            text-align: right;
+            font-size: 11px;
+        }
+
+        .protocol-header h1, .protocol-header h2, .protocol-header h3 {
+            font-size: 16px;
+        }
+
+        .protocol-footer {
+            position: fixed;
+            bottom: -70px;
+            left: 0;
+            right: 90px;
+            height: 55px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 6px;
+            font-size: 9px;
+            color: #6b7280;
+            overflow: hidden;
+        }
+
+        .protocol-footer p, .protocol-header p {
+            margin: 0;
+        }
+
+        .session {
+            page-break-inside: auto;
+        }
+
+        .session-head {
+            background: #eef2ff;
+            border: 1px solid #dfe4f5;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+        }
+
+        .attendance {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .attendance th {
+            text-align: left;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            border-bottom: 1px solid #d1d5db;
+            padding: 4px 6px;
+        }
+
+        .attendance td {
+            padding: 4px 6px;
+            border-bottom: 1px solid #eef1f5;
+            vertical-align: top;
+        }
+
+        .attendance tr.person-first td {
+            border-top: 1px solid #d1d5db;
+        }
+
+        .attendance tr {
+            page-break-inside: avoid;
+        }
+
+        .in-room {
+            color: #059669;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% if hasHeader %}
+        <div class="protocol-header">
+            <table>
+                <tr>
+                    <td style="width: 40%;">
+                        {% if logo %}
+                            <img class="logo" src="{{ logo }}" alt="">
+                        {% endif %}
+                    </td>
+                    <td class="header-text">
+                        {% if template and template.header %}
+                            {{ template.header|sanitize_html('app.protocol_sanitizer') }}
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    {% endif %}
+    {% if hasFooter %}
+        <div class="protocol-footer">
+            {{ template.footer|sanitize_html('app.protocol_sanitizer') }}
+        </div>
+    {% endif %}
+
+    <div class="doc-header">
+        <h1>{{ room.name }}</h1>
+        <div class="doc-subtitle">{{ 'protocol.pdf.subtitle'|trans }}</div>
+    </div>
+
+    <table class="grid section">
+        <tbody>
+        <tr>
+            <td style="width: {{ sessions|length > 1 ? '50%' : '100%; padding-right: 0' }};">
+                <div class="section-title">{{ 'Organisator'|trans }}</div>
+                <div class="card">
+                    <div class="value">{{ room.moderator|nameOfUserNoSymbol }}</div>
+                </div>
+            </td>
+            {% if sessions|length > 1 %}
+                <td style="width: 50%; padding-right: 0;">
+                    <div class="section-title">{{ 'protocol.pdf.sessions'|trans }}</div>
+                    <div class="card">
+                        <div class="value">{{ sessions|length }}</div>
+                    </div>
+                </td>
+            {% endif %}
+        </tr>
+        </tbody>
+    </table>
+
+    <p class="muted" style="font-size: 10px; margin-bottom: 16px;">
+        {{ 'report.info.timezone'|trans({'{timezone}': timezone}) }}
+    </p>
+
+    {% if sessions is empty %}
+        <div class="card">{{ 'report.error.noStatus'|trans }}</div>
+    {% endif %}
+
+    {% for session in sessions %}
+        <div class="section session">
+            <div class="session-head">
+                <table class="grid">
+                    <tr>
+                        <td style="width: 38%;">
+                            <div class="label">{{ 'protocol.pdf.opened'|trans }}</div>
+                            <div class="value">
+                                {{ session.openedAt ? session.openedAt|date('d.m.Y H:i:s', false) : '–' }}
+                            </div>
+                        </td>
+                        <td style="width: 38%;">
+                            <div class="label">{{ 'protocol.pdf.closed'|trans }}</div>
+                            <div class="value">
+                                {% if session.closedAt %}
+                                    {{ session.closedAt|date('d.m.Y H:i:s', false) }}
+                                {% else %}
+                                    <span class="in-room">{{ 'protocol.pdf.stillOpen'|trans }}</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td style="padding-right: 0;">
+                            <div class="label">{{ 'protocol.pdf.duration'|trans }}</div>
+                            <div class="value">{{ session.duration ?? '–' }}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            {% if session.participants is empty %}
+                <p class="muted">{{ 'protocol.pdf.noParticipants'|trans }}</p>
+            {% else %}
+                <table class="attendance">
+                    <thead>
+                    <tr>
+                        <th style="width: 30%;">{{ 'protocol.pdf.participant'|trans }}</th>
+                        <th>{{ 'protocol.pdf.entered'|trans }}</th>
+                        <th>{{ 'protocol.pdf.left'|trans }}</th>
+                        <th>{{ 'protocol.pdf.duration'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for participant in session.participants %}
+                        {% for visit in participant.visits %}
+                            <tr class="{{ loop.first ? 'person-first' : '' }}">
+                                <td>
+                                    {% if loop.first %}
+                                        <strong>{{ participant.name }}</strong>
+                                    {% elseif loop.last %}
+                                        {% if participant.visits|length > 1 %}
+                                            <br><span class="muted">{{ 'protocol.pdf.total'|trans }}: {{ participant.totalDuration }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>{{ visit.enteredAt ? visit.enteredAt|date('d.m.Y H:i:s', false) : '–' }}</td>
+                                <td>
+                                    {% if visit.leftAt %}
+                                        {{ visit.leftAt|date('d.m.Y H:i:s', false) }}
+                                    {% else %}
+                                        <span class="in-room">{{ 'protocol.pdf.stillInRoom'|trans }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ visit.duration ?? '–' }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -54,6 +54,7 @@
     "symfony/flex": "^2.0",
     "symfony/form": "^7.4",
     "symfony/framework-bundle": "^7.4",
+    "symfony/html-sanitizer": "^7.4",
     "symfony/http-client": "^7.4",
     "symfony/http-foundation": "^7.4",
     "symfony/http-kernel": "^7.4",

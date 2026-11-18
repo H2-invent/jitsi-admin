@@ -67,6 +67,9 @@
                                     <a href="{{ path('admin_server',{'server':server.id}) }}" data-mdb-dismiss="modal"
                                        class="loadContent btn btn-outline-primary btn-block">{{ 'Statistiken'|trans }}</a>
                                     <br>
+                                    <a href="{{ path('admin_protocol_template',{'server':server.id}) }}" data-mdb-dismiss="modal"
+                                       class="loadContent btn btn-outline-primary btn-block">{{ 'Protokoll-Template'|trans }}</a>
+                                    <br>
                                     <a href="{{ path('server_delete',{'id':server.id}) }}" data-mdb-dismiss="modal"
                                        class="confirmHref  btn btn-outline-danger btn-block"
                                        data-text="{{ 'confirm.delete.server'|trans }}">
