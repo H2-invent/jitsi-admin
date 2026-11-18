@@ -11,6 +11,7 @@ use App\Service\Caller\CallerPrepareService;
 use App\Service\Jigasi\JigasiService;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -23,7 +24,9 @@ class RepeaterService
         private readonly MailerService           $mailer,
         private readonly EntityManagerInterface  $em,
         private readonly JoinUrlGeneratorService $joinUrlGeneratorService,
-        private readonly JigasiService           $jigasiService
+        private readonly JigasiService           $jigasiService,
+        #[Autowire(param: 'laf_max_repeat')]
+        private readonly string                  $lafMaxRepeat,
     ) {
     }
 
@@ -32,6 +35,12 @@ class RepeaterService
      */
     public function createNewRepeater(Repeat $repeat): Repeat
     {
+        if ($repeat->getRepetation() > (int)$this->lafMaxRepeat) {
+            throw new \InvalidArgumentException(
+                'The repetition of a series may not exceed ' . $this->lafMaxRepeat
+            );
+        }
+
         $userAttribute = $repeat->getPrototyp()->getUserAttributes()->toArray();
         switch ($repeat->getRepeatType()) {
             case RepeatTypeEnum::DAILY:

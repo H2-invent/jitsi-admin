@@ -25,7 +25,8 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 
     public function testRoomNotFound()
     {
-        $this->client->request('POST', '/api/v1/room/move/999999', [], [], [
+        $this->createRoomWithServer('correctToken');
+        $this->client->request('POST', '/api/v1/room/move', ['uid'=>'notValid'], [], [
             'HTTP_AUTHORIZATION' => 'Bearer someKey'
         ]);
 
@@ -39,8 +40,9 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
 
     public function testAccessDenied()
     {
+        $this->createRoomWithServer('correctToken');
         // Beispiel: Room mit ID 1 hat nicht diesen API-Key
-        $this->client->request('POST', '/api/v1/room/move/ecab6ec4-84dc-40c4-b97f-e364b3d23f3b', [], [], [
+        $this->client->request('POST', '/api/v1/room/move',['uid'=>'testUidReal'], [], [
             'HTTP_AUTHORIZATION' => 'Bearer wrongApiKey'
         ]);
 
@@ -57,8 +59,9 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         // Hier muss Room existieren und API-Key korrekt sein
         $room = $this->createRoomWithServer('validKey');
 
-        $this->client->request('POST', '/api/v1/room/move/' . $room->getUidReal(), [
-            'serverId' => 99999,
+        $this->client->request('POST', '/api/v1/room/move', [
+            'uid'=>'testUidReal',
+            'server' => 99999,
         ], [], [
             'HTTP_AUTHORIZATION' => 'Bearer validKey'
         ]);
@@ -81,8 +84,9 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         $this->entityManager->persist($room);
         $this->entityManager->flush();
 
-        $this->client->request('POST', '/api/v1/room/move/' . $room->getUidReal(), [
-            'serverId' => $newServer->getId()
+        $this->client->request('POST', '/api/v1/room/move', [
+            'uid'=>'testUidReal',
+            'server' => $newServer->getId()
         ], [], [
             'HTTP_AUTHORIZATION' => 'Bearer validKey'
         ]);
@@ -108,8 +112,9 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         $this->entityManager->persist($room);
         $this->entityManager->flush();
 
-        $this->client->request('POST', '/api/v1/room/move/' . $room->getUidReal(), [
-            'serverId' => $newServer->getId()
+        $this->client->request('POST', '/api/v1/room/move' , [
+            'uid'=>'testUidReal',
+            'server' => $newServer->getId()
         ], [], [
             'HTTP_AUTHORIZATION' => 'Bearer invalidKey'
         ]);
@@ -141,9 +146,9 @@ class ApiMoveRoomToOtherServerControllerTest extends WebTestCase
         $room = new Rooms();
         $room->setName('meinRaum')
         ->setUid('kjsdhf')
-            ->setUidReal('meinTestUidReal')
         ->setDuration('123')
-        ->setSequence(0);
+        ->setSequence(0)
+        ->setUidReal('testUidReal');
         $room->setServer($server);
         $this->entityManager->persist($room);
         $this->entityManager->flush();

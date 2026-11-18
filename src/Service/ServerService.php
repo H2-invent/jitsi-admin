@@ -52,4 +52,29 @@ class ServerService
             $tmp = $slug . '-' . $counter;
         }
     }
+
+    public function cloneServerForAutoscaling(
+        Server $server,
+        string $url,
+        string $name,
+        string $appId,
+        string $appSecret,
+    ): Server
+    {
+        $newServer = clone $server;
+        $newServer->setUrl($url)
+            ->setServerName($name)
+            ->setAppId($appId)
+            ->setAppSecret($appSecret)
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setIsAllowedToCloneForAutoscale(null)
+            ->setSlug(urlencode($url))
+        ;
+        $newServer->getUser()->clear();
+        $newServer->setAdministrator(null);
+        $this->em->persist($newServer);
+        $this->em->flush();
+
+        return $newServer;
+    }
 }

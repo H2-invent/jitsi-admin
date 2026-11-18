@@ -468,7 +468,8 @@ class RepeaterServiceTest extends KernelTestCase
             $mailer,
             $container->get(EntityManagerInterface::class),
             $container->get(JoinUrlGeneratorService::class),
-            $container->get(JigasiService::class)
+            $container->get(JigasiService::class),
+            $container->get('parameter_bag')->get('laf_max_repeat')
         );
     }
 

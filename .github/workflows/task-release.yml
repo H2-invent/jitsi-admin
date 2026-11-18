@@ -1,4 +1,4 @@
-name: Publish new Release
+name: Task - Publish new Release
 
 on:
   workflow_call:

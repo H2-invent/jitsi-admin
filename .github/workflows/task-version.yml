@@ -1,4 +1,4 @@
-name: Define version
+name: Task - Define version
 
 on:
   workflow_call:
@@ -6,6 +6,9 @@ on:
       version:
         description: "Computed version"
         value: ${{ jobs.version.outputs.version }}
+      skip:
+        description: "Export Skip Status"
+        value: ${{ jobs.version.outputs.skip }}
 
 jobs:
   version:
@@ -21,7 +24,7 @@ jobs:
 
       - name: Compute tag
         id: version
-        uses: h2-invent/action-compute-tag@v2.2.0
+        uses: h2-invent/action-compute-tag@v2.3.0
         with:
           event-name: ${{ github.event_name }}
           base-ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.event.pull_request.base.ref }}
