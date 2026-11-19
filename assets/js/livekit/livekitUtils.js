@@ -108,6 +108,12 @@ export class LivekitUtils {
                 this.chatBtn.style.removeProperty('color');
             }
         });
+        this.api.addEventListener('RemoveWhiteboard', () => {
+            this.toolbar.removeWhiteboard();
+        });
+        this.api.addEventListener('RemoveEtherpad', () => {
+            this.toolbar.removeEtherpad();
+        });
 
         function changeCamera(cameraLabel) {
             console.log(`change camera to ${cameraLabel}`);
