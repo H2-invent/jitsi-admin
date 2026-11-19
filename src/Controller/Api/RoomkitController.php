@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Repository\CallerIdRepository;
 use App\Repository\CallerRoomRepository;
+use App\Service\RoomkitService;
 use App\Service\RoomService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -19,6 +20,7 @@ class RoomkitController extends AbstractController
         private readonly CallerRoomRepository $callerRoomRepository,
         private readonly CallerIdRepository $callerIdRepository,
         private readonly RoomService $roomService,
+        private readonly RoomkitService $roomkitService,
         #[Autowire('%laf_showNameInConference%')]
         private readonly string $showNameInConference,
         #[Autowire('%env(ROOMKIT_SECRET)%')]
@@ -53,7 +55,7 @@ class RoomkitController extends AbstractController
 
         $joinData = [
             'roomName' => $this->roomService->getRoomName($room),
-            'jwt'      => $this->roomService->generateJwt($room, $user, $userName),
+            'jwt'      => $this->roomkitService->generateJwt($room, $user, $userName),
             'secret'   => $this->roomService->generateEncryptedSecret($room->getServer()),
         ];
 
