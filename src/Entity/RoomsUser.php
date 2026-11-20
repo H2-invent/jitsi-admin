@@ -110,4 +110,21 @@ class RoomsUser
 
         return $this;
     }
+
+    /**
+     * Creates a detached copy of this attribute row for another room. The id is
+     * left unset so persisting the copy inserts a new row.
+     */
+    public function copyForRoom(Rooms $room): self
+    {
+        $copy = new self();
+        $copy->setUser($this->getUser());
+        $copy->setRoom($room);
+        $copy->setModerator($this->getModerator());
+        $copy->setShareDisplay($this->getShareDisplay());
+        $copy->setPrivateMessage($this->getPrivateMessage());
+        $copy->setLobbyModerator($this->getLobbyModerator());
+
+        return $copy;
+    }
 }
