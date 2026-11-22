@@ -3,67 +3,37 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\Rooms;
-use App\Entity\Server;
 use App\Entity\User;
-use App\Service\LicenseService;
-use App\Service\MessageService;
 use App\UtilsHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
 
-use function GuzzleHttp\Psr7\str;
-
-class Utils extends AbstractExtension
+class Utils
 {
-    private $licenseService;
-
-    public function __construct(LicenseService $licenseService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
-    {
-        $this->licenseService = $licenseService;
-    }
-
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('addRepetiveCharacters', [$this, 'addRepetiveCharacters']),
-            new TwigFilter('json_decode', [$this, 'json_decode']),
-            new TwigFilter('colorFromString', [$this, 'colorFromString']),
-        ];
-    }
-
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('roomIsReadOnly', [$this, 'roomIsReadOnly'])
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFilter(name: 'addRepetiveCharacters')]
     public function addRepetiveCharacters(string $string, string $character, int $sequence): string
     {
+        if ($sequence < 1) {
+            $sequence = 1;
+        }
         return chunk_split($string, $sequence, $character);
     }
 
-    public function json_decode($string)
+    #[\Twig\Attribute\AsTwigFilter(name: 'json_decode')]
+    public function json_decode(?string $string): mixed
     {
         $res = json_decode($string ?? '', true);
         return $res;
     }
 
-    public function roomIsReadOnly(Rooms $rooms, User $user)
+    #[\Twig\Attribute\AsTwigFunction(name: 'roomIsReadOnly')]
+    public function roomIsReadOnly(Rooms $rooms, User $user): bool
     {
         return UtilsHelper::isRoomReadOnly($rooms, $user);
     }
 
-    public function colorFromString($string)
+    #[\Twig\Attribute\AsTwigFilter(name: 'colorFromString')]
+    public function colorFromString(string $string): string
     {
-
         $code = dechex(crc32($string));
         $code = substr($code, 0, 6);
         return $code;

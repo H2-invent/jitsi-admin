@@ -4,15 +4,11 @@ namespace App\Repository;
 
 use App\Entity\CallerId;
 use App\Entity\Rooms;
-
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method CallerId|null find($id, $lockMode = null, $lockVersion = null)
- * @method CallerId|null findOneBy(array $criteria, array $orderBy = null)
- * @method CallerId[]    findAll()
- * @method CallerId[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<CallerId>
  */
 class CallerIdRepository extends ServiceEntityRepository
 {
@@ -49,7 +45,7 @@ class CallerIdRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findByRoomAndPin(Rooms $rooms, $pin): ?CallerId
+    public function findByRoomAndPin(Rooms $rooms, string $pin): ?CallerId
     {
         return $this->createQueryBuilder('c')
             ->innerJoin('c.room', 'room')
@@ -59,5 +55,18 @@ class CallerIdRepository extends ServiceEntityRepository
             ->setParameter('room', $rooms)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * @param int[] $roomIds
+     * @return CallerId[]
+     */
+    public function findByRooms(array $roomIds): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.room IN (:roomIds)')
+            ->setParameter('roomIds', $roomIds)
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -3,32 +3,47 @@
 namespace App\Service;
 
 use App\Entity\LobbyWaitungUser;
+use App\Repository\LobbyWaitungUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CleanupLobbyService
 {
-    private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
-    public function cleanUp($maxOld = 72)
+    /**
+     * @return LobbyWaitungUser[]
+     */
+    public function cleanUp(int|string $maxOld = 72): array
     {
-        $date = (new \DateTime())->modify('-' . $maxOld . 'hours');
-        $oldestData = $this->em->getRepository(LobbyWaitungUser::class)->findOldLobbyWaitinguser($date);
+        $date     = new \DateTimeImmutable()->modify('-' . $maxOld . 'hours');
+        $sessions = [];
+
+        /** @var LobbyWaitungUserRepository $repo */
+        $repo       = $this->em->getRepository(LobbyWaitungUser::class);
+        $oldestData = $repo->findOldLobbyWaitinguser($date);
         foreach ($oldestData as $data) {
             if ($data->getCallerSession()) {
-                if ($data->getCallerSession()->getCaller()) {
-                    $data->getCallerSession()->setCaller(null);
-                    $this->em->persist($data);
-                }
-                $this->em->remove($data->getCallerSession());
+                $session = $data->getCallerSession();
+                $session->setCaller(null);
+                $session->setLobbyWaitingUser(null);
+                $sessions[] = $session;
             }
+        }
+
+        // Persist FK nullification before deleting either side of the relation.
+        $this->em->flush();
+
+        foreach ($oldestData as $data) {
             $this->em->remove($data);
         }
+
+        foreach ($sessions as $session) {
+            $this->em->remove($session);
+        }
         $this->em->flush();
+
         return $oldestData;
     }
 }

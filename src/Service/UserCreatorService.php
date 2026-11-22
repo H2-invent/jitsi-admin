@@ -3,48 +3,41 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Helper\UidGeneratorHelper;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserCreatorService
 {
-    private $em;
-    private $indexer;
-    private $parameterBag;
-    private $themeService;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        IndexUserService       $indexUserService,
-        ParameterBagInterface  $parameterBag,
-        ThemeService           $themeService,
+        private readonly EntityManagerInterface $em,
+        private readonly IndexUserService       $indexer,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly ThemeService           $themeService
     ) {
-        $this->em           = $entityManager;
-        $this->indexer      = $indexUserService;
-        $this->parameterBag = $parameterBag;
-        $this->themeService = $themeService;
     }
 
-    public function createUser($email, $userName, $firstName = null, $lastName = null, $dryrun = false): User
+    public function createUser(string $email, ?string $userName, ?string $firstName = null, ?string $lastName = null, bool $dryrun = false): User
     {
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $userName]);
         if (!$user) {
             $user = new User();
-            $user->setCreatedAt(new \DateTime())
+            $user->setCreatedAt(new \DateTimeImmutable())
                 ->setUsername($userName)
                 ->setLastName($lastName)
                 ->setFirstName($firstName)
                 ->setEmail($email)
-                ->setRegisterId(md5(uniqid('ksdjhfkhsdkjhjksd', true)))
+                ->setRegisterId(UidGeneratorHelper::generate())
                 ->setPassword('123')
-                ->setUid(md5(uniqid()));
+                ->setUid(UidGeneratorHelper::generate());
             $user->setIndexer($this->indexer->indexUser($user));
             if (!$dryrun) {
                 $this->em->persist($user);
                 $this->em->flush();
             }
         }
+
         return $user;
     }
 

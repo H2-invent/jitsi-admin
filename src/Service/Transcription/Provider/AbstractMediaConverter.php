@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Transcription\Provider;
 
+use App\Helper\UidGeneratorHelper;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use FFMpeg\Format\Audio\DefaultAudio;
@@ -15,7 +17,7 @@ abstract class AbstractMediaConverter
     protected readonly DefaultAudio $audioFormat;
 
     public function __construct(
-        protected readonly FFMpeg $ffmpeg,
+        protected readonly FFMpeg              $ffmpeg,
         protected readonly FilesystemInterface $recordingFilesystem,
     ) {
         $this->audioFormat = $this->createAudioFormat();
@@ -31,6 +33,9 @@ abstract class AbstractMediaConverter
         yield from $this->splitAudioIntoChunks($mp3Path);
     }
 
+    /**
+     * @param array<string> $chunkPaths
+     */
     public function deleteChunks(array $chunkPaths): void
     {
         foreach ($chunkPaths as $chunkPath) {
@@ -49,8 +54,8 @@ abstract class AbstractMediaConverter
         }
 
         $recordingFile = $filesystem->get($recordingFileKey);
-        $tempVideoPath = sys_get_temp_dir() . '/' . uniqid('recording_video', true) . '.mp4';
-        $tempAudioPath = sys_get_temp_dir() . '/' . uniqid('recording_audio', true) . '.mp3';
+        $tempVideoPath = sys_get_temp_dir() . '/' . UidGeneratorHelper::generate() . '.mp4';
+        $tempAudioPath = sys_get_temp_dir() . '/' . UidGeneratorHelper::generate() . '.mp3';
 
         try {
             file_put_contents($tempVideoPath, $recordingFile->getContent());
@@ -70,19 +75,18 @@ abstract class AbstractMediaConverter
      */
     protected function splitByDuration(string $mp3FilePath, float $maxChunkSeconds): Generator
     {
-        $audio = $this->ffmpeg->open($mp3FilePath);
+        $audio    = $this->ffmpeg->open($mp3FilePath);
         $duration = $audio->getFormat()->get('duration');
 
         if ($duration <= $maxChunkSeconds) {
             yield $mp3FilePath;
-
             return;
         }
 
         $startTime = 0;
         while ($startTime < $duration) {
-            $chunkPath = sys_get_temp_dir() . '/' . uniqid("audio_chunk_", true) . '.mp3';
-            $audio = $this->ffmpeg->open($mp3FilePath);
+            $chunkPath = sys_get_temp_dir() . '/' . UidGeneratorHelper::generate() . '.mp3';
+            $audio     = $this->ffmpeg->open($mp3FilePath);
             $audio->filters()->clip(
                 TimeCode::fromSeconds($startTime),
                 TimeCode::fromSeconds(min($maxChunkSeconds, $duration - $startTime))
@@ -98,18 +102,17 @@ abstract class AbstractMediaConverter
      */
     protected function splitByFileSize(string $mp3FilePath, int $maxChunkBytes): Generator
     {
-        $audio = $this->ffmpeg->open($mp3FilePath);
+        $audio    = $this->ffmpeg->open($mp3FilePath);
         $duration = $audio->getFormat()->get('duration');
         $fileSize = filesize($mp3FilePath);
 
         if ($fileSize <= $maxChunkBytes) {
             yield $mp3FilePath;
-
             return;
         }
 
         $bytesPerSecond = $fileSize / $duration;
-        $chunkDuration = floor($maxChunkBytes / $bytesPerSecond);
+        $chunkDuration  = floor($maxChunkBytes / $bytesPerSecond);
 
         yield from $this->splitByDuration($mp3FilePath, $chunkDuration);
     }

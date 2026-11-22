@@ -21,7 +21,7 @@ class UtilsHelperTest extends KernelTestCase
         $depElement1 = new Deputy();
         $depElement1->setManager($manager)
             ->setDeputy($deputy)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setIsFromLdap(false);
         $manager->addManagerElement($depElement1);
         $deputy->addDeputiesElement($depElement1);
@@ -57,7 +57,7 @@ class UtilsHelperTest extends KernelTestCase
         $depElement2 = new Deputy();
         $depElement2->setManager($manager)
             ->setDeputy($deputy2)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setIsFromLdap(false);
         $manager->addManagerElement($depElement2);
         $deputy2->addDeputiesElement($depElement2);
@@ -92,7 +92,7 @@ class UtilsHelperTest extends KernelTestCase
         $depElement1 = new Deputy();
         $depElement1->setManager($manager)
             ->setDeputy($deputy)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setIsFromLdap(false);
         $manager->addManagerElement($depElement1);
         $deputy->addDeputiesElement($depElement1);
@@ -107,7 +107,7 @@ class UtilsHelperTest extends KernelTestCase
         $depElement2 = new Deputy();
         $depElement2->setManager($manager)
             ->setDeputy($deputy2)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setIsFromLdap(false);
         $manager->addManagerElement($depElement2);
         $deputy2->addDeputiesElement($depElement2);

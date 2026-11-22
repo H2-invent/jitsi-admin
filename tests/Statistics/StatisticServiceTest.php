@@ -2,6 +2,7 @@
 
 namespace App\Tests\Statistics;
 
+use App\Enums\RepeatTypeEnum;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
@@ -46,7 +47,7 @@ class StatisticServiceTest extends KernelTestCase
         $room = $this->prepareRoom($roomRepo);
 
         $repeat = new Repeat();
-        $repeat->setRepeatType(0);
+        $repeat->setRepeatType(RepeatTypeEnum::DAILY);
         $repeat->setPrototyp($room);
         $repeat->setStartDate($room->getStart());
         $repeat->setRepetation(3);
@@ -83,9 +84,9 @@ class StatisticServiceTest extends KernelTestCase
 
     private function changeStart(Rooms $rooms, $startDate)
     {
-        $rooms->setStart(new \DateTime($startDate));
+        $rooms->setStart(new \DateTimeImmutable($startDate));
         $endDate = clone $rooms->getStart();
-        $endDate->modify('+' . $rooms->getDuration() . 'min');
+        $endDate = $endDate->modify('+' . $rooms->getDuration() . 'min');
         $rooms->setEnddate($endDate);
         return $rooms;
     }

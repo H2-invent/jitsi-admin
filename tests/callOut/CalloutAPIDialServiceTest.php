@@ -26,14 +26,14 @@ class CalloutAPIDialServiceTest extends KernelTestCase
         $calloutSession1 = new CalloutSession();
         $calloutSession1->setUser($user)
             ->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setInvitedFrom($room->getModerator())
             ->setState(0)
             ->setUid('ksdlfjlkfds')
             ->setLeftRetries(2);
         $manager->persist($calloutSession1);
         $callerUserId = new CallerId();
-        $callerUserId->setCreatedAt(new \DateTime())
+        $callerUserId->setCreatedAt(new \DateTimeImmutable())
             ->setRoom($room)
             ->setUser($user)
             ->setCallerId('987654321');

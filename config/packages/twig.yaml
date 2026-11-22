@@ -9,6 +9,7 @@ twig:
     paths:
         '%kernel.project_dir%/public/mail/css': css
     globals:
+        theme_assets: '@App\Service\Theme\ThemeService'
         imprint: '%env(imprint)%'
         dataPrivacy: '%env(dataPrivacy)%'
         helpUrl: '%env(helpUrl)%'

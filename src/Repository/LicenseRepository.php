@@ -7,10 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method License|null find($id, $lockMode = null, $lockVersion = null)
- * @method License|null findOneBy(array $criteria, array $orderBy = null)
- * @method License[]    findAll()
- * @method License[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<License>
  */
 class LicenseRepository extends ServiceEntityRepository
 {

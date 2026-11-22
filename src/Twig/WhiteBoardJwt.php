@@ -3,35 +3,18 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\Rooms;
-use App\Service\MessageService;
 use App\Service\Whiteboard\WhiteboardJwtService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
-class WhiteBoardJwt extends AbstractExtension
+class WhiteBoardJwt
 {
     public function __construct(
-        private WhiteboardJwtService  $whiteboardJwtService,
-        private ParameterBagInterface $parameterBag
-    )
-    {
+        private readonly WhiteboardJwtService $whiteboardJwtService,
+    ) {
     }
 
-    public function getFunctions(): array
-    {
-
-        return [
-            new TwigFunction('getJwtforWhiteboard', [$this, 'getJwtforWhiteboard']),
-
-        ];
-    }
-
-    public function getJwtforWhiteboard(Rooms $room, $isModerator = false)
+    #[\Twig\Attribute\AsTwigFunction(name: 'getJwtforWhiteboard')]
+    public function getJwtforWhiteboard(Rooms $room, bool $isModerator = false): string
     {
         return $this->whiteboardJwtService->createJwt($room, $isModerator);
     }

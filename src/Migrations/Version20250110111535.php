@@ -14,13 +14,13 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20250110111535 extends AbstractMigration
 {
 
-    private const TABLE_NAME = 'fos_user';
-    private const COLUMN_NAME_calendly_token = 'calendly_token';
-    private const COLUMN_NAME_ORG_UID = 'calendly_org_uri';
-    private const COLUMN_NAME_USER_UID= 'calendly_user_uri';
-    private const COLUMN_NAME_CONNECTED= 'calendly_sucessfully_added';
-    private const COLUMN_SECRET= 'calendly_secret';
-    private const COLUMN_CALENDLY_ID= 'calendly_webhook_id';
+    private const string TABLE_NAME = 'fos_user';
+    private const string COLUMN_NAME_calendly_token = 'calendly_token';
+    private const string COLUMN_NAME_ORG_UID = 'calendly_org_uri';
+    private const string COLUMN_NAME_USER_UID= 'calendly_user_uri';
+    private const string COLUMN_NAME_CONNECTED= 'calendly_sucessfully_added';
+    private const string COLUMN_SECRET= 'calendly_secret';
+    private const string COLUMN_CALENDLY_ID= 'calendly_webhook_id';
     public function getDescription(): string
     {
         return '';

@@ -33,18 +33,18 @@ class LobbyUtilsTest extends KernelTestCase
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $lobbyWaitingUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyWaitinguser = new LobbyWaitungUser();
-        $lobbyWaitinguser->setUser($user2)->setRoom($room)->setShowName('test 123')->setCreatedAt(new \DateTime())->setUid('lkjsdjfjdskjf')->setType('a');
+        $lobbyWaitinguser->setUser($user2)->setRoom($room)->setShowName('test 123')->setCreatedAt(new \DateTimeImmutable())->setUid('lkjsdjfjdskjf')->setType('a');
         $room->addLobbyWaitungUser($lobbyWaitinguser);
         $em->persist($room);
         $em->persist($lobbyWaitinguser);
         $em->flush();
 
         $lobbyWaitinguser = new LobbyWaitungUser();
-        $lobbyWaitinguser->setUser($user3)->setRoom($room)->setShowName('test 1231')->setCreatedAt(new \DateTime())->setUid('lkjsdjfjdskjf')->setType('a');
+        $lobbyWaitinguser->setUser($user3)->setRoom($room)->setShowName('test 1231')->setCreatedAt(new \DateTimeImmutable())->setUid('lkjsdjfjdskjf')->setType('a');
 
 
         $callerId = new CallerId();
-        $callerId->setCreatedAt(new \DateTime())->setRoom($room)->setUser($user3)->setCallerId('testPIN');
+        $callerId->setCreatedAt(new \DateTimeImmutable())->setRoom($room)->setUser($user3)->setCallerId('testPIN');
         $em->persist($callerId);
         $em->flush();
 
@@ -54,7 +54,7 @@ class LobbyUtilsTest extends KernelTestCase
             ->setLobbyWaitingUser($lobbyWaitinguser)
             ->setAuthOk(true)
             ->setCallerId('test123')
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setShowName('test')
             ->setSessionId('test');
         $lobbyWaitinguser->setCallerSession($callerSession);

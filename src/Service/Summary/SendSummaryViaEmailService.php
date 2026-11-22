@@ -13,15 +13,14 @@ class SendSummaryViaEmailService
     private Rooms $rooms;
 
     public function __construct(
-        private MailerService        $mailerService,
-        private CreateSummaryService $createSummaryService,
-        private TranslatorInterface  $translator,
-        private Environment          $environment
-    )
-    {
+        private readonly MailerService        $mailerService,
+        private readonly CreateSummaryService $createSummaryService,
+        private readonly TranslatorInterface  $translator,
+        private readonly Environment          $environment
+    ) {
     }
 
-    public function sendSummaryForRoom(Rooms $rooms)
+    public function sendSummaryForRoom(Rooms $rooms): void
     {
         $this->rooms = $rooms;
         foreach ($this->rooms->getUser() as $data) {
@@ -29,9 +28,10 @@ class SendSummaryViaEmailService
         }
     }
 
-    public function sendSumaryToParticipant(User $user)
+    public function sendSumaryToParticipant(User $user): void
     {
         $dompdf = $this->createSummaryService->createSummaryPdf($this->rooms);
+        /** @var string $pdf */
         $pdf = $dompdf->output();
 
         $attachment = [['type' => 'application/pdf', 'filename' => $this->rooms->getName() . '.pdf', 'body' => $pdf]];

@@ -429,7 +429,7 @@ class RoomAddServiceTest extends KernelTestCase
         $callerId = new CallerId();
         $callerId->setUser($user)
             ->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setCallerId('kjdshfsd');
         $manager->persist($callerId);
         $manager->flush();
@@ -452,7 +452,7 @@ class RoomAddServiceTest extends KernelTestCase
             ->setUid('ksjdhkjfhdsf')
             ->setInvitedFrom($room->getModerator())
             ->setUser($user)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setRoom($room)
             ->setLeftRetries(2);
         $user->addCalloutSession($calloutSession);
@@ -490,7 +490,7 @@ class RoomAddServiceTest extends KernelTestCase
         $callerId = new CallerId();
         $callerId->setUser($user)
             ->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setCallerId('kjdshfsd');
         $manager->persist($callerId);
         $manager->flush();

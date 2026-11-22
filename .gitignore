@@ -11,7 +11,6 @@
 ###> symfony/phpunit-bridge ###
 .phpunit
 .phpunit.result.cache
-/phpunit.xml
 ###< symfony/phpunit-bridge ###
 
 *.Halite.key*
@@ -71,3 +70,6 @@ repairLog.txt
 ###> baldinof/roadrunner-bundle ###
 /bin/rr.*
 ###< baldinof/roadrunner-bundle ###
+
+/backend_public.pem
+/backend_private.pem

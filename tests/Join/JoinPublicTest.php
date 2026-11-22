@@ -98,8 +98,8 @@ class JoinPublicTest extends WebTestCase
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local3.de']);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
-        $room->setStart((new \DateTime())->modify('+2 hours'));
-        $room->setEnddate((new \DateTime())->modify('+4 hours'));
+        $room->setStart((new \DateTimeImmutable())->modify('+2 hours'));
+        $room->setEnddate((new \DateTimeImmutable())->modify('+4 hours'));
         $manager = $this->getContainer()->get(EntityManagerInterface::class);
         $manager->persist($room);
         $manager->flush();

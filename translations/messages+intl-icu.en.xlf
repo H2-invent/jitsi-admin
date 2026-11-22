@@ -819,9 +819,7 @@
       </trans-unit>
       <trans-unit id="0RNV0ke" resname="dashboard.noconference">
         <source>dashboard.noconference</source>
-        <target state="translated"><![CDATA[No conferences available. Create 
-                            <u><a href="{url}" class="loadContent">here</a></u>
-                            a new conference.]]></target>
+        <target state="translated"><![CDATA[No conferences available. Create a new conference <u><a href="{url}" class="loadContent">here</a></u>.]]></target>
       </trans-unit>
       <trans-unit id="OZ5F22." resname="Hinzugefügt zur Warteliste">
         <source>Hinzugefügt zur Warteliste</source>
@@ -1286,6 +1284,22 @@
         <source>room.new.help.lobby</source>
         <target state="translated">Please activate the lobby for this conference. You can admit each participant individually to the conference.</target>
       </trans-unit>
+      <trans-unit id="DiHUDGM" resname="room.new.help.isE2EEEnabled">
+        <source>room.new.help.isE2EEEnabled</source>
+        <target state="translated">Enables the "end-to-end encryption" security feature for this conference.</target>
+      </trans-unit>
+      <trans-unit id="n9kfdtZ" resname="room.dashboard.e2ee.title">
+        <source>room.dashboard.e2ee.title</source>
+        <target state="translated">End-to-end encryption (E2EE)</target>
+      </trans-unit>
+      <trans-unit id="n3f4gc0" resname="room.dashboard.e2ee.help">
+        <source>room.dashboard.e2ee.help</source>
+        <target state="translated">The contents of this conference are end-to-end encrypted.</target>
+      </trans-unit>
+      <trans-unit id="vBtgsCz" resname="room.dashboard.e2ee.help.enforced">
+        <source>room.dashboard.e2ee.help.enforced</source>
+        <target state="translated">The contents of this conference are end-to-end encrypted. The server enforces this for all conferences.</target>
+      </trans-unit>
       <trans-unit id="4W1Xh8J" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
         <target state="translated">{name}</target>
@@ -1569,6 +1583,18 @@
       <trans-unit id="928J8pd" resname="addhock.notification.pushMessage">
         <source>addhock.notification.pushMessage</source>
         <target state="translated">{name} wants to start an ad hoc meeting with you</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_OFFLINE" resname="addhock.notification.offline">
+        <source>addhock.notification.offline</source>
+        <target state="translated">The participant is offline or not logged in. The call cannot be started.</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_NO_ANSWER" resname="addhock.notification.noAnswer">
+        <source>addhock.notification.noAnswer</source>
+        <target state="translated">The participant did not answer.</target>
+      </trans-unit>
+      <trans-unit id="ADHOC_DECLINED" resname="addhock.notification.declined">
+        <source>addhock.notification.declined</source>
+        <target state="translated">The participant declined the call.</target>
       </trans-unit>
       <trans-unit id="X.81kVh" resname="common.loadingTime">
         <source>common.loadingTime</source>
@@ -2596,6 +2622,22 @@ Your email address: {email}</target>
       <trans-unit id="7kpQmRw" resname="recording.dropdownTitle">
         <source>Recording</source>
         <target state="needs-translation">Recording</target>
+      </trans-unit>
+      <trans-unit id="3ndFdnr" resname="Telefonteilnehmer anwesend">
+        <source>Telefonteilnehmer anwesend</source>
+        <target state="translated">Phone caller present</target>
+      </trans-unit>
+      <trans-unit id="hSt4nDb" resname="Hot Standby">
+        <source>Hot Standby</source>
+        <target state="translated">Hot standby</target>
+      </trans-unit>
+      <trans-unit id="hSt4nOk" resname="Hot Standby Einstellung erfolgreich gespeichert">
+        <source>Hot Standby Einstellung erfolgreich gespeichert</source>
+        <target state="translated">Hot standby setting saved successfully</target>
+      </trans-unit>
+      <trans-unit id="hSt4nEr" resname="Fehler beim Speichern der Hot Standby Einstellung">
+        <source>Fehler beim Speichern der Hot Standby Einstellung</source>
+        <target state="translated">Error saving the hot standby setting</target>
       </trans-unit>
     </body>
   </file>

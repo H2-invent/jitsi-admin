@@ -18,15 +18,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class LobbyMessageChangeTextCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, ?string $name = null)
+    public function __construct(private readonly EntityManagerInterface $entityManager, ?string $name = null)
     {
         parent::__construct($name);
     }
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('id', InputArgument::OPTIONAL, 'Insert message id change text');
+        $this->addArgument('id', InputArgument::OPTIONAL, 'Insert message id change text');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

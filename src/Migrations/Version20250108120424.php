@@ -15,8 +15,8 @@ final class Version20250108120424 extends AbstractMigration
 {
 
 
-    private const TABLE_NAME = 'uploaded_recording';
-    private const COLUMN_NAME = 'display_name';
+    private const string TABLE_NAME = 'uploaded_recording';
+    private const string COLUMN_NAME = 'display_name';
     public function getDescription(): string
     {
         return '';

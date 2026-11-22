@@ -3,35 +3,22 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\PredefinedLobbyMessages;
-use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
-class PredefinedMessages extends AbstractExtension
+class PredefinedMessages
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
-    )
-    {
+        private readonly EntityManagerInterface $entityManager
+    ) {
     }
 
-    public function getFunctions(): array
+    /**
+     * @return PredefinedLobbyMessages[]
+     */
+    #[\Twig\Attribute\AsTwigFunction(name: 'getPredefinedMessages')]
+    public function getPredefinedMessages(): array
     {
-
-        return [
-            new TwigFunction('getPredefinedMessages', [$this, 'getPredefinedMessages']),
-
-        ];
-    }
-
-    public function getPredefinedMessages()
-    {
-
         return $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findBy(['active' => true], ['priority' => 'ASC']);
     }
 }

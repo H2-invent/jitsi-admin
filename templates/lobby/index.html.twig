@@ -94,20 +94,20 @@
                         <div class=" flex-grow-1 px-2 d-flex flex-column flex-lg-row align-items-lg-center">
                             {% if type == 'a' %}
                                 <a class="btn btn-primary start-btn me-0  me-lg-2 flex-grow-1"
-                                   href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
+                                   href="{{ path('lobby_moderator_start',{'type':'a','room':room.uidReal}) }}"
                                    target="_blank">
                                     <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
                                 </a>
                             {% elseif type == 'b' %}
                                 {% if room.server.corsHeader %}
                                     <a class="btn btn-primary start-btn  me-0  me-lg-2 flex-grow-1"
-                                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                       href="{{ path('lobby_moderator_start',{'type':'b','room':room.uidReal}) }}"
                                        target="_blank">
                                         <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
                                     </a>
                                 {% else %}
                                     <a class="btn btn-primary startJitsiIframe  start-btn me-0  me-lg-2 flex-grow-1"
-                                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                       href="{{ path('lobby_moderator_start',{'type':'b','room':room.uidReal}) }}"
                                        target="_blank">
                                         <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
                                     </a>

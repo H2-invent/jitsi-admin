@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Message;
@@ -10,8 +11,7 @@ readonly class LokiLogMessage
     public function __construct(
         /** @var LogRecord[] $records */
         private array $records,
-    )
-    {
+    ) {
     }
 
     /**

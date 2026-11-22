@@ -14,8 +14,8 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20240920103919 extends AbstractMigration
 {
 
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'livekit_background_images';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'livekit_background_images';
     public function getDescription(): string
     {
         return 'adds the livekit backgroupd image field. this is a json string field';

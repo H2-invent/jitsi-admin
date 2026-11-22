@@ -3,31 +3,17 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\User;
 use App\Service\FormatName;
-use App\Service\MessageService;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
-use function GuzzleHttp\Psr7\str;
 
-class NameWithFormat extends AbstractExtension
+class NameWithFormat
 {
-    private $formateName;
-    public function __construct(FormatName $formatName)
+    public function __construct(private readonly FormatName $formateName)
     {
-        $this->formateName = $formatName;
     }
 
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('nameOfUserwithFormat', [$this, 'nameOfUserwithFormat']),
-        ];
-    }
-
-    public function nameOfUserwithFormat(User $user, $string)
+    #[\Twig\Attribute\AsTwigFunction(name: 'nameOfUserwithFormat')]
+    public function nameOfUserwithFormat(User $user, string $string): string
     {
         return $this->formateName->formatName($string, $user);
     }

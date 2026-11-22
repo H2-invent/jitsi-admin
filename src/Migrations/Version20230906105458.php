@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230906105458 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'enforce_e2e';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'enforce_e2e';
     public function getDescription(): string
     {
         return '';

@@ -3,77 +3,69 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
-use App\Entity\Checklist;
-use App\Entity\MyUser;
 use App\Entity\Rooms;
-use App\Entity\RoomsUser;
 use App\Entity\SchedulingTime;
 use App\Entity\SchedulingTimeUser;
-use App\Entity\Server;
 use App\Entity\User;
-use App\Service\LicenseService;
-use App\Service\MessageService;
+use App\Repository\RoomsRepository;
+use App\Repository\SchedulingTimeUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
 
-use function GuzzleHttp\Psr7\str;
-
-class Schedule extends AbstractExtension
+class Schedule
 {
-    private $em;
-    public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $entityManager;
     }
 
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('scheduleNumber', [$this, 'scheduleNumber']),
-            new TwigFunction('scheduleUser', [$this, 'scheduleUser']),
-            new TwigFunction('scheduleOwnJoice', [$this, 'scheduleOwnJoice']),
-            new TwigFunction('scheduleUserHasVoted', [$this, 'scheduleUserHasVoted']),
-            new TwigFunction('myScheduledMeeting', [$this, 'myScheduledMeeting']),
-        ];
-    }
-
+    #[\Twig\Attribute\AsTwigFunction(name: 'scheduleOwnJoice')]
     public function scheduleOwnJoice(User $user, SchedulingTime $schedulingTime): ?int
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findOneBy(['user' => $user, 'scheduleTime' => $schedulingTime]);
         if (!$scheduleTimeUser) {
             return null;
-        } else {
-            return $scheduleTimeUser->getAccept();
         }
-    }
-    public function scheduleUserHasVoted(User $user, Rooms $rooms): ?bool
-    {
-        $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findVotesForUserAndRoom($rooms,$user);
-        if (sizeof($scheduleTimeUser) === 0) {
-            return false;
-        } else {
-            return true;
-        }
+
+        return $scheduleTimeUser->getAccept();
     }
 
-    public function scheduleNumber(SchedulingTime $schedulingTime, $type): ?int
+    #[\Twig\Attribute\AsTwigFunction(name: 'scheduleUserHasVoted')]
+    public function scheduleUserHasVoted(User $user, Rooms $rooms): ?bool
+    {
+        /** @var SchedulingTimeUserRepository $schedulingTimeUserRepository */
+        $schedulingTimeUserRepository = $this->em->getRepository(SchedulingTimeUser::class);
+        $scheduleTimeUser             = $schedulingTimeUserRepository->findVotesForUserAndRoom($rooms, $user);
+        if (sizeof($scheduleTimeUser) === 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    #[\Twig\Attribute\AsTwigFunction(name: 'scheduleNumber')]
+    public function scheduleNumber(SchedulingTime $schedulingTime, int $type): ?int
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(['scheduleTime' => $schedulingTime, 'accept' => $type]);
         return sizeof($scheduleTimeUser);
     }
 
-    public function scheduleUser(SchedulingTime $schedulingTime, $type)
+    /**
+     * @return SchedulingTimeUser[]
+     */
+    #[\Twig\Attribute\AsTwigFunction(name: 'scheduleUser')]
+    public function scheduleUser(SchedulingTime $schedulingTime, int $type): array
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(['scheduleTime' => $schedulingTime, 'accept' => $type]);
         return $scheduleTimeUser;
     }
 
-    public function myScheduledMeeting(User $user)
+    /**
+     * @return Rooms[]
+     */
+    #[\Twig\Attribute\AsTwigFunction(name: 'myScheduledMeeting')]
+    public function myScheduledMeeting(User $user): array
     {
-        return $this->em->getRepository(Rooms::class)->getMyScheduledRooms($user);
+        /** @var RoomsRepository $roomsRepository */
+        $roomsRepository = $this->em->getRepository(Rooms::class);
+        return $roomsRepository->getMyScheduledRooms($user);
     }
 }

@@ -9,11 +9,12 @@ use App\Entity\SchedulingTime;
 use App\Entity\SchedulingTimeUser;
 use App\Entity\User;
 use App\Service\SchedulingService;
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -31,6 +32,7 @@ use Symfony\Component\Routing\Router;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function PHPUnit\Framework\exactly;
 
+#[AllowMockObjectsWithoutExpectations]
 class ScheduleControllerControllerTest extends WebTestCase
 {
 
@@ -80,7 +82,7 @@ class ScheduleControllerControllerTest extends WebTestCase
         $room = $this->getRoomMock();
         $scheduling = $this->getSchedulingMock();
         $schedulingTime = $this->getSchedulingTimeMock();
-        $dateTime = new DateTime();
+        $dateTime = new DateTimeImmutable();
 
         $schedulingCollection = new ArrayCollection();
         $schedulingCollection->add($scheduling);

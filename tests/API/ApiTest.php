@@ -24,7 +24,7 @@ class ApiTest extends WebTestCase
                 'name' => 'TestApi',
                 'duration' => 70,
                 'server' => 'meet.jit.si2',
-                'start' => (new \DateTime())->format('Y-m-d') . 'T' . (new \DateTime())->format('H:i'),
+                'start' => (new \DateTimeImmutable())->format('Y-m-d') . 'T' . (new \DateTimeImmutable())->format('H:i'),
                 'keycloakId' => '123456'
             ]
         );
@@ -46,7 +46,7 @@ class ApiTest extends WebTestCase
                 'email' => 'test@local.de',
                 'duration' => 70,
                 'server' => 'meet.jit.si2',
-                'start' => (new \DateTime())->format('Y-m-d') . 'T' . (new \DateTime())->format('H:i'),
+                'start' => (new \DateTimeImmutable())->format('Y-m-d') . 'T' . (new \DateTimeImmutable())->format('H:i'),
                 'keycloakId' => '123456'
             ]
         );
@@ -69,7 +69,7 @@ class ApiTest extends WebTestCase
                 'name' => 'TestApi',
                 'duration' => 70,
                 'server' => 'meet.jit.si2',
-                'start' => (new \DateTime())->format('Y-m-d') . 'T' . (new \DateTime())->format('H:i'),
+                'start' => (new \DateTimeImmutable())->format('Y-m-d') . 'T' . (new \DateTimeImmutable())->format('H:i'),
                 'keycloakId' => '123456'
             ]
         );
@@ -87,7 +87,7 @@ class ApiTest extends WebTestCase
         $this->assertEquals('meet.jit.si2', json_decode($client->getResponse()->getContent(), true)['server']);
         $this->assertEquals($room->getStart()->format('Y-m-dTH:i:s'), json_decode($client->getResponse()->getContent(), true)['start']);
         $this->assertEquals($room->getEnddate()->format('Y-m-dTH:i:s'), json_decode($client->getResponse()->getContent(), true)['end']);
-        $this->assertEquals($urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => 'b'], UrlGeneratorInterface::ABSOLUTE_URL), json_decode($client->getResponse()->getContent(), true)['joinBrowser']);
-        $this->assertEquals($urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => 'a'], UrlGeneratorInterface::ABSOLUTE_URL), json_decode($client->getResponse()->getContent(), true)['joinApp']);
+        $this->assertEquals($urlGenerator->generate('room_join', ['room' => $room->getId(), 'type' => 'b'], UrlGeneratorInterface::ABSOLUTE_URL), json_decode($client->getResponse()->getContent(), true)['joinBrowser']);
+        $this->assertEquals($urlGenerator->generate('room_join', ['room' => $room->getId(), 'type' => 'a'], UrlGeneratorInterface::ABSOLUTE_URL), json_decode($client->getResponse()->getContent(), true)['joinApp']);
     }
 }

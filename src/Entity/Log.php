@@ -14,13 +14,13 @@ class Log
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $userName = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, length: 65535)]
     private ?string $message = null;
 
     #[ORM\ManyToOne(inversedBy: 'logs')]
@@ -34,12 +34,12 @@ class Log
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

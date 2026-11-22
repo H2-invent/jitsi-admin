@@ -13,7 +13,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230906110060 extends AbstractMigration
 {
-    private const TABLE_NAME = 'messenger_messages';
+    private const string TABLE_NAME = 'messenger_messages';
     public function getDescription(): string
     {
         return '';

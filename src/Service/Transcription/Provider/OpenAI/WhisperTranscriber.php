@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Transcription\Provider\OpenAI;
@@ -15,7 +16,7 @@ class WhisperTranscriber extends AbstractTranscriber
     public function __construct(
         private readonly OpenAI\Factory $clientFactory,
         #[Autowire(param: 'app.transcription.openai.uri')]
-        private readonly string $openApiUri,
+        private readonly string         $openApiUri,
     ) {
     }
 
@@ -24,11 +25,13 @@ class WhisperTranscriber extends AbstractTranscriber
         return $this->clientFactory
             ->withApiKey($server->getApiKeyTranscription())
             ->withBaseUri($this->openApiUri)
-            ->withHttpClient(new GuzzleHttp\Client([
-                'connect_timeout' => 0,
-                'read_timeout' => 0,
-                'timeout' => 0,
-            ]))
+            ->withHttpClient(
+                new GuzzleHttp\Client([
+                    'connect_timeout' => 0,
+                    'read_timeout'    => 0,
+                    'timeout'         => 0,
+                ])
+            )
             ->make();
     }
 
@@ -36,8 +39,8 @@ class WhisperTranscriber extends AbstractTranscriber
     {
         /** @var Client $client */
         $response = $client->audio()->transcribe([
-            'model' => 'whisper-1',
-            'file' => fopen($chunkPath, 'rb'),
+            'model'           => 'whisper-1',
+            'file'            => fopen($chunkPath, 'rb'),
             'response_format' => 'text',
         ]);
 

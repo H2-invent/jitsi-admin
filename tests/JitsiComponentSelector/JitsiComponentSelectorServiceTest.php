@@ -6,7 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Repository\RoomsRepository;
-use App\Service\caller\JitsiComponentSelectorService;
+use App\Service\Caller\JitsiComponentSelectorService;
 use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -122,11 +122,11 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
         $kernel = self::bootKernel();
 
 
-        $httpClientMock = $this->createMock(HttpClientInterface::class);
+        $httpClientMock = $this->createStub(HttpClientInterface::class);
 
 
         // Beispiel Response
-        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
         $responseMock->method('toArray')->willReturn([
             "sessionId" => "4a258446-70ff-4096-b122-da904d3bc591",
             "type" => "SIP-JIBRI",
@@ -172,11 +172,11 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
         $kernel = self::bootKernel();
 
 
-        $httpClientMock = $this->createMock(HttpClientInterface::class);
+        $httpClientMock = $this->createStub(HttpClientInterface::class);
 
 
         // Beispiel Response
-        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
         $responseMock->method('toArray')->willReturn([
             "sessionId" => "4a258446-70ff-4096-b122-da904d3bc591",
             "type" => "SIP-JIBRI",
@@ -223,11 +223,11 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
         $kernel = self::bootKernel();
 
 
-        $httpClientMock = $this->createMock(HttpClientInterface::class);
+        $httpClientMock = $this->createStub(HttpClientInterface::class);
 
 
         // Beispiel Response
-        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
         $responseMock->method('toArray')->willReturn(
             [
                 "sessionId" => "4a258446-70ff-4096-b122-da904d3bc591",
@@ -255,7 +255,7 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
         $server = new Server();
         $server->setUrl('testurl.de')
             ->setAppId('testId')
-            ->setAppSecret('mySecret');
+            ->setAppSecret('mySecretmySecretmySecretmySecretmySecret');
         $room->setServer($server);
 
         $user = new User();

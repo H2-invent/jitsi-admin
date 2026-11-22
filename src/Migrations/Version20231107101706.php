@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20231107101706 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'prefix_room_uid_with_hash';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'prefix_room_uid_with_hash';
 
     public function getDescription(): string
     {

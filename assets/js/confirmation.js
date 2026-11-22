@@ -27,6 +27,56 @@ export function initPopover() {
     });
 }
 
+let popoverDismissBound = false;
+
+function visiblePopoverInstances() {
+    const instances = [];
+    document.querySelectorAll('[data-mdb-popover-init]').forEach((item) => {
+        const instance = Popover.getInstance(item);
+        if (instance && instance.tip && instance.tip.classList.contains('show')) {
+            instances.push({item, instance});
+        }
+    });
+    return instances;
+}
+
+function bindPopoverDismiss() {
+    if (popoverDismissBound) {
+        return;
+    }
+    popoverDismissBound = true;
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') {
+            return;
+        }
+        const visible = visiblePopoverInstances();
+        visible.forEach(({instance}) => instance.hide());
+        const activeElement = document.activeElement;
+        if (visible.length > 0 && activeElement instanceof HTMLElement && activeElement !== document.body) {
+            const isTrigger = visible.some(({item}) => item === activeElement || item.contains(activeElement));
+            if (isTrigger) {
+                activeElement.blur();
+            }
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!target || target.nodeType !== Node.ELEMENT_NODE) {
+            return;
+        }
+        visiblePopoverInstances().forEach(({item, instance}) => {
+            if (item.contains(target) || instance.tip.contains(target)) {
+                return;
+            }
+            instance.hide();
+        });
+    });
+}
+
+bindPopoverDismiss();
+
 export function initDropdown() {
     initMDB({Dropdown});
     const items = document.querySelectorAll('[data-mdb-dropdown-init]');
@@ -266,6 +316,33 @@ function initConfirmDirectSendHref() {
 }
 
 
+// Resend an invitation from the attendee dropdown via Ajax so the modal stays open.
+// The room_user_resend endpoint returns JSON for XMLHttpRequest calls and keeps its
+// redirect for regular (non-Ajax) requests.
+function initResendInvitation() {
+    document.addEventListener('click', function (e) {
+        const triggerElement = e.target.closest('.resendInvitation');
+
+        if (!triggerElement) {
+            return;
+        }
+
+        e.preventDefault();
+        const dropdownToggle = triggerElement.closest('li')?.querySelector('[data-mdb-dropdown-init]');
+
+        fetch(triggerElement.href, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+            .then(response => response.json())
+            .then(data => {
+                if (dropdownToggle) {
+                    Dropdown.getInstance(dropdownToggle)?.hide();
+                }
+                if (data.toast) {
+                    setSnackbar(data.message, '', data.color, false, '0x00', 5000);
+                }
+            });
+    });
+}
+
 function initAjaxSend(titleL, cancelL, okL) {
     title = titleL;
     cancel = cancelL;
@@ -275,6 +352,7 @@ function initAjaxSend(titleL, cancelL, okL) {
     initconfirmHref();
     initconfirmLoadOpenPopUp();
     initOpenInMultiframe();
+    initResendInvitation();
 }
 
 export function reloadPartial(url, target) {

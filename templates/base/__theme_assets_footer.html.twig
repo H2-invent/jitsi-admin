@@ -1,0 +1,10 @@
+{% set themeFooterCss = theme_assets.footerCss %}
+{% set themeFooterJs = theme_assets.footerJs %}
+{% if themeFooterCss %}
+    <!-- custom theme CSS -->
+    <link rel="stylesheet" href="{{ asset(themeFooterCss) }}">
+{% endif %}
+{% if themeFooterJs %}
+    <!-- custom theme JS -->
+    <script src="{{ asset(themeFooterJs) }}"></script>
+{% endif %}

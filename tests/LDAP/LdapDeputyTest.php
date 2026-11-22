@@ -3,7 +3,7 @@
 namespace App\Tests\LDAP;
 
 use App\Service\Deputy\DebutyLdapService;
-use App\Service\ldap\LdapService;
+use App\Service\Ldap\LdapService;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;

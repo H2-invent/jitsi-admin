@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230612151008 extends AbstractMigration
 {
-    private const TABLE_NAME = 'lobby_waitung_user';
-    private const COLUMN_NAME = 'websocket_ready';
+    private const string TABLE_NAME = 'lobby_waitung_user';
+    private const string COLUMN_NAME = 'websocket_ready';
     public function getDescription(): string
     {
         return '';

@@ -86,7 +86,7 @@ class PermissionChangeServiceTest extends KernelTestCase
         $this->assertEquals(false, $changePermissionService->toggleLobbyModerator($testUser, $testUser, $room));
         $userRoomRepo = self::getContainer()->get(RoomsUserRepository::class);
         $userRoom = $userRoomRepo->findOneBy(['user' => $testUser, 'room' => $room]);
-        $lobbyWaitingUSer = (new LobbyWaitungUser())->setRoom($room)->setUser($testUser)->setShowName('test123')->setType('a')->setUid('kjdshfkhds')->setCreatedAt(new \DateTime());
+        $lobbyWaitingUSer = (new LobbyWaitungUser())->setRoom($room)->setUser($testUser)->setShowName('test123')->setType('a')->setUid('kjdshfkhds')->setCreatedAt(new \DateTimeImmutable());
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($lobbyWaitingUSer);
         $em->flush();

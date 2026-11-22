@@ -5,10 +5,10 @@ namespace App\Tests\Unit\Form\Type;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\SchedulerType;
-use App\Repository\TagRepository;
 use App\Service\Theme\ThemeService;
 use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnitFrameworkAttributesAllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -17,27 +17,23 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class SchedulerTypeTest extends KernelTestCase
 {
-    private MockObject&TagRepository $tagRepository;
-
-    private MockObject&LoggerInterface $logger;
+    private LoggerInterface $logger;
 
     private MockObject&ThemeService $themeService;
 
-    private MockObject&TranslatorInterface $translator;
+    private TranslatorInterface $translator;
 
     private SchedulerType $subject;
 
     public function setUp(): void
     {
-        $this->tagRepository = $this->createMock(TagRepository::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->logger = $this->createStub(LoggerInterface::class);
         $this->themeService = $this->createMock(ThemeService::class);
-        $this->translator = $this->createMock(TranslatorInterface::class);
-
+        $this->translator = $this->createStub(TranslatorInterface::class);
         $this->subject = new SchedulerType(
-            $this->tagRepository,
             $this->logger,
             $this->themeService,
             $this->translator,
@@ -82,9 +78,7 @@ class SchedulerTypeTest extends KernelTestCase
         $this->subject->buildForm($formBuilder, $options);
     }
 
-    /**
-     * @dataProvider provideForConfigureOptions
-     */
+    #[DataProvider('provideForConfigureOptions')]
     public function testConfigureOptions(
         int   $allowMaybeOptionDefault,
         bool  $isEdit,
@@ -95,7 +89,6 @@ class SchedulerTypeTest extends KernelTestCase
     {
         $this->translator
             ->method('trans')
-            ->with('new.room.blockSave.text')
             ->willReturn('test');
 
         $optionsResolver = $this->getOptionsResolver();
@@ -166,12 +159,12 @@ class SchedulerTypeTest extends KernelTestCase
         ];
     }
 
-    private function getRoomMock(): MockObject&Rooms
+    private function getRoomMock(): Rooms
     {
-        return $this->createMock(Rooms::class);
+        return $this->createStub(Rooms::class);
     }
 
-    private function getFormBuilder(): MockObject&FormBuilderInterface
+    private function getFormBuilder(): FormBuilderInterface
     {
         return $this->createMock(FormBuilderInterface::class);
     }
@@ -181,7 +174,7 @@ class SchedulerTypeTest extends KernelTestCase
         return new OptionsResolver();
     }
 
-    private function getUserMock(): MockObject&User
+    private function getUserMock(): User
     {
         return $this->createMock(User::class);
     }

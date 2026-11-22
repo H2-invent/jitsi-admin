@@ -4,39 +4,39 @@ namespace App\Service\Jigasi;
 
 use App\Entity\Rooms;
 use App\Service\LicenseService;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class JigasiService
 {
     public function __construct(
-        private HttpClientInterface    $client,
-        private LoggerInterface        $logger,
-        private LicenseService         $licenseService,
-        private CacheItemPoolInterface $cache,
-        private KernelInterface        $kernel
-    )
-    {
+        private HttpClientInterface      $client,
+        private readonly LoggerInterface $logger,
+        private readonly LicenseService  $licenseService,
+        private readonly CacheInterface  $cache,
+        private readonly KernelInterface $kernel
+    ) {
     }
 
-    public function setClient(HttpClientInterface $client)
+    public function setClient(HttpClientInterface $client): void
     {
         $this->client = $client;
     }
 
-    public function getNumber(?Rooms $rooms)
+    public function getNumber(?Rooms $rooms): mixed
     {
         if (!$rooms) {
             return null;
         }
+
         $server = $rooms->getServer();
         if ($server && $this->licenseService->verify($server) && $server->getJigasiNumberUrl()) {
             try {
                 $responseArr = json_decode($server->getJigasiNumberUrl(), true);
-                $numbers = null;
+                $numbers     = null;
 
                 if (isset($responseArr['numbers'])) {
                     $numbers = $responseArr['numbers'];
@@ -47,14 +47,16 @@ class JigasiService
             }
             return $numbers;
         }
+
         return null;
     }
 
-    public function getRoomPin(?Rooms $rooms)
+    public function getRoomPin(?Rooms $rooms): mixed
     {
         if (!$rooms) {
             return null;
         }
+
         $server = $rooms->getServer();
         if ($server && $this->licenseService->verify($server) && $server->getJigasiApiUrl()) {
             if ($this->kernel->getEnvironment() === 'test') {
@@ -63,11 +65,11 @@ class JigasiService
 
             $sipPin = $this->cache->get(
                 'jigasi_pin_' . $rooms->getUid(),
-                function (ItemInterface $item) use ($server, $rooms) {
+                function (ItemInterface $item) use ($rooms) {
                     $item->expiresAfter(3600);
                     try {
                         $pin = $this->pingJigasi($rooms);
-                    } catch (\Exception $exception) {
+                    } catch (\Exception) {
                         $item->expiresAfter(1);
                         return null;
                     }
@@ -76,6 +78,7 @@ class JigasiService
             );
             return $sipPin;
         }
+
         return null;
     }
 
@@ -84,24 +87,27 @@ class JigasiService
         if (!$rooms) {
             return null;
         }
-        $server = $rooms->getServer();
+
+        $response = null;
+        $server   = $rooms->getServer();
         if ($server && $this->licenseService->verify($server) && $server->getJigasiApiUrl()) {
             try {
-                $response = $this->client->request(
+                $response    = $this->client->request(
                     'GET',
                     $server->getJigasiApiUrl() . '?conference=' . $rooms->getUid() . '@' . $server->getJigasiProsodyDomain() . '&url=https://' . $server->getUrl() . '/' . $rooms->getUid()
                 );
                 $responseArr = json_decode($response->getContent(), true);
-                $pin = $responseArr['id'];
+                $pin         = $responseArr['id'];
                 return $pin;
             } catch (\Exception $exception) {
-                if ($response->getStatusCode() === 200) {
-                    $this->logger->info(printf("%s: %s", 'Receive HTML', $response->getContent()));
+                if ($response && $response->getStatusCode() === 200) {
+                    $this->logger->info(sprintf("%s: %s", 'Receive HTML', $response->getContent()));
                 }
                 $this->logger->error($exception->getMessage());
                 return null;
             }
         }
+
         return null;
     }
 
@@ -112,6 +118,7 @@ class JigasiService
         $stringSanitize = preg_replace('/^(.*?)\{/', '{', $stringSanitize);
         $stringSanitize = preg_replace('/([^}]*)$/', '', $stringSanitize);
         $stringSanitize = trim(preg_replace('/\s\s+/m', ' ', $stringSanitize));
+
         return $stringSanitize;
     }
 }

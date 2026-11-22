@@ -3,10 +3,11 @@
 namespace App\Command;
 
 use App\Entity\CallerSession;
-use App\Service\caller\CallerSessionService;
+use App\Service\Caller\CallerSessionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,21 +21,20 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class CallerSessionCleanCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, private CallerSessionService $callerSessionService, ?string $name = null)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly CallerSessionService   $callerSessionService,
+        ?string                                 $name = null
+    ) {
         parent::__construct($name);
-    }
-
-    protected function configure(): void
-    {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         //fetch all the session which are in the system
         $sessions = $this->entityManager->getRepository(CallerSession::class)->findAll();
-        $io = new SymfonyStyle($input, $output);
-        $table = new Table($output);
+        $io       = new SymfonyStyle($input, $output);
+        $table    = new Table($output);
         $table->setHeaders(['ID', 'Name', 'sessionId']);
         // show all sessions in a table
         foreach ($sessions as $data) {
@@ -43,6 +43,7 @@ class CallerSessionCleanCommand extends Command
         $table->render();
 
         //ask the user to select a session i which he wants to delte
+        /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
         $question = new Question('Please enter the id of the session you want to delete: ', null);
         $id = $helper->ask($input, $output, $question);
@@ -50,11 +51,10 @@ class CallerSessionCleanCommand extends Command
         try {
             //find the session
             $session = $this->entityManager->getRepository(CallerSession::class)->find($id);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $io->error('No such ID');
             return Command::FAILURE;
         }
-
 
         if ($session) {//check if the session exists
             // confirm if the session should be deleted
@@ -63,9 +63,9 @@ class CallerSessionCleanCommand extends Command
                 $this->callerSessionService->cleanUpSession($session);//delete the session via a service
                 $io->success(sprintf('Delete Session %s from %s', $session->getSessionId(), $session->getShowName()));
                 return Command::SUCCESS;
-            } else {
-                $io->info('NOT deleting the session');
             }
+
+            $io->info('NOT deleting the session');
         } else {
             $io->error('No such ID');
             return Command::FAILURE;

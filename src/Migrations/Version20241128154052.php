@@ -19,8 +19,8 @@ final class Version20241128154052 extends AbstractMigration
     }
 
 
-    private const TABLE_NAME = 'rooms';
-    private const COLUMN_NAME = 'disable_self_subscription_double_opt_in';
+    private const string TABLE_NAME = 'rooms';
+    private const string COLUMN_NAME = 'disable_self_subscription_double_opt_in';
 
 
     public function up(Schema $schema): void

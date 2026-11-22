@@ -86,7 +86,7 @@
                                                 {{ 'Planen'|trans }}
                                             </a>
                                             {% if publicServer is defined and publicServer is not null %}
-                                                <a href="{{ path('app_create_fast_confernce') }}"
+                                                <a href="{{ path('app_create_fast_conference') }}"
                                                    class=" loadInMultiframe dashboardBtn btn-primary btn btn-dashboard"
                                                    id="createNewFastConference">
                                                     <i class="fas fa-play me-1"></i>
@@ -166,6 +166,9 @@
     var confirmTitle = "{{ 'confirm.title'|trans }}";
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
     var confirmOk = "{{ 'confirm.ok'|trans }}";
+    var adhocOfflineMessage = "{{ 'addhock.notification.offline'|trans }}";
+    var adhocNoAnswerMessage = "{{ 'addhock.notification.noAnswer'|trans }}";
+    var adhocDeclinedMessage = "{{ 'addhock.notification.declined'|trans }}";
 </script>
 
 

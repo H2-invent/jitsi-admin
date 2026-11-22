@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230929213239 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'jitsi_event_sync_url';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'jitsi_event_sync_url';
 
     public function getDescription(): string
     {

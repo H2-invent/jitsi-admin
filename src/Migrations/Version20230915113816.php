@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230915113816 extends AbstractMigration
 {
-    private const TABLE_NAME = 'server';
-    private const COLUMN_NAME = 'allow_ip';
+    private const string TABLE_NAME = 'server';
+    private const string COLUMN_NAME = 'allow_ip';
     public function getDescription(): string
     {
         return '';

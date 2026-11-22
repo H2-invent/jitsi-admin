@@ -9,6 +9,14 @@ body {
   font-family: 'Geist';
   overflow: hidden;
   height: 100%;
+  /* Verhindert die Textauswahl auf der gesamten Seite, solange die Klasse aktiv ist */
+  .dragging-active, body.dragging-active * {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+
 }
 
 /* ---------------------------------------------------
@@ -909,6 +917,7 @@ strong {
   border-radius: 0 0 15px 0;
   top: 0;
   left: 0;
+  text-wrap: nowrap;
 
   &:not(.forceShow) {
     transform: translateY(-110%);
@@ -1025,8 +1034,10 @@ strong {
   .removeInIframe {
     display: none !important;
   }
+  .woot-widget-bubble{
+    visibility: hidden;
+  }
 }
-
 
 .star-wrapper {
   display: flex;
@@ -1462,7 +1473,7 @@ a:hover {
 
   }
 
-  label {
+  label:not(.form-check-label) {
     @extend b;
     margin-bottom: 1rem;
   }

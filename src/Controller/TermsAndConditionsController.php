@@ -6,11 +6,10 @@ use App\Helper\JitsiAdminController;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\Theme\ThemeService;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class TermsAndConditionsController extends JitsiAdminController
 {
-    #[Route('/room/terms/and/conditions', name: 'app_terms_and_conditions')]
+    #[\Symfony\Component\Routing\Attribute\Route('/room/terms/and/conditions', name: 'app_terms_and_conditions')]
     public function index(ThemeService $themeService, TermsAndConditionsService $termsAndConditionsService): Response
     {
         if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
@@ -21,13 +20,15 @@ class TermsAndConditionsController extends JitsiAdminController
                 ]
             );
         }
+
         return $this->redirectToRoute('dashboard');
     }
 
-    #[Route('/room/terms/and/conditions/accept', name: 'app_terms_and_conditions_accept')]
+    #[\Symfony\Component\Routing\Attribute\Route('/room/terms/and/conditions/accept', name: 'app_terms_and_conditions_accept')]
     public function accept(TermsAndConditionsService $termsAndConditionsService): Response
     {
         $termsAndConditionsService->acceptTerms($this->getUser());
+
         return $this->redirectToRoute('dashboard');
     }
 }

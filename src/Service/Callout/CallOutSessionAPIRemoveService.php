@@ -4,6 +4,7 @@ namespace App\Service\Callout;
 
 use App\Entity\CalloutSession;
 use App\Entity\Rooms;
+use App\Repository\CalloutSessionRepository;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\RoomAddService;
@@ -17,28 +18,29 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CallOutSessionAPIRemoveService
 {
     public function __construct(
-        private EntityManagerInterface      $entityManager,
-        private ToModeratorWebsocketService $toModeratorWebsocketService,
-        private RoomAddService              $roomAddService,
-        private DirectSendService           $directSendService,
-        private TranslatorInterface         $translator,
-        private ThemeService                $themeService,
-    )
-    {
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ToModeratorWebsocketService $toModeratorWebsocketService,
+        private readonly RoomAddService $roomAddService,
+        private readonly DirectSendService $directSendService,
+        private readonly TranslatorInterface $translator,
+        private readonly ThemeService $themeService,
+    ) {
     }
 
     /**
-     * @param $sessionId
-     * @return array
+     * @return array<string, mixed>
      * the user refuse the call
      * the session is removed and a message is send to the lobbymoderator
      */
-    public function refuse($sessionId): array
+    public function refuse(?string $sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
+        /** @var CalloutSessionRepository $calloutSessionRepository */
+        $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutSession           = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
+
         return $this->removeCalloutSession(
             $calloutSession,
             $this->translator->trans(
@@ -49,16 +51,18 @@ class CallOutSessionAPIRemoveService
     }
 
     /**
-     * @param $sessionId
-     * @return array
+     * @return array<string, mixed>
      * An error occurred during calling a invited participant
      */
-    public function error($sessionId): array
+    public function error(?string $sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
+        /** @var CalloutSessionRepository $calloutSessionRepository */
+        $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutSession           = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
+
         return $this->removeCalloutSession(
             $calloutSession,
             $this->translator->trans(
@@ -69,18 +73,20 @@ class CallOutSessionAPIRemoveService
     }
 
     /**
-     * @param $sessionId
-     * @return array
+     * @return array<string, mixed>
      * The phone is not reachable.
      * The inviter is informed about the unreachable of the invited phone
      * The difference between error and unreachable is only the message which is send to the lobbymoderator
      */
-    public function unreachable($sessionId): array
+    public function unreachable(?string $sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
+        /** @var CalloutSessionRepository $calloutSessionRepository */
+        $calloutSessionRepository = $this->entityManager->getRepository(CalloutSession::class);
+        $calloutSession           = $calloutSessionRepository->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
+
         return $this->removeCalloutSession(
             $calloutSession,
             $this->translator->trans(
@@ -92,14 +98,11 @@ class CallOutSessionAPIRemoveService
 
 
     /**
-     * @param CalloutSession|null $calloutSession
-     * @param $message
-     * @return array
+     * @return array<string, mixed>
      * This is a generic function to remove the callout session
      */
-    public function removeCalloutSession(?CalloutSession $calloutSession, $message)
+    public function removeCalloutSession(?CalloutSession $calloutSession, string $message): array
     {
-
         $this->entityManager->remove($calloutSession);
         $this->entityManager->flush();
         $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
@@ -107,20 +110,19 @@ class CallOutSessionAPIRemoveService
         $this->roomAddService->removeUserFromRoomNoRepeat($calloutSession->getRoom(), $calloutSession->getUser());
         $res = [
             'status' => 'DELETED',
-            'links' => []
+            'links'  => []
         ];
+
         return $res;
     }
 
     /**
-     * @param Rooms $room
-     * @param $message
      * @return void
      * This function sends a refuse message to the lobbymoderator
      */
-    public function sendRefuseMessage(Rooms $room, $message)
+    public function sendRefuseMessage(Rooms $room, string $message): void
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();
-        $this->directSendService->sendSnackbar($topic, $message, 'danger',2000);
+        $this->directSendService->sendSnackbar($topic, $message, 'danger', 2000);
     }
 }

@@ -6,7 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
 use App\Service\CheckMaxUserService;
-use App\Service\webhook\RoomStatusFrontendService;
+use App\Service\Webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -18,7 +18,7 @@ class CheckMaxUserServiceTest extends KernelTestCase
         $room = new Rooms();
         $room->setMaxUser(2);
 
-        $frontendService = $this->createMock(RoomStatusFrontendService::class);
+        $frontendService = $this->createStub(RoomStatusFrontendService::class);
         $frontendService
             ->method('numberOfOccupants')
             ->willReturn([
@@ -42,7 +42,7 @@ class CheckMaxUserServiceTest extends KernelTestCase
         $room = new Rooms();
         $room->setMaxUser(2);
 
-        $frontendService = $this->createMock(RoomStatusFrontendService::class);
+        $frontendService = $this->createStub(RoomStatusFrontendService::class);
         $frontendService
             ->method('numberOfOccupants')
             ->willReturn([]);

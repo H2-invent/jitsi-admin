@@ -38,14 +38,19 @@ function initGenerell() {
     initStartIframe();
     initProtip();
     wrapSelect();
+    openConferenceEditorFromUrl();
     if (inIframe()) {
         document.body.classList.add("in-iframe");
     }
     if (window.innerWidth < 768) {
         document.body.classList.add("in-smartPhone");
     }
-    openBlankTarget(blankTarget);
-    initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
+    if (typeof blankTarget !== 'undefined') {
+        openBlankTarget(blankTarget);
+    }
+    if (typeof confirmTitle !== 'undefined') {
+        initAdhocMeeting(confirmTitle, confirmCancel, confirmOk, typeof adhocOfflineMessage !== 'undefined' ? adhocOfflineMessage : null);
+    }
     hotkeys('1', function () {
         $('#ex1-tab-1-tab').trigger('click');
     });
@@ -73,11 +78,39 @@ function initGenerell() {
         $('#profile-tab').trigger('click');
     });
     hotkeys('n', function () {
-        $('#createNewConference').trigger('click');
+        document.getElementById('createNewConference').click();
+
     });
     initWebsocket(websocketTopics);
     initLoadContent();
+    initPasswordToggle();
 
+}
+
+// Toggle password fields between masked and plaintext. Delegated on document so
+// it also works for fields inside modals that are loaded via AJAX.
+function initPasswordToggle() {
+    document.addEventListener('click', function (e) {
+        const toggle = e.target.closest('.toggle-password');
+        if (!toggle) {
+            return;
+        }
+        e.preventDefault();
+        const input = document.getElementById(toggle.getAttribute('data-password-target'));
+        if (!input) {
+            return;
+        }
+        const showPlaintext = input.type === 'password';
+        input.type = showPlaintext ? 'text' : 'password';
+        const icon = toggle.querySelector('i');
+        if (icon) {
+            icon.classList.toggle('fa-eye', !showPlaintext);
+            icon.classList.toggle('fa-eye-slash', showPlaintext);
+        }
+        toggle.setAttribute('aria-label', showPlaintext
+            ? (toggle.dataset.labelHide || '')
+            : (toggle.dataset.labelShow || ''));
+    });
 }
 
 export function wrapOneSelect(ele) {
@@ -121,30 +154,33 @@ function initLoadContent() {
             e.preventDefault(); // Verhindere die Standardaktion des Links
 
             const url = target.getAttribute('href');
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.text();
-                })
-                .then(data => {
-                    const modalElement = document.getElementById('loadContentModal');
-                    modalElement.innerHTML='';
-                    modalElement.innerHTML = data;
-
-                    // Überprüfe, ob das Modal geöffnet ist
-                    if (!modalElement.classList.contains('show')) {
-                        const modal = Modal.getOrCreateInstance(modalElement);
-                        modal.show();
-                    } else {
-                        initNewModal(modalElement);
-                    }
-                })
-                .catch(() => {
-                    window.location.reload();
-                });
+            openContentFromUrl(url);
         }
     });
+}
+
+function openContentFromUrl(url) {
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.text();
+        })
+        .then(data => {
+            const modalElement = document.getElementById('loadContentModal');
+            modalElement.innerHTML = '';
+            modalElement.innerHTML = data;
+
+            // Überprüfe, ob das Modal geöffnet ist
+            if (!modalElement.classList.contains('show')) {
+                const modal = Modal.getOrCreateInstance(modalElement);
+                modal.show();
+            } else {
+                initNewModal(modalElement);
+            }
+        })
+        .catch(() => {
+            window.location.reload();
+        });
 }
 
 $('#loadContentModal').on('shown.bs.modal', function (e) {
@@ -309,6 +345,18 @@ function initProtip() {
                 proTip.classList.add('proTips-initialized');
             });
         });
+    }
+}
+
+function openConferenceEditorFromUrl() {
+    let params = new URLSearchParams(document.location.search);
+    if (params.has('editConference_id')) {
+        let conference_id = parseInt(params.get("editConference_id"), 10);
+        openContentFromUrl('/room/new?id=' + conference_id);
+        let url = new URL(window.location.href);
+        url.searchParams.delete('editConference_id');
+        history.replaceState(history.state, '', url.href);
+
     }
 }
 

@@ -6,13 +6,17 @@ use InvalidArgumentException;
 
 class CsvHandler
 {
-    private static string $DEFAULT_SEPERATOR = ',';
-    public static string $ARRAY_NOT_MULTIDIMENSIONAL = 'Input array must be multidimensional';
-    public static string $ARRAY_LAYERS_NOT_EQUAL = 'Input array must have equally build layers';
-    public static string $CSV_LINE_MULTIDIMENSIONAL = 'A single CSV line must NOT be multidimensional';
-    public static string $ARRAY_NOT_ASSOCIATIVE = 'Input array must be associative';
+    private static string $DEFAULT_SEPERATOR          = ',';
+    public static string  $ARRAY_NOT_MULTIDIMENSIONAL = 'Input array must be multidimensional';
+    public static string  $ARRAY_LAYERS_NOT_EQUAL     = 'Input array must have equally build layers';
+    public static string  $CSV_LINE_MULTIDIMENSIONAL  = 'A single CSV line must NOT be multidimensional';
+    public static string  $ARRAY_NOT_ASSOCIATIVE      = 'Input array must be associative';
 
-    public static function generateFromArray(array $data, ?string $seperator = null): array
+    /**
+     * @param array<mixed> $data
+     * @return string[]
+     */
+    public static function generateFromArray(array $data, ?string $separator = null): array
     {
         if (!self::checkArrayIsMultiDimensional($data)) {
             throw new InvalidArgumentException(self::$ARRAY_NOT_MULTIDIMENSIONAL);
@@ -22,17 +26,20 @@ class CsvHandler
             throw new InvalidArgumentException(self::$ARRAY_LAYERS_NOT_EQUAL);
         }
 
-        $seperator = $seperator ?? self::$DEFAULT_SEPERATOR;
+        $separator ??= self::$DEFAULT_SEPERATOR;
 
-        $csv = [self::getCsvLineFromArray(array_keys($data[0]), $seperator)];
+        $csv = [self::getCsvLineFromArray(array_keys($data[0]), $separator)];
 
         foreach ($data as $line) {
-            $csv[] = self::getCsvLineFromArray($line, $seperator);
+            $csv[] = self::getCsvLineFromArray($line, $separator);
         }
 
         return $csv;
     }
 
+    /**
+     * @param array<mixed> $csvLine
+     */
     private static function getCsvLineFromArray(array $csvLine, string $seperator): string
     {
         if (self::checkArrayIsMultiDimensional($csvLine)) {
@@ -42,17 +49,23 @@ class CsvHandler
         return implode($seperator, $csvLine);
     }
 
+    /**
+     * @param array<mixed> $arrayToCheck
+     */
     private static function checkArrayIsMultiDimensional(array $arrayToCheck): bool
     {
         return !(count($arrayToCheck) === count($arrayToCheck, COUNT_RECURSIVE));
     }
 
+    /**
+     * @param array<mixed> $arrayToCheck
+     */
     private static function checkMultiDimensionalArrayHasEqualLayers(array $arrayToCheck): bool
     {
         $lastDimension = null;
 
         foreach ($arrayToCheck as $currentDimension) {
-            if(!self::checkArrayAssociative($currentDimension)) {
+            if (!self::checkArrayAssociative($currentDimension)) {
                 throw new InvalidArgumentException(self::$ARRAY_NOT_ASSOCIATIVE);
             }
 
@@ -73,6 +86,9 @@ class CsvHandler
         return true;
     }
 
+    /**
+     * @param array<mixed> $arrayToCheck
+     */
     private static function checkArrayAssociative(array $arrayToCheck): bool
     {
         return (

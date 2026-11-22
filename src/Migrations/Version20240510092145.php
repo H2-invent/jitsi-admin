@@ -13,8 +13,8 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20240510092145 extends AbstractMigration
 {
-    private const TABLE_NAME = 'callout_session';
-    private const COLUMN_NAME = 'last_dialed';
+    private const string TABLE_NAME = 'callout_session';
+    private const string COLUMN_NAME = 'last_dialed';
     public function getDescription(): string
     {
         return '';
