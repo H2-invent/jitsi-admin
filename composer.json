@@ -162,10 +162,12 @@
       "assets:install %PUBLIC_DIR%": "symfony-cmd"
     },
     "post-install-cmd": [
-      "@auto-scripts"
+     "@auto-scripts",
+     "@php bin/fix-php-mistral-nullable.php"
     ],
     "post-update-cmd": [
-      "@auto-scripts"
+     "@auto-scripts",
+     "@php bin/fix-php-mistral-nullable.php"
     ],
     "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
     "db-drop": "php bin/console doctrine:database:drop --force --if-exists",
