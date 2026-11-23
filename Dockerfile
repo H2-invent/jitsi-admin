@@ -13,8 +13,8 @@ USER root
 
 RUN composer install --no-scripts
 
-RUN php bin/console cache:clear\
-    && php bin/console cache:warmup
+RUN php -d memory_limit=-1 bin/console cache:clear \
+    && php -d memory_limit=-1 bin/console cache:warmup
 
 RUN npm install \
     && npm run build
@@ -38,7 +38,7 @@ RUN tar \
     --exclude='./var/log' \
     -zcvf /artifact.tgz .
 
-FROM reg.h2-invent.com/public-system-design/debian-php84-cron-webserver:4.0.0
+FROM reg.h2-invent.com/public-system-design/debian-php84-cron-webserver:4.0.2
 ARG VERSION=development
 
 LABEL version="${VERSION}" \
