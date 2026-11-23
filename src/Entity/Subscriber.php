@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\SubscriberRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SubscriberRepository::class)]
+#[ORM\Index(fields: ['uid'], name: 'idx_subscriber_uid')]
 class Subscriber
 {
     #[ORM\Id]
@@ -21,7 +23,7 @@ class Subscriber
     #[ORM\JoinColumn(nullable: false)]
     private ?Rooms $room = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::STRING, length: 36)]
     private ?string $uid = null;
 
     public function getId(): ?int

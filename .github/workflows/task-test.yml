@@ -1,4 +1,4 @@
-name: Run Tests
+name: Task - Run Tests
 
 on: workflow_call
 

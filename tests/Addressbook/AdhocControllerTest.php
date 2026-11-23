@@ -54,10 +54,10 @@ class AdhocControllerTest extends WebTestCase
                 if ($tmp['type'] === "call") {
                     self::assertStringContainsString('{"type":"call","title":"Ad Hoc Meeting"', $update->getData());
                     self::assertEquals('Ad Hoc Meeting', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 } elseif (str_contains($data, '"type":"notification"')) {
                     self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test1, 1234, User, Test.', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 }
                 return 'id';
             }
@@ -82,7 +82,10 @@ class AdhocControllerTest extends WebTestCase
             $client->getResponse()->getContent()
         );
         $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(), true)['popups'][0]['url']);
-        self::assertSelectorNotExists('#tagContent');
+        // The floating tag container is always rendered (hidden via d-none when the room has no tag)
+        // so callerTag.js can fill it in dynamically; assert it stays hidden and empty here.
+        self::assertSelectorExists('#tagContent.d-none');
+        self::assertSelectorTextSame('#tagContent', '');
 
         $crawler = $client->request('GET', '/room/dashboard');
 
@@ -114,10 +117,10 @@ class AdhocControllerTest extends WebTestCase
                 if ($tmp['type'] === "call") {
                     self::assertStringContainsString('{"type":"call","title":"Ad Hoc Meeting"', $update->getData());
                     self::assertEquals('Ad Hoc Meeting', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 } elseif (str_contains($data, '"type":"notification"')) {
                     self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test1, 1234, User, Test.', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 }
                 return 'id';
             }

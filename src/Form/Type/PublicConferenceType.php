@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @extends AbstractType<array<string, mixed>>
@@ -27,7 +28,7 @@ class PublicConferenceType extends AbstractType
             ->add(
                 'myName',
                 TextType::class,
-                ['attr' => ['placeholder' => 'label.myName'], 'label' => 'label.myName', 'required' => true, 'translation_domain' => 'form']
+                ['attr' => ['placeholder' => 'label.myName'], 'constraints' => [new Length(['max' => 255])], 'label' => 'label.myName', 'required' => true, 'translation_domain' => 'form']
             )
             ->add(
                 'roomName',
@@ -36,6 +37,7 @@ class PublicConferenceType extends AbstractType
                     'attr'               => ['class' => 'mt-3', 'placeholder' => 'label.konferenzName'],
                     'label'              => 'label.konferenzName',
                     'required'           => true,
+                    'constraints'        => [new Length(['max' => 255])],
                     'translation_domain' => 'form'
                 ]
             )

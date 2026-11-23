@@ -44,14 +44,14 @@ class LobbyToParticipantsTest extends KernelTestCase
                 if (strpos($update->getData(), 'jitsi-meet') > 0) {
                     $data = json_decode($update->getData(), true, 512, JSON_THROW_ON_ERROR);
                     self::assertEquals('redirect', $data['type']);
-                    self::assertStringContainsString('jitsi-meet://meet.jit.si2/12313231ghjgfdsdf?jwt=', $data['url']);
+                    self::assertStringContainsString('jitsi-meet://meet.jit.si2/ff17a3fe-58c3-485a-abc0-e48c15fc558c?jwt=', $data['url']);
                     self::assertStringContainsString('#config.subject=%22this_is_a_room_with_lobby%22', $data['url']);
                     self::assertEquals(5000, $data['timeout']);
 
                     preg_match('/jwt=([^#]+)/', $data['url'], $matches);
                     $jwt = $matches[1];
                     $decoded = JWT::decode($jwt, new Key($appSecret, 'HS256'));
-                    self::assertEquals('12313231ghjgfdsdf', $decoded->room);
+                    self::assertEquals('ff17a3fe-58c3-485a-abc0-e48c15fc558c', $decoded->room);
                     self::assertEquals('Test2 User2', $decoded->context->user->name);
                 }
                 return 'id';
@@ -163,7 +163,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                     self::assertEquals('newJitsi', $data['type']);
                     self::assertArrayHasKey('jwt', $data['options']);
                     $decoded = JWT::decode($data['options']['jwt'], new Key($room->getServer()->getAppSecret(), 'HS256'));
-                    self::assertEquals('12313231ghjgfdsdf', $decoded->room);
+                    self::assertEquals('ff17a3fe-58c3-485a-abc0-e48c15fc558c', $decoded->room);
                     self::assertEquals('Test2 User2', $decoded->context->user->name);
                 }
                 if (strpos($update->getData(), 'snackbar') > 0) {
@@ -214,7 +214,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                     self::assertEquals('newJitsi', $data['type']);
                     self::assertArrayHasKey('jwt', $data['options']);
                     $decoded = JWT::decode($data['options']['jwt'], new Key($room->getServer()->getAppSecret(), 'HS256'));
-                    self::assertEquals('12313231ghjgfdsdf', $decoded->room);
+                    self::assertEquals('ff17a3fe-58c3-485a-abc0-e48c15fc558c', $decoded->room);
                     self::assertEquals('Test2 User2', $decoded->context->user->name);
                 }
                 if (strpos($update->getData(), 'snackbar') > 0) {

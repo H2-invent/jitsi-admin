@@ -25,6 +25,8 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -93,8 +95,8 @@ class SchedulerType extends AbstractType
                 $this->getOptions(
                     true,
                     'label.konferenzName',
-                    ['disabled' => $during],
-                ),
+                    ['disabled' => $during, 'constraints' => [new Length(['max' => 255])]]
+                )
             )
             ->add(
                 'agenda',
@@ -102,8 +104,8 @@ class SchedulerType extends AbstractType
                 $this->getOptions(
                     false,
                     'label.agenda',
-                    ['disabled' => $during],
-                ),
+                    ['disabled' => $during, 'constraints' => [new Length(['max' => 65535])]]
+                )
             )
             ->add(
                 'duration',

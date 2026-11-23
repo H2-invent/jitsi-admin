@@ -35,10 +35,10 @@ class AdhocMeetingServiceTest extends KernelTestCase
                 if ($tmp['type'] === "call") {
                     self::assertStringContainsString('{"type":"call","title":"Ad Hoc Meeting"', $update->getData());
                     self::assertEquals('Ad Hoc Meeting', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 } elseif (str_contains($data, '"type":"notification"')) {
                     self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test1, 1234, User, Test.', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 }
                 return 'id';
             }
@@ -74,10 +74,10 @@ class AdhocMeetingServiceTest extends KernelTestCase
                 if ($tmp['type'] === "call") {
                     self::assertStringContainsString('{"type":"call","title":"Ad Hoc Meeting"', $update->getData());
                     self::assertEquals('Ad Hoc Meeting', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 } elseif (str_contains($data, '"type":"notification"')) {
                     self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test1, 1234, User, Test.', $tmp['title']);
-                    self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+                    self::assertEquals(['personal/a0591bf8-d69a-4039-97d2-e9fd69077785'], $update->getTopics());
                 }
                 return 'id';
             }

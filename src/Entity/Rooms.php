@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RoomsRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -16,6 +17,10 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Index(fields: ['persistantRoom'], name: 'idx_rooms_persistant_room')]
 #[ORM\Index(fields: ['endDateUtc', 'startUtc', 'scheduleMeeting', 'persistantRoom'], name: 'idx_rooms_time_filter_composite')]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Index(fields: ['uid'], name: 'idx_rooms_uid')]
+#[ORM\Index(fields: ['uidReal'], name: 'idx_rooms_uid_real')]
+#[ORM\Index(fields: ['uidParticipant'], name: 'idx_rooms_uid_participant')]
+#[ORM\Index(fields: ['uidModerator'], name: 'idx_rooms_uid_moderator')]
 class Rooms
 {
     #[ORM\Id]
@@ -23,7 +28,7 @@ class Rooms
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
@@ -43,7 +48,7 @@ class Rooms
     #[ORM\JoinColumn(nullable: false)]
     private ?Server $server = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $uid = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator')]
@@ -57,13 +62,13 @@ class Rooms
     #[ORM\Column(type: 'integer')]
     private ?int $sequence = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $uidReal = null;
 
     #[ORM\Column(type: 'boolean')]
     private bool $onlyRegisteredUsers = false;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $agenda = null;
 
     /**
@@ -85,10 +90,10 @@ class Rooms
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $showRoomOnJoinpage = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $uidParticipant = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 36, nullable: true)]
     private ?string $uidModerator = null;
 
     /**
@@ -141,7 +146,7 @@ class Rooms
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $persistantRoom = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $slug = null;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
@@ -150,7 +155,7 @@ class Rooms
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $totalOpenRoomsOpenTime = 30;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $timeZone = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
@@ -203,10 +208,10 @@ class Rooms
     #[Ignore]
     private ?Tag $tag = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $hostUrl = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $secondaryName = null;
 
     /** @var Collection<int, CalloutSession> */
@@ -247,6 +252,9 @@ class Rooms
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $calendly_uri = null;
 
+    #[ORM\ManyToOne]
+    private ?Server $originalServer = null;
+
     /**
      * @var Collection<int, Transcription>
      */
@@ -262,6 +270,14 @@ class Rooms
     #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $enableTranscription = false;
 
+    #[ORM\Column(nullable: false)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    /**
+     * @var Collection<int, ProvisionerRecord>
+     */
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: ProvisionerRecord::class, orphanRemoval: true)]
+    private Collection $provisionerRecords;
 
     public function __construct()
     {
@@ -278,8 +294,55 @@ class Rooms
         $this->calloutSessions    = new ArrayCollection();
         $this->logs               = new ArrayCollection();
         $this->uploadedRecordings = new ArrayCollection();
+        $this->liveKitRecordings   = new ArrayCollection();
+        $this->transcriptions      = new ArrayCollection();
+        $this->provisionerRecords  = new ArrayCollection();
+    }
+
+    public function __clone()
+    {
+        // A cloned room is a new occurrence: it must not share the identifier or
+        // any collection with the room it was copied from.
+        $this->id = null;
+
+        $this->user               = new ArrayCollection();
+        $this->userAttributes     = new ArrayCollection();
+        $this->subscribers        = new ArrayCollection();
+        $this->schedulings        = new ArrayCollection();
+        $this->waitinglists       = new ArrayCollection();
+        $this->prototypeUsers     = new ArrayCollection();
+        $this->favoriteUsers      = new ArrayCollection();
+        $this->lobbyWaitungUsers  = new ArrayCollection();
+        $this->roomstatuses       = new ArrayCollection();
+        $this->callerIds          = new ArrayCollection();
+        $this->calloutSessions    = new ArrayCollection();
+        $this->logs               = new ArrayCollection();
+        $this->uploadedRecordings = new ArrayCollection();
         $this->liveKitRecordings  = new ArrayCollection();
         $this->transcriptions     = new ArrayCollection();
+
+        $this->callerRoom       = null;
+        $this->repeaterProtoype = null;
+    }
+
+    /**
+     * Returns a fully populated copy of this room: a clean clone (fresh identity
+     * and collections) that gets the participants and their room attributes
+     * copied into it again. Dial-in data, schedules, subscribers and live-session
+     * state are not copied: the copy is a new meeting and must get its own.
+     */
+    public function duplicate(): self
+    {
+        $copy = clone $this;
+
+        foreach ($this->getUser() as $user) {
+            $copy->addUser($user);
+        }
+        foreach ($this->getUserAttributes() as $attribute) {
+            $copy->addUserAttribute($attribute->copyForRoom($copy));
+        }
+
+        return $copy;
     }
 
     public function normalize(string $propertyName): string
@@ -1281,6 +1344,18 @@ class Rooms
         return $this;
     }
 
+    public function getOriginalServer(): ?Server
+    {
+        return $this->originalServer;
+    }
+
+    public function setOriginalServer(?Server $originalServer): static
+    {
+        $this->originalServer = $originalServer;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Transcription>
      */
@@ -1348,6 +1423,54 @@ class Rooms
     public function setEnableTranscription(bool $enableTranscription): static
     {
         $this->enableTranscription = $enableTranscription;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt ??= new DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection<int, ProvisionerRecord>
+     */
+    public function getProvisionerRecords(): Collection
+    {
+        return $this->provisionerRecords;
+    }
+
+    public function addProvisionerRecord(ProvisionerRecord $provisionerRecord): static
+    {
+        if (!$this->provisionerRecords->contains($provisionerRecord)) {
+            $this->provisionerRecords->add($provisionerRecord);
+            $provisionerRecord->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProvisionerRecord(ProvisionerRecord $provisionerRecord): static
+    {
+        if ($this->provisionerRecords->removeElement($provisionerRecord)) {
+            // set the owning side to null (unless already changed)
+            if ($provisionerRecord->getRoom() === $this) {
+                $provisionerRecord->setRoom(null);
+            }
+        }
 
         return $this;
     }

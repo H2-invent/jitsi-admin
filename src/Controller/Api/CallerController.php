@@ -82,7 +82,7 @@ class CallerController extends JitsiAdminController
         if ($check) {
             return $check;
         }
-        
+
         if ($this->callerRoomFromRoomId($roomId)?->getRoom()?->isE2EEActive()) {
             $this->logger->info('SIP dial-in refused because E2EE is active for the room', ['roomId' => $roomId]);
 

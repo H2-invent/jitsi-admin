@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\KeycloakGroupsToServersRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: KeycloakGroupsToServersRepository::class)]
@@ -18,7 +19,7 @@ class KeycloakGroupsToServers
     #[ORM\JoinColumn(nullable: false)]
     private ?Server $server = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $keycloakGroup = null;
 
     public function getId(): ?int

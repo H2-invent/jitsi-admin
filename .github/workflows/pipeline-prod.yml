@@ -1,4 +1,4 @@
-name: Create Release
+name: Create Prod Build
 
 permissions:
   contents: write
@@ -32,7 +32,7 @@ jobs:
 # Docker H2 invent Registry Jobs
 ###########################################
 
-  docker_prod_core:
+  harbor_core:
     if: needs.version.outputs.skip != 'true'
     needs:
       - version
@@ -40,7 +40,7 @@ jobs:
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       registry: reg.h2-invent.com
-      dockerfile_path: './Dockerfile-prod'
+      dockerfile_path: './Dockerfile'
       directory: '.'
       version: ${{ needs.version.outputs.version }}
       tags: reg.h2-invent.com/meetling/core:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/core:latest
@@ -48,7 +48,7 @@ jobs:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
 
-  docker_prod_websocket:
+  harbor_websocket:
     if: needs.version.outputs.skip != 'true'
     needs:
       - version
@@ -56,28 +56,32 @@ jobs:
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       registry: reg.h2-invent.com
-      dockerfile_path: './nodejs/Dockerfile-prod'
+      dockerfile_path: './nodejs/Dockerfile'
       directory: './nodejs'
       version: ${{ needs.version.outputs.version }}
-      tags: reg.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/websocket:latest
+      tags: |
+        reg.h2-invent.com/meetling/websocket:${{ needs.version.outputs.version }},
+        reg.h2-invent.com/meetling/websocket:latest
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
 
-  docker_prod_application:
+  harbor_application:
     if: needs.version.outputs.skip != 'true'
     needs:
       - version
       - test
-      - docker_prod_core
-      - docker_prod_websocket
+      - harbor_core
+      - harbor_websocket
     uses: ./.github/workflows/task-upload-docker-hub.yml
     with:
       registry: reg.h2-invent.com
       dockerfile_path: './Dockerfile-aio'
       directory: '.'
       version: ${{ needs.version.outputs.version }}
-      tags: reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }},reg.h2-invent.com/meetling/application:latest
+      tags: |
+        reg.h2-invent.com/meetling/application:${{ needs.version.outputs.version }},
+        reg.h2-invent.com/meetling/application:latest
     secrets:
       dockerhub_password: ${{ secrets.HARBOR_PUSH_PASSWORD }}
       dockerhub_username: ${{ secrets.HARBOR_PUSH_USERNAME }}
@@ -86,7 +90,7 @@ jobs:
 # Docker Dockerhub Jobs
 ###########################################
 
-  upload_dockerhub_main:
+  dockerhub_main:
     if: needs.version.outputs.skip != 'true'
     needs:
       - version
@@ -101,7 +105,7 @@ jobs:
       dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
       dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
 
-  upload_dockerhub_websocket:
+  dockerhub_websocket:
     if: needs.version.outputs.skip != 'true'
     needs:
       - version
@@ -135,8 +139,8 @@ jobs:
     needs:
       - version
       - test
-      - docker_prod_core
-      - docker_prod_websocket
+      - harbor_core
+      - harbor_websocket
     uses: ./.github/workflows/task-wiki-release.yml
     with:
       version: ${{ needs.version.outputs.version }}

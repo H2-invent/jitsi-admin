@@ -23,7 +23,7 @@ class CallerPrepareService
      */
     public function prepareCallerId(): void
     {
-        $this->addNewId();;
+        $this->addNewId();
         $this->deleteOldId();
     }
 
@@ -39,8 +39,8 @@ class CallerPrepareService
         $oldCallerId          = $callerRoomRepository->findPastRoomsWithCallerId($now);
         foreach ($oldCallerId as $data) {
             $this->em->remove($data);
-            $this->em->flush();
         }
+        $this->em->flush();
 
         return $oldCallerId;
     }
@@ -58,6 +58,7 @@ class CallerPrepareService
         foreach ($futureRooms as $data) {
             $this->addCallerIdToRoom($data);
         }
+        $this->em->flush();
 
         return $futureRooms;
     }
@@ -65,8 +66,10 @@ class CallerPrepareService
     /**
      * Adds a caller Room Id to the given Room
      * @param Rooms $rooms Room to check if the room has a caller Id and if not then add a caller Id
+     * @param array<int, string> $reservedIds Caller ids already handed out in this batch, so they stay unique
+     * The caller is responsible for flushing the persisted caller room.
      */
-    public function addCallerIdToRoom(Rooms $rooms): ?CallerRoom
+    public function addCallerIdToRoom(Rooms $rooms, array &$reservedIds = []): ?CallerRoom
     {
         $callerId = $rooms->getCallerRoom();
 
@@ -74,9 +77,10 @@ class CallerPrepareService
             $callerId = new CallerRoom();
             $callerId->setRoom($rooms);
             $callerId->setCreatedAt(new \DateTimeImmutable());
-            $callerId->setCallerId($this->generateRoomId(999999));
+            $callerIdNumber = $this->generateRoomId(999999, $reservedIds);
+            $callerId->setCallerId($callerIdNumber);
             $this->em->persist($callerId);
-            $this->em->flush();
+            $reservedIds[] = $callerIdNumber;
             $rooms->setCallerRoom($callerId);
         }
 
@@ -85,15 +89,16 @@ class CallerPrepareService
 
     /**
      * generates the random Caller ID. The Function checks if the caller Id is already used
+     * @param array<int, string> $reservedIds Caller ids already handed out in this batch
      */
-    public function generateRoomId(int $max): string
+    public function generateRoomId(int $max, array &$reservedIds = []): string
     {
         $finding = false;
         do {
             $rand    = strval(random_int(0, $max));
             $length  = strlen(strval($max));
             $rand    = str_pad($rand, $length, '0');
-            $finding = $this->checkRandomId($rand);
+            $finding = $this->checkRandomId($rand) || in_array($rand, $reservedIds, true);
         } while ($finding == true);
 
         return $rand;
@@ -158,21 +163,36 @@ class CallerPrepareService
     public function createUserCallerIDforRepeater(Repeat $repeat): void
     {
         $prototype = $repeat->getPrototyp();
+        $rooms = $repeat->getRooms()->toArray();
+        if ($rooms === []) {
+            return;
+        }
+
+        // Load the PINs of all appointments in one query instead of one lookup per appointment and user.
+        $roomIds = array_map(static fn(Rooms $room) => $room->getId(), $rooms);
+        $existingCallerIds = $this->em->getRepository(CallerId::class)->findByRooms($roomIds);
+
+        $existingByRoomAndUser = [];
+        foreach ($existingCallerIds as $callerId) {
+            $existingByRoomAndUser[$callerId->getRoom()->getId() . ':' . $callerId->getUser()?->getId()] = true;
+        }
+
         foreach ($prototype->getPrototypeUsers() as $pUser) {
-            $callerID = new CallerId();
-            $callerID
-                ->setRoom($prototype)
-                ->setUser($pUser)
-                ->setCreatedAt(new \DateTimeImmutable())
-                ->setCallerId($this->generateCallerUserId($prototype, 999999));
-            foreach ($repeat->getRooms() as $room) {
-                $callerIDClone = clone $callerID;
-                $callerIDClone->setRoom($room)
-                    ->setUser($pUser);
-                $this->em->persist($callerIDClone);
-                $room->addCallerId($callerIDClone);
+            foreach ($rooms as $room) {
+                if (isset($existingByRoomAndUser[$room->getId() . ':' . $pUser->getId()])) {
+                    continue;
+                }
+                $callerID = new CallerId();
+                $callerID
+                    ->setRoom($room)
+                    ->setUser($pUser)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setCallerId($this->generateCallerUserId($room, 999999));
+                $this->em->persist($callerID);
+                $room->addCallerId($callerID);
             }
         }
+
         $this->em->flush();
     }
 

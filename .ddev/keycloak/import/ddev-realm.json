@@ -1,0 +1,6 @@
+{
+	"id" : "ddev",
+	"realm" : "ddev",
+	"enabled" : true,
+	"loginTheme" : "ddev"
+}

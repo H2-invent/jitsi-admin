@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DocumentsRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,7 +23,7 @@ class Documents implements \Serializable
         return $this->id;
     }
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $documentFileName = null;
 
     #[Vich\UploadableField(mapping: "profile", fileNameProperty: "documentFileName")]

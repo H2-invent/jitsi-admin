@@ -15,12 +15,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 /**
  * @extends AbstractType<Server>
@@ -35,14 +38,14 @@ class ServerType extends AbstractType
                 CheckboxType::class,
                 ['required' => false, 'label' => 'label.liveKitServer', 'translation_domain' => 'form', 'help' => 'help.liveKitServer']
             )
-            ->add('url', TextType::class, ['required' => true, 'constraints' => [new NotBlank()], 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
+            ->add('url', TextType::class, ['required' => true, 'constraints' => [new NotBlank(), new Length(['max' => 255])], 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
             ->add(
                 'serverName',
                 TextType::class,
-                ['required' => true, 'constraints' => [new NotBlank()], 'label' => 'label.serverName', 'translation_domain' => 'form', 'help' => 'help.serverName']
+                ['required' => true, 'constraints' => [new NotBlank(), new Length(['max' => 255])], 'label' => 'label.serverName', 'translation_domain' => 'form', 'help' => 'help.serverName']
             )
-            ->add('appId', TextType::class, ['required' => true, 'constraints' => [new NotBlank()], 'label' => 'label.appId', 'translation_domain' => 'form'])
-            ->add('appSecret', MaskedTextType::class, ['required' => true, 'constraints' => [new NotBlank()], 'label' => 'label.appSecret', 'translation_domain' => 'form'])
+            ->add('appId', TextType::class, ['required' => true, 'constraints' => [new NotBlank(), new Length(['max' => 255])], 'label' => 'label.appId', 'translation_domain' => 'form'])
+            ->add('appSecret', MaskedTextType::class, ['required' => true, 'constraints' => [new NotBlank(), new Length(['max' => 255])], 'label' => 'label.appSecret', 'translation_domain' => 'form'])
             ->add(
                 'corsHeader',
                 CheckboxType::class,
@@ -92,6 +95,16 @@ class ServerType extends AbstractType
                 ['required' => false, 'label' => 'label.disableWhiteboard', 'help' => 'help.disableWhiteboard', 'translation_domain' => 'form']
             )
             ->add(
+                'isProvisioningEnabled',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'label.isProvisioningEnabled', 'help' => 'help.isProvisioningEnabled', 'translation_domain' => 'form']
+            )
+            ->add(
+                'isAllowedToCloneForAutoscale',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'label.isAllowedToCloneForAutoscale', 'help' => 'help.isAllowedToCloneForAutoscale', 'translation_domain' => 'form']
+            )
+            ->add(
                 'disableChat',
                 CheckboxType::class,
                 ['required' => false, 'label' => 'label.disableChat', 'help' => 'help.disableChat', 'translation_domain' => 'form']
@@ -117,7 +130,8 @@ class ServerType extends AbstractType
                     'attr'               => ['rows' => 20]
                 ]
             )
-            ->add('allowIp', TextType::class, ['required' => false, 'label' => 'label.allowIp', 'help' => 'help.allowIp', 'translation_domain' => 'form'])
+            ->add('allowIp', TextType::class, ['required' => false, 'constraints' => [new Length(['max' => 1024])], 'label' => 'label.allowIp', 'help' => 'help.allowIp', 'translation_domain' => 'form'])
+            ->add('smtpPort', NumberType::class, ['required' => false, 'constraints' => [new Range(['min' => 0, 'max' => 65535])], 'label' => 'label.serverSmtpHostPort', 'translation_domain' => 'form'])
             ->add(
                 'jwtModeratorPosition',
                 ChoiceType::class,

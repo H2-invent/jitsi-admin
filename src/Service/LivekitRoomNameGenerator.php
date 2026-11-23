@@ -19,11 +19,19 @@ class LivekitRoomNameGenerator
 
     public function getLiveKitName(Rooms $rooms): string
     {
-        return "{$rooms->getUid()}@{$this->getExternalHost()}";
+        return "{$rooms->getUid()}@{$this->getExternalHost($rooms)}";
     }
 
-    private function getExternalHost(): string
+    private function getExternalHost(Rooms $rooms): string
     {
+        // The room record stores the public domain the meeting was created with,
+        // prefer it so server-to-server callers (SIP dispatch rules via the API)
+        // build the same room name as the browser join path does.
+        $hostFromRoom = $rooms->getHostUrl() ? parse_url($rooms->getHostUrl(), PHP_URL_HOST) : null;
+        if (\is_string($hostFromRoom) && !$this->isLocalhostOrPrivate($hostFromRoom)) {
+            return $hostFromRoom;
+        }
+
         $host = $this->requestStack->getMainRequest()?->getHost();
         if ($host === null || $this->isLocalhostOrPrivate($host)) {
             return $this->baseUrl;

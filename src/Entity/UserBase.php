@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\UserBaseRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserBase implements UserInterface
 {
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
     private ?string $uuid = null;
 
     /**
@@ -20,7 +21,7 @@ class UserBase implements UserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private string $password;
 
     public function getUuid(): ?string

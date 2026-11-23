@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @extends AbstractType<array<string, mixed>>
@@ -26,17 +27,17 @@ class PublicRegisterType extends AbstractType
             ->add(
                 'firstName',
                 TextType::class,
-                ['attr' => ['placeholder' => 'label.vorname'], 'label' => 'label.vorname', 'required' => true, 'translation_domain' => 'form']
+                ['attr' => ['placeholder' => 'label.vorname'], 'constraints' => [new Length(['max' => 255])], 'label' => 'label.vorname', 'required' => true, 'translation_domain' => 'form']
             )
             ->add(
                 'lastName',
                 TextType::class,
-                ['attr' => ['placeholder' => 'label.nachname'], 'label' => 'label.nachname', 'required' => true, 'translation_domain' => 'form']
+                ['attr' => ['placeholder' => 'label.nachname'], 'constraints' => [new Length(['max' => 255])], 'label' => 'label.nachname', 'required' => true, 'translation_domain' => 'form']
             )
             ->add(
                 'email',
                 TextType::class,
-                ['attr' => ['placeholder' => 'label.email'], 'label' => 'label.email', 'required' => true, 'translation_domain' => 'form']
+                ['attr' => ['placeholder' => 'label.email'], 'constraints' => [new Length(['max' => 255])], 'label' => 'label.email', 'required' => true, 'translation_domain' => 'form']
             )
             ->add(
                 'subscribe',
