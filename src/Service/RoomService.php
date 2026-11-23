@@ -259,7 +259,8 @@ class RoomService
         }
 
         if ($userName === 'Meetling' && $server->isLiveKitServer()) {
-            $payload['context']['user']['name'] = '';
+            unset($payload['context']['user']['name']);
+            $payload['context']['user']['privacyPolicy'] = $this->parameterBag->get('dataPrivacy');
         }
 
         if ($server->getJigasiNumberUrl()) {

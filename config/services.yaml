@@ -18,6 +18,7 @@ parameters:
     registerEmailName: '%env(registerEmailName)%'
     registerEmailAdress: '%env(DEFAULT_EMAIL)%'
     default_jitsi_server_id: '%env(default_jitsi_server_id)%'
+    dataPrivacy: '%env(dataPrivacy)%'
 
 
     laF_startpage: '%env(laF_startpage)%'
