@@ -1,0 +1,16 @@
+framework:
+  messenger:
+    transports:
+      async: &no_auto_setup
+        options:
+          auto_setup: false
+
+      async_slow: *no_auto_setup
+
+      provisioner_request: *no_auto_setup
+
+      provisioner_status: *no_auto_setup
+
+      test: *no_auto_setup
+
+      failed: *no_auto_setup

@@ -66,6 +66,7 @@ RUN echo "#!/bin/sh" > /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console doc:mig:mig --no-interaction" >> /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console cache:clear" >> /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console cache:warmup" >> /docker-entrypoint-init.d/03-symfony.sh \
+    && echo "php bin/console messenger:setup-transports" >> /docker-entrypoint-init.d/03-symfony.sh \
     && echo "php bin/console app:setup:initial" >> /docker-entrypoint-init.d/03-symfony.sh \
     && chmod +x /docker-entrypoint-init.d/03-symfony.sh
 
