@@ -154,7 +154,6 @@ class RoomService
         foreach ($room->getUser() as $data) {
             $user[] = $data->getEmail();
         }
-
         $res['timeZone']    = $room->getTimeZoneAuto();
         $res['error']       = false;
         $res['teilnehmer']  = $user;
@@ -164,8 +163,8 @@ class RoomService
         $res['name']        = $room->getName();
         $res['moderator']   = $room->getModerator() ? $room->getModerator()->getEmail() : '';
         $res['server']      = $room->getServer()->getUrl();
-        $res['joinBrowser'] = $this->urlGenerator->generate('room_join', ['t' => 'b', 'room' => $room->getId()], UrlGenerator::ABSOLUTE_URL);
-        $res['joinApp']     = $this->urlGenerator->generate('room_join', ['t' => 'a', 'room' => $room->getId()], UrlGenerator::ABSOLUTE_URL);
+        $res['joinBrowser'] = $this->urlGenerator->generate('room_join', ['type' => 'b', 'room' => $room->getId()], UrlGenerator::ABSOLUTE_URL);
+        $res['joinApp']     = $this->urlGenerator->generate('room_join', ['type' => 'a', 'room' => $room->getId()], UrlGenerator::ABSOLUTE_URL);
 
         return $res;
     }

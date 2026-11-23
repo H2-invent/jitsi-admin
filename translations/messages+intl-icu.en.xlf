@@ -819,9 +819,7 @@
       </trans-unit>
       <trans-unit id="0RNV0ke" resname="dashboard.noconference">
         <source>dashboard.noconference</source>
-        <target state="translated"><![CDATA[No conferences available. Create 
-                            <u><a href="{url}" class="loadContent">here</a></u>
-                            a new conference.]]></target>
+        <target state="translated"><![CDATA[No conferences available. Create a new conference <u><a href="{url}" class="loadContent">here</a></u>.]]></target>
       </trans-unit>
       <trans-unit id="OZ5F22." resname="Hinzugefügt zur Warteliste">
         <source>Hinzugefügt zur Warteliste</source>
@@ -2624,6 +2622,10 @@ Your email address: {email}</target>
       <trans-unit id="7kpQmRw" resname="recording.dropdownTitle">
         <source>Recording</source>
         <target state="needs-translation">Recording</target>
+      </trans-unit>
+      <trans-unit id="3ndFdnr" resname="Telefonteilnehmer anwesend">
+        <source>Telefonteilnehmer anwesend</source>
+        <target state="translated">Phone caller present</target>
       </trans-unit>
       <trans-unit id="hSt4nDb" resname="Hot Standby">
         <source>Hot Standby</source>

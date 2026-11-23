@@ -49,13 +49,8 @@ and unmanaged conference links.
 
 <ul>
   <li><strong>Frontend:</strong> Purpose-built UI, optimized for daily administrative workflows</li>
-  <li><strong>Backend:</strong> Conference lifecycle management, scheduling, JWT handling</li>
-  <li><strong>Media Layer:</strong>
-    <ul>
-      <li>Jitsi (classic deployments)</li>
-      <li><strong>Livekit</strong> (recommended for performance and stability)</li>
-    </ul>
-  </li>
+  <li><strong>Backend:</strong> Conference lifecycle management, scheduling, recording, transcription, mailing, JWT handling</li>
+  <li><strong>Media Layer:</strong> Livekit WebRTC Server</li>
 </ul>
 
 <p>
@@ -99,7 +94,20 @@ Running public conferences without protection will result in abuse. That is not 
 
 <hr/>
 
-<h2>Installation</h2>
+<h2>Getting Started</h2>
+
+<ul>
+  <li><a href="https://github.com/H2-invent/jitsi-admin/wiki/Get-Started-English">Getting Started with Docker and Docker Compose</a></li>
+  <li><a href="https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints">API Documentation (German)</a></li>
+</ul>
+
+<p>
+Project website: <a href="https://jitsi-admin.de">https://jitsi-admin.de</a>
+</p>
+
+<hr/>
+
+<h2>Installation Methods</h2>
 
 <p>
 Jitsi Admin requires shell access and basic Docker or Kubernetes knowledge.
@@ -112,9 +120,9 @@ This is infrastructure software, not a hosted SaaS click-install.
 Recommended for small to medium installations.
 </p>
 
-<p>
-👉 <a href="installDocker.md">Docker installation instructions</a>
-</p>
+<ul>
+  <li><a href="https://github.com/H2-invent/jitsi-admin/wiki/Get-Started-English">Docker Compose</a></li>
+</ul>
 
 <h3>Kubernetes / Helm</h3>
 
@@ -123,8 +131,10 @@ Recommended for production and high availability setups.
 </p>
 
 <p>
-👉 <a href="https://reg.h2-invent.com/harbor/projects/16/repositories/meetling/artifacts-tab">
-Helm Chart Repository
+<ul>
+  <li>helm inspect reg.h2-invent.com/charts/meetling</li>
+  <li>helm template meetling reg.h2-invent.com/charts/meetling</li>
+</ul>
 </a>
 </p>
 
@@ -166,23 +176,9 @@ The difference in latency and media quality compared to classic Jitsi is obvious
 <img src="docs/images/join.png" width="100%" />
 
 <p>
-<strong>Users:</strong> Join directly via web UI or Electron app.
+<strong>Users:</strong> Join directly via web UI
 </p>
 <img src="docs/images/joint-internal.png" width="100%" />
-
-<hr/>
-
-<h2>Getting Started</h2>
-
-<ul>
-  <li><a href="https://github.com/H2-invent/jitsi-admin/wiki/Get-Started-English">Getting Started</a></li>
-  <li><a href="https://github.com/H2-invent/jitsi-admin/wiki/Minimum-server-requirements-English">Minimum Requirements</a></li>
-  <li><a href="https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints">API Documentation (German)</a></li>
-</ul>
-
-<p>
-Project website: <a href="https://jitsi-admin.de">https://jitsi-admin.de</a>
-</p>
 
 <hr/>
 
@@ -258,21 +254,6 @@ This is intentional.
 AGPL-3.0<br/>
 <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">License text</a> ·
 <a href="LICENSE">LICENSE file</a>
-</p>
-
-<hr/>
-
-<h2>Customization</h2>
-
-<p>
-Use <code>.env.custom</code> for overrides.<br/>
-After changes run:
-</p>
-
-<pre><code>bash installDocker.sh</code></pre>
-
-<p>
-<code>docker-compose up</code> is not sufficient.
 </p>
 
 <hr/>

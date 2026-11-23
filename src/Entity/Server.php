@@ -223,6 +223,9 @@ class Server
 
     #[ORM\OneToOne(mappedBy: 'server', cascade: ['persist', 'remove'])]
     private ?ProtocolTemplate $protocolTemplate = null;
+  
+    #[ORM\Column(nullable: true)]
+    private ?bool $isProvisioningEnabled = null;
 
     public function __construct()
     {
@@ -1010,7 +1013,7 @@ class Server
         return $this->isAllowedToCloneForAutoscale;
     }
 
-    public function setAllowedToCloneForAutoscale(?bool $isAllowedToCloneForAutoscale): static
+    public function setIsAllowedToCloneForAutoscale(?bool $isAllowedToCloneForAutoscale): static
     {
         $this->isAllowedToCloneForAutoscale = $isAllowedToCloneForAutoscale;
 
@@ -1068,5 +1071,22 @@ class Server
         $this->protocolTemplate = $protocolTemplate;
 
         return $this;
+    }
+  
+    public function isProvisioningEnabled(): ?bool
+    {
+        return $this->isProvisioningEnabled;
+    }
+
+    public function setIsProvisioningEnabled(bool $isProvisioningEnabled): static
+    {
+        $this->isProvisioningEnabled = $isProvisioningEnabled;
+
+        return $this;
+    }
+
+    public function shouldProvisionNewServer(): bool
+    {
+        return $this->isProvisioningEnabled() && $this->isAllowedToCloneForAutoscale();
     }
 }
