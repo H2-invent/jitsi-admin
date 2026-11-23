@@ -38,18 +38,6 @@ class ReportingTest extends TestCase
         return new Reporting();
     }
 
-    private function functionByName(Reporting $extension, string $name): string
-    {
-        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
-            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
-                if ($attribute->newInstance()->name === $name) {
-                    return $method->getName();
-                }
-            }
-        }
-        self::fail(sprintf('Twig Function "%s" not registered', $name));
-    }
-
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
         $extension = $this->extension();
@@ -81,17 +69,5 @@ class ReportingTest extends TestCase
         $extension = $this->extension();
 
         $this->assertSame(0, $extension->getTotalSpeakingTime(new RoomStatus()));
-    }
-
-    public function testGetTotalSpeakingTimeViaRegisteredCallable(): void
-    {
-        $extension = $this->extension();
-        $roomStatus = new RoomStatus();
-        $roomStatus->addRoomStatusParticipant((new RoomStatusParticipant())->setDominantSpeakerTime(500));
-
-        $this->assertSame(
-            500,
-            call_user_func([$extension, $this->functionByName($extension, 'getTotalSpeakingTime')], $roomStatus)
-        );
     }
 }

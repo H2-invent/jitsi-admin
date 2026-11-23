@@ -40,18 +40,6 @@ class JigasiTest extends KernelTestCase
         return self::getContainer()->get(Jigasi::class);
     }
 
-    private function functionByName(Jigasi $extension, string $name): string
-    {
-        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
-            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
-                if ($attribute->newInstance()->name === $name) {
-                    return $method->getName();
-                }
-            }
-        }
-        self::fail(sprintf('Twig Function "%s" not registered', $name));
-    }
-
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
         $extension = $this->extension();
@@ -71,10 +59,6 @@ class JigasiTest extends KernelTestCase
 
         $this->assertSame(['0123456789'], $result['DE']);
         $this->assertSame(['1234560123456789'], $result['FR']);
-        $this->assertSame(
-            $result,
-            call_user_func([$extension, $this->functionByName($extension, 'getJigasiNumber')], $room)
-        );
     }
 
     public function testGetJigasiNumberReturnsNullWithoutRoomAndForInvalidConfiguration(): void
@@ -104,10 +88,6 @@ class JigasiTest extends KernelTestCase
         ));
 
         $this->assertSame('154428', $extension->getJigasiPin($room));
-        $this->assertSame(
-            '154428',
-            call_user_func([$extension, $this->functionByName($extension, 'getJigasiPin')], $room)
-        );
     }
 
     public function testGetJigasiPinReturnsNullWithoutRoom(): void

@@ -91,7 +91,7 @@ class CheckRoomPermissionsTest extends KernelTestCase
         $em->persist($roomsUser);
         $em->flush();
 
-        $permissions = call_user_func([$extension, 'roomPermissions'], $user, $room);
+        $permissions = $extension->roomPermissions($user, $room);
 
         $this->assertInstanceOf(RoomsUser::class, $permissions);
         $this->assertSame($roomsUser->getId(), $permissions->getId());

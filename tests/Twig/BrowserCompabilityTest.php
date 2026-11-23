@@ -45,18 +45,6 @@ class BrowserCompabilityTest extends TestCase
         return new BrowserCompability($requestStack);
     }
 
-    private function functionByName(BrowserCompability $extension, string $name): string
-    {
-        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
-            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
-                if ($attribute->newInstance()->name === $name) {
-                    return $method->getName();
-                }
-            }
-        }
-        self::fail(sprintf('Twig Function "%s" not registered', $name));
-    }
-
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
         $extension = $this->extensionForUserAgent('');
@@ -68,7 +56,6 @@ class BrowserCompabilityTest extends TestCase
         $extension = $this->extensionForUserAgent('Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0');
 
         $this->assertTrue($extension->isFirefox());
-        $this->assertTrue(call_user_func([$extension, $this->functionByName($extension, 'isFirefox')]));
     }
 
     public function testIsFirefoxReturnsTrueForFirefoxIosUserAgent(): void
@@ -91,7 +78,6 @@ class BrowserCompabilityTest extends TestCase
 
         $this->assertTrue($extension->isOSType('windows'));
         $this->assertTrue($extension->isOSType('Windows'));
-        $this->assertTrue(call_user_func([$extension, $this->functionByName($extension, 'isOSType')], 'windows'));
     }
 
     public function testIsOstypeDetectsMac(): void

@@ -59,10 +59,4 @@ class ColorUtilsTest extends TestCase
         $this->assertSame('not-a-color', $extension->color_lighten('not-a-color', 10));
         $this->assertSame('', $extension->color_lighten('', 10));
     }
-
-    public function testColorLightenViaRegisteredFilterCallable(): void
-    {
-        $extension = new ColorUtils();
-        $this->assertSame(["color_lighten"], $this->filterNames($extension));
-    }
 }

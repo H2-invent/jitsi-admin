@@ -62,7 +62,7 @@ class PredefinedMessagesTest extends KernelTestCase
         self::bootKernel();
         $extension = self::getContainer()->get(PredefinedMessages::class);
 
-        $messages = call_user_func([$extension, 'getPredefinedMessages']);
+        $messages = $extension->getPredefinedMessages();
 
         $priorities = array_map(static fn(PredefinedLobbyMessages $message) => $message->getPriority(), $messages);
         $sorted = $priorities;

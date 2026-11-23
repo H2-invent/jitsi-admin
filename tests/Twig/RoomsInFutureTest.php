@@ -105,7 +105,7 @@ class RoomsInFutureTest extends KernelTestCase
         $later = $this->createRoom($em, $server, 'Twig Later Room', (clone $now)->modify('+5 days'), true, true);
         $sooner = $this->createRoom($em, $server, 'Twig Sooner Room', (clone $now)->modify('+1 day'), true, true);
 
-        $result = call_user_func([$extension, 'roomsinFuture'], $server);
+        $result = $extension->roomsinFuture($server);
         $positions = [];
         foreach ($result as $index => $room) {
             if ($room->getId() === $sooner->getId()) {

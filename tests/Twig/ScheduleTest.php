@@ -40,18 +40,6 @@ class ScheduleTest extends KernelTestCase
         return self::getContainer()->get(Schedule::class);
     }
 
-    private function functionByName(Schedule $extension, string $name): string
-    {
-        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
-            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
-                if ($attribute->newInstance()->name === $name) {
-                    return $method->getName();
-                }
-            }
-        }
-        self::fail(sprintf('Twig Function "%s" not registered', $name));
-    }
-
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
         $extension = $this->extension();
@@ -86,10 +74,6 @@ class ScheduleTest extends KernelTestCase
 
         $this->assertCount(1, $extension->scheduleUser($time0, 1));
         $this->assertSame([$accept], $extension->scheduleUser($time0, 1));
-        $this->assertSame(
-            [$accept],
-            call_user_func([$extension, $this->functionByName($extension, 'scheduleUser')], $time0, 1)
-        );
     }
 
     public function testScheduleOwnJoiceReturnsAcceptOrNullWhenUserDidNotVote(): void
@@ -109,10 +93,6 @@ class ScheduleTest extends KernelTestCase
 
         $this->assertSame(2, $extension->scheduleOwnJoice($user, $time0));
         $this->assertNull($extension->scheduleOwnJoice($user, $time1));
-        $this->assertSame(
-            2,
-            call_user_func([$extension, $this->functionByName($extension, 'scheduleOwnJoice')], $user, $time0)
-        );
     }
 
     public function testScheduleUserHasVotedReflectsExistingVotesForRoom(): void
@@ -133,9 +113,6 @@ class ScheduleTest extends KernelTestCase
 
         $this->assertTrue($extension->scheduleUserHasVoted($user, $room));
         $this->assertFalse($extension->scheduleUserHasVoted($userWithoutVote, $room));
-        $this->assertTrue(
-            call_user_func([$extension, $this->functionByName($extension, 'scheduleUserHasVoted')], $user, $room)
-        );
     }
 
     public function testMyScheduledMeetingReturnsScheduledRoomsWhereUserParticipates(): void
@@ -156,12 +133,5 @@ class ScheduleTest extends KernelTestCase
         );
 
         $this->assertContains('Termin finden: 0', $names);
-        $this->assertContains(
-            'Termin finden: 0',
-            array_map(
-                static fn($scheduledRoom) => $scheduledRoom->getName(),
-                call_user_func([$extension, $this->functionByName($extension, 'myScheduledMeeting')], $user)
-            )
-        );
     }
 }

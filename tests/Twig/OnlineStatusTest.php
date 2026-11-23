@@ -37,18 +37,6 @@ class OnlineStatusTest extends KernelTestCase
         return self::getContainer()->get(OnlineStatus::class);
     }
 
-    private function functionByName(OnlineStatus $extension, string $name): string
-    {
-        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
-            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
-                if ($attribute->newInstance()->name === $name) {
-                    return $method->getName();
-                }
-            }
-        }
-        self::fail(sprintf('Twig Function "%s" not registered', $name));
-    }
-
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
         $extension = $this->extension();
@@ -62,10 +50,6 @@ class OnlineStatusTest extends KernelTestCase
         $user = (new User())->setOnlineStatus(1);
 
         $this->assertSame('online', $extension->getOnlineStatus($user));
-        $this->assertSame(
-            'online',
-            call_user_func([$extension, $this->functionByName($extension, 'getOnlineStatus')], $user)
-        );
     }
 
     public function testGetOnlineStatusReturnsOfflineForOtherStatuses(): void
@@ -92,9 +76,5 @@ class OnlineStatusTest extends KernelTestCase
 
         $this->assertSame('Online', $extension->getOnlineStatusString((new User())->setOnlineStatus(1)));
         $this->assertSame('Offline', $extension->getOnlineStatusString((new User())->setOnlineStatus(2)));
-        $this->assertSame(
-            'Online',
-            call_user_func([$extension, $this->functionByName($extension, 'getOnlineStatusString')], (new User())->setOnlineStatus(1))
-        );
     }
 }

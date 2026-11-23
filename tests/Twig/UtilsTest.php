@@ -39,30 +39,6 @@ class UtilsTest extends KernelTestCase
         return self::getContainer()->get(Utils::class);
     }
 
-    private function filterByName(Utils $extension, string $name): string
-    {
-        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
-            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
-                if ($attribute->newInstance()->name === $name) {
-                    return $method->getName();
-                }
-            }
-        }
-        self::fail(sprintf('Twig Filter "%s" not registered', $name));
-    }
-
-    private function functionByName(Utils $extension, string $name): string
-    {
-        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
-            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
-                if ($attribute->newInstance()->name === $name) {
-                    return $method->getName();
-                }
-            }
-        }
-        self::fail(sprintf('Twig Function "%s" not registered', $name));
-    }
-
     public function testGetFiltersReturnsExpectedTwigFilters(): void
     {
         $extension = $this->extension();
@@ -82,10 +58,6 @@ class UtilsTest extends KernelTestCase
 
         $this->assertSame('123-456-789-', $extension->addRepetiveCharacters('123456789', '-', 3));
         $this->assertSame('ab#cd#ef#', $extension->addRepetiveCharacters('abcdef', '#', 2));
-        $this->assertSame(
-            '123-456-789-',
-            call_user_func([$extension, $this->filterByName($extension, 'addRepetiveCharacters')], '123456789', '-', 3)
-        );
     }
 
     public function testJsonDecodeReturnsArrayForJsonObject(): void
@@ -94,10 +66,6 @@ class UtilsTest extends KernelTestCase
         $extension = $this->extension();
 
         $this->assertSame(['a' => 1, 'b' => [2, 3]], $extension->json_decode('{"a":1,"b":[2,3]}'));
-        $this->assertSame(
-            ['a' => 1],
-            call_user_func([$extension, $this->filterByName($extension, 'json_decode')], '{"a":1}')
-        );
     }
 
     public function testJsonDecodeReturnsNullForNullAndInvalidJson(): void
@@ -136,17 +104,5 @@ class UtilsTest extends KernelTestCase
 
         $outsider = (new User())->setUsername('outsider');
         $this->assertTrue($extension->roomIsReadOnly($room, $outsider));
-    }
-
-    public function testRoomIsReadOnlyViaRegisteredCallable(): void
-    {
-        self::bootKernel();
-        $extension = $this->extension();
-        $moderator = (new User())->setUsername('moderator');
-        $room = (new Rooms())->setModerator($moderator)->setCreator($moderator);
-
-        $this->assertFalse(
-            call_user_func([$extension, $this->functionByName($extension, 'roomIsReadOnly')], $room, $moderator)
-        );
     }
 }

@@ -66,7 +66,6 @@ class CheckIfUserIsAllowdToOrganizeTest extends TestCase
         $room = (new Rooms())->setModerator($deputy)->setCreator($deputy);
 
         $this->assertTrue($extension->isAllowedToOrganize($room, $deputy));
-        $this->assertTrue(call_user_func([$extension, 'isAllowedToOrganize'], $room, $deputy));
     }
 
     public function testModeratorAndDeputyAreAllowedToOrganize(): void

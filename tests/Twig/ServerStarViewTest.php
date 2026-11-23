@@ -72,6 +72,6 @@ class ServerStarViewTest extends TestCase
         $this->addStar($server, 4);
 
         $this->assertEqualsWithDelta(13 / 3, $extension->showAverageStar($server), 0.0001);
-        $this->assertEqualsWithDelta(13 / 3, call_user_func([$extension, 'showAverageStar'], $server), 0.0001);
+        $this->assertEqualsWithDelta(13 / 3, $extension->showAverageStar($server), 0.0001);
     }
 }

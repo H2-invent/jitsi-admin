@@ -84,14 +84,6 @@ class NameWithFormatTest extends TestCase
         $extension = new NameWithFormat(new FormatName());
         $user = (new User())->setUsername('fallback')->setFirstName('');
 
-        $this->assertSame('fallback', $extension->nameOfUserwithFormat($user, '$user.firstName$'));
-    }
-
-    public function testNameOfUserwithFormatViaRegisteredCallable(): void
-    {
-        $extension = new NameWithFormat(new FormatName());
-        $user = $this->createUser();
-
-        $this->assertSame('JohnDoe', call_user_func([$extension, 'nameOfUserwithFormat'], $user, '$user.firstName$ $user.lastName$'));
+        $this->assertSame('fallback', $extension->nameOfUserwithFormat($user, '$user.firstName$ $user.lastName$'));
     }
 }

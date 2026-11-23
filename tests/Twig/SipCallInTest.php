@@ -86,7 +86,7 @@ class SipCallInTest extends TestCase
         $this->createCallerId($user, $roomOne, '1111');
         $expected = $this->createCallerId($user, $roomTwo, '2222');
 
-        $this->assertSame($expected, call_user_func([$extension, 'sipPinFromRoomAndUser'], $roomTwo, $user));
+        $this->assertSame($expected, $extension->sipPinFromRoomAndUser($roomTwo, $user));
         $this->assertSame('2222', $extension->sipPinFromRoomAndUser($roomTwo, $user)->getCallerId());
     }
 }

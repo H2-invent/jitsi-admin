@@ -59,7 +59,6 @@ class CheckStartTimeTest extends KernelTestCase
 
         $this->assertNotNull($room);
         $this->assertNotSame($user, $room->getModerator());
-        $this->assertNull(call_user_func([$extension, 'isRoomOpen'], $room, $user));
     }
 
     public function testFutureRoomIsClosedAndReturnsMessage(): void

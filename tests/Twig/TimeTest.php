@@ -37,18 +37,6 @@ class TimeTest extends KernelTestCase
         return self::getContainer()->get(Time::class);
     }
 
-    private function functionByName(Time $extension, string $name): string
-    {
-        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
-            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
-                if ($attribute->newInstance()->name === $name) {
-                    return $method->getName();
-                }
-            }
-        }
-        self::fail(sprintf('Twig Function "%s" not registered', $name));
-    }
-
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
         $extension = $this->extension();
@@ -79,9 +67,5 @@ class TimeTest extends KernelTestCase
         $result = $extension->getTime($user);
 
         $this->assertSame('Europe/Berlin', $result->getTimezone()->getName());
-        $this->assertSame(
-            $result->getTimestamp(),
-            call_user_func([$extension, $this->functionByName($extension, 'getTime')], $user)->getTimestamp()
-        );
     }
 }

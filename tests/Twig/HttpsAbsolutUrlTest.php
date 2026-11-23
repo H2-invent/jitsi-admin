@@ -87,6 +87,6 @@ class HttpsAbsolutUrlTest extends TestCase
     {
         $extension = $this->createExtension();
 
-        $this->assertSame('https://example.com/join', call_user_func([$extension, 'httpsAbolutUrl'], 'join'));
+        $this->assertSame('https://example.com/join', $extension->httpsAbolutUrl('join'));
     }
 }

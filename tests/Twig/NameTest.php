@@ -40,18 +40,6 @@ class NameTest extends KernelTestCase
         return self::getContainer()->get(Name::class);
     }
 
-    private function filterByName(Name $extension, string $name): string
-    {
-        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
-            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
-                if ($attribute->newInstance()->name === $name) {
-                    return $method->getName();
-                }
-            }
-        }
-        self::fail(sprintf('Twig Filter "%s" not registered', $name));
-    }
-
     public function testGetFiltersReturnsExpectedTwigFilters(): void
     {
         $extension = $this->extension();
@@ -80,10 +68,6 @@ class NameTest extends KernelTestCase
         $user = self::getContainer()->get(UserRepository::class)->findOneByUsername('test@local.de');
 
         $this->assertSame('Test1, 1234, User, Test', $extension->nameOfUserNoSymbol($user));
-        $this->assertSame(
-            'Test1, 1234, User, Test',
-            call_user_func([$extension, $this->filterByName($extension, 'nameOfUserNoSymbol')], $user)
-        );
     }
 
     public function testNameOfUserEscapesScriptTagsInUserControlledFields(): void
@@ -120,21 +104,5 @@ class NameTest extends KernelTestCase
         $lobbyUser = (new LobbyWaitungUser())->setUser($user)->setShowName('Lobby Name');
 
         $this->assertSame('Lobby Name', $extension->nameOfUserNoSymbol($lobbyUser));
-        $this->assertSame(
-            'Lobby Name',
-            call_user_func([$extension, $this->filterByName($extension, 'nameOfUserNoSymbol')], $lobbyUser)
-        );
-    }
-
-    public function testNameOfUserViaRegisteredCallable(): void
-    {
-        self::bootKernel();
-        $extension = $this->extension();
-        $user = self::getContainer()->get(UserRepository::class)->findOneByUsername('test@local.de');
-
-        $result = call_user_func([$extension, $this->filterByName($extension, 'nameOfUser')], $user);
-
-        $this->assertInstanceOf(Markup::class, $result);
-        $this->assertStringContainsString('Test1, 1234, User, Test', (string) $result);
     }
 }

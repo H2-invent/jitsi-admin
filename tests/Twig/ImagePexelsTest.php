@@ -68,6 +68,6 @@ class ImagePexelsTest extends TestCase
         $pexelService->method('getImageFromPexels')->willReturn(null);
         $extension = $this->createExtension($pexelService);
 
-        $this->assertNull(call_user_func([$extension, 'pexelsImage']));
+        $this->assertNull($extension->pexelsImage());
     }
 }

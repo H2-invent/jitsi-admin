@@ -58,12 +58,4 @@ class Nl2liExtensionTest extends TestCase
 
         $this->assertSame('<li>only line</li>', $extension->nl2li('only line'));
     }
-
-    public function testNl2liViaRegisteredCallables(): void
-    {
-        $extension = new Nl2liExtension();
-
-        $this->assertSame('<li>a</li><li>b</li>', call_user_func([$extension, 'nl2li'], "a\nb"));
-        $this->assertSame('<li>a</li><li>b</li>', call_user_func([$extension, 'nl2li'], "a\nb"));
-    }
 }

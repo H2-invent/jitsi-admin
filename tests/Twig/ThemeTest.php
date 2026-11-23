@@ -37,18 +37,6 @@ class ThemeTest extends KernelTestCase
         return self::getContainer()->get(Theme::class);
     }
 
-    private function functionByName(Theme $extension, string $name): string
-    {
-        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
-            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
-                if ($attribute->newInstance()->name === $name) {
-                    return $method->getName();
-                }
-            }
-        }
-        self::fail(sprintf('Twig Function "%s" not registered', $name));
-    }
-
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
         $extension = $this->extension();
@@ -72,10 +60,6 @@ class ThemeTest extends KernelTestCase
         $this->assertSame(
             ['telephoneNumber' => 'fa fa-phone'],
             $extension->getApplicationProperties('laf_icon_mapping_search')
-        );
-        $this->assertSame(
-            ['telephoneNumber' => 'fa fa-phone'],
-            call_user_func([$extension, $this->functionByName($extension, 'getApplicationProperties')], 'laf_icon_mapping_search')
         );
     }
 
