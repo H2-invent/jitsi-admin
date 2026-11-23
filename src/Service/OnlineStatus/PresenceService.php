@@ -41,11 +41,14 @@ class PresenceService
     }
 
     /**
-     * Queries the websocket service for a single uid.
-     * Returns the status ("online", "away", "inMeeting" or "offline"), or null when the presence
-     * service is unreachable/unknown so the caller can fall back to another source.
+     * Queries the websocket service for a single uid, including whether a Chrome extension client
+     * is currently registered for that user.
+     * Returns null when the presence service is unreachable/unknown so the caller can fall back to
+     * another source.
+     *
+     * @return array{status: string, extensionRegistered: bool}|null
      */
-    public function getStatusForUid(?string $uid): ?string
+    public function getPresenceForUid(?string $uid): ?array
     {
         if (!$uid) {
             return null;
@@ -72,12 +75,41 @@ class PresenceService
             }
 
             $data = $response->toArray(false);
+            if (!isset($data['status']) || !is_string($data['status'])) {
+                return null;
+            }
 
-            return isset($data['status']) && is_string($data['status']) ? $data['status'] : null;
+            return [
+                'status'              => $data['status'],
+                'extensionRegistered' => ($data['extensionRegistered'] ?? false) === true,
+            ];
         } catch (\Throwable $exception) {
             $this->logger->warning('Websocket presence lookup failed: {message}', ['message' => $exception->getMessage()]);
             return null;
         }
+    }
+
+    /**
+     * Returns the status ("online", "away", "inMeeting" or "offline"), or null when the presence
+     * service is unreachable/unknown so the caller can fall back to another source.
+     */
+    public function getStatusForUid(?string $uid): ?string
+    {
+        $presence = $this->getPresenceForUid($uid);
+
+        return $presence === null ? null : $presence['status'];
+    }
+
+    /**
+     * True while a Chrome extension client of this user holds a websocket registration. The
+     * extension is then the only client that may ring, so the ad-hoc invite must not go to the
+     * user's browser tabs.
+     */
+    public function isExtensionRegistered(User $user): bool
+    {
+        $presence = $this->getPresenceForUid($user->getUid());
+
+        return $presence !== null && $presence['extensionRegistered'] === true;
     }
 
     /**
