@@ -9,8 +9,8 @@ jobs:
     
     # region declare_services
     services:
-      mysql:
-        image: mysql:5.7
+      mariadb:
+        image: mariadb:12.3.2
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: jitsiadmintest
@@ -26,7 +26,7 @@ jobs:
     # endregion declare_services
 
     env:
-      DATABASE_URL: "mysql://jitsiadmintest:password@127.0.0.1:3306/jitsiadmintest?serverVersion=5.7"
+      DATABASE_URL: "mysql://jitsiadmintest:password@127.0.0.1:3306/jitsiadmintest?serverVersion=12.3.2-MariaDB"
 
     steps:
       # region load_artifact
