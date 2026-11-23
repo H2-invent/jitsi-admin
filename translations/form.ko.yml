@@ -82,7 +82,7 @@ help:
   jigasiNumberUrl: '전화 접속 번호를 JSON 형식으로 입력하세요. Jigasi의 numbers.json 파일 형식과 동일해야 합니다 (예: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
   disallowFirefox: Firefox 브라우저 사용이 비활성화 되어 있습니다. Firefox 브라우저로 접속하려는 모든 참가자는 자동으로 Chromium 기반 브라우저로 전환됩니다.
-  enforceE2e: 이 Jitsi 서버에서는 모든 회의에 대해 종단 간 암호화가 강제로 적용됩니다.
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Server erzwungen.
   allowIp: 지정된 IP 주소 또는 IP 대역만 회의에 참가할 수 있습니다. IP 대역은 10.10.10.10/24 형식으로 입력해야 하며, 여러 IP 또는 대역은 쉼표로 구분하여 입력할 수 있습니다.
   jitsiEventSyncUrl: SIP 요청 처리 시 필요한 Jitsi 이벤트 동기화 정보를 보유한 다른 Jitsi 관리자 서버의 기본 URL을 입력할 수 있습니다. 이 기능은 Jitsi-admin 0.77.x 이상의 버전에서만 지원됩니다.
   disableFilmstripe: Jitsi에서 참가자 미리보기 비활성화
@@ -93,6 +93,8 @@ help:
   liveKitServer: 이 서버는 Livekit 서버이며 Livekit API 기능을 사용하도록 설정됩니다.
   livekitBackgroundImages: 회의 참가자들이 사용할 수 있는 배경 이미지 목록을 JSON 배열로 입력합니다.
   livekitMiddlewareUrl: '여기에 미들웨어 URL을 입력할 수 있습니다(예: https://middlewareUrl.com). 현재는 Meetling 미들웨어만 지원됩니다. 무엇을 입력해야 할지 모르겠다면 비워 두면 기본 미들웨어가 사용됩니다. 자체 미들웨어 사용을 원하시면 info@h2-invent.com 으로 문의하세요.'
+  isProvisioningEnabled: Server Provisioning für alle Konferenzen aktivieren
+  isAllowedToCloneForAutoscale: Server darf für Autoskalierung geklont werden (erforderlich für Provisioning)
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: 참가하기
@@ -143,6 +145,7 @@ label:
   timezone: Zeitzone
   serverName: Servername
   lobby: Lobby aktivieren
+  isE2EEEnabled: Ende-zu-Ende-Verschlüsselung (E2EE) aktivieren
   secondEmail: CC-E-Mail
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
   corsHeader: CORS-Header oder frame-ancestor Header
@@ -174,6 +177,8 @@ label:
   enableTranscription: Transkription aktivieren
   apiKeyTranscription: Api Key für die Transkription
   transcriptionProvider: Transkription Anbieter
+  isProvisioningEnabled: Provisioning aktivieren
+  isAllowedToCloneForAutoscale: Klonen aktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
