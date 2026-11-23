@@ -12,7 +12,7 @@ use Symfony\Component\Messenger\Envelope;
 
 class ProvisionerStatusSerializerTest extends KernelTestCase
 {
-    private const STATUS_ROOM_ID = '6bc5bd4df9dae5a3c0ebdb4244bdaf6b';
+    private const STATUS_ROOM_ID = 4711;
     private const STATUS_TYPE = Type::PROVISION;
     private const STATUS_STATUS = Status::DONE;
     private const STATUS_NAME = 'name';
@@ -20,7 +20,7 @@ class ProvisionerStatusSerializerTest extends KernelTestCase
     private const STATUS_APP_SECRET = null;
     private const STATUS_URL = 'url';
     private const STATUS_PAYLOAD = [
-        'body' => '{"room_id":"6bc5bd4df9dae5a3c0ebdb4244bdaf6b","type":"provision","status":"done","name":"name","app_id":"app_id","app_secret":null,"url":"url"}',
+        'body' => '{"request_id":4711,"type":"provision","status":"done","name":"name","app_id":"app_id","app_secret":null,"url":"url"}',
         'headers' => [
             'Content-Type' => 'application/json'
         ],
@@ -28,7 +28,6 @@ class ProvisionerStatusSerializerTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->markTestSkipped('provisioner WIP');
     }
 
     public function testDecode(): void

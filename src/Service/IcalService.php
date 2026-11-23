@@ -81,7 +81,7 @@ class IcalService
 
             $ics->addEvent(
                 [
-                    "uid"         => md5($event->getUid()) . "@" . parse_url($event->getHostUrl(), PHP_URL_HOST),
+                    "uid"         => md5($event->getUid()) . "@" . ($event->getHostUrl() ? parse_url($event->getHostUrl(), PHP_URL_HOST) : ''),
                     "location"    => $this->translator->trans("meetling Konferenz"),
                     "description" => $description,
                     "dtstart"     => $event->getStartUtc(),

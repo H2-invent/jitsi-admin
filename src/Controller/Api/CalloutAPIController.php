@@ -37,7 +37,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/', name: 'pool')]
     public function index(Request $request): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -48,7 +48,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/dial/', name: 'dial_pool', methods: 'GET')]
     public function dialPool(Request $request): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -60,7 +60,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/dial/{calloutSessionId}', name: 'dial')]
     public function dial(string $calloutSessionId, Request $request): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -72,7 +72,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/refuse/{calloutSessionId}', name: 'refuse')]
     public function refuse(string $calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -84,7 +84,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/error/{calloutSessionId}', name: 'error')]
     public function error(string $calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -96,7 +96,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/unreachable/{calloutSessionId}', name: 'unreachable')]
     public function unreachable(string $calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -109,7 +109,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/timeout/{calloutSessionId}', name: 'timeout')]
     public function timeout(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -122,7 +122,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/later/{calloutSessionId}', name: 'later')]
     public function later(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -134,7 +134,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/occupied/{calloutSessionId}', name: 'occupied')]
     public function occupied(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -146,7 +146,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/ringing/{calloutSessionId}', name: 'ringing')]
     public function ringing(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -158,7 +158,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/on_hold/', name: 'on_hold_pool', methods: 'GET')]
     public function onHoldPool(Request $request): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -170,7 +170,7 @@ class CalloutAPIController extends JitsiAdminController
     #[\Symfony\Component\Routing\Attribute\Route('/back/{calloutSessionId}', name: 'back', methods: 'GET')]
     public function back(string $calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        $check = CheckAuthorizationService::checkHeader($request, $this->token);
         if ($check) {
             return $check;
         }

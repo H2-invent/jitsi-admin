@@ -20,7 +20,6 @@ class ApiMiddlewareControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->markTestSkipped('provisioner WIP');
         $this->client = static::createClient();
         $this->client->catchExceptions(false);
         $this->entityManager = static::getContainer()->get(EntityManagerInterface::class);
@@ -157,7 +156,7 @@ class ApiMiddlewareControllerTest extends WebTestCase
     public function testRoomDeletedJwtWithWrongSecret(): void
     {
         $server = $this->createServer(true);
-        $jwt = $this->createValidJwt('test-room-uid', 'wrongSecret');
+        $jwt = $this->createValidJwt('test-room-uid', 'wrong-secret-12345678901234567890');
 
         $this->client->request('POST', '/api/v1/middleware/room-deleted', [
             'host' => $server->getUrl(),
@@ -190,6 +189,13 @@ class ApiMiddlewareControllerTest extends WebTestCase
     {
         $server = $this->createServer(true);
         $room = $this->createRoom($server);
+        $room->setOriginalServer($room->getServer());
+        $this->entityManager->persist($room);
+        $record = (new \App\Entity\ProvisionerRecord())
+            ->setRoom($room)
+            ->setStatus(\App\Service\Provisioner\ProvisionerStatus::PROVISION_DONE);
+        $this->persistAndTrack($record);
+        $this->entityManager->flush();
         $jwt = $this->createValidJwt($room->getUid(), $server->getAppSecret());
 
         /** @var InMemoryTransport $transport */
@@ -216,7 +222,7 @@ class ApiMiddlewareControllerTest extends WebTestCase
         $server = new Server();
         $server->setUrl('test-server-' . $uniqueId . '.local');
         $server->setAppId('testAppId-' . $uniqueId);
-        $server->setAppSecret('testAppSecret-' . $uniqueId);
+        $server->setAppSecret('testAppSecret-' . $uniqueId . '-123456789012');
         $server->setSlug('test-slug-' . $uniqueId);
         $server->setJwtModeratorPosition(0);
         $server->setServerName('Test Server ' . $uniqueId);
@@ -233,7 +239,7 @@ class ApiMiddlewareControllerTest extends WebTestCase
         $room = new Rooms();
         $room->setName('Test Room ' . $uniqueId);
         $room->setUid('test-room-uid-' . $uniqueId);
-        $room->setUidReal('test-room-uid-real-' . $uniqueId);
+        $room->setUidReal('tr' . substr(str_replace('.', '', $uniqueId), 0, 30));
         $room->setDuration(60);
         $room->setSequence(0);
         $room->setServer($server);

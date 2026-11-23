@@ -46,7 +46,7 @@ class CheckAuthorizationService
         return new JsonResponse(['authorized' => false], 401);
     }
 
-    public static function checkHEader(Request $request, string $token): ?Response
+    public static function checkHeader(Request $request, string $token): ?Response
     {
         $authHeader = $request->headers->get('Authorization');
         if ($authHeader !== $token) {

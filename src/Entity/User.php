@@ -374,7 +374,7 @@ class User extends BaseUser
 
     public function setUsername(?string $username): self
     {
-        $this->username = rtrim($username);
+        $this->username = $username === null ? null : rtrim($username);
 
         return $this;
     }

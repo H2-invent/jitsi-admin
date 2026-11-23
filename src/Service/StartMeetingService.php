@@ -103,7 +103,7 @@ class StartMeetingService
         return $this->roomNotFound();
     }
 
-    public function getAllowedToEnterString(Rooms $room, User $user): ?string
+    public function getAllowedToEnterString(Rooms $room, ?User $user): ?string
     {
         if ($this->isAllowedToEnter($room, $user)) {
             return null;
@@ -112,13 +112,9 @@ class StartMeetingService
         return $this->buildClosedString($room);
     }
 
-    public function isAllowedToEnter(Rooms $room, User $user): ?string
+    public function isAllowedToEnter(Rooms $room, ?User $user): bool
     {
-        if (!$this->isAllowedToStartMeeting($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
-            return $this->buildClosedString($room);
-        }
-
-        return null;
+        return $this->isAllowedToStartMeeting($room, $user) || $this->roomStatusFrontendService->isRoomCreated($room);
     }
 
     public function setAttribute(Rooms $rooms, ?User $user, ?string $t, ?string $name): void

@@ -28,7 +28,6 @@ class ProvisionerEventsTest extends KernelTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->markTestSkipped('provisioner WIP');
         $this->beginTransaction();
     }
 
@@ -47,6 +46,9 @@ class ProvisionerEventsTest extends KernelTestCase
             ->withCreator($user)
             ->withParticipant($user)
             ->persist($entityManager);
+        $room->setPersistantRoom(true);
+        $entityManager->persist($room);
+        $entityManager->flush();
 
         /** @var ProvisionerController $controller */
         $controller = self::getContainer()->get(ProvisionerController::class);
@@ -61,7 +63,10 @@ class ProvisionerEventsTest extends KernelTestCase
             /** @var ProvisionerRequestMessage $message */
             $message = $sentMessage->getMessage();
             self::assertSame(Type::PROVISION, $message->type);
-            self::assertSame($room->getUidReal(), $message->request_id);
+            self::assertSame(
+                $entityManager->getRepository(\App\Entity\ProvisionerRecord::class)->findOneBy(['room' => $room])->getId(),
+                $message->request_id
+            );
         }
     }
 
@@ -80,6 +85,13 @@ class ProvisionerEventsTest extends KernelTestCase
             ->withCreator($user)
             ->withParticipant($user)
             ->persist($entityManager);
+        $room->setOriginalServer($room->getServer());
+        $record = (new \App\Entity\ProvisionerRecord())
+            ->setRoom($room)
+            ->setStatus(\App\Service\Provisioner\ProvisionerStatus::PROVISION_DONE);
+        $entityManager->persist($record);
+        $entityManager->persist($room);
+        $entityManager->flush();
 
         $controller = self::getContainer()->get(ApiMiddlewareController::class);
         $roomService = self::getContainer()->get(RoomService::class);
@@ -100,7 +112,10 @@ class ProvisionerEventsTest extends KernelTestCase
             /** @var ProvisionerRequestMessage $message */
             $message = $sentMessage->getMessage();
             self::assertSame(Type::DELETION, $message->type);
-            self::assertSame($room->getUidReal(), $message->request_id);
+            self::assertSame(
+                $entityManager->getRepository(\App\Entity\ProvisionerRecord::class)->findOneBy(['room' => $room])->getId(),
+                $message->request_id
+            );
         }
     }
 
@@ -124,8 +139,9 @@ class ProvisionerEventsTest extends KernelTestCase
         $messageHandler = self::getContainer()->get(ProvisionerStatusMessageHandler::class);
         /** @var HubStub $mercureHub */
         $mercureHub = self::getContainer()->get(HubStub::class);
+        $record = self::getContainer()->get(\App\Service\Provisioner\ProvisionerService::class)->startProvision($room);
         $doneMessage = new ProvisionerStatusMessage(
-            $room->getUidReal(),
+            $record->getId(),
             Type::PROVISION,
             Status::DONE,
             'name',
@@ -165,7 +181,12 @@ class ProvisionerEventsTest extends KernelTestCase
         $messageHandler = self::getContainer()->get(ProvisionerStatusMessageHandler::class);
         /** @var InMemoryTransport $messageTransport */
         $messageTransport = self::getContainer()->get('messenger.transport.provisioner_request');
-        $failedMessage = new ProvisionerStatusMessage($room->getUidReal(), Type::PROVISION, Status::FAILED);
+        $record = (new \App\Entity\ProvisionerRecord())
+            ->setRoom($room)
+            ->setStatus(\App\Service\Provisioner\ProvisionerStatus::PROVISION_REQUESTED);
+        $entityManager->persist($record);
+        $entityManager->flush();
+        $failedMessage = new ProvisionerStatusMessage($record->getId(), Type::PROVISION, Status::FAILED);
 
         $messageHandler($failedMessage);
 
@@ -175,7 +196,8 @@ class ProvisionerEventsTest extends KernelTestCase
             /** @var ProvisionerRequestMessage $message */
             $message = $sentMessage->getMessage();
             self::assertSame(Type::PROVISION, $message->type);
-            self::assertSame($room->getUidReal(), $message->request_id);
+            self::assertIsInt($message->request_id);
+            self::assertNotSame($record->getId(), $message->request_id);
         }
     }
 }

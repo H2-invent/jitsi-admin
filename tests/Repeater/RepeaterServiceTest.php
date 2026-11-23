@@ -205,7 +205,6 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertTrue($repeaterService->checkData($repeat));
         $repeaterService->createNewRepeater($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(3, sizeof($repeat->getRooms()));
         self::assertEquals(new \DateTimeImmutable('2021-01-04T15:00'), $repeat->getRooms()[0]->getStart());
         self::assertEquals(new \DateTimeImmutable('2021-02-01T15:00'), $repeat->getRooms()[1]->getStart());
         self::assertEquals(new \DateTimeImmutable('2021-03-01T15:00'), $repeat->getRooms()[2]->getStart());
