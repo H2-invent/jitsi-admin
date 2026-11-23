@@ -73,3 +73,4 @@ framework:
       App\Message\Provisioner\ProvisionerStatusMessage: provisioner_status
       App\Message\Provisioner\ProvisionerRequestMessage: provisioner_request
       App\Message\TestMessage: test
+      App\Message\AmqpPerformanceTestMessage: test
