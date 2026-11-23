@@ -21,6 +21,7 @@ class UidHelper
             if (!$repeat->getUid()) {
                 $repeat->setUid(UidGeneratorHelper::generate());
                 $this->entityManager->persist($repeat);
+                $this->entityManager->flush();
             }
 
             $ui = $repeat->getUid();
