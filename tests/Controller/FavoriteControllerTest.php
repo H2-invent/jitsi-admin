@@ -14,10 +14,10 @@ class FavoriteControllerTest extends WebTestCase
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => '9876543210']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
         $client->loginUser($user);
 
-        $client->request('GET', '/room/favorite/toggle?uid=9876543210');
+        $client->request('GET', '/room/favorite/toggle?uid=' . $room->getUidReal());
 
         $this->assertResponseRedirects('/room/dashboard');
         $updated = $userRepo->findOneBy(['email' => 'test@local.de']);
@@ -29,14 +29,14 @@ class FavoriteControllerTest extends WebTestCase
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => '9876543210']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
         $user->addFavorite($room);
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->persist($user);
         $em->flush();
         $client->loginUser($user);
 
-        $client->request('GET', '/room/favorite/toggle?uid=9876543210');
+        $client->request('GET', '/room/favorite/toggle?uid=' . $room->getUidReal());
 
         $this->assertResponseRedirects('/room/dashboard');
         $updated = $userRepo->findOneBy(['email' => 'test@local.de']);
@@ -48,10 +48,10 @@ class FavoriteControllerTest extends WebTestCase
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
         $outsider = $userRepo->findOneBy(['email' => 'test@local4.de']);
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => '9876543210']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
         $client->loginUser($outsider);
 
-        $client->request('GET', '/room/favorite/toggle?uid=9876543210');
+        $client->request('GET', '/room/favorite/toggle?uid=' . $room->getUidReal());
 
         $this->assertResponseRedirects('/room/dashboard');
         $this->assertNotEmpty($client->getRequest()->getSession()->getFlashBag()->get('danger'));

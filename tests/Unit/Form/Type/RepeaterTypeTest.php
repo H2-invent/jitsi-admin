@@ -34,14 +34,7 @@ class RepeaterTypeTest extends FormTypeTestCase
         $form = $this->formFactory()->create(RepeaterType::class, new Repeat());
         $choices = $form->get('repeatType')->getConfig()->getOption('choices');
 
-        self::assertSame([
-            'option.daily' => 0,
-            'option.weekly' => 1,
-            'option.montly' => 2,
-            'option.montlyRelative' => 3,
-            'option.yearly' => 4,
-            'option.yearlyRelative' => 5,
-        ], $choices);
+        self::assertSame(\App\Enums\RepeatTypeEnum::cases(), $choices);
     }
 
     public function testSubmitMapsRepeatSettings(): void
@@ -51,7 +44,7 @@ class RepeaterTypeTest extends FormTypeTestCase
         $form->submit(['repeatType' => 1, 'repetation' => 4, 'repeaterWeeks' => 2]);
 
         self::assertTrue($form->isValid());
-        self::assertSame(1, $repeat->getRepeatType());
+        self::assertSame(\App\Enums\RepeatTypeEnum::WEEKLY, $repeat->getRepeatType());
         self::assertSame(4, $repeat->getRepetation());
         self::assertSame(2, $repeat->getRepeaterWeeks());
     }

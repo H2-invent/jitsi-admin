@@ -30,7 +30,7 @@ class APIUserControllerTest extends WebTestCase
     public function testGetRoomInformations(): void
     {
         $client = static::createClient();
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => '9876543210']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
 
         $client->request('GET', '/api/v1/info/' . $room->getUidReal());
 
@@ -42,7 +42,7 @@ class APIUserControllerTest extends WebTestCase
     public function testAddUserToRoomWithValidApiKey(): void
     {
         $client = static::createClient();
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => '9876543210']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
 
         $client->request('POST', '/api/v1/user', [
             'uid' => $room->getUidReal(),
@@ -58,7 +58,7 @@ class APIUserControllerTest extends WebTestCase
     public function testAddUserToRoomWithInvalidApiKey(): void
     {
         $client = static::createClient();
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => '9876543210']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
 
         $client->request('POST', '/api/v1/user', [
             'uid' => $room->getUidReal(),
@@ -75,7 +75,7 @@ class APIUserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
-        $room = $container->get(RoomsRepository::class)->findOneBy(['uidReal' => '9876543210']);
+        $room = $container->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
         $user = $container->get(UserRepository::class)->findOneBy(['email' => 'test@local4.de']);
         $room->addUser($user);
         $container->get(EntityManagerInterface::class)->flush();
@@ -95,7 +95,7 @@ class APIUserControllerTest extends WebTestCase
     public function testRemoveUserFromRoomWithInvalidApiKey(): void
     {
         $client = static::createClient();
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => '9876543210']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
 
         $client->request('DELETE', '/api/v1/user', [
             'uid' => $room->getUidReal(),

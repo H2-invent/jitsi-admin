@@ -4,7 +4,7 @@ namespace App\Tests\Service\api;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Service\api\KeycloakService;
+use App\Service\Api\KeycloakService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -38,7 +38,7 @@ class KeycloakServiceTest extends KernelTestCase
             ->setUsername('keycloak-precedence@local.de')
             ->setUid('keycloak-precedence-uid')
             ->setKeycloakId('kc-unique-98765')
-            ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTimeImmutable());
         $this->entityManager->persist($keycloakUser);
         $this->entityManager->flush();
 

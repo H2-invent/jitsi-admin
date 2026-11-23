@@ -9,17 +9,33 @@ use Twig\TwigFunction;
 
 class PredefinedMessagesTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
-        self::bootKernel();
         $extension = self::getContainer()->get(PredefinedMessages::class);
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertInstanceOf(TwigFunction::class, $functions[0]);
-        $this->assertSame('getPredefinedMessages', $functions[0]->getName());
-        $this->assertSame([$extension, 'getPredefinedMessages'], $functions[0]->getCallable());
+        $this->assertSame(["getPredefinedMessages"], $this->functionNames($extension));
     }
 
     public function testGetPredefinedMessagesReturnsOnlyActiveMessages(): void
@@ -46,7 +62,7 @@ class PredefinedMessagesTest extends KernelTestCase
         self::bootKernel();
         $extension = self::getContainer()->get(PredefinedMessages::class);
 
-        $messages = call_user_func($extension->getFunctions()[0]->getCallable());
+        $messages = call_user_func([$extension, 'getPredefinedMessages']);
 
         $priorities = array_map(static fn(PredefinedLobbyMessages $message) => $message->getPriority(), $messages);
         $sorted = $priorities;

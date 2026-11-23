@@ -57,6 +57,8 @@ class ServerTypeTest extends FormTypeTestCase
         $form->submit([
             'url' => 'https://meet.example.com',
             'serverName' => 'My Server',
+            'appId' => 'app-id',
+            'appSecret' => 'app-secret',
             'jwtModeratorPosition' => 0,
             'keycloakGroups' => [],
         ]);
@@ -75,6 +77,8 @@ class ServerTypeTest extends FormTypeTestCase
         $form->submit([
             'url' => 'https://meet.example.com',
             'serverName' => 'My Server',
+            'appId' => 'app-id',
+            'appSecret' => 'app-secret',
             'jwtModeratorPosition' => 1,
             'keycloakGroups' => [
                 ['keycloakGroup' => 'group-a'],

@@ -34,7 +34,7 @@ class JitsiEventsWebhookControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertFalse($data['succes']);
+        $this->assertFalse($data['success']);
     }
 
     public function testDestroyHandlesRequest(): void
@@ -51,7 +51,7 @@ class JitsiEventsWebhookControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertFalse($data['succes']);
+        $this->assertFalse($data['success']);
     }
 
     public function testJoinedHandlesRequest(): void
@@ -68,7 +68,7 @@ class JitsiEventsWebhookControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertFalse($data['succes']);
+        $this->assertFalse($data['success']);
     }
 
     public function testLeftHandlesRequest(): void
@@ -85,6 +85,6 @@ class JitsiEventsWebhookControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertFalse($data['succes']);
+        $this->assertFalse($data['success']);
     }
 }

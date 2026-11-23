@@ -4,7 +4,7 @@ namespace App\Tests\Command;
 
 use App\Command\LdapDeputyCreateCommand;
 use App\Repository\DeputyRepository;
-use App\Service\ldap\LdapService;
+use App\Service\Ldap\LdapService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 

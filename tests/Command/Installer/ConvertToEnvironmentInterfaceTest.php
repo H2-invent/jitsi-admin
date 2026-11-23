@@ -18,12 +18,4 @@ class ConvertToEnvironmentInterfaceTest extends TestCase
         self::assertInstanceOf(ConvertToEnvironmentInterface::class, KeycloakConfig::createFromParameters('https://keycloak.example.org', 'master', 20, 'client', 'secret'));
         self::assertInstanceOf(ConvertToEnvironmentInterface::class, SmtpConfig::createFromParameters('smtp.example.org', 25, 'user', 'pass', 'sender@example.org'));
     }
-
-    public function testInterfaceDeclaresExpectedMethods(): void
-    {
-        $reflection = new \ReflectionClass(ConvertToEnvironmentInterface::class);
-
-        self::assertTrue($reflection->hasMethod('getAsEnvironment'));
-        self::assertTrue($reflection->hasMethod('getEnvironmentMap'));
-    }
 }

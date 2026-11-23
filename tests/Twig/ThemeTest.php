@@ -9,32 +9,50 @@ use Twig\TwigFunction;
 
 class ThemeTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function extension(): Theme
     {
         return self::getContainer()->get(Theme::class);
     }
 
-    private function functionByName(Theme $extension, string $name): TwigFunction
+    private function functionByName(Theme $extension, string $name): string
     {
-        foreach ($extension->getFunctions() as $function) {
-            if ($function->getName() === $name) {
-                return $function;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig function "%s" not registered', $name));
+        self::fail(sprintf('Twig Function "%s" not registered', $name));
     }
 
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
-        self::bootKernel();
         $extension = $this->extension();
-
-        $functions = $extension->getFunctions();
-        $names = array_map(static fn(TwigFunction $function) => $function->getName(), $functions);
-
-        $this->assertSame(['getThemeProperties', 'getApplicationProperties'], $names);
-        $this->assertSame([$extension, 'getThemeProperties'], $functions[0]->getCallable());
-        $this->assertSame([$extension, 'getApplicationProperties'], $functions[1]->getCallable());
+        $this->assertSame(["getThemeProperties", "getApplicationProperties"], $this->functionNames($extension));
     }
 
     public function testGetThemePropertiesReturnsFalseWithoutRequestAndWithoutThemeFile(): void
@@ -57,7 +75,7 @@ class ThemeTest extends KernelTestCase
         );
         $this->assertSame(
             ['telephoneNumber' => 'fa fa-phone'],
-            call_user_func($this->functionByName($extension, 'getApplicationProperties')->getCallable(), 'laf_icon_mapping_search')
+            call_user_func([$extension, $this->functionByName($extension, 'getApplicationProperties')], 'laf_icon_mapping_search')
         );
     }
 

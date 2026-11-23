@@ -8,8 +8,11 @@ use App\Tests\Support\AudioMockTrait;
 use FFMpeg\FFMpeg;
 use FFMpeg\Format\Audio\Mp3;
 use Gaufrette\FilesystemInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class VoxtralMiniMediaConverterTest extends TestCase
 {
     use AudioMockTrait;
@@ -30,6 +33,7 @@ class VoxtralMiniMediaConverterTest extends TestCase
     /**
      * @dataProvider splitAudioIntoChunksProvider
      */
+    #[DataProvider('splitAudioIntoChunksProvider')]
     public function testSplitAudioIntoChunks(float $duration, int $expectedChunks): void
     {
         $savedPaths = [];

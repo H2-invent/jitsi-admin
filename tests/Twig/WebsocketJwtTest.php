@@ -3,7 +3,7 @@
 namespace App\Tests\Twig;
 
 use App\Entity\User;
-use App\Service\OnlineStatusService;
+use App\Service\OnlineStatus\OnlineStatusService;
 use App\Service\Websocket\WebsocketJwtService;
 use App\Twig\WebsocketJwt;
 use Firebase\JWT\JWT;
@@ -14,7 +14,30 @@ use Twig\TwigFunction;
 
 class WebsocketJwtTest extends TestCase
 {
-    private const SECRET = 'test-secret';
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private const SECRET = 'test-secret-test-secret-test-secret-123';
 
     private function createExtension(string $mercureUrl = 'https://mercure.example.org/.well-known/mercure'): WebsocketJwt
     {
@@ -31,13 +54,7 @@ class WebsocketJwtTest extends TestCase
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
         $extension = $this->createExtension();
-
-        $functions = $extension->getFunctions();
-        $names = array_map(static fn(TwigFunction $function) => $function->getName(), $functions);
-
-        $this->assertSame(['getJwtforWebsocket', 'getUrlforWebsocket'], $names);
-        $this->assertSame([$extension, 'getJwtforWebsocket'], $functions[0]->getCallable());
-        $this->assertSame([$extension, 'getUrlforWebsocket'], $functions[1]->getCallable());
+        $this->assertSame(["getJwtforWebsocket", "getUrlforWebsocket"], $this->functionNames($extension));
     }
 
     public function testGetUrlforWebsocketReplacesHttpsWithWss(): void

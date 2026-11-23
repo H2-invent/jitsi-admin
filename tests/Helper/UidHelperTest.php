@@ -39,13 +39,13 @@ class UidHelperTest extends KernelTestCase
     public function testGetUidGeneratesAndPersistsRepeaterUid(): void
     {
         $repeat = (new Repeat())
-            ->setRepeatType(1)
-            ->setStartDate(new \DateTime());
+            ->setRepeatType(\App\Enums\RepeatTypeEnum::DAILY)
+            ->setStartDate(new \DateTimeImmutable());
         $room = (new Rooms())->setUidReal('real-uid')->setRepeater($repeat);
 
         $uid = $this->helper->getUid($room);
 
-        $this->assertSame(32, strlen($uid));
+        $this->assertSame(36, strlen($uid));
         $this->assertSame($uid, $repeat->getUid());
         $this->assertNotNull($repeat->getId());
 

@@ -6,15 +6,17 @@ use App\Entity\Server;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
-use App\Service\analytics\AnalyticsService;
+use App\Service\Analytics\AnalyticsService;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class AnalyticsServiceTest extends KernelTestCase
 {
     public function testGatherInformationsReturnsShapeDerivedFromFixtures(): void
@@ -45,6 +47,7 @@ class AnalyticsServiceTest extends KernelTestCase
             }
         }
         $expectedAverage = $averageCounter !== 0 ? ($averageSum / $averageCounter) : 0;
+        $expectedUrls = array_values(array_filter($expectedUrls));
 
         $servers = $serverRepository->findAll();
         $expectedServerUrls = array_map(static fn(Server $server): ?string => $server->getUrl(), $servers);

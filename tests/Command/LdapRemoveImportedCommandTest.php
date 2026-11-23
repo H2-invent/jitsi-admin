@@ -19,7 +19,7 @@ class LdapRemoveImportedCommandTest extends KernelTestCase
             ->setUsername($email)
             ->setFirstName('Ldap')
             ->setLastName('Removable')
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setUid(md5($email));
         $properties = (new LdapUserProperties())
             ->setLdapHost('ldap://test.local')

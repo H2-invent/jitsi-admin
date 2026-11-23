@@ -13,6 +13,7 @@ class InputSettingsTest extends TestCase
     /**
      * @dataProvider provideConstantValues
      */
+    #[DataProvider('provideConstantValues')]
     public function testConstantHasExpectedValue(string $constantName, string $expectedValue): void
     {
         self::assertSame($expectedValue, constant(InputSettings::class . '::' . $constantName));
@@ -58,7 +59,7 @@ class InputSettingsTest extends TestCase
     {
         $constants = (new \ReflectionClass(InputSettings::class))->getConstants();
 
-        self::assertCount(30, $constants);
+        self::assertCount(32, $constants);
 
         $values = [];
         foreach ($constants as $name => $value) {

@@ -57,8 +57,9 @@ class APIRoomControllerTest extends WebTestCase
     public function testEditRoomUpdatesRoom(): void
     {
         $client = static::createClient();
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
         $payload = [
-            'uid' => '9876543210',
+            'uid' => $room->getUidReal(),
             'server' => 'meet.jit.si2',
             'start' => '2026-02-02 12:00:00',
             'duration' => 45,
@@ -72,7 +73,7 @@ class APIRoomControllerTest extends WebTestCase
         $this->assertFalse($data['error']);
         $this->assertSame('Meeting erfolgreich geändert', $data['text']);
 
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => '9876543210']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => $room->getUidReal()]);
         $this->assertSame('API Edited Room', $room->getName());
         $this->assertEquals(45, $room->getDuration());
     }
@@ -99,15 +100,16 @@ class APIRoomControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
 
-        $client->request('DELETE', '/api/v1/room', ['uid' => '9876543210'], [], self::API_HEADERS);
+        $client->request('DELETE', '/api/v1/room', ['uid' => $room->getUidReal()], [], self::API_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertFalse($data['error']);
         $this->assertSame('Erfolgreich gelöscht', $data['text']);
 
-        $room = $roomRepo->findOneBy(['uidReal' => '9876543210']);
+        $room = $roomRepo->findOneBy(['uidReal' => $room->getUidReal()]);
         $this->assertNull($room->getModerator());
     }
 
@@ -126,16 +128,17 @@ class APIRoomControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $headers = ['HTTP_AUTHORIZATION' => 'Bearer WrongKey'];
 
-        $client->request('DELETE', '/api/v1/room', ['uid' => '9876543210'], [], $headers);
+        $client->request('DELETE', '/api/v1/room', ['uid' => $room->getUidReal()], [], $headers);
 
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
         $this->assertSame('No Server found', $data['text']);
 
-        $room = $roomRepo->findOneBy(['uidReal' => '9876543210']);
+        $room = $roomRepo->findOneBy(['uidReal' => $room->getUidReal()]);
         $this->assertNotNull($room->getModerator());
     }
 

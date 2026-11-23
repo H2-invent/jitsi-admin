@@ -4,12 +4,14 @@ namespace App\Tests\Controller;
 
 use App\Controller\LoginController;
 use App\Repository\UserRepository;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\Auth0Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+#[AllowMockObjectsWithoutExpectations]
 class LoginControllerTest extends WebTestCase
 {
     public function testIndexRedirectsToAuth0(): void

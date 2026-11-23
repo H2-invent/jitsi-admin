@@ -34,6 +34,10 @@ class SendSummaryCommandTest extends KernelTestCase
         $tester->execute(['roomid' => $room->getId()]);
 
         $this->assertSame(0, $tester->getStatusCode());
-        $this->assertStringContainsString('We send the summary for This Room has no participants and fixed room to 1 participants', $tester->getDisplay());
+        $normalized = preg_replace('/\s+/', ' ', $tester->getDisplay());
+        $this->assertStringContainsString(
+            'We send the summary for This Room has no participants and fixed room to 1 participants',
+            $normalized
+        );
     }
 }

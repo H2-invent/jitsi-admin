@@ -8,8 +8,10 @@ use App\Tests\Support\AudioMockTrait;
 use FFMpeg\FFMpeg;
 use FFMpeg\Format\Audio\Mp3;
 use Gaufrette\FilesystemInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class WhisperMediaConverterTest extends TestCase
 {
     use AudioMockTrait;

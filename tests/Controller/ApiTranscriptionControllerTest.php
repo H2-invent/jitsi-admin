@@ -41,7 +41,7 @@ class ApiTranscriptionControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $token = self::getContainer()->getParameter('API_TOKEN_BEARER_TRANSCRIPTION');
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => '561ghj984ssdfdf']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
         $client->request('POST', '/api/v1/transcription', [
             'roomUid' => $room->getUidReal(),
         ], [], ['HTTP_AUTHORIZATION' => 'Bearer ' . $token]);
@@ -56,7 +56,7 @@ class ApiTranscriptionControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $token = self::getContainer()->getParameter('API_TOKEN_BEARER_TRANSCRIPTION');
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => '561ghj984ssdfdf']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
 
         $client->request('POST', '/api/v1/transcription', [
             'roomUid' => $room->getUidReal(),

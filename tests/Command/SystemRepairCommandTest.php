@@ -42,7 +42,7 @@ class SystemRepairCommandTest extends KernelTestCase
         $user->setEmail('  repair-email@test.local');
         $user->setUuid(md5(uniqid('', true)));
         $user->setPassword('test');
-        $user->setCreatedAt(new \DateTime());
+        $user->setCreatedAt(new \DateTimeImmutable());
         $em->persist($user);
         $em->flush();
         $id = $user->getId();
@@ -69,7 +69,7 @@ class SystemRepairCommandTest extends KernelTestCase
         $user->setEmail('repair-room-user@test.local');
         $user->setUuid(md5(uniqid('', true)));
         $user->setPassword('test');
-        $user->setCreatedAt(new \DateTime());
+        $user->setCreatedAt(new \DateTimeImmutable());
         $em->persist($user);
 
         $room = new Rooms();
@@ -105,7 +105,7 @@ class SystemRepairCommandTest extends KernelTestCase
         $moderator->setEmail('repair-lobby-moderator@test.local');
         $moderator->setUuid(md5(uniqid('', true)));
         $moderator->setPassword('test');
-        $moderator->setCreatedAt(new \DateTime());
+        $moderator->setCreatedAt(new \DateTimeImmutable());
         $em->persist($moderator);
 
         $room = new Rooms();
@@ -125,7 +125,7 @@ class SystemRepairCommandTest extends KernelTestCase
         $lobbyUser->setUid(md5(uniqid('', true)));
         $lobbyUser->setType('a');
         $lobbyUser->setShowName('Repair Lobby User');
-        $lobbyUser->setCreatedAt((new \DateTime())->modify('-11 days'));
+        $lobbyUser->setCreatedAt((new \DateTimeImmutable())->modify('-11 days'));
         $em->persist($lobbyUser);
         $em->flush();
         $lobbyUserId = $lobbyUser->getId();

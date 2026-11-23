@@ -56,7 +56,7 @@ class CreateLobbyUserServiceTest extends KernelTestCase
         self::assertTrue($lobbyUser->isWebsocketReady());
         self::assertFalse($lobbyUser->getCloseBrowser());
         self::assertSame('User2, Test2, test@local2.de', $lobbyUser->getShowName());
-        self::assertMatchesRegularExpression('/^[a-f0-9]{32}$/', $lobbyUser->getUid());
+        self::assertMatchesRegularExpression('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/', $lobbyUser->getUid());
 
         $persisted = $this->lobbyUserRepository->findOneBy(['user' => $user, 'room' => $room]);
         self::assertSame($lobbyUser->getId(), $persisted->getId());
@@ -75,7 +75,7 @@ class CreateLobbyUserServiceTest extends KernelTestCase
             ->setShowName('Already Waiting')
             ->setWebsocketReady(true)
             ->setCloseBrowser(true)
-            ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTimeImmutable());
         $this->entityManager->persist($existing);
         $this->entityManager->flush();
         $existingId = $existing->getId();

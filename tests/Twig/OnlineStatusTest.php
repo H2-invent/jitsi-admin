@@ -9,32 +9,50 @@ use Twig\TwigFunction;
 
 class OnlineStatusTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function extension(): OnlineStatus
     {
         return self::getContainer()->get(OnlineStatus::class);
     }
 
-    private function functionByName(OnlineStatus $extension, string $name): TwigFunction
+    private function functionByName(OnlineStatus $extension, string $name): string
     {
-        foreach ($extension->getFunctions() as $function) {
-            if ($function->getName() === $name) {
-                return $function;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig function "%s" not registered', $name));
+        self::fail(sprintf('Twig Function "%s" not registered', $name));
     }
 
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
-        self::bootKernel();
         $extension = $this->extension();
-
-        $functions = $extension->getFunctions();
-        $names = array_map(static fn(TwigFunction $function) => $function->getName(), $functions);
-
-        $this->assertSame(['getOnlineStatus', 'getOnlineStatusString'], $names);
-        $this->assertSame([$extension, 'getOnlineStatus'], $functions[0]->getCallable());
-        $this->assertSame([$extension, 'getOnlineStatusString'], $functions[1]->getCallable());
+        $this->assertSame(["getOnlineStatus", "getOnlineStatusString"], $this->functionNames($extension));
     }
 
     public function testGetOnlineStatusReturnsOnlineForStatusOne(): void
@@ -46,7 +64,7 @@ class OnlineStatusTest extends KernelTestCase
         $this->assertSame('online', $extension->getOnlineStatus($user));
         $this->assertSame(
             'online',
-            call_user_func($this->functionByName($extension, 'getOnlineStatus')->getCallable(), $user)
+            call_user_func([$extension, $this->functionByName($extension, 'getOnlineStatus')], $user)
         );
     }
 
@@ -76,7 +94,7 @@ class OnlineStatusTest extends KernelTestCase
         $this->assertSame('Offline', $extension->getOnlineStatusString((new User())->setOnlineStatus(2)));
         $this->assertSame(
             'Online',
-            call_user_func($this->functionByName($extension, 'getOnlineStatusString')->getCallable(), (new User())->setOnlineStatus(1))
+            call_user_func([$extension, $this->functionByName($extension, 'getOnlineStatusString')], (new User())->setOnlineStatus(1))
         );
     }
 }

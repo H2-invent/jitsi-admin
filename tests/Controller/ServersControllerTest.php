@@ -31,6 +31,8 @@ class ServersControllerTest extends WebTestCase
         $name = array_key_first($values);
         $values[$name]['url'] = 'newserver.example.com';
         $values[$name]['serverName'] = 'New Server';
+        $values[$name]['appId'] = 'app-id';
+        $values[$name]['appSecret'] = 'app-secret';
         $values[$name]['jwtModeratorPosition'] = '0';
         $client->request('POST', '/server/add', $values);
 

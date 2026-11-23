@@ -7,8 +7,10 @@ use App\Repository\UserRepository;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\Theme\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class TermsAndConditionsServiceTest extends KernelTestCase
 {
     public function testHasAcceptedTermsTrueWhenUserAccepted(): void

@@ -10,10 +10,12 @@ use App\Service\RecordingService;
 use App\Service\Result\Error\RecordingFinalizeError;
 use App\Service\Result\ServiceResult;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Messenger\Exception\RecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
+#[AllowMockObjectsWithoutExpectations]
 class RecordingUploadedMessageHandlerTest extends KernelTestCase
 {
     public function testUnknownRecordingThrowsUnrecoverableException(): void

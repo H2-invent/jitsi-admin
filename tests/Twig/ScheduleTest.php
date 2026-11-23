@@ -12,37 +12,50 @@ use Twig\TwigFunction;
 
 class ScheduleTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function extension(): Schedule
     {
         return self::getContainer()->get(Schedule::class);
     }
 
-    private function functionByName(Schedule $extension, string $name): TwigFunction
+    private function functionByName(Schedule $extension, string $name): string
     {
-        foreach ($extension->getFunctions() as $function) {
-            if ($function->getName() === $name) {
-                return $function;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig function "%s" not registered', $name));
+        self::fail(sprintf('Twig Function "%s" not registered', $name));
     }
 
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
-        self::bootKernel();
         $extension = $this->extension();
-        $functions = $extension->getFunctions();
-        $names = array_map(static fn(TwigFunction $function) => $function->getName(), $functions);
-
-        $this->assertSame(
-            ['scheduleNumber', 'scheduleUser', 'scheduleOwnJoice', 'scheduleUserHasVoted', 'myScheduledMeeting'],
-            $names
-        );
-        $this->assertSame([$extension, 'scheduleNumber'], $functions[0]->getCallable());
-        $this->assertSame([$extension, 'scheduleUser'], $functions[1]->getCallable());
-        $this->assertSame([$extension, 'scheduleOwnJoice'], $functions[2]->getCallable());
-        $this->assertSame([$extension, 'scheduleUserHasVoted'], $functions[3]->getCallable());
-        $this->assertSame([$extension, 'myScheduledMeeting'], $functions[4]->getCallable());
+        $this->assertSame(["scheduleOwnJoice", "scheduleUserHasVoted", "scheduleNumber", "scheduleUser", "myScheduledMeeting"], $this->functionNames($extension));
     }
 
     public function testScheduleNumberAndScheduleUserCountVotesByAcceptType(): void
@@ -75,7 +88,7 @@ class ScheduleTest extends KernelTestCase
         $this->assertSame([$accept], $extension->scheduleUser($time0, 1));
         $this->assertSame(
             [$accept],
-            call_user_func($this->functionByName($extension, 'scheduleUser')->getCallable(), $time0, 1)
+            call_user_func([$extension, $this->functionByName($extension, 'scheduleUser')], $time0, 1)
         );
     }
 
@@ -98,7 +111,7 @@ class ScheduleTest extends KernelTestCase
         $this->assertNull($extension->scheduleOwnJoice($user, $time1));
         $this->assertSame(
             2,
-            call_user_func($this->functionByName($extension, 'scheduleOwnJoice')->getCallable(), $user, $time0)
+            call_user_func([$extension, $this->functionByName($extension, 'scheduleOwnJoice')], $user, $time0)
         );
     }
 
@@ -121,7 +134,7 @@ class ScheduleTest extends KernelTestCase
         $this->assertTrue($extension->scheduleUserHasVoted($user, $room));
         $this->assertFalse($extension->scheduleUserHasVoted($userWithoutVote, $room));
         $this->assertTrue(
-            call_user_func($this->functionByName($extension, 'scheduleUserHasVoted')->getCallable(), $user, $room)
+            call_user_func([$extension, $this->functionByName($extension, 'scheduleUserHasVoted')], $user, $room)
         );
     }
 
@@ -147,7 +160,7 @@ class ScheduleTest extends KernelTestCase
             'Termin finden: 0',
             array_map(
                 static fn($scheduledRoom) => $scheduledRoom->getName(),
-                call_user_func($this->functionByName($extension, 'myScheduledMeeting')->getCallable(), $user)
+                call_user_func([$extension, $this->functionByName($extension, 'myScheduledMeeting')], $user)
             )
         );
     }

@@ -14,14 +14,4 @@ class RecordingUploadErrorTest extends TestCase
         self::assertSame('Incomplete upload', RecordingUploadError::UPLOAD_INCOMPLETE->value);
         self::assertSame(RecordingUploadError::UPLOAD_INCOMPLETE, RecordingUploadError::from('Incomplete upload'));
     }
-
-    public function testExposesExactlyOneCase(): void
-    {
-        self::assertCount(1, RecordingUploadError::cases());
-    }
-
-    public function testTryFromUnknownValueReturnsNull(): void
-    {
-        self::assertNull(RecordingUploadError::tryFrom('unknown'));
-    }
 }

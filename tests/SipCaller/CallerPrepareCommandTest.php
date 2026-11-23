@@ -21,7 +21,7 @@ class CallerPrepareCommandTest extends KernelTestCase
         $user = self::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'test@local.de']);
         $server = self::getContainer()->get(ServerRepository::class)->findOneBy(['url' => 'meet.jit.si']);
 
-        $start = (new \DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('+1 day');
+        $start = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('+1 day');
         $end = (clone $start)->modify('+60 minutes');
         $room = new Rooms();
         $room->setTimeZone('Europe/Berlin');

@@ -23,7 +23,7 @@ final class ServerBuilder
             ->setJwtModeratorPosition(0)
             ->setLogoUrl('https://example.test/logo.png')
             ->setAppId('jitsiId')
-            ->setAppSecret('jitsiSecret')
+            ->setAppSecret('jitsiSecret-jitsiSecret-jitsiSecret-123')
             ->setPrivacyPolicy('https://privacy.example.test')
             ->setIsProvisioningEnabled(false)
             ->setIsAllowedToCloneForAutoscale(false);

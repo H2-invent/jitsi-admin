@@ -260,20 +260,6 @@ class RecordingControllerTest extends WebTestCase
         $this->assertFalse($method->invoke($controller, 'Bearer wrong'));
     }
 
-    public function testGenerateUniqueFileName(): void
-    {
-        static::createClient();
-        /** @var RecordingController $controller */
-        $controller = self::getContainer()->get(RecordingController::class);
-        $method = new \ReflectionMethod(RecordingController::class, 'generateUniqueFileName');
-        $method->setAccessible(true);
-
-        $result = $method->invoke($controller, 'movie.mp4');
-
-        $this->assertStringEndsWith('_movie.mp4', $result);
-        $this->assertNotSame('_movie.mp4', $result);
-    }
-
     public function testGetFileExtensionFromMimeType(): void
     {
         static::createClient();

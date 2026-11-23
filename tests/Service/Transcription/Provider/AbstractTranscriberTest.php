@@ -6,6 +6,7 @@ namespace App\Tests\Service\Transcription\Provider;
 use App\Entity\Server;
 use App\Service\Transcription\Provider\AbstractTranscriber;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class AbstractTranscriberTest extends TestCase
@@ -78,6 +79,7 @@ class AbstractTranscriberTest extends TestCase
     /**
      * @dataProvider formatAsSentencesProvider
      */
+    #[DataProvider('formatAsSentencesProvider')]
     public function testFormatAsSentences(string $input, string $expected): void
     {
         $transcriber = new AbstractTranscriberTestDouble([]);

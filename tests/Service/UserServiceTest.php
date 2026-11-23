@@ -100,7 +100,7 @@ class UserServiceTest extends KernelTestCase
 
         self::assertTrue($result);
         self::assertNotNull($user->getUid());
-        self::assertSame(32, strlen($user->getUid()));
+        self::assertSame(36, strlen($user->getUid()));
         $stored = self::getContainer()->get(EntityManagerInterface::class)
             ->getRepository(User::class)
             ->find($user->getId());
@@ -249,7 +249,7 @@ class UserServiceTest extends KernelTestCase
         $user = $this->user('test@local.de');
         $room = $this->room('Room Tomorrow');
         $room->setHostUrl('https://meet.jit.si');
-        self::assertGreaterThan(new \DateTime(), $room->getEnddate());
+        self::assertGreaterThan(new \DateTimeImmutable(), $room->getEnddate());
         self::assertNotTrue($room->getScheduleMeeting());
         self::assertNotTrue($room->getPersistantRoom());
         $this->expectNoPush();
@@ -271,7 +271,7 @@ class UserServiceTest extends KernelTestCase
         $room = $this->room('Room Yesterday');
         self::assertNotTrue($room->getScheduleMeeting());
         self::assertNotTrue($room->getPersistantRoom());
-        self::assertLessThan(new \DateTime(), $room->getEnddate());
+        self::assertLessThan(new \DateTimeImmutable(), $room->getEnddate());
         $this->expectNoPush();
 
         $result = $this->service()->removeRoom($user, $room);

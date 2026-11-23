@@ -2,8 +2,8 @@
 
 namespace App\Tests\Controller;
 
+use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Tests\Support\LobbyRoom;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SipCallOutControllerTest extends WebTestCase
@@ -12,9 +12,10 @@ class SipCallOutControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $user = self::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'test@local.de']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'Room Tomorrow']);
         $client->loginUser($user);
 
-        $client->request('POST', '/room/callout/invite/' . LobbyRoom::UID_REAL, ['uid' => 'test@local4.de']);
+        $client->request('POST', '/room/callout/invite/' . $room->getUidReal(), ['uid' => 'test@local4.de']);
 
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -26,9 +27,10 @@ class SipCallOutControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $user = self::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'test@local4.de']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'Room Tomorrow']);
         $client->loginUser($user);
 
-        $client->request('POST', '/room/callout/invite/' . LobbyRoom::UID_REAL, ['uid' => 'test@local2.de']);
+        $client->request('POST', '/room/callout/invite/' . $room->getUidReal(), ['uid' => 'test@local2.de']);
 
         $this->assertResponseStatusCodeSame(404);
     }

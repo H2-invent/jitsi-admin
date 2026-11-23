@@ -4,10 +4,11 @@ namespace App\Tests\Unit\Form\Type;
 
 use App\Form\Type\JoinMyRoomType;
 use App\Service\Theme\ThemeService;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+#[AllowMockObjectsWithoutExpectations]
 class JoinMyRoomTypeTest extends FormTypeTestCase
 {
     private function type(bool $allowBrowser): JoinMyRoomType
@@ -15,7 +16,7 @@ class JoinMyRoomTypeTest extends FormTypeTestCase
         $theme = $this->createMock(ThemeService::class);
         $theme->method('getApplicationProperties')->willReturn($allowBrowser ? 1 : null);
 
-        return new JoinMyRoomType(self::getContainer()->get(ParameterBagInterface::class), $theme);
+        return new JoinMyRoomType($theme);
     }
 
     public function testBuildFormWithoutBrowserJoin(): void

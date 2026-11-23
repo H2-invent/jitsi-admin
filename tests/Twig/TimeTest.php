@@ -9,31 +9,50 @@ use Twig\TwigFunction;
 
 class TimeTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function extension(): Time
     {
         return self::getContainer()->get(Time::class);
     }
 
-    private function functionByName(Time $extension, string $name): TwigFunction
+    private function functionByName(Time $extension, string $name): string
     {
-        foreach ($extension->getFunctions() as $function) {
-            if ($function->getName() === $name) {
-                return $function;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig function "%s" not registered', $name));
+        self::fail(sprintf('Twig Function "%s" not registered', $name));
     }
 
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
-        self::bootKernel();
         $extension = $this->extension();
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertSame('getTime', $functions[0]->getName());
-        $this->assertSame([$extension, 'getTime'], $functions[0]->getCallable());
+        $this->assertSame(["getTime"], $this->functionNames($extension));
     }
 
     public function testGetTimeReturnsCurrentTimeInUserTimeZone(): void
@@ -45,7 +64,7 @@ class TimeTest extends KernelTestCase
         $result = $extension->getTime($user);
         $after = time();
 
-        $this->assertInstanceOf(\DateTime::class, $result);
+        $this->assertInstanceOf(\DateTimeImmutable::class, $result);
         $this->assertSame('Australia/Lindeman', $result->getTimezone()->getName());
         $this->assertGreaterThanOrEqual($before, $result->getTimestamp());
         $this->assertLessThanOrEqual($after, $result->getTimestamp());
@@ -62,7 +81,7 @@ class TimeTest extends KernelTestCase
         $this->assertSame('Europe/Berlin', $result->getTimezone()->getName());
         $this->assertSame(
             $result->getTimestamp(),
-            call_user_func($this->functionByName($extension, 'getTime')->getCallable(), $user)->getTimestamp()
+            call_user_func([$extension, $this->functionByName($extension, 'getTime')], $user)->getTimestamp()
         );
     }
 }

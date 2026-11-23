@@ -10,6 +10,29 @@ use Twig\TwigFunction;
 
 class ServerStarViewTest extends TestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function addStar(Server $server, int $value): void
     {
         $star = new Star();
@@ -20,13 +43,7 @@ class ServerStarViewTest extends TestCase
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
         $extension = new ServerStarView();
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertInstanceOf(TwigFunction::class, $functions[0]);
-        $this->assertSame('showAverageStar', $functions[0]->getName());
-        $this->assertSame([$extension, 'showAverageStar'], $functions[0]->getCallable());
+        $this->assertSame(["showAverageStar"], $this->functionNames($extension));
     }
 
     public function testShowAverageStarWithoutStarsReturnsZero(): void
@@ -55,6 +72,6 @@ class ServerStarViewTest extends TestCase
         $this->addStar($server, 4);
 
         $this->assertEqualsWithDelta(13 / 3, $extension->showAverageStar($server), 0.0001);
-        $this->assertEqualsWithDelta(13 / 3, call_user_func($extension->getFunctions()[0]->getCallable(), $server), 0.0001);
+        $this->assertEqualsWithDelta(13 / 3, call_user_func([$extension, 'showAverageStar'], $server), 0.0001);
     }
 }

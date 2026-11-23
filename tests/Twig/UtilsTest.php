@@ -11,55 +11,68 @@ use Twig\TwigFunction;
 
 class UtilsTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function extension(): Utils
     {
         return self::getContainer()->get(Utils::class);
     }
 
-    private function filterByName(Utils $extension, string $name): TwigFilter
+    private function filterByName(Utils $extension, string $name): string
     {
-        foreach ($extension->getFilters() as $filter) {
-            if ($filter->getName() === $name) {
-                return $filter;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig filter "%s" not registered', $name));
+        self::fail(sprintf('Twig Filter "%s" not registered', $name));
     }
 
-    private function functionByName(Utils $extension, string $name): TwigFunction
+    private function functionByName(Utils $extension, string $name): string
     {
-        foreach ($extension->getFunctions() as $function) {
-            if ($function->getName() === $name) {
-                return $function;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig function "%s" not registered', $name));
+        self::fail(sprintf('Twig Function "%s" not registered', $name));
     }
 
     public function testGetFiltersReturnsExpectedTwigFilters(): void
     {
-        self::bootKernel();
         $extension = $this->extension();
-
-        $filters = $extension->getFilters();
-        $names = array_map(static fn(TwigFilter $filter) => $filter->getName(), $filters);
-
-        $this->assertSame(['addRepetiveCharacters', 'json_decode', 'colorFromString'], $names);
-        $this->assertSame([$extension, 'addRepetiveCharacters'], $filters[0]->getCallable());
-        $this->assertSame([$extension, 'json_decode'], $filters[1]->getCallable());
-        $this->assertSame([$extension, 'colorFromString'], $filters[2]->getCallable());
+        $this->assertSame(["addRepetiveCharacters", "json_decode", "colorFromString"], $this->filterNames($extension));
     }
 
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
-        self::bootKernel();
         $extension = $this->extension();
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertSame('roomIsReadOnly', $functions[0]->getName());
-        $this->assertSame([$extension, 'roomIsReadOnly'], $functions[0]->getCallable());
+        $this->assertSame(["roomIsReadOnly"], $this->functionNames($extension));
     }
 
     public function testAddRepetiveCharactersInsertsCharacterEverySequence(): void
@@ -71,7 +84,7 @@ class UtilsTest extends KernelTestCase
         $this->assertSame('ab#cd#ef#', $extension->addRepetiveCharacters('abcdef', '#', 2));
         $this->assertSame(
             '123-456-789-',
-            call_user_func($this->filterByName($extension, 'addRepetiveCharacters')->getCallable(), '123456789', '-', 3)
+            call_user_func([$extension, $this->filterByName($extension, 'addRepetiveCharacters')], '123456789', '-', 3)
         );
     }
 
@@ -83,7 +96,7 @@ class UtilsTest extends KernelTestCase
         $this->assertSame(['a' => 1, 'b' => [2, 3]], $extension->json_decode('{"a":1,"b":[2,3]}'));
         $this->assertSame(
             ['a' => 1],
-            call_user_func($this->filterByName($extension, 'json_decode')->getCallable(), '{"a":1}')
+            call_user_func([$extension, $this->filterByName($extension, 'json_decode')], '{"a":1}')
         );
     }
 
@@ -133,7 +146,7 @@ class UtilsTest extends KernelTestCase
         $room = (new Rooms())->setModerator($moderator)->setCreator($moderator);
 
         $this->assertFalse(
-            call_user_func($this->functionByName($extension, 'roomIsReadOnly')->getCallable(), $room, $moderator)
+            call_user_func([$extension, $this->functionByName($extension, 'roomIsReadOnly')], $room, $moderator)
         );
     }
 }

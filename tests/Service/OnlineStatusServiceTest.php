@@ -3,7 +3,7 @@
 namespace App\Tests\Service;
 
 use App\Entity\User;
-use App\Service\OnlineStatusService;
+use App\Service\OnlineStatus\OnlineStatusService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class OnlineStatusServiceTest extends KernelTestCase

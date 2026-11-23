@@ -3,7 +3,7 @@
 namespace App\Tests\Service\Websocket;
 
 use App\Entity\User;
-use App\Service\OnlineStatusService;
+use App\Service\OnlineStatus\OnlineStatusService;
 use App\Service\Websocket\WebsocketJwtService;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class WebsocketJwtServiceTest extends TestCase
 {
-    private const SECRET = 'websocket-test-secret';
+    private const SECRET = 'websocket-test-secret-12345678901234567890';
 
     private function createService(int $defaultOnlineStatus = 0): WebsocketJwtService
     {
@@ -68,6 +68,6 @@ class WebsocketJwtServiceTest extends TestCase
         $token = $this->createService()->createJwt(['room-a'], null);
 
         $this->expectException(SignatureInvalidException::class);
-        JWT::decode($token, new Key('a-different-secret', 'HS256'));
+        JWT::decode($token, new Key('a-different-secret-12345678901234567890', 'HS256'));
     }
 }

@@ -64,7 +64,7 @@ class ShareLinkControllerTest extends WebTestCase
         $waitinglist = new Waitinglist();
         $waitinglist->setUser($participant);
         $waitinglist->setRoom($room);
-        $waitinglist->setCreatedAt(new \DateTime());
+        $waitinglist->setCreatedAt(new \DateTimeImmutable());
         $em->persist($waitinglist);
         $em->flush();
         $id = $waitinglist->getId();

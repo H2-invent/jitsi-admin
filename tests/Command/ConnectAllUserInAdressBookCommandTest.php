@@ -17,7 +17,7 @@ class ConnectAllUserInAdressBookCommandTest extends KernelTestCase
         $user = (new User())
             ->setEmail($email)
             ->setUsername($email)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setUid(md5($email));
         $em->persist($user);
         $properties = (new LdapUserProperties())

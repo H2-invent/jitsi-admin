@@ -13,7 +13,7 @@ class CreateFastConfernceControllerTest extends WebTestCase
         $user = self::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
 
-        $client->request('GET', '/room/create/fast/confernce');
+        $client->request('GET', '/room/create/fast/conference');
 
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -25,7 +25,7 @@ class CreateFastConfernceControllerTest extends WebTestCase
     public function testIndexRequiresLogin(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/room/create/fast/confernce');
+        $client->request('GET', '/room/create/fast/conference');
 
         $this->assertResponseRedirects();
     }

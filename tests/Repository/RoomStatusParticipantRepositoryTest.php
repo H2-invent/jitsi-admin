@@ -51,8 +51,8 @@ class RoomStatusParticipantRepositoryTest extends KernelTestCase
 
         $participants = $this->repository->findParticipantsByServer(
             $room->getServer(),
-            new \DateTime('-1 day'),
-            new \DateTime('+1 day'),
+            new \DateTimeImmutable('-1 day'),
+            new \DateTimeImmutable('+1 day'),
         );
 
         $this->assertNotEmpty($participants);

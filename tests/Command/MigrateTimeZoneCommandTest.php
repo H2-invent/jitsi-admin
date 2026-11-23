@@ -21,8 +21,8 @@ class MigrateTimeZoneCommandTest extends KernelTestCase
         $server = self::getContainer()->get(ServerRepository::class)->findOneBy(['url' => 'meet.jit.si']);
 
         $timeZone = new \DateTimeZone('Europe/Berlin');
-        $start = new \DateTime('2026-01-15 10:00:00', $timeZone);
-        $end = new \DateTime('2026-01-15 11:30:00', $timeZone);
+        $start = new \DateTimeImmutable('2026-01-15 10:00:00', $timeZone);
+        $end = new \DateTimeImmutable('2026-01-15 11:30:00', $timeZone);
         $expectedStartTimestamp = $start->getTimestamp();
         $expectedEndTimestamp = $end->getTimestamp();
 

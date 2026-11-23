@@ -10,6 +10,29 @@ use Twig\TwigFunction;
 
 class NameWithFormatTest extends TestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function createUser(): User
     {
         $user = new User();
@@ -25,13 +48,7 @@ class NameWithFormatTest extends TestCase
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
         $extension = new NameWithFormat(new FormatName());
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertInstanceOf(TwigFunction::class, $functions[0]);
-        $this->assertSame('nameOfUserwithFormat', $functions[0]->getName());
-        $this->assertSame([$extension, 'nameOfUserwithFormat'], $functions[0]->getCallable());
+        $this->assertSame(["nameOfUserwithFormat"], $this->functionNames($extension));
     }
 
     public function testNameOfUserwithFormatReplacesStandardFields(): void
@@ -75,6 +92,6 @@ class NameWithFormatTest extends TestCase
         $extension = new NameWithFormat(new FormatName());
         $user = $this->createUser();
 
-        $this->assertSame('JohnDoe', call_user_func($extension->getFunctions()[0]->getCallable(), $user, '$user.firstName$ $user.lastName$'));
+        $this->assertSame('JohnDoe', call_user_func([$extension, 'nameOfUserwithFormat'], $user, '$user.firstName$ $user.lastName$'));
     }
 }

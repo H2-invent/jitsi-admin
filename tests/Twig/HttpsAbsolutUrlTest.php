@@ -13,6 +13,29 @@ use Twig\TwigFunction;
 
 class HttpsAbsolutUrlTest extends TestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function createExtension(array $parameters = []): HttpsAbsolutUrl
     {
         $parameterBag = new ParameterBag($parameters + [
@@ -28,13 +51,7 @@ class HttpsAbsolutUrlTest extends TestCase
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
         $extension = $this->createExtension();
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertInstanceOf(TwigFunction::class, $functions[0]);
-        $this->assertSame('httpsAbolutUrl', $functions[0]->getName());
-        $this->assertSame([$extension, 'httpsAbolutUrl'], $functions[0]->getCallable());
+        $this->assertSame(["httpsAbolutUrl"], $this->functionNames($extension));
     }
 
     public function testUrlContainingBaseUrlIsReturnedAsAbsoluteUrl(): void
@@ -70,6 +87,6 @@ class HttpsAbsolutUrlTest extends TestCase
     {
         $extension = $this->createExtension();
 
-        $this->assertSame('https://example.com/join', call_user_func($extension->getFunctions()[0]->getCallable(), 'join'));
+        $this->assertSame('https://example.com/join', call_user_func([$extension, 'httpsAbolutUrl'], 'join'));
     }
 }

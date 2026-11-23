@@ -112,7 +112,7 @@ class NewRoomServiceTest extends KernelTestCase
     public function testRoomChangedDetectsNoChange(): void
     {
         self::bootKernel();
-        $start = new \DateTime('2024-01-01 10:00:00');
+        $start = new \DateTimeImmutable('2024-01-01 10:00:00');
         $old = (new Rooms())->setStart($start)->setDuration(60)->setName('Room')->setAgenda('Agenda')->setPersistantRoom(false);
         $new = (new Rooms())->setStart($start)->setDuration(60)->setName('Room')->setAgenda('Agenda')->setPersistantRoom(false);
 
@@ -122,8 +122,8 @@ class NewRoomServiceTest extends KernelTestCase
     public function testRoomChangedDetectsStartChange(): void
     {
         self::bootKernel();
-        $old = (new Rooms())->setStart(new \DateTime('2024-01-01 10:00:00'));
-        $new = (new Rooms())->setStart(new \DateTime('2024-01-01 11:00:00'));
+        $old = (new Rooms())->setStart(new \DateTimeImmutable('2024-01-01 10:00:00'));
+        $new = (new Rooms())->setStart(new \DateTimeImmutable('2024-01-01 11:00:00'));
 
         self::assertTrue($this->service()->roomChanged($old, $new));
     }

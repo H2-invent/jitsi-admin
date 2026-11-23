@@ -3,10 +3,10 @@
 namespace App\Tests\Command;
 
 use App\Command\SyncLdapCommand;
-use App\dataType\LdapType;
+use App\DataType\LdapType;
 use App\Entity\LdapUserProperties;
 use App\Entity\User;
-use App\Service\ldap\LdapService;
+use App\Service\Ldap\LdapService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 

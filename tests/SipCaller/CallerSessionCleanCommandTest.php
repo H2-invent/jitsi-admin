@@ -25,12 +25,12 @@ class CallerSessionCleanCommandTest extends KernelTestCase
         $callerId->setRoom($room)
             ->setUser($user)
             ->setCallerId('987654321')
-            ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTimeImmutable());
         $em->persist($callerId);
 
         $session = new CallerSession();
         $session->setSessionId(md5(uniqid('', true)))
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setAuthOk(false)
             ->setShowName('Caller Session Test')
             ->setCallerId('987654321')

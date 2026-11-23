@@ -12,32 +12,50 @@ use Twig\TwigFunction;
 
 class JigasiTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function extension(): Jigasi
     {
         return self::getContainer()->get(Jigasi::class);
     }
 
-    private function functionByName(Jigasi $extension, string $name): TwigFunction
+    private function functionByName(Jigasi $extension, string $name): string
     {
-        foreach ($extension->getFunctions() as $function) {
-            if ($function->getName() === $name) {
-                return $function;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig function "%s" not registered', $name));
+        self::fail(sprintf('Twig Function "%s" not registered', $name));
     }
 
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
-        self::bootKernel();
         $extension = $this->extension();
-
-        $functions = $extension->getFunctions();
-        $names = array_map(static fn(TwigFunction $function) => $function->getName(), $functions);
-
-        $this->assertSame(['getJigasiNumber', 'getJigasiPin'], $names);
-        $this->assertSame([$extension, 'getJigasiNumber'], $functions[0]->getCallable());
-        $this->assertSame([$extension, 'getJigasiPin'], $functions[1]->getCallable());
+        $this->assertSame(["getJigasiNumber", "getJigasiPin"], $this->functionNames($extension));
     }
 
     public function testGetJigasiNumberReturnsNumbersFromServerConfiguration(): void
@@ -55,7 +73,7 @@ class JigasiTest extends KernelTestCase
         $this->assertSame(['1234560123456789'], $result['FR']);
         $this->assertSame(
             $result,
-            call_user_func($this->functionByName($extension, 'getJigasiNumber')->getCallable(), $room)
+            call_user_func([$extension, $this->functionByName($extension, 'getJigasiNumber')], $room)
         );
     }
 
@@ -88,7 +106,7 @@ class JigasiTest extends KernelTestCase
         $this->assertSame('154428', $extension->getJigasiPin($room));
         $this->assertSame(
             '154428',
-            call_user_func($this->functionByName($extension, 'getJigasiPin')->getCallable(), $room)
+            call_user_func([$extension, $this->functionByName($extension, 'getJigasiPin')], $room)
         );
     }
 

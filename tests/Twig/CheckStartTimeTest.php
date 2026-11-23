@@ -10,17 +10,33 @@ use Twig\TwigFunction;
 
 class CheckStartTimeTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
-        self::bootKernel();
         $extension = self::getContainer()->get(CheckStartTime::class);
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertInstanceOf(TwigFunction::class, $functions[0]);
-        $this->assertSame('isRoomOpen', $functions[0]->getName());
-        $this->assertSame([$extension, 'isRoomOpen'], $functions[0]->getCallable());
+        $this->assertSame(["isRoomOpen"], $this->functionNames($extension));
     }
 
     public function testPersistentRoomIsAlwaysOpen(): void
@@ -43,7 +59,7 @@ class CheckStartTimeTest extends KernelTestCase
 
         $this->assertNotNull($room);
         $this->assertNotSame($user, $room->getModerator());
-        $this->assertNull(call_user_func($extension->getFunctions()[0]->getCallable(), $room, $user));
+        $this->assertNull(call_user_func([$extension, 'isRoomOpen'], $room, $user));
     }
 
     public function testFutureRoomIsClosedAndReturnsMessage(): void

@@ -12,32 +12,50 @@ use Twig\TwigFilter;
 
 class NameTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function extension(): Name
     {
         return self::getContainer()->get(Name::class);
     }
 
-    private function filterByName(Name $extension, string $name): TwigFilter
+    private function filterByName(Name $extension, string $name): string
     {
-        foreach ($extension->getFilters() as $filter) {
-            if ($filter->getName() === $name) {
-                return $filter;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig filter "%s" not registered', $name));
+        self::fail(sprintf('Twig Filter "%s" not registered', $name));
     }
 
     public function testGetFiltersReturnsExpectedTwigFilters(): void
     {
-        self::bootKernel();
         $extension = $this->extension();
-
-        $filters = $extension->getFilters();
-        $names = array_map(static fn(TwigFilter $filter) => $filter->getName(), $filters);
-
-        $this->assertSame(['nameOfUser', 'nameOfUserNoSymbol'], $names);
-        $this->assertSame([$extension, 'nameOfUser'], $filters[0]->getCallable());
-        $this->assertSame([$extension, 'nameOfUserNoSymbol'], $filters[1]->getCallable());
+        $this->assertSame(["nameOfUser", "nameOfUserNoSymbol"], $this->filterNames($extension));
     }
 
     public function testNameOfUserReturnsMarkupWithSearchIconAndFormattedName(): void
@@ -64,7 +82,7 @@ class NameTest extends KernelTestCase
         $this->assertSame('Test1, 1234, User, Test', $extension->nameOfUserNoSymbol($user));
         $this->assertSame(
             'Test1, 1234, User, Test',
-            call_user_func($this->filterByName($extension, 'nameOfUserNoSymbol')->getCallable(), $user)
+            call_user_func([$extension, $this->filterByName($extension, 'nameOfUserNoSymbol')], $user)
         );
     }
 
@@ -104,7 +122,7 @@ class NameTest extends KernelTestCase
         $this->assertSame('Lobby Name', $extension->nameOfUserNoSymbol($lobbyUser));
         $this->assertSame(
             'Lobby Name',
-            call_user_func($this->filterByName($extension, 'nameOfUserNoSymbol')->getCallable(), $lobbyUser)
+            call_user_func([$extension, $this->filterByName($extension, 'nameOfUserNoSymbol')], $lobbyUser)
         );
     }
 
@@ -114,7 +132,7 @@ class NameTest extends KernelTestCase
         $extension = $this->extension();
         $user = self::getContainer()->get(UserRepository::class)->findOneByUsername('test@local.de');
 
-        $result = call_user_func($this->filterByName($extension, 'nameOfUser')->getCallable(), $user);
+        $result = call_user_func([$extension, $this->filterByName($extension, 'nameOfUser')], $user);
 
         $this->assertInstanceOf(Markup::class, $result);
         $this->assertStringContainsString('Test1, 1234, User, Test', (string) $result);

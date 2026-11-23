@@ -10,31 +10,50 @@ use Twig\TwigFunction;
 
 class ReportingTest extends TestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function extension(): Reporting
     {
         return new Reporting();
     }
 
-    private function functionByName(Reporting $extension, string $name): TwigFunction
+    private function functionByName(Reporting $extension, string $name): string
     {
-        foreach ($extension->getFunctions() as $function) {
-            if ($function->getName() === $name) {
-                return $function;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig function "%s" not registered', $name));
+        self::fail(sprintf('Twig Function "%s" not registered', $name));
     }
 
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
         $extension = $this->extension();
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertInstanceOf(TwigFunction::class, $functions[0]);
-        $this->assertSame('getTotalSpeakingTime', $functions[0]->getName());
-        $this->assertSame([$extension, 'getTotalSpeakingTime'], $functions[0]->getCallable());
+        $this->assertSame(["getTotalSpeakingTime"], $this->functionNames($extension));
     }
 
     public function testGetTotalSpeakingTimeSumsDominantSpeakerTimes(): void
@@ -72,7 +91,7 @@ class ReportingTest extends TestCase
 
         $this->assertSame(
             500,
-            call_user_func($this->functionByName($extension, 'getTotalSpeakingTime')->getCallable(), $roomStatus)
+            call_user_func([$extension, $this->functionByName($extension, 'getTotalSpeakingTime')], $roomStatus)
         );
     }
 }

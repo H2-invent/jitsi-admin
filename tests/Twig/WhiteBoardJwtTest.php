@@ -11,31 +11,50 @@ use Twig\TwigFunction;
 
 class WhiteBoardJwtTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function extension(): WhiteBoardJwt
     {
         return self::getContainer()->get(WhiteBoardJwt::class);
     }
 
-    private function functionByName(WhiteBoardJwt $extension, string $name): TwigFunction
+    private function functionByName(WhiteBoardJwt $extension, string $name): string
     {
-        foreach ($extension->getFunctions() as $function) {
-            if ($function->getName() === $name) {
-                return $function;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig function "%s" not registered', $name));
+        self::fail(sprintf('Twig Function "%s" not registered', $name));
     }
 
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
-        self::bootKernel();
         $extension = $this->extension();
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertSame('getJwtforWhiteboard', $functions[0]->getName());
-        $this->assertSame([$extension, 'getJwtforWhiteboard'], $functions[0]->getCallable());
+        $this->assertSame(["getJwtforWhiteboard"], $this->functionNames($extension));
     }
 
     public function testGetJwtforWhiteboardCreatesEditorTokenByDefault(): void
@@ -72,7 +91,7 @@ class WhiteBoardJwtTest extends KernelTestCase
         $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'TestMeeting: 0']);
         $secret = self::getContainer()->getParameter('WHITEBOARD_SECRET');
 
-        $token = call_user_func($this->functionByName($extension, 'getJwtforWhiteboard')->getCallable(), $room);
+        $token = call_user_func([$extension, $this->functionByName($extension, 'getJwtforWhiteboard')], $room);
         $payload = (array) JWT::decode($token, new Key($secret, 'HS256'));
 
         $this->assertSame(['editor:' . $room->getUidReal()], $payload['roles']);

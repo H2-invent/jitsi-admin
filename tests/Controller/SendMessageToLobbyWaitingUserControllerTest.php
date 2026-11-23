@@ -4,7 +4,6 @@ namespace App\Tests\Controller;
 
 use App\Entity\PredefinedLobbyMessages;
 use App\Repository\UserRepository;
-use App\Tests\Support\LobbyRoom;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -30,7 +29,7 @@ class SendMessageToLobbyWaitingUserControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode(['uid' => md5(0), 'message' => $this->getActiveMessageId()])
+            json_encode(['uid' => 'b61e49bf-c885-493c-8f26-89419f9c8b0b', 'message' => $this->getActiveMessageId()])
         );
 
         $this->assertResponseIsSuccessful();
@@ -70,7 +69,7 @@ class SendMessageToLobbyWaitingUserControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode(['uid' => LobbyRoom::UID_REAL, 'message' => $this->getActiveMessageId()])
+            json_encode(['uid' => '2678924b-b3c6-4d18-8945-466cfcb61355', 'message' => $this->getActiveMessageId()])
         );
 
         $this->assertResponseIsSuccessful();

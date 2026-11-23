@@ -11,6 +11,29 @@ use Twig\TwigFunction;
 
 class SipCallInTest extends TestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function createCallerId(User $user, Rooms $room, string $pin): CallerId
     {
         $callerId = new CallerId();
@@ -23,13 +46,7 @@ class SipCallInTest extends TestCase
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
         $extension = new SipCallIn();
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertInstanceOf(TwigFunction::class, $functions[0]);
-        $this->assertSame('sipPinFromRoomAndUser', $functions[0]->getName());
-        $this->assertSame([$extension, 'sipPinFromRoomAndUser'], $functions[0]->getCallable());
+        $this->assertSame(["sipPinFromRoomAndUser"], $this->functionNames($extension));
     }
 
     public function testSipPinFromRoomAndUserReturnsMatchingCallerId(): void
@@ -69,7 +86,7 @@ class SipCallInTest extends TestCase
         $this->createCallerId($user, $roomOne, '1111');
         $expected = $this->createCallerId($user, $roomTwo, '2222');
 
-        $this->assertSame($expected, call_user_func($extension->getFunctions()[0]->getCallable(), $roomTwo, $user));
+        $this->assertSame($expected, call_user_func([$extension, 'sipPinFromRoomAndUser'], $roomTwo, $user));
         $this->assertSame('2222', $extension->sipPinFromRoomAndUser($roomTwo, $user)->getCallerId());
     }
 }

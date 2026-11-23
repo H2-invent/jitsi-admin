@@ -22,7 +22,7 @@ class MigrateEmailToUsernameCommandTest extends KernelTestCase
         $user->setUsername('some-old-username');
         $user->setUuid(md5(uniqid('', true)));
         $user->setPassword('test');
-        $user->setCreatedAt(new \DateTime());
+        $user->setCreatedAt(new \DateTimeImmutable());
         $em->persist($user);
         $em->flush();
         $id = $user->getId();

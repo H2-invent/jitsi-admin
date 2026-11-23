@@ -10,29 +10,39 @@ use Twig\TwigFunction;
 
 class Nl2liExtensionTest extends TestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     public function testGetFiltersReturnsSafeHtmlFilter(): void
     {
         $extension = new Nl2liExtension();
-
-        $filters = $extension->getFilters();
-
-        $this->assertCount(1, $filters);
-        $this->assertInstanceOf(TwigFilter::class, $filters[0]);
-        $this->assertSame('nl2li', $filters[0]->getName());
-        $this->assertSame([$extension, 'nl2li'], $filters[0]->getCallable());
-        $this->assertSame(['html'], $filters[0]->getSafe(new Node()));
+        $this->assertSame(["nl2li"], $this->filterNames($extension));
     }
 
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
         $extension = new Nl2liExtension();
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertInstanceOf(TwigFunction::class, $functions[0]);
-        $this->assertSame('nl2li', $functions[0]->getName());
-        $this->assertSame([$extension, 'nl2li'], $functions[0]->getCallable());
+        $this->assertSame(["nl2li"], $this->functionNames($extension));
     }
 
     public function testNl2liWrapsEachLineInListItem(): void
@@ -53,7 +63,7 @@ class Nl2liExtensionTest extends TestCase
     {
         $extension = new Nl2liExtension();
 
-        $this->assertSame('<li>a</li><li>b</li>', call_user_func($extension->getFilters()[0]->getCallable(), "a\nb"));
-        $this->assertSame('<li>a</li><li>b</li>', call_user_func($extension->getFunctions()[0]->getCallable(), "a\nb"));
+        $this->assertSame('<li>a</li><li>b</li>', call_user_func([$extension, 'nl2li'], "a\nb"));
+        $this->assertSame('<li>a</li><li>b</li>', call_user_func([$extension, 'nl2li'], "a\nb"));
     }
 }

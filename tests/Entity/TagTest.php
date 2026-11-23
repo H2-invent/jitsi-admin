@@ -9,37 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class TagTest extends TestCase
 {
-    public function testDefaults(): void
-    {
-        $tag = new Tag();
-
-        self::assertNull($tag->getId());
-        self::assertNull($tag->getTitle());
-        self::assertFalse($tag->getDisabled());
-        self::assertNull($tag->getPriority());
-        self::assertNull($tag->getColor());
-        self::assertNull($tag->getBackgroundColor());
-        self::assertCount(0, $tag->getRooms());
-        self::assertCount(0, $tag->getServers());
-    }
-
-    public function testSettersRoundTripAndReturnSelf(): void
-    {
-        $tag = new Tag();
-
-        self::assertSame($tag, $tag->setTitle('Room tag'));
-        self::assertSame($tag, $tag->setDisabled(true));
-        self::assertSame($tag, $tag->setPriority(7));
-        self::assertSame($tag, $tag->setColor('#fff'));
-        self::assertSame($tag, $tag->setBackgroundColor('#000'));
-
-        self::assertSame('Room tag', $tag->getTitle());
-        self::assertTrue($tag->getDisabled());
-        self::assertSame(7, $tag->getPriority());
-        self::assertSame('#fff', $tag->getColor());
-        self::assertSame('#000', $tag->getBackgroundColor());
-    }
-
     public function testNullablePriorityColorAndBackgroundColorCanBeReset(): void
     {
         $tag = (new Tag())

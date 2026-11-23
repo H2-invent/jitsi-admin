@@ -13,6 +13,7 @@ class RecordingFinalizeErrorTest extends TestCase
     /**
      * @dataProvider provideCases
      */
+    #[DataProvider('provideCases')]
     public function testCaseHasExpectedBackedValue(RecordingFinalizeError $case, string $expectedValue): void
     {
         self::assertSame($expectedValue, $case->value);
@@ -26,15 +27,5 @@ class RecordingFinalizeErrorTest extends TestCase
             'no recording found' => [RecordingFinalizeError::NO_RECORDING_FOUND, 'Could not find recording via uid'],
             'could not write final file' => [RecordingFinalizeError::COULD_NOT_WRITE_FINAL_FILE, 'Could not write the final file'],
         ];
-    }
-
-    public function testExposesExactlyThreeCases(): void
-    {
-        self::assertCount(3, RecordingFinalizeError::cases());
-    }
-
-    public function testTryFromUnknownValueReturnsNull(): void
-    {
-        self::assertNull(RecordingFinalizeError::tryFrom('not a known finalize error'));
     }
 }

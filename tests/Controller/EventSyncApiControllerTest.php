@@ -15,9 +15,9 @@ class EventSyncApiControllerTest extends WebTestCase
         $roomStatus = new RoomStatus();
         $roomStatus->setJitsiRoomId('eventsyncuid|meet.jit.si')
             ->setCreated(true)
-            ->setUpdatedAt(new \DateTime())
-            ->setRoomCreatedAt(new \DateTime())
-            ->setCreatedAt(new \DateTime());
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setRoomCreatedAt(new \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable());
         $em->persist($roomStatus);
         $em->flush();
 

@@ -13,7 +13,7 @@ class BasicConfigTest extends TestCase
 
         self::assertSame('https://example.org', $config->baseUrl());
         self::assertNotSame('', $config->secret());
-        self::assertSame(32, strlen($config->secret()));
+        self::assertSame(36, strlen($config->secret()));
     }
 
     public function testCreateFromParametersKeepsGivenSecret(): void

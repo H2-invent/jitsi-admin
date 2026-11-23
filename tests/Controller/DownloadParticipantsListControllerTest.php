@@ -22,7 +22,7 @@ class DownloadParticipantsListControllerTest extends WebTestCase
             $callerId->setRoom($room);
             $callerId->setUser($roomUser);
             $callerId->setCallerId('55' . $roomUser->getId());
-            $callerId->setCreatedAt(new \DateTime());
+            $callerId->setCreatedAt(new \DateTimeImmutable());
             $em->persist($callerId);
         }
         $em->flush();

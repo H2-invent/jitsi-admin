@@ -50,12 +50,4 @@ class UserProviderTest extends KernelTestCase
         self::assertFalse($this->provider->supportsClass(User::class));
         self::assertFalse($this->provider->supportsClass(\stdClass::class));
     }
-
-    public function testLoadUserByIdentifierThrowsTypeErrorBecauseNothingIsReturned(): void
-    {
-        $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('none returned');
-
-        $this->provider->loadUserByIdentifier('test@local.de');
-    }
 }

@@ -13,6 +13,29 @@ use Twig\TwigFilter;
 
 class RoomsInFutureTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function createRoom(
         EntityManagerInterface $em,
         Server $server,
@@ -45,15 +68,8 @@ class RoomsInFutureTest extends KernelTestCase
 
     public function testGetFiltersReturnsExpectedTwigFilter(): void
     {
-        self::bootKernel();
         $extension = self::getContainer()->get(RoomsInFuture::class);
-
-        $filters = $extension->getFilters();
-
-        $this->assertCount(1, $filters);
-        $this->assertInstanceOf(TwigFilter::class, $filters[0]);
-        $this->assertSame('roomsinFuture', $filters[0]->getName());
-        $this->assertSame([$extension, 'roomsinFuture'], $filters[0]->getCallable());
+        $this->assertSame(["roomsinFuture"], $this->filterNames($extension));
     }
 
     public function testRoomsinFutureReturnsOnlyMatchingRooms(): void
@@ -62,7 +78,7 @@ class RoomsInFutureTest extends KernelTestCase
         $extension = self::getContainer()->get(RoomsInFuture::class);
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $server = self::getContainer()->get(ServerRepository::class)->findOneBy(['url' => 'meet.jit.si2']);
-        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
 
         $expected = $this->createRoom($em, $server, 'Twig Future Room', (clone $now)->modify('+2 days'), true, true);
         $hidden = $this->createRoom($em, $server, 'Twig Future Room Hidden', (clone $now)->modify('+2 days'), false, true);
@@ -84,12 +100,12 @@ class RoomsInFutureTest extends KernelTestCase
         $extension = self::getContainer()->get(RoomsInFuture::class);
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $server = self::getContainer()->get(ServerRepository::class)->findOneBy(['url' => 'meet.jit.si2']);
-        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
 
         $later = $this->createRoom($em, $server, 'Twig Later Room', (clone $now)->modify('+5 days'), true, true);
         $sooner = $this->createRoom($em, $server, 'Twig Sooner Room', (clone $now)->modify('+1 day'), true, true);
 
-        $result = call_user_func($extension->getFilters()[0]->getCallable(), $server);
+        $result = call_user_func([$extension, 'roomsinFuture'], $server);
         $positions = [];
         foreach ($result as $index => $room) {
             if ($room->getId() === $sooner->getId()) {

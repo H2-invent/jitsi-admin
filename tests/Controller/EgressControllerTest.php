@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 use App\Entity\Recording;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\livekit\EgressService;
+use App\Service\Livekit\EgressService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

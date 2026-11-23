@@ -5,7 +5,7 @@ namespace App\Tests\Service\livekit;
 use App\Entity\Recording;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\livekit\EgressService;
+use App\Service\Livekit\EgressService;
 use Doctrine\ORM\EntityManagerInterface;
 use Http\Discovery\Psr18ClientDiscovery;
 use Http\Discovery\Strategy\DiscoveryStrategy;
@@ -13,6 +13,7 @@ use Livekit\EgressInfo;
 use Livekit\RoomCompositeEgressRequest;
 use Livekit\StopEgressRequest;
 use Nyholm\Psr7\Response;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
@@ -32,6 +33,7 @@ final class MockHttpClientStrategy implements DiscoveryStrategy
     }
 }
 
+#[AllowMockObjectsWithoutExpectations]
 class EgressServiceTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;

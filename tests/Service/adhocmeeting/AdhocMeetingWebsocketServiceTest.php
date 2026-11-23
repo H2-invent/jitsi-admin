@@ -4,7 +4,7 @@ namespace App\Tests\Service\adhocmeeting;
 
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\adhocmeeting\AdhocMeetingWebsocketService;
+use App\Service\AdHocMeeting\AdhocMeetingWebsocketService;
 use App\Service\Lobby\DirectSendService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
@@ -60,11 +60,11 @@ class AdhocMeetingWebsocketServiceTest extends KernelTestCase
         self::assertSame('browserPush', $push['type']);
         self::assertSame('Ad Hoc Meeting', $push['title']);
         self::assertSame($expectedText, $push['pushNotification']);
-        self::assertMatchesRegularExpression('/^[a-f0-9]{32}$/', $push['messageId']);
+        self::assertMatchesRegularExpression('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/', $push['messageId']);
 
         $sound = json_decode($this->updates[2]->getData(), true);
         self::assertSame('playSound', $sound['type']);
         self::assertSame('caller', $sound['soundName']);
-        self::assertMatchesRegularExpression('/^[a-f0-9]{32}$/', $sound['messageId']);
+        self::assertMatchesRegularExpression('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/', $sound['messageId']);
     }
 }

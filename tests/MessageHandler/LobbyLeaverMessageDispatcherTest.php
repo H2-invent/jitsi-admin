@@ -39,7 +39,7 @@ class LobbyLeaverMessageDispatcherTest extends KernelTestCase
             ->setUid('lobby-' . uniqid())
             ->setUser($user)
             ->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setShowName('Tester')
             ->setType('a')
             ->setCloseBrowser($closeBrowser);

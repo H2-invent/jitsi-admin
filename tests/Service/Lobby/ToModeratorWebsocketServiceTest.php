@@ -71,7 +71,7 @@ class ToModeratorWebsocketServiceTest extends KernelTestCase
             ->setUid('lobby-user-uid-123')
             ->setShowName('LobbyGast')
             ->setType('a')
-            ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTimeImmutable());
     }
 
     public function testNewParticipantInLobbyNotifiesLobbyAndModerator(): void

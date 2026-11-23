@@ -29,7 +29,7 @@ class ServerAPIControllerTest extends WebTestCase
         $client = static::createClient();
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $server = self::getContainer()->get(ServerRepository::class)->findOneBy(['url' => 'meet.jit.si2']);
-        $server->setAllowedToCloneForAutoscale(true);
+        $server->setIsAllowedToCloneForAutoscale(true);
         $em->persist($server);
         $em->flush();
 

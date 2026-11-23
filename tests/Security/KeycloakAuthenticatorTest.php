@@ -11,11 +11,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use League\OAuth2\Client\Token\AccessToken;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Psr\Log\LoggerInterface;
 use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -24,10 +24,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\NullToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(KeycloakAuthenticator::class)]
 class KeycloakAuthenticatorTest extends KernelTestCase
 {
@@ -84,15 +84,6 @@ class KeycloakAuthenticatorTest extends KernelTestCase
 
         self::assertInstanceOf(RedirectResponse::class, $response);
         self::assertSame($this->router()->generate('dashboard'), $response->getTargetUrl());
-    }
-
-    public function testGetCredentialsCallsUndefinedGetAuth0ClientMethod(): void
-    {
-        // Production issue: getCredentials() calls $this->getauth0Client(), which does not exist.
-        $this->expectException(\Error::class);
-        $this->expectExceptionMessage('getauth0Client');
-
-        $this->authenticator()->getCredentials(new Request());
     }
 
     public function testAuthenticateBuildsPassportAndUpdatesExistingKeycloakUser(): void
@@ -180,8 +171,6 @@ class KeycloakAuthenticatorTest extends KernelTestCase
             $container->get(LoggerInterface::class),
             $container->get(IndexUserService::class),
             $container->get(UserCreatorService::class),
-            $container->get(ParameterBagInterface::class),
-            $container->get(TokenStorageInterface::class),
             $registry,
             $container->get(EntityManagerInterface::class),
             $container->get(RouterInterface::class),
@@ -205,7 +194,7 @@ class KeycloakAuthenticatorTest extends KernelTestCase
             ->setUsername($username)
             ->setFirstName('OldFirst')
             ->setLastName('OldLast')
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setKeycloakId($keycloakId);
 
         $em->persist($user);

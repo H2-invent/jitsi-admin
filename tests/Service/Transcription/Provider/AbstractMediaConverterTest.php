@@ -13,9 +13,11 @@ use FFMpeg\Media\Video;
 use Gaufrette\File;
 use Gaufrette\FilesystemInterface;
 use Generator;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+#[AllowMockObjectsWithoutExpectations]
 class AbstractMediaConverterTest extends TestCase
 {
     public function testConstructorCallsCreateAudioFormat(): void

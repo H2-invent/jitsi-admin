@@ -25,7 +25,7 @@ class CalloutStatistiksCommandTest extends KernelTestCase
         $session->setRoom($room)
             ->setUser($user)
             ->setInvitedFrom($invitedFrom)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setUid(md5(uniqid()))
             ->setState(CalloutSession::$INITIATED)
             ->setLeftRetries(2)

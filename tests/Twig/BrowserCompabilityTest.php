@@ -10,6 +10,29 @@ use Twig\TwigFunction;
 
 class BrowserCompabilityTest extends TestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function extensionForUserAgent(?string $userAgent): BrowserCompability
     {
         $requestStack = new RequestStack();
@@ -22,23 +45,22 @@ class BrowserCompabilityTest extends TestCase
         return new BrowserCompability($requestStack);
     }
 
-    private function functionByName(BrowserCompability $extension, string $name): TwigFunction
+    private function functionByName(BrowserCompability $extension, string $name): string
     {
-        foreach ($extension->getFunctions() as $function) {
-            if ($function->getName() === $name) {
-                return $function;
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                if ($attribute->newInstance()->name === $name) {
+                    return $method->getName();
+                }
             }
         }
-        self::fail(sprintf('Twig function "%s" not registered', $name));
+        self::fail(sprintf('Twig Function "%s" not registered', $name));
     }
 
     public function testGetFunctionsReturnsExpectedTwigFunctions(): void
     {
         $extension = $this->extensionForUserAgent('');
-
-        $names = array_map(static fn(TwigFunction $function) => $function->getName(), $extension->getFunctions());
-
-        $this->assertSame(['isFirefox', 'isOSType'], $names);
+        $this->assertSame(["isFirefox", "isOSType"], $this->functionNames($extension));
     }
 
     public function testIsFirefoxReturnsTrueForFirefoxUserAgent(): void
@@ -46,7 +68,7 @@ class BrowserCompabilityTest extends TestCase
         $extension = $this->extensionForUserAgent('Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0');
 
         $this->assertTrue($extension->isFirefox());
-        $this->assertTrue(call_user_func($this->functionByName($extension, 'isFirefox')->getCallable()));
+        $this->assertTrue(call_user_func([$extension, $this->functionByName($extension, 'isFirefox')]));
     }
 
     public function testIsFirefoxReturnsTrueForFirefoxIosUserAgent(): void
@@ -69,7 +91,7 @@ class BrowserCompabilityTest extends TestCase
 
         $this->assertTrue($extension->isOSType('windows'));
         $this->assertTrue($extension->isOSType('Windows'));
-        $this->assertTrue(call_user_func($this->functionByName($extension, 'isOSType')->getCallable(), 'windows'));
+        $this->assertTrue(call_user_func([$extension, $this->functionByName($extension, 'isOSType')], 'windows'));
     }
 
     public function testIsOstypeDetectsMac(): void

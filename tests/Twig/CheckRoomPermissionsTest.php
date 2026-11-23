@@ -14,6 +14,29 @@ use Twig\TwigFunction;
 
 class CheckRoomPermissionsTest extends KernelTestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function createRoom(EntityManagerInterface $em, Server $server): Rooms
     {
         $room = new Rooms();
@@ -30,15 +53,8 @@ class CheckRoomPermissionsTest extends KernelTestCase
 
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
-        self::bootKernel();
         $extension = self::getContainer()->get(CheckRoomPermissions::class);
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertInstanceOf(TwigFunction::class, $functions[0]);
-        $this->assertSame('roomPermissions', $functions[0]->getName());
-        $this->assertSame([$extension, 'roomPermissions'], $functions[0]->getCallable());
+        $this->assertSame(["roomPermissions"], $this->functionNames($extension));
     }
 
     public function testRoomPermissionsReturnsEmptyObjectWhenNoEntryExists(): void
@@ -75,7 +91,7 @@ class CheckRoomPermissionsTest extends KernelTestCase
         $em->persist($roomsUser);
         $em->flush();
 
-        $permissions = call_user_func($extension->getFunctions()[0]->getCallable(), $user, $room);
+        $permissions = call_user_func([$extension, 'roomPermissions'], $user, $room);
 
         $this->assertInstanceOf(RoomsUser::class, $permissions);
         $this->assertSame($roomsUser->getId(), $permissions->getId());

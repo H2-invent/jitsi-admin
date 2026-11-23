@@ -21,7 +21,7 @@ class CalloutAPIControllerTest extends WebTestCase
         $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['name' => 'This is a room with Lobby']);
 
         $callerId = new CallerId();
-        $callerId->setCreatedAt(new \DateTime())
+        $callerId->setCreatedAt(new \DateTimeImmutable())
             ->setRoom($room)
             ->setUser($user)
             ->setCallerId('987654321');
@@ -30,7 +30,7 @@ class CalloutAPIControllerTest extends WebTestCase
         $session = new CalloutSession();
         $session->setUser($user)
             ->setRoom($room)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setInvitedFrom($room->getModerator())
             ->setState($state)
             ->setUid('testsession' . uniqid())

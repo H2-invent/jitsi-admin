@@ -11,6 +11,29 @@ use Twig\TwigFunction;
 
 class CheckIfUserIsAllowdToOrganizeTest extends TestCase
 {
+
+    private function functionNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFunction::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
+    private function filterNames(object $extension): array
+    {
+        $names = [];
+        foreach ((new \ReflectionClass($extension))->getMethods() as $method) {
+            foreach ($method->getAttributes(\Twig\Attribute\AsTwigFilter::class) as $attribute) {
+                $names[] = $attribute->newInstance()->name;
+            }
+        }
+        return $names;
+    }
+
     private function createUser(string $firstName): User
     {
         $user = new User();
@@ -24,7 +47,7 @@ class CheckIfUserIsAllowdToOrganizeTest extends TestCase
         $deputyElement = new Deputy();
         $deputyElement->setManager($manager)
             ->setDeputy($deputy)
-            ->setCreatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setIsFromLdap(false);
         $manager->addManagerElement($deputyElement);
         $deputy->addDeputiesElement($deputyElement);
@@ -33,13 +56,7 @@ class CheckIfUserIsAllowdToOrganizeTest extends TestCase
     public function testGetFunctionsReturnsExpectedTwigFunction(): void
     {
         $extension = new CheckIfUserIsAllowdToOrganize();
-
-        $functions = $extension->getFunctions();
-
-        $this->assertCount(1, $functions);
-        $this->assertInstanceOf(TwigFunction::class, $functions[0]);
-        $this->assertSame('isAllowedToOrganize', $functions[0]->getName());
-        $this->assertSame([$extension, 'isAllowedToOrganize'], $functions[0]->getCallable());
+        $this->assertSame(["isAllowedToOrganize"], $this->functionNames($extension));
     }
 
     public function testModeratorIsAllowedToOrganize(): void
@@ -49,7 +66,7 @@ class CheckIfUserIsAllowdToOrganizeTest extends TestCase
         $room = (new Rooms())->setModerator($deputy)->setCreator($deputy);
 
         $this->assertTrue($extension->isAllowedToOrganize($room, $deputy));
-        $this->assertTrue(call_user_func($extension->getFunctions()[0]->getCallable(), $room, $deputy));
+        $this->assertTrue(call_user_func([$extension, 'isAllowedToOrganize'], $room, $deputy));
     }
 
     public function testModeratorAndDeputyAreAllowedToOrganize(): void

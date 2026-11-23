@@ -8,10 +8,10 @@ use App\Repository\LicenseRepository;
 use App\Service\LicenseService;
 use Doctrine\ORM\EntityManagerInterface;
 use H2Entwicklung\Signature\CheckSignature;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class LicenseServiceTest extends KernelTestCase
 {
     public function testVerifyIsAnUnimplementedStub(): void
@@ -33,9 +33,7 @@ class LicenseServiceTest extends KernelTestCase
 
         $service = new LicenseService(
             $checkSignature,
-            $container->get(ParameterBagInterface::class),
-            $container->get(EntityManagerInterface::class),
-            $container->get(TranslatorInterface::class)
+            $container->get(EntityManagerInterface::class)
         );
 
         $result = $service->generateNewLicense('not-a-signed-license');
@@ -61,9 +59,7 @@ class LicenseServiceTest extends KernelTestCase
 
         $service = new LicenseService(
             $checkSignature,
-            $container->get(ParameterBagInterface::class),
-            $container->get(EntityManagerInterface::class),
-            $container->get(TranslatorInterface::class)
+            $container->get(EntityManagerInterface::class)
         );
 
         $result = $service->generateNewLicense($licenseString);
@@ -95,9 +91,7 @@ class LicenseServiceTest extends KernelTestCase
 
         $service = new LicenseService(
             $checkSignature,
-            $container->get(ParameterBagInterface::class),
-            $container->get(EntityManagerInterface::class),
-            $container->get(TranslatorInterface::class)
+            $container->get(EntityManagerInterface::class)
         );
 
         self::assertSame(['error' => false, 'licenseKey' => $licenseKey], $service->generateNewLicense($licenseString));
@@ -114,7 +108,7 @@ class LicenseServiceTest extends KernelTestCase
         $license->setLicenseKey($licenseKey)
             ->setLicense('{"entry":{}}')
             ->setUrl('https://license.example.org')
-            ->setValidUntil(new \DateTime('2031-05-06 23:59:59'));
+            ->setValidUntil(new \DateTimeImmutable('2031-05-06 23:59:59'));
         $em = $container->get(EntityManagerInterface::class);
         $em->persist($license);
         $em->flush();

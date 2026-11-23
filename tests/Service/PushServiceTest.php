@@ -9,9 +9,11 @@ use App\Repository\UserRepository;
 use App\Service\Lobby\DirectSendService;
 use App\Service\PushService;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class PushServiceTest extends KernelTestCase
 {
     public function testGeneratePushNotificationSendsBrowserNotificationAndRefresh(): void
@@ -50,7 +52,7 @@ class PushServiceTest extends KernelTestCase
         $notification->setTitle('Notify title')
             ->setText('Notify text')
             ->setUser($user)
-            ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTimeImmutable());
         $em->persist($notification);
         $em->flush();
         $notificationId = $notification->getId();
@@ -85,7 +87,7 @@ class PushServiceTest extends KernelTestCase
             ->setText('X')
             ->setUser($user)
             ->setUrl('https://example.org/custom')
-            ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTimeImmutable());
         $em->persist($notification);
         $em->flush();
 

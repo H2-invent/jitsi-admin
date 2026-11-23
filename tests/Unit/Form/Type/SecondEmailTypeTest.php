@@ -6,10 +6,12 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\SecondEmailType;
 use App\Service\Theme\ThemeService;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 
+#[AllowMockObjectsWithoutExpectations]
 class SecondEmailTypeTest extends FormTypeTestCase
 {
     private function type(array $properties, bool $hasTheme): SecondEmailType

@@ -19,7 +19,7 @@ class CronSendReminderCommandTest extends KernelTestCase
         $user = self::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'test@local.de']);
         $server = self::getContainer()->get(ServerRepository::class)->findOneBy(['url' => 'meet.jit.si']);
 
-        $start = (new \DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('+5 minutes');
+        $start = (new \DateTimeImmutable())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('+5 minutes');
         $end = (clone $start)->modify('+60 minutes');
 
         $room = new Rooms();

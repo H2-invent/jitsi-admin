@@ -23,7 +23,7 @@ class UserRemoveCommandTest extends KernelTestCase
         $user->setUsername($username);
         $user->setFirstName('Remove');
         $user->setLastName('Me');
-        $user->setCreatedAt(new \DateTime());
+        $user->setCreatedAt(new \DateTimeImmutable());
         $user->setRegisterId(1);
         $em->persist($user);
         $em->flush();

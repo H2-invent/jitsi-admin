@@ -11,7 +11,7 @@ class OwnRoomControllerTest extends WebTestCase
     public function testIndexRendersJoinPageForOpenRoom(): void
     {
         $client = static::createClient();
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => '561d6f51s6f']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => 'c6f40763-d28f-40f6-85c9-2566042ea4bd']);
 
         $client->request('GET', '/myRoom/start/' . $room->getUid());
 
@@ -31,7 +31,7 @@ class OwnRoomControllerTest extends WebTestCase
     public function testWaitingRendersWaitingPageWhileRoomIsClosed(): void
     {
         $client = static::createClient();
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => 'roomTomorrow']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => 'ccd854d7-7d27-4633-a072-9f89cdbf7d65']);
 
         $client->request('GET', '/mywaiting/waiting?uid=' . $room->getUid() . '&name=TestUser&type=b');
 
@@ -42,7 +42,7 @@ class OwnRoomControllerTest extends WebTestCase
     public function testWaitingEntersRunningRoom(): void
     {
         $client = static::createClient();
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => 'runningRoomNow']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => '2660b602-2824-43cc-b743-39f170652943']);
 
         $client->request('GET', '/mywaiting/waiting?uid=' . $room->getUid() . '&name=TestUser&type=b');
 
@@ -54,7 +54,7 @@ class OwnRoomControllerTest extends WebTestCase
     public function testCheckWaitingReportsRoomClosed(): void
     {
         $client = static::createClient();
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => 'roomTomorrow']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => 'ccd854d7-7d27-4633-a072-9f89cdbf7d65']);
 
         $client->request('GET', '/mywaiting/check/' . $room->getUid() . '/TestUser/b');
 
@@ -65,7 +65,7 @@ class OwnRoomControllerTest extends WebTestCase
     public function testCheckWaitingReturnsRedirectUrlForRunningRoom(): void
     {
         $client = static::createClient();
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => 'runningRoomNow']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => '2660b602-2824-43cc-b743-39f170652943']);
 
         $client->request('GET', '/mywaiting/check/' . $room->getUid() . '/TestUser/b');
 
@@ -81,7 +81,7 @@ class OwnRoomControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $user = self::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'test@local.de']);
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => 'runningRoomNow']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => '2660b602-2824-43cc-b743-39f170652943']);
         $client->loginUser($user);
 
         $client->request('GET', '/room/enterLink/' . $room->getUid());
@@ -94,7 +94,7 @@ class OwnRoomControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $user = self::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'test@local2.de']);
-        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => 'runningRoomNow']);
+        $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uid' => '2660b602-2824-43cc-b743-39f170652943']);
         $client->loginUser($user);
 
         $client->request('GET', '/room/enterLink/' . $room->getUid());
