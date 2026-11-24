@@ -6,6 +6,7 @@
 * Convert all DateTime usages to DateTimeImmutable
 * Convert hardcoded repeat method integers to Enum
 * Ad-hoc calls: the caller is notified when the callee does not answer within the configured time
+* Ad-hoc calls: the caller is added to the callee's addressbook when the callee joins the call (gated by laf_autoAddContactForAdhocCalls)
 * Transmit the predefined lobby messages in the moderator/lobby-moderator JWT as context.lobby.chatMessages
 * Allow disabling of survey from theme settings & allow disabling of survey from theme settings
 

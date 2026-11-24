@@ -59,6 +59,70 @@ class AdhocCallServiceTest extends KernelTestCase
         self::assertFalse($adhocCallService->markAnswered(new User(), $persistentRoom));
     }
 
+    public function testMarkAnsweredAddsCallerToCalleeAddressbookWhenEnabled(): void
+    {
+        self::bootKernel();
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $caller = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $callee = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+
+        // Fixture precondition: the caller is not yet in the callee's addressbook.
+        self::assertFalse($callee->getAddressbook()->contains($caller));
+
+        $this->createSession($em, $room, $callee, $caller, 'adhoc-answer-adds', CalloutSession::$RINGING);
+
+        $adhocCallService = new AdhocCallService($em, $this->createStub(DirectSendService::class), '1');
+
+        self::assertTrue($adhocCallService->markAnswered($callee, $room));
+        self::assertTrue($callee->getAddressbook()->contains($caller));
+    }
+
+    public function testMarkAnsweredSkipsAddressbookAddWhenDisabled(): void
+    {
+        self::bootKernel();
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $caller = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $callee = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+
+        $this->createSession($em, $room, $callee, $caller, 'adhoc-answer-disabled', CalloutSession::$RINGING);
+
+        $adhocCallService = new AdhocCallService($em, $this->createStub(DirectSendService::class), '0');
+
+        self::assertTrue($adhocCallService->markAnswered($callee, $room));
+        self::assertFalse($callee->getAddressbook()->contains($caller));
+    }
+
+    public function testMarkAnsweredKeepsExistingAddressbookEntrySingle(): void
+    {
+        self::bootKernel();
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $caller = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $callee = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+
+        $callee->addAddressbook($caller);
+        $em->persist($callee);
+        $em->flush();
+
+        $this->createSession($em, $room, $callee, $caller, 'adhoc-answer-existing', CalloutSession::$RINGING);
+
+        $adhocCallService = new AdhocCallService($em, $this->createStub(DirectSendService::class), '1');
+
+        self::assertTrue($adhocCallService->markAnswered($callee, $room));
+        self::assertSame(
+            1,
+            $callee->getAddressbook()->filter(static fn (User $u): bool => $u->getId() === $caller->getId())->count()
+        );
+    }
+
     public function testMarkDeclinedNotifiesCallerAndEndsRoom(): void
     {
         self::bootKernel();
@@ -88,7 +152,7 @@ class AdhocCallServiceTest extends KernelTestCase
             ->method('sendCloseDialog')
             ->with('personal/' . $callee->getUid());
 
-        $adhocCallService = new AdhocCallService($em, $directSend);
+        $adhocCallService = new AdhocCallService($em, $directSend, '1');
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
 
         self::assertTrue($adhocCallService->markDeclined($callee, $room));
@@ -118,7 +182,7 @@ class AdhocCallServiceTest extends KernelTestCase
             ->method('sendCloseDialog')
             ->with('personal/' . $callee->getUid());
 
-        $adhocCallService = new AdhocCallService($em, $directSend);
+        $adhocCallService = new AdhocCallService($em, $directSend, '1');
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
 
         self::assertTrue($adhocCallService->markTimedOut($callee, $room));
@@ -155,7 +219,7 @@ class AdhocCallServiceTest extends KernelTestCase
                 return true;
             });
 
-        $adhocCallService = new AdhocCallService($em, $directSend);
+        $adhocCallService = new AdhocCallService($em, $directSend, '1');
         self::assertSame(2, $adhocCallService->cancelPendingCallsByInviter($caller));
 
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
