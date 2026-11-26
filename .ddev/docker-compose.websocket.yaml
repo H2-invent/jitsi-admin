@@ -3,6 +3,8 @@ services:
     container_name: ddev-${DDEV_SITENAME}-websocket
     hostname: ${DDEV_SITENAME}-websocket
     build: ../nodejs
+    working_dir: /usr/src/app
+    command: ["node", "--watch", "server.mjs"]
     restart: unless-stopped
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
@@ -19,6 +21,7 @@ services:
     links:
       - redis:ddev-${DDEV_SITENAME}-redis
     volumes:
+      - ../nodejs:/usr/src/app
       - websocket_data:/data
       - websocket_config:/config
 
