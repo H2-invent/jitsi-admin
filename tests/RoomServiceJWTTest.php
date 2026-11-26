@@ -495,7 +495,7 @@ invalidKey
         $room = $this->createRoomForServer($server);
 
         $payload = self::getContainer()->get(RoomService::class)
-            ->genereateJwtPayload('Meetling', $room, $server, false);
+            ->genereateJwtPayload(null, $room, $server, false);
 
         self::assertIsArray($payload);
         self::assertArrayNotHasKey('name', $payload['context']['user']);

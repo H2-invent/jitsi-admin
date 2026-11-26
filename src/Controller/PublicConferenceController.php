@@ -61,7 +61,7 @@ class PublicConferenceController extends JitsiAdminController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $name = $data['myName'];
+            $name = $data['myName'] ?? null;
             $this->requestStack->getSession()->set('myName', $name);
             $room = $this->publicConferenceService->createNewRoomFromName($data['roomName'], $this->server);
             return $this->redirectToRoute('app_public_conference', ['confId' => $room->getName()]);
@@ -85,12 +85,17 @@ class PublicConferenceController extends JitsiAdminController
         $name         = $this->requestStack->getSession()->get('myName') ?: 'Meetling';
         /** @var string $showNameFrontend */
         $showNameFrontend = $this->parameterBag->get('laf_showNameFrontend');
+        $name = $this->getUser() ? $this->getUser()->getFormatedName($showNameFrontend) : $name;
+        if ($this->server->isLiveKitServer() && !$this->getUser()) {
+            // Anonymous participants enter name and company in the middleware.
+            $name = null;
+        }
         $response         = $this->render(
             'public_conference/publicConference.html.twig',
             [
                 'room'        => $room,
                 'user'        => null,
-                'name'        => $this->getUser() ? $this->getUser()->getFormatedName($showNameFrontend) : $name,
+                'name'        => $name,
                 'moderator'   => !$firstUser,
                 'server'      => $this->server,
                 'noModerator' => true,
