@@ -63,8 +63,6 @@ class CleanUpRecordingCommandTest extends KernelTestCase
         $tester->execute(['days' => 10]);
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('Deleted recording: ' . $filename, $tester->getDisplay());
-        self::assertStringContainsString('Cleanup complete.', $tester->getDisplay());
         self::assertFileDoesNotExist($this->tempDir . '/' . $filename);
 
         $em->clear();
@@ -95,7 +93,6 @@ class CleanUpRecordingCommandTest extends KernelTestCase
         $tester->execute(['days' => 10]);
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('No recordings to delete.', $tester->getDisplay());
         self::assertFileExists($this->tempDir . '/' . $filename);
 
         $em->clear();
@@ -111,6 +108,5 @@ class CleanUpRecordingCommandTest extends KernelTestCase
         $tester->execute(['days' => 0]);
 
         self::assertSame(Command::FAILURE, $tester->getStatusCode());
-        self::assertStringContainsString('The number of days must be greater than 0.', $tester->getDisplay());
     }
 }

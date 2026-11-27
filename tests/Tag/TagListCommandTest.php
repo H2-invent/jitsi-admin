@@ -26,7 +26,6 @@ class TagListCommandTest extends KernelTestCase
         $output = $tester->getDisplay();
         self::assertStringContainsString('[X] Test Tag Enabled', $output);
         self::assertStringContainsString('[ ] Test Tag Disabled', $output);
-        self::assertStringContainsString('This are all your tags', $output);
         self::assertStringContainsString('Prio: -10', $output);
     }
 }

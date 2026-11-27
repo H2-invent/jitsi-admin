@@ -74,11 +74,9 @@ class RecordingUploadedMessageHandlerTest extends KernelTestCase
     public function testSuccessfulFinalizationDoesNotThrow(): void
     {
         $recordingService = $this->createMock(RecordingService::class);
-        $recordingService->method('finalizeUpload')->willReturn(ServiceResult::success());
+        $recordingService->expects($this->once())->method('finalizeUpload')->willReturn(ServiceResult::success());
 
         $handler = new RecordingUploadedMessageHandler($recordingService);
         $handler(new RecordingUploadedMessage('any'));
-
-        $this->addToAssertionCount(1);
     }
 }

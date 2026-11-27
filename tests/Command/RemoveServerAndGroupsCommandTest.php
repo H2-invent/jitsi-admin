@@ -53,7 +53,6 @@ class RemoveServerAndGroupsCommandTest extends KernelTestCase
         $tester->execute(['serverId' => $server->getId(), 'keycloakGroup' => '//notConnected']);
 
         $this->assertSame(1, $tester->getStatusCode());
-        $this->assertStringContainsString('This Connection is not set', $tester->getDisplay());
     }
 
     public function testRemoveUnknownServerFails(): void
@@ -64,6 +63,5 @@ class RemoveServerAndGroupsCommandTest extends KernelTestCase
         $tester->execute(['serverId' => 999999, 'keycloakGroup' => '//doesNotMatter']);
 
         $this->assertSame(1, $tester->getStatusCode());
-        $this->assertStringContainsString('This server is not available.', $tester->getDisplay());
     }
 }

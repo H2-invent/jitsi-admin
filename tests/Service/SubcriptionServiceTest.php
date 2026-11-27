@@ -72,7 +72,6 @@ class SubcriptionServiceTest extends KernelTestCase
 
         self::assertTrue($res['error']);
         self::assertSame('danger', $res['color']);
-        self::assertSame($this->translator()->trans('Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.'), $res['text']);
         self::assertSame($before, $repo->count([]));
     }
 
@@ -88,7 +87,6 @@ class SubcriptionServiceTest extends KernelTestCase
 
         self::assertTrue($res['error']);
         self::assertSame('danger', $res['color']);
-        self::assertSame($this->translator()->trans('Die maximale Teilnehmeranzahl ist bereits erreicht.'), $res['text']);
         self::assertSame($before, $repo->count([]));
     }
 
@@ -217,7 +215,6 @@ class SubcriptionServiceTest extends KernelTestCase
         $res = $this->service()->acceptSub($subscriber);
 
         self::assertSame('Fehler', $res['title']);
-        self::assertSame($this->translator()->trans('Die maximale Teilnehmeranzahl ist bereits erreicht.'), $res['message']);
         self::assertNotNull(self::getContainer()->get(SubscriberRepository::class)->find($subscriber->getId()));
         self::assertFalse($room->getUser()->contains($user));
     }

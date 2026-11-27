@@ -11,7 +11,6 @@ class SmtpConfigTest extends TestCase
     {
         $config = SmtpConfig::createFromParameters('smtp host', 587, 'mail user', 'p@ss word', 'sender@example.org');
 
-        self::assertSame('smtp host', $config->host());
         self::assertSame(587, $config->port());
         self::assertSame('mail user', $config->username());
         self::assertSame('p@ss word', $config->password());

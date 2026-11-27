@@ -3,6 +3,7 @@
 namespace App\Tests\Helper;
 
 use App\Helper\UidGeneratorHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Uuid;
 
@@ -34,23 +35,22 @@ class UidGeneratorHelperTest extends TestCase
         self::assertSame($uid, $uuid->toRfc4122());
     }
 
-    public function testParseRejectsInvalidUids(): void
+    #[DataProvider('providerForInvalidUid')]
+    public function testParseRejectsInvalidUids(string $invalidUid): void
     {
-        $invalidUids = [
-            'not-a-uuid',
-            'rm_' . str_repeat('0', 32),
-            str_repeat('0', 32),
-            '123456789abc',
-            '12345678-9abc-4def-ghij-klmnopqrstuv',
-        ];
+        $this->expectException(\InvalidArgumentException::class);
 
-        foreach ($invalidUids as $invalidUid) {
-            try {
-                UidGeneratorHelper::parse($invalidUid);
-                self::fail('Expected InvalidArgumentException for "' . $invalidUid . '"');
-            } catch (\InvalidArgumentException $exception) {
-                self::assertNotSame('', $exception->getMessage());
-            }
-        }
+        UidGeneratorHelper::parse($invalidUid);
+    }
+
+    public static function providerForInvalidUid(): array
+    {
+        return [
+            'not a uuid' => ['not-a-uuid'],
+            'prefixed uid' => ['rm_' . str_repeat('0', 32)],
+            'hex string without dashes' => [str_repeat('0', 32)],
+            'numeric string' => ['123456789abc'],
+            'invalid uuid characters' => ['12345678-9abc-4def-ghij-klmnopqrstuv'],
+        ];
     }
 }

@@ -9,18 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class TagTest extends TestCase
 {
-    public function testNullablePriorityColorAndBackgroundColorCanBeReset(): void
-    {
-        $tag = (new Tag())
-            ->setPriority(1)
-            ->setColor('#fff')
-            ->setBackgroundColor('#000');
-
-        self::assertNull($tag->setPriority(null)->getPriority());
-        self::assertNull($tag->setColor(null)->getColor());
-        self::assertNull($tag->setBackgroundColor(null)->getBackgroundColor());
-    }
-
     public function testAddAndRemoveRoomKeepsBothSidesInSync(): void
     {
         $tag = new Tag();

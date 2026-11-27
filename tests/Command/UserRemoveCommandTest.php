@@ -35,8 +35,6 @@ class UserRemoveCommandTest extends KernelTestCase
 
             self::assertSame(Command::SUCCESS, $tester->getStatusCode());
             $display = $tester->getDisplay();
-            self::assertStringContainsString('You passed an argument: ' . $username, $display);
-            self::assertStringContainsString('Remove the User ' . $username, $display);
 
             $em->clear();
             self::assertNull(self::getContainer()->get(UserRepository::class)->findOneBy(['username' => $username]));

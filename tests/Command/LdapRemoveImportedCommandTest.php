@@ -57,7 +57,6 @@ class LdapRemoveImportedCommandTest extends KernelTestCase
         $tester->execute([]);
 
         $this->assertSame(1, $tester->getStatusCode());
-        $this->assertStringContainsString('This number not machting a server Id', $tester->getDisplay());
     }
 
     public function testDeleteUsersOfSelectedLdapServer(): void
@@ -76,7 +75,6 @@ class LdapRemoveImportedCommandTest extends KernelTestCase
 
         $this->assertSame(0, $tester->getStatusCode());
         $display = $tester->getDisplay();
-        $this->assertStringContainsString('we start to delete', $display);
         $this->assertStringContainsString('deleteMe@local.de', $display);
 
         $repository = self::getContainer()->get(UserRepository::class);

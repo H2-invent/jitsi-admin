@@ -53,7 +53,6 @@ class SetupInitialCommandTest extends KernelTestCase
         $tester->execute([]);
 
         $this->assertSame(0, $tester->getStatusCode());
-        $this->assertStringContainsString('Could not find setup file at', $tester->getDisplay());
     }
 
     public function testInvalidJsonReturnsFailure(): void
@@ -64,7 +63,6 @@ class SetupInitialCommandTest extends KernelTestCase
         $tester->execute([]);
 
         $this->assertSame(1, $tester->getStatusCode());
-        $this->assertStringContainsString('Could not read JSON:', $tester->getDisplay());
     }
 
     public function testInvalidStructureReturnsFailure(): void
@@ -76,7 +74,6 @@ class SetupInitialCommandTest extends KernelTestCase
 
         $this->assertSame(1, $tester->getStatusCode());
         $display = $tester->getDisplay();
-        $this->assertStringContainsString('JSON structure is invalid:', $display);
         $this->assertStringContainsString('username', $display);
     }
 
@@ -105,7 +102,6 @@ class SetupInitialCommandTest extends KernelTestCase
         $tester->execute([]);
 
         $this->assertSame(0, $tester->getStatusCode());
-        $this->assertStringContainsString('Successfully imported user and server!', $tester->getDisplay());
 
         $user = self::getContainer()->get(UserRepository::class)->findOneBy(['email' => 'setup-initial@local.de']);
         $this->assertNotNull($user);

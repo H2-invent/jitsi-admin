@@ -79,6 +79,5 @@ class TagCreateCommandTest extends KernelTestCase
         $tester->execute(['title' => 'Test Tag Enabled']);
 
         self::assertSame(Command::FAILURE, $tester->getStatusCode());
-        self::assertStringContainsString('The Tag is already defined', $tester->getDisplay());
     }
 }

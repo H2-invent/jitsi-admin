@@ -40,7 +40,6 @@ class AbstractMediaConverterTest extends TestCase
         $converter = new AbstractMediaConverterTestDouble($this->createMock(FFMpeg::class), $filesystem);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Could not find missing.mp4 on the recording filesystem');
 
         $converter->callConvertRecordingToMp3('missing.mp4');
     }

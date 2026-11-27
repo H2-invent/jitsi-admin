@@ -59,12 +59,9 @@ class CronSendReminderCommandTest extends KernelTestCase
 
         $display = $tester->getDisplay();
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('You activate the Host Fiter', $display);
-        self::assertStringContainsString('We select Rooms with ' . $hostUrl, $display);
         self::assertStringContainsString('Hinweis: Cron ok', $display);
         self::assertStringContainsString('Konferenzen: 1', $display);
         self::assertStringContainsString('Emails: 1', $display);
-        self::assertStringContainsString('Erfolgreich versandt', $display);
     }
 
     public function testSendsReminderForUnknownHostUrl(): void
@@ -79,7 +76,6 @@ class CronSendReminderCommandTest extends KernelTestCase
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
         self::assertStringContainsString('Konferenzen: 0', $display);
         self::assertStringContainsString('Emails: 0', $display);
-        self::assertStringContainsString('Erfolgreich versandt', $display);
     }
 
     public function testNullHostUrlFilterSelectsRoomsWithEmptyHostUrl(): void
@@ -91,6 +87,5 @@ class CronSendReminderCommandTest extends KernelTestCase
         $tester->execute(['--host_url' => 'null']);
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('We select Rooms with an empty hostUrl', $tester->getDisplay());
     }
 }

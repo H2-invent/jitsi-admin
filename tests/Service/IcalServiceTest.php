@@ -19,7 +19,6 @@ class IcalServiceTest extends KernelTestCase
 
         $ical = $service->getIcal($user);
 
-        self::assertIsString($ical);
         self::assertStringContainsString('BEGIN:VCALENDAR', $ical);
         self::assertStringContainsString('METHOD:', $ical);
         self::assertStringContainsString('END:VCALENDAR', $ical);

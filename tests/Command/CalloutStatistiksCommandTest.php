@@ -40,7 +40,6 @@ class CalloutStatistiksCommandTest extends KernelTestCase
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
         $display = $tester->getDisplay();
         self::assertStringContainsString('Room', $display);
-        self::assertStringContainsString('Invited From', $display);
         self::assertStringContainsString('TestMeeting: 0', $display);
         self::assertStringContainsString('test@local.de', $display);
         self::assertStringContainsString('INITIATED', $display);

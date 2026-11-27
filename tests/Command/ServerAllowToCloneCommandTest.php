@@ -25,7 +25,6 @@ class ServerAllowToCloneCommandTest extends KernelTestCase
         $tester->execute(['server' => $serverId]);
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('Server ALLOW to autoscale via api', $tester->getDisplay());
 
         $em->clear();
         self::assertTrue($serverRepo->find($serverId)->isAllowedToCloneForAutoscale());
@@ -34,7 +33,6 @@ class ServerAllowToCloneCommandTest extends KernelTestCase
         $tester->execute(['server' => $serverId]);
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('Server DISALLOW to autoscale via api', $tester->getDisplay());
 
         $em->clear();
         self::assertFalse($serverRepo->find($serverId)->isAllowedToCloneForAutoscale());

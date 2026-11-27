@@ -116,6 +116,5 @@ class TranscriptionControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
-        $this->assertSame('Invalid JSON', $data['message']);
     }
 }

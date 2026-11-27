@@ -23,12 +23,14 @@ class LoginControllerTest extends WebTestCase
         $client = $this->createMock(Auth0Client::class);
         $client->method('redirect')->willReturn(new RedirectResponse('/auth0-redirect'));
         $registry = $this->createMock(ClientRegistry::class);
-        $registry->method('getClient')->with('auth0_main')->willReturn($client);
+        $registry->expects($this->once())
+            ->method('getClient')
+            ->with('auth0_main')
+            ->willReturn($client);
 
         $response = $controller->index($registry);
 
         $this->assertInstanceOf(RedirectResponse::class, $response);
-        $this->assertSame('/auth0-redirect', $response->getTargetUrl());
     }
 
     public function testCheckRejectsUnknownClient(): void

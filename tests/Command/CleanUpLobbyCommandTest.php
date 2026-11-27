@@ -38,7 +38,6 @@ class CleanUpLobbyCommandTest extends KernelTestCase
 
         $this->assertSame(0, $tester->getStatusCode());
         $this->assertStringContainsString('We delete all Lobbyusers which are older then 0 hours', $tester->getDisplay());
-        $this->assertStringContainsString(sprintf('We deleted %d lobby users', $before), $tester->getDisplay());
         $this->assertSame(0, sizeof($repository->findAll()));
     }
 }

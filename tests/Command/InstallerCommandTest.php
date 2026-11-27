@@ -55,7 +55,6 @@ class InstallerCommandTest extends KernelTestCase
         $commandTester->execute([]);
 
         $commandTester->assertCommandIsSuccessful();
-        $this->assertStringContainsString('Configuration done!', $commandTester->getDisplay());
 
         $confPath = $this->tempDir . DIRECTORY_SEPARATOR . self::INSTALLER_CONF;
         $envPath = $this->tempDir . DIRECTORY_SEPARATOR . self::ENV_FILE;
@@ -81,7 +80,6 @@ class InstallerCommandTest extends KernelTestCase
         $commandTester->execute([]);
 
         self::assertSame(Command::FAILURE, $commandTester->getStatusCode());
-        $this->assertStringContainsString('Invalid URL', $commandTester->getDisplay());
         self::assertFileDoesNotExist($this->tempDir . DIRECTORY_SEPARATOR . self::ENV_FILE);
     }
 

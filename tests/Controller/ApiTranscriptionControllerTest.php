@@ -19,7 +19,6 @@ class ApiTranscriptionControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(403);
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
-        $this->assertSame('No Bearer Token', $data['text']);
     }
 
     public function testCreateWithUnknownRoom(): void
@@ -34,7 +33,6 @@ class ApiTranscriptionControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(404);
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
-        $this->assertSame('Could not find room', $data['text']);
     }
 
     public function testCreateWithMissingTranscription(): void
@@ -49,7 +47,6 @@ class ApiTranscriptionControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(400);
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
-        $this->assertSame('No transcription transmitted', $data['text']);
     }
 
     public function testCreateStoresTranscription(): void

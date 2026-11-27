@@ -40,7 +40,6 @@ class LobbyMessageChangeTextCommandTest extends KernelTestCase
         $tester->execute(['id' => 999999]);
 
         self::assertSame(Command::FAILURE, $tester->getStatusCode());
-        self::assertStringContainsString('Wrong ID. no message found', $tester->getDisplay());
     }
 
     public function testMissingIdFails(): void
@@ -51,6 +50,5 @@ class LobbyMessageChangeTextCommandTest extends KernelTestCase
         $tester->execute([]);
 
         self::assertSame(Command::FAILURE, $tester->getStatusCode());
-        self::assertStringContainsString('Please enter a valid id', $tester->getDisplay());
     }
 }

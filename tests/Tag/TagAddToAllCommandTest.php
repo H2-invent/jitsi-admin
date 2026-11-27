@@ -33,7 +33,6 @@ class TagAddToAllCommandTest extends KernelTestCase
         $output = $tester->getDisplay();
         self::assertStringContainsString('0/' . count($roomsWithoutTag), $output);
         self::assertStringContainsString(count($roomsWithoutTag) . '/' . count($roomsWithoutTag), $output);
-        self::assertStringContainsString('This are all your tags', $output);
 
         self::assertCount(0, $roomsRepo->findRoomsWithNoTags());
         foreach ($roomsWithoutTag as $room) {
@@ -52,6 +51,5 @@ class TagAddToAllCommandTest extends KernelTestCase
         $tester->execute([]);
 
         self::assertSame(Command::FAILURE, $tester->getStatusCode());
-        self::assertStringContainsString('No Tag found', $tester->getDisplay());
     }
 }

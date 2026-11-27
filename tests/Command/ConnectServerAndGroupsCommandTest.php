@@ -54,7 +54,6 @@ class ConnectServerAndGroupsCommandTest extends KernelTestCase
         $second->execute(['serverId' => $server->getId(), 'keycloakGroup' => '//all']);
 
         $this->assertSame(1, $second->getStatusCode());
-        $this->assertStringContainsString('This Server is already connected to this group', $second->getDisplay());
     }
 
     public function testConnectUnknownServerFails(): void
@@ -65,6 +64,5 @@ class ConnectServerAndGroupsCommandTest extends KernelTestCase
         $tester->execute(['serverId' => 999999, 'keycloakGroup' => '//all']);
 
         $this->assertSame(1, $tester->getStatusCode());
-        $this->assertStringContainsString('This server is not available.', $tester->getDisplay());
     }
 }

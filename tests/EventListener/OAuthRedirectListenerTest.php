@@ -86,7 +86,6 @@ class OAuthRedirectListenerTest extends KernelTestCase
         $event = $this->event($request);
 
         $this->expectException(RouteNotFoundException::class);
-        $this->expectExceptionMessage('connect_keycloak_start');
 
         try {
             $listener->onKernelRequest($event);

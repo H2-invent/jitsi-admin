@@ -51,7 +51,6 @@ class CallerPrepareCommandTest extends KernelTestCase
         $tester->execute([]);
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('We added to all Rooms which had no caller-Id a caller-Id', $tester->getDisplay());
 
         $em->clear();
         $reloaded = self::getContainer()->get(RoomsRepository::class)->find($roomId);

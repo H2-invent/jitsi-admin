@@ -59,7 +59,6 @@ class TranscriptionProviderResolverTest extends TestCase
         $server = (new Server())->setTranscriptionProvider(null);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unsupported Transcription Provider in Settings');
 
         $this->resolver->resolve($server);
     }

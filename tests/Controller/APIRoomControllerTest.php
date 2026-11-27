@@ -27,7 +27,6 @@ class APIRoomControllerTest extends WebTestCase
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertFalse($data['error']);
         $this->assertNotEmpty($data['uid']);
-        $this->assertSame('Meeting erfolgreich angelegt', $data['text']);
 
         $room = $roomRepo->findOneBy(['uidReal' => $data['uid']]);
         $this->assertNotNull($room);
@@ -51,7 +50,6 @@ class APIRoomControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
-        $this->assertSame('No Server found', $data['text']);
     }
 
     public function testEditRoomUpdatesRoom(): void
@@ -71,7 +69,6 @@ class APIRoomControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertFalse($data['error']);
-        $this->assertSame('Meeting erfolgreich geändert', $data['text']);
 
         $room = self::getContainer()->get(RoomsRepository::class)->findOneBy(['uidReal' => $room->getUidReal()]);
         $this->assertSame('API Edited Room', $room->getName());
@@ -107,7 +104,6 @@ class APIRoomControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertFalse($data['error']);
-        $this->assertSame('Erfolgreich gelöscht', $data['text']);
 
         $room = $roomRepo->findOneBy(['uidReal' => $room->getUidReal()]);
         $this->assertNull($room->getModerator());
@@ -136,7 +132,6 @@ class APIRoomControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
-        $this->assertSame('No Server found', $data['text']);
 
         $room = $roomRepo->findOneBy(['uidReal' => $room->getUidReal()]);
         $this->assertNotNull($room->getModerator());

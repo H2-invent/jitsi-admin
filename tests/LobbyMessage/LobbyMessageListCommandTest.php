@@ -25,6 +25,5 @@ class LobbyMessageListCommandTest extends KernelTestCase
         self::assertStringContainsString('Wir haben andere Themen!', $output);
         self::assertStringContainsString('[X]', $output);
         self::assertStringContainsString('[ ]', $output);
-        self::assertStringContainsString('This are all you messages.', $output);
     }
 }

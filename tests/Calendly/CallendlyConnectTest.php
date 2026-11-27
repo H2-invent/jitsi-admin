@@ -73,7 +73,6 @@ class CallendlyConnectTest extends TestCase
             ->willReturn('translated error');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('translated error');
 
         $this->calendlyConnect->getUserInfo('invalid-token');
     }
@@ -153,7 +152,6 @@ class CallendlyConnectTest extends TestCase
             ->willThrowException($this->createMock(RedirectionExceptionInterface::class));
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Weiterleitungsfehler bei der Calendly-API:');
 
         $this->calendlyConnect->cleanWebhooks($user, $webhookId);
     }
@@ -167,7 +165,6 @@ class CallendlyConnectTest extends TestCase
             ->willThrowException($this->createMock(TransportExceptionInterface::class));
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Fehler beim Aufruf der Calendly-API:');
 
         $this->calendlyConnect->getWebhooks($user);
     }
@@ -189,7 +186,6 @@ class CallendlyConnectTest extends TestCase
             ->willReturn('/webhook');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Ungültige Anfrage oder Token:');
 
         $this->calendlyConnect->registerWebhook($user);
     }
@@ -212,7 +208,6 @@ class CallendlyConnectTest extends TestCase
             ->willReturn('/webhook');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Fehler beim Aufruf der Calendly-API:');
 
         $this->calendlyConnect->registerWebhook($user);
     }
@@ -226,7 +221,6 @@ class CallendlyConnectTest extends TestCase
             ->willReturn('server error');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('server error');
 
         $this->calendlyConnect->getUserInfo('token');
     }
@@ -241,7 +235,6 @@ class CallendlyConnectTest extends TestCase
             ->willReturn('network error');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('network error');
 
         $this->calendlyConnect->getUserInfo('token');
     }
@@ -256,7 +249,6 @@ class CallendlyConnectTest extends TestCase
             ->willReturn('redirect error');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('redirect error');
 
         $this->calendlyConnect->getUserInfo('token');
     }

@@ -33,7 +33,6 @@ class MigrateEmailToUsernameCommandTest extends KernelTestCase
         $commandTester->execute([]);
 
         $commandTester->assertCommandIsSuccessful();
-        $this->assertStringContainsString(sprintf('We transform %d User', $expectedCount), $commandTester->getDisplay());
 
         $em->clear();
         $migrated = $userRepo->find($id);

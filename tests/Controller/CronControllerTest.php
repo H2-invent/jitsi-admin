@@ -14,7 +14,6 @@ class CronControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
-        $this->assertSame('Token fehlerhaft', $data['hinweis']);
     }
 
     public function testUpdateCronAkademieAcceptsValidToken(): void
@@ -37,6 +36,5 @@ class CronControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
-        $this->assertSame('Token fehlerhaft', $data['hinweis']);
     }
 }

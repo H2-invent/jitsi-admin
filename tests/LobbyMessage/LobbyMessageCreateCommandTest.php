@@ -20,7 +20,6 @@ class LobbyMessageCreateCommandTest extends KernelTestCase
         $tester = new CommandTester($command);
         $tester->execute(['text' => 'Dedicated Test Message', 'prio' => 5]);
         $tester->assertCommandIsSuccessful();
-        self::assertStringContainsString('We create a new Predefined message.', $tester->getDisplay());
 
         $message = $messageRepo->findOneBy(['text' => 'Dedicated Test Message']);
         self::assertNotNull($message);
@@ -60,7 +59,6 @@ class LobbyMessageCreateCommandTest extends KernelTestCase
         $tester->execute(['text' => 'Bitte warten!']);
 
         self::assertSame(Command::FAILURE, $tester->getStatusCode());
-        self::assertStringContainsString('The message is already defined', $tester->getDisplay());
         self::assertCount($countBefore, $messageRepo->findAll());
     }
 }

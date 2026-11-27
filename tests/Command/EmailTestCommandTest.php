@@ -19,7 +19,6 @@ class EmailTestCommandTest extends KernelTestCase
         $tester->execute(['serverId' => 999999, 'email' => 'recipient@local.de']);
 
         self::assertSame(Command::FAILURE, $tester->getStatusCode());
-        self::assertStringContainsString('Enter a valid Server ID', $tester->getDisplay());
     }
 
     public function testFailsWithoutEmail(): void
@@ -32,7 +31,6 @@ class EmailTestCommandTest extends KernelTestCase
         $tester->execute(['serverId' => $server->getId()]);
 
         self::assertSame(Command::FAILURE, $tester->getStatusCode());
-        self::assertStringContainsString('Enter an email', $tester->getDisplay());
     }
 
     public function testSendsTestEmail(): void

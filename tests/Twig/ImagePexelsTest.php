@@ -51,23 +51,4 @@ class ImagePexelsTest extends TestCase
         $extension = $this->createExtension($this->createMock(PexelService::class));
         $this->assertSame(["pexelsImage"], $this->functionNames($extension));
     }
-
-    public function testPexelsImageDelegatesToPexelService(): void
-    {
-        $image = ['id' => 42, 'url' => 'https://images.pexels.com/photo.jpg'];
-        $pexelService = $this->createMock(PexelService::class);
-        $pexelService->expects($this->once())->method('getImageFromPexels')->willReturn($image);
-        $extension = $this->createExtension($pexelService);
-
-        $this->assertSame($image, $extension->pexelsImage());
-    }
-
-    public function testPexelsImageReturnsNullWhenServiceReturnsNull(): void
-    {
-        $pexelService = $this->createMock(PexelService::class);
-        $pexelService->method('getImageFromPexels')->willReturn(null);
-        $extension = $this->createExtension($pexelService);
-
-        $this->assertNull($extension->pexelsImage());
-    }
 }

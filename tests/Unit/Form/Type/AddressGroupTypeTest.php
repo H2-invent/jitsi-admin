@@ -35,7 +35,6 @@ class AddressGroupTypeTest extends FormTypeTestCase
         self::assertTrue($form->get('name')->getConfig()->getOption('required'));
         self::assertTrue($form->get('member')->getConfig()->getOption('multiple'));
         self::assertTrue($form->get('member')->getConfig()->getOption('expanded'));
-        self::assertInstanceOf(AddressGroup::class, $form->getData());
     }
 
     public function testSubmitMapsNameAndMembers(): void

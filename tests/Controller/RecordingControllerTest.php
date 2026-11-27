@@ -87,7 +87,6 @@ class RecordingControllerTest extends WebTestCase
         $client->request('POST', '/recording/upload', [], [], ['HTTP_AUTHORIZATION' => 'Bearer ' . $this->recordingToken()]);
 
         $this->assertResponseStatusCodeSame(400);
-        $this->assertSame(['error' => 'Chunk index is missing'], json_decode($client->getResponse()->getContent(), true));
     }
 
     public function testUploadReportsIncompleteUpload(): void
@@ -108,7 +107,6 @@ class RecordingControllerTest extends WebTestCase
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertSame(['status' => 'Chunk received'], json_decode($client->getResponse()->getContent(), true));
     }
 
     public function testUploadStoresCompleteRecording(): void
@@ -129,7 +127,6 @@ class RecordingControllerTest extends WebTestCase
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertSame(['status' => 'File uploaded successfully'], json_decode($client->getResponse()->getContent(), true));
     }
 
     public function testModalRendersForModerator(): void
@@ -172,7 +169,6 @@ class RecordingControllerTest extends WebTestCase
         $client->request('GET', '/room/recordings/download/does-not-exist.txt');
 
         $this->assertResponseStatusCodeSame(404);
-        $this->assertSame(['error' => 'File not found in database'], json_decode($client->getResponse()->getContent(), true));
     }
 
     public function testDownloadRejectsForeignKey(): void

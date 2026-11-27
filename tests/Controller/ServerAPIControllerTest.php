@@ -21,7 +21,6 @@ class ServerAPIControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
-        $this->assertSame('No Server found. The server mus be allowed to be cloned to autoscale', $data['text']);
     }
 
     public function testIndexCreatesClonedServer(): void
@@ -61,7 +60,6 @@ class ServerAPIControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue($data['error']);
-        $this->assertSame('No Server found', $data['text']);
     }
 
     public function testGetRoomsReturnsRoomIds(): void

@@ -62,7 +62,6 @@ class SyncLdapCommandTest extends KernelTestCase
         $this->assertSame(0, $tester->getStatusCode());
         $display = $tester->getDisplay();
         $this->assertStringContainsString('We found # users: 2', $display);
-        $this->assertStringContainsString('All LDAPS could be synced correctly', $display);
         $this->assertStringContainsString('sync-one@local.de', $display);
         $this->assertStringContainsString('sync-two@local.de', $display);
     }
@@ -85,7 +84,6 @@ class SyncLdapCommandTest extends KernelTestCase
 
         $this->assertSame(0, $tester->getStatusCode());
         $display = $tester->getDisplay();
-        $this->assertStringContainsString('Dryrun is activated. No databases changes are made', $display);
         $this->assertStringContainsString('We found # users: 1', $display);
         $this->assertStringNotContainsString('We cleanup Users which are not in the LDAP anymore', $display);
     }

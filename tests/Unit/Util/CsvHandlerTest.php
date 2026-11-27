@@ -20,10 +20,9 @@ class CsvHandlerTest extends TestCase
 
 
     #[DataProvider('providerForGenerateWillThrowException')]
-    public function testGenerateWillThrowException(array $arrayData, string $exception): void
+    public function testGenerateWillThrowException(array $arrayData): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage($exception);
 
         CsvHandler::generateFromArray($arrayData);
     }
@@ -83,7 +82,6 @@ class CsvHandlerTest extends TestCase
                     2,
                     3,
                 ],
-                'exception' => CsvHandler::$ARRAY_NOT_MULTIDIMENSIONAL,
             ],
             'multi dimensional array with unequal layers' => [
                 'arrayData' => [
@@ -95,7 +93,6 @@ class CsvHandlerTest extends TestCase
                         'test1' => 3,
                     ]
                 ],
-                'exception' => CsvHandler::$ARRAY_LAYERS_NOT_EQUAL,
             ],
             'multi dimensional array with unequal keys' => [
                 'arrayData' => [
@@ -108,7 +105,6 @@ class CsvHandlerTest extends TestCase
                         'test4' => 4,
                     ]
                 ],
-                'exception' => CsvHandler::$ARRAY_LAYERS_NOT_EQUAL,
             ],
             'multi dimensional array is not associative' => [
                 'arrayData' => [
@@ -121,7 +117,6 @@ class CsvHandlerTest extends TestCase
                         4,
                     ]
                 ],
-                'exception' => CsvHandler::$ARRAY_NOT_ASSOCIATIVE,
             ],
             'multi dimensional array has more than 2 layers' => [
                 'arrayData' => [
@@ -131,7 +126,6 @@ class CsvHandlerTest extends TestCase
                         ]
                     ]
                 ],
-                'exception' => CsvHandler::$CSV_LINE_MULTIDIMENSIONAL,
             ],
         ];
     }

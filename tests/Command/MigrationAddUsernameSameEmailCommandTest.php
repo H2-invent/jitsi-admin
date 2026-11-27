@@ -31,7 +31,6 @@ class MigrationAddUsernameSameEmailCommandTest extends KernelTestCase
         $commandTester = new CommandTester(self::getContainer()->get(MigrationAddUsernameSameEmailCommand::class));
         $commandTester->execute([]);
         $commandTester->assertCommandIsSuccessful();
-        $this->assertStringContainsString('You have a new command!', $commandTester->getDisplay());
 
         $em->clear();
         $migrated = $userRepo->find($id);

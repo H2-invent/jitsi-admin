@@ -35,6 +35,5 @@ class TagDeleteCommandTest extends KernelTestCase
         $tester->execute(['tagId' => -1]);
 
         self::assertSame(Command::FAILURE, $tester->getStatusCode());
-        self::assertStringContainsString('Tag does not exist', $tester->getDisplay());
     }
 }

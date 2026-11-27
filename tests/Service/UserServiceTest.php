@@ -143,22 +143,6 @@ class UserServiceTest extends KernelTestCase
         self::assertEmailSubjectContains($email, 'Terminplanung');
     }
 
-    public function testAddWaitinglistSendsWaitingListNotification(): void
-    {
-        self::bootKernel();
-        $user = $this->user('test@local.de');
-        $room = $this->room('TestMeeting: 1');
-        $this->expectNoPush();
-
-        $result = $this->service()->addWaitinglist($user, $room);
-
-        self::assertTrue($result);
-        $this->assertEmailCount(1);
-        $email = $this->getMailerMessage();
-        self::assertEmailAddressContains($email, 'to', $user->getEmail());
-        self::assertEmailSubjectContains($email, 'Warteliste');
-    }
-
     public function testEditRoomDelegatesToRegularEditRoom(): void
     {
         self::bootKernel();

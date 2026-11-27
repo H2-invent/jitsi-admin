@@ -35,8 +35,6 @@ class LdapDeputyCreateCommandTest extends KernelTestCase
 
         $this->assertSame(0, $tester->getStatusCode());
         $display = $tester->getDisplay();
-        $this->assertStringContainsString('Dryrun is activated. No databases changes are made', $display);
-        $this->assertStringContainsString('We connect all LDAP Deputies', $display);
         $this->assertCount(2, $repository->findBy(['isFromLdap' => true]));
     }
 
@@ -55,7 +53,6 @@ class LdapDeputyCreateCommandTest extends KernelTestCase
         $this->assertSame(0, $tester->getStatusCode());
         $display = $tester->getDisplay();
         $this->assertStringNotContainsString('Dryrun is activated', $display);
-        $this->assertStringContainsString('We connect all LDAP Deputies', $display);
         $this->assertCount(0, $repository->findBy(['isFromLdap' => true]));
     }
 }

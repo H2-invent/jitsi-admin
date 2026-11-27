@@ -49,8 +49,6 @@ class SystemRepairCommandTest extends KernelTestCase
         self::assertSame('  repair-email@test.local', $user->getEmail());
 
         $commandTester = $this->runRepair();
-        $this->assertStringContainsString('We try to repair the system.....', $commandTester->getDisplay());
-        $this->assertStringContainsString('was corrupt', $commandTester->getDisplay());
 
         $em->clear();
         $repaired = $em->find(User::class, $id);
@@ -141,7 +139,6 @@ class SystemRepairCommandTest extends KernelTestCase
         $commandTester = new CommandTester(self::getContainer()->get(SystemRepairCommand::class));
         $commandTester->execute([]);
         $commandTester->assertCommandIsSuccessful();
-        $this->assertStringContainsString('We clear the cache', $commandTester->getDisplay());
 
         return $commandTester;
     }

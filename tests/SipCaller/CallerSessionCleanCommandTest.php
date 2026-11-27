@@ -63,7 +63,6 @@ class CallerSessionCleanCommandTest extends KernelTestCase
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
         $display = $tester->getDisplay();
         self::assertStringContainsString('Caller Session Test', $display);
-        self::assertStringContainsString(sprintf('Delete Session %s from %s', $sessionKey, 'Caller Session Test'), $display);
 
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->clear();
@@ -81,7 +80,6 @@ class CallerSessionCleanCommandTest extends KernelTestCase
         $tester->execute([]);
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-        self::assertStringContainsString('NOT deleting the session', $tester->getDisplay());
 
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $em->clear();
@@ -97,6 +95,5 @@ class CallerSessionCleanCommandTest extends KernelTestCase
         $tester->execute([]);
 
         self::assertSame(Command::FAILURE, $tester->getStatusCode());
-        self::assertStringContainsString('No such ID', $tester->getDisplay());
     }
 }

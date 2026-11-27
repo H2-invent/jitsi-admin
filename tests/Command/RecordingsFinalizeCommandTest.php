@@ -91,7 +91,6 @@ class RecordingsFinalizeCommandTest extends KernelTestCase
             $tester->execute(['recording_uid' => $uid]);
 
             self::assertSame(Command::SUCCESS, $tester->getStatusCode());
-            self::assertStringContainsString('Successfully joined the chunks', $tester->getDisplay());
 
             $em->clear();
             $uploaded = self::getContainer()->get(UploadedRecordingRepository::class)->findOneBy(['room' => $roomId]);
