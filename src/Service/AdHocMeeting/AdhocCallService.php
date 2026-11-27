@@ -7,6 +7,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Tracks the outcome of a web ad-hoc call so the scheduled timeout can tell whether the callee
@@ -18,6 +19,8 @@ class AdhocCallService
     public function __construct(
         private EntityManagerInterface $entityManager,
         private DirectSendService     $directSendService,
+        #[Autowire(param: 'laf_autoAddContactForAdhocCalls')]
+        private readonly bool         $lafAutoAddContactForAdhocCalls,
     ) {
     }
 
@@ -34,6 +37,14 @@ class AdhocCallService
 
         if ($calloutSession) {
             $this->entityManager->remove($calloutSession);
+            // Callee joined the call -> add to addressbook
+            if ($this->lafAutoAddContactForAdhocCalls) {
+                $caller = $calloutSession->getInvitedFrom();
+                if ($caller && !$user->getAddressbook()->contains($caller)) {
+                    $user->addAddressbook($caller);
+                    $this->entityManager->persist($user);
+                }
+            }
             $this->entityManager->flush();
             return true;
         }
