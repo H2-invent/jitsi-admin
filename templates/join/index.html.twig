@@ -10,7 +10,9 @@
         {{ form_start(form) }}
         {{ form_row(form.uid) }}
         {{ form_row(form.email) }}
-        {{ form_row(form.name) }}
+        {% if form.name is defined %}
+            {{ form_row(form.name) }}
+        {% endif %}
         <div class="row form-group">
             <div class="col-12">
                 {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}

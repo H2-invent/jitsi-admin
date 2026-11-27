@@ -69,7 +69,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    public function join(Rooms $room, ?User $user, string $type, string $userName): string
+    public function join(Rooms $room, ?User $user, string $type, ?string $userName): string
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -91,7 +91,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    public function joinUrl(string $type, Rooms $room, string $name, bool $isModerator): string
+    public function joinUrl(string $type, Rooms $room, ?string $name, bool $isModerator): string
     {
         return $this->createUrl($type, $room, $isModerator, null, $name);
     }
@@ -101,7 +101,7 @@ class RoomService
         Rooms   $room,
         bool    $isModerator,
         ?User   $user,
-        string  $userName,
+        ?string $userName,
         ?string $avatar = null
     ): string {
         if ($type === 'a') {
@@ -127,7 +127,7 @@ class RoomService
     public function generateJwt(
         Rooms            $room,
         ?User            $user,
-        string           $userName,
+        ?string          $userName,
         bool             $moderatorExplizit = false,
         ?string          $avatarUrl = null,
         bool|string      $noModerator = false,
@@ -188,7 +188,7 @@ class RoomService
      * @return array<string, mixed>|null
      */
     public function genereateJwtPayload(
-        string           $userName,
+        ?string          $userName,
         Rooms            $room,
         Server           $server,
         bool             $moderator,
@@ -258,8 +258,11 @@ class RoomService
             }
         }
 
-        if ($userName === 'Meetling' && $server->isLiveKitServer()) {
-            $payload['context']['user']['name'] = '';
+        if ($userName === null && $server->isLiveKitServer()) {
+            // The name is only transmitted when it was set by a logged-in user.
+            // Anonymous participants are asked for name and company by the LiveKit
+            // middleware, which shows its form when the claim is absent.
+            unset($payload['context']['user']['name']);
         }
 
         if ($server->getJigasiNumberUrl()) {
@@ -297,7 +300,14 @@ class RoomService
                     $this->logger->error('Invalid JSON in background images');
                 }
             }
-            $payload['context']['user']['identity'] = 'meetling_' . $this->slugger->slug($userName) . '_' . $this->identity;
+            // The middleware shows this link next to its own name/company form.
+            $privacyPolicyUrl = $this->themeService->getApplicationProperties('dataPrivacy');
+            if (is_string($privacyPolicyUrl) && $privacyPolicyUrl !== '') {
+                $payload['context']['user']['privacyPolicy'] = $privacyPolicyUrl;
+            }
+            $identityName = (string) $userName;
+            $identity = 'meetling_' . $this->slugger->slug($identityName) . '_' . $this->identity;
+            $payload['context']['user']['identity'] = $identity;
         }
 
         if (!$avatar) {

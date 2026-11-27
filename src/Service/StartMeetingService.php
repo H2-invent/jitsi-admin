@@ -207,12 +207,10 @@ class StartMeetingService
             $lobbyUser->setRoom($this->room);
             $lobbyUser->setCreatedAt(new \DateTimeImmutable());
             $lobbyUser->setUid(UidGeneratorHelper::generate());
-            $lobbyUser->setShowName($this->name);
-            $this->em->persist($lobbyUser);
-            $this->em->flush();
+            $lobbyUser->setShowName((string) $this->name);
         }
 
-        $lobbyUser->setShowName($this->name);
+        $lobbyUser->setShowName((string) $this->name);
         $lobbyUser->setType($this->type);
         $lobbyUser->setCloseBrowser(false);
         $this->em->persist($lobbyUser);

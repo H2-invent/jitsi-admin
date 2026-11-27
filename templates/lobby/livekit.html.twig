@@ -183,8 +183,8 @@
     {% if not room.server.liveKitServer %}
         {% include('__checkFirefox.html.twig') with {'room':room} %}
     {% endif %}
-    {% if name is defined and name is not null %}
 
+    {% if name is defined %}
         <script>
             var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ getLiveKitName(room)  }}?jwt={{ jwtFromRoom(user,room,name) }}&secret={{ generateEncryptedSecret(room) }}';
             const displayName = '{{ name }}';
