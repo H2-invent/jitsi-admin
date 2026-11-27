@@ -8,6 +8,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -22,7 +23,8 @@ class JoinService
         private readonly UrlGeneratorInterface  $urlGenerator,
         private readonly ParameterBagInterface  $parameterBag,
         private readonly EntityManagerInterface $em,
-        private readonly TranslatorInterface    $translator
+        private readonly TranslatorInterface    $translator,
+        private readonly Security               $security
     ) {
     }
 
@@ -56,6 +58,16 @@ class JoinService
             $type = null;
         }
 
+        $name = $search['name'] ?? null;
+        if ($room->getServer()->isLiveKitServer()) {
+            // The middleware asks anonymous participants for name and company; the
+            // name reaches the JWT only when it comes from a logged-in account.
+            $currentUser = $this->security->getUser();
+            $name = $currentUser instanceof User
+                ? $currentUser->getFormatedName((string) $this->parameterBag->get('laf_showNameInConference'))
+                : null;
+        }
+
         if ($this->startService->isAllowedToStartMeeting($room, $user)
             || UtilsHelper::isAllowedToOrganizeRoom($user, $room)
             || $user->getKeycloakId()
@@ -68,7 +80,7 @@ class JoinService
                 $this->session->getCurrentRequest()->getSession()->set('userId', $user->getId());
             }
 
-            return $this->startService->startMeeting($room, $user, $type, $search['name']);
+            return $this->startService->startMeeting($room, $user, $type, $name);
         }
 
         try {

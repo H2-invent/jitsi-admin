@@ -64,7 +64,7 @@
 
 {% include('__checkFirefox.html.twig') with {'room':room} %}
 </body>
-{% if name is defined and name is not null %}
+{% if name is defined %}
 
 {% if room.server.corsHeader  %}
     <script>

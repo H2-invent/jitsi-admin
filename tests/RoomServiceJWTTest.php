@@ -101,6 +101,7 @@ class RoomServiceJWTTest extends KernelTestCase
                         'user' =>
                             array(
                                 'name' => 'Testuser',
+                                'privacyPolicy' => $this->expectedPrivacyPolicy(),
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
@@ -234,6 +235,7 @@ class RoomServiceJWTTest extends KernelTestCase
                             array(
                                 'identity' => $payload['context']['user']['identity'],
                                 'name' => 'Testuser',
+                                'privacyPolicy' => $this->expectedPrivacyPolicy(),
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
                                 'hotstandby' => $this->getHotStandbySettings(),
@@ -325,6 +327,8 @@ class RoomServiceJWTTest extends KernelTestCase
 
                                 'identity' => $payload['context']['user']['identity'],
 
+                                'privacyPolicy' => $this->expectedPrivacyPolicy(),
+
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
                                 'hotstandby' => $this->getHotStandbySettings(),
@@ -399,6 +403,7 @@ invalidKey
                         'user' =>
                             array(
                                 'name' => 'Testuser',
+                                'privacyPolicy' => $this->expectedPrivacyPolicy(),
                                 'identity' => $payload['context']['user']['identity'],
                                 'language' => 'de',
                                 'timezone' => 'Europe/Berlin',
@@ -482,6 +487,71 @@ invalidKey
         $room->setUid('testUid')->setUidReal('uidReal');
 
         self::assertSame('', $roomService->generateJwt($room, null, 'Testuser'));
+    }
+
+    public function testLiveKitPayloadOmitsNameForAnonymousParticipant(): void
+    {
+        $server = $this->createLiveKitServer();
+        $room = $this->createRoomForServer($server);
+
+        $payload = self::getContainer()->get(RoomService::class)
+            ->genereateJwtPayload(null, $room, $server, false);
+
+        self::assertIsArray($payload);
+        self::assertArrayNotHasKey('name', $payload['context']['user']);
+        self::assertSame($this->expectedPrivacyPolicy(), $payload['context']['user']['privacyPolicy']);
+    }
+
+    public function testLiveKitPayloadKeepsNameOfKnownParticipantAndAddsPrivacyPolicy(): void
+    {
+        $server = $this->createLiveKitServer();
+        $room = $this->createRoomForServer($server);
+
+        $payload = self::getContainer()->get(RoomService::class)
+            ->genereateJwtPayload('Testuser', $room, $server, false);
+
+        self::assertIsArray($payload);
+        self::assertSame('Testuser', $payload['context']['user']['name']);
+        self::assertSame($this->expectedPrivacyPolicy(), $payload['context']['user']['privacyPolicy']);
+    }
+
+    private function createLiveKitServer(): Server
+    {
+        $server = new Server();
+        $server->setLiveKitServer(true)
+            ->setUrl('testLivekit.de')
+            ->setServerName('LiveKit Test')
+            ->setSlug('livekitTest')
+            ->setAppId('testID')
+            ->setAppSecret('testSecrettestSecrettestSecrettestSecret')
+            ->setJwtModeratorPosition(0);
+
+        // Avoid a real HTTP fetch of the middleware public key.
+        $publicKey = file_get_contents(
+            self::getContainer()->getParameter('kernel.project_dir') . '/testJwt/public.pem'
+        );
+        $cache = self::getContainer()->get('cache.app');
+        $cacheItem = $cache->getItem('livekit_public_key_' . $server->getId());
+        $cacheItem->set($publicKey);
+        $cacheItem->expiresAfter(3600);
+        $cache->save($cacheItem);
+
+        return $server;
+    }
+
+    private function createRoomForServer(Server $server): Rooms
+    {
+        $room = new Rooms();
+        $room->setServer($server);
+        $room->setName('testRoom');
+        $room->setUid('testUid')->setUidReal('uidReal');
+
+        return $room;
+    }
+
+    private function expectedPrivacyPolicy(): string
+    {
+        return (string) self::getContainer()->getParameter('dataPrivacy');
     }
 
     private function assertPayloadEquals(array $expected, array $actual): void

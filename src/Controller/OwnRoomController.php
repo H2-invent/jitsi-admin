@@ -94,6 +94,10 @@ class OwnRoomController extends JitsiAdminController
         }
 
         $form = $this->createForm(JoinMyRoomType::class, $data);
+        if ($room->getServer()->isLiveKitServer()) {
+            // The LiveKit middleware asks anonymous participants for name and company.
+            $form->remove('name');
+        }
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() || $request->query->has('userName')) {
@@ -102,7 +106,14 @@ class OwnRoomController extends JitsiAdminController
                 $name = $request->get('userName');
             } else {
                 $data = $form->getData();
-                $name = $data['name'];
+                $name = $data['name'] ?? null;
+                if ($room->getServer()->isLiveKitServer()) {
+                    // The name reaches the JWT only when it comes from a logged-in account.
+                    $showNameInConference = (string) $this->parameterBag->get('laf_showNameInConference');
+                    $name = $this->getUser()
+                        ? $this->getUser()->getFormatedName($showNameInConference)
+                        : null;
+                }
             }
 
             $type              = 'b';
