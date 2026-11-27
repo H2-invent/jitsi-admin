@@ -1,8 +1,10 @@
+@use "sass:color";
+
 $main-color: #2561ef; //#04d9c4
-$main-color-hover: lighten($main-color ,10%);
-$main-color-activ: darken($main-color ,10%);
+$main-color-hover: color.adjust($main-color, $lightness: 10%);
+$main-color-activ: color.adjust($main-color, $lightness: -10%);
 $sec-color: rgb(172, 26, 245);
-$sec-color-hover: lighten($sec-color, 10%);
+$sec-color-hover: color.adjust($sec-color, $lightness: 10%);
 $sec-color-activ: rgb(244, 105, 104);
 $contrast-base: rgb(85, 83, 80);
 $contrast-dark: rgb(23, 21, 18);
@@ -36,7 +38,7 @@ $box-shadow:           0 0.5rem 1rem rgba(0, 0, 0, 0.15) !default;
 $success-color:        #14a44d !default;
 $warning-color:        #e4a11b !default;
 $danger-color:         #dc4c64 !default;
-$cardBackground_bright: scale-color($main-color, $lightness: 97%);
+$cardBackground_bright: color.scale($main-color, $lightness: 97%);
 $cardBackground_dark: $black_foreground;
 $card-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.2),
 0px 3px 4px 0px rgba(0, 0, 0, 0.14),
