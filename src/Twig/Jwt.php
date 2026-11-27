@@ -17,7 +17,7 @@ class Jwt
     public function jwtFromRoom(
         ?User            $user,
         Rooms            $rooms,
-        string           $name,
+        ?string          $name,
         bool             $moderatorExplizit = false,
         bool             $noModerator = false,
         string|bool|null $skipLobby = false,
@@ -37,7 +37,7 @@ class Jwt
     }
 
     #[\Twig\Attribute\AsTwigFunction(name: 'urlFromRoom')]
-    public function urlFromRoom(?User $user, Rooms $rooms, string $name, string $type): string
+    public function urlFromRoom(?User $user, Rooms $rooms, ?string $name, string $type): string
     {
         if ($user) {
             return $this->roomService->join($rooms, $user, $type, $name);

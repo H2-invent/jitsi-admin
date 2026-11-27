@@ -10,19 +10,33 @@ use App\Helper\JitsiAdminController;
 use App\Helper\UidGeneratorHelper;
 use App\Service\RemoveRoomService;
 use App\Service\RepeaterService;
-use App\Service\RoomAddService;
 use App\Service\ServerUserManagment;
 use App\UtilsHelper;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RepeaterController extends JitsiAdminController
 {
+    public function __construct(
+        ManagerRegistry $doctrine,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        ParameterBagInterface $parameterBag,
+        #[Autowire(param: 'laf_max_repeat')]
+        private readonly string $lafMaxRepeat
+    ) {
+        parent::__construct($doctrine, $translator, $logger, $parameterBag);
+    }
+
     #[\Symfony\Component\Routing\Attribute\Route(path: '/room/repeater/new', name: 'repeater_new')]
-    public function index(ParameterBagInterface $parameterBag, Request $request, RepeaterService $repeaterService): Response
+    public function index(Request $request, RepeaterService $repeaterService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
@@ -40,18 +54,8 @@ class RepeaterController extends JitsiAdminController
                 /**
                  * @var Repeat $repeater
                  */
-                if (!$repeaterService->checkData($repeater)) {
-                    $snack = $this->translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
-                    $this->addFlash('danger', $snack);
-                    return $this->redirectToRoute('dashboard');
-                }
-
-                if ($repeater->getRepetation() > $parameterBag->get('laf_max_repeat')) {
-                    $snack = $this->translator->trans(
-                        'Sie dürfen nur maximal {amount} Wiederholungen angeben',
-                        ['{amount}' => $parameterBag->get('laf_max_repeat')]
-                    );
-                    $this->addFlash('danger', $snack);
+                if ($error = $this->validate($repeater, $repeaterService)) {
+                    $this->addFlash('danger', $error);
                     return $this->redirectToRoute('dashboard');
                 }
 
@@ -70,14 +74,11 @@ class RepeaterController extends JitsiAdminController
 
                 $em->persist($repeater);
                 $em->flush();
-                $repeaterService->cleanRepeater($repeater);
-                $repeater = $repeaterService->createNewRepeater($repeater);
-                $repeaterService->addUserRepeat($repeater);
-                $repeaterService->sendEMail(
+                $this->buildSeries(
                     $repeater,
+                    $repeaterService,
                     'email/repeaterNew.html.twig',
-                    $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt'),
-                    ['room' => $repeater->getPrototyp()]
+                    $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt')
                 );
                 $snack = $this->translator->trans('Sie haben Erfolgreich einen Serientermin erstellt');
                 $this->addFlash('success', $snack);
@@ -98,12 +99,8 @@ class RepeaterController extends JitsiAdminController
     }
 
     #[\Symfony\Component\Routing\Attribute\Route(path: '/room/repeater/edit/repeat', name: 'repeater_edit_repeater')]
-    public function editRepeater(
-        ParameterBagInterface $parameterBag,
-        Request               $request,
-        RepeaterService       $repeaterService,
-        RoomAddService        $roomAddService
-    ): Response {
+    public function editRepeater(Request $request, RepeaterService $repeaterService): Response
+    {
         $repeater = $this->doctrine->getRepository(Repeat::class)->find($request->get('repeat'));
         $uid      = $repeater->getUid();
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $repeater->getPrototyp())) {
@@ -119,18 +116,8 @@ class RepeaterController extends JitsiAdminController
                 /**
                  * @var Repeat $repeater
                  */
-                if (!$repeaterService->checkData($repeater)) {
-                    $snack = $this->translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
-                    $this->addFlash('danger', $snack);
-                    return $this->redirectToRoute('dashboard');
-                }
-
-                if ($repeater->getRepetation() > $parameterBag->get('laf_max_repeat')) {
-                    $snack = $this->translator->trans(
-                        'Sie dürfen nur maximal {amount} Wiederholungen angeben',
-                        ['{amount}' => $parameterBag->get('laf_max_repeat')]
-                    );
-                    $this->addFlash('danger', $snack);
+                if ($error = $this->validate($repeater, $repeaterService)) {
+                    $this->addFlash('danger', $error);
                     return $this->redirectToRoute('dashboard');
                 }
 
@@ -138,14 +125,11 @@ class RepeaterController extends JitsiAdminController
                 $repeater->setUid($uid);
                 $em->persist($repeater);
                 $em->flush();
-                $repeater = $repeaterService->cleanRepeater($repeater);
-                $repeater = $repeaterService->createNewRepeater($repeater);
-                $repeaterService->addUserRepeat($repeater);
-                $repeaterService->sendEMail(
+                $this->buildSeries(
                     $repeater,
+                    $repeaterService,
                     'email/repeaterEdit.html.twig',
-                    $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', ['{name}' => $repeater->getPrototyp()->getName()]),
-                    ['room' => $repeater->getPrototyp()]
+                    $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', ['{name}' => $repeater->getPrototyp()->getName()])
                 );
                 $snack = $this->translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
                 $this->addFlash('success', $snack);
@@ -287,5 +271,36 @@ class RepeaterController extends JitsiAdminController
                 'extra'        => $extra
             ]
         );
+    }
+
+    /**
+     * Validates the submitted series data and returns the error snack, if any.
+     */
+    private function validate(Repeat $repeat, RepeaterService $repeaterService): ?string
+    {
+        if (!$repeaterService->checkData($repeat)) {
+            return $this->translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
+        }
+
+        if ($repeat->getRepetation() > (int) $this->lafMaxRepeat) {
+            return $this->translator->trans(
+                'Sie dürfen nur maximal {amount} Wiederholungen angeben',
+                ['{amount}' => $this->lafMaxRepeat]
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * Regenerates the series from the given repeat and sends the notification
+     * emails to all series participants.
+     */
+    private function buildSeries(Repeat $repeater, RepeaterService $repeaterService, string $template, string $subject): void
+    {
+        $repeaterService->cleanRepeater($repeater);
+        $repeater = $repeaterService->createNewRepeater($repeater);
+        $repeaterService->addUserRepeat($repeater);
+        $repeaterService->sendEMail( $repeater, $template, $subject, ['room' => $repeater->getPrototyp()]);
     }
 }

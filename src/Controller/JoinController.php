@@ -50,8 +50,10 @@ class JoinController extends JitsiAdminController
             $data['name'] = $request->cookies->get('name');
         }
 
-        if (isset($data['email']) && isset($data['uid'])) {
+        if (isset($data['uid'])) {
             $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $data['uid']]);
+        }
+        if (isset($data['email']) && isset($data['uid'])) {
             $user = $this->doctrine->getRepository(User::class)->findOneBy(['email' => $data['email']]);
 
             //If the room ID is correctly set and the room exists
@@ -69,6 +71,10 @@ class JoinController extends JitsiAdminController
         }
 
         $form = $this->createForm(JoinViewType::class, $data);
+        if ($room !== null && $room->getServer()->isLiveKitServer()) {
+            // The LiveKit middleware asks anonymous participants for name and company.
+            $form->remove('name');
+        }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
