@@ -6,9 +6,7 @@
 * Convert all DateTime usages to DateTimeImmutable
 * Convert hardcoded repeat method integers to Enum
 * Ad-hoc calls: the caller is notified when the callee does not answer within the configured time
-* Ad-hoc calls: the caller is added to the callee's addressbook when the callee joins the call (gated by laf_autoAddContactForAdhocCalls)
 * Transmit the predefined lobby messages in the moderator/lobby-moderator JWT as context.lobby.chatMessages
-* LiveKit: the name is no longer asked on the public Meetling, guest join and own-room pages; it reaches the JWT only when it comes from a logged-in account, anonymous participants are asked for name and company by the middleware
 * Allow disabling of survey from theme settings & allow disabling of survey from theme settings
 
 ### ⭐ Improvements:
