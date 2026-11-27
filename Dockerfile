@@ -61,10 +61,12 @@ RUN apt update && apt install -y \
     ffmpeg \
     php8.4-amqp
 
-RUN echo "#!/bin/sh" > /docker-entrypoint-init.d/03-symfony.sh \
-    && echo "php bin/console cache:clear" >> /docker-entrypoint-init.d/03-symfony.sh \
-    && echo "php bin/console cache:warmup" >> /docker-entrypoint-init.d/03-symfony.sh \
-    && chmod +x /docker-entrypoint-init.d/03-symfony.sh
+# Two scripts which control the initialisation & bootstrapping of the application container.
+# If any of the included commands fails, the container will fail to boot.
+# Init can be disabled in the respective env (Docker compose / Helm values).
+# Bootstrap cannot be disabled and always runs.
+COPY --chmod=755 docker/init/02-symfony-init.sh /docker-entrypoint-init.d/
+COPY --chmod=755 docker/init/03-symfony-bootstrap.sh /docker-entrypoint-init.d/
 
 RUN echo "" >> /etc/php/active/fpm/conf.d/custom.ini \
     && echo "opcache.enable=1" >> /etc/php/active/fpm/conf.d/custom.ini \
