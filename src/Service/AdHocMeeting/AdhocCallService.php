@@ -20,7 +20,7 @@ class AdhocCallService
         private EntityManagerInterface $entityManager,
         private DirectSendService     $directSendService,
         #[Autowire(param: 'laf_autoAddContactForAdhocCalls')]
-        private readonly string       $lafAutoAddContactForAdhocCalls,
+        private readonly bool         $lafAutoAddContactForAdhocCalls,
     ) {
     }
 

@@ -74,7 +74,7 @@ class AdhocCallServiceTest extends KernelTestCase
 
         $this->createSession($em, $room, $callee, $caller, 'adhoc-answer-adds', CalloutSession::$RINGING);
 
-        $adhocCallService = new AdhocCallService($em, $this->createStub(DirectSendService::class), '1');
+        $adhocCallService = new AdhocCallService($em, $this->createStub(DirectSendService::class), true);
 
         self::assertTrue($adhocCallService->markAnswered($callee, $room));
         self::assertTrue($callee->getAddressbook()->contains($caller));
@@ -92,7 +92,7 @@ class AdhocCallServiceTest extends KernelTestCase
 
         $this->createSession($em, $room, $callee, $caller, 'adhoc-answer-disabled', CalloutSession::$RINGING);
 
-        $adhocCallService = new AdhocCallService($em, $this->createStub(DirectSendService::class), '0');
+        $adhocCallService = new AdhocCallService($em, $this->createStub(DirectSendService::class), false);
 
         self::assertTrue($adhocCallService->markAnswered($callee, $room));
         self::assertFalse($callee->getAddressbook()->contains($caller));
@@ -114,7 +114,7 @@ class AdhocCallServiceTest extends KernelTestCase
 
         $this->createSession($em, $room, $callee, $caller, 'adhoc-answer-existing', CalloutSession::$RINGING);
 
-        $adhocCallService = new AdhocCallService($em, $this->createStub(DirectSendService::class), '1');
+        $adhocCallService = new AdhocCallService($em, $this->createStub(DirectSendService::class), true);
 
         self::assertTrue($adhocCallService->markAnswered($callee, $room));
         self::assertSame(
@@ -152,7 +152,7 @@ class AdhocCallServiceTest extends KernelTestCase
             ->method('sendCloseDialog')
             ->with('personal/' . $callee->getUid());
 
-        $adhocCallService = new AdhocCallService($em, $directSend, '1');
+        $adhocCallService = new AdhocCallService($em, $directSend, true);
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
 
         self::assertTrue($adhocCallService->markDeclined($callee, $room));
@@ -182,7 +182,7 @@ class AdhocCallServiceTest extends KernelTestCase
             ->method('sendCloseDialog')
             ->with('personal/' . $callee->getUid());
 
-        $adhocCallService = new AdhocCallService($em, $directSend, '1');
+        $adhocCallService = new AdhocCallService($em, $directSend, true);
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
 
         self::assertTrue($adhocCallService->markTimedOut($callee, $room));
@@ -219,7 +219,7 @@ class AdhocCallServiceTest extends KernelTestCase
                 return true;
             });
 
-        $adhocCallService = new AdhocCallService($em, $directSend, '1');
+        $adhocCallService = new AdhocCallService($em, $directSend, true);
         self::assertSame(2, $adhocCallService->cancelPendingCallsByInviter($caller));
 
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
