@@ -3,6 +3,7 @@
 !assets
 !jitsi-admin_messenger_docker.conf
 !bin
+!docker/init/
 !config
 !public
 !public.key
