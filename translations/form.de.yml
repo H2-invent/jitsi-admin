@@ -193,3 +193,9 @@ choice:
 placeholder:
   maxParticipants: Keine Begrenzung
   chooseTime: Zeit und Datum auswählen
+
+label.protocolTemplate.header: Kopfzeile
+label.protocolTemplate.footer: Fußzeile
+label.protocolTemplate.logo: Logo
+help.protocolTemplate.html: 'Einfaches HTML ist erlaubt (z. B. <b>, <i>, <p>, <br>, <h1>-<h6>, Listen, Tabellen). Skripte und Bilder werden entfernt.'
+help.protocolTemplate.logo: 'PNG, JPG oder GIF, max. 2 MB.'

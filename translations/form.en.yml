@@ -190,3 +190,9 @@ choice:
 placeholder:
   maxParticipants: No Limitation
   chooseTime: Pick date and time
+
+label.protocolTemplate.header: Header
+label.protocolTemplate.footer: Footer
+label.protocolTemplate.logo: Logo
+help.protocolTemplate.html: 'Basic HTML is allowed (e.g. <b>, <i>, <p>, <br>, <h1>-<h6>, lists, tables). Scripts and images are removed.'
+help.protocolTemplate.logo: 'PNG, JPG or GIF, max. 2 MB.'

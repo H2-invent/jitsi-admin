@@ -2639,6 +2639,74 @@ Your email address: {email}</target>
         <source>Fehler beim Speichern der Hot Standby Einstellung</source>
         <target state="translated">Error saving the hot standby setting</target>
       </trans-unit>
+      <trans-unit id="ZRga_Rk" resname="report.download">
+        <source>report.download</source>
+        <target>Download PDF</target>
+      </trans-unit>
+      <trans-unit id="K-ovK1Q" resname="protocol.template.currentLogo">
+        <source>protocol.template.currentLogo</source>
+        <target>Current logo</target>
+      </trans-unit>
+      <trans-unit id="z7ASrk4" resname="protocol.pdf.subtitle">
+        <source>protocol.pdf.subtitle</source>
+        <target>Attendance protocol</target>
+      </trans-unit>
+      <trans-unit id="LdXgdNw" resname="protocol.pdf.filename">
+        <source>protocol.pdf.filename</source>
+        <target>Protocol</target>
+      </trans-unit>
+      <trans-unit id="jLzZmWs" resname="protocol.pdf.sessions">
+        <source>protocol.pdf.sessions</source>
+        <target>Room sessions</target>
+      </trans-unit>
+      <trans-unit id="3LTv70c" resname="protocol.pdf.opened">
+        <source>protocol.pdf.opened</source>
+        <target>Room opened</target>
+      </trans-unit>
+      <trans-unit id="p7ODGPQ" resname="protocol.pdf.closed">
+        <source>protocol.pdf.closed</source>
+        <target>Room closed</target>
+      </trans-unit>
+      <trans-unit id="TwPmC_8" resname="protocol.pdf.stillOpen">
+        <source>protocol.pdf.stillOpen</source>
+        <target>Room is still open</target>
+      </trans-unit>
+      <trans-unit id="Hm8O6e0" resname="protocol.pdf.duration">
+        <source>protocol.pdf.duration</source>
+        <target>Duration</target>
+      </trans-unit>
+      <trans-unit id="yzC7PZU" resname="protocol.pdf.noParticipants">
+        <source>protocol.pdf.noParticipants</source>
+        <target>No participants recorded</target>
+      </trans-unit>
+      <trans-unit id="Dy9Tqkk" resname="protocol.pdf.participant">
+        <source>protocol.pdf.participant</source>
+        <target>Participant</target>
+      </trans-unit>
+      <trans-unit id="7U6VGQA" resname="protocol.pdf.entered">
+        <source>protocol.pdf.entered</source>
+        <target>Entered</target>
+      </trans-unit>
+      <trans-unit id="gwF6_I8" resname="protocol.pdf.left">
+        <source>protocol.pdf.left</source>
+        <target>Left</target>
+      </trans-unit>
+      <trans-unit id="R3jO7FU" resname="protocol.pdf.total">
+        <source>protocol.pdf.total</source>
+        <target>Total</target>
+      </trans-unit>
+      <trans-unit id="5IVcN1w" resname="protocol.pdf.stillInRoom">
+        <source>protocol.pdf.stillInRoom</source>
+        <target>still in room</target>
+      </trans-unit>
+      <trans-unit id="yZEKKv4" resname="protocol.pdf.page">
+        <source>protocol.pdf.page</source>
+        <target>Page {page} of {pages}</target>
+      </trans-unit>
+      <trans-unit id="kBjCSnw" resname="Protokoll-Template">
+        <source>Protokoll-Template</source>
+        <target>Protocol template</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

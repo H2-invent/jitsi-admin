@@ -1,0 +1,10 @@
+framework:
+    html_sanitizer:
+        sanitizers:
+            # Used for admin-editable HTML in generated PDF documents (protocol header/footer).
+            app.protocol_sanitizer:
+                allow_safe_elements: true
+                block_elements: ['img', 'figure', 'picture', 'video', 'audio', 'iframe', 'object', 'embed']
+                allowed_link_schemes: ['https', 'http', 'mailto']
+                allowed_media_hosts: []
+                max_input_length: 10000

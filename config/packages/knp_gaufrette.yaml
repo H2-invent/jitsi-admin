@@ -13,6 +13,10 @@ knp_gaufrette:
       local:
         directory: '%kernel.project_dir%/public/uploads/images'
         create: true
+    logo_adapter:
+      local:
+        directory: '%kernel.project_dir%/public/uploads/images/logo'
+        create: true
     recording_storage:
       local:
         directory: '%kernel.project_dir%/data/recording' # Nicht öffentlich zugänglich
@@ -23,6 +27,8 @@ knp_gaufrette:
     document_fs:
       #adapter: document_adapter
       adapter: local_adapter
+    logo_fs:
+      adapter: logo_adapter
     recording_fs:
       adapter: recording_storage
 

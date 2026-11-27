@@ -272,7 +272,9 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
 
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
-        self::assertEquals('The occupant already joind with the same occupant ID', $webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
+        // The same occupant ID joining a new session of the room is a new join and gets its own entry.
+        self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
+        self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
         self::assertEquals('The occupant already left the room. It cannot leave the room twice', $webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
         $test = JitsiEventsServiceTest::$participantJoinedData;
         $test['occupant']['occupant_jid'] = '000';
@@ -286,9 +288,67 @@ class JitsiEventsServiceTest extends KernelTestCase
 
         self::assertEquals(2, sizeof($room->getRoomstatuses()));
         self::assertEquals(1, sizeof($room->getRoomstatuses()[0]->getRoomStatusParticipants()));
-        self::assertEquals(1, sizeof($room->getRoomstatuses()[1]->getRoomStatusParticipants()));
+        self::assertEquals(2, sizeof($room->getRoomstatuses()[1]->getRoomStatusParticipants()));
         self::assertEquals(false, $room->getRoomstatuses()[0]->getRoomStatusParticipants()[0]->getInRoom());
-        self::assertEquals(false, $room->getRoomstatuses()[1]->getRoomStatusParticipants()[0]->getInRoom());
+        foreach ($room->getRoomstatuses()[1]->getRoomStatusParticipants() as $participant) {
+            self::assertEquals(false, $participant->getInRoom());
+        }
+    }
+
+    /**
+     * A participant leaving and re-entering an open room (new connection, or returning from a
+     * breakout room with the same occupant ID) must produce one entry/leave pair per visit.
+     */
+    public function testroomParticipantRejoinCreatesSeparateEntries(): void
+    {
+        self::bootKernel();
+        $roomRepo       = self::getContainer()->get(RoomsRepository::class);
+        $webhookService = self::getContainer()->get(RoomWebhookService::class);
+
+        self::assertNull($webhookService->startWebhook(self::$roomCreatedData));
+
+        // 1st visit
+        self::assertNull($webhookService->startWebhook(self::$participantJoinedData));
+        self::assertNull($webhookService->startWebhook(self::$participantLeftD));
+
+        // 2nd visit, same occupant ID (e.g. back from a breakout room)
+        $join2                          = self::$participantJoinedData;
+        $join2['occupant']['joined_at'] = 1647338000;
+        self::assertNull($webhookService->startWebhook($join2));
+        self::assertEquals('The occupant already joind with the same occupant ID', $webhookService->startWebhook($join2));
+        $left2                        = self::$participantLeftD;
+        $left2['occupant']['left_at'] = 1647338100;
+        self::assertNull($webhookService->startWebhook($left2));
+
+        // 3rd visit, new occupant ID (new connection) – still in the room when it closes
+        $join3                             = self::$participantJoinedData;
+        $join3['occupant']['occupant_jid'] = '653515c2-21a2-4d9b-9e44-b557cdf8f4ae@jitsi01/NewConn1';
+        $join3['occupant']['joined_at']    = 1647338200;
+        self::assertNull($webhookService->startWebhook($join3));
+
+        $destroyed                 = self::$roomDestroyedData;
+        $destroyed['destroyed_at'] = 1647338300;
+        self::assertNull($webhookService->startWebhook($destroyed));
+
+        $room   = $roomRepo->findOneBy(['uid' => 'bed6ca41-512f-409f-95c1-4ad7e9b73018']);
+        $status = $room->getRoomstatuses()[0];
+        self::assertCount(1, $room->getRoomstatuses());
+
+        $visits = $status->getRoomStatusParticipants()->toArray();
+        usort($visits, fn(RoomStatusParticipant $a, RoomStatusParticipant $b) => $a->getEnteredRoomAt() <=> $b->getEnteredRoomAt());
+        self::assertCount(3, $visits);
+
+        $expected = [
+            [1647337850, 1647337866],
+            [1647338000, 1647338100],
+            [1647338200, 1647338300],
+        ];
+        foreach ($expected as $i => [$entered, $left]) {
+            self::assertEquals('TEst USer in the Meeting', $visits[$i]->getParticipantName());
+            self::assertEquals($entered, $visits[$i]->getEnteredRoomAt()->getTimestamp());
+            self::assertEquals($left, $visits[$i]->getLeftRoomAt()->getTimestamp());
+            self::assertFalse($visits[$i]->getInRoom());
+        }
     }
 
     public function testroomParticipantWrongDirectionWorkflow(): void

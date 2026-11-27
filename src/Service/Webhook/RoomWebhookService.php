@@ -252,7 +252,13 @@ class RoomWebhookService
                 return $text;
             }
 
-            $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy(['participantId' => $occupantJId]);
+            // Every (re)join creates its own row. Only reject a duplicate join event for the
+            // same open room session; an occupant ID reused in another session is a new join.
+            $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy([
+                'participantId' => $occupantJId,
+                'roomStatus'    => $roomStatus,
+                'inRoom'        => true,
+            ]);
             if ($roomPart) {
                 $text = 'The occupant already joind with the same occupant ID';
                 $this->logger->error($text, ['occupantID' => $occupantJId]);
@@ -296,7 +302,15 @@ class RoomWebhookService
                 return 'Room is a breakout room; we don`t remove the participant';
             }
 
-            $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy(['participantId' => $occupantJid]);
+            // Close the most recent open entry of this occupant, so a reused occupant ID
+            // never updates an older, already closed join/leave pair.
+            $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy(
+                ['participantId' => $occupantJid, 'inRoom' => true],
+                ['enteredRoomAt' => 'DESC']
+            );
+            if (!$roomPart) {
+                $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy(['participantId' => $occupantJid]);
+            }
             if (!$roomPart) {
                 $text = 'Wrong occupant ID. The occupant is not in the database';
                 $this->logger->error($text, ['occupantID' => $occupantJid]);

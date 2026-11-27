@@ -6,8 +6,14 @@
             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <div class="mb-2">
+            <div class="mb-2 d-flex justify-content-between align-items-center">
                 <small>{{ 'report.info.timezone'|trans({'{timezone}':timezone }) }}</small>
+                {% if room.roomstatuses|length > 0 %}
+                    <a href="{{ path('app_report_download', {'id': room.id}) }}" target="_blank"
+                       class="btn btn-sm btn-outline-primary ms-2 text-nowrap">
+                        <i class="fa-solid fa-file-pdf"></i> {{ 'report.download'|trans }}
+                    </a>
+                {% endif %}
             </div>
 
             {% if  room.roomstatuses|length == 0 %}
