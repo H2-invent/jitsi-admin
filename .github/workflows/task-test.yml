@@ -10,7 +10,7 @@ jobs:
     # region declare_services
     services:
       mariadb:
-        image: mariadb:10.11
+        image: mariadb:12.3.2
         env:
           MARIADB_ROOT_PASSWORD: root
           MARIADB_DATABASE: jitsiadmintest
@@ -24,6 +24,9 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     # endregion declare_services
+
+    env:
+      DATABASE_URL: "mysql://jitsiadmintest:password@127.0.0.1:3306/jitsiadmintest?serverVersion=12.3.2-MariaDB"
 
     steps:
       # region load_artifact
@@ -51,13 +54,38 @@ jobs:
       - name: Warm up test cache
         run: php bin/console cache:warmup --env=test
 
-      - name: Run phpstan
-        run: composer phpstan
-
       - name: Run php test
         run: composer test
       # endregion phpunit
       # endregion test
+
+  run_phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      # region load_artifact
+      - name: Download Artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: artifact_${{github.run_number}}
+
+      - name: Unzip Artifact
+        run: unzip -qq artifact_${{github.run_number}}.zip -d .
+      # endregion load_artifact
+
+      - name: Update PHP Version and tools
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ vars.PHP_VERSION }}
+          ini-values: date.timezone ="Europe/Berlin"
+          tools: composer:v2
+
+      # phpstan.neon reads the test container XML from var/cache/test
+      - name: Warm up test cache
+        run: php bin/console cache:warmup --env=test
+
+      - name: Run phpstan
+        run: composer phpstan
 
   run_postgres_migrations:
     runs-on: ubuntu-latest
